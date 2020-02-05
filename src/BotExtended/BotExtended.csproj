@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AE9E68C2-4206-4EC0-8531-9E4842A95EE6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BotExtended</RootNamespace>
+    <AssemblyName>BotExtended</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SFD.GameScriptInterface">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BotExtended\BotAI.cs" />
+    <Compile Include="BotExtended\BotBehaviors.cs" />
+    <Compile Include="BotExtended\BotGroupSets.cs" />
+    <Compile Include="BotExtended\BotHelper.cs" />
+    <Compile Include="BotExtended\BotInfo.cs" />
+    <Compile Include="BotExtended\BotInfos.cs" />
+    <Compile Include="BotExtended\BotProfiles.cs" />
+    <Compile Include="BotExtended\Bots\AssassinBot.cs" />
+    <Compile Include="BotExtended\Bots\BabybearBot.cs" />
+    <Compile Include="BotExtended\Bots\Bot.cs" />
+    <Compile Include="BotExtended\Bots\BotFactory.cs" />
+    <Compile Include="BotExtended\Bots\CowboyBot.cs" />
+    <Compile Include="BotExtended\Bots\HackerBot.cs" />
+    <Compile Include="BotExtended\Bots\IncineratorBot.cs" />
+    <Compile Include="BotExtended\Bots\KingpinBot.cs" />
+    <Compile Include="BotExtended\Bots\KriegbärBot.cs" />
+    <Compile Include="BotExtended\Bots\MechaBot.cs" />
+    <Compile Include="BotExtended\Bots\TeddybearBot.cs" />
+    <Compile Include="BotExtended\Bots\ZombieFatBot.cs" />
+    <Compile Include="BotExtended\Bots\ZombieFlamerBot.cs" />
+    <Compile Include="BotExtended\BotType.cs" />
+    <Compile Include="BotExtended\BotWeapons.cs" />
+    <Compile Include="BotExtended\Command.cs" />
+    <Compile Include="BotExtended\Constants.cs" />
+    <Compile Include="BotExtended\Group\BotGroup.cs" />
+    <Compile Include="BotExtended\Group\Group.cs" />
+    <Compile Include="BotExtended\Group\GroupSet.cs" />
+    <Compile Include="BotExtended\Group\SubGroup.cs" />
+    <Compile Include="BotExtended\PlayerSpawner.cs" />
+    <Compile Include="BotExtended\WeaponSet.cs" />
+    <Compile Include="BotExtended\ZombieStatus.cs" />
+    <Compile Include="Library\Mocks\Game.cs" />
+    <Compile Include="Library\RandomHelper.cs" />
+    <Compile Include="Library\Rnd.cs" />
+    <Compile Include="Library\ScriptHelper.cs" />
+    <Compile Include="Library\SharpHelper.cs" />
+    <Compile Include="Library\Skin.cs" />
+    <Compile Include="Library\Storage.cs" />
+    <Compile Include="Library\StorageType.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
