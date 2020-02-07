@@ -1,7 +1,7 @@
 ﻿using SFDGameScriptInterface;
 using static SFDScript.Library.Mocks.MockObjects;
 
-namespace SFDScript.Library
+namespace BotExtended.Library
 {
     public static class Storage
     {

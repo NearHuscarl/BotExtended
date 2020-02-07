@@ -2,7 +2,7 @@ using System;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 
-namespace SFDScript.BotExtended
+namespace BotExtended
 {
     public partial class GameScript : GameScriptInterface
     {

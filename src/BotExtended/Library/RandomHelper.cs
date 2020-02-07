@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SFDScript.Library
+namespace BotExtended.Library
 {
     public static class RandomHelper
     {

@@ -1,4 +1,4 @@
-﻿namespace SFDScript.Library
+﻿namespace BotExtended.Library
 {
     public enum StorageType
     {

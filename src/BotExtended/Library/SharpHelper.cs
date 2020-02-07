@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SFDGameScriptInterface;
 
-namespace SFDScript.Library
+namespace BotExtended.Library
 {
     public static class SharpHelper
     {

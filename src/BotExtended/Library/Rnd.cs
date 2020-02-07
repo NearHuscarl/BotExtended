@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace SFDScript.Library
+namespace BotExtended.Library
 {
     /// <summary>
     /// <para>copy from https://referencesource.microsoft.com/#mscorlib/system/random.cs,4c2fc83207c654d1</para>

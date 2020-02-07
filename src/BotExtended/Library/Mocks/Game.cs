@@ -1,6 +1,6 @@
 ﻿using SFDGameScriptInterface;
 
-namespace SFDScript.Library.Mocks
+namespace BotExtended.Library.Mocks
 {
     public static class MockObjects
     {

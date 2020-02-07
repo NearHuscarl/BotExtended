@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SFD.GameScriptInterface">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,37 +45,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BotExtended\BotAI.cs" />
-    <Compile Include="BotExtended\BotBehaviors.cs" />
-    <Compile Include="BotExtended\BotGroupSets.cs" />
-    <Compile Include="BotExtended\BotHelper.cs" />
-    <Compile Include="BotExtended\BotInfo.cs" />
-    <Compile Include="BotExtended\BotInfos.cs" />
-    <Compile Include="BotExtended\BotProfiles.cs" />
-    <Compile Include="BotExtended\Bots\AssassinBot.cs" />
-    <Compile Include="BotExtended\Bots\BabybearBot.cs" />
-    <Compile Include="BotExtended\Bots\Bot.cs" />
-    <Compile Include="BotExtended\Bots\BotFactory.cs" />
-    <Compile Include="BotExtended\Bots\CowboyBot.cs" />
-    <Compile Include="BotExtended\Bots\HackerBot.cs" />
-    <Compile Include="BotExtended\Bots\IncineratorBot.cs" />
-    <Compile Include="BotExtended\Bots\KingpinBot.cs" />
-    <Compile Include="BotExtended\Bots\KriegbärBot.cs" />
-    <Compile Include="BotExtended\Bots\MechaBot.cs" />
-    <Compile Include="BotExtended\Bots\TeddybearBot.cs" />
-    <Compile Include="BotExtended\Bots\ZombieFatBot.cs" />
-    <Compile Include="BotExtended\Bots\ZombieFlamerBot.cs" />
-    <Compile Include="BotExtended\BotType.cs" />
-    <Compile Include="BotExtended\BotWeapons.cs" />
-    <Compile Include="BotExtended\Command.cs" />
-    <Compile Include="BotExtended\Constants.cs" />
-    <Compile Include="BotExtended\Group\BotGroup.cs" />
-    <Compile Include="BotExtended\Group\Group.cs" />
-    <Compile Include="BotExtended\Group\GroupSet.cs" />
-    <Compile Include="BotExtended\Group\SubGroup.cs" />
-    <Compile Include="BotExtended\PlayerSpawner.cs" />
-    <Compile Include="BotExtended\WeaponSet.cs" />
-    <Compile Include="BotExtended\ZombieStatus.cs" />
+    <Compile Include="BotAI.cs" />
+    <Compile Include="BotBehaviors.cs" />
+    <Compile Include="BotGroupSets.cs" />
+    <Compile Include="BotHelper.cs" />
+    <Compile Include="BotInfo.cs" />
+    <Compile Include="BotInfos.cs" />
+    <Compile Include="BotProfiles.cs" />
+    <Compile Include="Bots\AssassinBot.cs" />
+    <Compile Include="Bots\BabybearBot.cs" />
+    <Compile Include="Bots\Bot.cs" />
+    <Compile Include="Bots\BotFactory.cs" />
+    <Compile Include="Bots\CowboyBot.cs" />
+    <Compile Include="Bots\HackerBot.cs" />
+    <Compile Include="Bots\IncineratorBot.cs" />
+    <Compile Include="Bots\KingpinBot.cs" />
+    <Compile Include="Bots\KriegbärBot.cs" />
+    <Compile Include="Bots\MechaBot.cs" />
+    <Compile Include="Bots\TeddybearBot.cs" />
+    <Compile Include="Bots\ZombieFatBot.cs" />
+    <Compile Include="Bots\ZombieFlamerBot.cs" />
+    <Compile Include="BotType.cs" />
+    <Compile Include="BotWeapons.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Group\BotGroup.cs" />
+    <Compile Include="Group\Group.cs" />
+    <Compile Include="Group\GroupSet.cs" />
+    <Compile Include="Group\SubGroup.cs" />
+    <Compile Include="PlayerSpawner.cs" />
+    <Compile Include="WeaponSet.cs" />
+    <Compile Include="ZombieStatus.cs" />
     <Compile Include="Library\Mocks\Game.cs" />
     <Compile Include="Library\RandomHelper.cs" />
     <Compile Include="Library\Rnd.cs" />
