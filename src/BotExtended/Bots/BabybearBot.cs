@@ -1,20 +1,20 @@
 ﻿using SFDGameScriptInterface;
-using SFDScript.Library;
+using BotExtended.Library;
 using System.Collections.Generic;
-using static SFDScript.Library.Mocks.MockObjects;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {
     public class BabybearBot : Bot
     {
         private TeddybearBot m_mommy = null;
-        private static Queue<string> Names = new Queue<string>(new[] { "Timmy", "Jimmy" });
         private IPlayer m_offender;
         public static int EnrageTime = 30; // seconds
         public int m_enrageCount = 0;
 
         public override void OnSpawn(List<Bot> others)
         {
+            var names = new Queue<string>(new[] { "Timmy", "Jimmy" });
             UpdateInterval = 0;
 
             foreach (var bot in others)
@@ -27,7 +27,7 @@ namespace BotExtended.Bots
             }
             if (m_mommy.Player == null) return;
 
-            Player.SetBotName(Names.Dequeue());
+            Player.SetBotName(names.Dequeue());
 
             var behavior = Player.GetBotBehaviorSet();
             behavior.RangedWeaponUsage = false;

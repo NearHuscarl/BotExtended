@@ -1,11 +1,11 @@
 ﻿using SFDGameScriptInterface;
 using BotExtended.Group;
-using SFDScript.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static SFDScript.BotExtended.GameScript;
-using static SFDScript.Library.Mocks.MockObjects;
+using static BotExtended.GameScript;
+using static BotExtended.Library.Mocks.MockObjects;
+using BotExtended.Library;
 
 namespace BotExtended
 {

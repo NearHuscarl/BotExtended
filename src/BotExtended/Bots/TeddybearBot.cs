@@ -1,9 +1,9 @@
 ﻿using SFDGameScriptInterface;
-using SFDScript.Library;
+using BotExtended.Library;
 using System;
 using System.Collections.Generic;
-using static SFDScript.BotExtended.GameScript;
-using static SFDScript.Library.Mocks.MockObjects;
+using static BotExtended.GameScript;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {

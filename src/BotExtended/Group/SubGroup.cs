@@ -1,7 +1,7 @@
-﻿using SFDScript.Library;
+﻿using BotExtended.Library;
 using System.Collections.Generic;
 using System.Linq;
-using static SFDScript.BotExtended.GameScript;
+using static BotExtended.GameScript;
 
 namespace BotExtended.Group
 {

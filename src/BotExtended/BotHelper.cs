@@ -111,12 +111,6 @@ namespace BotExtended
         public static int CurrentGroupSetIndex { get; private set; }
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
-        private static Events.PlayerDamageCallback m_playerDamageEvent = null;
-        private static Events.PlayerDeathCallback m_playerDeathEvent = null;
-        private static Events.UpdateCallback m_updateEvent = null;
-        private static Events.UserMessageCallback m_userMessageEvent = null;
-        private static Events.PlayerMeleeActionCallback m_playerMeleeEvent = null;
-
         // Player corpses waiting to be transformed into zombies
         private static List<InfectedCorpse> m_infectedCorpses = new List<InfectedCorpse>();
         private static List<PlayerSpawner> m_playerSpawners;
@@ -125,11 +119,12 @@ namespace BotExtended
         public static void Initialize()
         {
             m_playerSpawners = GetEmptyPlayerSpawners();
-            m_playerMeleeEvent = Events.PlayerMeleeActionCallback.Start(OnPlayerMeleeAction);
-            m_playerDamageEvent = Events.PlayerDamageCallback.Start(OnPlayerDamage);
-            m_playerDeathEvent = Events.PlayerDeathCallback.Start(OnPlayerDeath);
-            m_updateEvent = Events.UpdateCallback.Start(OnUpdate);
-            m_userMessageEvent = Events.UserMessageCallback.Start(Command.OnUserMessage);
+
+            Events.PlayerMeleeActionCallback.Start(OnPlayerMeleeAction);
+            Events.PlayerDamageCallback.Start(OnPlayerDamage);
+            Events.PlayerDeathCallback.Start(OnPlayerDeath);
+            Events.UpdateCallback.Start(OnUpdate);
+            Events.UserMessageCallback.Start(Command.OnUserMessage);
 
             InitRandomSeed();
 

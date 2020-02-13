@@ -13,7 +13,6 @@ namespace BotExtended
 
         public void OnStartup()
         {
-            List<int> ints = new List<int> { 1 };
             // How to create a bot
             // 1. Define bot type in BotType.cs
             // 2. Define bot profile in BotProfiles.cs
@@ -46,6 +45,7 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
                 }
 
+                Game.WriteToConsole("fuck you sdlfkj sljsljjlslkjkjl");
                 BotHelper.Initialize();
             }
             catch (Exception e)
