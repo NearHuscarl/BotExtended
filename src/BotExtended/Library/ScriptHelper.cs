@@ -25,7 +25,7 @@ namespace BotExtended.Library
             return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;
         }
 
-        public static bool SpawnPlayerHasPlayer(IObject spawnPlayer)
+        public static bool SpawnerHasPlayer(IObject spawner)
         {
             // Player position y: -20 || +9
             // => -21 -> +10
@@ -33,10 +33,10 @@ namespace BotExtended.Library
             foreach (var player in Game.GetPlayers())
             {
                 var playerPosition = player.GetWorldPosition();
-                var spawnPlayerPosition = spawnPlayer.GetWorldPosition();
+                var spawnerPosition = spawner.GetWorldPosition();
 
-                if (spawnPlayerPosition.Y - 21 <= playerPosition.Y && playerPosition.Y <= spawnPlayerPosition.Y + 10
-                    && spawnPlayerPosition.X == playerPosition.X)
+                if (spawnerPosition.Y - 21 <= playerPosition.Y && playerPosition.Y <= spawnerPosition.Y + 10
+                    && spawnerPosition.X == playerPosition.X)
                     return true;
             }
 

@@ -45,7 +45,6 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
                 }
 
-                Game.WriteToConsole("fuck you sdlfkj sljsljjlslkjkjl");
                 BotHelper.Initialize();
             }
             catch (Exception e)

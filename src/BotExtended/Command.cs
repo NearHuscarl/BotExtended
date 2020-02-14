@@ -102,27 +102,24 @@ namespace BotExtended
 
         private static void PrintHelp()
         {
-            ScriptHelper.PrintMessage("--Botextended help--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended help--", ScriptHelper.ERROR_COLOR);
             ScriptHelper.PrintMessage("/<botextended|be> [help|h|?]: Print this help");
             ScriptHelper.PrintMessage("/<botextended|be> [version|v]: Print the current version");
             ScriptHelper.PrintMessage("/<botextended|be> [listgroup|lg]: List all bot groups");
             ScriptHelper.PrintMessage("/<botextended|be> [listbot|lb]: List all bot types");
-            ScriptHelper.PrintMessage("/<botextended|be> [find|f|/] <query>: Find bot groups");
-            ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Show current script settings");
+            ScriptHelper.PrintMessage("/<botextended|be> [find|f|/] <query>: Find all bot groups that match query");
+            ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [spawn|sp] <BotType> [Team|_] [Count]: Spawn bot");
-            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] [1-10]: Set maximum bot count");
+            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all groups at startup if set to 1. This option will disregard the current group list");
             ScriptHelper.PrintMessage("/<botextended|be> [group|g] <group names|indexes>: Choose a list of group by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot groups stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot groups stats");
-            ScriptHelper.PrintMessage("For example:", ScriptHelper.ERROR_COLOR);
-            ScriptHelper.PrintMessage("/botextended select metrocop >> select metrocop group");
-            ScriptHelper.PrintMessage("/be s 0 2 4 >> select assassin, bandido and clown group");
         }
 
         private static void PrintVersion()
         {
-            ScriptHelper.PrintMessage("--Botextended version--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended version--", ScriptHelper.ERROR_COLOR);
             ScriptHelper.PrintMessage("v" + Constants.CURRENT_VERSION);
         }
 
@@ -138,7 +135,7 @@ namespace BotExtended
 
         private static void ListBotGroup()
         {
-            ScriptHelper.PrintMessage("--Botextended list group--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended list group--", ScriptHelper.ERROR_COLOR);
 
             foreach (var groupName in GetGroupNames())
             {
@@ -148,7 +145,7 @@ namespace BotExtended
 
         private static void ListBotType()
         {
-            ScriptHelper.PrintMessage("--Botextended list bot type--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended list bot type--", ScriptHelper.ERROR_COLOR);
 
             foreach (var botType in SharpHelper.EnumToList<BotType>())
             {
@@ -161,7 +158,7 @@ namespace BotExtended
             var query = arguments.FirstOrDefault();
             if (query == null) return;
 
-            ScriptHelper.PrintMessage("--Botextended find--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended find results--", ScriptHelper.ERROR_COLOR);
 
             foreach (var groupName in GetGroupNames())
             {
@@ -173,10 +170,10 @@ namespace BotExtended
 
         private static void ShowCurrentSettings()
         {
-            ScriptHelper.PrintMessage("--Botextended settings--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended settings--", ScriptHelper.ERROR_COLOR);
 
             string[] groups = null;
-            if (Storage.Get(BotHelper.StorageKey("BOT_GROUPS"), out groups))
+            if (BotHelper.Storage.TryGetItemStringArr(BotHelper.StorageKey("BOT_GROUPS"), out groups))
             {
                 ScriptHelper.PrintMessage("-Current groups", ScriptHelper.WARNING_COLOR);
                 for (var i = 0; i < groups.Length; i++)
@@ -188,14 +185,14 @@ namespace BotExtended
             }
 
             bool randomGroup;
-            if (!Storage.Get(BotHelper.StorageKey("RANDOM_GROUP"), out randomGroup))
+            if (!BotHelper.Storage.TryGetItemBool(BotHelper.StorageKey("RANDOM_GROUP"), out randomGroup))
             {
                 randomGroup = Constants.RANDOM_GROUP_DEFAULT_VALUE;
             }
-            ScriptHelper.PrintMessage("-Random groups: " + randomGroup, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Random ALL groups: " + randomGroup, ScriptHelper.WARNING_COLOR);
 
             int botCount;
-            if (!Storage.Get(BotHelper.StorageKey("BOT_COUNT"), out botCount))
+            if (!BotHelper.Storage.TryGetItemInt(BotHelper.StorageKey("BOT_COUNT"), out botCount))
             {
                 botCount = Constants.MAX_BOT_COUNT_DEFAULT_VALUE;
             }
@@ -243,7 +240,7 @@ namespace BotExtended
             }
             else
             {
-                ScriptHelper.PrintMessage("--Botextended spawn bot--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended spawn bot--", ScriptHelper.ERROR_COLOR);
                 ScriptHelper.PrintMessage("Invalid query: " + query, ScriptHelper.WARNING_COLOR);
             }
         }
@@ -256,7 +253,7 @@ namespace BotExtended
 
             if (int.TryParse(firstArg, out value))
             {
-                Storage.Set(BotHelper.StorageKey("BOT_COUNT"), value);
+                BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_COUNT"), value);
                 ScriptHelper.PrintMessage("[Botextended] Update successfully");
             }
             else
@@ -271,7 +268,7 @@ namespace BotExtended
 
             if (firstArg != "0" && firstArg != "1")
             {
-                ScriptHelper.PrintMessage("--Botextended random group--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended random group--", ScriptHelper.ERROR_COLOR);
                 ScriptHelper.PrintMessage("Invalid value: " + value + "Value is either 1 (true) or 0 (false): ", ScriptHelper.WARNING_COLOR);
                 return;
             }
@@ -279,9 +276,9 @@ namespace BotExtended
             if (int.TryParse(firstArg, out value))
             {
                 if (value == 1)
-                    Storage.Set(BotHelper.StorageKey("RANDOM_GROUP"), true);
+                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_GROUP"), true);
                 if (value == 0)
-                    Storage.Set(BotHelper.StorageKey("RANDOM_GROUP"), false);
+                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_GROUP"), false);
                 ScriptHelper.PrintMessage("[Botextended] Update successfully");
             }
             else
@@ -301,20 +298,20 @@ namespace BotExtended
                 }
                 else
                 {
-                    ScriptHelper.PrintMessage("--Botextended select--", ScriptHelper.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("--BotExtended select--", ScriptHelper.ERROR_COLOR);
                     ScriptHelper.PrintMessage("Invalid query: " + query, ScriptHelper.WARNING_COLOR);
                     return;
                 }
             }
 
             botGroups.Sort();
-            Storage.Set(BotHelper.StorageKey("BOT_GROUPS"), botGroups.Distinct().ToArray());
+            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_GROUPS"), botGroups.Distinct().ToArray());
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
         private static void PrintStatistics()
         {
-            ScriptHelper.PrintMessage("--Botextended statistics--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended statistics--", ScriptHelper.ERROR_COLOR);
 
             var botTypes = SharpHelper.EnumToList<BotType>();
             ScriptHelper.PrintMessage("-[BotType]: [WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
@@ -322,9 +319,9 @@ namespace BotExtended
             {
                 var botTypeKeyPrefix = BotHelper.StorageKey(botType);
                 int winCount;
-                var getWinCountAttempt = Storage.Get(botTypeKeyPrefix + "_WIN_COUNT", out winCount);
+                var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(botTypeKeyPrefix + "_WIN_COUNT", out winCount);
                 int totalMatch;
-                var getTotalMatchAttempt = Storage.Get(botTypeKeyPrefix + "_TOTAL_MATCH", out totalMatch);
+                var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(botTypeKeyPrefix + "_TOTAL_MATCH", out totalMatch);
 
                 if (getWinCountAttempt && getTotalMatchAttempt)
                 {
@@ -345,9 +342,9 @@ namespace BotExtended
                 {
                     var groupKeyPrefix = BotHelper.StorageKey(botGroup, i);
                     int winCount;
-                    var getWinCountAttempt = Storage.Get(groupKeyPrefix + "_WIN_COUNT", out winCount);
+                    var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(groupKeyPrefix + "_WIN_COUNT", out winCount);
                     int totalMatch;
-                    var getTotalMatchAttempt = Storage.Get(groupKeyPrefix + "_TOTAL_MATCH", out totalMatch);
+                    var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(groupKeyPrefix + "_TOTAL_MATCH", out totalMatch);
 
                     if (getWinCountAttempt && getTotalMatchAttempt)
                     {
@@ -368,8 +365,8 @@ namespace BotExtended
             {
                 var botTypeKeyPrefix = BotHelper.StorageKey(botType);
 
-                Storage.Remove(botTypeKeyPrefix + "_WIN_COUNT");
-                Storage.Remove(botTypeKeyPrefix + "_TOTAL_MATCH");
+                BotHelper.Storage.RemoveItem(botTypeKeyPrefix + "_WIN_COUNT");
+                BotHelper.Storage.RemoveItem(botTypeKeyPrefix + "_TOTAL_MATCH");
             }
 
             var botGroups = SharpHelper.EnumToList<BotGroup>();
@@ -379,8 +376,8 @@ namespace BotExtended
                 for (var i = 0; i < groupSet.Groups.Count; i++)
                 {
                     var groupKeyPrefix = BotHelper.StorageKey(botGroup, i);
-                    Storage.Remove(groupKeyPrefix + "_WIN_COUNT");
-                    Storage.Remove(groupKeyPrefix + "_TOTAL_MATCH");
+                    BotHelper.Storage.RemoveItem(groupKeyPrefix + "_WIN_COUNT");
+                    BotHelper.Storage.RemoveItem(groupKeyPrefix + "_TOTAL_MATCH");
                 }
             }
 

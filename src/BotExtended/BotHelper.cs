@@ -12,6 +12,16 @@ namespace BotExtended
 {
     public static class BotHelper
     {
+        private static IScriptStorage _storage;
+        public static IScriptStorage Storage
+        {
+            get
+            {
+                if (_storage == null)
+                    _storage = Game.LocalStorage; return _storage;
+            }
+        }
+
         private class InfectedCorpse
         {
             public static int TimeToTurnIntoZombie = 5000;
@@ -129,13 +139,13 @@ namespace BotExtended
             InitRandomSeed();
 
             bool randomGroup;
-            if (!Storage.Get(StorageKey("RANDOM_GROUP"), out randomGroup))
+            if (!Storage.TryGetItemBool(StorageKey("RANDOM_GROUP"), out randomGroup))
             {
                 randomGroup = Constants.RANDOM_GROUP_DEFAULT_VALUE;
             }
 
             int botCount;
-            if (!Storage.Get(StorageKey("BOT_COUNT"), out botCount))
+            if (!Storage.TryGetItemInt(StorageKey("BOT_COUNT"), out botCount))
             {
                 botCount = Constants.MAX_BOT_COUNT_DEFAULT_VALUE;
             }
@@ -151,7 +161,7 @@ namespace BotExtended
             else // Random selected bot groups from user settings
             {
                 string[] selectedGroups = null;
-                if (!Storage.Get(StorageKey("BOT_GROUPS"), out selectedGroups))
+                if (!Storage.TryGetItemStringArr(StorageKey("BOT_GROUPS"), out selectedGroups))
                 {
                     ScriptHelper.PrintMessage(
                         "Error when retrieving bot groups to spawn. Default to randomize all available bot groups",
@@ -165,7 +175,7 @@ namespace BotExtended
                 }
             }
 
-            if (!Game.IsEditorTest)
+            if (Game.IsEditorTest)
             {
                 SpawnRandomGroup(botSpawnCount, botGroups);
             }
@@ -196,9 +206,9 @@ namespace BotExtended
             int inext;
             int inextp;
 
-            var getBotGroupSeedAttempt = Storage.Get(StorageKey("BOT_GROUP_SEED"), out botGroupSeed);
-            var getBotGroupInextAttempt = Storage.Get(StorageKey("BOT_GROUP_INEXT"), out inext);
-            var getBotGroupInextpAttempt = Storage.Get(StorageKey("BOT_GROUP_INEXTP"), out inextp);
+            var getBotGroupSeedAttempt = Storage.TryGetItemIntArr(StorageKey("BOT_GROUP_SEED"), out botGroupSeed);
+            var getBotGroupInextAttempt = Storage.TryGetItemInt(StorageKey("BOT_GROUP_INEXT"), out inext);
+            var getBotGroupInextpAttempt = Storage.TryGetItemInt(StorageKey("BOT_GROUP_INEXTP"), out inextp);
 
             if (getBotGroupSeedAttempt && getBotGroupInextAttempt && getBotGroupInextpAttempt)
             {
@@ -445,22 +455,22 @@ namespace BotExtended
 
         private static List<PlayerSpawner> GetEmptyPlayerSpawners()
         {
-            var spawnPlayers = Game.GetObjectsByName("SpawnPlayer");
-            var emptyPlayerSpawners = new List<PlayerSpawner>();
+            var spawners = Game.GetObjectsByName("SpawnPlayer");
+            var emptySpawners = new List<PlayerSpawner>();
 
-            foreach (var spawnPlayer in spawnPlayers)
+            foreach (var spawner in spawners)
             {
-                if (!ScriptHelper.SpawnPlayerHasPlayer(spawnPlayer))
+                if (!ScriptHelper.SpawnerHasPlayer(spawner))
                 {
-                    emptyPlayerSpawners.Add(new PlayerSpawner
+                    emptySpawners.Add(new PlayerSpawner
                     {
-                        Position = spawnPlayer.GetWorldPosition(),
+                        Position = spawner.GetWorldPosition(),
                         HasSpawned = false,
                     });
                 }
             }
 
-            return emptyPlayerSpawners;
+            return emptySpawners;
         }
 
         private static IPlayer SpawnPlayer(bool ignoreFullSpawner = false)
@@ -566,25 +576,25 @@ namespace BotExtended
 
             var groupWinCountKey = botGroupKeyPrefix + "_WIN_COUNT";
             int groupOldWinCount;
-            var getGroupWinCountAttempt = Storage.Get(groupWinCountKey, out groupOldWinCount);
+            var getGroupWinCountAttempt = Storage.TryGetItemInt(groupWinCountKey, out groupOldWinCount);
 
             var groupTotalMatchKey = botGroupKeyPrefix + "_TOTAL_MATCH";
             int groupOldTotalMatch;
-            var getGroupTotalMatchAttempt = Storage.Get(groupTotalMatchKey, out groupOldTotalMatch);
+            var getGroupTotalMatchAttempt = Storage.TryGetItemInt(groupTotalMatchKey, out groupOldTotalMatch);
 
             if (getGroupWinCountAttempt && getGroupTotalMatchAttempt)
             {
                 if (!groupDead)
-                    Storage.Set(groupWinCountKey, groupOldWinCount + 1);
-                Storage.Set(groupTotalMatchKey, groupOldTotalMatch + 1);
+                    Storage.SetItem(groupWinCountKey, groupOldWinCount + 1);
+                Storage.SetItem(groupTotalMatchKey, groupOldTotalMatch + 1);
             }
             else
             {
                 if (!groupDead)
-                    Storage.Set(groupWinCountKey, 1);
+                    Storage.SetItem(groupWinCountKey, 1);
                 else
-                    Storage.Set(groupWinCountKey, 0);
-                Storage.Set(groupTotalMatchKey, 1);
+                    Storage.SetItem(groupWinCountKey, 0);
+                Storage.SetItem(groupTotalMatchKey, 1);
             }
 
             StoreRandomSeed();
@@ -594,9 +604,9 @@ namespace BotExtended
         {
             var rnd = RandomHelper.GetRandomGenerator("BOT_GROUP");
 
-            Storage.Set(StorageKey("BOT_GROUP_SEED"), rnd.SeedArray);
-            Storage.Set(StorageKey("BOT_GROUP_INEXT"), rnd.inext);
-            Storage.Set(StorageKey("BOT_GROUP_INEXTP"), rnd.inextp);
+            Storage.SetItem(StorageKey("BOT_GROUP_SEED"), rnd.SeedArray);
+            Storage.SetItem(StorageKey("BOT_GROUP_INEXT"), rnd.inext);
+            Storage.SetItem(StorageKey("BOT_GROUP_INEXTP"), rnd.inextp);
         }
     }
 }

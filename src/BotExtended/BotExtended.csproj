@@ -82,8 +82,6 @@
     <Compile Include="Library\ScriptHelper.cs" />
     <Compile Include="Library\SharpHelper.cs" />
     <Compile Include="Library\Skin.cs" />
-    <Compile Include="Library\Storage.cs" />
-    <Compile Include="Library\StorageType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
