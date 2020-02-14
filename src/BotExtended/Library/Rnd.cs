@@ -5,7 +5,7 @@ namespace BotExtended.Library
 {
     /// <summary>
     /// <para>copy from https://referencesource.microsoft.com/#mscorlib/system/random.cs,4c2fc83207c654d1</para>
-    /// Identical to System.Random class but with Random.SeedArray set to public to allow saving current state for later use
+    /// Identical to System.Random class but with public Random.SeedArray to save the current state for later use
     /// </summary>
     public class Rnd
     {
