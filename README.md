@@ -14,19 +14,19 @@ BotExtended can be played using the default settings without you having to touch
 
 All of the commands start with `/botextended` or `/be`. Some commands may require one or more arguments.
 
-## `help`
+### `help`
 
 Usage: `/<botextended|be> help|h|?`
 
 Print all other commands and arguments you can pass to BotExtended.
 
-## `version`
+### `version`
 
 Usage: `/<botextended|be> version|v`
 
 Print the current version of BotExtended.
 
-## `listgroup`
+### `listgroup`
 
 Usage: `/<botextended|be> [listgroup|lg]`
 
@@ -34,7 +34,7 @@ List all of the available `BotGroup`s. A `BotGroup` consists of one or many diff
 
 A boss is a much stronger bot, some have special abilities: Mecha boss with bulletproof armor, Demolitionist who can one shot one kill. They are much harder to kill and is equivalent with several expert bots.
 
-`BotGroup` whose name prefixed with `Boss` will have at least one boss, sometimes spawn with its minions. (Kinpin and bodyguards, BadSanta and his Elks)
+`BotGroup`s whose names prefixed with `Boss` will have at least one boss, sometimes spawn with its minions. (Kinpin and bodyguards, BadSanta and his Elks)
 
 ```
 /be lg
@@ -79,7 +79,7 @@ A boss is a much stronger bot, some have special abilities: Mecha boss with bull
 </details>
 
 
-## `listbot`
+### `listbot`
 
 Usage: `/<botextended|be> [listbot|lb]`
 
@@ -166,7 +166,7 @@ List all available `BotType`s.
 ```
 </details>
 
-## `find`
+### `find`
 
 Usage: `/<botextended|be> [find|f|/] <query>`
 
@@ -183,7 +183,7 @@ Find all bot groups that match query
 213: Boss_Zombie
 ```
 
-## `settings`
+### `settings`
 
 Usage: `/<botextended|be> [settings|s]`
 
@@ -193,7 +193,7 @@ Display current script settings
 /be s
 ```
 
-## `spawn`
+### `spawn`
 
 Usage: `/<botextended|be> [spawn|sp] <BotType> [1|2|3|4|_] [Count]`
 
@@ -223,7 +223,7 @@ Spawn 3 bandidos independently
 /be sp bandido _ 3
 ```
 
-## `botcount`
+### `botcount`
 
 Usage: `/<botextended|be> [botcount|bc] <1-10>`
 
@@ -235,7 +235,7 @@ How it works: On startup of every round, the script will search for the number o
 /be bc 2
 ```
 
-## `random`
+### `random`
 
 Usage: `/<botextended|be> [random|r] <0|1>`
 
@@ -248,7 +248,7 @@ If the first argument is 1, randomize *all* `BotGroup`s and select one for each 
 /be r 1
 ```
 
-## `group`
+### `group`
 
 Usage: `/<botextended|be> [group|g] <group names|indexes>`
 
@@ -264,7 +264,7 @@ You can use index for `BotGroup` name to shorten the command. See [`listgroup`](
 /be r 11 13 202 203
 ```
 
-To choose one single `BotGroup` to spawn for every round, simply turn off [`random`](#random) option and select that `BotGroup` only
+To select one single `BotGroup` to spawn for every round, simply turn off [`random`](#random) option and select that `BotGroup` only
 
 ```bash
 /be r 0
