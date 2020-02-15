@@ -1,6 +1,7 @@
 using System;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
+using BotExtended.Library;
 
 namespace BotExtended
 {
@@ -33,26 +34,33 @@ namespace BotExtended
 
                     modifiers.MaxHealth = 5000;
                     modifiers.CurrentHealth = 5000;
-                    modifiers.InfiniteAmmo = 1;
+                    //modifiers.InfiniteAmmo = 1;
                     //modifiers.MeleeStunImmunity = 1;
 
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
-                    player.GiveWeaponItem(WeaponItem.MACHINE_PISTOL);
                     player.GiveWeaponItem(WeaponItem.BAZOOKA);
                     player.GiveWeaponItem(WeaponItem.MOLOTOVS);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
                 }
 
                 BotHelper.Initialize();
+
+                //Game.SetCurrentCameraMode(CameraMode.Dynamic);
+                //Command.DecoratePlayer(new List<string>() { "player 2", "ClownBodyguard" });
+                //Command.DecoratePlayer(new List<string>() { "player 3", "ClownBoxer" });
+                //Command.DecoratePlayer(new List<string>() { "player 4", "ClownCowboy" });
+                //Command.DecoratePlayer(new List<string>() { "player 5", "ClownGangster" });
+                //Command.DecoratePlayer(new List<string>() { "player 6", "Funnyman" });
             }
             catch (Exception e)
             {
-                Game.ShowChatMessage("[Botextended script]: Error");
-                Game.ShowChatMessage(e.Message);
-                Game.ShowChatMessage(e.StackTrace);
-                Game.ShowChatMessage(e.TargetSite.ToString());
+                Game.WriteToConsole("[Botextended script]: Error");
+                Game.WriteToConsole(e.Message);
+                Game.WriteToConsole(e.Source);
+                Game.WriteToConsole(e.StackTrace);
+                Game.WriteToConsole(e.TargetSite.ToString());
             }
         }
 

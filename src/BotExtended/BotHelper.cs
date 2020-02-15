@@ -164,7 +164,7 @@ namespace BotExtended
                 if (!Storage.TryGetItemStringArr(StorageKey("BOT_GROUPS"), out selectedGroups))
                 {
                     ScriptHelper.PrintMessage(
-                        "Error when retrieving bot groups to spawn. Default to randomize all available bot groups",
+                        "Error when retrieving bot groups to spawn. Default to randomize all bot groups",
                         ScriptHelper.ERROR_COLOR);
                     botGroups = SharpHelper.GetArrayFromEnum<BotGroup>().ToList();
                 }
@@ -175,7 +175,7 @@ namespace BotExtended
                 }
             }
 
-            if (Game.IsEditorTest)
+            if (!Game.IsEditorTest)
             {
                 SpawnRandomGroup(botSpawnCount, botGroups);
             }
@@ -195,7 +195,7 @@ namespace BotExtended
                 var mod = p.GetModifiers();
                 //mod.CurrentHealth = 1;
                 p.SetModifiers(mod);
-                m_bots.First().Value.Player.SetHealth(1);
+                //m_bots.First().Value.Player.SetHealth(1);
                 //SpawnBot(BotType.Bandido);
             }
         }
@@ -457,10 +457,11 @@ namespace BotExtended
         {
             var spawners = Game.GetObjectsByName("SpawnPlayer");
             var emptySpawners = new List<PlayerSpawner>();
+            var players = Game.GetPlayers();
 
             foreach (var spawner in spawners)
             {
-                if (!ScriptHelper.SpawnerHasPlayer(spawner))
+                if (!ScriptHelper.SpawnerHasPlayer(spawner, players))
                 {
                     emptySpawners.Add(new PlayerSpawner
                     {
@@ -513,6 +514,24 @@ namespace BotExtended
 
             m_bots.Add(player.CustomID, bot);
             return bot;
+        }
+
+        public static void Decorate(IPlayer player, BotType botType)
+        {
+            var info = GetInfo(botType);
+            var weaponSet = WeaponSet.Empty;
+
+            if (RandomHelper.Between(0f, 1f) < info.EquipWeaponChance)
+            {
+                weaponSet = RandomHelper.GetItem(GetWeapons(botType));
+            }
+            weaponSet.Equip(player);
+
+            var profile = RandomHelper.GetItem(GetProfiles(botType));
+
+            player.SetProfile(profile);
+            player.SetBotName(profile.Name);
+            player.SetModifiers(info.Modifiers);
         }
 
         public static Bot SpawnBot(

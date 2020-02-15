@@ -20,17 +20,22 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, (Color)color);
         }
 
+        public static void Timeout(Action callback, uint interval)
+        {
+            Events.UpdateCallback.Start((float e) => callback.Invoke(), interval, 1);
+        }
+
         public static bool IsElapsed(float timeStarted, float timeToElapse)
         {
             return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;
         }
 
-        public static bool SpawnerHasPlayer(IObject spawner)
+        public static bool SpawnerHasPlayer(IObject spawner, IPlayer[] players)
         {
             // Player position y: -20 || +9
             // => -21 -> +10
             // Player position x: unchange
-            foreach (var player in Game.GetPlayers())
+            foreach (var player in players)
             {
                 var playerPosition = player.GetWorldPosition();
                 var spawnerPosition = spawner.GetWorldPosition();

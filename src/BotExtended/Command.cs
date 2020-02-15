@@ -77,6 +77,11 @@ namespace BotExtended
                     SelectGroup(arguments);
                     break;
 
+                case "d":
+                case "decorate":
+                    DecoratePlayer(arguments);
+                    break;
+
                 case "st":
                 case "stats":
                     PrintStatistics();
@@ -113,6 +118,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all groups at startup if set to 1. This option will disregard the current group list");
             ScriptHelper.PrintMessage("/<botextended|be> [group|g] <group names|indexes>: Choose a list of group by either name or index to randomly spawn on startup");
+            ScriptHelper.PrintMessage("/<botextended|be> [decorate|d] <player> <BotType>: Change <player> outfit, weapons and modifiers to <BotType>");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot groups stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot groups stats");
         }
@@ -307,6 +313,52 @@ namespace BotExtended
             botGroups.Sort();
             BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_GROUPS"), botGroups.Distinct().ToArray());
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
+        }
+
+        public static void DecoratePlayer(IEnumerable<string> arguments)
+        {
+            if (arguments.Count() < 2)
+            {
+                ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
+                return;
+            }
+
+            var playerArg = string.Join(" ", arguments.Take(arguments.Count() - 1));
+            var botTypeArg = arguments.Last();
+            BotType botType;
+
+            if (!SharpHelper.TryParseEnum(botTypeArg, out botType))
+            {
+                ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid BotType: " + botTypeArg, ScriptHelper.WARNING_COLOR);
+                return;
+            }
+
+            foreach (var player in Game.GetPlayers())
+            {
+                if (!player.IsUser || player.IsRemoved) continue;
+
+                var playerIndex = -1;
+                var playerSlotIndex = player.GetUser().GameSlotIndex;
+
+                if (int.TryParse(playerArg, out playerIndex))
+                {
+                    if (playerSlotIndex == playerIndex)
+                    {
+                        BotHelper.Decorate(player, botType);return;
+                    }
+                }
+                else
+                {
+                    if (player.Name.ToLower() == playerArg)
+                    {
+                        BotHelper.Decorate(player, botType);return;
+                    }
+                }
+            }
+            ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
         }
 
         private static void PrintStatistics()
