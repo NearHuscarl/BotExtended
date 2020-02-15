@@ -270,3 +270,14 @@ To select one single `BotGroup` to spawn for every round, simply turn off [`rand
 /be r 0
 /be g biker
 ```
+
+### `decorate`
+
+Usage: `/<botextended|be> [decorate|d] <player> <BotType>`
+
+Change player outfit, weapons and modifiers to the same as `BotType`. Player argument can be either name or slot index. Type `/listplayers`
+to see the list of players and their respective indexes.
+
+```
+/be d 0 funnyman
+```
