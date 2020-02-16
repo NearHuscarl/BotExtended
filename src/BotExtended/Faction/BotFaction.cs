@@ -1,6 +1,6 @@
-﻿namespace BotExtended.Group
+﻿namespace BotExtended.Faction
 {
-    public enum BotGroup
+    public enum BotFaction
     {
         Assassin = 0,
         Agent,
@@ -19,7 +19,7 @@
         Zombie,
         ZombieHard,
 
-        Boss_Demolitionist = Constants.BOSS_GROUP_START_INDEX,
+        Boss_Demolitionist = Constants.BOSS_FACTION_START_INDEX,
         Boss_Funnyman,
         Boss_Jo,
         Boss_Hacker,

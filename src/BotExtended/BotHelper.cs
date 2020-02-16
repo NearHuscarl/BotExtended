@@ -1,6 +1,6 @@
 ﻿using SFDGameScriptInterface;
 using BotExtended.Bots;
-using BotExtended.Group;
+using BotExtended.Faction;
 using BotExtended.Library;
 using System;
 using System.Collections.Generic;
@@ -112,13 +112,13 @@ namespace BotExtended
         {
             return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botType).ToUpperInvariant();
         }
-        internal static string StorageKey(BotGroup botGroup, int groupIndex)
+        internal static string StorageKey(BotFaction botFaction, int factionIndex)
         {
-            return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botGroup).ToUpperInvariant() + "_" + groupIndex;
+            return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botFaction).ToUpperInvariant() + "_" + factionIndex;
         }
 
-        public static BotGroup CurrentBotGroup { get; private set; }
-        public static int CurrentGroupSetIndex { get; private set; }
+        public static BotFaction CurrentBotFaction { get; private set; }
+        public static int CurrentFactionSetIndex { get; private set; }
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
         // Player corpses waiting to be transformed into zombies
@@ -138,10 +138,10 @@ namespace BotExtended
 
             InitRandomSeed();
 
-            bool randomGroup;
-            if (!Storage.TryGetItemBool(StorageKey("RANDOM_GROUP"), out randomGroup))
+            bool randomFaction;
+            if (!Storage.TryGetItemBool(StorageKey("RANDOM_FACTION"), out randomFaction))
             {
-                randomGroup = Constants.RANDOM_GROUP_DEFAULT_VALUE;
+                randomFaction = Constants.RANDOM_FACTION_DEFAULT_VALUE;
             }
 
             int botCount;
@@ -152,38 +152,38 @@ namespace BotExtended
 
             botCount = (int)MathHelper.Clamp(botCount, 1, 10);
             var botSpawnCount = Math.Min(botCount, m_playerSpawners.Count);
-            var botGroups = new List<BotGroup>();
+            var botFactions = new List<BotFaction>();
 
-            if (randomGroup) // Random all bot groups
+            if (randomFaction) // Random all bot factions
             {
-                botGroups = SharpHelper.GetArrayFromEnum<BotGroup>().ToList();
+                botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList();
             }
-            else // Random selected bot groups from user settings
+            else // Random selected bot factions from user settings
             {
-                string[] selectedGroups = null;
-                if (!Storage.TryGetItemStringArr(StorageKey("BOT_GROUPS"), out selectedGroups))
+                string[] selectedFactions = null;
+                if (!Storage.TryGetItemStringArr(StorageKey("BOT_FACTIONS"), out selectedFactions))
                 {
                     ScriptHelper.PrintMessage(
-                        "Error when retrieving bot groups to spawn. Default to randomize all bot groups",
+                        "Error when retrieving bot factions to spawn. Default to randomize all bot factions",
                         ScriptHelper.ERROR_COLOR);
-                    botGroups = SharpHelper.GetArrayFromEnum<BotGroup>().ToList();
+                    botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList();
                 }
                 else
                 {
-                    foreach (var groupName in selectedGroups)
-                        botGroups.Add(SharpHelper.StringToEnum<BotGroup>(groupName));
+                    foreach (var faction in selectedFactions)
+                        botFactions.Add(SharpHelper.StringToEnum<BotFaction>(faction));
                 }
             }
 
             if (!Game.IsEditorTest)
             {
-                SpawnRandomGroup(botSpawnCount, botGroups);
+                SpawnRandomFaction(botSpawnCount, botFactions);
             }
             else
             {
-                //SpawnRandomGroup(botSpawnCount, botGroups);
+                //SpawnRandomFaction(botSpawnCount, botFactions);
                 //IPlayer player = null;
-                SpawnGroup(BotGroup.Boss_Ninja, botSpawnCount, 1);
+                SpawnFaction(BotFaction.Boss_Ninja, botSpawnCount, 1);
                 //Game.GetPlayers()[0].SetProfile(GetProfiles(BotType.Mecha).First());
                 Game.GetPlayers()[0].SetModifiers(new PlayerModifiers()
                 {
@@ -202,49 +202,49 @@ namespace BotExtended
 
         private static void InitRandomSeed()
         {
-            int[] botGroupSeed;
+            int[] botFactionSeed;
             int inext;
             int inextp;
 
-            var getBotGroupSeedAttempt = Storage.TryGetItemIntArr(StorageKey("BOT_GROUP_SEED"), out botGroupSeed);
-            var getBotGroupInextAttempt = Storage.TryGetItemInt(StorageKey("BOT_GROUP_INEXT"), out inext);
-            var getBotGroupInextpAttempt = Storage.TryGetItemInt(StorageKey("BOT_GROUP_INEXTP"), out inextp);
+            var getBotFactionSeedAttempt = Storage.TryGetItemIntArr(StorageKey("BOT_FACTION_SEED"), out botFactionSeed);
+            var getBotFactionInextAttempt = Storage.TryGetItemInt(StorageKey("BOT_FACTION_INEXT"), out inext);
+            var getBotFactionInextpAttempt = Storage.TryGetItemInt(StorageKey("BOT_FACTION_INEXTP"), out inextp);
 
-            if (getBotGroupSeedAttempt && getBotGroupInextAttempt && getBotGroupInextpAttempt)
+            if (getBotFactionSeedAttempt && getBotFactionInextAttempt && getBotFactionInextpAttempt)
             {
-                RandomHelper.AddRandomGenerator("BOT_GROUP", new Rnd(botGroupSeed, inext, inextp));
+                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd(botFactionSeed, inext, inextp));
             }
             else
             {
-                RandomHelper.AddRandomGenerator("BOT_GROUP", new Rnd());
+                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd());
             }
         }
 
-        private static void SpawnRandomGroup(int botCount, List<BotGroup> botGroups)
+        private static void SpawnRandomFaction(int botCount, List<BotFaction> botFactions)
         {
-            List<BotGroup> filteredBotGroups = null;
-            if (botCount < 3) // Too few for a group, spawn boss instead
+            List<BotFaction> filteredBotFactions = null;
+            if (botCount < 3) // Too few for a faction, spawn boss instead
             {
-                filteredBotGroups = botGroups.Select(g => g).Where(g => (int)g >= Constants.BOSS_GROUP_START_INDEX).ToList();
-                if (!filteredBotGroups.Any())
-                    filteredBotGroups = botGroups;
+                filteredBotFactions = botFactions.Select(g => g).Where(g => (int)g >= Constants.BOSS_FACTION_START_INDEX).ToList();
+                if (!filteredBotFactions.Any())
+                    filteredBotFactions = botFactions;
             }
             else
-                filteredBotGroups = botGroups;
+                filteredBotFactions = botFactions;
 
-            var rndBotGroup = RandomHelper.GetItem(filteredBotGroups, "BOT_GROUP");
-            var groupSet = GetGroupSet(rndBotGroup);
-            var rndGroupIndex = RandomHelper.Rnd.Next(groupSet.Groups.Count);
-            var group = groupSet.Groups[rndGroupIndex];
+            var rndBotFaction = RandomHelper.GetItem(filteredBotFactions, "BOT_FACTION");
+            var factionSet = GetFactionSet(rndBotFaction);
+            var rndFactionIndex = RandomHelper.Rnd.Next(factionSet.Factions.Count);
+            var faction = factionSet.Factions[rndFactionIndex];
 
-            group.Spawn(botCount);
+            faction.Spawn(botCount);
 
             foreach (var bot in m_bots.Values.ToList())
             {
                 TriggerOnSpawn(bot);
             }
-            CurrentBotGroup = rndBotGroup;
-            CurrentGroupSetIndex = rndGroupIndex;
+            CurrentBotFaction = rndBotFaction;
+            CurrentFactionSetIndex = rndFactionIndex;
         }
 
         public static void TriggerOnSpawn(Bot bot)
@@ -252,10 +252,10 @@ namespace BotExtended
             bot.OnSpawn(m_bots.Values);
         }
 
-        // Spawn exact group for debugging purpose. Usually you random the group before every match
-        private static void SpawnGroup(BotGroup botGroup, int botCount, int groupIndex = -1)
+        // Spawn exact faction for debugging purpose. Usually you random the faction before every match
+        private static void SpawnFaction(BotFaction botFaction, int botCount, int factionIndex = -1)
         {
-            SpawnRandomGroup(botCount, new List<BotGroup>() { botGroup });
+            SpawnRandomFaction(botCount, new List<BotFaction>() { botFaction });
         }
 
         public static void OnUpdate(float elapsed)
@@ -576,37 +576,40 @@ namespace BotExtended
 
         public static void StoreStatistics()
         {
-            var groupDead = true;
+            var factionDead = true;
 
             foreach (var player in Game.GetPlayers())
             {
                 if (!player.IsDead)
-                    groupDead = false;
+                {
+                    factionDead = false;
+                    break;
+                }
             }
 
-            var botGroupKeyPrefix = StorageKey(CurrentBotGroup, CurrentGroupSetIndex);
+            var botFactionKeyPrefix = StorageKey(CurrentBotFaction, CurrentFactionSetIndex);
 
-            var groupWinCountKey = botGroupKeyPrefix + "_WIN_COUNT";
-            int groupOldWinCount;
-            var getGroupWinCountAttempt = Storage.TryGetItemInt(groupWinCountKey, out groupOldWinCount);
+            var factionWinCountKey = botFactionKeyPrefix + "_WIN_COUNT";
+            int factionOldWinCount;
+            var getFactionWinCountAttempt = Storage.TryGetItemInt(factionWinCountKey, out factionOldWinCount);
 
-            var groupTotalMatchKey = botGroupKeyPrefix + "_TOTAL_MATCH";
-            int groupOldTotalMatch;
-            var getGroupTotalMatchAttempt = Storage.TryGetItemInt(groupTotalMatchKey, out groupOldTotalMatch);
+            var factionTotalMatchKey = botFactionKeyPrefix + "_TOTAL_MATCH";
+            int factionOldTotalMatch;
+            var getFactionTotalMatchAttempt = Storage.TryGetItemInt(factionTotalMatchKey, out factionOldTotalMatch);
 
-            if (getGroupWinCountAttempt && getGroupTotalMatchAttempt)
+            if (getFactionWinCountAttempt && getFactionTotalMatchAttempt)
             {
-                if (!groupDead)
-                    Storage.SetItem(groupWinCountKey, groupOldWinCount + 1);
-                Storage.SetItem(groupTotalMatchKey, groupOldTotalMatch + 1);
+                if (!factionDead)
+                    Storage.SetItem(factionWinCountKey, factionOldWinCount + 1);
+                Storage.SetItem(factionTotalMatchKey, factionOldTotalMatch + 1);
             }
             else
             {
-                if (!groupDead)
-                    Storage.SetItem(groupWinCountKey, 1);
+                if (!factionDead)
+                    Storage.SetItem(factionWinCountKey, 1);
                 else
-                    Storage.SetItem(groupWinCountKey, 0);
-                Storage.SetItem(groupTotalMatchKey, 1);
+                    Storage.SetItem(factionWinCountKey, 0);
+                Storage.SetItem(factionTotalMatchKey, 1);
             }
 
             StoreRandomSeed();
@@ -614,11 +617,11 @@ namespace BotExtended
 
         private static void StoreRandomSeed()
         {
-            var rnd = RandomHelper.GetRandomGenerator("BOT_GROUP");
+            var rnd = RandomHelper.GetRandomGenerator("BOT_FACTION");
 
-            Storage.SetItem(StorageKey("BOT_GROUP_SEED"), rnd.SeedArray);
-            Storage.SetItem(StorageKey("BOT_GROUP_INEXT"), rnd.inext);
-            Storage.SetItem(StorageKey("BOT_GROUP_INEXTP"), rnd.inextp);
+            Storage.SetItem(StorageKey("BOT_FACTION_SEED"), rnd.SeedArray);
+            Storage.SetItem(StorageKey("BOT_FACTION_INEXT"), rnd.inext);
+            Storage.SetItem(StorageKey("BOT_FACTION_INEXTP"), rnd.inextp);
         }
     }
 }

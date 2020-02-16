@@ -37,18 +37,18 @@ Usage: `/<botextended|be> version|v`
 
 Print the current version of BotExtended.
 
-### `listgroup`
+### `listfaction`
 
-Usage: `/<botextended|be> [listgroup|lg]`
+Usage: `/<botextended|be> [listfaction|lf]`
 
-List all of the available `BotGroup`s. A `BotGroup` consists of one or many different bots in a specific theme, for example: Assassin, Police, Zombie... Some `BotGroup`s only have one bot, usually a boss.
+List all of the available `BotFaction`s. A `BotFaction` consists of one or many different bots in a specific theme, for example: Assassin, Police, Zombie... Some `BotFaction`s only have one bot, usually a boss.
 
 A boss is a much stronger bot, some have special abilities: Mecha boss with bulletproof armor, Demolitionist who can one shot one kill. They are much harder to kill and is equivalent with several expert bots.
 
-`BotGroup`s whose names prefixed with `Boss` will have at least one boss, sometimes spawn with its minions. (Kinpin and bodyguards, BadSanta and his Elks)
+`BotFaction`s whose names prefixed with `Boss` will have at least one boss, sometimes spawn with its minions. (Kinpin and bodyguards, BadSanta and his Elks)
 
 ```
-/be lg
+/be lf
 ```
 
 
@@ -96,7 +96,7 @@ Usage: `/<botextended|be> [listbot|lb]`
 
 List all available `BotType`s.
 
-`BotType` describes a specific bot apperance, stats and behavior. Each `BotType` has different outfits, starting weapons, modifiers, AI behaviors and special abilities. A `BotGroup` must have multiple `BotType`s in the same theme. For example, Clown `BotGroup` can spawn ClownCowboy, ClownGangster and ClownBoxer `BotType`, but cannot spawn Gangster.
+`BotType` describes a specific bot apperance, stats and behavior. Each `BotType` has different outfits, starting weapons, modifiers, AI behaviors and special abilities. A `BotFaction` must have multiple `BotType`s in the same theme. For example, Clown `BotFaction` can spawn ClownCowboy, ClownGangster and ClownBoxer `BotType`, but cannot spawn Gangster.
 
 ```
 /be lb
@@ -177,14 +177,14 @@ List all available `BotType`s.
 ```
 </details>
 
-### `find`
+### `findfaction`
 
-Usage: `/<botextended|be> [find|f|/] <query>`
+Usage: `/<botextended|be> [findfaction|ff] <query>`
 
-Find all bot groups that match query
+Find all bot factions that match query
 
 ```
-/be f zombie
+/be ff zombie
 ```
 
 ```
@@ -250,36 +250,36 @@ How it works: On startup of every round, the script will search for the number o
 
 Usage: `/<botextended|be> [random|r] <0|1>`
 
-Whether to randomize *all* `BotGroup`s or not.
+Whether to randomize *all* `BotFaction`s or not.
 
-If the first argument is 1, randomize *all* `BotGroup`s and select one for each rounds. Otherwise, a list of user-defined `BotGroup`s will be randomized instead. The user-defined `BotGroup`s can be customized by [`group`](#group) command.
+If the first argument is 1, randomize *all* `BotFaction`s and select one for each rounds. Otherwise, a list of user-defined `BotFaction`s will be randomized instead. The user-defined `BotFaction`s can be customized by [`faction`](#faction) command.
 
 ```
 /be r 0
 /be r 1
 ```
 
-### `group`
+### `faction`
 
-Usage: `/<botextended|be> [group|g] <group names|indexes>`
+Usage: `/<botextended|be> [faction|f] <faction names|indexes>`
 
-Select a list of `BotGroup`s by either name or index to randomly spawn on startup. Each group name is seperated by a space. This option will be disregarded if [`random`](#random) is set to 1 (randomize all `BotGroup`s)
+Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. This option will be disregarded if [`random`](#random) is set to 1 (randomize all `BotFaction`s)
 
 ```bash
-/be g sniper thug boss_jo boss_hacker
+/be f sniper thug boss_jo boss_hacker
 ```
 
-You can use index for `BotGroup` name to shorten the command. See [`listgroup`](#listgroup) for more detail.
+You can use index for `BotFaction` name to shorten the command. See [`listfaction`](#listfaction) for more detail.
 
 ```
-/be r 11 13 202 203
+/be f 11 13 202 203
 ```
 
-To select one single `BotGroup` to spawn for every round, simply turn off [`random`](#random) option and select that `BotGroup` only
+To select one single `BotFaction` to spawn for every round, simply turn off [`random`](#random) option and select that `BotFaction` only
 
 ```bash
 /be r 0
-/be g biker
+/be f biker
 ```
 
 ### `setplayer`

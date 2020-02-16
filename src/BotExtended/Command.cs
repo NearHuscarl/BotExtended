@@ -1,5 +1,5 @@
 ﻿using SFDGameScriptInterface;
-using BotExtended.Group;
+using BotExtended.Faction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +36,9 @@ namespace BotExtended
                     PrintVersion();
                     break;
 
-                case "lg":
-                case "listgroup":
-                    ListBotGroup();
+                case "lf":
+                case "listfaction":
+                    ListBotFaction();
                     break;
 
                 case "lb":
@@ -46,10 +46,9 @@ namespace BotExtended
                     ListBotType();
                     break;
 
-                case "/":
-                case "f":
-                case "find":
-                    FindGroup(arguments);
+                case "ff":
+                case "findfaction":
+                    FindFaction(arguments);
                     break;
 
                 case "s":
@@ -69,12 +68,12 @@ namespace BotExtended
 
                 case "r":
                 case "random":
-                    SetRandomGroup(arguments);
+                    SetRandomFaction(arguments);
                     break;
 
-                case "g":
-                case "group":
-                    SelectGroup(arguments);
+                case "f":
+                case "faction":
+                    SetFactions(arguments);
                     break;
 
                 case "sp":
@@ -110,17 +109,17 @@ namespace BotExtended
             ScriptHelper.PrintMessage("--BotExtended help--", ScriptHelper.ERROR_COLOR);
             ScriptHelper.PrintMessage("/<botextended|be> [help|h|?]: Print this help");
             ScriptHelper.PrintMessage("/<botextended|be> [version|v]: Print the current version");
-            ScriptHelper.PrintMessage("/<botextended|be> [listgroup|lg]: List all bot groups");
+            ScriptHelper.PrintMessage("/<botextended|be> [listfaction|lf]: List all bot factions");
             ScriptHelper.PrintMessage("/<botextended|be> [listbot|lb]: List all bot types");
-            ScriptHelper.PrintMessage("/<botextended|be> [find|f|/] <query>: Find all bot groups that match query");
+            ScriptHelper.PrintMessage("/<botextended|be> [findfaction|ff] <query>: Find all bot factions that match query");
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
-            ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all groups at startup if set to 1. This option will disregard the current group list");
-            ScriptHelper.PrintMessage("/<botextended|be> [group|g] <group names|indexes>: Choose a list of group by either name or index to randomly spawn on startup");
+            ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all factions at startup if set to 1. This option will disregard the current faction list");
+            ScriptHelper.PrintMessage("/<botextended|be> [faction|f] <faction names|indexes>: Choose a list of faction by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
-            ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot groups stats");
-            ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot groups stats");
+            ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot factions stats");
+            ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot factions stats");
         }
 
         private static void PrintVersion()
@@ -129,23 +128,23 @@ namespace BotExtended
             ScriptHelper.PrintMessage("v" + Constants.CURRENT_VERSION);
         }
 
-        private static IEnumerable<string> GetGroupNames()
+        private static IEnumerable<string> GetFactionNames()
         {
-            var groups = SharpHelper.GetArrayFromEnum<BotGroup>();
+            var factions = SharpHelper.GetArrayFromEnum<BotFaction>();
 
-            foreach (var group in groups)
+            foreach (var faction in factions)
             {
-                yield return ((int)group).ToString() + ": " + SharpHelper.EnumToString(group);
+                yield return ((int)faction).ToString() + ": " + SharpHelper.EnumToString(faction);
             }
         }
 
-        private static void ListBotGroup()
+        private static void ListBotFaction()
         {
-            ScriptHelper.PrintMessage("--BotExtended list group--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended list faction--", ScriptHelper.ERROR_COLOR);
 
-            foreach (var groupName in GetGroupNames())
+            foreach (var factionName in GetFactionNames())
             {
-                ScriptHelper.PrintMessage(groupName, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage(factionName, ScriptHelper.WARNING_COLOR);
             }
         }
 
@@ -159,18 +158,18 @@ namespace BotExtended
             }
         }
 
-        private static void FindGroup(IEnumerable<string> arguments)
+        private static void FindFaction(IEnumerable<string> arguments)
         {
             var query = arguments.FirstOrDefault();
             if (query == null) return;
 
             ScriptHelper.PrintMessage("--BotExtended find results--", ScriptHelper.ERROR_COLOR);
 
-            foreach (var groupName in GetGroupNames())
+            foreach (var factionName in GetFactionNames())
             {
-                var name = groupName.ToLowerInvariant();
+                var name = factionName.ToLowerInvariant();
                 if (name.Contains(query))
-                    ScriptHelper.PrintMessage(groupName, ScriptHelper.WARNING_COLOR);
+                    ScriptHelper.PrintMessage(factionName, ScriptHelper.WARNING_COLOR);
             }
         }
 
@@ -178,24 +177,24 @@ namespace BotExtended
         {
             ScriptHelper.PrintMessage("--BotExtended settings--", ScriptHelper.ERROR_COLOR);
 
-            string[] groups = null;
-            if (BotHelper.Storage.TryGetItemStringArr(BotHelper.StorageKey("BOT_GROUPS"), out groups))
+            string[] factions = null;
+            if (BotHelper.Storage.TryGetItemStringArr(BotHelper.StorageKey("BOT_FACTIONS"), out factions))
             {
-                ScriptHelper.PrintMessage("-Current groups", ScriptHelper.WARNING_COLOR);
-                for (var i = 0; i < groups.Length; i++)
+                ScriptHelper.PrintMessage("-Current factions", ScriptHelper.WARNING_COLOR);
+                for (var i = 0; i < factions.Length; i++)
                 {
-                    var botGroup = SharpHelper.StringToEnum<BotGroup>(groups[i]);
-                    var index = (int)botGroup;
-                    ScriptHelper.PrintMessage(index + ": " + groups[i]);
+                    var botFaction = SharpHelper.StringToEnum<BotFaction>(factions[i]);
+                    var index = (int)botFaction;
+                    ScriptHelper.PrintMessage(index + ": " + factions[i]);
                 }
             }
 
-            bool randomGroup;
-            if (!BotHelper.Storage.TryGetItemBool(BotHelper.StorageKey("RANDOM_GROUP"), out randomGroup))
+            bool randomFaction;
+            if (!BotHelper.Storage.TryGetItemBool(BotHelper.StorageKey("RANDOM_FACTION"), out randomFaction))
             {
-                randomGroup = Constants.RANDOM_GROUP_DEFAULT_VALUE;
+                randomFaction = Constants.RANDOM_FACTION_DEFAULT_VALUE;
             }
-            ScriptHelper.PrintMessage("-Random ALL groups: " + randomGroup, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Random ALL factions: " + randomFaction, ScriptHelper.WARNING_COLOR);
 
             int botCount;
             if (!BotHelper.Storage.TryGetItemInt(BotHelper.StorageKey("BOT_COUNT"), out botCount))
@@ -266,7 +265,7 @@ namespace BotExtended
                 ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
         }
 
-        private static void SetRandomGroup(IEnumerable<string> arguments)
+        private static void SetRandomFaction(IEnumerable<string> arguments)
         {
             var firstArg = arguments.FirstOrDefault();
             if (firstArg == null) return;
@@ -274,7 +273,7 @@ namespace BotExtended
 
             if (firstArg != "0" && firstArg != "1")
             {
-                ScriptHelper.PrintMessage("--BotExtended random group--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended random faction--", ScriptHelper.ERROR_COLOR);
                 ScriptHelper.PrintMessage("Invalid value: " + value + "Value is either 1 (true) or 0 (false): ", ScriptHelper.WARNING_COLOR);
                 return;
             }
@@ -282,25 +281,25 @@ namespace BotExtended
             if (int.TryParse(firstArg, out value))
             {
                 if (value == 1)
-                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_GROUP"), true);
+                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_FACTION"), true);
                 if (value == 0)
-                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_GROUP"), false);
+                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_FACTION"), false);
                 ScriptHelper.PrintMessage("[Botextended] Update successfully");
             }
             else
                 ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
         }
 
-        private static void SelectGroup(IEnumerable<string> arguments)
+        private static void SetFactions(IEnumerable<string> arguments)
         {
-            var botGroups = new List<string>();
-            BotGroup botGroup;
+            var botFactions = new List<string>();
+            BotFaction botFaction;
 
             foreach (var query in arguments)
             {
-                if (SharpHelper.TryParseEnum(query, out botGroup))
+                if (SharpHelper.TryParseEnum(query, out botFaction))
                 {
-                    botGroups.Add(SharpHelper.EnumToString(botGroup));
+                    botFactions.Add(SharpHelper.EnumToString(botFaction));
                 }
                 else
                 {
@@ -310,8 +309,8 @@ namespace BotExtended
                 }
             }
 
-            botGroups.Sort();
-            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_GROUPS"), botGroups.Distinct().ToArray());
+            botFactions.Sort();
+            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTIONS"), botFactions.Distinct().ToArray());
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
@@ -389,25 +388,25 @@ namespace BotExtended
                 }
             }
 
-            var botGroups = SharpHelper.EnumToList<BotGroup>();
-            ScriptHelper.PrintMessage("-[BotGroup] [Index]: [WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
-            foreach (var botGroup in botGroups)
+            var botFactions = SharpHelper.EnumToList<BotFaction>();
+            ScriptHelper.PrintMessage("-[BotFaction] [Index]: [WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
+            foreach (var botFaction in botFactions)
             {
-                var groupSet = GetGroupSet(botGroup);
-                for (var i = 0; i < groupSet.Groups.Count; i++)
+                var factionSet = GetFactionSet(botFaction);
+                for (var i = 0; i < factionSet.Factions.Count; i++)
                 {
-                    var groupKeyPrefix = BotHelper.StorageKey(botGroup, i);
+                    var factionKeyPrefix = BotHelper.StorageKey(botFaction, i);
                     int winCount;
-                    var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(groupKeyPrefix + "_WIN_COUNT", out winCount);
+                    var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(factionKeyPrefix + "_WIN_COUNT", out winCount);
                     int totalMatch;
-                    var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(groupKeyPrefix + "_TOTAL_MATCH", out totalMatch);
+                    var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(factionKeyPrefix + "_TOTAL_MATCH", out totalMatch);
 
                     if (getWinCountAttempt && getTotalMatchAttempt)
                     {
                         var survivalRate = (float)winCount / totalMatch;
                         var survivalRateStr = survivalRate.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
 
-                        ScriptHelper.PrintMessage(SharpHelper.EnumToString(botGroup) + " " + i + ": "
+                        ScriptHelper.PrintMessage(SharpHelper.EnumToString(botFaction) + " " + i + ": "
                             + " " + winCount + " " + totalMatch + " " + survivalRateStr);
                     }
                 }
@@ -425,15 +424,15 @@ namespace BotExtended
                 BotHelper.Storage.RemoveItem(botTypeKeyPrefix + "_TOTAL_MATCH");
             }
 
-            var botGroups = SharpHelper.EnumToList<BotGroup>();
-            foreach (var botGroup in botGroups)
+            var botFactions = SharpHelper.EnumToList<BotFaction>();
+            foreach (var botFaction in botFactions)
             {
-                var groupSet = GetGroupSet(botGroup);
-                for (var i = 0; i < groupSet.Groups.Count; i++)
+                var factionSet = GetFactionSet(botFaction);
+                for (var i = 0; i < factionSet.Factions.Count; i++)
                 {
-                    var groupKeyPrefix = BotHelper.StorageKey(botGroup, i);
-                    BotHelper.Storage.RemoveItem(groupKeyPrefix + "_WIN_COUNT");
-                    BotHelper.Storage.RemoveItem(groupKeyPrefix + "_TOTAL_MATCH");
+                    var factionKeyPrefix = BotHelper.StorageKey(botFaction, i);
+                    BotHelper.Storage.RemoveItem(factionKeyPrefix + "_WIN_COUNT");
+                    BotHelper.Storage.RemoveItem(factionKeyPrefix + "_TOTAL_MATCH");
                 }
             }
 

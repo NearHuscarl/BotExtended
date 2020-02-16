@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="BotAI.cs" />
     <Compile Include="BotBehaviors.cs" />
-    <Compile Include="BotGroupSets.cs" />
+    <Compile Include="BotFactionSets.cs" />
     <Compile Include="BotHelper.cs" />
     <Compile Include="BotInfo.cs" />
     <Compile Include="BotInfos.cs" />
@@ -69,10 +69,10 @@
     <Compile Include="BotWeapons.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Group\BotGroup.cs" />
-    <Compile Include="Group\Group.cs" />
-    <Compile Include="Group\GroupSet.cs" />
-    <Compile Include="Group\SubGroup.cs" />
+    <Compile Include="Faction\BotFaction.cs" />
+    <Compile Include="Faction\Faction.cs" />
+    <Compile Include="Faction\FactionSet.cs" />
+    <Compile Include="Faction\SubFaction.cs" />
     <Compile Include="PlayerSpawner.cs" />
     <Compile Include="WeaponSet.cs" />
     <Compile Include="ZombieStatus.cs" />

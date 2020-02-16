@@ -21,7 +21,7 @@ namespace BotExtended
             // 4. Define bot behavior in BotBehaviors.cs (optional)
             // 5. Define bot info in BotInfos.cs
             // 6. Define bot class in Bots/ and add it to BotFactory.cs for additional behaviors (optional)
-            // 7. Define bot group and sub-group in BotGroupSets.cs
+            // 7. Define bot faction and sub-faction in BotFactionSets.cs
 
             try
             {

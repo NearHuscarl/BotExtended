@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.GameScript;
 
-namespace BotExtended.Group
+namespace BotExtended.Faction
 {
-    public class SubGroup
+    public class SubFaction
     {
-        public SubGroup(List<BotType> types, float weight)
+        public SubFaction(List<BotType> types, float weight)
         {
             Types = types;
             Weight = weight;
         }
 
-        public SubGroup(BotType type, float weight)
+        public SubFaction(BotType type, float weight)
         {
             Types = new List<BotType>() { type };
             Weight = weight;
         }
 
-        public SubGroup(BotType type)
+        public SubFaction(BotType type)
         {
             Types = new List<BotType>() { type };
             Weight = 0f;
