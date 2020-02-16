@@ -66,11 +66,6 @@ namespace BotExtended
                     CreateNewBot(arguments);
                     break;
 
-                case "r":
-                case "random":
-                    SetRandomFaction(arguments);
-                    break;
-
                 case "f":
                 case "faction":
                     SetFactions(arguments);
@@ -115,8 +110,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
-            ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all factions at startup if set to 1. This option will disregard the current faction list");
-            ScriptHelper.PrintMessage("/<botextended|be> [faction|f] <faction names|indexes>: Choose a list of faction by either name or index to randomly spawn on startup");
+            ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot factions stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot factions stats");
@@ -189,17 +183,10 @@ namespace BotExtended
                 }
             }
 
-            bool randomFaction;
-            if (!BotHelper.Storage.TryGetItemBool(BotHelper.StorageKey("RANDOM_FACTION"), out randomFaction))
-            {
-                randomFaction = Constants.RANDOM_FACTION_DEFAULT_VALUE;
-            }
-            ScriptHelper.PrintMessage("-Random ALL factions: " + randomFaction, ScriptHelper.WARNING_COLOR);
-
             int botCount;
             if (!BotHelper.Storage.TryGetItemInt(BotHelper.StorageKey("BOT_COUNT"), out botCount))
             {
-                botCount = Constants.MAX_BOT_COUNT_DEFAULT_VALUE;
+                botCount = Constants.DEFAULT_MAX_BOT_COUNT;
             }
             ScriptHelper.PrintMessage("-Max bot count: " + botCount, ScriptHelper.WARNING_COLOR);
         }
@@ -265,51 +252,52 @@ namespace BotExtended
                 ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
         }
 
-        private static void SetRandomFaction(IEnumerable<string> arguments)
-        {
-            var firstArg = arguments.FirstOrDefault();
-            if (firstArg == null) return;
-            int value = -1;
-
-            if (firstArg != "0" && firstArg != "1")
-            {
-                ScriptHelper.PrintMessage("--BotExtended random faction--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid value: " + value + "Value is either 1 (true) or 0 (false): ", ScriptHelper.WARNING_COLOR);
-                return;
-            }
-
-            if (int.TryParse(firstArg, out value))
-            {
-                if (value == 1)
-                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_FACTION"), true);
-                if (value == 0)
-                    BotHelper.Storage.SetItem(BotHelper.StorageKey("RANDOM_FACTION"), false);
-                ScriptHelper.PrintMessage("[Botextended] Update successfully");
-            }
-            else
-                ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
-        }
-
         private static void SetFactions(IEnumerable<string> arguments)
         {
+            var allBotFactions = SharpHelper.EnumToList<BotFaction>()
+                .Select((f) => SharpHelper.EnumToString(f))
+                .ToList();
             var botFactions = new List<string>();
+            var excludeFlag = false;
             BotFaction botFaction;
 
-            foreach (var query in arguments)
+            if (arguments.Count() == 0)
             {
-                if (SharpHelper.TryParseEnum(query, out botFaction))
+                ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid command: Argument is empty", ScriptHelper.WARNING_COLOR);
+                return;
+            }
+            if (arguments.Count() == 1 && arguments.Single() == "all")
+            {
+                botFactions = allBotFactions;
+            }
+            else
+            {
+                if (arguments.First() == "-e")
                 {
-                    botFactions.Add(SharpHelper.EnumToString(botFaction));
+                    excludeFlag = true;
+                    arguments = arguments.Skip(1);
                 }
-                else
+                foreach (var arg in arguments)
                 {
-                    ScriptHelper.PrintMessage("--BotExtended select--", ScriptHelper.ERROR_COLOR);
-                    ScriptHelper.PrintMessage("Invalid query: " + query, ScriptHelper.WARNING_COLOR);
-                    return;
+                    if (SharpHelper.TryParseEnum(arg, out botFaction))
+                    {
+                        botFactions.Add(SharpHelper.EnumToString(botFaction));
+                    }
+                    else
+                    {
+                        ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: " + arg, ScriptHelper.WARNING_COLOR);
+                        return;
+                    }
                 }
             }
 
-            botFactions.Sort();
+            if (excludeFlag)
+            {
+                botFactions = allBotFactions.Where((f) => !botFactions.Contains(f)).ToList();
+            }
+
             BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTIONS"), botFactions.Distinct().ToArray());
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }

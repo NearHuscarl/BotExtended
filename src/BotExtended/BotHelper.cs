@@ -138,41 +138,30 @@ namespace BotExtended
 
             InitRandomSeed();
 
-            bool randomFaction;
-            if (!Storage.TryGetItemBool(StorageKey("RANDOM_FACTION"), out randomFaction))
-            {
-                randomFaction = Constants.RANDOM_FACTION_DEFAULT_VALUE;
-            }
-
             int botCount;
             if (!Storage.TryGetItemInt(StorageKey("BOT_COUNT"), out botCount))
             {
-                botCount = Constants.MAX_BOT_COUNT_DEFAULT_VALUE;
+                botCount = Constants.DEFAULT_MAX_BOT_COUNT;
             }
 
             botCount = (int)MathHelper.Clamp(botCount, 1, 10);
             var botSpawnCount = Math.Min(botCount, m_playerSpawners.Count);
             var botFactions = new List<BotFaction>();
 
-            if (randomFaction) // Random all bot factions
+            string[] factions = null;
+            if (!Storage.TryGetItemStringArr(StorageKey("BOT_FACTIONS"), out factions))
             {
-                botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList();
+                factions = Constants.DEFAULT_FACTIONS;
             }
-            else // Random selected bot factions from user settings
+
+            if (factions.Count() == 1 && factions.Single() == "all")
             {
-                string[] selectedFactions = null;
-                if (!Storage.TryGetItemStringArr(StorageKey("BOT_FACTIONS"), out selectedFactions))
-                {
-                    ScriptHelper.PrintMessage(
-                        "Error when retrieving bot factions to spawn. Default to randomize all bot factions",
-                        ScriptHelper.ERROR_COLOR);
-                    botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList();
-                }
-                else
-                {
-                    foreach (var faction in selectedFactions)
-                        botFactions.Add(SharpHelper.StringToEnum<BotFaction>(faction));
-                }
+                botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList(); // Random all bot factions
+            }
+            else // Random user-defined faction list
+            {
+                foreach (var faction in factions)
+                    botFactions.Add(SharpHelper.StringToEnum<BotFaction>(faction));
             }
 
             if (!Game.IsEditorTest)
@@ -181,6 +170,9 @@ namespace BotExtended
             }
             else
             {
+                SpawnRandomFaction(botSpawnCount, botFactions);
+                return;
+
                 //SpawnRandomFaction(botSpawnCount, botFactions);
                 //IPlayer player = null;
                 SpawnFaction(BotFaction.Boss_Ninja, botSpawnCount, 1);

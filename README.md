@@ -246,24 +246,11 @@ How it works: On startup of every round, the script will search for the number o
 /be bc 2
 ```
 
-### `random`
-
-Usage: `/<botextended|be> [random|r] <0|1>`
-
-Whether to randomize *all* `BotFaction`s or not.
-
-If the first argument is 1, randomize *all* `BotFaction`s and select one for each rounds. Otherwise, a list of user-defined `BotFaction`s will be randomized instead. The user-defined `BotFaction`s can be customized by [`faction`](#faction) command.
-
-```
-/be r 0
-/be r 1
-```
-
 ### `faction`
 
-Usage: `/<botextended|be> [faction|f] <faction names|indexes>`
+Usage: `/<botextended|be> [faction|f] [-e] <names|indexes|all>`
 
-Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. This option will be disregarded if [`random`](#random) is set to 1 (randomize all `BotFaction`s)
+Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exlude those `BotFaction`s instead
 
 ```bash
 /be f sniper thug boss_jo boss_hacker
@@ -275,10 +262,21 @@ You can use index for `BotFaction` name to shorten the command. See [`listfactio
 /be f 11 13 202 203
 ```
 
-To select one single `BotFaction` to spawn for every round, simply turn off [`random`](#random) option and select that `BotFaction` only
+Select all factions
+
+```
+/be f all
+```
+
+Select all except zombie factions
+
+```
+/be f -e Zombie ZombieHard Boss_Zombie
+```
+
+To select one single `BotFaction` to spawn for every round, simply select that `BotFaction` only
 
 ```bash
-/be r 0
 /be f biker
 ```
 
