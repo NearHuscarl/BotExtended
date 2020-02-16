@@ -36,7 +36,6 @@ namespace BotExtended.Group
             var subGroupCount = 0;
             var groupCountRemaining = groupCount;
             var mobCount = HasBoss ? groupCount - 1 : groupCount;
-            var newBots = new List<Bot>();
 
             foreach (var subGroup in SubGroups)
             {
@@ -51,9 +50,8 @@ namespace BotExtended.Group
                     while (groupCountRemaining > 0 && (botCountRemainingThisType > 0 || subGroupCount == SubGroups.Count))
                     {
                         var botType = subGroup.GetRandomType();
-                        var bot = BotHelper.SpawnBot(botType);
 
-                        newBots.Add(bot);
+                        BotHelper.SpawnBot(botType);
                         groupCountRemaining--;
                         botCountRemainingThisType--;
                     }
@@ -61,16 +59,10 @@ namespace BotExtended.Group
                 else
                 {
                     var botType = subGroup.GetRandomType();
-                    var bot = BotHelper.SpawnBot(botType, null, true, true, BotHelper.BotTeam, true);
 
-                    newBots.Add(bot);
+                    BotHelper.SpawnBot(botType, null, true, true, BotHelper.BotTeam, true);
                     groupCountRemaining--;
                 }
-            }
-
-            foreach (var bot in newBots.ToList())
-            {
-                bot.OnSpawn(newBots);
             }
         }
     }

@@ -3,10 +3,21 @@
 This script adds a wide variety of bots to spice up combat. It is currently
 under development and maybe full of bugs :bug:
 
+<!-- ## Features
+- **Large variety of bots**: 60+ new bots for you to fight. No more having to fight hard and expert bots all the time.
+- **Bot faction:** Bots will be spawned in many different factions: Thug, Police, Soldier, Assassin, Zombie... to keep you engaging every round.
+- **Bosses with special abilities:** Multiple bosses that have special abilities and unique starting weapons to ramp up challenge if you are getting bored of winning expert bots in vanilla.
+- **Reaction with dialogue:** Bots can have dialogues depend on the context and evironment around it
+- **Special weapons**: Some bots have special weapons that can not be found otherwise. Kill it and get the big reward or die trying! -->
+
 ## Getting Started
 
 - Download [this file](src/BotExtended/BotExtended.txt)
 - Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
+
+<!-- ## Factions
+ -->
+
 
 ## Script Commands
 
@@ -193,9 +204,9 @@ Display current script settings
 /be s
 ```
 
-### `spawn`
+### `create`
 
-Usage: `/<botextended|be> [spawn|sp] <BotType> [1|2|3|4|_] [Count]`
+Usage: `/<botextended|be> [create|c] <BotType> [1|2|3|4|_] [Count]`
 
 Spawn one or a group of bots. First argument is `BotType`. See [`listbot`](#listbot) to list all `BotType`s. This is the only required argument
 
@@ -208,19 +219,19 @@ Third argument is number of bot to spawn. Default to 1
 Spawn one funnyman
 
 ```
-/be sp funnyman
+/be c funnyman
 ```
 
 Spawn 5 metrocops at Team 2
 
 ```
-/be sp 34 2 5
+/be c 34 2 5
 ```
 
 Spawn 3 bandidos independently
 
 ```
-/be sp bandido _ 3
+/be c bandido _ 3
 ```
 
 ### `botcount`
@@ -271,13 +282,13 @@ To select one single `BotGroup` to spawn for every round, simply turn off [`rand
 /be g biker
 ```
 
-### `decorate`
+### `setplayer`
 
-Usage: `/<botextended|be> [decorate|d] <player> <BotType>`
+Usage: `/<botextended|be> [setplayer|sp] <player> <BotType>`
 
-Change player outfit, weapons and modifiers to the same as `BotType`. Player argument can be either name or slot index. Type `/listplayers`
+Set player outfit, weapons and modifiers to the same as `BotType`. Player argument can be either name or slot index. Type `/listplayers`
 to see the list of players and their respective indexes.
 
 ```
-/be d 0 funnyman
+/be sp 0 funnyman
 ```

@@ -19,7 +19,7 @@ namespace BotExtended
                         botInfo.SearchItems = SearchItems.Secondary;
                     if (botType == BotType.Soldier || botType == BotType.Soldier2)
                         botInfo.SearchItems = SearchItems.Primary;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -35,7 +35,7 @@ namespace BotExtended
                 case BotType.AssassinMelee:
                 {
                     botInfo.AIType = BotAI.MeleeHard;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -50,7 +50,7 @@ namespace BotExtended
                 case BotType.AssassinRange:
                 {
                     botInfo.AIType = BotAI.RangeHard;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -68,7 +68,7 @@ namespace BotExtended
                 case BotType.ClownBoxer:
                 {
                     botInfo.AIType = BotAI.Hulk;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 110,
                         CurrentHealth = 110,
@@ -87,7 +87,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 1f;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -111,7 +111,7 @@ namespace BotExtended
                 case BotType.ThugHulk:
                 {
                     botInfo.AIType = BotAI.Hulk;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 150,
                         CurrentHealth = 150,
@@ -133,7 +133,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 0.5f;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -160,7 +160,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 1f;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 70,
                         CurrentHealth = 70,
@@ -182,7 +182,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 1f;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 1000,
                         CurrentHealth = 70, // Fake blood on the face to make it look like the infected
@@ -199,7 +199,7 @@ namespace BotExtended
                 case BotType.Sniper:
                 {
                     botInfo.AIType = BotAI.Sniper;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 60,
                         CurrentHealth = 60,
@@ -226,7 +226,7 @@ namespace BotExtended
                 case BotType.ZombieWorker:
                 {
                     botInfo.AIType = BotAI.ZombieSlow;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 60,
                         CurrentHealth = 60,
@@ -245,7 +245,7 @@ namespace BotExtended
                 case BotType.ZombieChild:
                 {
                     botInfo.AIType = BotAI.ZombieFast;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 35,
                         CurrentHealth = 35,
@@ -265,7 +265,7 @@ namespace BotExtended
                 case BotType.ZombieFat:
                 {
                     botInfo.AIType = BotAI.ZombieSlow;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 20,
                         CurrentHealth = 20,
@@ -283,7 +283,7 @@ namespace BotExtended
                 case BotType.ZombieFlamer:
                 {
                     botInfo.AIType = BotAI.ZombieFast;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 35,
                         CurrentHealth = 35,
@@ -302,7 +302,7 @@ namespace BotExtended
                 case BotType.ZombieBruiser:
                 {
                     botInfo.AIType = BotAI.ZombieHulk;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 125,
                         CurrentHealth = 125,
@@ -324,7 +324,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.RangeHard;
                     botInfo.SearchItems = SearchItems.Primary | SearchItems.Health;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 150,
                         CurrentHealth = 150,
@@ -345,7 +345,7 @@ namespace BotExtended
                 case BotType.Fritzliebe:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 200,
                         CurrentHealth = 200,
@@ -360,7 +360,7 @@ namespace BotExtended
                 case BotType.Funnyman:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 250,
                         CurrentHealth = 250,
@@ -375,7 +375,7 @@ namespace BotExtended
                 case BotType.Hacker:
                 {
                     botInfo.AIType = BotAI.Hacker;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 125,
                         CurrentHealth = 125,
@@ -392,7 +392,7 @@ namespace BotExtended
                 case BotType.Incinerator:
                 {
                     botInfo.AIType = BotAI.Hard;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 250,
                         CurrentHealth = 250,
@@ -409,7 +409,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.MeleeExpert;
                     botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 250,
                         CurrentHealth = 250,
@@ -424,7 +424,7 @@ namespace BotExtended
                 case BotType.Kingpin:
                 {
                     botInfo.AIType = BotAI.Hard;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 250,
                         CurrentHealth = 250,
@@ -439,7 +439,7 @@ namespace BotExtended
                 case BotType.Kriegbär:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 350,
                         CurrentHealth = 350,
@@ -461,7 +461,7 @@ namespace BotExtended
                 case BotType.Meatgrinder:
                 {
                     botInfo.AIType = BotAI.Meatgrinder;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 250,
                         CurrentHealth = 250,
@@ -484,7 +484,7 @@ namespace BotExtended
                 case BotType.Mecha:
                 {
                     botInfo.AIType = BotAI.Hulk;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 400,
                         CurrentHealth = 400,
@@ -508,7 +508,7 @@ namespace BotExtended
                 case BotType.MetroCop2:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 110,
                         CurrentHealth = 110,
@@ -526,7 +526,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Ninja;
                     botInfo.SearchItems = SearchItems.Melee;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 200,
                         CurrentHealth = 200,
@@ -548,7 +548,7 @@ namespace BotExtended
                 case BotType.Teddybear:
                 {
                     botInfo.AIType = BotAI.Hulk;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 400,
                         CurrentHealth = 400,
@@ -569,7 +569,7 @@ namespace BotExtended
                 case BotType.Babybear:
                 {
                     botInfo.AIType = BotAI.Easy;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 50,
                         CurrentHealth = 50,
@@ -586,7 +586,7 @@ namespace BotExtended
                 case BotType.Santa:
                 {
                     botInfo.AIType = BotAI.Hard; // ChallengeA
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 200,
                         CurrentHealth = 200,
@@ -606,7 +606,7 @@ namespace BotExtended
                 case BotType.ZombieFighter:
                 {
                     botInfo.AIType = BotAI.ZombieFighter;
-                    botInfo.Modifiers = new PlayerModifiers()
+                    botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = 200,
                         CurrentHealth = 200,

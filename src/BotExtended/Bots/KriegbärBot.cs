@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BotExtended.Bots
 {
     public class KriegbärBot : Bot
     {
-        public override void OnSpawn(List<Bot> others)
+        public override void OnSpawn(IEnumerable<Bot> others)
         {
             var behavior = Player.GetBotBehaviorSet();
             behavior.RangedWeaponUsage = false;
@@ -13,7 +14,7 @@ namespace BotExtended.Bots
             behavior.ChaseRange = 32;
             Player.SetBotBehaviorSet(behavior);
 
-            var fritzliebe = others.Find(Q => Q.Type == BotType.Fritzliebe);
+            var fritzliebe = others.FirstOrDefault(Q => Q.Type == BotType.Fritzliebe);
             if (fritzliebe.Player == null) return;
 
             Player.SetGuardTarget(fritzliebe.Player);

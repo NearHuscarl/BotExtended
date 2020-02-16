@@ -6,7 +6,7 @@ namespace BotExtended.Bots
 {
     public class IncineratorBot : Bot
     {
-        public override void OnSpawn(List<Bot> bots)
+        public override void OnSpawn(IEnumerable<Bot> bots)
         {
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;

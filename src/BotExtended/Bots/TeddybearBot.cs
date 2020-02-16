@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using static BotExtended.GameScript;
 using static BotExtended.Library.Mocks.MockObjects;
+using System.Linq;
 
 namespace BotExtended.Bots
 {
@@ -19,11 +20,11 @@ namespace BotExtended.Bots
             "It's not my fault",
         };
 
-        public override void OnSpawn(List<Bot> others)
+        public override void OnSpawn(IEnumerable<Bot> others)
         {
             IsEnraged = false;
 
-            if (others.Count >= 1) // has cults
+            if (others.Count() >= 1) // has cults
                 Player.SetBotName("Mommy Bear");
 
             var behavior = Player.GetBotBehaviorSet();

@@ -238,8 +238,18 @@ namespace BotExtended
             var group = groupSet.Groups[rndGroupIndex];
 
             group.Spawn(botCount);
+
+            foreach (var bot in m_bots.Values.ToList())
+            {
+                TriggerOnSpawn(bot);
+            }
             CurrentBotGroup = rndBotGroup;
             CurrentGroupSetIndex = rndGroupIndex;
+        }
+
+        public static void TriggerOnSpawn(Bot bot)
+        {
+            bot.OnSpawn(m_bots.Values);
         }
 
         // Spawn exact group for debugging purpose. Usually you random the group before every match
@@ -516,24 +526,6 @@ namespace BotExtended
             return bot;
         }
 
-        public static void Decorate(IPlayer player, BotType botType)
-        {
-            var info = GetInfo(botType);
-            var weaponSet = WeaponSet.Empty;
-
-            if (RandomHelper.Between(0f, 1f) < info.EquipWeaponChance)
-            {
-                weaponSet = RandomHelper.GetItem(GetWeapons(botType));
-            }
-            weaponSet.Equip(player);
-
-            var profile = RandomHelper.GetItem(GetProfiles(botType));
-
-            player.SetProfile(profile);
-            player.SetBotName(profile.Name);
-            player.SetModifiers(info.Modifiers);
-        }
-
         public static Bot SpawnBot(
             BotType botType,
             IPlayer player = null,
@@ -576,7 +568,8 @@ namespace BotExtended
             player.SetTeam(team);
 
             var bot = BotFactory.Create(player, botType, info);
-            m_bots.Add(player.CustomID, bot);
+            bot.SaySpawnLine();
+            m_bots[player.CustomID] = bot;
 
             return bot;
         }

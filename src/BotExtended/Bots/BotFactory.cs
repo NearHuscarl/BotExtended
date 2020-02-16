@@ -63,7 +63,6 @@ namespace BotExtended.Bots
             bot.Player = player;
             bot.Type = botType;
             bot.Info = info;
-            bot.SaySpawnLine();
 
             return bot;
         }

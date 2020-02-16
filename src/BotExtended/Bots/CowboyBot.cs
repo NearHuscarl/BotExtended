@@ -4,7 +4,7 @@ namespace BotExtended.Bots
 {
     public class CowboyBot : Bot
     {
-        public override void OnSpawn(List<Bot> bots)
+        public override void OnSpawn(IEnumerable<Bot> bots)
         {
             // The fastest fighters in sfd universe
             var behavior = Player.GetBotBehaviorSet();

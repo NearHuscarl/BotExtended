@@ -12,7 +12,7 @@ namespace BotExtended.Bots
         public static int EnrageTime = 30; // seconds
         public int m_enrageCount = 0;
 
-        public override void OnSpawn(List<Bot> others)
+        public override void OnSpawn(IEnumerable<Bot> others)
         {
             var names = new Queue<string>(new[] { "Timmy", "Jimmy" });
             UpdateInterval = 0;

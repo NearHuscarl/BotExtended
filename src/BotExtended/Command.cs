@@ -62,9 +62,9 @@ namespace BotExtended
                     SetBotCount(arguments);
                     break;
 
-                case "sp":
-                case "spawn":
-                    SpawnNewBot(arguments);
+                case "c":
+                case "create":
+                    CreateNewBot(arguments);
                     break;
 
                 case "r":
@@ -77,9 +77,9 @@ namespace BotExtended
                     SelectGroup(arguments);
                     break;
 
-                case "d":
-                case "decorate":
-                    DecoratePlayer(arguments);
+                case "sp":
+                case "setplayer":
+                    SetPlayer(arguments);
                     break;
 
                 case "st":
@@ -114,11 +114,11 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [listbot|lb]: List all bot types");
             ScriptHelper.PrintMessage("/<botextended|be> [find|f|/] <query>: Find all bot groups that match query");
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
-            ScriptHelper.PrintMessage("/<botextended|be> [spawn|sp] <BotType> [Team|_] [Count]: Spawn bot");
+            ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [random|r] <0|1>: Random all groups at startup if set to 1. This option will disregard the current group list");
             ScriptHelper.PrintMessage("/<botextended|be> [group|g] <group names|indexes>: Choose a list of group by either name or index to randomly spawn on startup");
-            ScriptHelper.PrintMessage("/<botextended|be> [decorate|d] <player> <BotType>: Change <player> outfit, weapons and modifiers to <BotType>");
+            ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot groups stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot groups stats");
         }
@@ -205,7 +205,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("-Max bot count: " + botCount, ScriptHelper.WARNING_COLOR);
         }
 
-        private static void SpawnNewBot(IEnumerable<string> arguments)
+        private static void CreateNewBot(IEnumerable<string> arguments)
         {
             var query = arguments.FirstOrDefault();
             if (query == null) return;
@@ -315,7 +315,12 @@ namespace BotExtended
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
-        public static void DecoratePlayer(IEnumerable<string> arguments)
+        private static void CreateBot(IPlayer player, BotType bt)
+        {
+            var bot = BotHelper.SpawnBot(bt, player, true, true, player.GetTeam());
+            BotHelper.TriggerOnSpawn(bot);
+        }
+        public static void SetPlayer(IEnumerable<string> arguments)
         {
             if (arguments.Count() < 2)
             {
@@ -323,7 +328,6 @@ namespace BotExtended
                 ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
                 return;
             }
-
             var playerArg = string.Join(" ", arguments.Take(arguments.Count() - 1));
             var botTypeArg = arguments.Last();
             BotType botType;
@@ -346,14 +350,14 @@ namespace BotExtended
                 {
                     if (playerSlotIndex == playerIndex)
                     {
-                        BotHelper.Decorate(player, botType);return;
+                        CreateBot(player, botType);return;
                     }
                 }
                 else
                 {
                     if (player.Name.ToLower() == playerArg)
                     {
-                        BotHelper.Decorate(player, botType);return;
+                        CreateBot(player, botType);return;
                     }
                 }
             }

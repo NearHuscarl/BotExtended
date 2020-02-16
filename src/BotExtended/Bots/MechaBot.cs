@@ -31,7 +31,7 @@ namespace BotExtended.Bots
             IsSuperCharging = false;
         }
 
-        public override void OnSpawn(List<Bot> others)
+        public override void OnSpawn(IEnumerable<Bot> others)
         {
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;
