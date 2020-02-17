@@ -10,6 +10,7 @@ namespace BotExtended
     {
         public readonly int BotCount;
         public readonly int FactionRotationInterval;
+        public bool FactionRotationEnabled { get { return FactionRotationInterval != 0; } }
         public readonly int RoundsUntilFactionRotation;
         public readonly List<BotFaction> BotFactions;
         public readonly BotFaction CurrentFaction;

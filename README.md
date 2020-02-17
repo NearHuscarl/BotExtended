@@ -274,18 +274,18 @@ Select all except zombie factions
 /be f -e Zombie ZombieHard Boss_Zombie
 ```
 
-To select one single `BotFaction` to spawn for every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `1`
+To select one `BotFaction` to spawn every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `0` to disable rotation
 
 ```bash
-/be fr 1
+/be fr 0
 /be f biker
 ```
 
 ### `factionrotation`
 
-Usage: `/<botextended|be> [factionrotation|fr] <1-10>`
+Usage: `/<botextended|be> [factionrotation|fr] <0-10>`
 
-Set faction rotation interval for every n rounds
+Set faction rotation interval for every n rounds. Set `0` to disable rotation
 
 ```
 /be fr 4

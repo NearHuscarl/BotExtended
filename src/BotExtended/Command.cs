@@ -192,8 +192,11 @@ namespace BotExtended
                 ScriptHelper.PrintMessage(index + ": " + botFaction);
             }
 
-            ScriptHelper.PrintMessage("-Faction rotation interval: " + settings.FactionRotationInterval, ScriptHelper.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Rounds until rotation: " + settings.RoundsUntilFactionRotation, ScriptHelper.WARNING_COLOR);
+            var rotationInterval = settings.FactionRotationEnabled ? settings.FactionRotationInterval.ToString() : "Disabled";
+            var roundsUntilRotation = settings.FactionRotationEnabled ? settings.RoundsUntilFactionRotation.ToString() : "N/a";
+
+            ScriptHelper.PrintMessage("-Faction rotation interval: " + rotationInterval, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Current faction: " + settings.CurrentFaction, ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
         }
@@ -317,7 +320,7 @@ namespace BotExtended
 
             if (int.TryParse(firstArg, out value))
             {
-                value = (int)MathHelper.Clamp(value, 1, 10);
+                value = (int)MathHelper.Clamp(value, 0, 10);
                 BotHelper.Storage.SetItem(BotHelper.StorageKey("FACTION_ROTATION_INTERVAL"), value);
                 BotHelper.Storage.SetItem(BotHelper.StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), value);
                 ScriptHelper.PrintMessage("[Botextended] Update successfully");

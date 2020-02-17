@@ -160,11 +160,14 @@ namespace BotExtended
                 CurrentBotFaction = settings.CurrentFaction;
             }
 
-            var roundTillNextFactionRotation = settings.RoundsUntilFactionRotation <= 1 ?
-                settings.FactionRotationInterval
-                :
-                settings.RoundsUntilFactionRotation - 1;
-            Storage.SetItem(StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), roundTillNextFactionRotation);
+            if (settings.FactionRotationEnabled)
+            {
+                var roundTillNextFactionRotation = settings.RoundsUntilFactionRotation == 1 ?
+                    settings.FactionRotationInterval
+                    :
+                    settings.RoundsUntilFactionRotation - 1;
+                Storage.SetItem(StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), roundTillNextFactionRotation);
+            }
 
             var botSpawnCount = Math.Min(settings.BotCount, m_playerSpawners.Count);
 

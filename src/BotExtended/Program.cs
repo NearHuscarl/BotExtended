@@ -26,6 +26,7 @@ namespace BotExtended
             try
             {
                 //System.Diagnostics.Debugger.Break();
+                BotHelper.Initialize();
 
                 if (Game.IsEditorTest)
                 {
@@ -40,19 +41,17 @@ namespace BotExtended
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
-                    player.GiveWeaponItem(WeaponItem.BAZOOKA);
+                    player.GiveWeaponItem(WeaponItem.M60);
                     player.GiveWeaponItem(WeaponItem.MOLOTOVS);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
+
+                    //Game.SetCurrentCameraMode(CameraMode.Dynamic);
+                    //Command.SetPlayer(new List<string>() { "player 2", "ClownBodyguard" });
+                    //Command.SetPlayer(new List<string>() { "player 3", "ClownBoxer" });
+                    //Command.SetPlayer(new List<string>() { "player 4", "ClownCowboy" });
+                    //Command.SetPlayer(new List<string>() { "player 5", "ClownGangster" });
+                    //Command.SetPlayer(new List<string>() { "player 6", "Funnyman" });
                 }
-
-                BotHelper.Initialize();
-
-                //Game.SetCurrentCameraMode(CameraMode.Dynamic);
-                //Command.DecoratePlayer(new List<string>() { "player 2", "ClownBodyguard" });
-                //Command.DecoratePlayer(new List<string>() { "player 3", "ClownBoxer" });
-                //Command.DecoratePlayer(new List<string>() { "player 4", "ClownCowboy" });
-                //Command.DecoratePlayer(new List<string>() { "player 5", "ClownGangster" });
-                //Command.DecoratePlayer(new List<string>() { "player 6", "Funnyman" });
             }
             catch (Exception e)
             {
