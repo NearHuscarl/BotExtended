@@ -67,12 +67,13 @@
     <Compile Include="Bots\ZombieFlamerBot.cs" />
     <Compile Include="BotType.cs" />
     <Compile Include="BotWeapons.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Faction\BotFaction.cs" />
-    <Compile Include="Faction\Faction.cs" />
-    <Compile Include="Faction\FactionSet.cs" />
-    <Compile Include="Faction\SubFaction.cs" />
+    <Compile Include="Factions\BotFaction.cs" />
+    <Compile Include="Factions\Faction.cs" />
+    <Compile Include="Factions\FactionSet.cs" />
+    <Compile Include="Factions\SubFaction.cs" />
     <Compile Include="PlayerSpawner.cs" />
     <Compile Include="WeaponSet.cs" />
     <Compile Include="ZombieStatus.cs" />

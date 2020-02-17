@@ -16,8 +16,7 @@ namespace BotExtended.Library
 
         public static void PrintMessage(string message, Color? color = null)
         {
-            if (color == null) color = MESSAGE_COLOR;
-            Game.ShowChatMessage(message, (Color)color);
+            Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
         public static void Timeout(Action callback, uint interval)

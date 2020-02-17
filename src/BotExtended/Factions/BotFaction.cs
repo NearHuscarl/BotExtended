@@ -1,4 +1,4 @@
-﻿namespace BotExtended.Faction
+﻿namespace BotExtended.Factions
 {
     public enum BotFaction
     {

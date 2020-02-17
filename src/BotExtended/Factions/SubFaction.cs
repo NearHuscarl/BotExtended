@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.GameScript;
 
-namespace BotExtended.Faction
+namespace BotExtended.Factions
 {
     public class SubFaction
     {

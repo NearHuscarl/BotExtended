@@ -1,6 +1,6 @@
 ﻿using SFDGameScriptInterface;
 using BotExtended.Bots;
-using BotExtended.Faction;
+using BotExtended.Factions;
 using BotExtended.Library;
 using System;
 using System.Collections.Generic;
@@ -138,44 +138,47 @@ namespace BotExtended
 
             InitRandomSeed();
 
-            int botCount;
-            if (!Storage.TryGetItemInt(StorageKey("BOT_COUNT"), out botCount))
-            {
-                botCount = Constants.DEFAULT_MAX_BOT_COUNT;
-            }
+            var settings = Settings.Get();
 
-            botCount = (int)MathHelper.Clamp(botCount, 1, 10);
-            var botSpawnCount = Math.Min(botCount, m_playerSpawners.Count);
-            var botFactions = new List<BotFaction>();
+            if (settings.RoundsUntilFactionRotation == 1 || settings.UnknownCurrentFaction)
+            {
+                List<BotFaction> botFactions;
 
-            string[] factions = null;
-            if (!Storage.TryGetItemStringArr(StorageKey("BOT_FACTIONS"), out factions))
-            {
-                factions = Constants.DEFAULT_FACTIONS;
-            }
+                if (settings.BotFactions.Count > 1)
+                    botFactions = settings.BotFactions
+                        .Where((f) => f != settings.CurrentFaction)
+                        .ToList();
+                else
+                    botFactions = settings.BotFactions;
 
-            if (factions.Count() == 1 && factions.Single() == "all")
-            {
-                botFactions = SharpHelper.GetArrayFromEnum<BotFaction>().ToList(); // Random all bot factions
-            }
-            else // Random user-defined faction list
-            {
-                foreach (var faction in factions)
-                    botFactions.Add(SharpHelper.StringToEnum<BotFaction>(faction));
-            }
-
-            if (!Game.IsEditorTest)
-            {
-                SpawnRandomFaction(botSpawnCount, botFactions);
+                CurrentBotFaction = RandomFaction(botFactions, settings.BotCount);
+                Storage.SetItem(StorageKey("CURRENT_FACTION"), SharpHelper.EnumToString(CurrentBotFaction));
+                ScriptHelper.PrintMessage("Change faction to " + CurrentBotFaction);
             }
             else
             {
-                SpawnRandomFaction(botSpawnCount, botFactions);
+                CurrentBotFaction = settings.CurrentFaction;
+            }
+
+            var roundTillNextFactionRotation = settings.RoundsUntilFactionRotation <= 1 ?
+                settings.FactionRotationInterval
+                :
+                settings.RoundsUntilFactionRotation - 1;
+            Storage.SetItem(StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), roundTillNextFactionRotation);
+
+            var botSpawnCount = Math.Min(settings.BotCount, m_playerSpawners.Count);
+
+            if (!Game.IsEditorTest)
+            {
+                SpawnRandomFaction(CurrentBotFaction, botSpawnCount);
+            }
+            else
+            {
+                SpawnRandomFaction(CurrentBotFaction, botSpawnCount);
                 return;
 
                 //SpawnRandomFaction(botSpawnCount, botFactions);
                 //IPlayer player = null;
-                SpawnFaction(BotFaction.Boss_Ninja, botSpawnCount, 1);
                 //Game.GetPlayers()[0].SetProfile(GetProfiles(BotType.Mecha).First());
                 Game.GetPlayers()[0].SetModifiers(new PlayerModifiers()
                 {
@@ -212,7 +215,7 @@ namespace BotExtended
             }
         }
 
-        private static void SpawnRandomFaction(int botCount, List<BotFaction> botFactions)
+        private static BotFaction RandomFaction(List<BotFaction> botFactions, int botCount)
         {
             List<BotFaction> filteredBotFactions = null;
             if (botCount < 3) // Too few for a faction, spawn boss instead
@@ -225,30 +228,26 @@ namespace BotExtended
                 filteredBotFactions = botFactions;
 
             var rndBotFaction = RandomHelper.GetItem(filteredBotFactions, "BOT_FACTION");
-            var factionSet = GetFactionSet(rndBotFaction);
+
+            return rndBotFaction;
+        }
+
+        private static void SpawnRandomFaction(BotFaction botFaction, int botCount)
+        {
+            var factionSet = GetFactionSet(botFaction);
             var rndFactionIndex = RandomHelper.Rnd.Next(factionSet.Factions.Count);
             var faction = factionSet.Factions[rndFactionIndex];
 
+            CurrentFactionSetIndex = rndFactionIndex;
             faction.Spawn(botCount);
 
             foreach (var bot in m_bots.Values.ToList())
             {
                 TriggerOnSpawn(bot);
             }
-            CurrentBotFaction = rndBotFaction;
-            CurrentFactionSetIndex = rndFactionIndex;
         }
 
-        public static void TriggerOnSpawn(Bot bot)
-        {
-            bot.OnSpawn(m_bots.Values);
-        }
-
-        // Spawn exact faction for debugging purpose. Usually you random the faction before every match
-        private static void SpawnFaction(BotFaction botFaction, int botCount, int factionIndex = -1)
-        {
-            SpawnRandomFaction(botCount, new List<BotFaction>() { botFaction });
-        }
+        public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(m_bots.Values); }
 
         public static void OnUpdate(float elapsed)
         {
@@ -566,7 +565,9 @@ namespace BotExtended
             return bot;
         }
 
-        public static void StoreStatistics()
+        public static void OnShutdown() { StoreStatistics(); }
+
+        private static void StoreStatistics()
         {
             var factionDead = true;
 

@@ -67,7 +67,7 @@ namespace BotExtended
 
         public void OnShutdown()
         {
-            BotHelper.StoreStatistics();
+            BotHelper.OnShutdown();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using SFDGameScriptInterface;
-using BotExtended.Faction;
+using BotExtended.Factions;
 using System.Collections.Generic;
 
 namespace BotExtended

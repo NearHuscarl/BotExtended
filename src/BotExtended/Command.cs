@@ -1,5 +1,5 @@
 ﻿using SFDGameScriptInterface;
-using BotExtended.Faction;
+using BotExtended.Factions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +71,16 @@ namespace BotExtended
                     SetFactions(arguments);
                     break;
 
+                case "fr":
+                case "factionrotation":
+                    SetFactionRotationInterval(arguments);
+                    break;
+
+                case "nf":
+                case "nextfaction":
+                    SkipCurrentFaction();
+                    break;
+
                 case "sp":
                 case "setplayer":
                     SetPlayer(arguments);
@@ -111,6 +121,8 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
+            ScriptHelper.PrintMessage("/<botextended|be> [factionrotation|fr] <1-10>: Set faction rotation interval for every n rounds");
+            ScriptHelper.PrintMessage("/<botextended|be> [nextfaction|nf]: Change the faction in the currrent faction rotation to the next faction");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot factions stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot factions stats");
@@ -171,24 +183,19 @@ namespace BotExtended
         {
             ScriptHelper.PrintMessage("--BotExtended settings--", ScriptHelper.ERROR_COLOR);
 
-            string[] factions = null;
-            if (BotHelper.Storage.TryGetItemStringArr(BotHelper.StorageKey("BOT_FACTIONS"), out factions))
+            var settings = Settings.Get();
+
+            ScriptHelper.PrintMessage("-Factions", ScriptHelper.WARNING_COLOR);
+            foreach (var botFaction in settings.BotFactions)
             {
-                ScriptHelper.PrintMessage("-Current factions", ScriptHelper.WARNING_COLOR);
-                for (var i = 0; i < factions.Length; i++)
-                {
-                    var botFaction = SharpHelper.StringToEnum<BotFaction>(factions[i]);
-                    var index = (int)botFaction;
-                    ScriptHelper.PrintMessage(index + ": " + factions[i]);
-                }
+                var index = (int)botFaction;
+                ScriptHelper.PrintMessage(index + ": " + botFaction);
             }
 
-            int botCount;
-            if (!BotHelper.Storage.TryGetItemInt(BotHelper.StorageKey("BOT_COUNT"), out botCount))
-            {
-                botCount = Constants.DEFAULT_MAX_BOT_COUNT;
-            }
-            ScriptHelper.PrintMessage("-Max bot count: " + botCount, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Faction rotation interval: " + settings.FactionRotationInterval, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Rounds until rotation: " + settings.RoundsUntilFactionRotation, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Current faction: " + settings.CurrentFaction, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
         }
 
         private static void CreateNewBot(IEnumerable<string> arguments)
@@ -299,6 +306,29 @@ namespace BotExtended
             }
 
             BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTIONS"), botFactions.Distinct().ToArray());
+            ScriptHelper.PrintMessage("[Botextended] Update successfully");
+        }
+
+        private static void SetFactionRotationInterval(IEnumerable<string> arguments)
+        {
+            var firstArg = arguments.FirstOrDefault();
+            if (firstArg == null) return;
+            int value = -1;
+
+            if (int.TryParse(firstArg, out value))
+            {
+                value = (int)MathHelper.Clamp(value, 1, 10);
+                BotHelper.Storage.SetItem(BotHelper.StorageKey("FACTION_ROTATION_INTERVAL"), value);
+                BotHelper.Storage.SetItem(BotHelper.StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), value);
+                ScriptHelper.PrintMessage("[Botextended] Update successfully");
+            }
+            else
+                ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
+        }
+
+        private static void SkipCurrentFaction()
+        {
+            BotHelper.Storage.SetItem(BotHelper.StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), 1);
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 

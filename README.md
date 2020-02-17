@@ -250,7 +250,7 @@ How it works: On startup of every round, the script will search for the number o
 
 Usage: `/<botextended|be> [faction|f] [-e] <names|indexes|all>`
 
-Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exlude those `BotFaction`s instead
+Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exclude those `BotFaction`s instead
 
 ```bash
 /be f sniper thug boss_jo boss_hacker
@@ -274,10 +274,31 @@ Select all except zombie factions
 /be f -e Zombie ZombieHard Boss_Zombie
 ```
 
-To select one single `BotFaction` to spawn for every round, simply select that `BotFaction` only
+To select one single `BotFaction` to spawn for every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `1`
 
 ```bash
+/be fr 1
 /be f biker
+```
+
+### `factionrotation`
+
+Usage: `/<botextended|be> [factionrotation|fr] <1-10>`
+
+Set faction rotation interval for every n rounds
+
+```
+/be fr 4
+```
+
+### `nextfaction`
+
+Usage: `/<botextended|be> [nextfaction|nf]`
+
+Change the faction in the currrent faction rotation to the next faction
+
+```
+/be nf
 ```
 
 ### `setplayer`
