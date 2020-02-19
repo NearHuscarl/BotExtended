@@ -21,11 +21,11 @@ namespace BotExtended
                         botInfo.SearchItems = SearchItems.Primary;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.9f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -37,13 +37,13 @@ namespace BotExtended
                     botInfo.AIType = BotAI.MeleeHard;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.95f,
-                        RunSpeedModifier = 1.25f,
-                        SprintSpeedModifier = 1.4f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        RunSpeedModifier = Speed.VeryFast,
+                        SprintSpeedModifier = Speed.VeryFast,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -52,13 +52,13 @@ namespace BotExtended
                     botInfo.AIType = BotAI.RangeHard;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.95f,
-                        RunSpeedModifier = 1.25f,
-                        SprintSpeedModifier = 1.4f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        RunSpeedModifier = Speed.VeryFast,
+                        SprintSpeedModifier = Speed.VeryFast,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -70,12 +70,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 110,
-                        CurrentHealth = 110,
-                        ProjectileDamageDealtModifier = 0.5f,
-                        MeleeDamageDealtModifier = 1.1f,
-                        MeleeForceModifier = 1.5f,
-                        SizeModifier = 1.15f,
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.VeryLow,
+                        MeleeDamageDealtModifier = DamageDealt.AboveNormal,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        SizeModifier = Size.VeryBig,
                     };
                     break;
                 }
@@ -89,13 +89,13 @@ namespace BotExtended
                     botInfo.EquipWeaponChance = 1f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 1.1f,
-                        MeleeDamageDealtModifier = 0.85f,
-                        RunSpeedModifier = 1.1f,
-                        SprintSpeedModifier = 1.1f,
-                        SizeModifier = 0.9f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.AboveNormal,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyLow,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        SizeModifier = Size.Small,
                     };
                     botInfo.SpawnLine = "Move 'em on, head 'em up...";
                     botInfo.SpawnLineChance = 0.05f;
@@ -113,14 +113,14 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 150,
-                        CurrentHealth = 150,
-                        ProjectileDamageDealtModifier = 0.5f,
-                        MeleeDamageDealtModifier = 1.1f,
-                        MeleeForceModifier = 1.5f,
-                        RunSpeedModifier = 0.75f,
-                        SprintSpeedModifier = 0.75f,
-                        SizeModifier = 1.15f,
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ProjectileDamageDealtModifier = DamageDealt.VeryLow,
+                        MeleeDamageDealtModifier = DamageDealt.AboveNormal,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
+                        SizeModifier = Size.VeryBig,
                     };
                     break;
                 }
@@ -135,11 +135,11 @@ namespace BotExtended
                     botInfo.EquipWeaponChance = 0.5f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.95f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -162,11 +162,11 @@ namespace BotExtended
                     botInfo.EquipWeaponChance = 1f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 70,
-                        CurrentHealth = 70,
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.95f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.BelowNormal,
+                        CurrentHealth = Health.BelowNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -184,11 +184,11 @@ namespace BotExtended
                     botInfo.EquipWeaponChance = 1f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 1000,
-                        CurrentHealth = 70, // Fake blood on the face to make it look like the infected
-                        ProjectileDamageDealtModifier = 0.9f,
-                        MeleeDamageDealtModifier = 0.95f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.Weak * 100, // Fake blood on the face to make it look like the infected
+                        CurrentHealth = Health.Weak,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        MeleeDamageDealtModifier = DamageDealt.BelowNormal,
+                        SizeModifier = Size.BelowNormal,
                     };
                     botInfo.ZombieStatus = ZombieStatus.Infected;
                     break;
@@ -201,14 +201,14 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Sniper;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 60,
-                        CurrentHealth = 60,
-                        ProjectileDamageDealtModifier = 1.15f,
-                        ProjectileCritChanceDealtModifier = 1.15f,
-                        MeleeDamageDealtModifier = 0.85f,
-                        RunSpeedModifier = 0.8f,
-                        SprintSpeedModifier = 0.8f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.Weak,
+                        CurrentHealth = Health.Weak,
+                        ProjectileDamageDealtModifier = DamageDealt.FairlyHigh,
+                        ProjectileCritChanceDealtModifier = DamageDealt.FairlyHigh,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyLow,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
+                        SizeModifier = Size.BelowNormal,
                     };
                     break;
                 }
@@ -228,11 +228,11 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieSlow;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 60,
-                        CurrentHealth = 60,
-                        MeleeDamageDealtModifier = 0.75f,
-                        RunSpeedModifier = 0.75f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.Weak,
+                        CurrentHealth = Health.Weak,
+                        MeleeDamageDealtModifier = DamageDealt.Low,
+                        RunSpeedModifier = Speed.Slow,
+                        SizeModifier = Size.BelowNormal,
                     };
                     botInfo.SpawnLine = "Brainzz";
                     botInfo.SpawnLineChance = 0.1f;
@@ -247,12 +247,13 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieFast;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 35,
-                        CurrentHealth = 35,
-                        MeleeDamageDealtModifier = 0.75f,
-                        RunSpeedModifier = 1.15f,
-                        SprintSpeedModifier = 1.15f,
-                        SizeModifier = 0.85f,
+                        MaxHealth = Health.ExtremelyWeak,
+                        CurrentHealth = Health.ExtremelyWeak,
+                        MeleeDamageDealtModifier = DamageDealt.Low,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
+                        MeleeForceModifier = MeleeForce.Weak,
+                        SizeModifier = Size.VerySmall,
                     };
                     botInfo.SpawnLine = "Brainzz";
                     botInfo.SpawnLineChance = 0.1f;
@@ -267,12 +268,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieSlow;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 20,
-                        CurrentHealth = 20,
-                        MeleeDamageDealtModifier = 1.2f,
-                        RunSpeedModifier = 0.5f,
-                        SprintSpeedModifier = 0.5f,
-                        SizeModifier = 1.25f,
+                        MaxHealth = Health.EmbarrassinglyWeak,
+                        CurrentHealth = Health.EmbarrassinglyWeak,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyHigh,
+                        RunSpeedModifier = Speed.BarelyAny,
+                        SprintSpeedModifier = Speed.BarelyAny,
+                        SizeModifier = Size.Chonky,
                     };
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
                     break;
@@ -285,13 +286,13 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieFast;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 35,
-                        CurrentHealth = 35,
-                        FireDamageTakenModifier = 0.01f,
-                        MeleeDamageDealtModifier = 0.5f,
-                        RunSpeedModifier = 1.15f,
-                        SprintSpeedModifier = 1.15f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.ExtremelyWeak,
+                        CurrentHealth = Health.ExtremelyWeak,
+                        FireDamageTakenModifier = DamageTaken.UltraResistant,
+                        MeleeDamageDealtModifier = DamageDealt.VeryLow,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
+                        SizeModifier = Size.BelowNormal,
                     };
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
                     break;
@@ -304,13 +305,13 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieHulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 125,
-                        CurrentHealth = 125,
-                        MeleeDamageDealtModifier = 1.1f,
-                        MeleeForceModifier = 1.4f,
-                        RunSpeedModifier = 0.75f,
-                        SprintSpeedModifier = 0.75f,
-                        SizeModifier = 1.2f,
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        MeleeDamageDealtModifier = DamageDealt.AboveNormal,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
+                        SizeModifier = Size.ExtremelyBig,
                     };
                     botInfo.SpawnLine = "Brainzz";
                     botInfo.SpawnLineChance = 0.1f;
@@ -326,15 +327,15 @@ namespace BotExtended
                     botInfo.SearchItems = SearchItems.Primary | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 150,
-                        CurrentHealth = 150,
-                        ProjectileDamageDealtModifier = 5.0f,
-                        ProjectileCritChanceDealtModifier = 5.0f,
-                        MeleeDamageDealtModifier = 1.5f,
-                        RunSpeedModifier = 0.5f,
-                        SprintSpeedModifier = 0.5f,
-                        SizeModifier = 0.95f,
-                        InfiniteAmmo = 1,
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ProjectileDamageDealtModifier = DamageDealt.UltraHigh,
+                        ProjectileCritChanceDealtModifier = DamageDealt.UltraHigh,
+                        MeleeDamageDealtModifier = DamageDealt.VeryHigh,
+                        RunSpeedModifier = Speed.BarelyAny,
+                        SprintSpeedModifier = Speed.BarelyAny,
+                        SizeModifier = Size.BelowNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -347,9 +348,9 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Expert;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 200,
-                        CurrentHealth = 200,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        SizeModifier = Size.BelowNormal,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -362,9 +363,9 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Expert;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 250,
-                        CurrentHealth = 250,
-                        SizeModifier = 1.05f,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        SizeModifier = Size.AboveNormal,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -377,11 +378,11 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hacker;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 125,
-                        CurrentHealth = 125,
-                        EnergyConsumptionModifier = 0f,
-                        RunSpeedModifier = 1.1f,
-                        SprintSpeedModifier = 1.1f,
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        EnergyConsumptionModifier = Constants.TOGGLE_OFF,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -394,10 +395,10 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hard;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 250,
-                        CurrentHealth = 250,
-                        FireDamageTakenModifier = 0.25f,
-                        InfiniteAmmo = 1,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        FireDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -411,9 +412,10 @@ namespace BotExtended
                     botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 250,
-                        CurrentHealth = 250,
-                        SizeModifier = 1.1f,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        SizeModifier = Size.Big,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -426,9 +428,9 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hard;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 250,
-                        CurrentHealth = 250,
-                        SizeModifier = 1.05f,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        SizeModifier = Size.AboveNormal,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -441,15 +443,15 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Expert;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 350,
-                        CurrentHealth = 350,
-                        MaxEnergy = 350,
-                        CurrentEnergy = 350,
-                        FireDamageTakenModifier = 1.5f,
-                        MeleeForceModifier = 1.75f,
-                        RunSpeedModifier = 1.1f,
-                        SprintSpeedModifier = 1.1f,
-                        SizeModifier = 1.25f,
+                        MaxHealth = Health.UltraStrong,
+                        CurrentHealth = Health.UltraStrong,
+                        MaxEnergy = Stamina.UltraHigh,
+                        CurrentEnergy = Stamina.UltraHigh,
+                        FireDamageTakenModifier = DamageTaken.VeryVulnerable,
+                        MeleeForceModifier = MeleeForce.VeryStrong,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        SizeModifier = Size.Chonky,
                     };
                     botInfo.IsBoss = true;
                     botInfo.SpawnLine = "HNNNARRRRRRRHHH!";
@@ -463,17 +465,17 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Meatgrinder;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 250,
-                        CurrentHealth = 250,
-                        MaxEnergy = 250,
-                        CurrentEnergy = 250,
-                        ProjectileDamageDealtModifier = 1.5f,
-                        MeleeDamageDealtModifier = 1.5f,
-                        MeleeForceModifier = 1.5f,
-                        RunSpeedModifier = 1.15f,
-                        SprintSpeedModifier = 1.15f,
-                        SizeModifier = 1.1f,
-                        InfiniteAmmo = 1,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        MaxEnergy = Stamina.ExtremelyHigh,
+                        CurrentEnergy = Stamina.ExtremelyHigh,
+                        ProjectileDamageDealtModifier = DamageDealt.VeryHigh,
+                        MeleeDamageDealtModifier = DamageDealt.VeryHigh,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.Fast,
+                        SizeModifier = Size.Big,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -486,17 +488,17 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 400,
-                        CurrentHealth = 400,
-                        ExplosionDamageTakenModifier = 0.2f, // 2000 (400 / 0.2)
-                        ProjectileDamageTakenModifier = 0.5f, // 800
-                        ImpactDamageTakenModifier = 0f,
-                        MeleeForceModifier = 3f,
-                        MeleeStunImmunity = 1,
-                        CanBurn = 0,
-                        RunSpeedModifier = 0.85f,
-                        SprintSpeedModifier = 0.85f,
-                        SizeModifier = 1.2f,
+                        MaxHealth = Health.UltraStrong,
+                        CurrentHealth = Health.UltraStrong,
+                        ExplosionDamageTakenModifier = DamageTaken.ExtremelyResistant, // 1200 (300 / 0.25)
+                        ProjectileDamageTakenModifier = DamageTaken.VeryResistant, // 600
+                        ImpactDamageTakenModifier = DamageTaken.Unbeatable,
+                        MeleeForceModifier = MeleeForce.UltraStrong,
+                        MeleeStunImmunity = Constants.TOGGLE_ON,
+                        CanBurn = Constants.TOGGLE_OFF,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                        SizeModifier = Size.ExtremelyBig,
                     };
                     botInfo.IsBoss = true;
                     botInfo.ImmuneToInfect = true;
@@ -510,11 +512,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Expert;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 110,
-                        CurrentHealth = 110,
-                        RunSpeedModifier = 1.1f,
-                        SprintSpeedModifier = 1.1f,
-                        SizeModifier = 0.95f,
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        SizeModifier = Size.BelowNormal,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -528,14 +531,14 @@ namespace BotExtended
                     botInfo.SearchItems = SearchItems.Melee;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 200,
-                        CurrentHealth = 200,
-                        MeleeDamageDealtModifier = 1.2f,
-                        RunSpeedModifier = 1.5f,
-                        SprintSpeedModifier = 1.5f,
-                        SizeModifier = 0.9f,
-                        EnergyRechargeModifier = 0.85f,
-                        InfiniteAmmo = 1,
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyHigh,
+                        RunSpeedModifier = Speed.ExtremelyFast,
+                        SprintSpeedModifier = Speed.ExtremelyFast,
+                        SizeModifier = Size.Small,
+                        EnergyRechargeModifier = EnergyRecharge.Quick,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     botInfo.SpawnLine = "Tatakai...";
@@ -550,15 +553,15 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 400,
-                        CurrentHealth = 400,
-                        MaxEnergy = 400,
-                        CurrentEnergy = 400,
-                        MeleeDamageDealtModifier = 1.25f,
-                        MeleeForceModifier = 2.0f,
-                        RunSpeedModifier = 0.9f,
-                        SprintSpeedModifier = 0.9f,
-                        SizeModifier = 1.25f,
+                        MaxHealth = Health.UltraStrong,
+                        CurrentHealth = Health.UltraStrong,
+                        MaxEnergy = Stamina.UltraHigh,
+                        CurrentEnergy = Stamina.UltraHigh,
+                        MeleeDamageDealtModifier = DamageDealt.High,
+                        MeleeForceModifier = MeleeForce.ExtremelyStrong,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                        SizeModifier = Size.Chonky,
                     };
                     botInfo.IsBoss = true;
                     break;
@@ -571,11 +574,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Easy;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 50,
-                        CurrentHealth = 50,
-                        RunSpeedModifier = 1.25f,
-                        SprintSpeedModifier = 1.25f,
-                        SizeModifier = 0.75f,
+                        MaxHealth = Health.VeryWeak,
+                        CurrentHealth = Health.VeryWeak,
+                        RunSpeedModifier = Speed.VeryFast,
+                        SprintSpeedModifier = Speed.VeryFast,
+                        MeleeForceModifier = MeleeForce.Weak,
+                        SizeModifier = Size.Tiny,
                     };
                     botInfo.IsBoss = true; // set IsBoss to spawn once
                     break;
@@ -588,12 +592,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hard; // ChallengeA
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 200,
-                        CurrentHealth = 200,
-                        ExplosionDamageTakenModifier = 0.5f,
-                        MeleeForceModifier = 1.5f,
-                        SizeModifier = 1.1f,
-                        InfiniteAmmo = 1,
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        ExplosionDamageTakenModifier = DamageTaken.VeryResistant,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        SizeModifier = Size.Big,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     botInfo.SpawnLine = "Ho ho ho!";
@@ -608,12 +612,12 @@ namespace BotExtended
                     botInfo.AIType = BotAI.ZombieFighter;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = 200,
-                        CurrentHealth = 200,
-                        MeleeDamageDealtModifier = 1.05f,
-                        RunSpeedModifier = 0.95f,
-                        SprintSpeedModifier = 0.95f,
-                        SizeModifier = 1.1f,
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeDamageDealtModifier = DamageDealt.AboveNormal,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                        SizeModifier = Size.Big,
                     };
                     botInfo.IsBoss = true;
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
