@@ -32,9 +32,10 @@ namespace BotExtended.Factions
             }
         }
 
-        public void Spawn(int factionCount)
+        public IEnumerable<Bot> Spawn(int factionCount)
         {
-            if (factionCount == 0) return;
+            var bots = new List<Bot>();
+            if (factionCount == 0) return bots;
 
             var subFactionCount = 0;
             var factionCountRemaining = factionCount;
@@ -53,8 +54,9 @@ namespace BotExtended.Factions
                     while (factionCountRemaining > 0 && (botCountRemainingThisType > 0 || subFactionCount == SubFactions.Count))
                     {
                         var botType = subFaction.GetRandomType();
+                        var bot = BotHelper.SpawnBot(botType, BotFaction);
 
-                        BotHelper.SpawnBot(botType, BotFaction);
+                        bots.Add(bot);
                         factionCountRemaining--;
                         botCountRemainingThisType--;
                     }
@@ -62,11 +64,13 @@ namespace BotExtended.Factions
                 else
                 {
                     var botType = subFaction.GetRandomType();
+                    var bot = BotHelper.SpawnBot(botType, BotFaction, null, true, true, BotHelper.BotTeam, true);
 
-                    BotHelper.SpawnBot(botType, BotFaction, null, true, true, BotHelper.BotTeam, true);
+                    bots.Add(bot);
                     factionCountRemaining--;
                 }
             }
+            return bots;
         }
     }
 }

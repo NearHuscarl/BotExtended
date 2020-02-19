@@ -238,9 +238,9 @@ namespace BotExtended
             var faction = factionSet.Factions[rndFactionIndex];
 
             CurrentFactionSetIndex = rndFactionIndex;
-            faction.Spawn(botCount);
+            var bots = faction.Spawn(botCount);
 
-            foreach (var bot in m_bots.Values.ToList())
+            foreach (var bot in bots)
             {
                 TriggerOnSpawn(bot);
             }
@@ -261,9 +261,14 @@ namespace BotExtended
                 }
             }
 
-            foreach (var bot in m_bots.Values)
+            foreach (var player in Game.GetPlayers())
             {
-                bot.Update(elapsed);
+                var bot = GetExtendedBot(player);
+
+                if (bot != Bot.None)
+                    bot.Update(elapsed);
+                else
+                    Wrap(player); // Normal players that are not extended bots
             }
         }
 
@@ -275,10 +280,12 @@ namespace BotExtended
             {
                 if (!arg.IsPlayer) continue;
 
-                Bot enemy;
-                if (m_bots.TryGetValue(arg.HitObject.CustomID, out enemy))
+                var maybePlayer = arg.HitObject;
+                var bot = GetExtendedBot(maybePlayer);
+
+                if (bot != Bot.None)
                 {
-                    enemy.OnMeleeDamage(attacker, arg);
+                    bot.OnMeleeDamage(attacker, arg);
                 }
             }
         }
@@ -298,10 +305,10 @@ namespace BotExtended
                 attacker = Game.GetPlayer(projectile.OwnerPlayerID);
             }
 
-            Bot enemy;
-            if (m_bots.TryGetValue(player.CustomID, out enemy))
+            var bot = GetExtendedBot(player);
+            if (bot != Bot.None)
             {
-                enemy.OnDamage(attacker, args);
+                bot.OnDamage(attacker, args);
             }
 
             UpdateInfectedStatus(player, attacker, args);
@@ -319,12 +326,6 @@ namespace BotExtended
                 {
                     var extendedBot = GetExtendedBot(player);
 
-                    // Normal players that are not extended bots
-                    if (extendedBot == Bot.None)
-                    {
-                        extendedBot = Wrap(player);
-                    }
-
                     if (!extendedBot.Info.ImmuneToInfect)
                     {
                         Game.PlayEffect(EffectName.CustomFloatText, player.GetWorldPosition(), "infected");
@@ -339,30 +340,29 @@ namespace BotExtended
         {
             if (player == null) return;
 
-            Bot enemy;
-            if (m_bots.TryGetValue(player.CustomID, out enemy))
-            {
-                if (!args.Removed)
-                {
-                    enemy.SayDeathLine();
-                }
-                enemy.OnDeath(args);
-            }
+            var bot = GetExtendedBot(player);
+            if (bot == Bot.None) return;
 
             if (!args.Removed)
             {
-                var bot = GetExtendedBot(player);
+                bot.SayDeathLine();
+            }
+            bot.OnDeath(args);
 
-                if (bot != Bot.None && bot.Info.ZombieStatus == ZombieStatus.Infected)
+            if (!args.Removed)
+            {
+                if (bot.Info.ZombieStatus == ZombieStatus.Infected)
                 {
                     m_infectedCorpses.Add(new InfectedCorpse(player, bot.Faction));
                 }
             }
         }
 
-        public static Bot GetExtendedBot(IPlayer player)
+        public static Bot GetExtendedBot(IObject player)
         {
-            return m_bots.ContainsKey(player.CustomID) ? m_bots[player.CustomID] : Bot.None;
+            Bot bot;
+            if (m_bots.TryGetValue(player.CustomID, out bot)) return bot;
+            return Bot.None;
         }
 
         private static BotType GetZombieType(IPlayer player)
@@ -558,7 +558,7 @@ namespace BotExtended
             player.SetTeam(team);
 
             bot.SaySpawnLine();
-            m_bots[player.CustomID] = bot;
+            m_bots[player.CustomID] = bot; // This may be updated if using setplayer command
 
             return bot;
         }
