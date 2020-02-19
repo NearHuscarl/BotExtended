@@ -115,6 +115,11 @@ namespace BotExtended
             return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botFaction).ToUpperInvariant() + "_" + factionIndex;
         }
 
+        internal static IEnumerable<BotFaction> GetAvailableBotFactions()
+        {
+            return SharpHelper.EnumToList<BotFaction>().Where((f) => f != BotFaction.None);
+        }
+
         public static BotFaction CurrentBotFaction { get; private set; }
         public static int CurrentFactionSetIndex { get; private set; }
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
@@ -318,11 +323,11 @@ namespace BotExtended
         {
             if (!CanInfectFrom(player) && !player.IsBurnedCorpse && attacker != null)
             {
-                var attackerPunching = args.DamageType == PlayerDamageEventType.Melee
+                var directContact = args.DamageType == PlayerDamageEventType.Melee
                     && attacker.CurrentWeaponDrawn == WeaponItemType.NONE
                     && !attacker.IsKicking && !attacker.IsJumpKicking;
 
-                if (CanInfectFrom(attacker) && attackerPunching)
+                if (CanInfectFrom(attacker) && directContact)
                 {
                     var extendedBot = GetExtendedBot(player);
 

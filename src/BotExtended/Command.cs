@@ -136,7 +136,7 @@ namespace BotExtended
 
         private static IEnumerable<string> GetFactionNames()
         {
-            var factions = GetAvailableBotFactions();
+            var factions = BotHelper.GetAvailableBotFactions();
 
             foreach (var faction in factions)
             {
@@ -264,7 +264,7 @@ namespace BotExtended
 
         private static void SetFactions(IEnumerable<string> arguments)
         {
-            var allBotFactions = GetAvailableBotFactions()
+            var allBotFactions = BotHelper.GetAvailableBotFactions()
                 .Select((f) => SharpHelper.EnumToString(f))
                 .ToList();
             var botFactions = new List<string>();
@@ -385,16 +385,11 @@ namespace BotExtended
             ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
         }
 
-        private static IEnumerable<BotFaction> GetAvailableBotFactions()
-        {
-            return SharpHelper.EnumToList<BotFaction>().Where((f) => f != BotFaction.None);
-        }
-
         private static void PrintStatistics()
         {
             ScriptHelper.PrintMessage("--BotExtended statistics--", ScriptHelper.ERROR_COLOR);
 
-            var botFactions = GetAvailableBotFactions();
+            var botFactions = BotHelper.GetAvailableBotFactions();
             ScriptHelper.PrintMessage("[WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
             foreach (var botFaction in botFactions)
             {
@@ -420,7 +415,7 @@ namespace BotExtended
 
         private static void ClearStatistics()
         {
-            var botFactions = GetAvailableBotFactions();
+            var botFactions = BotHelper.GetAvailableBotFactions();
             foreach (var botFaction in botFactions)
             {
                 var factionSet = GetFactionSet(botFaction);
