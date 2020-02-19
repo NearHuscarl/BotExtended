@@ -1,4 +1,4 @@
-using SFDGameScriptInterface;
+﻿using SFDGameScriptInterface;
 using BotExtended.Bots;
 using BotExtended.Factions;
 using BotExtended.Library;
@@ -349,11 +349,14 @@ namespace BotExtended
                 enemy.OnDeath(args);
             }
 
-            var bot = GetExtendedBot(player);
-
-            if (bot != Bot.None && bot.Info.ZombieStatus == ZombieStatus.Infected)
+            if (!args.Removed)
             {
-                m_infectedCorpses.Add(new InfectedCorpse(player, bot.Faction));
+                var bot = GetExtendedBot(player);
+
+                if (bot != Bot.None && bot.Info.ZombieStatus == ZombieStatus.Infected)
+                {
+                    m_infectedCorpses.Add(new InfectedCorpse(player, bot.Faction));
+                }
             }
         }
 

@@ -19,6 +19,8 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
+        public static void LogDebug(string message) { if (Game.IsEditorTest) Game.WriteToConsole(message); }
+
         public static void Timeout(Action callback, uint interval)
         {
             Events.UpdateCallback.Start((float e) => callback.Invoke(), interval, 1);
