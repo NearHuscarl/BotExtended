@@ -14,15 +14,13 @@ namespace BotExtended
         public readonly int RoundsUntilFactionRotation;
         public readonly List<BotFaction> BotFactions;
         public readonly BotFaction CurrentFaction;
-        public readonly bool UnknownCurrentFaction;
 
         public Settings(
             int botCount,
             int factionRotationInterval,
             int roundsUntilFactionRotation,
             List<BotFaction> botFactions,
-            BotFaction currentFaction,
-            bool unknownCurrentFaction
+            BotFaction currentFaction
             )
         {
             BotCount = botCount;
@@ -31,7 +29,6 @@ namespace BotExtended
             BotFactions = botFactions;
             BotFactions = botFactions;
             CurrentFaction = currentFaction;
-            UnknownCurrentFaction = unknownCurrentFaction;
         }
 
         public static Settings Get()
@@ -66,7 +63,7 @@ namespace BotExtended
             var currentFactionKey = BotHelper.StorageKey("CURRENT_FACTION");
             if (!BotHelper.Storage.TryGetItemString(currentFactionKey, out currentFactionStr))
             {
-                currentFactionStr = SharpHelper.EnumToString(BotFaction.Agent);
+                currentFactionStr = SharpHelper.EnumToString(BotFaction.None);
             }
 
             string[] factions = null;
@@ -86,8 +83,7 @@ namespace BotExtended
                 factionRotationInterval,
                 roundsUntilRotation,
                 botFactions,
-                SharpHelper.StringToEnum<BotFaction>(currentFactionStr),
-                string.IsNullOrEmpty(currentFactionStr)
+                SharpHelper.StringToEnum<BotFaction>(currentFactionStr)
             );
         }
     }

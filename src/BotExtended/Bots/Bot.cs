@@ -2,6 +2,7 @@
 using BotExtended.Library;
 using System.Collections.Generic;
 using static BotExtended.Library.Mocks.MockObjects;
+using BotExtended.Factions;
 
 namespace BotExtended.Bots
 {
@@ -19,6 +20,7 @@ namespace BotExtended.Bots
         }
         public IPlayer Player { get; set; }
         public BotType Type { get; set; }
+        public BotFaction Faction { get; set; }
         public BotInfo Info { get; set; }
         public int UpdateInterval { get; set; }
 
@@ -26,13 +28,15 @@ namespace BotExtended.Bots
         {
             Player = null;
             Type = BotType.None;
+            Faction = BotFaction.None;
             Info = new BotInfo();
             UpdateInterval = 100;
         }
-        public Bot(IPlayer player)
+        public Bot(IPlayer player, BotFaction faction = BotFaction.None)
         {
             Player = player;
             Type = BotType.None;
+            Faction = faction;
             Info = new BotInfo(player);
         }
 

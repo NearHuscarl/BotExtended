@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            var factionSet = new FactionSet();
+            var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
             {

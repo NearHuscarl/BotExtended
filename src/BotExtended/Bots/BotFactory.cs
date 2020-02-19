@@ -1,10 +1,12 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Factions;
+using SFDGameScriptInterface;
+using static BotExtended.GameScript;
 
 namespace BotExtended.Bots
 {
     public static class BotFactory
     {
-        public static Bot Create(IPlayer player, BotType botType, BotInfo info)
+        public static Bot Create(IPlayer player, BotType botType, BotFaction faction)
         {
             Bot bot = null;
             switch (botType)
@@ -62,7 +64,8 @@ namespace BotExtended.Bots
 
             bot.Player = player;
             bot.Type = botType;
-            bot.Info = info;
+            bot.Faction = faction;
+            bot.Info = GetInfo(botType);
 
             return bot;
         }

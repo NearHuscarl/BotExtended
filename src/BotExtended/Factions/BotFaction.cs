@@ -2,7 +2,8 @@
 {
     public enum BotFaction
     {
-        Assassin = 0,
+        None = 0,
+        Assassin,
         Agent,
         Bandido,
         Biker,

@@ -1,4 +1,4 @@
-﻿using SFDGameScriptInterface;
+using SFDGameScriptInterface;
 using BotExtended.Bots;
 using BotExtended.Factions;
 using BotExtended.Library;
@@ -25,18 +25,29 @@ namespace BotExtended
         private class InfectedCorpse
         {
             public static int TimeToTurnIntoZombie = 5000;
+            public BotFaction Faction { get; set; }
             public IPlayer Body { get; set; }
             public float DeathTime { get; private set; }
             public bool IsTurningIntoZombie { get; private set; }
             public bool CanTurnIntoZombie { get; private set; }
             public bool IsZombie { get; private set; }
 
+            public InfectedCorpse(IPlayer player, BotFaction faction)
+            {
+                Faction = faction;
+                Body = player;
+                IsTurningIntoZombie = false;
+                IsZombie = false;
+                CanTurnIntoZombie = true;
+                DeathTime = Game.TotalElapsedGameTime;
+            }
+
             private bool TurnIntoZombie()
             {
                 if (Body.IsRemoved || Body.IsBurnedCorpse) return false;
 
                 var player = Game.CreatePlayer(Body.GetWorldPosition());
-                var zombie = SpawnBot(GetZombieType(Body), player, equipWeapons: false, setProfile: false);
+                var zombie = SpawnBot(GetZombieType(Body), Faction, player, equipWeapons: false, setProfile: false);
                 var zombieBody = zombie.Player;
 
                 var modifiers = Body.GetModifiers();
@@ -57,15 +68,6 @@ namespace BotExtended
                 Body.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
                 IsTurningIntoZombie = true;
                 return true;
-            }
-
-            public InfectedCorpse(IPlayer player)
-            {
-                Body = player;
-                IsTurningIntoZombie = false;
-                IsZombie = false;
-                CanTurnIntoZombie = true;
-                DeathTime = Game.TotalElapsedGameTime;
             }
 
             public void Update()
@@ -108,10 +110,6 @@ namespace BotExtended
         {
             return Constants.STORAGE_KEY_PREFIX + key;
         }
-        internal static string StorageKey(BotType botType)
-        {
-            return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botType).ToUpperInvariant();
-        }
         internal static string StorageKey(BotFaction botFaction, int factionIndex)
         {
             return Constants.STORAGE_KEY_PREFIX + SharpHelper.EnumToString(botFaction).ToUpperInvariant() + "_" + factionIndex;
@@ -140,7 +138,7 @@ namespace BotExtended
 
             var settings = Settings.Get();
 
-            if (settings.RoundsUntilFactionRotation == 1 || settings.UnknownCurrentFaction)
+            if (settings.RoundsUntilFactionRotation == 1 || settings.CurrentFaction == BotFaction.None)
             {
                 List<BotFaction> botFactions;
 
@@ -200,17 +198,15 @@ namespace BotExtended
 
         private static void InitRandomSeed()
         {
-            int[] botFactionSeed;
-            int inext;
-            int inextp;
+            int[] botFactionRndState;
 
-            var getBotFactionSeedAttempt = Storage.TryGetItemIntArr(StorageKey("BOT_FACTION_SEED"), out botFactionSeed);
-            var getBotFactionInextAttempt = Storage.TryGetItemInt(StorageKey("BOT_FACTION_INEXT"), out inext);
-            var getBotFactionInextpAttempt = Storage.TryGetItemInt(StorageKey("BOT_FACTION_INEXTP"), out inextp);
-
-            if (getBotFactionSeedAttempt && getBotFactionInextAttempt && getBotFactionInextpAttempt)
+            if (Storage.TryGetItemIntArr(StorageKey("BOT_FACTION_RND_STATE"), out botFactionRndState))
             {
-                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd(botFactionSeed, inext, inextp));
+                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd(
+                    botFactionRndState.Skip(2).ToArray(),
+                    botFactionRndState[0],
+                    botFactionRndState[1])
+                );
             }
             else
             {
@@ -337,7 +333,7 @@ namespace BotExtended
 
                         if (player.IsDead)
                         {
-                            m_infectedCorpses.Add(new InfectedCorpse(player));
+                            m_infectedCorpses.Add(new InfectedCorpse(player, extendedBot.Faction));
                         }
                     }
                 }
@@ -362,7 +358,7 @@ namespace BotExtended
 
             if (bot != Bot.None && bot.Info.ZombieStatus == ZombieStatus.Infected)
             {
-                m_infectedCorpses.Add(new InfectedCorpse(player));
+                m_infectedCorpses.Add(new InfectedCorpse(player, bot.Faction));
             }
         }
 
@@ -522,15 +518,13 @@ namespace BotExtended
 
         public static Bot SpawnBot(
             BotType botType,
+            BotFaction faction = BotFaction.None,
             IPlayer player = null,
             bool equipWeapons = true,
             bool setProfile = true,
             PlayerTeam team = BotTeam,
             bool ignoreFullSpawner = false)
         {
-            var info = GetInfo(botType);
-            var weaponSet = WeaponSet.Empty;
-
             if (player == null) player = SpawnPlayer(ignoreFullSpawner);
             if (player == null) return null;
             // player.UniqueID is unique but seems like it can change value during
@@ -539,6 +533,10 @@ namespace BotExtended
             {
                 player.CustomID = Guid.NewGuid().ToString("N");
             }
+
+            var bot = BotFactory.Create(player, botType, faction);
+            var info = bot.Info;
+            var weaponSet = WeaponSet.Empty;
 
             if (equipWeapons)
             {
@@ -561,7 +559,6 @@ namespace BotExtended
             player.SetBotBehaviorActive(true);
             player.SetTeam(team);
 
-            var bot = BotFactory.Create(player, botType, info);
             bot.SaySpawnLine();
             m_bots[player.CustomID] = bot;
 
@@ -572,52 +569,46 @@ namespace BotExtended
 
         private static void StoreStatistics()
         {
+            if (!Game.IsGameOver) return; // User exits in the middle of the round
             var factionDead = true;
 
             foreach (var player in Game.GetPlayers())
             {
-                if (!player.IsDead)
+                if (!player.IsDead && player.GetTeam() == PlayerTeam.Team4)
                 {
                     factionDead = false;
                     break;
                 }
             }
 
-            var botFactionKeyPrefix = StorageKey(CurrentBotFaction, CurrentFactionSetIndex);
+            var factionWinStatsKey = StorageKey(CurrentBotFaction, CurrentFactionSetIndex) + "_WIN_STATS";
+            int[] factionOldWinStats;
+            int winCount, totalMatch;
 
-            var factionWinCountKey = botFactionKeyPrefix + "_WIN_COUNT";
-            int factionOldWinCount;
-            var getFactionWinCountAttempt = Storage.TryGetItemInt(factionWinCountKey, out factionOldWinCount);
-
-            var factionTotalMatchKey = botFactionKeyPrefix + "_TOTAL_MATCH";
-            int factionOldTotalMatch;
-            var getFactionTotalMatchAttempt = Storage.TryGetItemInt(factionTotalMatchKey, out factionOldTotalMatch);
-
-            if (getFactionWinCountAttempt && getFactionTotalMatchAttempt)
+            if (Storage.TryGetItemIntArr(factionWinStatsKey, out factionOldWinStats))
             {
-                if (!factionDead)
-                    Storage.SetItem(factionWinCountKey, factionOldWinCount + 1);
-                Storage.SetItem(factionTotalMatchKey, factionOldTotalMatch + 1);
+                if (factionDead)
+                    winCount = factionOldWinStats[0];
+                else
+                    winCount = factionOldWinStats[0] + 1;
+                totalMatch = factionOldWinStats[1] + 1;
             }
             else
             {
-                if (!factionDead)
-                    Storage.SetItem(factionWinCountKey, 1);
-                else
-                    Storage.SetItem(factionWinCountKey, 0);
-                Storage.SetItem(factionTotalMatchKey, 1);
+                winCount = factionDead ? 0 : 1;
+                totalMatch = 1;
             }
 
+            Storage.SetItem(factionWinStatsKey, new int[] { winCount, totalMatch });
             StoreRandomSeed();
         }
 
         private static void StoreRandomSeed()
         {
             var rnd = RandomHelper.GetRandomGenerator("BOT_FACTION");
+            var rndState = new int[] { rnd.inext, rnd.inextp }.Concat(rnd.SeedArray).ToArray();
 
-            Storage.SetItem(StorageKey("BOT_FACTION_SEED"), rnd.SeedArray);
-            Storage.SetItem(StorageKey("BOT_FACTION_INEXT"), rnd.inext);
-            Storage.SetItem(StorageKey("BOT_FACTION_INEXTP"), rnd.inextp);
+            Storage.SetItem(StorageKey("BOT_FACTION_RND_STATE"), rndState);
         }
     }
 }

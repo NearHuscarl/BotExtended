@@ -136,7 +136,7 @@ namespace BotExtended
 
         private static IEnumerable<string> GetFactionNames()
         {
-            var factions = SharpHelper.GetArrayFromEnum<BotFaction>();
+            var factions = GetAvailableBotFactions();
 
             foreach (var faction in factions)
             {
@@ -264,7 +264,7 @@ namespace BotExtended
 
         private static void SetFactions(IEnumerable<string> arguments)
         {
-            var allBotFactions = SharpHelper.EnumToList<BotFaction>()
+            var allBotFactions = GetAvailableBotFactions()
                 .Select((f) => SharpHelper.EnumToString(f))
                 .ToList();
             var botFactions = new List<string>();
@@ -337,7 +337,7 @@ namespace BotExtended
 
         private static void CreateBot(IPlayer player, BotType bt)
         {
-            var bot = BotHelper.SpawnBot(bt, player, true, true, player.GetTeam());
+            var bot = BotHelper.SpawnBot(bt, BotFaction.None, player, true, true, player.GetTeam());
             BotHelper.TriggerOnSpawn(bot);
         }
         public static void SetPlayer(IEnumerable<string> arguments)
@@ -385,45 +385,29 @@ namespace BotExtended
             ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
         }
 
+        private static IEnumerable<BotFaction> GetAvailableBotFactions()
+        {
+            return SharpHelper.EnumToList<BotFaction>().Where((f) => f != BotFaction.None);
+        }
+
         private static void PrintStatistics()
         {
             ScriptHelper.PrintMessage("--BotExtended statistics--", ScriptHelper.ERROR_COLOR);
 
-            var botTypes = SharpHelper.EnumToList<BotType>();
-            ScriptHelper.PrintMessage("-[BotType]: [WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
-            foreach (var botType in botTypes)
-            {
-                var botTypeKeyPrefix = BotHelper.StorageKey(botType);
-                int winCount;
-                var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(botTypeKeyPrefix + "_WIN_COUNT", out winCount);
-                int totalMatch;
-                var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(botTypeKeyPrefix + "_TOTAL_MATCH", out totalMatch);
-
-                if (getWinCountAttempt && getTotalMatchAttempt)
-                {
-                    var survivalRate = (float)winCount / totalMatch;
-                    var survivalRateStr = survivalRate.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
-
-                    ScriptHelper.PrintMessage(SharpHelper.EnumToString(botType) + ": "
-                        + " " + winCount + " " + totalMatch + " " + survivalRateStr);
-                }
-            }
-
-            var botFactions = SharpHelper.EnumToList<BotFaction>();
-            ScriptHelper.PrintMessage("-[BotFaction] [Index]: [WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
+            var botFactions = GetAvailableBotFactions();
+            ScriptHelper.PrintMessage("[WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
             foreach (var botFaction in botFactions)
             {
                 var factionSet = GetFactionSet(botFaction);
                 for (var i = 0; i < factionSet.Factions.Count; i++)
                 {
-                    var factionKeyPrefix = BotHelper.StorageKey(botFaction, i);
-                    int winCount;
-                    var getWinCountAttempt = BotHelper.Storage.TryGetItemInt(factionKeyPrefix + "_WIN_COUNT", out winCount);
-                    int totalMatch;
-                    var getTotalMatchAttempt = BotHelper.Storage.TryGetItemInt(factionKeyPrefix + "_TOTAL_MATCH", out totalMatch);
+                    var factionKey = BotHelper.StorageKey(botFaction, i) + "_WIN_STATS";
+                    int[] winStats;
 
-                    if (getWinCountAttempt && getTotalMatchAttempt)
+                    if (BotHelper.Storage.TryGetItemIntArr(factionKey, out winStats))
                     {
+                        var winCount = winStats[0];
+                        var totalMatch = winStats[1];
                         var survivalRate = (float)winCount / totalMatch;
                         var survivalRateStr = survivalRate.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
 
@@ -436,24 +420,14 @@ namespace BotExtended
 
         private static void ClearStatistics()
         {
-            var botTypes = SharpHelper.EnumToList<BotType>();
-            foreach (var botType in botTypes)
-            {
-                var botTypeKeyPrefix = BotHelper.StorageKey(botType);
-
-                BotHelper.Storage.RemoveItem(botTypeKeyPrefix + "_WIN_COUNT");
-                BotHelper.Storage.RemoveItem(botTypeKeyPrefix + "_TOTAL_MATCH");
-            }
-
-            var botFactions = SharpHelper.EnumToList<BotFaction>();
+            var botFactions = GetAvailableBotFactions();
             foreach (var botFaction in botFactions)
             {
                 var factionSet = GetFactionSet(botFaction);
                 for (var i = 0; i < factionSet.Factions.Count; i++)
                 {
-                    var factionKeyPrefix = BotHelper.StorageKey(botFaction, i);
-                    BotHelper.Storage.RemoveItem(factionKeyPrefix + "_WIN_COUNT");
-                    BotHelper.Storage.RemoveItem(factionKeyPrefix + "_TOTAL_MATCH");
+                    var factionKey = BotHelper.StorageKey(botFaction, i) + "_WIN_STATS";
+                    BotHelper.Storage.RemoveItem(factionKey);
                 }
             }
 

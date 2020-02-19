@@ -7,12 +7,15 @@ namespace BotExtended.Factions
 {
     public class Faction
     {
+        public BotFaction BotFaction { get; set; }
+        public int Index { get; set; }
         public List<SubFaction> SubFactions { get; private set; }
         public float TotalScore { get; private set; }
         public bool HasBoss { get; private set; }
 
-        public Faction(List<SubFaction> subFactions)
+        public Faction(List<SubFaction> subFactions, BotFaction botFaction)
         {
+            BotFaction = botFaction;
             SubFactions = subFactions;
             HasBoss = false;
 
@@ -51,7 +54,7 @@ namespace BotExtended.Factions
                     {
                         var botType = subFaction.GetRandomType();
 
-                        BotHelper.SpawnBot(botType);
+                        BotHelper.SpawnBot(botType, BotFaction);
                         factionCountRemaining--;
                         botCountRemainingThisType--;
                     }
@@ -60,7 +63,7 @@ namespace BotExtended.Factions
                 {
                     var botType = subFaction.GetRandomType();
 
-                    BotHelper.SpawnBot(botType, null, true, true, BotHelper.BotTeam, true);
+                    BotHelper.SpawnBot(botType, BotFaction, null, true, true, BotHelper.BotTeam, true);
                     factionCountRemaining--;
                 }
             }

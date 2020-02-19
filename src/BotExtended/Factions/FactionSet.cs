@@ -5,10 +5,12 @@ namespace BotExtended.Factions
 {
     public class FactionSet
     {
+        public BotFaction Faction { get; set; }
         public List<Faction> Factions { get; set; }
 
-        public FactionSet()
+        public FactionSet(BotFaction faction)
         {
+            Faction = faction;
             Factions = new List<Faction>();
         }
         public bool HasBoss
@@ -18,7 +20,9 @@ namespace BotExtended.Factions
 
         public void AddFaction(List<SubFaction> subFactions)
         {
-            Factions.Add(new Faction(subFactions));
+            Factions.Add(new Faction(subFactions, Faction));
+            var factionIndex = Factions.Count - 1;
+            Factions[factionIndex].Index = factionIndex;
         }
     }
 }

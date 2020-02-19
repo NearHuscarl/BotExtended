@@ -10,14 +10,14 @@ namespace BotExtended.Library
         {
             return (T)Enum.Parse(typeof(T), str);
         }
-        public static T[] GetArrayFromEnum<T>()
+        public static T[] EnumToArray<T>()
         {
             return (T[])Enum.GetValues(typeof(T));
         }
 
         public static IEnumerable<T> EnumToList<T>()
         {
-            var enumArray = GetArrayFromEnum<T>();
+            var enumArray = EnumToArray<T>();
 
             foreach (var enumVal in enumArray)
             {
