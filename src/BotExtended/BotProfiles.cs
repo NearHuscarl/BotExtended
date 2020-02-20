@@ -1380,6 +1380,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region MirrorMan
+                case BotType.MirrorMan:
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "MirrorMan",
+                        Accesory = new IProfileClothingItem("ClownMakeup", "ClothingLightGray", "ClothingLightGray", ""),
+                        ChestOver = null,
+                        ChestUnder = new IProfileClothingItem("Shirt", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("Boots", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("Hood", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Sash", "ClothingDarkBlue", "ClothingLightGray", ""),
+                    });
+                    break;
+                #endregion
+
                 #region Mutant
                 case BotType.Mutant:
                 {

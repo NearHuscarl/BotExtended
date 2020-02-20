@@ -111,6 +111,7 @@ namespace BotExtended.Bots
         public virtual void OnSpawn(IEnumerable<Bot> bots) { }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }
+        public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args) { }
         public virtual void OnDeath(PlayerDeathArgs args) { }
 
         protected IPlayer FindClosestTarget()

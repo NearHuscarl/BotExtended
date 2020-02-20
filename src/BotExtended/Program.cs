@@ -51,7 +51,7 @@ namespace BotExtended
                     //Game.SetCurrentCameraMode(CameraMode.Dynamic);
 
                     //// image size: 82 x 100
-                    Command.SetPlayer(new List<string>() { "near", "Mecha" });
+                    //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
                     //Command.SetPlayer(new List<string>() { "player 2", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 3", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 4", "Bandido" });

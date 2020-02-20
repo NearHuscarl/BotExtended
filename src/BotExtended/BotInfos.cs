@@ -524,6 +524,31 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Bosses MirrorMan
+                case BotType.MirrorMan:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MaxEnergy = Stamina.VeryHigh,
+                        CurrentEnergy = Stamina.VeryHigh,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        ProjectileDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        ProjectileCritChanceTakenModifier = DamageTaken.ExtremelyResistant,
+                        SizeModifier = Size.Small,
+                    };
+                    botInfo.ImmuneToInfect = true; // robot cannot be infected
+                    botInfo.SpawnLine = "BRING IT ON!!!";
+                    botInfo.SpawnLineChance = .1f;
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Bosses Ninja
                 case BotType.Ninja:
                 {

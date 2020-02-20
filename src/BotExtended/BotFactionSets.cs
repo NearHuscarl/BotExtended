@@ -483,6 +483,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss_MirrorMan
+                case BotFaction.Boss_MirrorMan:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.MirrorMan),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Boss_Ninja
                 case BotFaction.Boss_Ninja:
                 {

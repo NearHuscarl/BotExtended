@@ -49,6 +49,10 @@ namespace BotExtended.Bots
                     bot = new MechaBot();
                     break;
 
+                case BotType.MirrorMan:
+                    bot = new MirrorManBot();
+                    break;
+
                 case BotType.Teddybear:
                     bot = new TeddybearBot();
                     break;

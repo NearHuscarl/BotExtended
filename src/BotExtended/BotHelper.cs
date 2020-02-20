@@ -136,6 +136,7 @@ namespace BotExtended
             Events.PlayerMeleeActionCallback.Start(OnPlayerMeleeAction);
             Events.PlayerDamageCallback.Start(OnPlayerDamage);
             Events.PlayerDeathCallback.Start(OnPlayerDeath);
+            Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.UpdateCallback.Start(OnUpdate);
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
@@ -361,6 +362,19 @@ namespace BotExtended
                     m_infectedCorpses.Add(new InfectedCorpse(player, bot.Faction));
                 }
             }
+        }
+
+        private static void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
+        {
+            if (!args.IsPlayer) return;
+
+            var player = Game.GetPlayer(args.HitObjectID);
+            var bot = GetExtendedBot(player);
+            if (bot == Bot.None) return;
+
+            // I use this instead of PlayerDamage callback because this one include additional
+            // info like normal vector
+            bot.OnProjectileHit(projectile, args);
         }
 
         public static Bot GetExtendedBot(IObject player)

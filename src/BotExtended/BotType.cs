@@ -67,6 +67,9 @@
         // Tier3: Armored Unit
         MetroCop,
         MetroCop2,
+
+        MirrorMan,
+
         // Tier2: Plant 47 Panic
         Mutant,
 

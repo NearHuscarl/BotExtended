@@ -551,6 +551,14 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region MirrorMan
+                case BotType.MirrorMan:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    break;
+                }
+                #endregion
+
                 #region Mutant
                 case BotType.Mutant:
                 {

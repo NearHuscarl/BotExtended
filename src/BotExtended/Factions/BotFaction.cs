@@ -30,6 +30,7 @@
         Boss_Meatgrinder,
         Boss_Mecha,
         Boss_MetroCop,
+        Boss_MirrorMan,
         Boss_Ninja,
         Boss_Santa,
         Boss_Teddybear,
