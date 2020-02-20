@@ -25,10 +25,21 @@ namespace BotExtended.Bots
             "WiringTube00B",
         };
 
+        enum MechaState
+        {
+            Normal,
+            PreparingSupercharge,
+            Supercharging,
+            DealthKneeling,
+            Dead,
+        }
+
+        private MechaState m_state;
+
         public MechaBot() : base()
         {
             UpdateInterval = 0;
-            IsSuperCharging = false;
+            m_state = MechaState.Normal;
         }
 
         public override void OnSpawn(IEnumerable<Bot> others)
@@ -51,17 +62,9 @@ namespace BotExtended.Bots
 
             base.OnUpdate(elapsed);
 
-            if (Player.IsDead)
+            switch (m_state)
             {
-                UpdateCorpse(elapsed);
-            }
-            else
-            {
-                if (m_isDeathKneeling)
-                {
-                    UpdateDealthKneeling(elapsed);
-                }
-                else
+                case MechaState.Normal:
                 {
                     var mod = Player.GetModifiers();
                     var healthLeft = mod.CurrentHealth / mod.MaxHealth;
@@ -69,109 +72,45 @@ namespace BotExtended.Bots
                     if (healthLeft <= 0.4f)
                         UpdateNearDeathEffects(elapsed, healthLeft);
 
-                    UpdateSuperCharge(elapsed);
+                    UpdateSuperChargeEnergy(elapsed);
+                    break;
                 }
+                case MechaState.PreparingSupercharge:
+                    UpdatePrepareSuperCharge(elapsed);
+                    break;
+                case MechaState.Supercharging:
+                    UpdateSuperCharging(elapsed);
+                    break;
+                case MechaState.DealthKneeling:
+                    UpdateDealthKneeling(elapsed);
+                    break;
+                case MechaState.Dead:
+                    UpdateCorpse(elapsed);
+                    break;
             }
         }
 
         public readonly float EnergyToCharge = 9000f;
-        public bool IsSuperCharging { get; set; }
+        public bool IsSuperCharging { get { return m_state == MechaState.Supercharging; } }
         private float m_superchargeEnergy = 0f;
         private float m_chargeTimer = 0f;
-        private void UpdateSuperCharge(float elapsed)
+        private void UpdateSuperChargeEnergy(float elapsed)
         {
-            m_superchargeEnergy += elapsed;
-
             if (m_superchargeEnergy >= EnergyToCharge)
             {
-                if (!IsSuperCharging && CanSuperCharge())
+                if (CanSuperCharge())
                 {
-                    StartSuperCharge();
-                }
-                if (IsSuperCharging)
-                {
-                    UpdateSuperCharge();
-                    m_chargeTimer += elapsed;
-                    if (m_chargeTimer >= 1500)
-                    {
-                        StopSuperCharge();
-                        m_chargeTimer = 0f;
-                    }
+                    PrepareSuperCharge();
                 }
             }
+            else
+                m_superchargeEnergy += elapsed;
 
             DrawDebugging();
         }
 
-        private bool CanSuperCharge()
-        {
-            return !Player.IsInMidAir
-                && (Player.IsSprinting || Player.IsIdle || Player.IsWalking || Player.IsRunning)
-                && GetValidTargetCount() >= 2;
-        }
-
-        private Vector2[] GetLineOfSight()
-        {
-            var lineStart = Player.GetWorldPosition() + Vector2.UnitY * 12f;
-
-            return new Vector2[]
-            {
-                lineStart,
-                lineStart + Player.AimVector * (ChargeMinimumRange + ChargeRange),
-            };
-        }
-
-        public readonly float ChargeMinimumRange = 30f;
-        public readonly float ChargeRange = 60;
-        public readonly float ChargeHitRange = 15f;
-        private int GetValidTargetCount()
-        {
-            var los = GetLineOfSight();
-            var lineStart = los[0];
-            var lineEnd = los[1];
-
-            var rayCastInput = new RayCastInput()
-            {
-                Types = new Type[1] { typeof(IPlayer) },
-            };
-            var playersInRange = Game.RayCast(lineStart, lineEnd, rayCastInput);
-            var validTargetCount = 0;
-
-            foreach (var playerResult in playersInRange)
-            {
-                var player = Game.GetPlayer(playerResult.ObjectID);
-
-                if (ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange))
-                {
-                    Game.DrawArea(playerResult.HitObject.GetAABB(), Color.Red);
-                    return 0;
-                }
-                if (!player.IsDead && !player.IsInMidAir)
-                {
-                    Game.DrawArea(playerResult.HitObject.GetAABB(), Color.Green);
-                    validTargetCount++;
-                }
-            }
-
-            return validTargetCount;
-        }
-
-        private void StartSuperCharge()
-        {
-            Player.SetBotBehaviorActive(false);
-            Player.SetLinearVelocity(new Vector2(Player.FacingDirection * 14f, 4f));
-            //Player.AddCommand(new PlayerCommand(PlayerCommandType.Inf));
-            IsSuperCharging = true;
-
-            if (Game.IsEditorTest)
-                Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition(), "start charging");
-
-            Game.PlayEffect(EffectName.FireNodeTrailGround, Player.GetWorldPosition() + new Vector2(-4, -4));
-            Game.PlaySound("Flamethrower", Player.GetWorldPosition());
-        }
-
         private List<IPlayer> chargedPlayers = new List<IPlayer>();
-        private void UpdateSuperCharge()
+        private void UpdateSuperCharging(float elapsed)
         {
             foreach (var player in Game.GetPlayers())
             {
@@ -192,36 +131,162 @@ namespace BotExtended.Bots
 
             Game.PlayEffect(EffectName.FireNodeTrailAir, Player.GetWorldPosition() + new Vector2(-4, -4));
             Game.PlayEffect(EffectName.FireNodeTrailAir, Player.GetWorldPosition() + new Vector2(4, -4));
+
+            m_chargeTimer += elapsed;
+            if (m_chargeTimer >= 1500)
+            {
+                StopSuperCharge();
+                m_chargeTimer = 0f;
+            }
+        }
+
+        private bool CanSuperCharge()
+        {
+            return !Player.IsInMidAir
+                && (Player.IsSprinting || Player.IsIdle || Player.IsWalking || Player.IsRunning)
+                && HasTargetToCharge();
+        }
+
+        private Vector2[] GetLineOfSight()
+        {
+            var lineStart = Player.GetWorldPosition() + Vector2.UnitY * 12f;
+
+            return new Vector2[]
+            {
+                lineStart,
+                lineStart + Player.AimVector * (ChargeMinimumRange + ChargeRange),
+            };
+        }
+
+        public static readonly float ChargeMinimumRange = 30f;
+        public static readonly float ChargeRange = 60;
+        public static readonly float ChargeHitRange = 25f;
+        private bool HasTargetToCharge()
+        {
+            var los = GetLineOfSight();
+            var lineStart = los[0];
+            var lineEnd = los[1];
+
+            var rayCastInput = new RayCastInput()
+            {
+                // Filter everything except players and static objects (wall, ground,...)
+                // How to customize filter
+                // Open with notepad ..\Superfighters Deluxe\Content\Data\Tiles\CollisionGroups\collisionGroups.sfdx
+                // Search for categoryBits for the object types you want to accept for collision
+                // Calc sum of those values (in binary) and convert to hex
+                MaskBits = 0x0005,
+                FilterOnMaskBits = true
+                //Types = new Type[1] { typeof(IPlayer) },
+            };
+            var results = Game.RayCast(lineStart, lineEnd, rayCastInput);
+            var blockedDistance = float.PositiveInfinity;
+
+            foreach (var result in results)
+            {
+                var distanceToBlockObj = Vector2.Distance(Player.GetWorldPosition(), result.Position);
+                if (result.HitObject.GetBodyType() == BodyType.Static)
+                {
+                    if (blockedDistance > distanceToBlockObj) blockedDistance = distanceToBlockObj;
+                }
+            }
+            Game.DrawText(blockedDistance.ToString(), Player.GetWorldPosition());
+
+            foreach (var result in results)
+            {
+                if (result.IsPlayer)
+                {
+                    var player = Game.GetPlayer(result.ObjectID);
+                    var distanceToPlayer = Vector2.Distance(Player.GetWorldPosition(), result.Position);
+                    var inMinimumRange = ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
+                    var isBlockedByStaticObjects = blockedDistance < distanceToPlayer;
+
+                    if (inMinimumRange || isBlockedByStaticObjects)
+                    {
+                        Game.DrawArea(result.HitObject.GetAABB(), Color.Red);
+                        continue;
+                    }
+                    if (!player.IsDead && !player.IsInMidAir)
+                    {
+                        Game.DrawArea(result.HitObject.GetAABB(), Color.Green);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void PrepareSuperCharge()
+        {
+            m_state = MechaState.PreparingSupercharge;
+            Player.SetInputEnabled(false);
+            Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
+        }
+
+        private float m_kneelPrepareTime = 0f;
+        private float m_kneelPrepareEffectTime = 0f;
+        private void UpdatePrepareSuperCharge(float elapsed)
+        {
+            m_kneelPrepareTime += elapsed;
+
+            if (m_kneelPrepareTime >= 500)
+            {
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
+                Player.SetInputEnabled(true);
+                m_kneelPrepareTime = 0f;
+
+                StartSuperCharge();
+            }
+            else
+            {
+                m_kneelPrepareEffectTime += elapsed;
+                if (m_kneelPrepareEffectTime >= 90)
+                {
+                    var pos = Player.GetWorldPosition() + Vector2.UnitX * -Player.FacingDirection * 10;
+                    Game.PlayEffect(EffectName.Electric, pos);
+                    Game.PlaySound("ElectricSparks", pos);
+                    m_kneelPrepareEffectTime = 0f;
+                }
+            }
+        }
+
+        private void StartSuperCharge()
+        {
+            Player.SetBotBehaviorActive(false);
+            Player.SetLinearVelocity(new Vector2(Player.FacingDirection * 14f, 4f));
+            Game.PlayEffect(EffectName.FireNodeTrailGround, Player.GetWorldPosition() + new Vector2(-4, -4));
+            Game.PlaySound("Flamethrower", Player.GetWorldPosition());
+            m_state = MechaState.Supercharging;
         }
 
         private void MakePlayerStaggering(IPlayer player)
         {
             // https://www.mythologicinteractiveforums.com/viewtopic.php?f=15&t=3810
             player.SetInputEnabled(false);
-            Events.UpdateCallback.Start((t) =>
+            ScriptHelper.Timeout(() =>
             {
                 player.AddCommand(new PlayerCommand(PlayerCommandType.Stagger));
                 player.SetInputEnabled(true);
-            }, 1, 1);
+            }, 1);
         }
 
         private void StopSuperCharge()
         {
             Player.SetBotBehaviorActive(true);
-            IsSuperCharging = false;
             m_superchargeEnergy = 0f;
             chargedPlayers.Clear();
-
-            if (Game.IsEditorTest)
-                Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition(), "stop charging");
+            m_state = MechaState.Normal;
         }
 
         private void DrawDebugging()
         {
+            if (!Game.IsEditorTest) return;
             var los = GetLineOfSight();
+            var playerPos = Player.GetWorldPosition();
 
-            Game.DrawCircle(Player.GetWorldPosition(), ChargeMinimumRange, Color.Red);
-            Game.DrawCircle(Player.GetWorldPosition(), ChargeHitRange, Color.Cyan);
+            Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), playerPos + Vector2.UnitY * 30);
+            Game.DrawCircle(playerPos, ChargeMinimumRange, Color.Red);
+            Game.DrawCircle(playerPos, ChargeHitRange, Color.Cyan);
             if (m_superchargeEnergy >= EnergyToCharge)
             {
                 Game.DrawLine(los[0], los[1], Color.Green);
@@ -232,6 +297,7 @@ namespace BotExtended.Bots
 
         private void UpdateCorpse(float elapsed)
         {
+            if (!Player.IsDead) return; // Safeguard
             m_electricElapsed += elapsed;
 
             if (m_electricElapsed >= 1000)
@@ -416,7 +482,6 @@ namespace BotExtended.Bots
             }
         }
 
-        private bool m_isDeathKneeling = false;
         private void StartDeathKneeling()
         {
             if (Player == null) return;
@@ -424,10 +489,10 @@ namespace BotExtended.Bots
             ScriptHelper.MakeInvincible(Player);
             Player.ClearCommandQueue();
             Player.SetBotBehaviorActive(false);
-            m_isDeathKneeling = true;
             Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
+            m_state = MechaState.DealthKneeling;
         }
-        private void StopKneeling()
+        private void StopKneelingAndDie()
         {
             // Make player damageable again, so it can be exploded when overkilled
             Player.SetModifiers(new PlayerModifiers(defaultValues: true)
@@ -435,8 +500,9 @@ namespace BotExtended.Bots
                 SizeModifier = Info.Modifiers.SizeModifier,
             });
             Player.AddCommand(new PlayerCommand(PlayerCommandType.StopDeathKneel));
-            m_isDeathKneeling = false;
             Player.SetBotBehaviorActive(true);
+            Player.Kill();
+            m_state = MechaState.Dead;
         }
 
         private float m_kneelingTime = 0f;
@@ -460,8 +526,7 @@ namespace BotExtended.Bots
 
                 if (m_kneelingTime >= 2500)
                 {
-                    StopKneeling();
-                    Player.Kill();
+                    StopKneelingAndDie();
                 }
             }
             else
@@ -473,8 +538,7 @@ namespace BotExtended.Bots
                 }
                 else
                 {
-                    StopKneeling();
-                    Player.Kill();
+                    StopKneelingAndDie();
                 }
             }
         }

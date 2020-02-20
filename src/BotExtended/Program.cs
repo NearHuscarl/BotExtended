@@ -35,6 +35,9 @@ namespace BotExtended
 
                     modifiers.MaxHealth = 5000;
                     modifiers.CurrentHealth = 5000;
+                    modifiers.EnergyRechargeModifier = 1.5f;
+                    modifiers.RunSpeedModifier = 1.25f;
+                    modifiers.SprintSpeedModifier = 1.25f;
                     //modifiers.InfiniteAmmo = 1;
                     //modifiers.MeleeStunImmunity = 1;
 
@@ -46,11 +49,16 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
                     //Game.SetCurrentCameraMode(CameraMode.Dynamic);
-                    //Command.SetPlayer(new List<string>() { "player 2", "ClownBodyguard" });
-                    //Command.SetPlayer(new List<string>() { "player 3", "ClownBoxer" });
-                    //Command.SetPlayer(new List<string>() { "player 4", "ClownCowboy" });
-                    //Command.SetPlayer(new List<string>() { "player 5", "ClownGangster" });
-                    //Command.SetPlayer(new List<string>() { "player 6", "Funnyman" });
+
+                    //// image size: 82 x 100
+                    Command.SetPlayer(new List<string>() { "near", "Mecha" });
+                    //Command.SetPlayer(new List<string>() { "player 2", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 3", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 4", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 5", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 6", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 7", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 8", "Bandido" });
                 }
             }
             catch (Exception e)

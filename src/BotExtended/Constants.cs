@@ -6,7 +6,7 @@ namespace BotExtended
     public static class Constants
     {
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "3.1.3";
+        internal const string CURRENT_VERSION = "3.1.4";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // default settings value
@@ -138,7 +138,7 @@ namespace BotExtended
     /// Size range: 0.75-1.25
     /// <para/>
     /// 
-    /// Chonker = 1.25
+    /// Chonky = 1.25
     /// ExtremelyBig = 1.2
     /// VeryBig = 1.15
     /// Big = 1.1
