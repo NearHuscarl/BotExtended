@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AE9E68C2-4206-4EC0-8531-9E4842A95EE6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>BotExtended</RootNamespace>
     <AssemblyName>BotExtended</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SFD.GameScriptInterface">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
@@ -48,9 +51,10 @@
     <Compile Include="BotAI.cs" />
     <Compile Include="BotBehaviors.cs" />
     <Compile Include="BotFactionSets.cs" />
-    <Compile Include="BotHelper.cs" />
+    <Compile Include="BotManager.cs" />
     <Compile Include="BotInfo.cs" />
     <Compile Include="BotInfos.cs" />
+    <Compile Include="BotHelper.cs" />
     <Compile Include="BotProfiles.cs" />
     <Compile Include="Bots\AssassinBot.cs" />
     <Compile Include="Bots\BabybearBot.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="Bots\ZombieFlamerBot.cs" />
     <Compile Include="BotType.cs" />
     <Compile Include="BotWeapons.cs" />
+    <Compile Include="InfectedCorpse.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Constants.cs" />

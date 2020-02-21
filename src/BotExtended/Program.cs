@@ -26,7 +26,7 @@ namespace BotExtended
             try
             {
                 //System.Diagnostics.Debugger.Break();
-                BotHelper.Initialize();
+                BotManager.Initialize();
 
                 if (Game.IsEditorTest)
                 {
@@ -35,7 +35,8 @@ namespace BotExtended
 
                     modifiers.MaxHealth = 5000;
                     modifiers.CurrentHealth = 5000;
-                    modifiers.EnergyRechargeModifier = 1.5f;
+                    modifiers.EnergyConsumptionModifier = .1f;
+                    //modifiers.EnergyRechargeModifier = 1.5f;
                     modifiers.RunSpeedModifier = 1.25f;
                     modifiers.SprintSpeedModifier = 1.25f;
                     //modifiers.InfiniteAmmo = 1;
@@ -74,7 +75,7 @@ namespace BotExtended
 
         public void OnShutdown()
         {
-            BotHelper.OnShutdown();
+            BotManager.OnShutdown();
         }
     }
 }

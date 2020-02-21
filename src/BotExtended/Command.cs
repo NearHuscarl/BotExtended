@@ -229,7 +229,7 @@ namespace BotExtended
             {
                 for (var i = 0; i < count; i++)
                 {
-                    BotHelper.SpawnBot(botType, player: null,
+                    BotManager.SpawnBot(botType, player: null,
                         equipWeapons: true,
                         setProfile: true,
                         team: team,
@@ -337,8 +337,8 @@ namespace BotExtended
 
         private static void CreateBot(IPlayer player, BotType bt)
         {
-            var bot = BotHelper.SpawnBot(bt, BotFaction.None, player, true, true, player.GetTeam());
-            BotHelper.TriggerOnSpawn(bot);
+            var bot = BotManager.SpawnBot(bt, BotFaction.None, player, true, true, player.GetTeam());
+            BotManager.TriggerOnSpawn(bot);
         }
         public static void SetPlayer(IEnumerable<string> arguments)
         {
