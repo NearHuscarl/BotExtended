@@ -21,6 +21,8 @@ namespace BotExtended.Bots
         {
             base.OnUpdate(elapsed);
 
+            PlayShinyEffect(elapsed);
+
             var primaryWeapon = Player.CurrentPrimaryWeapon;
             var secondaryWeapon = Player.CurrentSecondaryWeapon;
 
@@ -31,6 +33,28 @@ namespace BotExtended.Bots
             if (secondaryWeapon.PowerupBouncingRounds == 0 && secondaryWeapon.TotalAmmo > 0)
             {
                 Player.SetCurrentSecondaryWeaponAmmo(secondaryWeapon.TotalAmmo, ProjectilePowerup.Bouncing);
+            }
+        }
+
+        private List<float> m_effectTimes = new List<float>() { 0, 0 };
+        private void PlayShinyEffect(float elapsed)
+        {
+            for (var i = 0; i < m_effectTimes.Count; i++)
+            {
+                m_effectTimes[i] += elapsed;
+                if (m_effectTimes[i] >= 400)
+                {
+                    if (RandomHelper.Boolean())
+                    {
+                        var position = Player.GetWorldPosition();
+                        position.X += RandomHelper.Between(-10, 10);
+                        position.Y += RandomHelper.Between(-10, 10);
+                        Game.PlayEffect(EffectName.ItemGleam, position);
+                        m_effectTimes[i] = 0;
+                    }
+                    else
+                        m_effectTimes[i] = RandomHelper.Between(0, 400);
+                }
             }
         }
 
