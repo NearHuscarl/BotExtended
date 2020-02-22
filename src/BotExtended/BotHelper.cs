@@ -77,6 +77,9 @@ namespace BotExtended
 
         public static BotType GetZombieType(BotType botType)
         {
+            if (botType == BotType.None)
+                return BotType.Zombie;
+
             var botInfo = GetInfo(botType);
             var aiType = botInfo.AIType;
 
