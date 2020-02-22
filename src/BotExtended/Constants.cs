@@ -6,7 +6,7 @@ namespace BotExtended
     public static class Constants
     {
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "3.2.2";
+        internal const string CURRENT_VERSION = "3.2.3";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // default settings value
@@ -43,7 +43,7 @@ namespace BotExtended
     /// EmbarrassinglyWeak = 20
     /// BarelyAny = 5
     /// </summary>
-    static class Health
+    public static class Health
     {
         internal const int Hacker = 400;
         internal const int UltraStrong = 300;
@@ -82,7 +82,7 @@ namespace BotExtended
     /// EmbarrassinglyLow = 20
     /// BarelyAny = 5
     /// </summary>
-    static class Stamina
+    public static class Stamina
     {
         internal const int Hacker = 400;
         internal const int UltraHigh = 300;
@@ -119,7 +119,7 @@ namespace BotExtended
     /// ExtremelySlow = 0.6
     /// BarelyAny = 0.5
     /// </summary>
-    static class Speed
+    public static class Speed
     {
         internal const float Hacker = 2f;
         internal const float ExtremelyFast = 1.5f;
@@ -154,7 +154,7 @@ namespace BotExtended
     /// ExtremelySmall = 0.8
     /// Tiny = 0.75
     /// </summary>
-    static class Size
+    public static class Size
     {
         internal const float Chonky = 1.25f;
         internal const float ExtremelyBig = 1.2f;
@@ -184,7 +184,7 @@ namespace BotExtended
     /// Weak = 0.5
     /// None = 0
     /// </summary>
-    static class MeleeForce
+    public static class MeleeForce
     {
         internal const float UltraStrong = 3f;
         internal const float ExtremelyStrong = 2f;
@@ -204,7 +204,7 @@ namespace BotExtended
     /// Normal = 1
     /// Slow = 0.5
     /// </summary>
-    class EnergyRecharge
+    public static class EnergyRecharge
     {
         internal const float Quick = 1.5f;
         internal const float Normal = 1f;
@@ -236,7 +236,7 @@ namespace BotExtended
     /// UltraLow = 0.1
     /// None = 0
     /// </summary>
-    class DamageDealt
+    public static class DamageDealt
     {
         internal const float OnePunch = 10f;
         internal const float UltraHigh = 5f;
@@ -280,7 +280,7 @@ namespace BotExtended
     /// UltraResistant = 0.1
     /// Unbeatable = 0
     /// </summary>
-    class DamageTaken
+    public static class DamageTaken
     {
         internal const float Defenseless = 10f;
         internal const float UltraVulnerable = 5f;

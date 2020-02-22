@@ -74,7 +74,14 @@ namespace BotExtended.Bots
                 + RandomHelper.Direction(-65, 65);
             var direction = projectile.Direction.X > 0 ? 1 : -1;
             var position = projectile.Position - direction * Vector2.UnitX * 5;
-            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectVec);
+            var powerup = ProjectilePowerup.None;
+
+            if (projectile.PowerupBounceActive)
+                powerup = ProjectilePowerup.Bouncing;
+            if (projectile.PowerupFireActive)
+                powerup = ProjectilePowerup.Fire;
+
+            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectVec, powerup);
         }
     }
 }
