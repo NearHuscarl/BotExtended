@@ -64,7 +64,7 @@ namespace BotExtended
             }
             catch (Exception e)
             {
-                Game.ShowPopupMessage(string.Format("[BotExtended script]: {0}", e.Message), ScriptHelper.ERROR_COLOR);
+                Game.ShowChatMessage(string.Format("[BotExtended script]: {0}", e.Message), ScriptHelper.ERROR_COLOR);
                 Game.WriteToConsole("[BotExtended script]: Error");
                 Game.WriteToConsole(e.Message);
                 Game.WriteToConsole(e.Source);

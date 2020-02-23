@@ -205,7 +205,7 @@ namespace BotExtended.Bots
                         Game.DrawArea(result.HitObject.GetAABB(), Color.Red);
                         continue;
                     }
-                    if (!player.IsDead && !player.IsInMidAir)
+                    if (!player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())
                     {
                         Game.DrawArea(result.HitObject.GetAABB(), Color.Green);
                         return true;
@@ -408,26 +408,43 @@ namespace BotExtended.Bots
             }
             if (!m_useDoubleBody && !selfDestructed)
             {
-                var newPlayer = Game.CreatePlayer(Player.GetWorldPosition());
+                var doubleBody = Game.CreatePlayer(Player.GetWorldPosition());
 
-                Decorate(newPlayer);
-                var newMod = newPlayer.GetModifiers();
+                Decorate(doubleBody);
+                var newMod = doubleBody.GetModifiers();
                 newMod.CurrentHealth = newMod.MaxHealth;
 
-                newPlayer.SetModifiers(newMod);
-                newPlayer.SetValidBotEliminateTarget(false);
-                newPlayer.SetStatusBarsVisible(false);
-                newPlayer.SetNametagVisible(false);
-                newPlayer.SetFaceDirection(Player.GetFaceDirection());
+                doubleBody.SetModifiers(newMod);
+                doubleBody.SetValidBotEliminateTarget(false);
+                doubleBody.SetStatusBarsVisible(false);
+                doubleBody.SetNametagVisible(false);
+                doubleBody.SetFaceDirection(Player.GetFaceDirection());
 
                 // reset CustomID so when call Player.Remove() it will not called OnDeath() again for the old body
+                doubleBody.CustomID = Player.CustomID;
                 Player.CustomID = "";
                 Player.Remove();
-                Player = newPlayer;
-                m_useDoubleBody = true;
+                Player = doubleBody;
 
+                m_useDoubleBody = true;
                 StartDeathKneeling();
             }
+        }
+
+        private void Decorate(IPlayer existingPlayer)
+        {
+            existingPlayer.SetProfile(Player.GetProfile());
+
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPrimaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentSecondaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentThrownItem.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPowerupItem.WeaponItem);
+
+            existingPlayer.SetTeam(Player.GetTeam());
+            existingPlayer.SetModifiers(Player.GetModifiers());
+            existingPlayer.SetHitEffect(Player.GetHitEffect());
         }
 
         private void SelfDestruct()
@@ -512,14 +529,20 @@ namespace BotExtended.Bots
             if (Player.IsDeathKneeling)
             {
                 m_kneelingTime += elapsed;
-
-                if (m_kneelingTime >= 1000 && !m_hasShotGrenades)
+                if (m_kneelingTime >= 600 && !m_hasShotGrenades)
                 {
-                    m_grenadeDirection = new Vector2(Player.GetFaceDirection(), 1f);
+                    var grenadeDirection = new Vector2(Player.GetFaceDirection(), 1f);
 
                     for (uint i = 1; i <= 3; i++)
                     {
-                        Events.UpdateCallback.Start(ShootGrenades, 300 * i, 1);
+                        ScriptHelper.Timeout(() =>
+                        {
+                            if (Player.IsRemoved) return;
+                            var position = Player.GetWorldPosition();
+                            Game.PlaySound("GLauncher", position);
+                            Game.SpawnProjectile(ProjectileItem.GRENADE_LAUNCHER, position + new Vector2(-5, 20), grenadeDirection);
+                            grenadeDirection.X *= 2f;
+                        }, 300 * i);
                     }
                     m_hasShotGrenades = true;
                 }
@@ -541,14 +564,6 @@ namespace BotExtended.Bots
                     StopKneelingAndDie();
                 }
             }
-        }
-
-        private Vector2 m_grenadeDirection;
-        private void ShootGrenades(float elapsed)
-        {
-            Game.PlaySound("GLauncher", Player.GetWorldPosition());
-            Game.SpawnProjectile(ProjectileItem.GRENADE_LAUNCHER, Player.GetWorldPosition() + new Vector2(-5, 20), m_grenadeDirection);
-            m_grenadeDirection.X *= 2f;
         }
     }
 }

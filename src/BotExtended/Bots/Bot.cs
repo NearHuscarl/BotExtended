@@ -1,4 +1,4 @@
-using SFDGameScriptInterface;
+﻿using SFDGameScriptInterface;
 using BotExtended.Library;
 using System.Collections.Generic;
 using static BotExtended.Library.Mocks.MockObjects;
@@ -38,25 +38,6 @@ namespace BotExtended.Bots
             Type = BotType.None;
             Faction = faction;
             Info = new BotInfo(player);
-        }
-
-        public void Decorate(IPlayer existingPlayer)
-        {
-            existingPlayer.CustomID = Player.CustomID;
-            existingPlayer.SetProfile(Player.GetProfile());
-
-            existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
-            existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
-            existingPlayer.GiveWeaponItem(Player.CurrentPrimaryWeapon.WeaponItem);
-            existingPlayer.GiveWeaponItem(Player.CurrentSecondaryWeapon.WeaponItem);
-            existingPlayer.GiveWeaponItem(Player.CurrentThrownItem.WeaponItem);
-            existingPlayer.GiveWeaponItem(Player.CurrentPowerupItem.WeaponItem);
-
-            existingPlayer.SetBotBehavior(Player.GetBotBehavior());
-
-            existingPlayer.SetTeam(Player.GetTeam());
-            existingPlayer.SetModifiers(Player.GetModifiers());
-            existingPlayer.SetHitEffect(Player.GetHitEffect());
         }
 
         public void SaySpawnLine()
