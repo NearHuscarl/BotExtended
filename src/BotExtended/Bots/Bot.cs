@@ -1,4 +1,4 @@
-﻿using SFDGameScriptInterface;
+using SFDGameScriptInterface;
 using BotExtended.Library;
 using System.Collections.Generic;
 using static BotExtended.Library.Mocks.MockObjects;
@@ -81,14 +81,14 @@ namespace BotExtended.Bots
                 Game.CreateDialogue(deathLine, DialogueColor, Player, duration: 3000f);
         }
 
-        private int m_lastUpdateElapsed;
+        private float m_lastUpdateElapsed;
         public void Update(float elapsed)
         {
-            m_lastUpdateElapsed += (int)elapsed;
+            m_lastUpdateElapsed += elapsed;
 
             if (m_lastUpdateElapsed >= UpdateInterval)
             {
-                OnUpdate(m_lastUpdateElapsed + elapsed);
+                OnUpdate(m_lastUpdateElapsed);
                 m_lastUpdateElapsed = 0;
             }
         }
