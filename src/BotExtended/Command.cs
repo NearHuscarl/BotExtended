@@ -338,7 +338,6 @@ namespace BotExtended
         private static void CreateBot(IPlayer player, BotType bt)
         {
             var bot = BotManager.SpawnBot(bt, BotFaction.None, player, true, true, player.GetTeam());
-            BotManager.TriggerOnSpawn(bot);
         }
         public static void SetPlayer(IEnumerable<string> arguments)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BotExtended.Weapons;
 using SFDGameScriptInterface;
 
 namespace BotExtended
@@ -739,6 +740,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.M60,
+                        PrimaryPowerup = RangedWeaponPowerup.Present,
                         Secondary = WeaponItem.UZI,
                     });
                     break;

@@ -1,4 +1,5 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Weapons;
+using SFDGameScriptInterface;
 
 namespace BotExtended
 {
@@ -11,20 +12,9 @@ namespace BotExtended
             Secondary = WeaponItem.NONE;
             Throwable = WeaponItem.NONE;
             Powerup = WeaponItem.NONE;
+            PrimaryPowerup = RangedWeaponPowerup.None;
+            SecondaryPowerup = RangedWeaponPowerup.None;
             UseLazer = false;
-        }
-
-        public void Equip(IPlayer player)
-        {
-            if (player == null || IsEmpty) return;
-
-            player.GiveWeaponItem(Melee);
-            player.GiveWeaponItem(Primary);
-            player.GiveWeaponItem(Secondary);
-            player.GiveWeaponItem(Throwable);
-            player.GiveWeaponItem(Powerup);
-
-            if (UseLazer) player.GiveWeaponItem(WeaponItem.LAZER);
         }
 
         static WeaponSet()
@@ -39,6 +29,8 @@ namespace BotExtended
         public WeaponItem Secondary { get; set; }
         public WeaponItem Throwable { get; set; }
         public WeaponItem Powerup { get; set; }
+        public RangedWeaponPowerup PrimaryPowerup { get; set; }
+        public RangedWeaponPowerup SecondaryPowerup { get; set; }
         public bool UseLazer { get; set; }
         public bool IsEmpty
         {
@@ -49,6 +41,8 @@ namespace BotExtended
                   && Secondary == WeaponItem.NONE
                   && Throwable == WeaponItem.NONE
                   && Powerup == WeaponItem.NONE
+                  && PrimaryPowerup == RangedWeaponPowerup.None
+                  && SecondaryPowerup == RangedWeaponPowerup.None
                   && UseLazer == false;
             }
         }

@@ -3,6 +3,7 @@ using BotExtended.Library;
 using System.Collections.Generic;
 using static BotExtended.Library.Mocks.MockObjects;
 using BotExtended.Factions;
+using System;
 
 namespace BotExtended.Bots
 {
@@ -23,6 +24,12 @@ namespace BotExtended.Bots
         public BotFaction Faction { get; set; }
         public BotInfo Info { get; set; }
         public int UpdateInterval { get; set; }
+
+        public delegate void PlayerDropWeaponCallback(IPlayer previousOwner, IObjectWeaponItem weaponObj);
+        public event PlayerDropWeaponCallback PlayerDropWeaponEvent;
+
+        public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj);
+        public event PlayerPickUpWeaponCallback PlayerPickUpWeaponEvent;
 
         public Bot()
         {
@@ -62,6 +69,23 @@ namespace BotExtended.Bots
                 Game.CreateDialogue(deathLine, DialogueColor, Player, duration: 3000f);
         }
 
+        private List<WeaponItem> m_prevWeapons = new List<WeaponItem>()
+        {
+            WeaponItem.NONE,
+            WeaponItem.NONE,
+            WeaponItem.NONE,
+            WeaponItem.NONE,
+            WeaponItem.NONE,
+        };
+
+        private List<float> m_prevAmmo = new List<float>()
+        {
+            0, // melee 'ammo' is durability of melee weapon
+            0,
+            0,
+            0,
+        };
+
         private float m_lastUpdateElapsed;
         public void Update(float elapsed)
         {
@@ -72,6 +96,7 @@ namespace BotExtended.Bots
                 OnUpdate(m_lastUpdateElapsed);
                 m_lastUpdateElapsed = 0;
             }
+            UpdateWeaponStatus();
         }
 
         private float m_bloodEffectElapsed = 0;
@@ -89,6 +114,109 @@ namespace BotExtended.Bots
                 }
             }
         }
+
+        private WeaponItem CurrentWeapon(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return Player.CurrentMeleeWeapon.WeaponItem;
+                case 1:
+                    return Player.CurrentPrimaryWeapon.WeaponItem;
+                case 2:
+                    return Player.CurrentSecondaryWeapon.WeaponItem;
+                case 3:
+                    return Player.CurrentThrownItem.WeaponItem;
+                case 4:
+                    return Player.CurrentPowerupItem.WeaponItem;
+            }
+            return WeaponItem.NONE;
+        }
+        private float CurrentAmmo(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return Player.CurrentMeleeWeapon.Durability;
+                case 1:
+                    return Player.CurrentPrimaryWeapon.TotalAmmo;
+                case 2:
+                    return Player.CurrentSecondaryWeapon.TotalAmmo;
+                case 3:
+                    return Player.CurrentThrownItem.CurrentAmmo;
+            }
+            return 0;
+        }
+
+        private IObjectWeaponItem[] m_nearbyWeapons;
+        private void UpdateWeaponStatus()
+        {
+            m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
+
+            for (var i = 0; i < m_prevAmmo.Count; i++)
+            {
+                if (CurrentAmmo(i) != m_prevAmmo[i])
+                {
+                    if (m_prevWeapons[i] == CurrentWeapon(i))
+                        CheckFireWeaponEvent(i, WeaponEvent.Refill);
+                    m_prevAmmo[i] = CurrentAmmo(i);
+                }
+            }
+
+            for (var i = 0; i < m_prevWeapons.Count; i++)
+            {
+                if (CurrentWeapon(i) != m_prevWeapons[i])
+                {
+                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
+                        CheckFireWeaponEvent(i, WeaponEvent.Pickup);
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE)
+                        CheckFireWeaponEvent(i, WeaponEvent.Drop);
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
+                        CheckFireWeaponEvent(i, WeaponEvent.Swap);
+                    m_prevWeapons[i] = CurrentWeapon(i);
+                }
+            }
+        }
+
+        private enum WeaponEvent
+        {
+            Pickup,
+            Drop,
+            Swap,
+            Refill,
+        }
+        private void CheckFireWeaponEvent(int weaponIndex, WeaponEvent weaponEvent)
+        {
+            // TODO: event will not fire if player pick up the same weapon when have max ammo!
+            IObjectWeaponItem droppedWeaponObj = null;
+            IObjectWeaponItem pickedupWeaponObj = null;
+
+            foreach (var weapon in m_nearbyWeapons)
+            {
+                if (weapon.WeaponItem == m_prevWeapons[weaponIndex])
+                {
+                    if (weaponEvent == WeaponEvent.Drop || weaponEvent == WeaponEvent.Swap)
+                    {
+                        droppedWeaponObj = weapon;
+                    }
+                }
+                if (weapon.WeaponItem == CurrentWeapon(weaponIndex))
+                {
+                    if (weaponEvent == WeaponEvent.Pickup || weaponEvent == WeaponEvent.Swap || weaponEvent == WeaponEvent.Refill)
+                    {
+                        pickedupWeaponObj = weapon;
+                    }
+                }
+            }
+
+            // defer firing events until now to make sure drop event always fired before pickup event
+            if (droppedWeaponObj != null && PlayerDropWeaponEvent != null)
+                PlayerDropWeaponEvent.Invoke(Player, droppedWeaponObj);
+
+            if (pickedupWeaponObj != null && PlayerPickUpWeaponEvent != null)
+                PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj);
+        }
+
         public virtual void OnSpawn(IEnumerable<Bot> bots) { }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }

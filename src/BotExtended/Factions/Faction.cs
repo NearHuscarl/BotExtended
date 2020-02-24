@@ -54,7 +54,7 @@ namespace BotExtended.Factions
                     while (factionCountRemaining > 0 && (botCountRemainingThisType > 0 || subFactionCount == SubFactions.Count))
                     {
                         var botType = subFaction.GetRandomType();
-                        var bot = BotManager.SpawnBot(botType, BotFaction);
+                        var bot = BotManager.SpawnBot(botType, BotFaction, triggerOnSpawn: false);
 
                         bots.Add(bot);
                         factionCountRemaining--;
@@ -64,7 +64,7 @@ namespace BotExtended.Factions
                 else
                 {
                     var botType = subFaction.GetRandomType();
-                    var bot = BotManager.SpawnBot(botType, BotFaction, null, true, true, BotManager.BotTeam, true);
+                    var bot = BotManager.SpawnBot(botType, BotFaction, null, true, true, BotManager.BotTeam, true, triggerOnSpawn: false);
 
                     bots.Add(bot);
                     factionCountRemaining--;

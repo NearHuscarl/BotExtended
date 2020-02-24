@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.Library.Mocks.MockObjects;
 using static BotExtended.GameScript;
+using BotExtended.Weapons;
 
 namespace BotExtended
 {
@@ -23,6 +24,8 @@ namespace BotExtended
 
         public static void Initialize()
         {
+            WeaponManager.Initialize();
+
             m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();
 
             Events.PlayerMeleeActionCallback.Start(OnPlayerMeleeAction);
@@ -127,7 +130,24 @@ namespace BotExtended
             }
         }
 
-        public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(m_bots.Values); }
+        private static void TriggerOnSpawn(Bot bot)
+        {
+            bot.OnSpawn(m_bots.Values);
+            bot.PlayerDropWeaponEvent += OnPlayerDropWeapon;
+            bot.PlayerPickUpWeaponEvent += OnPlayerPickUpWeapon;
+        }
+
+        private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
+        {
+            WeaponManager.OnPlayerDropWeapon(previousOwner, weaponObj);
+            ScriptHelper.LogDebug(string.Format("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
+        }
+
+        private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj)
+        {
+            WeaponManager.OnPlayerPickUpWeapon(newOwner, weaponObj);
+            ScriptHelper.LogDebug(string.Format("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
+        }
 
         public static void OnUpdate(float elapsed)
         {
@@ -228,7 +248,10 @@ namespace BotExtended
             {
                 bot.SayDeathLine();
             }
+
             bot.OnDeath(args);
+            bot.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
+            bot.PlayerPickUpWeaponEvent -= OnPlayerPickUpWeapon;
 
             if (!args.Removed)
             {
@@ -306,6 +329,8 @@ namespace BotExtended
             }
 
             m_bots.Add(player.CustomID, bot);
+            TriggerOnSpawn(bot);
+
             return bot;
         }
 
@@ -316,7 +341,8 @@ namespace BotExtended
             bool equipWeapons = true,
             bool setProfile = true,
             PlayerTeam team = BotTeam,
-            bool ignoreFullSpawner = false)
+            bool ignoreFullSpawner = false,
+            bool triggerOnSpawn = true)
         {
             if (player == null) player = SpawnPlayer(ignoreFullSpawner);
             if (player == null) return null;
@@ -337,7 +363,7 @@ namespace BotExtended
                 {
                     weaponSet = RandomHelper.GetItem(GetWeapons(botType));
                 }
-                weaponSet.Equip(player);
+                BotHelper.Equip(player, weaponSet);
             }
 
             if (setProfile)
@@ -354,6 +380,9 @@ namespace BotExtended
 
             bot.SaySpawnLine();
             m_bots[player.CustomID] = bot; // This may be updated if using setplayer command
+
+            if (triggerOnSpawn)
+                TriggerOnSpawn(bot);
 
             return bot;
         }

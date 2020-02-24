@@ -1,6 +1,7 @@
 ﻿using BotExtended.Bots;
 using BotExtended.Factions;
 using BotExtended.Library;
+using BotExtended.Weapons;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +109,22 @@ namespace BotExtended
                 return BotType.ZombieFat;
 
             return BotType.Zombie;
+        }
+
+        public static void Equip(IPlayer player, WeaponSet weaponSet)
+        {
+            if (player == null || weaponSet.IsEmpty) return;
+
+            player.GiveWeaponItem(weaponSet.Melee);
+            player.GiveWeaponItem(weaponSet.Primary);
+            player.GiveWeaponItem(weaponSet.Secondary);
+            player.GiveWeaponItem(weaponSet.Throwable);
+            player.GiveWeaponItem(weaponSet.Powerup);
+
+            WeaponManager.SetPrimaryPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
+            WeaponManager.SetSecondaryPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
+
+            if (weaponSet.UseLazer) player.GiveWeaponItem(WeaponItem.LAZER);
         }
 
         public static IProfile ToZombieProfile(IProfile profile)
