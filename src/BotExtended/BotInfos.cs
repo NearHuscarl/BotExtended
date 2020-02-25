@@ -14,11 +14,16 @@ namespace BotExtended
                 case BotType.Agent:
                 case BotType.Soldier:
                 {
-                    botInfo.AIType = BotAI.Hard;
                     if (botType == BotType.Agent)
+                    {
                         botInfo.SearchItems = SearchItems.Secondary;
+                        botInfo.AIType = BotAI.Hard;
+                    }
                     if (botType == BotType.Soldier || botType == BotType.Soldier2)
+                    {
                         botInfo.SearchItems = SearchItems.Primary;
+                        botInfo.AIType = BotAI.Soldier;
+                    }
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.BelowNormal,
@@ -34,7 +39,7 @@ namespace BotExtended
                 #region Assassin
                 case BotType.AssassinMelee:
                 {
-                    botInfo.AIType = BotAI.MeleeHard;
+                    botInfo.AIType = BotAI.AssassinMelee;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.BelowNormal,
@@ -49,7 +54,7 @@ namespace BotExtended
                 }
                 case BotType.AssassinRange:
                 {
-                    botInfo.AIType = BotAI.RangeHard;
+                    botInfo.AIType = BotAI.AssassinRange;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.BelowNormal,
@@ -85,7 +90,7 @@ namespace BotExtended
                 case BotType.ClownCowboy:
                 case BotType.Cowboy:
                 {
-                    botInfo.AIType = BotAI.Grunt;
+                    botInfo.AIType = BotAI.Cowboy;
                     botInfo.EquipWeaponChance = 1f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
@@ -583,7 +588,7 @@ namespace BotExtended
                         MaxEnergy = Stamina.UltraHigh,
                         CurrentEnergy = Stamina.UltraHigh,
                         MeleeDamageDealtModifier = DamageDealt.High,
-                        MeleeForceModifier = MeleeForce.ExtremelyStrong,
+                        MeleeForceModifier = MeleeForce.VeryStrong,
                         RunSpeedModifier = Speed.BelowNormal,
                         SprintSpeedModifier = Speed.BelowNormal,
                         SizeModifier = Size.Chonky,

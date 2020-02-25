@@ -6,6 +6,7 @@ namespace BotExtended.Bots
     {
         public override void OnSpawn(IEnumerable<Bot> bots)
         {
+            base.OnSpawn(bots);
             Player.SetMaxFire();
         }
     }

@@ -14,6 +14,8 @@ namespace BotExtended.Bots
 
         public override void OnSpawn(IEnumerable<Bot> others)
         {
+            base.OnSpawn(others);
+
             var names = new Queue<string>(new[] { "Timmy", "Jimmy" });
             UpdateInterval = 0;
 

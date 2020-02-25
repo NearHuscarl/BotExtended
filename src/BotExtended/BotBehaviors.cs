@@ -4,6 +4,14 @@ namespace BotExtended
 {
     public partial class GameScript : GameScriptInterface
     {
+        // Useless now. https://www.mythologicinteractiveforums.com/viewtopic.php?f=15&t=3940
+        public static class SearchRangeSettings
+        {
+            public const float Infinite = 0f;
+            public const float Large = 125f;
+            public const float Small = 30f;
+        }
+
         public static BotBehaviorSet GetBehaviorSet(BotAI botAI, SearchItems searchItems = SearchItems.None)
         {
             var botBehaviorSet = new BotBehaviorSet()
@@ -26,25 +34,6 @@ namespace BotExtended
                     botBehaviorSet.RangedWeaponBurstTimeMax = 5000;
                     botBehaviorSet.RangedWeaponBurstPauseMin = 0;
                     botBehaviorSet.RangedWeaponBurstPauseMax = 0;
-                    break;
-                }
-                #endregion
-
-                #region OffensiveMelee
-                case BotAI.OffensiveMelee:
-                {
-                    botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.MeleeB);
-                    botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0.9f;
-                    botBehaviorSet.MeleeWaitTimeLimitMin = 600f;
-                    botBehaviorSet.MeleeWaitTimeLimitMax = 800f;
-
-                    botBehaviorSet.OffensiveEnrageLevel = 0.5f;
-                    botBehaviorSet.NavigationRandomPausesLevel = 0.1f;
-                    botBehaviorSet.DefensiveRollFireLevel = 0.95f;
-                    botBehaviorSet.DefensiveAvoidProjectilesLevel = 0.9f;
-                    botBehaviorSet.OffensiveClimbingLevel = 0.9f;
-                    botBehaviorSet.OffensiveSprintLevel = 0.9f;
-                    botBehaviorSet.OffensiveDiveLevel = 0.1f; // 0.7f
                     break;
                 }
                 #endregion
@@ -156,14 +145,17 @@ namespace BotExtended
                 #region Ninja == BotAI.MeleeExpert + more offensive melee tactic
                 case BotAI.Ninja:
                 {
-                    botBehaviorSet = GetBehaviorSet(BotAI.OffensiveMelee);
+                    botBehaviorSet = Rage(botBehaviorSet);
+                    botBehaviorSet = VeryDefensive(botBehaviorSet);
 
                     botBehaviorSet.MeleeUsage = true;
                     botBehaviorSet.MeleeWeaponUsage = true;
                     botBehaviorSet.MeleeWeaponUseFullRange = true;
-
                     botBehaviorSet.SearchForItems = true;
-                    botBehaviorSet.SearchItems = SearchItems.Melee;
+                    botBehaviorSet.SearchItems = SearchItems.Melee | SearchItems.Throwable;
+
+                    botBehaviorSet.OffensiveEnrageLevel = 0.5f;
+                    botBehaviorSet.OffensiveDiveLevel = 0.1f;
                     break;
                 }
                 #endregion
@@ -192,7 +184,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Sniper == BotAI.RangeExpert + more defensive melee tactic
+                #region Sniper == BotAI.RangeExpert + Defensive
                 case BotAI.Sniper:
                 {
                     botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.RangedA);
@@ -202,13 +194,8 @@ namespace BotExtended
                     botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 2000f;
                     botBehaviorSet.RangedWeaponPrecisionAccuracy = 0.95f;
 
-                    botBehaviorSet.DefensiveRollFireLevel = 0.95f;
-                    botBehaviorSet.DefensiveAvoidProjectilesLevel = 0.6f;
-                    botBehaviorSet.OffensiveEnrageLevel = 0.2f;
-                    botBehaviorSet.OffensiveClimbingLevel = 0f;
-                    botBehaviorSet.OffensiveSprintLevel = 0f;
-                    botBehaviorSet.OffensiveDiveLevel = 0f;
-                    botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0f;
+                    botBehaviorSet = VeryDefensive(botBehaviorSet);
+                    botBehaviorSet = VeryInoffensive(botBehaviorSet);
                     botBehaviorSet.TeamLineUp = false;
                     break;
                 }
@@ -253,7 +240,8 @@ namespace BotExtended
                 #region RagingHulk
                 case BotAI.RagingHulk:
                 {
-                    botBehaviorSet = GetBehaviorSet(BotAI.OffensiveMelee);
+                    botBehaviorSet = GetBehaviorSet(BotAI.Hulk);
+                    botBehaviorSet = Rage(botBehaviorSet);
                     botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions()
                     {
                         Attack = (ushort)4,
@@ -261,8 +249,8 @@ namespace BotExtended
                         Block = (ushort)1,
                         Kick = (ushort)4,
                         Jump = (ushort)1,
-                        Wait = (ushort)10,
-                        Grab = (ushort)8
+                        Wait = (ushort)5,
+                        Grab = (ushort)12
                     });
                     break;
                 }
@@ -272,6 +260,43 @@ namespace BotExtended
                 case BotAI.Meatgrinder:
                 {
                     botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.Meatgrinder);
+                    break;
+                }
+                #endregion
+
+                #region Assassin
+                case BotAI.AssassinMelee:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.MeleeHard);
+                    botBehaviorSet = Jogger(botBehaviorSet);
+                    break;
+                }
+                case BotAI.AssassinRange:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.RangeHard);
+                    botBehaviorSet = Jogger(botBehaviorSet);
+                    break;
+                }
+                #endregion
+
+                #region Cowboy
+                case BotAI.Cowboy:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.Grunt);
+                    botBehaviorSet.RangedWeaponAimShootDelayMin = 0;
+                    botBehaviorSet.RangedWeaponAimShootDelayMax = 50;
+                    botBehaviorSet.RangedWeaponHipFireAimShootDelayMin = 0;
+                    botBehaviorSet.RangedWeaponHipFireAimShootDelayMax = 25;
+                    botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 50;
+                    break;
+                }
+                #endregion
+
+                #region Soldier
+                case BotAI.Soldier:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.Hard);
+                    botBehaviorSet = Defensive(botBehaviorSet);
                     break;
                 }
                 #endregion
@@ -342,6 +367,81 @@ namespace BotExtended
 
             botBehaviorSet.SearchForItems = true;
             botBehaviorSet.SearchItems = searchItems; // Disable SearchItems by setting to None
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet Offensive(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0.75f;
+
+            botBehaviorSet.OffensiveEnrageLevel = 0.6f;
+            botBehaviorSet.OffensiveClimbingLevel = 0.7f;
+            botBehaviorSet.OffensiveSprintLevel = 0.7f;
+            botBehaviorSet.OffensiveDiveLevel = 0.7f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet VeryOffensive(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0.9f;
+
+            botBehaviorSet.OffensiveEnrageLevel = 0.7f;
+            botBehaviorSet.OffensiveClimbingLevel = 0.9f;
+            botBehaviorSet.OffensiveSprintLevel = 0.9f;
+            botBehaviorSet.OffensiveDiveLevel = 0.8f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet Rage(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet = VeryOffensive(botBehaviorSet);
+            botBehaviorSet.MeleeWaitTimeLimitMin = 400f;
+            botBehaviorSet.MeleeWaitTimeLimitMax = 600f;
+
+            botBehaviorSet.OffensiveEnrageLevel = 0.8f;
+            botBehaviorSet.NavigationRandomPausesLevel = 0.1f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet VeryInoffensive(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.OffensiveEnrageLevel = 0.2f;
+            botBehaviorSet.OffensiveClimbingLevel = 0f;
+            botBehaviorSet.OffensiveSprintLevel = 0f;
+            botBehaviorSet.OffensiveDiveLevel = 0f;
+            botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet Defensive(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.DefensiveBlockLevel = 0f; // NOT YET IMPLEMENTED
+            botBehaviorSet.DefensiveAvoidProjectilesLevel = .8f; // expert ref: .4f
+            botBehaviorSet.DefensiveRollFireLevel = .85f; // .9f
+            botBehaviorSet.SeekCoverWhileShooting = .85f; // .85f
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet VeryDefensive(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.DefensiveBlockLevel = 0f; // NOT YET IMPLEMENTED
+            botBehaviorSet.DefensiveAvoidProjectilesLevel = .95f;
+            botBehaviorSet.DefensiveRollFireLevel = .95f;
+            botBehaviorSet.SeekCoverWhileShooting = .99f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet Jogger(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.OffensiveClimbingLevel = 0.9f;
+            botBehaviorSet.OffensiveSprintLevel = 0.9f;
 
             return botBehaviorSet;
         }

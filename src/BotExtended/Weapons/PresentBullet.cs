@@ -108,7 +108,10 @@ namespace BotExtended.Weapons
             if (rndNum < 1) // big oof
             {
                 var player = Game.CreatePlayer(position);
-                BotManager.SpawnBot(BotType.Santa, player: player);
+                var bot = BotManager.SpawnBot(BotType.Santa, player: player, triggerOnSpawn: false);
+
+                bot.Info.SpawnLine = "Surprise motherfucker!";
+                BotManager.TriggerOnSpawn(bot);
             }
             if (1 <= rndNum && rndNum < 5)
             {

@@ -60,11 +60,9 @@
     <Compile Include="BotInfos.cs" />
     <Compile Include="BotHelper.cs" />
     <Compile Include="BotProfiles.cs" />
-    <Compile Include="Bots\AssassinBot.cs" />
     <Compile Include="Bots\BabybearBot.cs" />
     <Compile Include="Bots\Bot.cs" />
     <Compile Include="Bots\BotFactory.cs" />
-    <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\HackerBot.cs" />
     <Compile Include="Bots\IncineratorBot.cs" />
     <Compile Include="Bots\KingpinBot.cs" />

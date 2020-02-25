@@ -11,16 +11,6 @@ namespace BotExtended.Bots
             Bot bot = null;
             switch (botType)
             {
-                case BotType.AssassinMelee:
-                case BotType.AssassinRange:
-                    bot = new AssassinBot();
-                    break;
-
-                case BotType.ClownCowboy:
-                case BotType.Cowboy:
-                    bot = new CowboyBot();
-                    break;
-
                 case BotType.ZombieFat:
                     bot = new ZombieFatBot();
                     break;

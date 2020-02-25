@@ -44,6 +44,8 @@ namespace BotExtended.Bots
 
         public override void OnSpawn(IEnumerable<Bot> others)
         {
+            base.OnSpawn(others);
+
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;
             behavior.DefensiveAvoidProjectilesLevel = 0f;

@@ -5,9 +5,6 @@
         Debug,
         None, // Normal SF (not extended bot)
 
-        // base
-        OffensiveMelee,
-
         Hacker,
         Expert,
         Hard,
@@ -22,6 +19,13 @@
         Grunt,
         Hulk,
         RagingHulk,
+
+        // Jogger + hard melee/shooting
+        AssassinMelee,
+        AssassinRange,
+
+        // Trigger-happy Grunt
+        Cowboy,
 
         Meatgrinder,
         Ninja,

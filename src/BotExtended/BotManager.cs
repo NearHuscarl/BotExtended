@@ -130,7 +130,7 @@ namespace BotExtended
             }
         }
 
-        private static void TriggerOnSpawn(Bot bot)
+        public static void TriggerOnSpawn(Bot bot)
         {
             bot.OnSpawn(m_bots.Values);
             bot.PlayerDropWeaponEvent += OnPlayerDropWeapon;
@@ -378,7 +378,6 @@ namespace BotExtended
             player.SetBotBehaviorActive(true);
             player.SetTeam(team);
 
-            bot.SaySpawnLine();
             m_bots[player.CustomID] = bot; // This may be updated if using setplayer command
 
             if (triggerOnSpawn)

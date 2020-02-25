@@ -7,6 +7,8 @@ namespace BotExtended.Bots
     {
         public override void OnSpawn(IEnumerable<Bot> others)
         {
+            base.OnSpawn(others);
+
             var bodyguards = others.Where(Q => Q.Type == BotType.Bodyguard || Q.Type == BotType.GangsterHulk).Take(2);
             var bodyguardMaxCount = 2;
             var bodyguardCount = bodyguards.Count();

@@ -7,6 +7,8 @@ namespace BotExtended.Bots
     {
         public override void OnSpawn(IEnumerable<Bot> others)
         {
+            base.OnSpawn(others);
+
             var behavior = Player.GetBotBehaviorSet();
             behavior.RangedWeaponUsage = false;
             behavior.SearchForItems = false;

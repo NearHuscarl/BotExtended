@@ -217,7 +217,10 @@ namespace BotExtended.Bots
                 PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj);
         }
 
-        public virtual void OnSpawn(IEnumerable<Bot> bots) { }
+        public virtual void OnSpawn(IEnumerable<Bot> bots)
+        {
+            SaySpawnLine();
+        }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args) { }

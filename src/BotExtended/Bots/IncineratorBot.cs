@@ -8,6 +8,8 @@ namespace BotExtended.Bots
     {
         public override void OnSpawn(IEnumerable<Bot> bots)
         {
+            base.OnSpawn(bots);
+
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;
             behavior.RangedWeaponPrecisionInterpolateTime = 0f;

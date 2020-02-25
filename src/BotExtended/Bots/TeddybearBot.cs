@@ -22,6 +22,8 @@ namespace BotExtended.Bots
 
         public override void OnSpawn(IEnumerable<Bot> others)
         {
+            base.OnSpawn(others);
+
             IsEnraged = false;
 
             if (others.Count() >= 1) // has cults
@@ -79,9 +81,9 @@ namespace BotExtended.Bots
         public void Enrage(IPlayer offender, int enrageTime)
         {
             if (Player.IsRemoved || Player == null) return;
-            bool isAlreadyEnraged = IsEnraged;
+            bool hasAlreadyEnraged = IsEnraged;
 
-            if (isAlreadyEnraged)
+            if (hasAlreadyEnraged)
                 Game.CreateDialogue("GRRRRRRRROOAAR!", ScriptHelper.Red, Player);
             else
                 Game.CreateDialogue("GRRRRRR", ScriptHelper.Orange, Player);
@@ -89,15 +91,17 @@ namespace BotExtended.Bots
 
             Game.CreateDialogue(RandomHelper.GetItem(PlayerEnrageReactions), offender);
             
-            m_normalModifiers = Player.GetModifiers();
+            if (!hasAlreadyEnraged)
+                m_normalModifiers = Player.GetModifiers();
             var enrageModifiers = Player.GetModifiers();
-            enrageModifiers.RunSpeedModifier = isAlreadyEnraged ? 1.5f : 1.25f;
-            enrageModifiers.SprintSpeedModifier = isAlreadyEnraged ? 1.5f : 1.25f;
-            enrageModifiers.MeleeForceModifier = isAlreadyEnraged ? 3f : 2.25f;
+            enrageModifiers.RunSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
+            enrageModifiers.SprintSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
+            enrageModifiers.MeleeForceModifier = MeleeForce.ExtremelyStrong;
+            enrageModifiers.EnergyConsumptionModifier = .25f;
             Player.SetModifiers(enrageModifiers);
 
             m_normalBehaviorSet = Player.GetBotBehaviorSet();
-            var bs = GetBehaviorSet(BotAI.RagingHulk, isAlreadyEnraged ? SearchItems.Melee : SearchItems.Makeshift);
+            var bs = GetBehaviorSet(BotAI.RagingHulk, hasAlreadyEnraged ? SearchItems.Melee | SearchItems.Makeshift : SearchItems.Makeshift);
             Player.SetBotBehaviorSet(bs);
 
             Player.SetStrengthBoostTime(enrageTime);
