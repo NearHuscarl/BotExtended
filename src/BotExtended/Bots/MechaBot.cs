@@ -64,6 +64,8 @@ namespace BotExtended.Bots
 
             base.OnUpdate(elapsed);
 
+            UpdateChargeStatusColor();
+
             switch (m_state)
             {
                 case MechaState.Normal:
@@ -90,6 +92,24 @@ namespace BotExtended.Bots
                     UpdateCorpse(elapsed);
                     break;
             }
+        }
+
+        private float m_lastChargeEnergy;
+        private void UpdateChargeStatusColor()
+        {
+            if (m_lastChargeEnergy < EnergyToCharge && m_superchargeEnergy >= EnergyToCharge)
+            {
+                var profile = Player.GetProfile();
+                profile.Skin = new IProfileClothingItem("MechSkin", "ClothingLightGray", "ClothingLightGreen", "");
+                Player.SetProfile(profile);
+            }
+            if (m_lastChargeEnergy > m_superchargeEnergy)
+            {
+                var profile = Player.GetProfile();
+                profile.Skin = new IProfileClothingItem("MechSkin", "ClothingLightGray", "ClothingLightRed", "");
+                Player.SetProfile(profile);
+            }
+            m_lastChargeEnergy = m_superchargeEnergy;
         }
 
         public readonly float EnergyToCharge = 9000f;

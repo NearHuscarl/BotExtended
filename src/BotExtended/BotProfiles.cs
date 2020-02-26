@@ -1275,7 +1275,7 @@ namespace BotExtended
                         Hands = null,
                         Head = null,
                         Legs = null,
-                        Skin = new IProfileClothingItem("MechSkin", "ClothingLightGray", "ClothingYellow", ""),
+                        Skin = new IProfileClothingItem("MechSkin", "ClothingLightGray", "ClothingLightRed", ""),
                         Waist = null,
                     });
                     break;
