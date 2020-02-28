@@ -19,7 +19,7 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
-        public static void LogDebug(string message) { if (Game.IsEditorTest) Game.WriteToConsole(message); }
+        public static void LogDebug(object message) { if (Game.IsEditorTest) Game.WriteToConsole(message.ToString()); }
 
         public static void Timeout(Action callback, uint interval)
         {
@@ -192,20 +192,143 @@ namespace BotExtended.Library
             return Vector2.Distance(point, projection);
         }
 
-        // take into account PlayerModifiers.SizeModifier. Not 100% accurate
-        public static Area GetAABB(IPlayer player)
+        public static Vector2 GetDirection(float radianAngle)
         {
-            var aabb = player.GetAABB();
-            var sizeModifier = player.GetModifiers().SizeModifier;
-            var newWidth = aabb.Width * sizeModifier;
-            var newHeight = aabb.Height * sizeModifier;
+            return new Vector2()
+            {
+                X = (float)Math.Cos(radianAngle),
+                Y = (float)Math.Sin(radianAngle),
+            };
+        }
 
-            aabb.Left -= (newWidth - aabb.Width) / 2;
-            aabb.Right += (newWidth - aabb.Width) / 2;
-            aabb.Top += (newHeight - aabb.Height) / 2;
-            aabb.Bottom -= (newHeight - aabb.Height) / 2;
+        // https://stackoverflow.com/a/6247163/9449426
+        public static float GetAngle(Vector2 direction)
+        {
+            return (float)Math.Atan2(direction.Y, direction.X);
+        }
 
-            return aabb;
+        public static bool SameTeam(IPlayer player1, IPlayer player2)
+        {
+            if (player1 == null || player2 == null) return false;
+            return player1.GetTeam() == player2.GetTeam()
+                || player1.GetTeam() == PlayerTeam.Independent && player1.UniqueID == player2.UniqueID;
+        }
+
+        // You can use IObject.GetCollisionFilter().BlockExplosions to know
+        // if bullets can pass through that object like Ladder
+        // Some other objects that bullets can pass after a while that cannot be detected
+        // using the above method
+        public static readonly HashSet<string> ObjectsBulletCanPass = new HashSet<string>()
+        {
+            "ReinforcedGlass00A",
+            "AtlasStatue00",
+            "BulletproofGlass00Weak",
+            "StoneWeak00A",
+            "StoneWeak00B",
+            "StoneWeak00C",
+            "Concrete01Weak",
+            "Wood06Weak",
+        };
+
+        // List of objects that bullet cant pass (edge cases)
+        // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3952&p=23291#p23291
+        public static readonly HashSet<string> ObjectsBulletCantPass = new HashSet<string>()
+        {
+            "DinerBooth",
+        };
+
+        /// <summary>
+        /// Find players that touch the line. filter players behind block objects (wall, ground...)
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static IEnumerable<IPlayer> RayCastPlayers(Vector2 start, Vector2 end,
+            bool blockTeammates = false, IPlayer fromPlayer = null)
+        {
+            if (fromPlayer == null) blockTeammates = false;
+
+            var rayCastInput = new RayCastInput()
+            {
+                // How to customize filter
+                // Open with notepad ..\Superfighters Deluxe\Content\Data\Tiles\CollisionGroups\collisionGroups.sfdx
+                // Search for categoryBits for the object types you want to accept for collision
+                // Calc sum of those values (in binary) and convert to hex
+                // 
+                // static_ground, players, dynamic_platforms
+                MaskBits = 0x000F,
+                FilterOnMaskBits = true
+                //Types = new Type[1] { typeof(IPlayer) },
+            };
+            var results = Game.RayCast(start, end, rayCastInput);
+            var closestBlockedDistance = float.PositiveInfinity;
+            var closestTeammateDistance = float.PositiveInfinity;
+            int closestBlockObjectID = int.MinValue;
+            int closestTeammateID = int.MinValue;
+            var playerResult = new List<RayCastResult>();
+
+            foreach (var result in results)
+            {
+                if (ObjectsBulletCantPass.Contains(result.HitObject.Name)
+                    // Filter objects bullet can passthrough like ladder
+                    || (result.HitObject.GetCollisionFilter().BlockExplosions
+                    && !ObjectsBulletCanPass.Contains(result.HitObject.Name))
+                    )
+                {
+                    var distanceToBlockObj = Vector2.Distance(start, result.Position);
+
+                    if (closestBlockedDistance > distanceToBlockObj)
+                    {
+                        closestBlockedDistance = distanceToBlockObj;
+                        closestBlockObjectID = result.ObjectID;
+                    }
+                }
+                if (result.IsPlayer) playerResult.Add(result);
+                if (result.IsPlayer && blockTeammates)
+                {
+                    var player = Game.GetPlayer(result.ObjectID);
+
+                    if (SameTeam(player, fromPlayer))
+                    {
+                        var distanceToTeammate = Vector2.Distance(start, result.Position);
+
+                        if (closestTeammateDistance > distanceToTeammate)
+                        {
+                            closestTeammateDistance = distanceToTeammate;
+                            closestTeammateID = result.ObjectID;
+                        }
+                    }
+                }
+            }
+
+            if (closestBlockObjectID != int.MinValue)
+                Game.DrawArea(Game.GetObject(closestBlockObjectID).GetAABB(), Color.Yellow);
+            if (closestTeammateID != int.MinValue)
+                Game.DrawArea(Game.GetPlayer(closestTeammateID).GetAABB(), Color.Red);
+
+            foreach (var result in playerResult)
+            {
+                var player = Game.GetPlayer(result.ObjectID);
+                var distanceToPlayer = Vector2.Distance(start, result.Position);
+                var blocked = false;
+                var sameTeam = SameTeam(player, fromPlayer);
+
+                if (blockTeammates)
+                {
+                    if (sameTeam)
+                        continue;
+                    else if (closestTeammateDistance <= distanceToPlayer)
+                        blocked = true;
+                }
+                if (closestBlockedDistance < distanceToPlayer)
+                    blocked = true;
+
+                if (!blocked)
+                {
+                    Game.DrawArea(player.GetAABB(), Color.Green);
+                    yield return player;
+                }
+            }
         }
     }
 }

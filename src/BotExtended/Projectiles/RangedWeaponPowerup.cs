@@ -1,4 +1,4 @@
-﻿namespace BotExtended.Weapons
+﻿namespace BotExtended.Projectiles
 {
     public enum RangedWeaponPowerup
     {

@@ -1,7 +1,7 @@
 ﻿using BotExtended.Bots;
 using BotExtended.Factions;
 using BotExtended.Library;
-using BotExtended.Weapons;
+using BotExtended.Projectiles;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,8 +121,8 @@ namespace BotExtended
             player.GiveWeaponItem(weaponSet.Throwable);
             player.GiveWeaponItem(weaponSet.Powerup);
 
-            WeaponManager.SetPrimaryPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
-            WeaponManager.SetSecondaryPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
+            ProjectileManager.SetPrimaryPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
+            ProjectileManager.SetSecondaryPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
 
             if (weaponSet.UseLazer) player.GiveWeaponItem(WeaponItem.LAZER);
         }

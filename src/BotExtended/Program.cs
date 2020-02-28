@@ -2,6 +2,8 @@ using System;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 using BotExtended.Library;
+using BotExtended.Weapons;
+using System.Linq;
 
 namespace BotExtended
 {
@@ -27,6 +29,7 @@ namespace BotExtended
             {
                 //System.Diagnostics.Debugger.Break();
                 BotManager.Initialize();
+                WeaponManager.Iniialize();
 
                 if (Game.IsEditorTest)
                 {
@@ -42,14 +45,14 @@ namespace BotExtended
                     //modifiers.InfiniteAmmo = 1;
                     //modifiers.MeleeStunImmunity = 1;
 
+                    //player.SetTeam(PlayerTeam.Team4);
+                    player.SetHitEffect(PlayerHitEffect.Metal);
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
                     player.GiveWeaponItem(WeaponItem.M60);
                     player.GiveWeaponItem(WeaponItem.MOLOTOVS);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
-
-                    //Game.SetCurrentCameraMode(CameraMode.Dynamic);
 
                     //// image size: 82 x 100
                     //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
@@ -60,6 +63,8 @@ namespace BotExtended
                     //Command.SetPlayer(new List<string>() { "player 6", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 7", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 8", "Bandido" });
+
+                    Events.PlayerKeyInputCallback.Start(KInput);
                 }
             }
             catch (Exception e)
@@ -70,6 +75,23 @@ namespace BotExtended
                 Game.WriteToConsole(e.Source);
                 Game.WriteToConsole(e.StackTrace);
                 Game.WriteToConsole(e.TargetSite.ToString());
+            }
+        }
+
+        private void KInput(IPlayer arg1, VirtualKeyInfo[] keyEvents)
+        {
+            var player = Game.GetPlayers()[0];
+            //m_turret = new Turret(new Vector2(109.9757f, -203.875f));
+
+            for (var i = 0; i < keyEvents.Length; i++)
+            {
+                //Game.WriteToConsole(string.Format("Player {0} keyevent: {1}", player.UniqueID, keyEvents[i].ToString()));
+
+                if (keyEvents[i].Event == VirtualKeyEvent.Pressed && keyEvents[i].Key == VirtualKey.BLOCK
+                    && player.KeyPressed(VirtualKey.CROUCH_ROLL_DIVE))
+                {
+                    WeaponManager.SpawnTurret(player);
+                }
             }
         }
 

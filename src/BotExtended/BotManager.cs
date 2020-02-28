@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.Library.Mocks.MockObjects;
 using static BotExtended.GameScript;
-using BotExtended.Weapons;
+using BotExtended.Projectiles;
 
 namespace BotExtended
 {
@@ -24,7 +24,7 @@ namespace BotExtended
 
         public static void Initialize()
         {
-            WeaponManager.Initialize();
+            ProjectileManager.Initialize();
 
             m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();
 
@@ -139,13 +139,13 @@ namespace BotExtended
 
         private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
         {
-            WeaponManager.OnPlayerDropWeapon(previousOwner, weaponObj);
+            ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj);
             ScriptHelper.LogDebug(string.Format("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
         }
 
         private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj)
         {
-            WeaponManager.OnPlayerPickUpWeapon(newOwner, weaponObj);
+            ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj);
             ScriptHelper.LogDebug(string.Format("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
         }
 

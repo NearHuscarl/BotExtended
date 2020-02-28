@@ -1,6 +1,6 @@
 ﻿using SFDGameScriptInterface;
 
-namespace BotExtended.Weapons
+namespace BotExtended.Projectiles
 {
     class WeaponPowerupInfo
     {

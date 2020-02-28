@@ -4,7 +4,7 @@ using BotExtended.Library;
 using SFDGameScriptInterface;
 using static BotExtended.Library.Mocks.MockObjects;
 
-namespace BotExtended.Weapons
+namespace BotExtended.Projectiles
 {
     class PresentBullet : ProjectileHooks
     {

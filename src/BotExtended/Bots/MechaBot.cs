@@ -189,49 +189,13 @@ namespace BotExtended.Bots
             var lineStart = los[0];
             var lineEnd = los[1];
 
-            var rayCastInput = new RayCastInput()
+            foreach (var player in ScriptHelper.RayCastPlayers(lineStart, lineEnd))
             {
-                // Filter everything except players and static objects (wall, ground,...)
-                // How to customize filter
-                // Open with notepad ..\Superfighters Deluxe\Content\Data\Tiles\CollisionGroups\collisionGroups.sfdx
-                // Search for categoryBits for the object types you want to accept for collision
-                // Calc sum of those values (in binary) and convert to hex
-                MaskBits = 0x0005,
-                FilterOnMaskBits = true
-                //Types = new Type[1] { typeof(IPlayer) },
-            };
-            var results = Game.RayCast(lineStart, lineEnd, rayCastInput);
-            var blockedDistance = float.PositiveInfinity;
+                var inMinimumRange = ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
 
-            foreach (var result in results)
-            {
-                var distanceToBlockObj = Vector2.Distance(Player.GetWorldPosition(), result.Position);
-                if (result.HitObject.GetBodyType() == BodyType.Static)
+                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())
                 {
-                    if (blockedDistance > distanceToBlockObj) blockedDistance = distanceToBlockObj;
-                }
-            }
-            Game.DrawText(blockedDistance.ToString(), Player.GetWorldPosition());
-
-            foreach (var result in results)
-            {
-                if (result.IsPlayer)
-                {
-                    var player = Game.GetPlayer(result.ObjectID);
-                    var distanceToPlayer = Vector2.Distance(Player.GetWorldPosition(), result.Position);
-                    var inMinimumRange = ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
-                    var isBlockedByStaticObjects = blockedDistance < distanceToPlayer;
-
-                    if (inMinimumRange || isBlockedByStaticObjects)
-                    {
-                        Game.DrawArea(result.HitObject.GetAABB(), Color.Red);
-                        continue;
-                    }
-                    if (!player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())
-                    {
-                        Game.DrawArea(result.HitObject.GetAABB(), Color.Green);
-                        return true;
-                    }
+                    return true;
                 }
             }
 

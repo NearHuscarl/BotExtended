@@ -94,13 +94,9 @@ namespace BotExtended.Library
         private static Vector2 Direction(Rnd rnd, float minAngle, float maxAngle)
         {
             var angle = Between(minAngle, maxAngle);
-            var radianAngle = angle * Math.PI / 180.0f;
+            var radianAngle = (float)MathExtension.ToRadians(angle);
 
-            return new Vector2()
-            {
-                X = (float)Math.Cos(radianAngle),
-                Y = (float)Math.Sin(radianAngle),
-            };
+            return ScriptHelper.GetDirection(radianAngle);
         }
         public static Vector2 Direction(float minAngle = 0, float maxAngle = 360, string seedName = "")
         {

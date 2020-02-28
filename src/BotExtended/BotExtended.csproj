@@ -48,10 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Weapons\WeaponPowerupInfo.cs" />
-    <Compile Include="Weapons\WeaponManager.cs" />
-    <Compile Include="Weapons\RangedWeaponPowerup.cs" />
-    <Compile Include="Weapons\ProjectileHooks.cs" />
+    <Compile Include="Library\MathExtension.cs" />
+    <Compile Include="Projectiles\WeaponPowerupInfo.cs" />
+    <Compile Include="Projectiles\ProjectileManager.cs" />
+    <Compile Include="Projectiles\RangedWeaponPowerup.cs" />
+    <Compile Include="Projectiles\ProjectileHooks.cs" />
     <Compile Include="BotAI.cs" />
     <Compile Include="BotBehaviors.cs" />
     <Compile Include="BotFactionSets.cs" />
@@ -84,7 +85,10 @@
     <Compile Include="Factions\SubFaction.cs" />
     <Compile Include="PlayerSpawner.cs" />
     <Compile Include="WeaponSet.cs" />
-    <Compile Include="Weapons\PresentBullet.cs" />
+    <Compile Include="Projectiles\PresentBullet.cs" />
+    <Compile Include="Weapons\IWeapon.cs" />
+    <Compile Include="Weapons\Turret.cs" />
+    <Compile Include="Weapons\WeaponManager.cs" />
     <Compile Include="ZombieStatus.cs" />
     <Compile Include="Library\Mocks\Game.cs" />
     <Compile Include="Library\RandomHelper.cs" />

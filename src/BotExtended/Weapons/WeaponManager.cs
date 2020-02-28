@@ -1,154 +1,46 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
+using System;
 using System.Collections.Generic;
 
 namespace BotExtended.Weapons
 {
-    class WeaponManager
+    static class WeaponManager
     {
-        private class ProjectileInfo
+        private static List<IWeapon> m_weapons = new List<IWeapon>();
+
+        public static void Iniialize()
         {
-            public IObject Projectile;
-            public RangedWeaponPowerup Powerup;
-        }
-        private class WeaponInfo
-        {
-            public IObjectWeaponItem Weapon;
-            public RangedWeaponPowerup Powerup;
+            Events.UpdateCallback.Start(OnUpdate);
+            Events.ObjectDamageCallback.Start(OnObjectDamage);
         }
 
-        private static Dictionary<int, ProjectileInfo> m_extendedProjs = new Dictionary<int, ProjectileInfo>();
-        private static Dictionary<int, WeaponInfo> m_weapons = new Dictionary<int, WeaponInfo>();
-        private static Dictionary<int, WeaponPowerupInfo> m_owners = new Dictionary<int, WeaponPowerupInfo>();
-        private static readonly Dictionary<RangedWeaponPowerup, ProjectileHooks> m_projHooks =
-            new Dictionary<RangedWeaponPowerup, ProjectileHooks>()
+        public static void SpawnTurret(IPlayer owner)
+        {
+            var position = owner.GetWorldPosition();
+            var direction = owner.FacingDirection > 0 ? TurretDirection.Right : TurretDirection.Left;
+            m_weapons.Add(new Turret(position, direction, owner));
+        }
+
+        private static void OnUpdate(float elapsed)
+        {
+            foreach(var weapon in m_weapons)
             {
-                { RangedWeaponPowerup.Present, new PresentBullet() }
-            };
-
-        public static void Initialize()
-        {
-            Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
-            Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
-        }
-
-        private static WeaponPowerupInfo GetWeaponPowerupInfo(int playerUniqueID)
-        {
-            WeaponPowerupInfo weaponInfo;
-            if (!m_owners.TryGetValue(playerUniqueID, out weaponInfo))
-            {
-                weaponInfo = new WeaponPowerupInfo();
-                m_owners.Add(playerUniqueID, weaponInfo);
+                weapon.Update(elapsed);
             }
-            return weaponInfo;
         }
 
-        internal static void SetPrimaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
+        private static void OnObjectDamage(IObject obj, ObjectDamageArgs arg)
         {
-            if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(player.UniqueID);
-
-            weaponInfo.Primary = weaponItem;
-            weaponInfo.PrimaryPowerup = powerup;
-            m_owners[player.UniqueID] = weaponInfo;
-        }
-
-        internal static void SetSecondaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
-        {
-            if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(player.UniqueID);
-
-            weaponInfo.Secondary = weaponItem;
-            weaponInfo.SecondaryPowerup = powerup;
-            m_owners[player.UniqueID] = weaponInfo;
-        }
-
-        internal static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weapon)
-        {
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(previousOwner.UniqueID);
-
-            if (weapon.WeaponItemType == WeaponItemType.Rifle && weaponInfo.PrimaryPowerup != RangedWeaponPowerup.None)
+            ScriptHelper.LogDebug(string.Format("{0} is damaged", obj.Name));
+            foreach (var weapon in m_weapons)
             {
-                m_weapons.Add(weapon.UniqueID, new WeaponInfo()
+                foreach (var component in weapon.Components)
                 {
-                    Powerup = weaponInfo.PrimaryPowerup,
-                    Weapon = weapon,
-                });
-                m_owners[previousOwner.UniqueID].PrimaryPowerup = RangedWeaponPowerup.None;
-                m_owners[previousOwner.UniqueID].Primary = WeaponItem.NONE;
-            }
-            if (weapon.WeaponItemType == WeaponItemType.Handgun && weaponInfo.SecondaryPowerup != RangedWeaponPowerup.None)
-            {
-                m_weapons.Add(weapon.UniqueID, new WeaponInfo()
-                {
-                    Powerup = weaponInfo.SecondaryPowerup,
-                    Weapon = weapon,
-                });
-                m_owners[previousOwner.UniqueID].SecondaryPowerup = RangedWeaponPowerup.None;
-                m_owners[previousOwner.UniqueID].Secondary = WeaponItem.NONE;
-            }
-        }
-
-        internal static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weapon)
-        {
-            if (!m_weapons.ContainsKey(weapon.UniqueID)) return;
-
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(newOwner.UniqueID);
-
-            if (weapon.WeaponItemType == WeaponItemType.Rifle)
-            {
-                m_owners[newOwner.UniqueID].PrimaryPowerup = m_weapons[weapon.UniqueID].Powerup;
-                m_owners[newOwner.UniqueID].Primary = weapon.WeaponItem;
-                m_weapons.Remove(weapon.UniqueID);
-            }
-            if (weapon.WeaponItemType == WeaponItemType.Handgun)
-            {
-                m_owners[newOwner.UniqueID].SecondaryPowerup = m_weapons[weapon.UniqueID].Powerup;
-                m_owners[newOwner.UniqueID].Secondary = weapon.WeaponItem;
-                m_weapons.Remove(weapon.UniqueID);
-            }
-        }
-
-        private static void OnProjectileCreated(IProjectile[] projectiles)
-        {
-            foreach (var projectile in projectiles)
-            {
-                foreach (var owner in m_owners.Keys)
-                {
-                    if (projectile.InitialOwnerPlayerID == owner)
+                    if (obj.UniqueID == component.UniqueID)
                     {
-                        var weaponItem = ScriptHelper.GetWeaponItem(projectile.ProjectileItem);
-                        var powerup = RangedWeaponPowerup.None;
-
-                        if (weaponItem == m_owners[owner].Primary)
-                            powerup = m_owners[owner].PrimaryPowerup;
-                        if (weaponItem == m_owners[owner].Secondary)
-                            powerup = m_owners[owner].SecondaryPowerup;
-
-                        if (powerup != RangedWeaponPowerup.None)
-                        {
-                            var proj = m_projHooks[powerup].OnProjectileCreated(projectile);
-                            m_extendedProjs.Add(proj.UniqueID, new ProjectileInfo()
-                            {
-                                Projectile = proj,
-                                Powerup = powerup,
-                            });
-                        }
+                        weapon.OnDamage(obj);
                     }
-                }
-            }
-        }
-
-        private static void OnObjectTerminated(IObject[] objs)
-        {
-            foreach (var obj in objs)
-            {
-                if (m_extendedProjs.ContainsKey(obj.UniqueID))
-                {
-                    var projInfo = m_extendedProjs[obj.UniqueID];
-
-                    m_projHooks[projInfo.Powerup].OnProjectileHit(projInfo.Projectile);
-                    m_extendedProjs.Remove(obj.UniqueID);
                 }
             }
         }
