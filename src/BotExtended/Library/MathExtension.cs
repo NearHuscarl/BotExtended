@@ -9,6 +9,14 @@ namespace BotExtended.Library
 {
     static class MathExtension
     {
+        public const float TwoPI = MathHelper.TwoPI;
+        public const float PI = MathHelper.PI;
+        public const float PIOver2 = MathHelper.PIOver2;
+        public const float PIOver4 = MathHelper.PIOver4;
+        public const float PIOver8 = MathHelper.PIOver8;
+
+        public const float PI_3Over2 = TwoPI - PIOver2;
+
         public static double ToRadians(double angleDegree)
         {
             return (angleDegree * Math.PI) / 180;

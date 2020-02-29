@@ -46,6 +46,20 @@ namespace BotExtended.Weapons
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
 
+        private IPlayer m_currentTarget;
+        public IPlayer CurrentTarget
+        {
+            get { return m_currentTarget; }
+            private set
+            {
+                if (CurrentTarget == null || CurrentTarget.UniqueID != value.UniqueID)
+                {
+                    //var direction =
+                    //Angle = ScriptHelper.GetAngle(targetDirection);
+                }
+            }
+        }
+
         private int m_direction = -1;
         public int Direction
         {
@@ -55,21 +69,49 @@ namespace BotExtended.Weapons
 
         public Vector2 AimVector { get { return ScriptHelper.GetDirection(Angle); } }
 
-        private float LowerAngle
+        private static readonly float _Deg10 = -0.175f; // -10deg
+        private float MinAngle
         {
             get
             {
-                var _deg10 = -0.175f; // -10deg
-                return Direction > 0 ? _deg10 : MathHelper.PI - _deg10;
+                return Direction > 0 ?
+                    _Deg10
+                    :
+                    MathHelper.PI - MathHelper.PIOver4;
             }
         }
-        private float UpperAngle
+        private float MaxAngle
         {
             get
             {
-                var deg45 = 0.785f; // 45deg
-                return Direction > 0 ? deg45 : MathHelper.PI - deg45;
+                return Direction > 0 ?
+                    MathHelper.PIOver4
+                    :
+                    MathHelper.PI - _Deg10;
             }
+        }
+
+        private float[] NormalizeMinMaxAngle(float min, float max)
+        {
+            // make sure it's in -45deg -> 45deg range instead of 320deg -> 45deg
+            if (Math.Abs(max - min) > MathHelper.PI)
+            {
+                min = (float)MathExtension.NormalizeAngle(min);
+                max = (float)MathExtension.NormalizeAngle(max);
+
+                if (Math.Abs(max - min) > MathHelper.PI)
+                    return new float[] { max - MathHelper.TwoPI, min };
+            }
+            return new float[] { min, max };
+        }
+        private float NormalizeAngle(float angle)
+        {
+            angle = (float)MathExtension.NormalizeAngle(angle);
+
+            if (angle <= MathHelper.TwoPI && angle >= MathExtension.PI_3Over2)
+                angle -= MathHelper.TwoPI;
+
+            return angle;
         }
         public float Angle
         {
@@ -77,17 +119,23 @@ namespace BotExtended.Weapons
             {
                 if (Direction > 0)
                     return m_components.Last().GetAngle();
-                return (m_components.Last().GetAngle() + MathHelper.PI);
+                return m_components.Last().GetAngle() + MathHelper.PI;
             }
-            set
+            private set
             {
-                var lowerCompAngle = Direction > 0 ? LowerAngle : LowerAngle - MathHelper.PI;
-                var upperCompAngle = Direction > 0 ? UpperAngle : UpperAngle - MathHelper.PI;
-                var angle = Direction > 0 ? value : value - MathHelper.PI;
+                var minCompAngle = Direction > 0 ? MinAngle : MinAngle - MathHelper.PI;
+                var maxCompAngle = Direction > 0 ? MaxAngle : MaxAngle - MathHelper.PI;
+                var minMax = NormalizeMinMaxAngle(minCompAngle, maxCompAngle);
+                var angle = NormalizeAngle(Direction > 0 ? value : value - MathHelper.PI);
 
-                angle = MathHelper.Clamp(angle,
-                    Math.Min(lowerCompAngle, upperCompAngle),
-                    Math.Max(lowerCompAngle, upperCompAngle));
+                //ScriptHelper.LogDebug(string.Format("{0:0} {1:0} {2:0} {3:0}",
+                //    angle * 180 / Math.PI,
+                //    minMax[0] * 180 / Math.PI,
+                //    minMax[1] * 180 / Math.PI,
+                //    m_targetAngle * 180 / Math.PI
+                //    ));
+
+                angle = MathHelper.Clamp(angle, minMax[0], minMax[1]);
                 m_components.Last().SetAngle(angle, updateConnectedObjects: true);
             }
         }
@@ -133,24 +181,6 @@ namespace BotExtended.Weapons
             var barrel1Position = rotationPointPosition - ux * 17 - uy * 3;
             var barrel2Position = rotationPointPosition - ux * 14 - uy * 3;
             var barrel3Position = rotationPointPosition - ux * 6 - uy * 3;
-
-            // {X:110 Y:-204} Player
-
-            // x:175 y:-180 TurretRotationPoint
-            // x:172 y:-179 TurretLegLeft1
-            // x:169 y:-185 TurretLegLeft2
-            // x:176 y:-185 TurretLegRight1
-            // x:180 y:-193 TurretLegRight2
-            // x:173,2 y:-183 TurretLegMiddle1
-            // x:173,2 y:-186 TurretLegMiddle2
-            // x:178 y:-182 TurretAmmo
-            // x:171 y:-178 TurretComp1
-            // x:176 y:-179 TurretComp2
-            // x:181 y:-178 TurretComp3
-            // x:176 y:-180 TurretComp4
-            // x:158 y:-183 TurretBarrel1
-            // x:161 y:-183 TurretBarrel2
-            // x:169 y:-183 TurretBarrel3
 
             m_rotationPoint = Game.CreateObject("RevoluteJoint", rotationPointPosition);
             UniqueID = m_rotationPoint.UniqueID;
@@ -235,21 +265,14 @@ namespace BotExtended.Weapons
             Angle = Direction > 0 ? 0 : MathHelper.PI;
 
             // TODO: remove
-            //Events.PlayerKeyInputCallback.Start(OnKeyInput);
+            if (Game.IsEditorTest)
+                Events.PlayerKeyInputCallback.Start(OnKeyInput);
         }
 
         private void OnKeyInput(IPlayer player, VirtualKeyInfo[] keyEvents)
         {
             for (var i = 0; i < keyEvents.Length; i++)
             {
-                if (player.KeyPressed(VirtualKey.JUMP))
-                {
-                    Angle += (float)MathExtension.ToRadians(-1);
-                }
-                if (player.KeyPressed(VirtualKey.CROUCH_ROLL_DIVE))
-                {
-                    Angle += (float)MathExtension.ToRadians(1);
-                }
                 if (player.KeyPressed(VirtualKey.RELOAD))
                 {
                     Fire();
@@ -260,15 +283,17 @@ namespace BotExtended.Weapons
         private float m_fireCooldown = 0;
         public void Update(float elapsed)
         {
-            ScanTargets();
-
             Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
+
+            UpdateRotation(elapsed);
 
             switch (m_state)
             {
                 case TurretState.Idle:
+                    ScanTargets(elapsed);
                     break;
                 case TurretState.Firing:
+                    ScanTargets(elapsed);
                     m_fireCooldown += elapsed;
                     if (m_fireCooldown >= 75)
                     {
@@ -294,41 +319,89 @@ namespace BotExtended.Weapons
         }
 
         public static readonly float Range = 500;
-        private Vector2[] GetLineOfSight()
+        private Vector2[] GetLineOfSight(Vector2 direction)
         {
+            direction.Normalize();
             return new Vector2[]
             {
-                FirePosition,
-                FirePosition + AimVector * Range,
+                RotationCenter + direction * 22,
+                RotationCenter + direction * (Range + 22),
             };
         }
 
-        private void ScanTargets()
+        private List<IPlayer> GetPlayersInRange()
         {
-            var los = GetLineOfSight();
-            var targets = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
-            var hasTargets = false;
             var scanRange = Range + 22;
+            // TODO: remove hardcode numbers
+            var area = new Area(
+                RotationCenter - Vector2.UnitY * 91,
+                RotationCenter + Vector2.UnitX * scanRange * Direction + Vector2.UnitY * (Range - 130));
+            area.Normalize();
 
-            foreach (var target in targets)
+            Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MinAngle) * scanRange, Color.Cyan);
+            Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MaxAngle) * scanRange, Color.Cyan);
+
+            //Game.DrawArea(area);
+            var players = Game.GetObjectsByArea<IPlayer>(area)
+                .Where((p) => ScriptHelper.IsTouchingCircle(p.GetAABB(), RotationCenter, scanRange, MinAngle, MaxAngle))
+                .ToList();
+
+            // nearest player first
+            players.Sort((p1, p2) =>
             {
-                if (!target.IsDead && !target.IsRemoved)
+                var p1Distance = Vector2.Distance(p1.GetWorldPosition(), RotationCenter);
+                var p2Distance = Vector2.Distance(p2.GetWorldPosition(), RotationCenter);
+                if (p1Distance < p2Distance)
+                    return -1;
+                return 1;
+            });
+
+            return players;
+        }
+
+        private float m_changeTargetCooldown = 0f;
+        private void ScanTargets(float elasped)
+        {
+            var players = GetPlayersInRange();
+            var targetDirection = Vector2.Zero;
+            IPlayer target = null;
+
+            foreach (var player in players)
+            {
+                var direction = player.GetWorldPosition() - RotationCenter;
+                var los = GetLineOfSight(direction);
+                var targets = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
+
+                if (targets.Count() > 0)
                 {
-                    hasTargets = true; break;
+                    targetDirection = direction;
+                    CurrentTarget = player;
+                    target = player; break;
                 }
             }
 
-            Game.DrawLine(los[0], los[1], hasTargets ? Color.Green : Color.Red);
-            Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(LowerAngle) * scanRange, Color.Cyan);
-            Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(UpperAngle) * scanRange, Color.Cyan);
+            m_changeTargetCooldown += elasped;
 
-            var area = new Area(
-                RotationCenter + Vector2.UnitX * scanRange * Direction + Vector2.UnitY * (Range - 130),
-                RotationCenter - Vector2.UnitY * 91);
+            if (target == null) return;
 
-            Game.DrawArea(area);
+            if ((CurrentTarget == null || CurrentTarget.UniqueID != target.UniqueID)
+                && m_changeTargetCooldown > 1000)
+            {
+                m_changeTargetCooldown = 0;
+                CurrentTarget = target;
+                RotateTo(ScriptHelper.GetAngle(targetDirection));
+            }
 
-            if (hasTargets)
+            CheckFire(target);
+        }
+
+        private void CheckFire(IPlayer target)
+        {
+            var los = GetLineOfSight(AimVector);
+            //Game.DrawLine(los[0], los[1], Color.Green);
+            var players = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
+
+            if (players.Count() > 0 && players.First().UniqueID == target.UniqueID)
             {
                 if (m_state != TurretState.Firing)
                     m_state = TurretState.Firing;
@@ -337,6 +410,29 @@ namespace BotExtended.Weapons
             {
                 if (m_state != TurretState.Idle)
                     m_state = TurretState.Idle;
+            }
+        }
+
+        private float m_rotateTimer = 0;
+        private float m_targetAngle = 0;
+        private void RotateTo(float angle)
+        {
+            m_targetAngle = NormalizeAngle(angle);
+        }
+
+        private void UpdateRotation(float elapsed)
+        {
+            if (Math.Abs(Angle - m_targetAngle) > 0.0174f)
+            {
+                m_rotateTimer += elapsed;
+                if (m_rotateTimer >= 1/60)
+                {
+                    if (m_targetAngle > Angle)
+                        Angle+= .0174f;
+                    else
+                        Angle-= .0174f;
+                    m_rotateTimer = 0;
+                }
             }
         }
 

@@ -156,8 +156,9 @@ namespace BotExtended.Library
             }
         }
 
-        public static bool IsTouchingCircle(Area area, Vector2 center, float radius)
+        public static bool IsTouchingCircle(Area area, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
         {
+            var fullCircle = minAngle == 0 && maxAngle == MathHelper.TwoPI;
             var lines = new List<Vector2[]>()
             {
                 new Vector2[] { area.BottomRight, area.BottomLeft },
@@ -166,15 +167,26 @@ namespace BotExtended.Library
                 new Vector2[] { area.TopRight, area.BottomRight },
             };
 
-            var minDistanceToCenter = float.MaxValue;
-
             foreach (var line in lines)
             {
                 var distanceToCenter = FindDistanceToSegment(center, line[0], line[1]);
-                if (distanceToCenter < minDistanceToCenter) minDistanceToCenter = distanceToCenter;
+
+                if (distanceToCenter <= radius)
+                {
+                    if (!fullCircle)
+                    {
+                        var corner = line[0];
+                        var angle = GetAngle(corner - center);
+
+                        if (angle >= minAngle && angle <= maxAngle)
+                            return true;
+                    }
+                    else
+                        return true;
+                }
             }
 
-            return minDistanceToCenter <= radius;
+            return false;
         }
 
         // https://stackoverflow.com/a/1501725/9449426
@@ -301,6 +313,7 @@ namespace BotExtended.Library
                 }
             }
 
+            //Game.DrawLine(start, end);
             if (closestBlockObjectID != int.MinValue)
                 Game.DrawArea(Game.GetObject(closestBlockObjectID).GetAABB(), Color.Yellow);
             if (closestTeammateID != int.MinValue)

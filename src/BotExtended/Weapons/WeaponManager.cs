@@ -32,7 +32,7 @@ namespace BotExtended.Weapons
 
         private static void OnObjectDamage(IObject obj, ObjectDamageArgs arg)
         {
-            ScriptHelper.LogDebug(string.Format("{0} is damaged", obj.Name));
+            //ScriptHelper.LogDebug(string.Format("{0} is damaged", obj.Name));
             foreach (var weapon in m_weapons)
             {
                 foreach (var component in weapon.Components)
