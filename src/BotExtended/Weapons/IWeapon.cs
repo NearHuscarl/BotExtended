@@ -5,6 +5,7 @@ namespace BotExtended.Weapons
 {
     interface IWeapon
     {
+        Vector2 Position { get; }
         List<IObject> Components { get; }
 
         void Update(float elapsed);

@@ -431,5 +431,14 @@ namespace BotExtended
 
             BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTION_RND_STATE"), rndState);
         }
+
+        public static IEnumerable<T> GetBots<T>() where T : Bot
+        {
+            foreach (var bot in m_bots.Values)
+            {
+                var b = bot as T;
+                if (b != null) yield return b;
+            }
+        }
     }
 }

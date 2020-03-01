@@ -37,12 +37,17 @@ namespace BotExtended.Weapons
 
         private List<IObject> m_components = new List<IObject>();
         public List<IObject> Components { get { return m_components; } }
+
+        // TODO
+        public bool Broken { get { return false; } }
+
+        public Vector2 Position { get { return m_rotationPoint.GetWorldPosition(); } }
         
         private IObject m_rotationPoint;
         private Vector2 RotationCenter { get { return m_rotationPoint.GetWorldPosition(); } }
         private IObjectWeldJoint m_bodyJoint;
 
-        public static readonly int TotalAmmo = Game.IsEditorTest ? 1000 : 300; // TODO
+        public static readonly int TotalAmmo = 300;
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
 
@@ -157,6 +162,23 @@ namespace BotExtended.Weapons
             Broken,
         }
 
+        private string GetColor(PlayerTeam team)
+        {
+            switch (team)
+            {
+                case PlayerTeam.Team1:
+                    return "BgBlue";
+                case PlayerTeam.Team2:
+                    return "BgRed";
+                case PlayerTeam.Team3:
+                    return "BgGreen";
+                case PlayerTeam.Team4:
+                    return "BgYellow";
+                default:
+                    return "BgLightGray";
+            }
+        }
+
         public Turret(Vector2 worldPosition, TurretDirection direction, IPlayer owner = null)
         {
             Direction = (direction == TurretDirection.Left) ? -1 : 1;
@@ -181,19 +203,22 @@ namespace BotExtended.Weapons
             var barrel1Position = rotationPointPosition - ux * 17 - uy * 3;
             var barrel2Position = rotationPointPosition - ux * 14 - uy * 3;
             var barrel3Position = rotationPointPosition - ux * 6 - uy * 3;
+            var teamIndicatorPosition = rotationPointPosition - ux * 9.8f - uy * 1;
 
             m_rotationPoint = Game.CreateObject("RevoluteJoint", rotationPointPosition);
             UniqueID = m_rotationPoint.UniqueID;
 
             // Object creation order is important. It will determine the z-layer the object will be located to
+            // TODO: teamIndicator rotation does not work: https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3954
+            var teamIndicator = Game.CreateObject("BgBottle00D", teamIndicatorPosition, -Direction * MathHelper.PIOver2);
+            teamIndicator.SetColor1(GetColor(owner.GetTeam()));
+
             var legMiddle1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle1Position, -Direction * 0.41f);
             var legMiddle2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle2Position, -Direction * 0.41f);
             var legLeft1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legLeft1Position);
             var legLeft2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legLeft2Position);
-            var legRight1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight1Position,
-                (float)MathExtension.ToRadians(Direction * 180));
-            var legRight2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight2Position,
-                (float)MathExtension.ToRadians(Direction * 180));
+            var legRight1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight1Position, MathHelper.PI);
+            var legRight2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight2Position, MathHelper.PI);
             var ammo = (IObjectActivateTrigger)Game.CreateObject("AmmoStash00", ammoPosition);
 
             var comp1 = Game.CreateObject("ItemDebrisDark00", comp1Position);
@@ -247,6 +272,7 @@ namespace BotExtended.Weapons
             m_components.Add(barrel1); barrel1.CustomID = "Barrel1";
             m_components.Add(barrel2); barrel2.CustomID = "Barrel2";
             m_components.Add(barrel3); barrel3.CustomID = "Barrel3";
+            m_components.Add(teamIndicator); teamIndicator.CustomID = "TeamIndicator";
             m_components.Add(comp1); comp1.CustomID = "Comp1";
             m_components.Add(comp2); comp2.CustomID = "Comp2";
             m_components.Add(comp3); comp3.CustomID = "Comp3";
@@ -263,21 +289,6 @@ namespace BotExtended.Weapons
             alterCollisionTile.SetDisableCollisionTargetObjects(true);
 
             Angle = Direction > 0 ? 0 : MathHelper.PI;
-
-            // TODO: remove
-            if (Game.IsEditorTest)
-                Events.PlayerKeyInputCallback.Start(OnKeyInput);
-        }
-
-        private void OnKeyInput(IPlayer player, VirtualKeyInfo[] keyEvents)
-        {
-            for (var i = 0; i < keyEvents.Length; i++)
-            {
-                if (player.KeyPressed(VirtualKey.RELOAD))
-                {
-                    Fire();
-                }
-            }
         }
 
         private float m_fireCooldown = 0;
@@ -343,7 +354,8 @@ namespace BotExtended.Weapons
 
             //Game.DrawArea(area);
             var players = Game.GetObjectsByArea<IPlayer>(area)
-                .Where((p) => ScriptHelper.IsTouchingCircle(p.GetAABB(), RotationCenter, scanRange, MinAngle, MaxAngle))
+                .Where((p) => ScriptHelper.IsTouchingCircle(p.GetAABB(), RotationCenter, scanRange, MinAngle, MaxAngle)
+                && !p.IsDead)
                 .ToList();
 
             // nearest player first
@@ -382,10 +394,9 @@ namespace BotExtended.Weapons
 
             m_changeTargetCooldown += elasped;
 
-            if (target == null) return;
-
-            if ((CurrentTarget == null || CurrentTarget.UniqueID != target.UniqueID)
-                && m_changeTargetCooldown > 1000)
+            if (target != null
+                && (CurrentTarget == null || CurrentTarget.UniqueID != target.UniqueID)
+                && m_changeTargetCooldown > 500)
             {
                 m_changeTargetCooldown = 0;
                 CurrentTarget = target;
@@ -397,19 +408,29 @@ namespace BotExtended.Weapons
 
         private void CheckFire(IPlayer target)
         {
+            if (target == null)
+            {
+                StopFiring();
+                return;
+            }
+
             var los = GetLineOfSight(AimVector);
-            //Game.DrawLine(los[0], los[1], Color.Green);
+            Game.DrawLine(los[0], los[1], Color.Green);
             var players = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
 
-            if (players.Count() > 0 && players.First().UniqueID == target.UniqueID)
+            if (!players.Any())
             {
-                if (m_state != TurretState.Firing)
-                    m_state = TurretState.Firing;
+                StopFiring();
+                return;
             }
-            else
+
+            foreach (var player in players)
             {
-                if (m_state != TurretState.Idle)
-                    m_state = TurretState.Idle;
+                if (player.UniqueID == target.UniqueID)
+                {
+                    StartFiring();
+                    break;
+                }
             }
         }
 
@@ -448,5 +469,8 @@ namespace BotExtended.Weapons
             Game.PlaySound("Magnum", FirePosition);
             m_currentAmmo--;
         }
+
+        private void StartFiring() { if (m_state != TurretState.Firing) m_state = TurretState.Firing; }
+        private void StopFiring() { if (m_state != TurretState.Idle) m_state = TurretState.Idle; }
     }
 }

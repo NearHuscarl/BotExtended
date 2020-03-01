@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Hacker;
+            if (Game.IsEditorTest) botFaction = BotFaction.Engineer;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -120,6 +120,17 @@ namespace BotExtended
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Cowboy, 1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Engineer
+                case BotFaction.Engineer:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Engineer, 1f),
                     });
                     break;
                 }
@@ -521,11 +532,6 @@ namespace BotExtended
                 #region Boss_Teddybear
                 case BotFaction.Boss_Teddybear:
                 {
-                    // TODO: uncomment
-                    //factionSet.AddFaction(new List<SubFaction>()
-                    //{
-                    //    new SubFaction(BotType.Teddybear),
-                    //});
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Teddybear),

@@ -29,7 +29,7 @@ namespace BotExtended
             {
                 //System.Diagnostics.Debugger.Break();
                 BotManager.Initialize();
-                WeaponManager.Iniialize();
+                WeaponManager.Initialize();
 
                 if (Game.IsEditorTest)
                 {
@@ -45,7 +45,7 @@ namespace BotExtended
                     //modifiers.InfiniteAmmo = 1;
                     //modifiers.MeleeStunImmunity = 1;
 
-                    //player.SetTeam(PlayerTeam.Team4);
+                    //player.SetTeam(PlayerTeam.Team1);
                     player.SetHitEffect(PlayerHitEffect.Metal);
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);

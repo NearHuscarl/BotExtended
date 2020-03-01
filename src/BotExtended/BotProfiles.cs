@@ -729,6 +729,69 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Engineer
+                case BotType.Engineer:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Engineer",
+                        Accesory = new IProfileClothingItem("Goggles", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("Apron", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingRed", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingOrange", "ClothingLightGray", ""),
+                        Head = null,
+                        Legs = new IProfileClothingItem("Pants", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Engineer",
+                        Accesory = new IProfileClothingItem("Glasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("KevlarVest", "ClothingOrange", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingRed", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingOrange", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("PithHelmet", "ClothingYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Engineer",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("ShoulderHolster", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingRed", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingOrange", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("PithHelmet", "ClothingYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Engineer",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("ShoulderHolster", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingRed", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingOrange", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("WeldingHelmet", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {

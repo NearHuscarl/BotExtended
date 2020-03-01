@@ -188,6 +188,7 @@ namespace BotExtended.Bots
         private void CheckFireWeaponEvent(int weaponIndex, WeaponEvent weaponEvent)
         {
             // TODO: event will not fire if player pick up the same weapon when have max ammo!
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3946
             IObjectWeaponItem droppedWeaponObj = null;
             IObjectWeaponItem pickedupWeaponObj = null;
 

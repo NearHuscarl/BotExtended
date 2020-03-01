@@ -9,6 +9,7 @@
         Biker,
         Clown,
         Cowboy,
+        Engineer,
         Gangster,
         Marauder,
         MetroCop,

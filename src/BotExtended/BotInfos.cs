@@ -158,6 +158,7 @@ namespace BotExtended
                 case BotType.ClownBodyguard:
                 case BotType.ClownGangster:
                 case BotType.Elf:
+                case BotType.Engineer:
                 case BotType.Gangster:
                 case BotType.MetroCop:
                 case BotType.Police:

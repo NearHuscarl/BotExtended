@@ -285,6 +285,35 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Engineer
+                case BotType.Engineer:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.PIPE,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.HAMMER,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
+                        Primary = WeaponItem.SHOTGUN,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.PIPE,
+                        Primary = WeaponItem.PISTOL,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {

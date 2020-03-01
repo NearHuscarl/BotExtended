@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Projectiles\WeaponPowerupInfo.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />

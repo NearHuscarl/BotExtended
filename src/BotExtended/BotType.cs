@@ -36,6 +36,7 @@
         Demolitionist,
         // Tier3: Holiday Hullabaloo
         Elf,
+        Engineer,
         Hacker,
         Jo,
         Fritzliebe,

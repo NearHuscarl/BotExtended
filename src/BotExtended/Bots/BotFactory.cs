@@ -11,6 +11,10 @@ namespace BotExtended.Bots
             Bot bot = null;
             switch (botType)
             {
+                case BotType.Engineer:
+                    bot = new EngineerBot();
+                    break;
+
                 case BotType.ZombieFat:
                     bot = new ZombieFatBot();
                     break;
