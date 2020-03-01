@@ -735,13 +735,13 @@ namespace BotExtended
                     profiles.Add(new IProfile()
                     {
                         Name = "Engineer",
-                        Accesory = new IProfileClothingItem("Goggles", "ClothingDarkGray", "ClothingLightGray", ""),
-                        ChestOver = new IProfileClothingItem("Apron", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("Jacket", "ClothingLightGray", "ClothingLightGray", ""),
                         ChestUnder = new IProfileClothingItem("TShirt", "ClothingRed", "ClothingLightGray", ""),
                         Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray", "ClothingLightGray", ""),
                         Gender = Gender.Male,
                         Hands = new IProfileClothingItem("SafetyGloves", "ClothingOrange", "ClothingLightGray", ""),
-                        Head = null,
+                        Head = new IProfileClothingItem("PithHelmet", "ClothingLightGray", "ClothingLightGray", ""),
                         Legs = new IProfileClothingItem("Pants", "ClothingDarkGray", "ClothingLightGray", ""),
                         Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
                         Waist = new IProfileClothingItem("CombatBelt", "ClothingGray", "ClothingLightGray", ""),

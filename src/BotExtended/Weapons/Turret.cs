@@ -38,11 +38,13 @@ namespace BotExtended.Weapons
         private List<IObject> m_components = new List<IObject>();
         public List<IObject> Components { get { return m_components; } }
 
+        private Dictionary<float, IObject> m_ejectedCasings = new Dictionary<float, IObject>();
+
         // TODO
         public bool Broken { get { return false; } }
 
         public Vector2 Position { get { return m_rotationPoint.GetWorldPosition(); } }
-        
+
         private IObject m_rotationPoint;
         private Vector2 RotationCenter { get { return m_rotationPoint.GetWorldPosition(); } }
         private IObjectWeldJoint m_bodyJoint;
@@ -297,6 +299,7 @@ namespace BotExtended.Weapons
             Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
 
             UpdateRotation(elapsed);
+            UpdateCasings();
 
             switch (m_state)
             {
@@ -322,6 +325,24 @@ namespace BotExtended.Weapons
                     break;
             }
 
+        }
+
+        private void UpdateCasings()
+        {
+            var removedList = new List<float>();
+            foreach (var casing in m_ejectedCasings)
+            {
+                var timeAdded = casing.Key;
+                if (ScriptHelper.IsElapsed(timeAdded, 1000))
+                {
+                    removedList.Add(timeAdded);
+                }
+            }
+            foreach (var i in removedList)
+            {
+                m_ejectedCasings[i].Remove();
+                m_ejectedCasings.Remove(i);
+            }
         }
 
         public void OnDamage(IObject component)
@@ -466,8 +487,15 @@ namespace BotExtended.Weapons
             aimVector.Y += RandomHelper.Between(-oneDeg, oneDeg);
 
             Game.SpawnProjectile(ProjectileItem.M60, FirePosition, aimVector);
+            // TODO: need a better shot effect. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&p=23302#p23302
+            Game.PlayEffect(EffectName.BulletHitMetal, FirePosition);
             Game.PlaySound("Magnum", FirePosition);
             m_currentAmmo--;
+
+            var emittedDirection = (Direction > 0 ? 90 + 45 : 45) + RandomHelper.Between(-.3f, .3f);
+            var casing = Game.CreateObject("WpnC4Detonator", RotationCenter, MathHelper.PIOver2,
+                ScriptHelper.GetDirection(emittedDirection) * 4, RandomHelper.Between(-5, 5));
+            m_ejectedCasings.Add(Game.TotalElapsedGameTime, casing);
         }
 
         private void StartFiring() { if (m_state != TurretState.Firing) m_state = TurretState.Firing; }

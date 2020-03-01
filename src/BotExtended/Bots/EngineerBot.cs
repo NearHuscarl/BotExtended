@@ -4,8 +4,6 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
@@ -39,8 +37,6 @@ namespace BotExtended.Bots
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
-
-            ScriptHelper.LogDebug(m_state);
 
             switch (m_state)
             {
@@ -164,9 +160,13 @@ namespace BotExtended.Bots
             }
         }
 
+        private bool IsAttacked()
+        {
+            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned);
+        }
         private bool IsInactive()
         {
-            return Player.IsIdle || Player.IsWalking;
+            return (Player.IsIdle || Player.IsWalking) && !IsAttacked();
         }
 
         private void StartBuildingTurret(TurretPlaceholder placeholder = null)
@@ -203,7 +203,7 @@ namespace BotExtended.Bots
         private TurretPlaceholder m_placeholder;
         private void UpdateBuildingTurret(float elapsed)
         {
-            if (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned)
+            if (IsAttacked())
             {
                 StopBuilding(); return;
             }
