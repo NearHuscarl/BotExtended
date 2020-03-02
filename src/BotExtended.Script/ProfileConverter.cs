@@ -18,7 +18,10 @@ namespace BotExtended.Script
             // Hit EDIT on Profile Info row to start editing your Superfighter outfits
             // Make sure all of your PlayerProfileInfo tiles are within the Camera Area
 
-            // When you're done. Hit F7 (or go to Test > Map Debug), untick Freeze output, then F5
+            // When you're done. Hit F7 (or go to Test > Map Debug)
+            // - Tick Show script output
+            // - Untick Freeze output
+            // Hit F5 to test map
 
             // Depend on the number of PlayerProfileInfo tiles you have on the Map Editor, you may have to wait for a bit
             // Once you can focus the SFD Map Debug window, right click the area, select all and copy the generated C# code
