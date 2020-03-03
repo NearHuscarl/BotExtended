@@ -22,7 +22,7 @@ namespace BotExtended.Bots
 
         public EngineerBot() : base()
         {
-            BuildTime = 5000;
+            BuildTime = Game.IsEditorTest ? 1000 : 5000; // TODO: remove
         }
 
         enum EngineerState

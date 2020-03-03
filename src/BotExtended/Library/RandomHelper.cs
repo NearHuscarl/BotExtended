@@ -91,6 +91,21 @@ namespace BotExtended.Library
             return GetEnumValue<T>(Rnd);
         }
 
+        // https://stackoverflow.com/a/1262619/9449426
+        public static IList<T> Shuffle<T>(IList<T> list)
+        {
+            var n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                var k = Rnd.Next(n + 1);
+                var swap = list[k];
+                list[k] = list[n];
+                list[n] = swap;
+            }
+            return list;
+        }
+
         private static Vector2 Direction(Rnd rnd, float minAngle, float maxAngle)
         {
             var angle = Between(minAngle, maxAngle);

@@ -21,6 +21,7 @@ namespace BotExtended.Weapons
         {
             Events.UpdateCallback.Start(OnUpdate);
             Events.ObjectDamageCallback.Start(OnObjectDamage);
+            Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
         public static void SpawnTurret(IPlayer owner)
@@ -49,14 +50,34 @@ namespace BotExtended.Weapons
 
         private static void OnObjectDamage(IObject obj, ObjectDamageArgs arg)
         {
-            //ScriptHelper.LogDebug(string.Format("{0} is damaged", obj.Name));
+            if (string.IsNullOrEmpty(obj.CustomID)) return;
+
             foreach (var weapon in m_weapons)
             {
-                foreach (var component in weapon.Components)
+                foreach (var component in weapon.Components.ToList())
                 {
                     if (obj.UniqueID == component.UniqueID)
                     {
-                        weapon.OnDamage(obj);
+                        weapon.OnDamage(obj, arg);
+                    }
+                }
+            }
+        }
+
+        private static void OnObjectTerminated(IObject[] objects)
+        {
+            foreach (var o in objects)
+            {
+                if (string.IsNullOrEmpty(o.CustomID)) continue;
+
+                foreach (var weapon in m_weapons)
+                {
+                    foreach (var component in weapon.Components.ToList())
+                    {
+                        if (o.CustomID == component.CustomID)
+                        {
+                            weapon.OnComponentTerminated(o);
+                        }
                     }
                 }
             }

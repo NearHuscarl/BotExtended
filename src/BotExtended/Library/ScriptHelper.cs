@@ -19,7 +19,35 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
-        public static void LogDebug(object message) { if (Game.IsEditorTest) Game.WriteToConsole(message.ToString()); }
+        private static string GetDefaultPlaceholder(int count)
+        {
+            var placeholder = "";
+            for (var i = 0; i < count; i++)
+            {
+                placeholder += "{" + i + "}";
+                if (i != count - 1) placeholder += " ";
+            }
+            return placeholder;
+        }
+        public static void LogDebugF(string placeholder, params object[] values)
+        {
+            if (Game.IsEditorTest)
+            {
+                if (string.IsNullOrEmpty(placeholder))
+                {
+                    placeholder = GetDefaultPlaceholder(values.Length);
+                }
+                Game.WriteToConsole(string.Format(placeholder, values));
+            }
+        }
+
+        public static void LogDebug(params object[] values)
+        {
+            if (Game.IsEditorTest)
+            {
+                Game.WriteToConsole(string.Format(GetDefaultPlaceholder(values.Length), values));
+            }
+        }
 
         public static void Timeout(Action callback, uint interval)
         {
@@ -240,6 +268,7 @@ namespace BotExtended.Library
             "StoneWeak00C",
             "Concrete01Weak",
             "Wood06Weak",
+            "StreetsweeperCrate"
         };
 
         // List of objects that bullet cant pass (edge cases)
@@ -249,6 +278,16 @@ namespace BotExtended.Library
             "DinerBooth",
         };
 
+        private static bool SameTeamRaycast(IPlayer p1, IPlayer p2, PlayerTeam t1)
+        {
+            // t1 is cached before p1 is removed
+            if (p1.IsRemoved)
+            {
+                var t2 = p2.GetTeam();
+                return t2 == PlayerTeam.Independent ? false : t1 == t2;
+            }
+            return SameTeam(p1, p2);
+        }
         /// <summary>
         /// Find players that touch the line. filter players behind block objects (wall, ground...)
         /// </summary>
@@ -256,10 +295,8 @@ namespace BotExtended.Library
         /// <param name="end"></param>
         /// <returns></returns>
         public static IEnumerable<IPlayer> RayCastPlayers(Vector2 start, Vector2 end,
-            bool blockTeammates = false, IPlayer fromPlayer = null)
+            bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
-            if (fromPlayer == null) blockTeammates = false;
-
             var rayCastInput = new RayCastInput()
             {
                 // How to customize filter
@@ -300,7 +337,7 @@ namespace BotExtended.Library
                 {
                     var player = Game.GetPlayer(result.ObjectID);
 
-                    if (SameTeam(player, fromPlayer))
+                    if (SameTeamRaycast(fromPlayer, player, team))
                     {
                         var distanceToTeammate = Vector2.Distance(start, result.Position);
 
@@ -324,10 +361,10 @@ namespace BotExtended.Library
                 var player = Game.GetPlayer(result.ObjectID);
                 var distanceToPlayer = Vector2.Distance(start, result.Position);
                 var blocked = false;
-                var sameTeam = SameTeam(player, fromPlayer);
 
                 if (blockTeammates)
                 {
+                    var sameTeam = SameTeamRaycast(fromPlayer, player, team);
                     if (sameTeam)
                         continue;
                     else if (closestTeammateDistance <= distanceToPlayer)

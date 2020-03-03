@@ -140,13 +140,13 @@ namespace BotExtended
         private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
         {
             ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj);
-            ScriptHelper.LogDebug(string.Format("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
+            ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
         private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj)
         {
             ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj);
-            ScriptHelper.LogDebug(string.Format("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID));
+            ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
         public static void OnUpdate(float elapsed)

@@ -87,8 +87,10 @@
     <Compile Include="PlayerSpawner.cs" />
     <Compile Include="WeaponSet.cs" />
     <Compile Include="Projectiles\PresentBullet.cs" />
+    <Compile Include="Weapons\Component.cs" />
     <Compile Include="Weapons\IWeapon.cs" />
     <Compile Include="Weapons\Turret.cs" />
+    <Compile Include="Weapons\TurretPlaceholder.cs" />
     <Compile Include="Weapons\WeaponManager.cs" />
     <Compile Include="ZombieStatus.cs" />
     <Compile Include="Library\Mocks\Game.cs" />

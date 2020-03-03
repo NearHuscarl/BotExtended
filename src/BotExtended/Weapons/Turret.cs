@@ -15,7 +15,19 @@ namespace BotExtended.Weapons
         Right,
     }
 
-    //var turrentComps = Game.GetObjectsByArea(new Area(-186, 354f, -218, 427f));
+    enum TurretDamage
+    {
+        None = 0,
+        SensorDamaged = 1, // Shoot everyone
+        ControllerDamaged = 2, // Rotate randomly (if rotor is not damaged)
+        RotorDamaged = 4, // Cant rotate
+        BarrelDamaged = 8, // Cant shoot
+    }
+
+
+    //var area = new Area(-140, 280f, -170, 330f);
+    //Events.UpdateCallback.Start((e) => Game.DrawArea(area));
+    //var turrentComps = Game.GetObjectsByArea(area);
     //var rotationPointPos = turrentComps.Where(c => c.CustomID == "TurretRotationPoint").Single().GetWorldPosition();
     //foreach (var comp in turrentComps)
     //{
@@ -32,24 +44,33 @@ namespace BotExtended.Weapons
 
     class Turret : IWeapon
     {
-        public readonly int UniqueID;
+        public int UniqueID { get { return m_tip.UniqueID; } }
         public IPlayer Owner { get; private set; }
 
-        private List<IObject> m_components = new List<IObject>();
-        public List<IObject> Components { get { return m_components; } }
+        public PlayerTeam Team { get; private set; }
+
+        private Dictionary<string, IObject> m_components = new Dictionary<string, IObject>();
+        public IEnumerable<IObject> Components { get { return m_components.Values; } }
+
+        private List<Component> m_damageableComponents = new List<Component>();
+
+        private IObject m_tip;
+        private Component m_rotor;
+        private Component m_controller;
+        private Component m_barrel;
+        private Component m_sensor;
+        private TurretDamage m_damage = TurretDamage.None;
+        public bool Broken { get { return m_damage != TurretDamage.None; } }
+
+        public Vector2 Position { get { return RotationCenter; } }
+
+        private Vector2 RotationCenter { get; set; }
+        private IObjectWeldJoint m_bodyJoint;
+        private IObjectAlterCollisionTile m_alterCollisionTile;
 
         private Dictionary<float, IObject> m_ejectedCasings = new Dictionary<float, IObject>();
 
-        // TODO
-        public bool Broken { get { return false; } }
-
-        public Vector2 Position { get { return m_rotationPoint.GetWorldPosition(); } }
-
-        private IObject m_rotationPoint;
-        private Vector2 RotationCenter { get { return m_rotationPoint.GetWorldPosition(); } }
-        private IObjectWeldJoint m_bodyJoint;
-
-        public static readonly int TotalAmmo = 300;
+        public static readonly int TotalAmmo = Game.IsEditorTest ? 1000 : 300; // TODO: Remove
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
 
@@ -61,8 +82,7 @@ namespace BotExtended.Weapons
             {
                 if (CurrentTarget == null || CurrentTarget.UniqueID != value.UniqueID)
                 {
-                    //var direction =
-                    //Angle = ScriptHelper.GetAngle(targetDirection);
+                    m_currentTarget = value;
                 }
             }
         }
@@ -125,8 +145,8 @@ namespace BotExtended.Weapons
             get
             {
                 if (Direction > 0)
-                    return m_components.Last().GetAngle();
-                return m_components.Last().GetAngle() + MathHelper.PI;
+                    return m_rotor.Object.GetAngle();
+                return m_rotor.Object.GetAngle() + MathHelper.PI;
             }
             private set
             {
@@ -135,15 +155,16 @@ namespace BotExtended.Weapons
                 var minMax = NormalizeMinMaxAngle(minCompAngle, maxCompAngle);
                 var angle = NormalizeAngle(Direction > 0 ? value : value - MathHelper.PI);
 
-                //ScriptHelper.LogDebug(string.Format("{0:0} {1:0} {2:0} {3:0}",
-                //    angle * 180 / Math.PI,
+                //ScriptHelper.LogDebug("{0:0} {1:0} {2:0} {3:0}, {4}",
                 //    minMax[0] * 180 / Math.PI,
                 //    minMax[1] * 180 / Math.PI,
-                //    m_targetAngle * 180 / Math.PI
-                //    ));
+                //    angle * 180 / Math.PI,
+                //    m_targetAngle * 180 / Math.PI,
+                //    CurrentTarget != null ? CurrentTarget.Name : "None"
+                //    );
 
                 angle = MathHelper.Clamp(angle, minMax[0], minMax[1]);
-                m_components.Last().SetAngle(angle, updateConnectedObjects: true);
+                m_rotor.Object.SetAngle(angle, updateConnectedObjects: true);
             }
         }
 
@@ -151,9 +172,6 @@ namespace BotExtended.Weapons
         {
             get { return RotationCenter + AimVector * 22; }
         }
-
-        public float Health = 50;
-        public PlayerTeam Team = PlayerTeam.Team4;
 
         private TurretState m_state = TurretState.Idle;
 
@@ -185,30 +203,29 @@ namespace BotExtended.Weapons
         {
             Direction = (direction == TurretDirection.Left) ? -1 : 1;
             Owner = owner;
+            Team = owner.GetTeam();
 
             var ux = Vector2.UnitX * -Direction;
             var uy = Vector2.UnitY;
             
             // worldPosition works best when get from player.GetWorldPosition()
-            var rotationPointPosition = worldPosition - ux * 10 + uy * 9;
-            var legLeft1Position = rotationPointPosition - ux * 3 + uy * 1;
-            var legLeft2Position = rotationPointPosition - ux * 6 - uy * 5;
-            var legRight1Position = rotationPointPosition + ux * 1 - uy * 5;
-            var legRight2Position = rotationPointPosition + ux * 5 - uy * 13;
-            var legMiddle1Position = rotationPointPosition - ux * 1.8f - uy * 3;
-            var legMiddle2Position = rotationPointPosition - ux * 1.8f - uy * 6;
-            var ammoPosition = rotationPointPosition + ux * 3 - uy * 2;
-            var comp1Position = rotationPointPosition - ux * 4 + uy * 2;
-            var comp2Position = rotationPointPosition + ux * 1 + uy * 1;
-            var comp3Position = rotationPointPosition + ux * 6 + uy * 2;
-            var comp4Position = rotationPointPosition + ux * 1 + uy * 0;
-            var barrel1Position = rotationPointPosition - ux * 17 - uy * 3;
-            var barrel2Position = rotationPointPosition - ux * 14 - uy * 3;
-            var barrel3Position = rotationPointPosition - ux * 6 - uy * 3;
-            var teamIndicatorPosition = rotationPointPosition - ux * 9.8f - uy * 1;
-
-            m_rotationPoint = Game.CreateObject("RevoluteJoint", rotationPointPosition);
-            UniqueID = m_rotationPoint.UniqueID;
+            RotationCenter = worldPosition - ux * 10 + uy * 9;
+            var legLeft1Position = RotationCenter - ux * 4 + uy * 1;
+            var legLeft2Position = RotationCenter - ux * 7 - uy * 5;
+            var legRight1Position = RotationCenter + ux * 0 - uy * 5;
+            var legRight2Position = RotationCenter + ux * 4 - uy * 13;
+            var legMiddle1Position = RotationCenter - ux * 2.8f - uy * 3;
+            var legMiddle2Position = RotationCenter - ux * 2.8f - uy * 6;
+            var ammoPosition = RotationCenter + ux * 2 - uy * 2;
+            var comp1Position = RotationCenter - ux * 5 + uy * 2;
+            var controllerPosition = RotationCenter + ux * 0 + uy * 1;
+            var sensorPosition = RotationCenter + ux * 5 + uy * 2;
+            var rotorPosition = RotationCenter + ux * 0 - uy * 1;
+            var barrelSolid1Position = RotationCenter - ux * 8 - uy * 2;
+            var barrelSolid2Position = RotationCenter - ux * 16 - uy * 2;
+            var barrelPosition = RotationCenter - ux * 6 + uy * 2;
+            var tipPosition = RotationCenter - ux * 24 + uy * 0;
+            var teamIndicatorPosition = RotationCenter - ux * 11f - uy * 1;
 
             // Object creation order is important. It will determine the z-layer the object will be located to
             // TODO: teamIndicator rotation does not work: https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3954
@@ -224,13 +241,14 @@ namespace BotExtended.Weapons
             var ammo = (IObjectActivateTrigger)Game.CreateObject("AmmoStash00", ammoPosition);
 
             var comp1 = Game.CreateObject("ItemDebrisDark00", comp1Position);
-            var comp2 = Game.CreateObject("ItemDebrisShiny00", comp2Position);
-            var comp3 = Game.CreateObject("ItemDebrisDark00", comp3Position);
-            var comp4 = Game.CreateObject("MetalDebris00A", comp4Position);
+            m_controller = new Component("ItemDebrisShiny00", controllerPosition);
+            m_sensor = new Component("ItemDebrisDark00", sensorPosition);
+            m_rotor = new Component("MetalDebris00A", rotorPosition);
 
-            var barrel1 = Game.CreateObject("Rug00A_D", barrel1Position);
-            var barrel2 = Game.CreateObject("Rug00A", barrel2Position);
-            var barrel3 = Game.CreateObject("Rug00A", barrel3Position);
+            var barrel1 = Game.CreateObject("MetalPlat01A", barrelSolid1Position);
+            var barrel2 = Game.CreateObject("MetalPlat01B", barrelSolid2Position);
+            m_barrel = new Component("JusticeStatue00Scales", barrelPosition);
+            m_tip = Game.CreateObject("LedgeGrab", tipPosition);
 
             legMiddle1.SetEnabled(false);
             legMiddle2.SetEnabled(false);
@@ -250,47 +268,85 @@ namespace BotExtended.Weapons
             ammo.SetFaceDirection(-Direction);
             barrel1.SetFaceDirection(-Direction);
             barrel2.SetFaceDirection(-Direction);
-            barrel3.SetFaceDirection(-Direction);
+            m_barrel.Object.SetFaceDirection(-Direction);
+            m_tip.SetFaceDirection(-Direction);
             comp1.SetFaceDirection(-Direction);
-            comp2.SetFaceDirection(-Direction);
-            comp3.SetFaceDirection(-Direction);
-            comp4.SetFaceDirection(-Direction);
+            m_controller.Object.SetFaceDirection(-Direction);
+            m_sensor.Object.SetFaceDirection(-Direction);
+            m_rotor.Object.SetFaceDirection(-Direction);
 
-            comp1.SetBodyType(BodyType.Static);
-            comp2.SetBodyType(BodyType.Static);
-            comp3.SetBodyType(BodyType.Static);
-            comp4.SetBodyType(BodyType.Static);
+            m_rotor.Object.SetBodyType(BodyType.Static); // Using WeldJoint, one static obj is enough
 
             m_bodyJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-            var alterCollisionTile = (IObjectAlterCollisionTile)Game.CreateObject("AlterCollisionTile");
+            m_alterCollisionTile = (IObjectAlterCollisionTile)Game.CreateObject("AlterCollisionTile");
 
-            m_components.Add(legMiddle1); legMiddle1.CustomID = "LegMiddle1";
-            m_components.Add(legMiddle2); legMiddle2.CustomID = "LegMiddle2";
-            m_components.Add(legLeft1); legLeft1.CustomID = "LegLeft1";
-            m_components.Add(legLeft2); legLeft2.CustomID = "LegLeft2";
-            m_components.Add(legRight1); legRight1.CustomID = "LegRight1";
-            m_components.Add(legRight2); legRight2.CustomID = "LegRight2";
-            m_components.Add(ammo); ammo.CustomID = "Ammo";
-            m_components.Add(barrel1); barrel1.CustomID = "Barrel1";
-            m_components.Add(barrel2); barrel2.CustomID = "Barrel2";
-            m_components.Add(barrel3); barrel3.CustomID = "Barrel3";
-            m_components.Add(teamIndicator); teamIndicator.CustomID = "TeamIndicator";
-            m_components.Add(comp1); comp1.CustomID = "Comp1";
-            m_components.Add(comp2); comp2.CustomID = "Comp2";
-            m_components.Add(comp3); comp3.CustomID = "Comp3";
-            m_components.Add(comp4); comp4.CustomID = "Comp4";
+            legMiddle1.CustomID = "TurretLegMiddle1";
+            legMiddle2.CustomID = "TurretLegMiddle2";
+            legLeft1.CustomID = "TurretLegLeft1";
+            legLeft2.CustomID = "TurretLegLeft2";
+            legRight1.CustomID = "TurretLegRight1";
+            legRight2.CustomID = "TurretLegRight2";
+            ammo.CustomID = "TurretAmmo";
+            barrel1.CustomID = "TurretBarrel1";
+            barrel2.CustomID = "TurretBarrel2";
+            m_barrel.CustomID = "TurretBarrel3";
+            m_tip.CustomID = "TurretTip";
+            teamIndicator.CustomID = "TurretTeamIndicator";
+            comp1.CustomID = "TurretComp1";
+            m_controller.CustomID = "TurretController";
+            m_sensor.CustomID = "TurretSensor";
+            m_rotor.CustomID = "TurretRotor";
 
-            foreach (var component in m_components)
-            {
-                if (!component.CustomID.StartsWith("Leg"))
-                    m_bodyJoint.AddTargetObject(component);
+            m_components.Add(legMiddle1.CustomID, legMiddle1); 
+            m_components.Add(legMiddle2.CustomID, legMiddle2);
+            m_components.Add(legLeft1.CustomID, legLeft1);
+            m_components.Add(legLeft2.CustomID, legLeft2);
+            m_components.Add(legRight1.CustomID, legRight1);
+            m_components.Add(legRight2.CustomID, legRight2);
+            m_components.Add(ammo.CustomID, ammo);
+            m_components.Add(barrel1.CustomID, barrel1);
+            m_components.Add(barrel2.CustomID, barrel2);
+            m_components.Add(m_barrel.CustomID, m_barrel.Object);
+            m_components.Add(m_tip.CustomID, m_tip);
+            m_components.Add(teamIndicator.CustomID, teamIndicator);
+            m_components.Add(comp1.CustomID, comp1);
+            m_components.Add(m_controller.CustomID, m_controller.Object);
+            m_components.Add(m_sensor.CustomID, m_sensor.Object);
+            m_components.Add(m_rotor.CustomID, m_rotor.Object);
 
-                alterCollisionTile.AddTargetObject(component);
-            }
-            m_bodyJoint.AddTargetObject(m_rotationPoint);
-            alterCollisionTile.SetDisableCollisionTargetObjects(true);
+            // The reason I randomize health for each part is because bullets will likely shoot
+            // through all the parts at once, so part with lowest hp will be destroyed first,
+            // which is predictable, which is bad
+            var healths = RandomHelper.Shuffle(new List<float>() { 50, 150, 250, 300 });
+            m_barrel.MaxHealth = healths[0];
+            m_rotor.MaxHealth = healths[1];
+            m_sensor.MaxHealth = healths[2];
+            m_controller.MaxHealth = healths[3];
+
+            m_damageableComponents.Add(m_barrel);
+            m_damageableComponents.Add(m_rotor);
+            m_damageableComponents.Add(m_sensor);
+            m_damageableComponents.Add(m_controller);
+
+            foreach (var dc in m_damageableComponents)
+                dc.RemoveWhenDestroyed = false;
+
+            foreach (var component in m_components.Values)
+                RegisterComponent(component);
+
+            m_alterCollisionTile.SetDisableCollisionTargetObjects(true);
 
             Angle = Direction > 0 ? 0 : MathHelper.PI;
+        }
+
+        private void RegisterComponent(IObject obj)
+        {
+            if (!obj.CustomID.StartsWith("TurretLeg"))
+            {
+                m_bodyJoint.AddTargetObject(obj);
+            }
+
+            m_alterCollisionTile.AddTargetObject(obj);
         }
 
         private float m_fireCooldown = 0;
@@ -300,14 +356,18 @@ namespace BotExtended.Weapons
 
             UpdateRotation(elapsed);
             UpdateCasings();
+            UpdateBrokenEffects(elapsed);
 
             switch (m_state)
             {
                 case TurretState.Idle:
-                    ScanTargets(elapsed);
+                    if (CurrentAmmo > 0)
+                        ScanTargets(elapsed);
                     break;
                 case TurretState.Firing:
-                    ScanTargets(elapsed);
+                    if (CurrentAmmo > 0)
+                        ScanTargets(elapsed);
+
                     m_fireCooldown += elapsed;
                     if (m_fireCooldown >= 75)
                     {
@@ -317,6 +377,13 @@ namespace BotExtended.Weapons
                         {
                             m_currentAmmo--;
                             Game.PlayEffect(EffectName.CustomFloatText, FirePosition, "Out of ammo");
+                            Game.PlaySound("OutOfAmmoHeavy", FirePosition);
+
+                            for (uint i = 1; i <= 6; i++)
+                            {
+                                ScriptHelper.Timeout(() => Game.PlaySound("OutOfAmmoHeavy", FirePosition), 75 * i);
+                            }
+                            StopFiring();
                         }
                         m_fireCooldown = 0;
                     }
@@ -325,6 +392,45 @@ namespace BotExtended.Weapons
                     break;
             }
 
+        }
+
+        private float m_sparkEffectTime = 0f;
+        private float m_smokeEffectTime = 0f;
+        private void UpdateBrokenEffects(float elapsed)
+        {
+            if (HasDamage(TurretDamage.SensorDamaged)
+                || HasDamage(TurretDamage.RotorDamaged)
+                || HasDamage(TurretDamage.ControllerDamaged))
+            {
+                var effectTime = 1500;
+                if (HasDamage(TurretDamage.SensorDamaged)) effectTime -= 200;
+                if (HasDamage(TurretDamage.RotorDamaged)) effectTime -= 200;
+                if (HasDamage(TurretDamage.ControllerDamaged)) effectTime -= 200;
+
+                m_sparkEffectTime += elapsed;
+                if (m_sparkEffectTime >= effectTime)
+                {
+                    if (RandomHelper.Boolean()) m_sparkEffectTime -= RandomHelper.Between(0, 1500);
+                    else
+                    {
+                        m_sparkEffectTime = 0f;
+                        Game.PlayEffect(EffectName.ItemGleam, m_rotor.Object.GetWorldPosition());
+                        Game.PlayEffect(EffectName.DestroyMetal, m_rotor.Object.GetWorldPosition());
+                        Game.PlaySound("ElectricSparks", m_rotor.Object.GetWorldPosition());
+                    }
+                }
+            }
+
+            if (HasDamage(TurretDamage.BarrelDamaged))
+            {
+                m_smokeEffectTime += elapsed;
+
+                if (m_smokeEffectTime >= 500)
+                {
+                    Game.PlayEffect(EffectName.Dig, FirePosition);
+                    m_smokeEffectTime = 0f;
+                }
+            }
         }
 
         private void UpdateCasings()
@@ -345,9 +451,59 @@ namespace BotExtended.Weapons
             }
         }
 
-        public void OnDamage(IObject component)
+        public bool HasDamage(TurretDamage damage) { return (m_damage & damage) == damage; }
+
+        public void OnDamage(IObject obj, ObjectDamageArgs args)
         {
-            ScriptHelper.LogDebug(string.Format("{0} comp is damaged", component.CustomID));
+            foreach (var dc in m_damageableComponents)
+            {
+                if (dc.OnDamage(args))
+                {
+                    m_components[dc.CustomID] = dc.Object;
+                    RegisterComponent(dc.Object);
+                }
+            }
+
+            // https://www.alanzucconi.com/2015/07/26/enum-flags-and-bitwise-operators/
+            if (m_barrel.Health == 0 && !HasDamage(TurretDamage.BarrelDamaged))
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Barrel Damaged");
+                m_damage = m_damage | TurretDamage.BarrelDamaged;
+            }
+            if (m_rotor.Health == 0 && !HasDamage(TurretDamage.RotorDamaged))
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Rotor Damaged");
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlaySound("ElectricSparks", RotationCenter);
+                m_damage = m_damage | TurretDamage.RotorDamaged;
+            }
+            if (m_sensor.Health == 0 && !HasDamage(TurretDamage.SensorDamaged))
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Sensor Damaged");
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlaySound("ElectricSparks", RotationCenter);
+                m_damage = m_damage | TurretDamage.SensorDamaged;
+            }
+            if (m_controller.Health == 0 && !HasDamage(TurretDamage.ControllerDamaged))
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Controller Damaged");
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlayEffect(EffectName.Electric, RotationCenter);
+                Game.PlaySound("ElectricSparks", RotationCenter);
+                m_damage = m_damage | TurretDamage.ControllerDamaged;
+            }
+        }
+
+        public void OnComponentTerminated(IObject component)
+        {
+            m_alterCollisionTile.RemoveTargetObject(component);
+
+            if (!component.CustomID.StartsWith("TurretLeg"))
+            {
+                m_bodyJoint.RemoveTargetObject(component);
+            }
         }
 
         public static readonly float Range = 500;
@@ -392,6 +548,15 @@ namespace BotExtended.Weapons
             return players;
         }
 
+        private IEnumerable<IPlayer> RayCast(Vector2 start, Vector2 end)
+        {
+            if (HasDamage(TurretDamage.SensorDamaged))
+            {
+                return ScriptHelper.RayCastPlayers(start, end);
+            }
+            return ScriptHelper.RayCastPlayers(start, end, true, Team, Owner);
+        }
+
         private float m_changeTargetCooldown = 0f;
         private void ScanTargets(float elasped)
         {
@@ -403,21 +568,18 @@ namespace BotExtended.Weapons
             {
                 var direction = player.GetWorldPosition() - RotationCenter;
                 var los = GetLineOfSight(direction);
-                var targets = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
+                var targets = RayCast(los[0], los[1]);
 
                 if (targets.Count() > 0)
                 {
                     targetDirection = direction;
-                    CurrentTarget = player;
                     target = player; break;
                 }
             }
 
             m_changeTargetCooldown += elasped;
 
-            if (target != null
-                && (CurrentTarget == null || CurrentTarget.UniqueID != target.UniqueID)
-                && m_changeTargetCooldown > 500)
+            if (target != null && m_changeTargetCooldown > 500)
             {
                 m_changeTargetCooldown = 0;
                 CurrentTarget = target;
@@ -436,8 +598,8 @@ namespace BotExtended.Weapons
             }
 
             var los = GetLineOfSight(AimVector);
+            var players = RayCast(los[0], los[1]);
             Game.DrawLine(los[0], los[1], Color.Green);
-            var players = ScriptHelper.RayCastPlayers(los[0], los[1], true, Owner);
 
             if (!players.Any())
             {
@@ -459,11 +621,29 @@ namespace BotExtended.Weapons
         private float m_targetAngle = 0;
         private void RotateTo(float angle)
         {
+            if (HasDamage(TurretDamage.RotorDamaged))
+                return;
             m_targetAngle = NormalizeAngle(angle);
         }
 
+        private float m_rndRotationTime = 0f;
         private void UpdateRotation(float elapsed)
         {
+            if (HasDamage(TurretDamage.ControllerDamaged))
+            {
+                m_rndRotationTime += elapsed;
+                if (m_rndRotationTime >= 1000)
+                {
+                    if (RandomHelper.Boolean())
+                    {
+                        RotateTo(RandomHelper.Between(MinAngle, MaxAngle));
+                        m_rndRotationTime = 0f;
+                    }
+                    else
+                        m_rndRotationTime -= RandomHelper.Between(0, 500);
+                }
+            }
+
             if (Math.Abs(Angle - m_targetAngle) > 0.0174f)
             {
                 m_rotateTimer += elapsed;
@@ -480,6 +660,9 @@ namespace BotExtended.Weapons
 
         private void Fire()
         {
+            if (HasDamage(TurretDamage.BarrelDamaged))
+                return;
+
             var aimVector = AimVector;
             var oneDeg = .0174f;
 
@@ -487,14 +670,17 @@ namespace BotExtended.Weapons
             aimVector.Y += RandomHelper.Between(-oneDeg, oneDeg);
 
             Game.SpawnProjectile(ProjectileItem.M60, FirePosition, aimVector);
-            // TODO: need a better shot effect. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&p=23302#p23302
-            Game.PlayEffect(EffectName.BulletHitMetal, FirePosition);
+            // More info about muzzle effect
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?p=23313#p23313
+            // Effect direction cannot be flipped horizontally. I feel so defeated
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&p=23314#p23314
+            //Game.PlayEffect("MZLED", m_tip.GetWorldPosition() + AimVector * 4, m_tip.UniqueID, "MuzzleFlashAssaultRifle");
             Game.PlaySound("Magnum", FirePosition);
             m_currentAmmo--;
 
-            var emittedDirection = (Direction > 0 ? 90 + 45 : 45) + RandomHelper.Between(-.3f, .3f);
+            var emittedAngle = (Direction > 0 ? 90 + 45 : 45) + RandomHelper.Between(-.3f, .3f);
             var casing = Game.CreateObject("WpnC4Detonator", RotationCenter, MathHelper.PIOver2,
-                ScriptHelper.GetDirection(emittedDirection) * 4, RandomHelper.Between(-5, 5));
+                ScriptHelper.GetDirection(emittedAngle) * 4, RandomHelper.Between(-5, 5));
             m_ejectedCasings.Add(Game.TotalElapsedGameTime, casing);
         }
 

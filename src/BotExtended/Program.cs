@@ -64,7 +64,7 @@ namespace BotExtended
                     //Command.SetPlayer(new List<string>() { "player 7", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 8", "Bandido" });
 
-                    Events.PlayerKeyInputCallback.Start(KInput);
+                    //Events.PlayerKeyInputCallback.Start(KInput);
                 }
             }
             catch (Exception e)
