@@ -3,8 +3,6 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Weapons
@@ -155,7 +153,7 @@ namespace BotExtended.Weapons
                 var minMax = NormalizeMinMaxAngle(minCompAngle, maxCompAngle);
                 var angle = NormalizeAngle(Direction > 0 ? value : value - MathHelper.PI);
 
-                //ScriptHelper.LogDebug("{0:0} {1:0} {2:0} {3:0}, {4}",
+                //ScriptHelper.LogDebugF("{0:0} {1:0} {2:0} {3:0}, {4}",
                 //    minMax[0] * 180 / Math.PI,
                 //    minMax[1] * 180 / Math.PI,
                 //    angle * 180 / Math.PI,
@@ -165,6 +163,8 @@ namespace BotExtended.Weapons
 
                 angle = MathHelper.Clamp(angle, minMax[0], minMax[1]);
                 m_rotor.Object.SetAngle(angle, updateConnectedObjects: true);
+                // muzzle effect's angle is m_tip's Angle. I blame Gurt for this
+                m_tip.SetAngle(Direction > 0 ? angle : angle - MathHelper.PI);
             }
         }
 
@@ -453,6 +453,14 @@ namespace BotExtended.Weapons
 
         public bool HasDamage(TurretDamage damage) { return (m_damage & damage) == damage; }
 
+        private void OnBodyDamage(TurretDamage damage, string displayText)
+        {
+            Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, displayText);
+            Game.PlayEffect(EffectName.Electric, RotationCenter);
+            Game.PlayEffect(EffectName.Electric, RotationCenter);
+            Game.PlaySound("ElectricSparks", RotationCenter);
+            m_damage = m_damage | damage;
+        }
         public void OnDamage(IObject obj, ObjectDamageArgs args)
         {
             foreach (var dc in m_damageableComponents)
@@ -472,37 +480,28 @@ namespace BotExtended.Weapons
             }
             if (m_rotor.Health == 0 && !HasDamage(TurretDamage.RotorDamaged))
             {
-                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Rotor Damaged");
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlaySound("ElectricSparks", RotationCenter);
-                m_damage = m_damage | TurretDamage.RotorDamaged;
+                OnBodyDamage(TurretDamage.RotorDamaged, "Rotor Damaged");
             }
             if (m_sensor.Health == 0 && !HasDamage(TurretDamage.SensorDamaged))
             {
-                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Sensor Damaged");
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlaySound("ElectricSparks", RotationCenter);
-                m_damage = m_damage | TurretDamage.SensorDamaged;
+                OnBodyDamage(TurretDamage.SensorDamaged, "Sensor Damaged");
             }
             if (m_controller.Health == 0 && !HasDamage(TurretDamage.ControllerDamaged))
             {
-                Game.PlayEffect(EffectName.CustomFloatText, RotationCenter + Vector2.UnitY * 5, "Controller Damaged");
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlayEffect(EffectName.Electric, RotationCenter);
-                Game.PlaySound("ElectricSparks", RotationCenter);
-                m_damage = m_damage | TurretDamage.ControllerDamaged;
+                OnBodyDamage(TurretDamage.ControllerDamaged, "Controller Damaged");
             }
         }
 
         public void OnComponentTerminated(IObject component)
         {
-            m_alterCollisionTile.RemoveTargetObject(component);
-
-            if (!component.CustomID.StartsWith("TurretLeg"))
+            if (component.RemovalInitiated)
             {
-                m_bodyJoint.RemoveTargetObject(component);
+                m_alterCollisionTile.RemoveTargetObject(component);
+
+                if (!component.CustomID.StartsWith("TurretLeg"))
+                {
+                    m_bodyJoint.RemoveTargetObject(component);
+                }
             }
         }
 
@@ -672,9 +671,7 @@ namespace BotExtended.Weapons
             Game.SpawnProjectile(ProjectileItem.M60, FirePosition, aimVector);
             // More info about muzzle effect
             // https://www.mythologicinteractiveforums.com/viewtopic.php?p=23313#p23313
-            // Effect direction cannot be flipped horizontally. I feel so defeated
-            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&p=23314#p23314
-            //Game.PlayEffect("MZLED", m_tip.GetWorldPosition() + AimVector * 4, m_tip.UniqueID, "MuzzleFlashAssaultRifle");
+            Game.PlayEffect("MZLED", Vector2.Zero, m_tip.UniqueID, "MuzzleFlashAssaultRifle");
             Game.PlaySound("Magnum", FirePosition);
             m_currentAmmo--;
 

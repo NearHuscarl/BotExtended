@@ -306,7 +306,7 @@ namespace BotExtended.Library
                 // 
                 // static_ground, players, dynamic_platforms
                 MaskBits = 0x000F,
-                FilterOnMaskBits = true
+                FilterOnMaskBits = true,
                 //Types = new Type[1] { typeof(IPlayer) },
             };
             var results = Game.RayCast(start, end, rayCastInput);
@@ -320,6 +320,7 @@ namespace BotExtended.Library
             {
                 if (ObjectsBulletCantPass.Contains(result.HitObject.Name)
                     // Filter objects bullet can passthrough like ladder
+                    // Not an optimal solution: https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3952&p=23291#p23291
                     || (result.HitObject.GetCollisionFilter().BlockExplosions
                     && !ObjectsBulletCanPass.Contains(result.HitObject.Name))
                     )
