@@ -174,6 +174,9 @@ namespace BotExtended
                         MeleeDamageDealtModifier = DamageDealt.BelowNormal,
                         SizeModifier = Size.BelowNormal,
                     };
+
+                    if (botType == BotType.Engineer)
+                        botInfo.Modifiers.SizeModifier = Size.Normal;
                     break;
                 }
                 #endregion

@@ -10,6 +10,13 @@ namespace BotExtended.Bots
 {
     class EngineerBot : Bot
     {
+        private enum AvailableTurretDirection
+        {
+            None,
+            Left,
+            Right,
+        }
+
         private static readonly HashSet<WeaponItem> BuildItems = new HashSet<WeaponItem>()
         {
             WeaponItem.LEAD_PIPE,
@@ -20,20 +27,64 @@ namespace BotExtended.Bots
         public float BuildTime { get; private set; }
         public bool IsBuilding { get { return m_state == EngineerState.Building; } }
 
+        private AvailableTurretDirection m_availableDirection = AvailableTurretDirection.None;
+
+        private Area DangerArea
+        {
+            get
+            {
+                var position = Player.GetWorldPosition();
+                return new Area(
+                    position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
+                    position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
+            }
+        }
+
+        private Vector2[] ScanLine(float angle)
+        {
+            var start = Player.GetWorldPosition() + Vector2.UnitY * 9; // same height as turret's tip
+            var end = start + ScriptHelper.GetDirection(angle) * 200;
+            return new Vector2[] { start, end };
+        }
+
+        private List<Vector2[]> ScanLines
+        {
+            get
+            {
+                return new List<Vector2[]>()
+                {
+                    ScanLine(0),
+                    ScanLine(MathHelper.PI),
+                };
+            }
+        }
+
         public EngineerBot() : base()
         {
             BuildTime = Game.IsEditorTest ? 1000 : 5000; // TODO: remove
+            UpdateInterval = 0;
+            PlayerDropWeaponEvent += OnPlayerDropWeapon;
+        }
+
+        private void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
+        {
+            if (BuildItems.Contains(weaponObj.WeaponItem))
+            {
+                if (m_state != EngineerState.Normal) m_state = EngineerState.Normal;
+            }
         }
 
         enum EngineerState
         {
             Normal,
+            Analyzing,
             GoingToPlaceholder,
             Building,
         }
         private EngineerState m_state = EngineerState.Normal;
 
         private float m_buildCooldown = 0f;
+        private float m_analyzePlaceCooldown = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
@@ -44,14 +95,22 @@ namespace BotExtended.Bots
                     m_buildCooldown += elapsed;
 
                     if (m_buildCooldown >= (Game.IsEditorTest ? 3000 : 7000) /*TODO: remove*/
-                        && IsInactive())
+                        && BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem))
+                    {
+                        m_state = EngineerState.Analyzing;
+                        m_analyzePlaceCooldown = 300;
+                    }
+                    break;
+                case EngineerState.Analyzing:
+                    m_analyzePlaceCooldown += elapsed;
+
+                    if (m_analyzePlaceCooldown >= (Game.IsEditorTest ? 0 : 300))
                     {
                         if (CheckExistingPlaceholder())
                             GoToExistingPlaceholder();
                         else if (CanBuildTurretHere())
                             StartBuildingTurret();
-                        else // Cant build turret
-                            m_buildCooldown = 0;
+                        m_analyzePlaceCooldown = 0;
                     }
                     break;
                 case EngineerState.GoingToPlaceholder:
@@ -75,6 +134,7 @@ namespace BotExtended.Bots
                 if (m_damageTakenWhileBuilding >= 20)
                 {
                     StopBuilding();
+                    m_damageTakenWhileBuilding = 0;
                 }
             }
         }
@@ -85,14 +145,49 @@ namespace BotExtended.Bots
             WeaponManager.RemoveBuilderFromTurretPlaceholder(Player.UniqueID);
         }
 
+        private bool IsAttacked()
+        {
+            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned);
+        }
+        private bool IsInactive()
+        {
+            return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked();
+        }
+        private bool CanBuildTurret()
+        {
+            return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem) && IsInactive();
+        }
         private bool CanBuildTurretHere()
         {
-            if (!BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem))
+            if (!CanBuildTurret())
                 return false;
 
-            foreach (var bot in BotManager.GetBots<EngineerBot>())
+            m_availableDirection = AvailableTurretDirection.None;
+            for (var i = 0; i < ScanLines.Count; i++)
             {
-                if (bot.IsBuilding) return false;
+                var scanLine = ScanLines[i];
+                Game.DrawLine(scanLine[0], scanLine[1], Color.Yellow);
+                if (RayCastHelper.ImpassableObjects(scanLine[0], scanLine[1]).Count() == 0)
+                {
+                    m_availableDirection = i == 0 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
+                }
+            }
+            if (m_availableDirection == AvailableTurretDirection.None) return false;
+
+            // Uncomment if Engineer is too OP
+            // foreach (var bot in BotManager.GetBots<EngineerBot>())
+            // {
+            //     if (bot.IsBuilding) return false;
+            // }
+
+            // Don't build turret when enemies are nearby
+            foreach (var bot in BotManager.GetBots<Bot>())
+            {
+                if (!ScriptHelper.SameTeam(Player, bot.Player))
+                {
+                    if (DangerArea.Intersects(bot.Player.GetAABB()))
+                        return false;
+                }
             }
 
             var closestTurretDistance = float.PositiveInfinity;
@@ -103,9 +198,9 @@ namespace BotExtended.Bots
                 closestTurretDistance = Math.Min(distanceToTurret, closestTurretDistance);
             }
 
-            if (closestTurretDistance >= 300)
-                return true;
-            return false;
+            if (closestTurretDistance < 275)
+                return false;
+            return true;
         }
 
         private TurretPlaceholder m_targetPlaceholder = null;
@@ -142,7 +237,7 @@ namespace BotExtended.Bots
 
         private void CheckArriveTargetPlaceholder()
         {
-            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && IsInactive())
+            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && CanBuildTurret())
             {
                 // At the time the builder arrives, another builder may arrived first and already started building
                 if (!WeaponManager.GetUntouchedTurretPlaceholders()
@@ -160,15 +255,6 @@ namespace BotExtended.Bots
             }
         }
 
-        private bool IsAttacked()
-        {
-            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned);
-        }
-        private bool IsInactive()
-        {
-            return (Player.IsIdle || Player.IsWalking) && !IsAttacked();
-        }
-
         private void StartBuildingTurret(TurretPlaceholder placeholder = null)
         {
             m_state = EngineerState.Building;
@@ -178,7 +264,10 @@ namespace BotExtended.Bots
             Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
 
             if (placeholder == null)
-                m_placeholder = WeaponManager.CreateTurretPlaceholder(Player);
+            {
+                var direction = m_availableDirection == AvailableTurretDirection.Left ? TurretDirection.Left : TurretDirection.Right;
+                m_placeholder = WeaponManager.CreateTurretPlaceholder(Player, direction);
+            }
             else
             {
                 m_placeholder = placeholder;
@@ -211,7 +300,6 @@ namespace BotExtended.Bots
             m_buildTimer += elapsed;
             m_hitTimer += elapsed;
             m_placeholder.BuildProgress = m_buildTimer / BuildTime;
-            Game.DrawText(string.Format("{0}/{1}", m_buildTimer, BuildTime), Player.GetWorldPosition());
 
             if (m_hitTimer >= 700)
             {
@@ -229,9 +317,9 @@ namespace BotExtended.Bots
             if (m_buildTimer >= BuildTime)
             {
                 StopBuilding();
+                WeaponManager.SpawnTurret(Player, m_placeholder.Direction);
                 m_placeholder.Remove();
                 m_placeholder = null;
-                WeaponManager.SpawnTurret(Player);
             }
         }
     }

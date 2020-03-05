@@ -179,7 +179,6 @@ namespace BotExtended.Weapons
         {
             Idle,
             Firing,
-            Broken,
         }
 
         private string GetColor(PlayerTeam team)
@@ -335,7 +334,6 @@ namespace BotExtended.Weapons
                 RegisterComponent(component);
 
             m_alterCollisionTile.SetDisableCollisionTargetObjects(true);
-
             Angle = Direction > 0 ? 0 : MathHelper.PI;
         }
 
@@ -387,8 +385,6 @@ namespace BotExtended.Weapons
                         }
                         m_fireCooldown = 0;
                     }
-                    break;
-                case TurretState.Broken:
                     break;
             }
 
@@ -500,7 +496,17 @@ namespace BotExtended.Weapons
 
                 if (!component.CustomID.StartsWith("TurretLeg"))
                 {
-                    m_bodyJoint.RemoveTargetObject(component);
+                    var tos = m_bodyJoint.GetTargetObjects().ToList();
+
+                    foreach (var o in m_bodyJoint.GetTargetObjects())
+                    {
+                        m_bodyJoint.RemoveTargetObject(o);
+                    }
+
+                    // Reset all target objects to make sure all of the objects keep connected
+                    // If simply run m_bodyJoint.RemoveTargetObject(component), object will be
+                    // unconnected and broken down randomly
+                    m_bodyJoint.SetTargetObjects(tos);
                 }
             }
         }
@@ -551,9 +557,14 @@ namespace BotExtended.Weapons
         {
             if (HasDamage(TurretDamage.SensorDamaged))
             {
-                return ScriptHelper.RayCastPlayers(start, end);
+                foreach (var result in RayCastHelper.PlayersInSight(start, end))
+                    yield return Game.GetPlayer(result.ObjectID);
             }
-            return ScriptHelper.RayCastPlayers(start, end, true, Team, Owner);
+            else
+            {
+                foreach (var result in RayCastHelper.PlayersInSight(start, end, true, Team, Owner))
+                    yield return Game.GetPlayer(result.ObjectID);
+            }
         }
 
         private float m_changeTargetCooldown = 0f;

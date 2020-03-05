@@ -24,10 +24,9 @@ namespace BotExtended.Weapons
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
-        public static void SpawnTurret(IPlayer owner)
+        public static void SpawnTurret(IPlayer owner, TurretDirection direction)
         {
             var position = owner.GetWorldPosition();
-            var direction = owner.FacingDirection > 0 ? TurretDirection.Right : TurretDirection.Left;
             m_weapons.Add(new Turret(position, direction, owner));
         }
 
@@ -83,10 +82,9 @@ namespace BotExtended.Weapons
             }
         }
 
-        public static TurretPlaceholder CreateTurretPlaceholder(IPlayer player)
+        public static TurretPlaceholder CreateTurretPlaceholder(IPlayer player, TurretDirection direction)
         {
-            var turretDirection = player.GetFaceDirection() == 1 ? TurretDirection.Right : TurretDirection.Left;
-            var placeholder = new TurretPlaceholder(player.GetWorldPosition(), turretDirection, player);
+            var placeholder = new TurretPlaceholder(player.GetWorldPosition(), direction, player);
 
             m_turretPlaceholders.Add(placeholder.UniqueID, new TurretPlaceholderInfo()
             {

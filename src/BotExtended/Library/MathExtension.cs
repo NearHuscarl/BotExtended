@@ -17,9 +17,9 @@ namespace BotExtended.Library
 
         public const float PI_3Over2 = TwoPI - PIOver2;
 
-        public static double ToRadians(double angleDegree)
+        public static float ToRadians(double angleDegree)
         {
-            return (angleDegree * Math.PI) / 180;
+            return (float)(angleDegree * Math.PI) / 180;
         }
         public static double NormalizeAngle(double radian)
         {

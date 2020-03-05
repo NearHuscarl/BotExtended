@@ -109,7 +109,7 @@ namespace BotExtended.Library
         private static Vector2 Direction(Rnd rnd, float minAngle, float maxAngle)
         {
             var angle = Between(minAngle, maxAngle);
-            var radianAngle = (float)MathExtension.ToRadians(angle);
+            var radianAngle = MathExtension.ToRadians(angle);
 
             return ScriptHelper.GetDirection(radianAngle);
         }

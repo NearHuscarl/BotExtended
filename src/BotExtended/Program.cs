@@ -63,8 +63,6 @@ namespace BotExtended
                     //Command.SetPlayer(new List<string>() { "player 6", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 7", "Bandido" });
                     //Command.SetPlayer(new List<string>() { "player 8", "Bandido" });
-
-                    //Events.PlayerKeyInputCallback.Start(KInput);
                 }
             }
             catch (Exception e)
@@ -75,23 +73,6 @@ namespace BotExtended
                 Game.WriteToConsole(e.Source);
                 Game.WriteToConsole(e.StackTrace);
                 Game.WriteToConsole(e.TargetSite.ToString());
-            }
-        }
-
-        private void KInput(IPlayer arg1, VirtualKeyInfo[] keyEvents)
-        {
-            var player = Game.GetPlayers()[0];
-            //m_turret = new Turret(new Vector2(109.9757f, -203.875f));
-
-            for (var i = 0; i < keyEvents.Length; i++)
-            {
-                //Game.WriteToConsole(string.Format("Player {0} keyevent: {1}", player.UniqueID, keyEvents[i].ToString()));
-
-                if (keyEvents[i].Event == VirtualKeyEvent.Pressed && keyEvents[i].Key == VirtualKey.BLOCK
-                    && player.KeyPressed(VirtualKey.CROUCH_ROLL_DIVE))
-                {
-                    WeaponManager.SpawnTurret(player);
-                }
             }
         }
 

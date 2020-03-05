@@ -189,8 +189,9 @@ namespace BotExtended.Bots
             var lineStart = los[0];
             var lineEnd = los[1];
 
-            foreach (var player in ScriptHelper.RayCastPlayers(lineStart, lineEnd))
+            foreach (var result in RayCastHelper.PlayersInSight(lineStart, lineEnd))
             {
+                var player = Game.GetPlayer(result.ObjectID);
                 var inMinimumRange = ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
 
                 if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())

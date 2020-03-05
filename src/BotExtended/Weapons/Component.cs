@@ -47,7 +47,7 @@ namespace BotExtended.Weapons
             var cloneObj = false;
             Health -= args.Damage; // IObject.GetHealth() is already recalculated when this event is fired
 
-            if (Object.GetHealth() == 0 && Health > 0 || !RemoveWhenDestroyed)
+            if (Object.GetHealth() == 0 && (Health > 0 || !RemoveWhenDestroyed))
             {
                 Object.Remove();
                 Object = CloneObject();

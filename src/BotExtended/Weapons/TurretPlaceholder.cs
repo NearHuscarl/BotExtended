@@ -17,7 +17,7 @@ namespace BotExtended.Weapons
         public IObject RepresentedObject { get { return m_components.First(); } }
 
         private List<IObject> m_components = new List<IObject>();
-        public int Direction { get; private set; }
+        public TurretDirection Direction { get; private set; }
 
         private Vector2 m_placeholderBgPosition;
         private List<IObject> m_progressIndicators = new List<IObject>();
@@ -71,9 +71,10 @@ namespace BotExtended.Weapons
 
         public TurretPlaceholder(Vector2 worldPosition, TurretDirection direction, IPlayer builder)
         {
-            Direction = (direction == TurretDirection.Left) ? -1 : 1;
+            Direction = direction;
+            var dir = (direction == TurretDirection.Left) ? -1 : 1;
 
-            var ux = Vector2.UnitX * -Direction;
+            var ux = Vector2.UnitX * -dir;
             var uy = Vector2.UnitY;
 
             // worldPosition works best when get from player.GetWorldPosition()
@@ -87,8 +88,8 @@ namespace BotExtended.Weapons
             var legMiddle2Position = basePosition - ux * 1.8f - uy * 6;
 
             var placeholderBg = Game.CreateObject("BgFrame00B", m_placeholderBgPosition);
-            var legMiddle1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle1Position, -Direction * 0.41f);
-            var legMiddle2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle2Position, -Direction * 0.41f);
+            var legMiddle1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle1Position, -dir * 0.41f);
+            var legMiddle2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle2Position, -dir * 0.41f);
             var legLeft1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legLeft1Position);
             var legLeft2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legLeft2Position);
             var legRight1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight1Position, MathHelper.PI);
@@ -101,12 +102,12 @@ namespace BotExtended.Weapons
             legRight1.SetEnabled(false);
             legRight2.SetEnabled(false);
 
-            legLeft1.SetFaceDirection(-Direction);
-            legLeft2.SetFaceDirection(-Direction);
-            legRight1.SetFaceDirection(Direction);
-            legRight2.SetFaceDirection(Direction);
-            legMiddle1.SetFaceDirection(-Direction);
-            legMiddle2.SetFaceDirection(-Direction);
+            legLeft1.SetFaceDirection(-dir);
+            legLeft2.SetFaceDirection(-dir);
+            legRight1.SetFaceDirection(dir);
+            legRight2.SetFaceDirection(dir);
+            legMiddle1.SetFaceDirection(-dir);
+            legMiddle2.SetFaceDirection(-dir);
 
             placeholderBg.SetSizeFactor(new Point(2, 2));
 
