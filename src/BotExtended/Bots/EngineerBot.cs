@@ -118,6 +118,7 @@ namespace BotExtended.Bots
                     CheckArriveTargetPlaceholder();
                     break;
                 case EngineerState.PreBuilding:
+                    UpdatePrebuilding(elapsed);
                     break;
                 case EngineerState.Building:
                     UpdateBuildingTurret(elapsed);
@@ -148,6 +149,40 @@ namespace BotExtended.Bots
             WeaponManager.RemoveBuilderFromTurretPlaceholder(Player.UniqueID);
         }
 
+        private bool IsNearEdge()
+        {
+            var start = Player.GetWorldPosition();
+            var scanLines = new List<Vector2[]>();
+            var deg70 = 1.22173f;
+
+            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 });
+            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 + Vector2.UnitX * (float)(5 / Math.Cos(deg70)) });
+            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 - Vector2.UnitX * (float)(5 / Math.Cos(deg70)) });
+
+            var rayCastInput = new RayCastInput()
+            {
+                MaskBits = 0x0001, // static_ground
+                FilterOnMaskBits = true,
+            };
+
+            var hitCount = 0;
+            foreach (var l in scanLines)
+            {
+                var results = Game.RayCast(l[0], l[1], rayCastInput);
+                Game.DrawLine(l[0], l[1]);
+
+                foreach (var result in results)
+                {
+                    if (result.HitObject.GetBodyType() == BodyType.Static &&
+                    !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
+                    {
+                        hitCount++;break;
+                    }
+                }
+            }
+            return hitCount < 3;
+        }
+
         private bool IsAttacked()
         {
             return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned);
@@ -166,6 +201,7 @@ namespace BotExtended.Bots
                 return false;
 
             m_availableDirection = AvailableTurretDirection.None;
+            var prioritizedDirection = Player.FacingDirection == 1 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
             for (var i = 0; i < ScanLines.Count; i++)
             {
                 var scanLine = ScanLines[i];
@@ -173,9 +209,14 @@ namespace BotExtended.Bots
                 if (RayCastHelper.ImpassableObjects(scanLine[0], scanLine[1]).Count() == 0)
                 {
                     m_availableDirection = i == 0 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
+                    if (m_availableDirection == prioritizedDirection)
+                        break;
                 }
             }
             if (m_availableDirection == AvailableTurretDirection.None) return false;
+
+            if (IsNearEdge())
+                return false;
 
             // Uncomment if Engineer is too OP
             // foreach (var bot in BotManager.GetBots<EngineerBot>())
@@ -280,13 +321,25 @@ namespace BotExtended.Bots
                 PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right, 10));
 
             m_state = EngineerState.PreBuilding;
-            ScriptHelper.Timeout(() =>
+        }
+
+        private float m_prepareTimer = 0f;
+        private void UpdatePrebuilding(float elapsed)
+        {
+            if (IsAttacked()) StopBuilding();
+
+            if (Player.IsIdle)
             {
-                if (IsAttacked()) StopBuilding();
-                // Wait for player walk to position. If execuse StartCrouch immediately, player will roll insteal
-                Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
-                m_state = EngineerState.Building;
-            }, 100);
+                // Wait for player walk to position. If execuse StartCrouch immediately, player will roll instead
+                // WaitDestinationReached not working btw
+                m_prepareTimer += elapsed;
+                if (m_prepareTimer >= 150)
+                {
+                    Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
+                    m_state = EngineerState.Building;
+                    m_prepareTimer = 0f;
+                }
+            }
         }
 
         private void StopBuilding()

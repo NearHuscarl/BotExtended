@@ -171,7 +171,7 @@ namespace BotExtended.Library
                     if (!fullCircle)
                     {
                         var corner = line[0];
-                        var angle = GetAngle(corner - center);
+                        var angle = MathExtension.NormalizeAngle(GetAngle(corner - center));
 
                         if (angle >= minAngle && angle <= maxAngle)
                             return true;

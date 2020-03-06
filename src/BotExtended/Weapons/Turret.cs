@@ -94,13 +94,13 @@ namespace BotExtended.Weapons
 
         public Vector2 AimVector { get { return ScriptHelper.GetDirection(Angle); } }
 
-        private static readonly float _Deg10 = -0.175f; // -10deg
+        private static readonly float _Deg30 = -0.523599f; // -30deg
         private float MinAngle
         {
             get
             {
                 return Direction > 0 ?
-                    _Deg10
+                    _Deg30
                     :
                     MathHelper.PI - MathHelper.PIOver4;
             }
@@ -112,7 +112,7 @@ namespace BotExtended.Weapons
                 return Direction > 0 ?
                     MathHelper.PIOver4
                     :
-                    MathHelper.PI - _Deg10;
+                    MathHelper.PI - _Deg30;
             }
         }
 
@@ -500,14 +500,14 @@ namespace BotExtended.Weapons
             var scanRange = Range + 22;
             // TODO: remove hardcode numbers
             var area = new Area(
-                RotationCenter - Vector2.UnitY * 91,
+                RotationCenter - Vector2.UnitY * 261,
                 RotationCenter + Vector2.UnitX * scanRange * Direction + Vector2.UnitY * (Range - 130));
             area.Normalize();
 
             Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MinAngle) * scanRange, Color.Cyan);
             Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MaxAngle) * scanRange, Color.Cyan);
-
             //Game.DrawArea(area);
+
             var players = Game.GetObjectsByArea<IPlayer>(area)
                 .Where((p) => ScriptHelper.IsTouchingCircle(p.GetAABB(), RotationCenter, scanRange, MinAngle, MaxAngle)
                 && !p.IsDead)
