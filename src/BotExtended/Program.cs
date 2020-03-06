@@ -51,7 +51,7 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
                     player.GiveWeaponItem(WeaponItem.M60);
-                    player.GiveWeaponItem(WeaponItem.MOLOTOVS);
+                    player.GiveWeaponItem(WeaponItem.C4);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
                     //// image size: 82 x 100

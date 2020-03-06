@@ -115,6 +115,25 @@ namespace BotExtended.Bots
             }
         }
 
+        private WeaponItem CurrentWeapon()
+        {
+            switch (Player.CurrentWeaponDrawn)
+            {
+                case WeaponItemType.Melee:
+                    if (Player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
+                        return Player.CurrentMeleeMakeshiftWeapon.WeaponItem;
+                    return Player.CurrentMeleeWeapon.WeaponItem;
+                case WeaponItemType.Rifle:
+                    return Player.CurrentPrimaryWeapon.WeaponItem;
+                case WeaponItemType.Handgun:
+                    return Player.CurrentSecondaryWeapon.WeaponItem;
+                case WeaponItemType.Thrown:
+                    return Player.CurrentThrownItem.WeaponItem;
+                case WeaponItemType.Powerup:
+                    return Player.CurrentPowerupItem.WeaponItem;
+            }
+            return WeaponItem.NONE;
+        }
         private WeaponItem CurrentWeapon(int index)
         {
             switch (index)
@@ -224,7 +243,25 @@ namespace BotExtended.Bots
         }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }
-        public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args) { }
+        public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
+        {
+            var player = Game.GetPlayer(projectile.InitialOwnerPlayerID);
+            var bot = BotManager.GetExtendedBot(player) as CowboyBot;
+
+            if (bot != null && RandomHelper.Between(0, 1) < bot.DisarmChance)
+            {
+                if (Player.CurrentWeaponDrawn != WeaponItemType.NONE)
+                {
+                    // TODO: drop thrown grenade, mine...
+                    Game.CreateObject(ScriptHelper.ObjectID(CurrentWeapon()), Player.GetWorldPosition(), 0,
+                        Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection + 
+                        Vector2.UnitY * RandomHelper.Between(1, 7) + projectile.Direction * 3,
+                        RandomHelper.Between(0, MathHelper.TwoPI), Player.FacingDirection);
+                    Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
+                    Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition() + Vector2.UnitY * 15, "Disarmed");
+                }
+            }
+        }
         public virtual void OnDeath(PlayerDeathArgs args) { }
 
         protected IPlayer FindClosestTarget()
