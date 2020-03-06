@@ -173,8 +173,10 @@ namespace BotExtended.Bots
 
                 foreach (var result in results)
                 {
-                    if (result.HitObject.GetBodyType() == BodyType.Static &&
-                    !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
+                    if (result.HitObject.GetBodyType() == BodyType.Static
+                        // need a better property to describe that the object is indestructible
+                        && result.HitObject.GetMaxHealth() == 1
+                        && !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
                     {
                         hitCount++;break;
                     }

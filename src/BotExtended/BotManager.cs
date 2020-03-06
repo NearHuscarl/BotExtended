@@ -149,8 +149,11 @@ namespace BotExtended
             ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
-        public static void OnUpdate(float elapsed)
+        private static float m_lastUpdateTime = 0f;
+        public static void OnUpdate(float _)
         {
+            var elapsed = Game.TotalElapsedGameTime - m_lastUpdateTime;
+
             // Turning corpses killed by zombie into another one after some time
             foreach (var corpse in m_infectedCorpses.ToList())
             {
@@ -171,6 +174,8 @@ namespace BotExtended
                 else
                     Wrap(player); // Normal players that are not extended bots
             }
+
+            m_lastUpdateTime = Game.TotalElapsedGameTime;
         }
 
         private static void OnPlayerMeleeAction(IPlayer attacker, PlayerMeleeHitArg[] args)

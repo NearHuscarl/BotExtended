@@ -3,6 +3,7 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Weapons
 {
@@ -38,12 +39,14 @@ namespace BotExtended.Weapons
             }
         }
 
+        private static float m_lastUpdateTime = 0f;
         private static void OnUpdate(float elapsed)
         {
-            foreach(var weapon in m_weapons)
+            foreach (var weapon in m_weapons)
             {
-                weapon.Update(elapsed);
+                weapon.Update(Game.TotalElapsedGameTime - m_lastUpdateTime);
             }
+            m_lastUpdateTime = Game.TotalElapsedGameTime;
         }
 
         private static void OnObjectDamage(IObject obj, ObjectDamageArgs arg)
