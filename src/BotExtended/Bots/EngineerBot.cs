@@ -79,6 +79,7 @@ namespace BotExtended.Bots
             Normal,
             Analyzing,
             GoingToPlaceholder,
+            PreBuilding,
             Building,
         }
         private EngineerState m_state = EngineerState.Normal;
@@ -115,6 +116,8 @@ namespace BotExtended.Bots
                     break;
                 case EngineerState.GoingToPlaceholder:
                     CheckArriveTargetPlaceholder();
+                    break;
+                case EngineerState.PreBuilding:
                     break;
                 case EngineerState.Building:
                     UpdateBuildingTurret(elapsed);
@@ -200,6 +203,7 @@ namespace BotExtended.Bots
 
             if (closestTurretDistance < 275)
                 return false;
+
             return true;
         }
 
@@ -257,12 +261,6 @@ namespace BotExtended.Bots
 
         private void StartBuildingTurret(TurretPlaceholder placeholder = null)
         {
-            m_state = EngineerState.Building;
-            Player.SetInputEnabled(false);
-            Player.AddCommand(new PlayerCommand(PlayerCommandType.Sheath));
-            Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
-            Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
-
             if (placeholder == null)
             {
                 var direction = m_availableDirection == AvailableTurretDirection.Left ? TurretDirection.Left : TurretDirection.Right;
@@ -274,6 +272,21 @@ namespace BotExtended.Bots
                 m_buildTimer = placeholder.BuildProgress * BuildTime;
                 WeaponManager.AddBuilderToTurretPlaceholder(placeholder.UniqueID, Player);
             }
+
+            Player.SetInputEnabled(false);
+            if (Player.CurrentWeaponDrawn != WeaponItemType.Melee)
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
+            Player.AddCommand(new PlayerCommand(PlayerCommandType.Walk, m_placeholder.Direction == TurretDirection.Left ?
+                PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right, 10));
+
+            m_state = EngineerState.PreBuilding;
+            ScriptHelper.Timeout(() =>
+            {
+                if (IsAttacked()) StopBuilding();
+                // Wait for player walk to position. If execuse StartCrouch immediately, player will roll insteal
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
+                m_state = EngineerState.Building;
+            }, 100);
         }
 
         private void StopBuilding()

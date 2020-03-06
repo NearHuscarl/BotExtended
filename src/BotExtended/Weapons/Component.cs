@@ -1,4 +1,6 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
+using System;
 using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Weapons
@@ -42,34 +44,22 @@ namespace BotExtended.Weapons
             RemoveWhenDestroyed = true;
         }
 
-        public bool OnDamage(ObjectDamageArgs args)
+        public void OnDamage(ObjectDamageArgs args)
         {
-            var cloneObj = false;
             Health -= args.Damage; // IObject.GetHealth() is already recalculated when this event is fired
 
-            if (Object.GetHealth() == 0 && (Health > 0 || !RemoveWhenDestroyed))
+            if (Object.GetHealth() == 0 && Health > 0)
             {
-                Object.Remove();
-                Object = CloneObject();
-                cloneObj = true;
+                Object.SetHealth(Math.Min(Object.GetMaxHealth(), Health));
             }
 
-            return cloneObj;
-        }
-
-        private IObject CloneObject()
-        {
-            // TODO: this line SOMETIMES throws error wtf. https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3956
-            var clone = Game.CreateObject(Object.Name, Object.GetWorldPosition());
-
-            clone.CustomID = Object.CustomID;
-            clone.SetAngle(Object.GetAngle());
-            clone.SetLinearVelocity(Object.GetLinearVelocity());
-            clone.SetAngularVelocity(Object.GetAngularVelocity());
-            clone.SetFaceDirection(Object.GetFaceDirection());
-            clone.SetBodyType(Object.GetBodyType());
-
-            return clone;
+            if (Health == 0)
+            {
+                if (RemoveWhenDestroyed)
+                    Object.Remove();
+                else
+                    Object.SetHealth(Object.GetMaxHealth());
+            }
         }
     }
 }

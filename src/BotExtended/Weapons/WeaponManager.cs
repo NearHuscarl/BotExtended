@@ -14,7 +14,7 @@ namespace BotExtended.Weapons
 
     static class WeaponManager
     {
-        private static List<IWeapon> m_weapons = new List<IWeapon>();
+        private static List<Weapon> m_weapons = new List<Weapon>();
         private static Dictionary<int, TurretPlaceholderInfo> m_turretPlaceholders = new Dictionary<int, TurretPlaceholderInfo>();
 
         public static void Initialize()
@@ -30,7 +30,7 @@ namespace BotExtended.Weapons
             m_weapons.Add(new Turret(position, direction, owner));
         }
 
-        public static IEnumerable<T> GetWeapons<T>() where T : class, IWeapon
+        public static IEnumerable<T> GetWeapons<T>() where T : Weapon
         {
             foreach (var weapon in m_weapons)
             {

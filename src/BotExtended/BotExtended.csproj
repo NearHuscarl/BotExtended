@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Library\MathExtension.cs" />
+    <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="Projectiles\WeaponPowerupInfo.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />
     <Compile Include="Projectiles\RangedWeaponPowerup.cs" />
@@ -88,9 +89,9 @@
     <Compile Include="WeaponSet.cs" />
     <Compile Include="Projectiles\PresentBullet.cs" />
     <Compile Include="Weapons\Component.cs" />
-    <Compile Include="Weapons\IWeapon.cs" />
     <Compile Include="Weapons\Turret.cs" />
     <Compile Include="Weapons\TurretPlaceholder.cs" />
+    <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\WeaponManager.cs" />
     <Compile Include="ZombieStatus.cs" />
     <Compile Include="Library\Mocks\Game.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="Library\Rnd.cs" />
     <Compile Include="Library\ScriptHelper.cs" />
     <Compile Include="Library\SharpHelper.cs" />
-    <Compile Include="Library\Skin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

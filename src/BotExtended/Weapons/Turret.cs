@@ -40,7 +40,7 @@ namespace BotExtended.Weapons
     //        x - rotationPointPos.X, y - rotationPointPos.Y, comp.CustomID));
     //}
 
-    class Turret : IWeapon
+    class Turret : Weapon
     {
         public int UniqueID { get { return m_tip.UniqueID; } }
         public IPlayer Owner { get; private set; }
@@ -48,7 +48,7 @@ namespace BotExtended.Weapons
         public PlayerTeam Team { get; private set; }
 
         private Dictionary<string, IObject> m_components = new Dictionary<string, IObject>();
-        public IEnumerable<IObject> Components { get { return m_components.Values; } }
+        public override IEnumerable<IObject> Components { get { return m_components.Values; } }
 
         private List<Component> m_damageableComponents = new List<Component>();
 
@@ -60,7 +60,7 @@ namespace BotExtended.Weapons
         private TurretDamage m_damage = TurretDamage.None;
         public bool Broken { get { return m_damage != TurretDamage.None; } }
 
-        public Vector2 Position { get { return RotationCenter; } }
+        public override Vector2 Position { get { return RotationCenter; } }
 
         private Vector2 RotationCenter { get; set; }
         private IObjectWeldJoint m_bodyJoint;
@@ -334,7 +334,7 @@ namespace BotExtended.Weapons
                 RegisterComponent(component);
 
             m_alterCollisionTile.SetDisableCollisionTargetObjects(true);
-            Angle = Direction > 0 ? 0 : MathHelper.PI;
+            RotateTo(Direction > 0 ? 0 : MathHelper.PI);
         }
 
         private void RegisterComponent(IObject obj)
@@ -348,7 +348,7 @@ namespace BotExtended.Weapons
         }
 
         private float m_fireCooldown = 0;
-        public void Update(float elapsed)
+        public override void Update(float elapsed)
         {
             Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
 
@@ -435,7 +435,7 @@ namespace BotExtended.Weapons
             foreach (var casing in m_ejectedCasings)
             {
                 var timeAdded = casing.Key;
-                if (ScriptHelper.IsElapsed(timeAdded, 1000))
+                if (ScriptHelper.IsElapsed(timeAdded, 700))
                 {
                     removedList.Add(timeAdded);
                 }
@@ -457,15 +457,11 @@ namespace BotExtended.Weapons
             Game.PlaySound("ElectricSparks", RotationCenter);
             m_damage = m_damage | damage;
         }
-        public void OnDamage(IObject obj, ObjectDamageArgs args)
+        public override void OnDamage(IObject obj, ObjectDamageArgs args)
         {
             foreach (var dc in m_damageableComponents)
             {
-                if (dc.OnDamage(args))
-                {
-                    m_components[dc.CustomID] = dc.Object;
-                    RegisterComponent(dc.Object);
-                }
+                dc.OnDamage(args);
             }
 
             // https://www.alanzucconi.com/2015/07/26/enum-flags-and-bitwise-operators/
@@ -485,29 +481,6 @@ namespace BotExtended.Weapons
             if (m_controller.Health == 0 && !HasDamage(TurretDamage.ControllerDamaged))
             {
                 OnBodyDamage(TurretDamage.ControllerDamaged, "Controller Damaged");
-            }
-        }
-
-        public void OnComponentTerminated(IObject component)
-        {
-            if (component.RemovalInitiated)
-            {
-                m_alterCollisionTile.RemoveTargetObject(component);
-
-                if (!component.CustomID.StartsWith("TurretLeg"))
-                {
-                    var tos = m_bodyJoint.GetTargetObjects().ToList();
-
-                    foreach (var o in m_bodyJoint.GetTargetObjects())
-                    {
-                        m_bodyJoint.RemoveTargetObject(o);
-                    }
-
-                    // Reset all target objects to make sure all of the objects keep connected
-                    // If simply run m_bodyJoint.RemoveTargetObject(component), object will be
-                    // unconnected and broken down randomly
-                    m_bodyJoint.SetTargetObjects(tos);
-                }
             }
         }
 
