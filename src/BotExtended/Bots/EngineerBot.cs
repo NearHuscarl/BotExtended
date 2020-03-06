@@ -383,7 +383,7 @@ namespace BotExtended.Bots
             if (m_buildTimer >= BuildTime)
             {
                 StopBuilding();
-                WeaponManager.SpawnTurret(Player, m_placeholder.Direction);
+                WeaponManager.SpawnTurret(Player, m_placeholder.Position, m_placeholder.Direction);
                 m_placeholder.Remove();
                 m_placeholder = null;
             }

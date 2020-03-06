@@ -165,6 +165,8 @@ namespace BotExtended.Weapons
                 m_rotor.Object.SetAngle(angle, updateConnectedObjects: true);
                 // muzzle effect's angle is m_tip's Angle. I blame Gurt for this
                 m_tip.SetAngle(Direction > 0 ? angle : angle - MathHelper.PI);
+                // background object's angle must be set manually
+                m_components["TurretTeamIndicator"].SetAngle(angle + -Direction * MathHelper.PIOver2);
             }
         }
 
@@ -207,8 +209,8 @@ namespace BotExtended.Weapons
             var ux = Vector2.UnitX * -Direction;
             var uy = Vector2.UnitY;
             
-            // worldPosition works best when get from player.GetWorldPosition()
-            RotationCenter = worldPosition - ux * 10 + uy * 9;
+            // worldPosition works best when get from TurretPlaceholder.Position
+            RotationCenter = worldPosition;
             var legLeft1Position = RotationCenter - ux * 4 + uy * 1;
             var legLeft2Position = RotationCenter - ux * 7 - uy * 5;
             var legRight1Position = RotationCenter + ux * 0 - uy * 5;
@@ -227,7 +229,6 @@ namespace BotExtended.Weapons
             var teamIndicatorPosition = RotationCenter - ux * 11f - uy * 1;
 
             // Object creation order is important. It will determine the z-layer the object will be located to
-            // TODO: teamIndicator rotation does not work: https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3954
             var teamIndicator = Game.CreateObject("BgBottle00D", teamIndicatorPosition, -Direction * MathHelper.PIOver2);
             teamIndicator.SetColor1(GetColor(owner.GetTeam()));
 
@@ -273,6 +274,7 @@ namespace BotExtended.Weapons
             m_controller.Object.SetFaceDirection(-Direction);
             m_sensor.Object.SetFaceDirection(-Direction);
             m_rotor.Object.SetFaceDirection(-Direction);
+            teamIndicator.SetFaceDirection(-Direction);
 
             m_rotor.Object.SetBodyType(BodyType.Static); // Using WeldJoint, one static obj is enough
 

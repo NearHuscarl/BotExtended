@@ -11,7 +11,7 @@ namespace BotExtended.Weapons
     class TurretPlaceholder
     {
         public int UniqueID { get { return m_components.First().UniqueID; } }
-        public Vector2 Position { get { return m_components.First().GetWorldPosition(); } }
+        public Vector2 Position { get; private set; }
         public Area GetAABB() { return m_components.First().GetAABB(); }
 
         public IObject RepresentedObject { get { return m_components.First(); } }
@@ -78,14 +78,14 @@ namespace BotExtended.Weapons
             var uy = Vector2.UnitY;
 
             // worldPosition works best when get from player.GetWorldPosition()
-            var basePosition = worldPosition - ux * 10 + uy * 9;
-            m_placeholderBgPosition = basePosition - Vector2.UnitX * 5.2f - uy * 1;
-            var legLeft1Position = basePosition - ux * 3 + uy * 1;
-            var legLeft2Position = basePosition - ux * 6 - uy * 5;
-            var legRight1Position = basePosition + ux * 1 - uy * 5;
-            var legRight2Position = basePosition + ux * 5 - uy * 13;
-            var legMiddle1Position = basePosition - ux * 1.8f - uy * 3;
-            var legMiddle2Position = basePosition - ux * 1.8f - uy * 6;
+            Position = worldPosition - ux * 10 + uy * 9;
+            m_placeholderBgPosition = Position - Vector2.UnitX * (Direction > 0 ? 5 : 3) - uy * 1;
+            var legLeft1Position = Position - ux * 3 + uy * 1;
+            var legLeft2Position = Position - ux * 6 - uy * 5;
+            var legRight1Position = Position + ux * 1 - uy * 5;
+            var legRight2Position = Position + ux * 5 - uy * 13;
+            var legMiddle1Position = Position - ux * 1.8f - uy * 3;
+            var legMiddle2Position = Position - ux * 1.8f - uy * 6;
 
             var placeholderBg = Game.CreateObject("BgFrame00B", m_placeholderBgPosition);
             var legMiddle1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle1Position, -dir * 0.41f);

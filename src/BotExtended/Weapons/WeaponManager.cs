@@ -24,9 +24,8 @@ namespace BotExtended.Weapons
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
-        public static void SpawnTurret(IPlayer owner, TurretDirection direction)
+        public static void SpawnTurret(IPlayer owner, Vector2 position, TurretDirection direction)
         {
-            var position = owner.GetWorldPosition();
             m_weapons.Add(new Turret(position, direction, owner));
         }
 
