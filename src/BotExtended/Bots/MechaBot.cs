@@ -140,7 +140,7 @@ namespace BotExtended.Bots
 
                 var position = player.GetWorldPosition();
 
-                if (ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeHitRange)
+                if (ScriptHelper.IntersectCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeHitRange)
                     && !chargedPlayers.Contains(player))
                 {
                     Game.PlayEffect(EffectName.Electric, position);
@@ -192,7 +192,7 @@ namespace BotExtended.Bots
             foreach (var result in RayCastHelper.PlayersInSight(lineStart, lineEnd))
             {
                 var player = Game.GetPlayer(result.ObjectID);
-                var inMinimumRange = ScriptHelper.IsTouchingCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
+                var inMinimumRange = ScriptHelper.IntersectCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
 
                 if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())
                 {

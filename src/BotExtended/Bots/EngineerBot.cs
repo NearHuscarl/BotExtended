@@ -236,16 +236,20 @@ namespace BotExtended.Bots
                 }
             }
 
-            var closestTurretDistance = float.PositiveInfinity;
             foreach (var turret in WeaponManager.GetWeapons<Turret>())
             {
                 if (turret.Broken) continue;
-                var distanceToTurret = Vector2.Distance(turret.Position, Player.GetWorldPosition());
-                closestTurretDistance = Math.Min(distanceToTurret, closestTurretDistance);
-            }
 
-            if (closestTurretDistance < 275)
-                return false;
+                var area = new Area(
+                    turret.Position + Vector2.UnitX * 22 * turret.Direction + Vector2.UnitY * 7,
+                    turret.Position - Vector2.UnitX * 10 * turret.Direction - Vector2.UnitY * 14);
+                area.Normalize();
+                if (area.Intersects(Player.GetAABB()))
+                    return false;
+
+                if (ScriptHelper.IntersectCircle(Player.GetWorldPosition(), turret.Position, 275, turret.MinAngle, turret.MaxAngle))
+                    return false;
+            }
 
             return true;
         }

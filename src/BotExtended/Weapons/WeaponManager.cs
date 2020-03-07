@@ -42,9 +42,12 @@ namespace BotExtended.Weapons
         private static float m_lastUpdateTime = 0f;
         private static void OnUpdate(float elapsed)
         {
-            foreach (var weapon in m_weapons)
+            foreach (var weapon in m_weapons.ToList())
             {
                 weapon.Update(Game.TotalElapsedGameTime - m_lastUpdateTime);
+
+                if (weapon.IsDestroyed)
+                    m_weapons.Remove(weapon);
             }
             m_lastUpdateTime = Game.TotalElapsedGameTime;
         }

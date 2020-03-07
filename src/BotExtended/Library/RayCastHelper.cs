@@ -57,7 +57,7 @@ namespace BotExtended.Library
             }
         }
 
-        private static bool SameTeamRaycast(IPlayer p1, IPlayer p2, PlayerTeam t1)
+        public static bool SameTeamRaycast(IPlayer p1, IPlayer p2, PlayerTeam t1)
         {
             // t1 is cached before p1 is removed
             if (p1.IsRemoved)

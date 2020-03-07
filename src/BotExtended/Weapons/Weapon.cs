@@ -9,6 +9,8 @@ namespace BotExtended.Weapons
 {
     abstract class Weapon
     {
+        public virtual bool IsDestroyed { get; protected set; }
+
         public abstract Vector2 Position { get; }
         public abstract IEnumerable<IObject> Components { get; }
 

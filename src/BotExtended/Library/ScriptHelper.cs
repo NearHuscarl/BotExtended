@@ -268,7 +268,29 @@ namespace BotExtended.Library
             }
         }
 
-        public static bool IsTouchingCircle(Area area, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
+        public static bool IntersectCircle(Vector2 position, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
+        {
+            var fullCircle = minAngle == 0 && maxAngle == MathHelper.TwoPI;
+
+            var distanceToCenter = Vector2.Distance(position, center);
+
+            if (distanceToCenter <= radius)
+            {
+                if (!fullCircle)
+                {
+                    var angle = MathExtension.NormalizeAngle(GetAngle(position - center));
+
+                    if (angle >= minAngle && angle <= maxAngle)
+                        return true;
+                }
+                else
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IntersectCircle(Area area, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
         {
             var fullCircle = minAngle == 0 && maxAngle == MathHelper.TwoPI;
             var lines = new List<Vector2[]>()

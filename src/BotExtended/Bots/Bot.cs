@@ -246,6 +246,9 @@ namespace BotExtended.Bots
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
             var player = Game.GetPlayer(projectile.InitialOwnerPlayerID);
+
+            if (player == null) return;
+
             var bot = BotManager.GetExtendedBot(player) as CowboyBot;
 
             if (bot != null && RandomHelper.Between(0, 1) < bot.DisarmChance)
