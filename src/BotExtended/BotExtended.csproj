@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
+    <Compile Include="Bots\SheriffBot.cs" />
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
+    <Compile Include="Projectiles\MeleeWeaponPowerup.cs" />
     <Compile Include="Projectiles\WeaponPowerupInfo.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />
     <Compile Include="Projectiles\RangedWeaponPowerup.cs" />

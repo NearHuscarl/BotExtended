@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Santa;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Sheriff;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -524,6 +524,29 @@ namespace BotExtended
                     {
                         new SubFaction(BotType.Santa),
                         new SubFaction(BotType.Elf, 1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Boss_Sheriff
+                case BotFaction.Boss_Sheriff:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Sheriff),
+                        new SubFaction(BotType.Cowboy, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Sheriff),
+                        new SubFaction(BotType.Bandido, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Sheriff),
+                        new SubFaction(BotType.Cowboy, .5f),
+                        new SubFaction(BotType.Bandido, .5f),
                     });
                     break;
                 }

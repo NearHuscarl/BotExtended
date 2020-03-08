@@ -89,6 +89,7 @@
 
         // Tier3: Holiday Hullabaloo
         Santa,
+        Sheriff,
         // Tier3: Facility Ambush
         Sniper,
         // Tier2: Facility Foray

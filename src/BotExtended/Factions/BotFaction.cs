@@ -34,6 +34,7 @@
         Boss_MirrorMan,
         Boss_Ninja,
         Boss_Santa,
+        Boss_Sheriff,
         Boss_Teddybear,
         Boss_Zombie,
     }

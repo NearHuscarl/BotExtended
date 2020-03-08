@@ -141,13 +141,13 @@ namespace BotExtended
         private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
             ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj, totalAmmo);
-            //ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+            ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
         private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
             ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj, totalAmmo);
-            //ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+            ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
 
             // The reason I need to keep track of all weapons's ammo on map and set the ammo when players pickup weapons manually is
             // because there is no API to get the current ammo for weapons laying around the map. Which I need to make

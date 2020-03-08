@@ -26,6 +26,8 @@
 
         // Trigger-happy Grunt
         Cowboy,
+        // Trigger-happy hard
+        Sheriff,
 
         Meatgrinder,
         Ninja,

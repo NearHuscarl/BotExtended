@@ -776,6 +776,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Sheriff
+                case BotType.Sheriff:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MAGNUM,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.REVOLVER,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.SHOTGUN,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Sniper
                 case BotType.Sniper:
                 {

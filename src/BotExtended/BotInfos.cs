@@ -640,6 +640,29 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Bosses Sheriff
+                case BotType.Sheriff:
+                {
+                    botInfo.AIType = BotAI.Sheriff;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        MaxEnergy = Stamina.AboveNormal,
+                        CurrentEnergy = Stamina.AboveNormal,
+                        ProjectileDamageTakenModifier = DamageTaken.FairlyResistant,
+                        SizeModifier = Size.AboveNormal,
+                        ItemDropMode = ItemDropMode.Break,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Powerups | SearchItems.Health;
+                    botInfo.SpawnLine = "I wanted to break your jaw";
+                    botInfo.SpawnLineChance = .1f;
+                    break;
+                }
+                #endregion
+
                 #region Bosses ZombieFighter
                 case BotType.ZombieFighter:
                 {

@@ -1966,6 +1966,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Sheriff
+                case BotType.Sheriff:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Sheriff",
+                        Accesory = new IProfileClothingItem("Cigar", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("ShoulderHolster", "ClothingDarkOrange", "ClothingYellow", ""),
+                        ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingLightGray", "ClothingBrown", ""),
+                        Feet = new IProfileClothingItem("RidingBootsBlack", "ClothingBrown", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Fedora2", "ClothingGray", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingDarkBrown", "ClothingLightYellow", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Sniper
                 case BotType.Sniper:
                 {

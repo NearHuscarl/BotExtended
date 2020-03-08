@@ -91,6 +91,16 @@ namespace BotExtended.Library
             return GetEnumValue<T>(Rnd);
         }
 
+        /// <summary>
+        /// Chance from 0f to 1f. 0f means never. 1f means always
+        /// </summary>
+        /// <param name="chance"></param>
+        /// <returns></returns>
+        public static bool Percentage(float chance)
+        {
+            return Between(0f, 1f) < chance;
+        }
+
         // https://stackoverflow.com/a/1262619/9449426
         public static IList<T> Shuffle<T>(IList<T> list)
         {

@@ -283,11 +283,16 @@ namespace BotExtended
                 case BotAI.Cowboy:
                 {
                     botBehaviorSet = GetBehaviorSet(BotAI.Grunt);
-                    botBehaviorSet.RangedWeaponAimShootDelayMin = 0;
-                    botBehaviorSet.RangedWeaponAimShootDelayMax = 50;
-                    botBehaviorSet.RangedWeaponHipFireAimShootDelayMin = 0;
-                    botBehaviorSet.RangedWeaponHipFireAimShootDelayMax = 25;
-                    botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 50;
+                    botBehaviorSet = TriggerHappy(botBehaviorSet);
+                    break;
+                }
+                #endregion
+
+                #region Sheriff
+                case BotAI.Sheriff:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.Hard);
+                    botBehaviorSet = TriggerHappy(botBehaviorSet);
                     break;
                 }
                 #endregion
@@ -442,6 +447,17 @@ namespace BotExtended
         {
             botBehaviorSet.OffensiveClimbingLevel = 0.9f;
             botBehaviorSet.OffensiveSprintLevel = 0.9f;
+
+            return botBehaviorSet;
+        }
+
+        private static BotBehaviorSet TriggerHappy(BotBehaviorSet botBehaviorSet)
+        {
+            botBehaviorSet.RangedWeaponAimShootDelayMin = 0;
+            botBehaviorSet.RangedWeaponAimShootDelayMax = 50;
+            botBehaviorSet.RangedWeaponHipFireAimShootDelayMin = 0;
+            botBehaviorSet.RangedWeaponHipFireAimShootDelayMax = 25;
+            botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 50;
 
             return botBehaviorSet;
         }

@@ -196,30 +196,34 @@ namespace BotExtended.Bots
         private void UpdateWeaponStatus()
         {
             m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
+            var eventHasFired = false;
 
             for (var i = 0; i < m_prevWeapons.Count; i++)
             {
                 if (CurrentWeapon(i) != m_prevWeapons[i])
                 {
-                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
-                        CheckFireWeaponEvent(i, WeaponEvent.Pickup);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE)
-                        CheckFireWeaponEvent(i, WeaponEvent.Drop);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
-                        CheckFireWeaponEvent(i, WeaponEvent.Swap);
-                    m_prevWeapons[i] = CurrentWeapon(i);
+                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE && !eventHasFired)
+                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Pickup);
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE && !eventHasFired)
+                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Drop);
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE && !eventHasFired)
+                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Swap);
                 }
+                m_prevWeapons[i] = CurrentWeapon(i);
             }
 
-            for (var i = 0; i < m_prevAmmo.Count; i++)
+            if (!eventHasFired)
             {
-                if (CurrentAmmo(i) != m_prevAmmo[i])
+                for (var i = 0; i < m_prevAmmo.Count; i++)
                 {
-                    if (m_prevWeapons[i] == CurrentWeapon(i))
-                        CheckFireWeaponEvent(i, WeaponEvent.Refill);
+                    if (CurrentAmmo(i) != m_prevAmmo[i])
+                    {
+                        if (m_prevWeapons[i] == CurrentWeapon(i))
+                            CheckFireWeaponEvent(i, WeaponEvent.Refill);
+                    }
+                    // this can only be updated after calling CheckFireWeaponEvent()
+                    m_prevAmmo[i] = CurrentAmmo(i);
                 }
-                // this can only be updated after calling CheckFireWeaponEvent()
-                m_prevAmmo[i] = CurrentAmmo(i);
             }
 
             var currentThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
@@ -238,38 +242,47 @@ namespace BotExtended.Bots
             Swap,
             Refill,
         }
-        private void CheckFireWeaponEvent(int weaponIndex, WeaponEvent weaponEvent)
+        private bool CheckFireWeaponEvent(int weaponIndex, WeaponEvent weaponEvent)
         {
+            var eventFired = false;
             // TODO: event will not fire if player pick up the same weapon when have max ammo!
             // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3946
             IObjectWeaponItem droppedWeaponObj = null;
             IObjectWeaponItem pickedupWeaponObj = null;
 
-            foreach (var weapon in m_nearbyWeapons)
+            foreach (var nearbyWeapon in m_nearbyWeapons)
             {
-                if (weapon.WeaponItem == m_prevWeapons[weaponIndex])
+                if (nearbyWeapon.WeaponItem == m_prevWeapons[weaponIndex])
                 {
                     if (weaponEvent == WeaponEvent.Drop || weaponEvent == WeaponEvent.Swap)
                     {
-                        droppedWeaponObj = weapon;
+                        droppedWeaponObj = nearbyWeapon;
                     }
                 }
-                if (weapon.WeaponItem == CurrentWeapon(weaponIndex))
+                if (nearbyWeapon.WeaponItem == CurrentWeapon(weaponIndex))
                 {
                     if (weaponEvent == WeaponEvent.Pickup || weaponEvent == WeaponEvent.Swap || weaponEvent == WeaponEvent.Refill)
                     {
-                        pickedupWeaponObj = weapon;
+                        pickedupWeaponObj = nearbyWeapon;
                     }
                 }
             }
 
             // defer firing events until now to make sure drop event always fired before pickup event
             if (droppedWeaponObj != null && PlayerDropWeaponEvent != null)
+            {
                 PlayerDropWeaponEvent.Invoke(Player, droppedWeaponObj, m_prevAmmo[weaponIndex]);
+                eventFired = true;
+            }
 
             if (pickedupWeaponObj != null && PlayerPickUpWeaponEvent != null)
+            {
                 PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj,
                     ProjectileManager.GetWeaponInfo(pickedupWeaponObj.UniqueID).TotalAmmo);
+                eventFired = true;
+            }
+
+            return eventFired;
         }
 
         public virtual void OnSpawn(IEnumerable<Bot> bots)
@@ -287,21 +300,19 @@ namespace BotExtended.Bots
 
             var bot = BotManager.GetExtendedBot(player) as CowboyBot;
 
-            if (bot != null && RandomHelper.Between(0, 1) < bot.DisarmChance)
+            if (bot != null)
             {
-                if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
-                    || Player.CurrentWeaponDrawn == WeaponItemType.Rifle
-                    || Player.CurrentWeaponDrawn == WeaponItemType.Handgun
-                    || Player.CurrentWeaponDrawn == WeaponItemType.Thrown && !IsThrowableActivated)
+                if (args.IsCrit)
                 {
-                    Game.CreateObject(
-                        ScriptHelper.ObjectID(CurrentWeapon(), IsThrowableActivated),
-                        Player.GetWorldPosition(), 0,
-                        Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection +
-                        Vector2.UnitY * RandomHelper.Between(1, 7) + projectile.Direction * 3,
-                        RandomHelper.Between(0, MathHelper.TwoPI), Player.FacingDirection);
-                    Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition() + Vector2.UnitY * 15, "Disarmed");
-                    Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
+                    var destroyWeapon = RandomHelper.Percentage(bot.DestroyWeaponWhenCritDisarmChance);
+                    if (RandomHelper.Percentage(bot.CritDisarmChance))
+                        Disarm(projectile.Direction, destroyWeapon);
+                }
+                else
+                {
+                    var destroyWeapon = RandomHelper.Percentage(bot.DestroyWeaponWhenDisarmChance);
+                    if (RandomHelper.Percentage(bot.DisarmChance))
+                        Disarm(projectile.Direction, destroyWeapon);
                 }
             }
         }
@@ -347,6 +358,27 @@ namespace BotExtended.Bots
             }
 
             return target;
+        }
+
+        public void Disarm(Vector2 dropDirection, bool destroyWeapon)
+        {
+            if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
+                || Player.CurrentWeaponDrawn == WeaponItemType.Rifle
+                || Player.CurrentWeaponDrawn == WeaponItemType.Handgun
+                || Player.CurrentWeaponDrawn == WeaponItemType.Thrown && !IsThrowableActivated)
+            {
+                var weapon = Game.CreateObject(
+                    ScriptHelper.ObjectID(CurrentWeapon(), IsThrowableActivated),
+                    Player.GetWorldPosition(), 0,
+                    Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection +
+                    Vector2.UnitY * RandomHelper.Between(1, 7) + dropDirection * 3,
+                    RandomHelper.Between(0, MathHelper.TwoPI), Player.FacingDirection);
+
+                if (destroyWeapon)
+                    weapon.SetHealth(0);
+                Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition() + Vector2.UnitY * 15, "Disarmed");
+                Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
+            }
         }
     }
 }
