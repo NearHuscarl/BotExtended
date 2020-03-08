@@ -36,7 +36,7 @@ namespace BotExtended.Bots
 
         private MechaState m_state;
 
-        public MechaBot() : base()
+        public MechaBot(BotArgs args) : base(args)
         {
             UpdateInterval = 0;
             m_state = MechaState.Normal;

@@ -6,7 +6,7 @@ namespace BotExtended
     public static class Constants
     {
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "3.5.0";
+        internal const string CURRENT_VERSION = "3.5.1";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // default settings value

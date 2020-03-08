@@ -44,6 +44,13 @@ namespace BotExtended.Bots
             UpdateInterval = 100;
             IsThrowableActivated = false;
         }
+        public Bot(BotArgs args)
+        {
+            Player = args.Player;
+            Type = args.BotType;
+            Faction = args.BotFaction;
+            Info = args.Info;
+        }
         public Bot(IPlayer player, BotFaction faction = BotFaction.None) : this()
         {
             Player = player;
@@ -174,9 +181,9 @@ namespace BotExtended.Bots
                 case 1:
                     return Player.CurrentMeleeWeapon.Durability;
                 case 2:
-                    return Player.CurrentPrimaryWeapon.CurrentAmmo;
+                    return Player.CurrentPrimaryWeapon.TotalAmmo;
                 case 3:
-                    return Player.CurrentSecondaryWeapon.CurrentAmmo;
+                    return Player.CurrentSecondaryWeapon.TotalAmmo;
                 case 4:
                     return Player.CurrentThrownItem.CurrentAmmo;
             }

@@ -2,7 +2,7 @@
 {
     public class HackerBot : Bot
     {
-        public HackerBot() : base()
+        public HackerBot(BotArgs args) : base(args)
         {
             UpdateInterval = 200;
         }

@@ -4,6 +4,8 @@ namespace BotExtended.Bots
 {
     class SheriffBot : CowboyBot
     {
+        public SheriffBot(BotArgs args) : base(args) { }
+
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);

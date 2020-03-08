@@ -20,6 +20,8 @@ namespace BotExtended.Bots
             "It's not my fault",
         };
 
+        public TeddybearBot(BotArgs args) : base(args) { }
+
         public override void OnSpawn(IEnumerable<Bot> others)
         {
             base.OnSpawn(others);

@@ -6,6 +6,8 @@ namespace BotExtended.Bots
 {
     public class IncineratorBot : Bot
     {
+        public IncineratorBot(BotArgs args) : base(args) { }
+
         public override void OnSpawn(IEnumerable<Bot> bots)
         {
             base.OnSpawn(bots);

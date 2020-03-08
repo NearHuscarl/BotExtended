@@ -59,7 +59,7 @@ namespace BotExtended.Bots
             }
         }
 
-        public EngineerBot() : base()
+        public EngineerBot(BotArgs args) : base(args)
         {
             BuildTime = Game.IsEditorTest ? 1000 : 5000; // TODO: remove
             UpdateInterval = 0;

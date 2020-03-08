@@ -5,6 +5,8 @@ namespace BotExtended.Bots
 {
     public class ZombieFatBot : Bot
     {
+        public ZombieFatBot(BotArgs args) : base(args) { }
+
         public override void OnDeath(PlayerDeathArgs args)
         {
             base.OnDeath(args);

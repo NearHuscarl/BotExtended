@@ -5,6 +5,8 @@ namespace BotExtended.Bots
 {
     public class KingpinBot : Bot
     {
+        public KingpinBot(BotArgs args) : base(args) { }
+
         public override void OnSpawn(IEnumerable<Bot> others)
         {
             base.OnSpawn(others);

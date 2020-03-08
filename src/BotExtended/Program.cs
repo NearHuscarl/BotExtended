@@ -50,7 +50,7 @@ namespace BotExtended
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
-                    player.GiveWeaponItem(WeaponItem.M60);
+                    player.GiveWeaponItem(WeaponItem.ASSAULT);
                     player.GiveWeaponItem(WeaponItem.GRENADES);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 

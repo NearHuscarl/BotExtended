@@ -12,6 +12,8 @@ namespace BotExtended.Bots
         public static int EnrageTime = 30; // seconds
         public int m_enrageCount = 0;
 
+        public BabybearBot(BotArgs args) : base(args) { }
+
         public override void OnSpawn(IEnumerable<Bot> others)
         {
             base.OnSpawn(others);

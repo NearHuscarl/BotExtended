@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BotExtended.Library;
 using SFDGameScriptInterface;
 using static BotExtended.Library.Mocks.MockObjects;
@@ -11,6 +7,8 @@ namespace BotExtended.Bots
 {
     class MirrorManBot : Bot
     {
+        public MirrorManBot(BotArgs args) : base(args) { }
+
         public override void OnSpawn(IEnumerable<Bot> bots)
         {
             base.OnSpawn(bots);

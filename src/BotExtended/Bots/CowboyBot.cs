@@ -1,4 +1,6 @@
-﻿using static BotExtended.Library.Mocks.MockObjects;
+﻿using BotExtended.Factions;
+using SFDGameScriptInterface;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {
@@ -9,14 +11,14 @@ namespace BotExtended.Bots
         public float DestroyWeaponWhenDisarmChance { get; set; }
         public float DestroyWeaponWhenCritDisarmChance { get; set; }
 
-        public CowboyBot()
+        public CowboyBot(BotArgs args) : base(args)
         {
             if (Info.IsBoss)
             {
                 DisarmChance = Game.IsEditorTest ? 1f : .3f;
                 CritDisarmChance = Game.IsEditorTest ? 1f : .6f;
-                DestroyWeaponWhenDisarmChance = .1f;
-                DestroyWeaponWhenCritDisarmChance = .3f;
+                DestroyWeaponWhenDisarmChance = Game.IsEditorTest ? 0f : .1f;
+                DestroyWeaponWhenCritDisarmChance = Game.IsEditorTest ? 0f : .3f;
             }
             else
             {
