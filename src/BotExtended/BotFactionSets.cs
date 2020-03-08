@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Engineer;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Santa;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)

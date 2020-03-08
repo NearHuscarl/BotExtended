@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using static BotExtended.Library.Mocks.MockObjects;
 using BotExtended.Factions;
 using System;
+using BotExtended.Projectiles;
 
 namespace BotExtended.Bots
 {
@@ -25,10 +26,13 @@ namespace BotExtended.Bots
         public BotInfo Info { get; set; }
         public int UpdateInterval { get; set; }
 
-        public delegate void PlayerDropWeaponCallback(IPlayer previousOwner, IObjectWeaponItem weaponObj);
+        // TODO: remove if Gurt add in ScriptAPI. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3963
+        public bool IsThrowableActivated { get; private set; }
+
+        public delegate void PlayerDropWeaponCallback(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo);
         public event PlayerDropWeaponCallback PlayerDropWeaponEvent;
 
-        public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj);
+        public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo);
         public event PlayerPickUpWeaponCallback PlayerPickUpWeaponEvent;
 
         public Bot()
@@ -38,11 +42,11 @@ namespace BotExtended.Bots
             Faction = BotFaction.None;
             Info = new BotInfo();
             UpdateInterval = 100;
+            IsThrowableActivated = false;
         }
-        public Bot(IPlayer player, BotFaction faction = BotFaction.None)
+        public Bot(IPlayer player, BotFaction faction = BotFaction.None) : this()
         {
             Player = player;
-            Type = BotType.None;
             Faction = faction;
             Info = new BotInfo(player);
         }
@@ -76,14 +80,17 @@ namespace BotExtended.Bots
             WeaponItem.NONE,
             WeaponItem.NONE,
             WeaponItem.NONE,
+            WeaponItem.NONE,
         };
 
         private List<float> m_prevAmmo = new List<float>()
         {
+            0, // makeshift
             0, // melee 'ammo' is durability of melee weapon
-            0,
-            0,
-            0,
+            0, // primary
+            0, // secondary
+            0, // throwable
+            0, // powerup - should always be 0
         };
 
         private float m_lastUpdateElapsed;
@@ -115,38 +122,45 @@ namespace BotExtended.Bots
             }
         }
 
-        private WeaponItem CurrentWeapon()
+        private int CurrentWeaponIndex
         {
-            switch (Player.CurrentWeaponDrawn)
+            get
             {
-                case WeaponItemType.Melee:
-                    if (Player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
-                        return Player.CurrentMeleeMakeshiftWeapon.WeaponItem;
-                    return Player.CurrentMeleeWeapon.WeaponItem;
-                case WeaponItemType.Rifle:
-                    return Player.CurrentPrimaryWeapon.WeaponItem;
-                case WeaponItemType.Handgun:
-                    return Player.CurrentSecondaryWeapon.WeaponItem;
-                case WeaponItemType.Thrown:
-                    return Player.CurrentThrownItem.WeaponItem;
-                case WeaponItemType.Powerup:
-                    return Player.CurrentPowerupItem.WeaponItem;
+                switch (Player.CurrentWeaponDrawn)
+                {
+                    case WeaponItemType.Melee:
+                        if (Player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
+                            return 0;
+                        return 1;
+                    case WeaponItemType.Rifle:
+                        return 2;
+                    case WeaponItemType.Handgun:
+                        return 3;
+                    case WeaponItemType.Thrown:
+                        return 4;
+                    case WeaponItemType.Powerup:
+                        return 5;
+                }
+                return -1;
             }
-            return WeaponItem.NONE;
         }
+        private WeaponItem CurrentWeapon() { return CurrentWeapon(CurrentWeaponIndex); }
+        private float CurrentAmmo() { return CurrentAmmo(CurrentWeaponIndex); }
         private WeaponItem CurrentWeapon(int index)
         {
             switch (index)
             {
                 case 0:
-                    return Player.CurrentMeleeWeapon.WeaponItem;
+                    return Player.CurrentMeleeMakeshiftWeapon.WeaponItem;
                 case 1:
-                    return Player.CurrentPrimaryWeapon.WeaponItem;
+                    return Player.CurrentMeleeWeapon.WeaponItem;
                 case 2:
-                    return Player.CurrentSecondaryWeapon.WeaponItem;
+                    return Player.CurrentPrimaryWeapon.WeaponItem;
                 case 3:
-                    return Player.CurrentThrownItem.WeaponItem;
+                    return Player.CurrentSecondaryWeapon.WeaponItem;
                 case 4:
+                    return Player.CurrentThrownItem.WeaponItem;
+                case 5:
                     return Player.CurrentPowerupItem.WeaponItem;
             }
             return WeaponItem.NONE;
@@ -156,31 +170,32 @@ namespace BotExtended.Bots
             switch (index)
             {
                 case 0:
-                    return Player.CurrentMeleeWeapon.Durability;
+                    return Player.CurrentMeleeMakeshiftWeapon.Durability;
                 case 1:
-                    return Player.CurrentPrimaryWeapon.TotalAmmo;
+                    return Player.CurrentMeleeWeapon.Durability;
                 case 2:
-                    return Player.CurrentSecondaryWeapon.TotalAmmo;
+                    return Player.CurrentPrimaryWeapon.CurrentAmmo;
                 case 3:
+                    return Player.CurrentSecondaryWeapon.CurrentAmmo;
+                case 4:
                     return Player.CurrentThrownItem.CurrentAmmo;
             }
             return 0;
+        }
+
+        private bool IsHoldingActivateableThrowable()
+        {
+            var currentWpn = CurrentWeapon();
+            return currentWpn == WeaponItem.GRENADES
+                || currentWpn == WeaponItem.C4
+                || currentWpn == WeaponItem.MOLOTOVS
+                || currentWpn == WeaponItem.MINES;
         }
 
         private IObjectWeaponItem[] m_nearbyWeapons;
         private void UpdateWeaponStatus()
         {
             m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
-
-            for (var i = 0; i < m_prevAmmo.Count; i++)
-            {
-                if (CurrentAmmo(i) != m_prevAmmo[i])
-                {
-                    if (m_prevWeapons[i] == CurrentWeapon(i))
-                        CheckFireWeaponEvent(i, WeaponEvent.Refill);
-                    m_prevAmmo[i] = CurrentAmmo(i);
-                }
-            }
 
             for (var i = 0; i < m_prevWeapons.Count; i++)
             {
@@ -194,6 +209,25 @@ namespace BotExtended.Bots
                         CheckFireWeaponEvent(i, WeaponEvent.Swap);
                     m_prevWeapons[i] = CurrentWeapon(i);
                 }
+            }
+
+            for (var i = 0; i < m_prevAmmo.Count; i++)
+            {
+                if (CurrentAmmo(i) != m_prevAmmo[i])
+                {
+                    if (m_prevWeapons[i] == CurrentWeapon(i))
+                        CheckFireWeaponEvent(i, WeaponEvent.Refill);
+                }
+                // this can only be updated after calling CheckFireWeaponEvent()
+                m_prevAmmo[i] = CurrentAmmo(i);
+            }
+
+            var currentThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
+            if (IsHoldingActivateableThrowable() && currentThrowableAmmo + 1 == m_lastThrowableAmmo || currentThrowableAmmo == 0)
+            {
+                // something just had been thrown
+                IsThrowableActivated = false;
+                m_lastThrowableAmmo = currentThrowableAmmo;
             }
         }
 
@@ -231,10 +265,11 @@ namespace BotExtended.Bots
 
             // defer firing events until now to make sure drop event always fired before pickup event
             if (droppedWeaponObj != null && PlayerDropWeaponEvent != null)
-                PlayerDropWeaponEvent.Invoke(Player, droppedWeaponObj);
+                PlayerDropWeaponEvent.Invoke(Player, droppedWeaponObj, m_prevAmmo[weaponIndex]);
 
             if (pickedupWeaponObj != null && PlayerPickUpWeaponEvent != null)
-                PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj);
+                PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj,
+                    ProjectileManager.GetWeaponInfo(pickedupWeaponObj.UniqueID).TotalAmmo);
         }
 
         public virtual void OnSpawn(IEnumerable<Bot> bots)
@@ -243,6 +278,7 @@ namespace BotExtended.Bots
         }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }
+
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
             var player = Game.GetPlayer(projectile.InitialOwnerPlayerID);
@@ -253,19 +289,40 @@ namespace BotExtended.Bots
 
             if (bot != null && RandomHelper.Between(0, 1) < bot.DisarmChance)
             {
-                if (Player.CurrentWeaponDrawn != WeaponItemType.NONE)
+                if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
+                    || Player.CurrentWeaponDrawn == WeaponItemType.Rifle
+                    || Player.CurrentWeaponDrawn == WeaponItemType.Handgun
+                    || Player.CurrentWeaponDrawn == WeaponItemType.Thrown && !IsThrowableActivated)
                 {
-                    // TODO: drop thrown grenade, mine...
-                    Game.CreateObject(ScriptHelper.ObjectID(CurrentWeapon()), Player.GetWorldPosition(), 0,
-                        Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection + 
+                    Game.CreateObject(
+                        ScriptHelper.ObjectID(CurrentWeapon(), IsThrowableActivated),
+                        Player.GetWorldPosition(), 0,
+                        Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection +
                         Vector2.UnitY * RandomHelper.Between(1, 7) + projectile.Direction * 3,
                         RandomHelper.Between(0, MathHelper.TwoPI), Player.FacingDirection);
-                    Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
                     Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition() + Vector2.UnitY * 15, "Disarmed");
+                    Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
                 }
             }
         }
         public virtual void OnDeath(PlayerDeathArgs args) { }
+
+        private int m_lastThrowableAmmo = 0;
+        public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
+        {
+            foreach (var keyInfo in keyInfos)
+            {
+                if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.ATTACK)
+                {
+                    if (IsHoldingActivateableThrowable())
+                    {
+                        IsThrowableActivated = true;
+                        m_lastThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
+                    }
+                    break;
+                }
+            }
+        }
 
         protected IPlayer FindClosestTarget()
         {

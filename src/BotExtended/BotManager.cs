@@ -33,6 +33,7 @@ namespace BotExtended
             Events.PlayerDeathCallback.Start(OnPlayerDeath);
             Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.UpdateCallback.Start(OnUpdate);
+            Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
             InitRandomSeed();
@@ -137,16 +138,41 @@ namespace BotExtended
             bot.PlayerPickUpWeaponEvent += OnPlayerPickUpWeapon;
         }
 
-        private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
+        private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
-            ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj);
-            ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+            ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj, totalAmmo);
+            //ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
-        private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj)
+        private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
-            ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj);
-            ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+            ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj, totalAmmo);
+            //ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+
+            // The reason I need to keep track of all weapons's ammo on map and set the ammo when players pickup weapons manually is
+            // because there is no API to get the current ammo for weapons laying around the map. Which I need to make
+            // things like custom disarm where the player will drop weapon on command but the current ammo of dropped weapon is lost
+            if (totalAmmo != -1)
+            {
+                switch (weaponObj.WeaponItemType)
+                {
+                    case WeaponItemType.Melee:
+                        if (newOwner.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
+                            newOwner.SetCurrentMeleeMakeshiftDurability(totalAmmo);
+                        else
+                            newOwner.SetCurrentMeleeDurability(totalAmmo);
+                        break;
+                    case WeaponItemType.Rifle:
+                        newOwner.SetCurrentPrimaryWeaponAmmo((int)totalAmmo);
+                        break;
+                    case WeaponItemType.Handgun:
+                        newOwner.SetCurrentSecondaryWeaponAmmo((int)totalAmmo);
+                        break;
+                    case WeaponItemType.Thrown:
+                        newOwner.SetCurrentThrownItemAmmo((int)totalAmmo);
+                        break;
+                }
+            }
         }
 
         private static float m_lastUpdateTime = 0f;
@@ -255,10 +281,13 @@ namespace BotExtended
             }
 
             bot.OnDeath(args);
-            bot.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-            bot.PlayerPickUpWeaponEvent -= OnPlayerPickUpWeapon;
 
-            if (!args.Removed)
+            if (args.Removed)
+            {
+                bot.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
+                bot.PlayerPickUpWeaponEvent -= OnPlayerPickUpWeapon;
+            }
+            else
             {
                 if (bot.Info.ZombieStatus == ZombieStatus.Infected)
                 {
@@ -278,6 +307,14 @@ namespace BotExtended
             // I use this instead of PlayerDamage callback because this one include additional
             // info like normal vector
             bot.OnProjectileHit(projectile, args);
+        }
+
+        private static void OnPlayerKeyInput(IPlayer player, VirtualKeyInfo[] keyInfos)
+        {
+            var bot = GetExtendedBot(player);
+            if (bot == Bot.None) return;
+
+            bot.OnPlayerKeyInput(keyInfos);
         }
 
         public static Bot GetExtendedBot(IObject player)

@@ -42,8 +42,8 @@ namespace BotExtended
                     //modifiers.EnergyRechargeModifier = 1.5f;
                     modifiers.RunSpeedModifier = 1.25f;
                     modifiers.SprintSpeedModifier = 1.25f;
+                    modifiers.MeleeStunImmunity = 1;
                     //modifiers.InfiniteAmmo = 1;
-                    //modifiers.MeleeStunImmunity = 1;
 
                     //player.SetTeam(PlayerTeam.Team1);
                     player.SetHitEffect(PlayerHitEffect.Metal);
@@ -51,7 +51,7 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.WHIP);
                     player.GiveWeaponItem(WeaponItem.FLAREGUN);
                     player.GiveWeaponItem(WeaponItem.M60);
-                    player.GiveWeaponItem(WeaponItem.C4);
+                    player.GiveWeaponItem(WeaponItem.GRENADES);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
                     //// image size: 82 x 100

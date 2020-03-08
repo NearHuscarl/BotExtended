@@ -66,7 +66,7 @@ namespace BotExtended.Bots
             PlayerDropWeaponEvent += OnPlayerDropWeapon;
         }
 
-        private void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj)
+        private void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
             if (BuildItems.Contains(weaponObj.WeaponItem))
             {
@@ -147,6 +147,11 @@ namespace BotExtended.Bots
         {
             base.OnDeath(args);
             WeaponManager.RemoveBuilderFromTurretPlaceholder(Player.UniqueID);
+
+            if (args.Removed)
+            {
+                PlayerDropWeaponEvent -= OnPlayerDropWeapon;
+            }
         }
 
         private bool IsNearEdge()
@@ -187,7 +192,7 @@ namespace BotExtended.Bots
 
         private bool IsAttacked()
         {
-            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned);
+            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned || Player.IsFalling);
         }
         private bool IsInactive()
         {

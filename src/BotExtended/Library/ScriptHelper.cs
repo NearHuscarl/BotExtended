@@ -151,7 +151,7 @@ namespace BotExtended.Library
             }
         }
 
-        public static string ObjectID(WeaponItem weaponItem)
+        public static string ObjectID(WeaponItem weaponItem, bool activated = false)
         {
             switch (weaponItem)
             {
@@ -227,14 +227,14 @@ namespace BotExtended.Library
                     return "WpnLeadPipe";
                 case WeaponItem.AXE:
                     return "WpnAxe";
-                case WeaponItem.GRENADES: // TODO: return thrown version
-                    return "WpnGrenades";
-                case WeaponItem.MOLOTOVS: // TODO: return thrown version
-                    return "WpnMolotovs";
-                case WeaponItem.MINES: // TODO: return thrown version
-                    return "WpnMines";
-                case WeaponItem.C4: // TODO: return thrown version
-                    return "WpnC4";
+                case WeaponItem.GRENADES:
+                    return activated ? "WpnGrenadesThrown" : "WpnGrenades";
+                case WeaponItem.MOLOTOVS:
+                    return activated ? "WpnMolotovsThrown" : "WpnMolotovs";
+                case WeaponItem.MINES:
+                    return activated ? "WpnMineThrown" : "WpnMines";
+                case WeaponItem.C4:
+                    return activated ? "WpnC4Thrown" : "WpnC4";
                 case WeaponItem.SHURIKEN:
                     return "WpnShuriken";
                 case WeaponItem.BASEBALL:

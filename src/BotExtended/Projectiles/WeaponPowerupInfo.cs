@@ -4,6 +4,9 @@ namespace BotExtended.Projectiles
 {
     class WeaponPowerupInfo
     {
+        public WeaponItem Melee;
+        public MeleeWeaponPowerup MeleePowerup;
+
         public WeaponItem Primary;
         public RangedWeaponPowerup PrimaryPowerup;
 
@@ -12,5 +15,7 @@ namespace BotExtended.Projectiles
 
         public WeaponItem Throwable;
         public RangedWeaponPowerup ThrowablePowerup;
+
+        public WeaponItem Powerup;
     }
 }
