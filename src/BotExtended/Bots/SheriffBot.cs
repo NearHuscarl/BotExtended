@@ -1,16 +1,18 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 
 namespace BotExtended.Bots
 {
     class SheriffBot : CowboyBot
     {
-        public SheriffBot(BotArgs args) : base(args) { }
+        public SheriffBot(BotArgs args) : base(args)
+        {
+            PlayerDropWeaponEvent += OnDropWeapon;
+        }
 
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
-
-            PlayerDropWeaponEvent += OnDropWeapon;
         }
 
         private void OnDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
