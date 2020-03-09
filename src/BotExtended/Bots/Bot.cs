@@ -215,8 +215,8 @@ namespace BotExtended.Bots
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Drop);
                     if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE && !eventHasFired)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Swap);
+                    m_prevWeapons[i] = CurrentWeapon(i);
                 }
-                m_prevWeapons[i] = CurrentWeapon(i);
             }
 
             if (!eventHasFired)
@@ -257,16 +257,32 @@ namespace BotExtended.Bots
             IObjectWeaponItem droppedWeaponObj = null;
             IObjectWeaponItem pickedupWeaponObj = null;
 
+            // max velocity first OR min diff pos.X first
+            Array.Sort(m_nearbyWeapons, (a, b) =>
+            {
+                if (a.GetLinearVelocity().LengthSquared() > b.GetLinearVelocity().LengthSquared()
+                || Math.Abs(a.GetWorldPosition().X - Player.GetWorldPosition().X) < 1
+                && Math.Abs(b.GetWorldPosition().X - Player.GetWorldPosition().X) > 1)
+                    return -1;
+
+                return 1;
+            });
+
             foreach (var nearbyWeapon in m_nearbyWeapons)
             {
-                if (nearbyWeapon.WeaponItem == m_prevWeapons[weaponIndex])
+                // Checking if the weapon is already tracked to filter is a necessary workaround because dropped weapon cannot
+                // be tracked reliably due to the lack of API. Without this check, if the wrong weapon is added to the weapon
+                // pool twice when the player dropped again, it will throw
+                if (droppedWeaponObj == null &&
+                    nearbyWeapon.WeaponItem == m_prevWeapons[weaponIndex] && !ProjectileManager.IsAlreadyTracked(nearbyWeapon))
                 {
                     if (weaponEvent == WeaponEvent.Drop || weaponEvent == WeaponEvent.Swap)
                     {
                         droppedWeaponObj = nearbyWeapon;
                     }
                 }
-                if (nearbyWeapon.WeaponItem == CurrentWeapon(weaponIndex))
+                if (pickedupWeaponObj == null &&
+                    nearbyWeapon.WeaponItem == CurrentWeapon(weaponIndex))
                 {
                     if (weaponEvent == WeaponEvent.Pickup || weaponEvent == WeaponEvent.Swap || weaponEvent == WeaponEvent.Refill)
                     {

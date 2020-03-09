@@ -101,6 +101,11 @@ namespace BotExtended.Projectiles
             m_weapons.Add(weapon.UniqueID, newWeaponInfo);
         }
 
+        public static bool IsAlreadyTracked(IObject weapon)
+        {
+            return m_weapons.ContainsKey(weapon.UniqueID);
+        }
+
         internal static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weapon, float totalAmmo)
         {
             if (!m_weapons.ContainsKey(weapon.UniqueID)) return;

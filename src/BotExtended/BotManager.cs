@@ -140,8 +140,16 @@ namespace BotExtended
 
         private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
+            if (Game.IsEditorTest)
+            {
+                ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
+                Events.UpdateCallback.Start((e) =>
+                {
+                    Game.DrawArea(weaponObj.GetAABB(), Color.Yellow);
+                }, 0, (ushort)(60 * 2));
+            }
+
             ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj, totalAmmo);
-            ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
         }
 
         private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo)
