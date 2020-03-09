@@ -359,5 +359,7 @@ namespace BotExtended.Library
             return player1.GetTeam() == player2.GetTeam()
                 || player1.GetTeam() == PlayerTeam.Independent && player1.UniqueID == player2.UniqueID;
         }
+
+        public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
     }
 }

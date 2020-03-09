@@ -65,7 +65,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Mecha:
-                    bot = new MechaBot(args);
+                    bot = new MechaBot(args, player.IsUser ? null : new MechaBot_Controller());
                     break;
 
                 case BotType.MirrorMan:

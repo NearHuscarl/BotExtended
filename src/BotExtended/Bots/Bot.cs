@@ -25,6 +25,11 @@ namespace BotExtended.Bots
         public BotFaction Faction { get; set; }
         public BotInfo Info { get; set; }
         public int UpdateInterval { get; set; }
+        public Vector2 Position
+        {
+            get { return Player.GetWorldPosition(); }
+            set { Player.SetWorldPosition(value); }
+        }
 
         // TODO: remove if Gurt add in ScriptAPI. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3963
         public bool IsThrowableActivated { get; private set; }

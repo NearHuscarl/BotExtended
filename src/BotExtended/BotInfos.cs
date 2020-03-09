@@ -497,8 +497,8 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.UltraStrong,
-                        CurrentHealth = Health.UltraStrong,
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
                         ExplosionDamageTakenModifier = DamageTaken.ExtremelyResistant, // 1200 (300 / 0.25)
                         ProjectileDamageTakenModifier = DamageTaken.VeryResistant, // 600
                         ImpactDamageTakenModifier = DamageTaken.Unbeatable,

@@ -35,11 +35,18 @@ namespace BotExtended.Bots
         }
 
         private MechaState m_state;
+        private IController<MechaBot> m_controller;
 
-        public MechaBot(BotArgs args) : base(args)
+        public MechaBot(BotArgs args, MechaBot_Controller controller) : base(args)
         {
             UpdateInterval = 0;
             m_state = MechaState.Normal;
+
+            if (controller != null)
+            {
+                m_controller = controller;
+                m_controller.Actor = this;
+            }
         }
 
         public override void OnSpawn(IEnumerable<Bot> others)
@@ -65,6 +72,9 @@ namespace BotExtended.Bots
             base.OnUpdate(elapsed);
 
             UpdateChargeStatusColor();
+
+            if (m_controller != null)
+                m_controller.OnUpdate(elapsed);
 
             switch (m_state)
             {
@@ -112,20 +122,13 @@ namespace BotExtended.Bots
             m_lastChargeEnergy = m_superchargeEnergy;
         }
 
-        public readonly float EnergyToCharge = 9000f;
-        public bool IsSuperCharging { get { return m_state == MechaState.Supercharging; } }
+        public readonly float EnergyToCharge = Game.IsEditorTest ? 3000f : 9000f;
+        public bool IsSuperCharging { get { return m_state == MechaState.Supercharging || m_state == MechaState.PreparingSupercharge; } }
         private float m_superchargeEnergy = 0f;
         private float m_chargeTimer = 0f;
         private void UpdateSuperChargeEnergy(float elapsed)
         {
-            if (m_superchargeEnergy >= EnergyToCharge)
-            {
-                if (CanSuperCharge())
-                {
-                    PrepareSuperCharge();
-                }
-            }
-            else
+            if (m_superchargeEnergy < EnergyToCharge)
                 m_superchargeEnergy += elapsed;
 
             DrawDebugging();
@@ -140,7 +143,7 @@ namespace BotExtended.Bots
 
                 var position = player.GetWorldPosition();
 
-                if (ScriptHelper.IntersectCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeHitRange)
+                if (ScriptHelper.IntersectCircle(player.GetAABB(), Position, ChargeHitRange)
                     && !chargedPlayers.Contains(player))
                 {
                     Game.PlayEffect(EffectName.Electric, position);
@@ -148,6 +151,27 @@ namespace BotExtended.Bots
                     player.SetLinearVelocity(RandomHelper.Direction(90, Player.FacingDirection == 1 ? 0 : 180) * 15f);
                     MakePlayerStaggering(player);
                     chargedPlayers.Add(player);
+                }
+            }
+
+            var area = Player.GetAABB();
+            area.Grow(4);
+            foreach (var obj in Game.GetObjectsByArea(area))
+            {
+                if (obj.UniqueID == Player.UniqueID || obj is IPlayer)
+                    continue;
+
+                if (obj.GetBodyType() == BodyType.Dynamic || RayCastHelper.ObjectsBulletCanDestroy.Contains(obj.Name))
+                {
+                    if (ScriptHelper.IntersectCircle(obj.GetWorldPosition(), Position, ChargeHitRange))
+                    {
+                        var v = obj.GetLinearVelocity();
+                        if (v.Length() < 12)
+                        {
+                            obj.SetLinearVelocity(v + Vector2.UnitX * Player.FacingDirection * 10);
+                            obj.SetHealth(obj.GetHealth() - 3);
+                        }
+                    }
                 }
             }
 
@@ -162,14 +186,12 @@ namespace BotExtended.Bots
             }
         }
 
-        private bool CanSuperCharge()
+        public bool CanSuperCharge()
         {
-            return !Player.IsInMidAir
-                && (Player.IsSprinting || Player.IsIdle || Player.IsWalking || Player.IsRunning)
-                && HasTargetToCharge();
+            return m_state == MechaState.Normal && m_superchargeEnergy >= EnergyToCharge && !Player.IsInMidAir;
         }
 
-        private Vector2[] GetLineOfSight()
+        public Vector2[] GetLineOfSight()
         {
             var lineStart = Player.GetWorldPosition() + Vector2.UnitY * 12f;
 
@@ -183,24 +205,27 @@ namespace BotExtended.Bots
         public static readonly float ChargeMinimumRange = 30f;
         public static readonly float ChargeRange = 60;
         public static readonly float ChargeHitRange = 25f;
-        private bool HasTargetToCharge()
+
+        public override void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
         {
-            var los = GetLineOfSight();
-            var lineStart = los[0];
-            var lineEnd = los[1];
+            base.OnPlayerKeyInput(keyInfos);
 
-            foreach (var result in RayCastHelper.PlayersInSight(lineStart, lineEnd))
+            foreach (var keyInfo in keyInfos)
             {
-                var player = Game.GetPlayer(result.ObjectID);
-                var inMinimumRange = ScriptHelper.IntersectCircle(player.GetAABB(), Player.GetWorldPosition(), ChargeMinimumRange);
-
-                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && player.GetTeam() != Player.GetTeam())
+                if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.SPRINT
+                    && Player.KeyPressed(VirtualKey.CROUCH_ROLL_DIVE))
                 {
-                    return true;
+                    ExecuteSupercharge();
                 }
             }
+        }
 
-            return false;
+        public void ExecuteSupercharge()
+        {
+            if (CanSuperCharge())
+                PrepareSuperCharge();
+            else if (m_superchargeEnergy < EnergyToCharge)
+                Game.PlayEffect(EffectName.CustomFloatText, Position, "Not enough fuel");
         }
 
         private void PrepareSuperCharge()
@@ -219,7 +244,6 @@ namespace BotExtended.Bots
             if (m_kneelPrepareTime >= 500)
             {
                 Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
-                Player.SetInputEnabled(true);
                 m_kneelPrepareTime = 0f;
 
                 StartSuperCharge();
@@ -239,8 +263,11 @@ namespace BotExtended.Bots
 
         private void StartSuperCharge()
         {
-            Player.SetBotBehaviorActive(false);
-            Player.SetLinearVelocity(new Vector2(Player.FacingDirection * 14f, 4f));
+            Player.SetLinearVelocity(Vector2.UnitY * 6);
+            ScriptHelper.Timeout(() => Player.SetLinearVelocity(
+                Vector2.UnitX * Player.FacingDirection * 16f +
+                Vector2.UnitY * 3), 30);
+
             Game.PlayEffect(EffectName.FireNodeTrailGround, Player.GetWorldPosition() + new Vector2(-4, -4));
             Game.PlaySound("Flamethrower", Player.GetWorldPosition());
             m_state = MechaState.Supercharging;
@@ -259,7 +286,7 @@ namespace BotExtended.Bots
 
         private void StopSuperCharge()
         {
-            Player.SetBotBehaviorActive(true);
+            Player.SetInputEnabled(true);
             m_superchargeEnergy = 0f;
             chargedPlayers.Clear();
             m_state = MechaState.Normal;

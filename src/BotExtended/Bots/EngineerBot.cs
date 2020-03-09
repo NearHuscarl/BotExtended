@@ -180,7 +180,7 @@ namespace BotExtended.Bots
                 {
                     if (result.HitObject.GetBodyType() == BodyType.Static
                         // need a better property to describe that the object is indestructible
-                        && result.HitObject.GetMaxHealth() == 1
+                        && ScriptHelper.IsIndestructible(result.HitObject)
                         && !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
                     {
                         hitCount++;break;
