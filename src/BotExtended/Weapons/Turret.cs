@@ -253,7 +253,7 @@ namespace BotExtended.Weapons
             var barrel2 = Game.CreateObject("MetalPlat01B", barrelSolid2Position);
             m_barrel = new Component("JusticeStatue00Scales", barrelPosition);
             m_tip = Game.CreateObject("LedgeGrab", tipPosition);
-            m_ground = GetGround();
+            m_ground = GetGround(RotationCenter);
 
             legMiddle1.SetEnabled(false);
             legMiddle2.SetEnabled(false);
@@ -352,10 +352,10 @@ namespace BotExtended.Weapons
             m_alterCollisionTile.AddTargetObject(obj);
         }
 
-        private IObject GetGround()
+        public static IObject GetGround(Vector2 position)
         {
-            var start = RotationCenter - Vector2.UnitY * 13;
-            var end = RotationCenter - Vector2.UnitY * 15;
+            var start = position - Vector2.UnitY * 13;
+            var end = position - Vector2.UnitY * 15;
             var rayCastInput = new RayCastInput()
             {
                 // static_ground, dynamic_platforms

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
+    <Compile Include="Bots\EngineerBot_Controller.cs" />
     <Compile Include="Bots\IController.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\SheriffBot.cs" />

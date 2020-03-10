@@ -10,13 +10,6 @@ namespace BotExtended.Bots
 {
     class EngineerBot : Bot
     {
-        private enum AvailableTurretDirection
-        {
-            None,
-            Left,
-            Right,
-        }
-
         private static readonly HashSet<WeaponItem> BuildItems = new HashSet<WeaponItem>()
         {
             WeaponItem.LEAD_PIPE,
@@ -24,133 +17,127 @@ namespace BotExtended.Bots
             WeaponItem.HAMMER,
         };
 
-        public float BuildTime { get; private set; }
-        public bool IsBuilding { get { return m_state == EngineerState.Building; } }
+        public static readonly float CreateNewCooldownTime = 12000;
+        public static readonly float BuildTime = 5000; // TODO: remove
 
-        private AvailableTurretDirection m_availableDirection = AvailableTurretDirection.None;
+        private EngineerBot_Controller m_controller;
+        private TurretPlaceholder m_placeholder;
+        public event Action BuildCompletedEvent;
 
-        private Area DangerArea
+        public EngineerBot(BotArgs args, EngineerBot_Controller controller) : base(args)
         {
-            get
-            {
-                return new Area(
-                    Position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
-                    Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
-            }
-        }
-
-        private Vector2[] ScanLine(float angle)
-        {
-            var start = Position + Vector2.UnitY * 9; // same height as turret's tip
-            var end = start + ScriptHelper.GetDirection(angle) * 200;
-            return new Vector2[] { start, end };
-        }
-
-        private List<Vector2[]> ScanLines
-        {
-            get
-            {
-                return new List<Vector2[]>()
-                {
-                    ScanLine(0),
-                    ScanLine(MathHelper.PI),
-                };
-            }
-        }
-
-        public EngineerBot(BotArgs args) : base(args)
-        {
-            BuildTime = Game.IsEditorTest ? 1000 : 5000; // TODO: remove
             UpdateInterval = 0;
-            PlayerDropWeaponEvent += OnPlayerDropWeapon;
-        }
 
-        private void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
-        {
-            if (BuildItems.Contains(weaponObj.WeaponItem))
+            if (controller != null)
             {
-                if (m_state != EngineerState.Normal) m_state = EngineerState.Normal;
+                m_controller = controller;
+                m_controller.Actor = this;
             }
         }
 
-        enum EngineerState
-        {
-            Normal,
-            Analyzing,
-            GoingToPlaceholder,
-            PreBuilding,
-            Building,
-        }
-        private EngineerState m_state = EngineerState.Normal;
-
-        private float m_buildCooldown = 0f;
-        private float m_analyzePlaceCooldown = 0f;
+        private bool m_notifyCooldownOver = false;
+        private float m_createNewTurretCooldown = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
-            switch (m_state)
+            if (Player.IsDead) return;
+
+            if (m_controller != null)
+                m_controller.OnUpdate(elapsed);
+
+            if (m_createNewTurretCooldown < CreateNewCooldownTime)
             {
-                case EngineerState.Normal:
-                    m_buildCooldown += elapsed;
-
-                    if (m_buildCooldown >= (Game.IsEditorTest ? 3000 : 7000) /*TODO: remove*/
-                        && BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem))
-                    {
-                        m_state = EngineerState.Analyzing;
-                        m_analyzePlaceCooldown = 300;
-                    }
-                    break;
-                case EngineerState.Analyzing:
-                    m_analyzePlaceCooldown += elapsed;
-
-                    if (m_analyzePlaceCooldown >= (Game.IsEditorTest ? 0 : 300))
-                    {
-                        if (CheckExistingPlaceholder())
-                            GoToExistingPlaceholder();
-                        else if (CanBuildTurretHere())
-                            StartBuildingTurret();
-                        m_analyzePlaceCooldown = 0;
-                    }
-                    break;
-                case EngineerState.GoingToPlaceholder:
-                    CheckArriveTargetPlaceholder();
-                    break;
-                case EngineerState.PreBuilding:
-                    UpdatePrebuilding(elapsed);
-                    break;
-                case EngineerState.Building:
-                    UpdateBuildingTurret(elapsed);
-                    break;
+                m_createNewTurretCooldown += elapsed;
             }
+            else if (!m_notifyCooldownOver)
+            {
+                NotifyCooldownOver();
+            }
+
+            if (MaybeIsBuildingTurret())
+            {
+                UpdateBuildingProgress();
+            }
+            if (m_placeholder != null)
+            {
+                Game.DrawArea(m_placeholder.GetAABB());
+                // Edge cases: player can be moved when standing on dynamic platforms
+                if (!m_placeholder.GetAABB().Intersects(Player.GetAABB()) || m_placeholder.IsRemoved)
+                    StopOccupying();
+            }
+
+            m_prevTotalAttackSwings = Player.Statistics.TotalMeleeAttackSwings;
         }
 
-        private float m_damageTakenWhileBuilding = 0f;
+        private void NotifyCooldownOver()
+        {
+            var profile = Player.GetProfile();
+            var originalColor = profile.Head.Color1;
+
+            for (uint i = 0; i < 20; i++)
+            {
+                var ii = i;
+
+                ScriptHelper.Timeout(() =>
+                {
+                    var color = profile.Head.Color1;
+
+                    if (color == "ClothingLightYellow")
+                        color = "ClothingLightGray";
+                    else
+                        color = "ClothingLightYellow";
+
+                    if (ii == 9)
+                        color = originalColor;
+
+                    profile.Head.Color1 = color;
+                    Player.SetProfile(profile);
+                }, 75 * ii);
+            }
+            m_notifyCooldownOver = true;
+        }
+
+        private int m_prevTotalAttackSwings = 0;
+        public bool MaybeIsBuildingTurret()
+        {
+            if (Player.IsCrouching
+                && m_prevTotalAttackSwings != Player.Statistics.TotalMeleeAttackSwings
+                && IsHoldingEquipment())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasEnoughEnergy()
+        {
+            return m_createNewTurretCooldown >= CreateNewCooldownTime;
+        }
+
+        public bool HasEquipment() { return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem); }
+        public bool IsHoldingEquipment()
+        {
+            return HasEquipment()
+                && Player.CurrentWeaponDrawn == WeaponItemType.Melee
+                && Player.CurrentMeleeMakeshiftWeapon.WeaponItem == WeaponItem.NONE;
+        }
+
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             base.OnDamage(attacker, args);
 
-            if (IsBuilding)
-            {
-                m_damageTakenWhileBuilding += args.Damage;
-
-                if (m_damageTakenWhileBuilding >= 20)
-                {
-                    StopBuilding();
-                    m_damageTakenWhileBuilding = 0;
-                }
-            }
+            if (m_controller != null)
+                m_controller.OnDamage(attacker, args);
         }
 
         public override void OnDeath(PlayerDeathArgs args)
         {
             base.OnDeath(args);
-            WeaponManager.RemoveBuilderFromTurretPlaceholder(Player.UniqueID);
+            StopOccupying();
 
-            if (args.Removed)
-            {
-                PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-            }
+            if (m_controller != null)
+                m_controller.OnDeath(args);
         }
 
         private bool IsNearEdge()
@@ -178,7 +165,6 @@ namespace BotExtended.Bots
                 foreach (var result in results)
                 {
                     if (result.HitObject.GetBodyType() == BodyType.Static
-                        // need a better property to describe that the object is indestructible
                         && ScriptHelper.IsIndestructible(result.HitObject)
                         && !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
                     {
@@ -189,214 +175,123 @@ namespace BotExtended.Bots
             return hitCount < 3;
         }
 
-        private bool IsAttacked()
+        public bool CanBuildTurretHere()
         {
-            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned || Player.IsFalling);
-        }
-        private bool IsInactive()
-        {
-            return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked();
-        }
-        private bool CanBuildTurret()
-        {
-            return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem) && IsInactive();
-        }
-        private bool CanBuildTurretHere()
-        {
-            if (!CanBuildTurret())
-                return false;
-
-            m_availableDirection = AvailableTurretDirection.None;
-            var prioritizedDirection = Player.FacingDirection == 1 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
-            for (var i = 0; i < ScanLines.Count; i++)
-            {
-                var scanLine = ScanLines[i];
-                Game.DrawLine(scanLine[0], scanLine[1], Color.Yellow);
-                if (RayCastHelper.ImpassableObjects(scanLine[0], scanLine[1]).Count() == 0)
-                {
-                    m_availableDirection = i == 0 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
-                    if (m_availableDirection == prioritizedDirection)
-                        break;
-                }
-            }
-            if (m_availableDirection == AvailableTurretDirection.None) return false;
-
             if (IsNearEdge())
                 return false;
-
-            // Uncomment if Engineer is too OP
-            // foreach (var bot in BotManager.GetBots<EngineerBot>())
-            // {
-            //     if (bot.IsBuilding) return false;
-            // }
-
-            // Don't build turret when enemies are nearby
-            foreach (var bot in BotManager.GetBots<Bot>())
-            {
-                if (!ScriptHelper.SameTeam(Player, bot.Player))
-                {
-                    if (DangerArea.Intersects(bot.Player.GetAABB()))
-                        return false;
-                }
-            }
-
-            foreach (var turret in WeaponManager.GetWeapons<Turret>())
-            {
-                if (turret.Broken) continue;
-
-                var area = new Area(
-                    turret.Position + Vector2.UnitX * 22 * turret.Direction + Vector2.UnitY * 7,
-                    turret.Position - Vector2.UnitX * 10 * turret.Direction - Vector2.UnitY * 14);
-                area.Normalize();
-                if (area.Intersects(Player.GetAABB()))
-                    return false;
-
-                if (ScriptHelper.IntersectCircle(Position, turret.Position, 275, turret.MinAngle, turret.MaxAngle))
-                    return false;
-            }
 
             return true;
         }
 
-        private TurretPlaceholder m_targetPlaceholder = null;
-        private bool CheckExistingPlaceholder()
+        public bool CreateNewTurret()
         {
+            if (HasEnoughEnergy())
+            {
+                if (!CanBuildTurretHere())
+                {
+                    Game.PlayEffect(EffectName.CustomFloatText, Position, "Cannot build here");
+                    return false;
+                }
+
+                var direction = Player.FacingDirection == -1 ? TurretDirection.Left : TurretDirection.Right;
+                m_placeholder = WeaponManager.CreateTurretPlaceholder(Player, direction);
+                m_createNewTurretCooldown = 0f;
+                m_notifyCooldownOver = false;
+                return true;
+            }
+            else
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, Position, "Not enough energy");
+                return false;
+            }
+        }
+
+        public bool IsOccupying { get { return m_placeholder != null; } }
+
+        private void StopOccupying()
+        {
+            m_buildProgress = 0;
+
+            if (m_placeholder != null)
+            {
+                WeaponManager.RemoveBuilderFromTurretPlaceholder(m_placeholder.UniqueID);
+                m_placeholder = null;
+            }
+        }
+
+        public override void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
+        {
+            base.OnPlayerKeyInput(keyInfos);
+
+            foreach (var keyInfo in keyInfos)
+            {
+                if (Player.KeyPressed(VirtualKey.CROUCH_ROLL_DIVE))
+                {
+                    if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.SPRINT)
+                    {
+                        if (BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem))
+                            CreateNewTurret();
+                    }
+                }
+            }
+        }
+
+        private float m_hitCooldown = 0f; // Prevent player spamming attack combo to speedup building progress
+        private int m_buildProgress = 0;
+        private static readonly int MaxProgress = 6;
+        private void UpdateBuildingProgress()
+        {
+            if (!MakeSurePlaceHolderExists())
+                return;
+
+            if (ScriptHelper.IsElapsed(m_hitCooldown, 500))
+            {
+                m_hitCooldown = Game.TotalElapsedGameTime;
+
+                if (m_placeholder == null)
+                    return;
+
+                var hitPosition = Position + Vector2.UnitX * Player.GetFaceDirection() * 12;
+                Game.PlayEffect(EffectName.BulletHitMetal, hitPosition);
+                Game.PlaySound("ImpactMetal", hitPosition);
+
+                m_buildProgress++;
+                m_placeholder.BuildProgress = m_buildProgress / (float)MaxProgress;
+
+                if (m_buildProgress >= MaxProgress)
+                {
+                    WeaponManager.SpawnTurret(Player, m_placeholder.Position, m_placeholder.Direction);
+
+                    if (BuildCompletedEvent != null)
+                        BuildCompletedEvent.Invoke();
+
+                    m_placeholder.Remove();
+                    StopOccupying();
+                }
+            }
+        }
+
+        private bool MakeSurePlaceHolderExists()
+        {
+            if (m_placeholder != null) return true;
+
             var untouchPlaceholders = WeaponManager.GetUntouchedTurretPlaceholders();
 
             if (untouchPlaceholders.Count() > 0)
             {
-                var minDistanceToPlaceholder = float.PositiveInfinity;
                 foreach (var p in untouchPlaceholders)
                 {
-                    var distanceToPlayer = Vector2.Distance(p.Value.Placeholder.Position, Position);
-                    if (minDistanceToPlaceholder > distanceToPlayer)
+                    if (p.Value.Placeholder.GetAABB().Intersects(Player.GetAABB()))
                     {
-                        minDistanceToPlaceholder = distanceToPlayer;
-                        m_targetPlaceholder = p.Value.Placeholder;
+                        m_placeholder = p.Value.Placeholder;
+                        m_buildProgress = (int)Math.Round(m_placeholder.BuildProgress * MaxProgress);
+                        WeaponManager.AddBuilderToTurretPlaceholder(m_placeholder.UniqueID, Player);
+                        return true;
                     }
                 }
             }
 
-            return m_targetPlaceholder != null;
-        }
-
-        private void GoToExistingPlaceholder()
-        {
-            Player.SetGuardTarget(m_targetPlaceholder.RepresentedObject);
-            var bs = Player.GetBotBehaviorSet();
-            bs.GuardRange = 1f;
-            bs.ChaseRange = 1f;
-            Player.SetBotBehaviorSet(bs);
-            m_state = EngineerState.GoingToPlaceholder;
-        }
-
-        private void CheckArriveTargetPlaceholder()
-        {
-            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && CanBuildTurret())
-            {
-                // At the time the builder arrives, another builder may arrived first and already started building
-                if (!WeaponManager.GetUntouchedTurretPlaceholders()
-                    .Where((p) => p.Key == m_targetPlaceholder.UniqueID)
-                    .Any() || !CanBuildTurretHere())
-                {
-                    Player.SetGuardTarget(null);
-                    m_state = EngineerState.Normal;
-                    m_buildCooldown = 0f;
-                }
-                else
-                    StartBuildingTurret(m_targetPlaceholder);
-
-                m_targetPlaceholder = null;
-            }
-        }
-
-        private void StartBuildingTurret(TurretPlaceholder placeholder = null)
-        {
-            if (placeholder == null)
-            {
-                var direction = m_availableDirection == AvailableTurretDirection.Left ? TurretDirection.Left : TurretDirection.Right;
-                m_placeholder = WeaponManager.CreateTurretPlaceholder(Player, direction);
-            }
-            else
-            {
-                m_placeholder = placeholder;
-                m_buildTimer = placeholder.BuildProgress * BuildTime;
-                WeaponManager.AddBuilderToTurretPlaceholder(placeholder.UniqueID, Player);
-            }
-
-            Player.SetInputEnabled(false);
-            if (Player.CurrentWeaponDrawn != WeaponItemType.Melee)
-                Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
-            Player.AddCommand(new PlayerCommand(PlayerCommandType.Walk, m_placeholder.Direction == TurretDirection.Left ?
-                PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right, 10));
-
-            m_state = EngineerState.PreBuilding;
-        }
-
-        private float m_prepareTimer = 0f;
-        private void UpdatePrebuilding(float elapsed)
-        {
-            if (IsAttacked()) StopBuilding();
-
-            if (Player.IsIdle)
-            {
-                // Wait for player walk to position. If execuse StartCrouch immediately, player will roll instead
-                // WaitDestinationReached not working btw
-                m_prepareTimer += elapsed;
-                if (m_prepareTimer >= 150)
-                {
-                    Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
-                    m_state = EngineerState.Building;
-                    m_prepareTimer = 0f;
-                }
-            }
-        }
-
-        private void StopBuilding()
-        {
-            m_buildTimer = 0f;
-            m_hitTimer = 0f;
-            m_buildCooldown = 0f;
-            Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
-            Player.SetInputEnabled(true);
-            m_state = EngineerState.Normal;
-            WeaponManager.RemoveBuilderFromTurretPlaceholder(m_placeholder.UniqueID);
-        }
-
-        private float m_buildTimer = 0f;
-        private float m_hitTimer = 0f;
-        private TurretPlaceholder m_placeholder;
-        private void UpdateBuildingTurret(float elapsed)
-        {
-            if (IsAttacked())
-            {
-                StopBuilding(); return;
-            }
-
-            m_buildTimer += elapsed;
-            m_hitTimer += elapsed;
-            m_placeholder.BuildProgress = m_buildTimer / BuildTime;
-
-            if (m_hitTimer >= 700)
-            {
-                Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
-                ScriptHelper.Timeout(() =>
-                {
-                    if (!IsBuilding) return;
-                    var hitPosition = Position + Vector2.UnitX * Player.GetFaceDirection() * 12;
-                    Game.PlayEffect(EffectName.BulletHitMetal, hitPosition);
-                    Game.PlaySound("ImpactMetal", hitPosition);
-                }, 215);
-                m_hitTimer = 0f;
-            }
-
-            if (m_buildTimer >= BuildTime)
-            {
-                StopBuilding();
-                WeaponManager.SpawnTurret(Player, m_placeholder.Position, m_placeholder.Direction);
-                m_placeholder.Remove();
-                m_placeholder = null;
-            }
+            return false;
         }
     }
 }

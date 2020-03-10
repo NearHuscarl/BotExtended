@@ -37,7 +37,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Engineer:
-                    bot = new EngineerBot(args);
+                    bot = new EngineerBot(args, player.IsUser ? null : new EngineerBot_Controller());
                     break;
 
                 case BotType.ZombieFat:

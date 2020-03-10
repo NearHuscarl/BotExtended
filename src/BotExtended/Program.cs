@@ -54,15 +54,23 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.GRENADES);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
-                    //// image size: 82 x 100
+                    //Game.SetAllowedCameraModes(CameraMode.Static);
+                    //Game.SetCameraArea(new Area(-170, -150, -210, 50));
+                    //// image size: 180 x 180 - top: 24 left: 37M 36F
                     //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
-                    //Command.SetPlayer(new List<string>() { "player 2", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 3", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 4", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 5", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 6", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 7", "Bandido" });
-                    //Command.SetPlayer(new List<string>() { "player 8", "Bandido" });
+                    //Command.SetPlayer(new List<string>() { "player 2", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 3", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 4", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 5", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 6", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 7", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 8", "AssassinRange" });
+
+                    //foreach (var p in Game.GetPlayers())
+                    //{
+                    //    p.SetInputEnabled(false);
+                    //    p.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
+                    //}
                 }
             }
             catch (Exception e)

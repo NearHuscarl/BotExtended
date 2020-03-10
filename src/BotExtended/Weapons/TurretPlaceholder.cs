@@ -13,14 +13,19 @@ namespace BotExtended.Weapons
         public int UniqueID { get { return m_components.First().UniqueID; } }
         public Vector2 Position { get; private set; }
         public Area GetAABB() { return m_components.First().GetAABB(); }
+        public bool IsRemoved { get; private set; }
 
         public IObject RepresentedObject { get { return m_components.First(); } }
 
         private List<IObject> m_components = new List<IObject>();
         public TurretDirection Direction { get; private set; }
+        private IObject m_ground;
 
         private Vector2 m_placeholderBgPosition;
         private List<IObject> m_progressIndicators = new List<IObject>();
+
+        public PlayerTeam Team { get; private set; }
+        public IPlayer OriginalBuilder { get; private set; }
 
         private float m_buildProgress = 0f;
         // 0-1, 1 is finished
@@ -71,7 +76,11 @@ namespace BotExtended.Weapons
 
         public TurretPlaceholder(Vector2 worldPosition, TurretDirection direction, IPlayer builder)
         {
+            OriginalBuilder = builder;
+            Team = builder.GetTeam();
             Direction = direction;
+            IsRemoved = false;
+
             var dir = (direction == TurretDirection.Left) ? -1 : 1;
 
             var ux = Vector2.UnitX * -dir;
@@ -94,6 +103,7 @@ namespace BotExtended.Weapons
             var legLeft2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legLeft2Position);
             var legRight1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight1Position, MathHelper.PI);
             var legRight2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legRight2Position, MathHelper.PI);
+            m_ground = Turret.GetGround(Position);
 
             legMiddle1.SetEnabled(false);
             legMiddle2.SetEnabled(false);
@@ -120,8 +130,17 @@ namespace BotExtended.Weapons
             m_components.Add(legRight2); legRight2.CustomID = "LegRight2";
         }
 
+        public void Update(float elapsed)
+        {
+            if (m_ground.GetBodyType() == BodyType.Dynamic)
+                Remove();
+        }
+
         public void Remove()
         {
+            if (IsRemoved) return;
+            IsRemoved = true;
+
             foreach (var component in m_components)
             {
                 component.Remove();

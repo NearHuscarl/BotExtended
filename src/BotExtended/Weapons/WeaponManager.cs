@@ -49,6 +49,17 @@ namespace BotExtended.Weapons
                 if (weapon.IsDestroyed)
                     m_weapons.Remove(weapon);
             }
+
+            foreach (var placeholderInfo in m_turretPlaceholders.Values.ToList())
+            {
+                var placeholder = placeholderInfo.Placeholder;
+
+                placeholder.Update(Game.TotalElapsedGameTime - m_lastUpdateTime);
+
+                if (placeholder.IsRemoved)
+                    placeholder.Remove();
+            }
+
             m_lastUpdateTime = Game.TotalElapsedGameTime;
         }
 
