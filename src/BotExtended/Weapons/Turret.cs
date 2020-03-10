@@ -67,6 +67,7 @@ namespace BotExtended.Weapons
         private Vector2 RotationCenter { get; set; }
         private IObjectWeldJoint m_bodyJoint;
         private IObjectAlterCollisionTile m_alterCollisionTile;
+        private IObject m_ground;
 
         private Dictionary<float, IObject> m_ejectedCasings = new Dictionary<float, IObject>();
 
@@ -252,6 +253,7 @@ namespace BotExtended.Weapons
             var barrel2 = Game.CreateObject("MetalPlat01B", barrelSolid2Position);
             m_barrel = new Component("JusticeStatue00Scales", barrelPosition);
             m_tip = Game.CreateObject("LedgeGrab", tipPosition);
+            m_ground = GetGround();
 
             legMiddle1.SetEnabled(false);
             legMiddle2.SetEnabled(false);
@@ -350,10 +352,38 @@ namespace BotExtended.Weapons
             m_alterCollisionTile.AddTargetObject(obj);
         }
 
+        private IObject GetGround()
+        {
+            var start = RotationCenter - Vector2.UnitY * 13;
+            var end = RotationCenter - Vector2.UnitY * 15;
+            var rayCastInput = new RayCastInput()
+            {
+                // static_ground, dynamic_platforms
+                MaskBits = 0x000B,
+                FilterOnMaskBits = true,
+            };
+            var results = Game.RayCast(start, end, rayCastInput);
+
+            foreach (var result in results)
+            {
+                var o = result.HitObject;
+                if (o.GetBodyType() == BodyType.Static
+                    && ScriptHelper.IsIndestructible(o)
+                    && !RayCastHelper.ObjectsBulletCanDestroy.Contains(o.Name))
+                {
+                    return o;
+                }
+            }
+            throw new Exception("I don't have the high ground");
+        }
+
         private float m_fireCooldown = 0;
         public override void Update(float elapsed)
         {
             Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
+
+            if (m_ground.GetBodyType() == BodyType.Dynamic)
+                Destroy();
 
             UpdateRotation(elapsed);
             UpdateCasings();
