@@ -64,7 +64,7 @@ namespace BotExtended.Bots
             // Need those 2 lines for it to work
             // behavior.GuardRange = 1f;
             // behavior.ChaseRange = 1f;
-            if (Vector2.Distance(Player.GetWorldPosition(), m_offender.GetWorldPosition()) < 75)
+            if (Vector2.Distance(Position, m_offender.GetWorldPosition()) < 75)
             {
                 Player.SetGuardTarget(null);
             }

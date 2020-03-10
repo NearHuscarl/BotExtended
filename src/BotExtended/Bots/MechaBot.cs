@@ -175,8 +175,8 @@ namespace BotExtended.Bots
                 }
             }
 
-            Game.PlayEffect(EffectName.FireNodeTrailAir, Player.GetWorldPosition() + new Vector2(-4, -4));
-            Game.PlayEffect(EffectName.FireNodeTrailAir, Player.GetWorldPosition() + new Vector2(4, -4));
+            Game.PlayEffect(EffectName.FireNodeTrailAir, Position + new Vector2(-4, -4));
+            Game.PlayEffect(EffectName.FireNodeTrailAir, Position + new Vector2(4, -4));
 
             m_chargeTimer += elapsed;
             if (m_chargeTimer >= 1500)
@@ -193,7 +193,7 @@ namespace BotExtended.Bots
 
         public Vector2[] GetLineOfSight()
         {
-            var lineStart = Player.GetWorldPosition() + Vector2.UnitY * 12f;
+            var lineStart = Position + Vector2.UnitY * 12f;
 
             return new Vector2[]
             {
@@ -253,7 +253,7 @@ namespace BotExtended.Bots
                 m_kneelPrepareEffectTime += elapsed;
                 if (m_kneelPrepareEffectTime >= 90)
                 {
-                    var pos = Player.GetWorldPosition() + Vector2.UnitX * -Player.FacingDirection * 10;
+                    var pos = Position + Vector2.UnitX * -Player.FacingDirection * 10;
                     Game.PlayEffect(EffectName.Electric, pos);
                     Game.PlaySound("ElectricSparks", pos);
                     m_kneelPrepareEffectTime = 0f;
@@ -268,8 +268,8 @@ namespace BotExtended.Bots
                 Vector2.UnitX * Player.FacingDirection * 16f +
                 Vector2.UnitY * 3), 30);
 
-            Game.PlayEffect(EffectName.FireNodeTrailGround, Player.GetWorldPosition() + new Vector2(-4, -4));
-            Game.PlaySound("Flamethrower", Player.GetWorldPosition());
+            Game.PlayEffect(EffectName.FireNodeTrailGround, Position + new Vector2(-4, -4));
+            Game.PlaySound("Flamethrower", Position);
             m_state = MechaState.Supercharging;
         }
 
@@ -296,11 +296,10 @@ namespace BotExtended.Bots
         {
             if (!Game.IsEditorTest) return;
             var los = GetLineOfSight();
-            var playerPos = Player.GetWorldPosition();
 
-            Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), playerPos + Vector2.UnitY * 30);
-            Game.DrawCircle(playerPos, ChargeMinimumRange, Color.Red);
-            Game.DrawCircle(playerPos, ChargeHitRange, Color.Cyan);
+            Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), Position + Vector2.UnitY * 30);
+            Game.DrawCircle(Position, ChargeMinimumRange, Color.Red);
+            Game.DrawCircle(Position, ChargeHitRange, Color.Cyan);
             if (m_superchargeEnergy >= EnergyToCharge)
             {
                 Game.DrawLine(los[0], los[1], Color.Green);
@@ -392,9 +391,8 @@ namespace BotExtended.Bots
 
             if (currentHealth / maxHealth <= 0.25f)
             {
-                var position = Player.GetWorldPosition();
-                Game.PlayEffect(EffectName.Electric, position);
-                Game.PlaySound("ElectricSparks", position);
+                Game.PlayEffect(EffectName.Electric, Position);
+                Game.PlaySound("ElectricSparks", Position);
             }
         }
 
@@ -422,7 +420,7 @@ namespace BotExtended.Bots
             }
             if (!m_useDoubleBody && !selfDestructed)
             {
-                var doubleBody = Game.CreatePlayer(Player.GetWorldPosition());
+                var doubleBody = Game.CreatePlayer(Position);
 
                 Decorate(doubleBody);
                 var newMod = doubleBody.GetModifiers();
@@ -463,7 +461,6 @@ namespace BotExtended.Bots
 
         private void SelfDestruct()
         {
-            var deathPosition = Player.GetWorldPosition();
             var effects = new List<Tuple<string, int>>() {
                     Tuple.Create(EffectName.BulletHitMetal, 1),
                     Tuple.Create(EffectName.Steam, 2),
@@ -484,20 +481,20 @@ namespace BotExtended.Bots
                 }
             }
 
-            Game.TriggerExplosion(deathPosition);
+            Game.TriggerExplosion(Position);
 
             for (var i = 0; i < 4; i++)
             {
                 var debrisLinearVelocity = RandomHelper.Direction(15, 165) * 10;
                 var debris = Game.CreateObject(RandomHelper.GetItem(DebrisList),
-                    deathPosition,
+                    Position,
                     0f,
                     debrisLinearVelocity,
                     0f);
                 debris.SetMaxFire();
 
                 Game.CreateObject(RandomHelper.GetItem(DebrisList),
-                    deathPosition,
+                    Position,
                     0f,
                     debrisLinearVelocity * -Vector2.UnitX,
                     0f);
@@ -505,7 +502,7 @@ namespace BotExtended.Bots
                 if (RandomHelper.Boolean())
                 {
                     Game.CreateObject(RandomHelper.GetItem(WiringTubeList),
-                        deathPosition,
+                        Position,
                         0f,
                         RandomHelper.Direction(0, 180) * 6,
                         0f);
@@ -552,9 +549,8 @@ namespace BotExtended.Bots
                         ScriptHelper.Timeout(() =>
                         {
                             if (Player.IsRemoved) return;
-                            var position = Player.GetWorldPosition();
-                            Game.PlaySound("GLauncher", position);
-                            Game.SpawnProjectile(ProjectileItem.GRENADE_LAUNCHER, position + new Vector2(-5, 20), grenadeDirection);
+                            Game.PlaySound("GLauncher", Position);
+                            Game.SpawnProjectile(ProjectileItem.GRENADE_LAUNCHER, Position + new Vector2(-5, 20), grenadeDirection);
                             grenadeDirection.X *= 2f;
                         }, 300 * i);
                     }

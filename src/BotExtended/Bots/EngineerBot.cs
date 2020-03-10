@@ -33,16 +33,15 @@ namespace BotExtended.Bots
         {
             get
             {
-                var position = Player.GetWorldPosition();
                 return new Area(
-                    position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
-                    position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
+                    Position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
+                    Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
             }
         }
 
         private Vector2[] ScanLine(float angle)
         {
-            var start = Player.GetWorldPosition() + Vector2.UnitY * 9; // same height as turret's tip
+            var start = Position + Vector2.UnitY * 9; // same height as turret's tip
             var end = start + ScriptHelper.GetDirection(angle) * 200;
             return new Vector2[] { start, end };
         }
@@ -156,7 +155,7 @@ namespace BotExtended.Bots
 
         private bool IsNearEdge()
         {
-            var start = Player.GetWorldPosition();
+            var start = Position;
             var scanLines = new List<Vector2[]>();
             var deg70 = 1.22173f;
 
@@ -252,7 +251,7 @@ namespace BotExtended.Bots
                 if (area.Intersects(Player.GetAABB()))
                     return false;
 
-                if (ScriptHelper.IntersectCircle(Player.GetWorldPosition(), turret.Position, 275, turret.MinAngle, turret.MaxAngle))
+                if (ScriptHelper.IntersectCircle(Position, turret.Position, 275, turret.MinAngle, turret.MaxAngle))
                     return false;
             }
 
@@ -269,7 +268,7 @@ namespace BotExtended.Bots
                 var minDistanceToPlaceholder = float.PositiveInfinity;
                 foreach (var p in untouchPlaceholders)
                 {
-                    var distanceToPlayer = Vector2.Distance(p.Value.Placeholder.Position, Player.GetWorldPosition());
+                    var distanceToPlayer = Vector2.Distance(p.Value.Placeholder.Position, Position);
                     if (minDistanceToPlaceholder > distanceToPlayer)
                     {
                         minDistanceToPlaceholder = distanceToPlayer;
@@ -384,7 +383,7 @@ namespace BotExtended.Bots
                 ScriptHelper.Timeout(() =>
                 {
                     if (!IsBuilding) return;
-                    var hitPosition = Player.GetWorldPosition() + Vector2.UnitX * Player.GetFaceDirection() * 12;
+                    var hitPosition = Position + Vector2.UnitX * Player.GetFaceDirection() * 12;
                     Game.PlayEffect(EffectName.BulletHitMetal, hitPosition);
                     Game.PlaySound("ImpactMetal", hitPosition);
                 }, 215);

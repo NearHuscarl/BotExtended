@@ -127,8 +127,7 @@ namespace BotExtended.Bots
 
                 if (m_bloodEffectElapsed > 300)
                 {
-                    var position = Player.GetWorldPosition();
-                    Game.PlayEffect(EffectName.BloodTrail, position);
+                    Game.PlayEffect(EffectName.BloodTrail, Position);
                     m_bloodEffectElapsed = 0;
                 }
             }
@@ -365,7 +364,6 @@ namespace BotExtended.Bots
 
         protected IPlayer FindClosestTarget()
         {
-            var position = Player.GetWorldPosition();
             IPlayer target = null;
 
             foreach (var player in Game.GetPlayers())
@@ -376,8 +374,8 @@ namespace BotExtended.Bots
 
                 if (target == null) target = player;
 
-                var targetDistance = Vector2.Distance(target.GetWorldPosition(), position);
-                var potentialTargetDistance = Vector2.Distance(player.GetWorldPosition(), position);
+                var targetDistance = Vector2.Distance(target.GetWorldPosition(), Position);
+                var potentialTargetDistance = Vector2.Distance(player.GetWorldPosition(), Position);
 
                 if (potentialTargetDistance < targetDistance)
                 {
@@ -404,7 +402,7 @@ namespace BotExtended.Bots
 
                 if (destroyWeapon)
                     weapon.SetHealth(0);
-                Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition() + Vector2.UnitY * 15, "Disarmed");
+                Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
                 Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
             }
         }

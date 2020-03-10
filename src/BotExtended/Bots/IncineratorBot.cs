@@ -22,13 +22,11 @@ namespace BotExtended.Bots
         {
             base.OnDeath(args);
 
-            var playerPosition = Player.GetWorldPosition();
-
             if (Player.CurrentPrimaryWeapon.WeaponItem == WeaponItem.FLAMETHROWER)
             {
-                Game.TriggerExplosion(playerPosition);
-                Game.SpawnFireNodes(playerPosition, 20, 5f, FireNodeType.Flamethrower);
-                Game.TriggerFireplosion(playerPosition, 60f);
+                Game.TriggerExplosion(Position);
+                Game.SpawnFireNodes(Position, 20, 5f, FireNodeType.Flamethrower);
+                Game.TriggerFireplosion(Position, 60f);
             }
         }
     }

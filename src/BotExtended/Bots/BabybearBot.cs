@@ -75,7 +75,7 @@ namespace BotExtended.Bots
             {
                 if (RandomHelper.Between(0, 1) <= 0.75f)
                 {
-                    Game.PlaySound("CartoonScream", Player.GetWorldPosition());
+                    Game.PlaySound("CartoonScream", Position);
                 }
             }
 

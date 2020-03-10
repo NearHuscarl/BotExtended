@@ -10,7 +10,7 @@ namespace BotExtended.Bots
         public override void OnDeath(PlayerDeathArgs args)
         {
             base.OnDeath(args);
-            Game.TriggerExplosion(Player.GetWorldPosition());
+            Game.TriggerExplosion(Position);
         }
     }
 }
