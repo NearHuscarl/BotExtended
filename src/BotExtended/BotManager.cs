@@ -51,11 +51,6 @@ namespace BotExtended
 
                     List<BotFaction> botFactions;
 
-                    foreach (var f in settings.BotFactions[team])
-                    {
-                        ScriptHelper.LogDebug(f);
-                    }
-
                     if (settings.BotFactions[team].Count > 1)
                         botFactions = settings.BotFactions[team]
                             .Where((f) => f != settings.CurrentFaction[team])

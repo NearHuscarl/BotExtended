@@ -66,7 +66,6 @@ namespace BotExtended.Factions
             return Spawn(factionCount, team, (i, botType, isBoss) =>
             {
                 var player = PlayerByTeam[team][i];
-                ScriptHelper.LogDebug(player.Name, team, i, botType);
                 if (isBoss)
                     return BotManager.SpawnBot(botType, BotFaction, player, team: team, triggerOnSpawn: false);
                 else
