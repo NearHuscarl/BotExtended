@@ -55,6 +55,9 @@ namespace BotExtended.Library
 
         private static T GetItem<T>(Rnd rnd, List<T> list)
         {
+            if (list.Count == 0)
+                throw new Exception("list is empty duh. me cant randomize");
+
             var rndIndex = rnd.Next(list.Count);
             return list[rndIndex];
         }

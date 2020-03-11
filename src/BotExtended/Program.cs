@@ -2,7 +2,6 @@ using System;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 using BotExtended.Library;
-using BotExtended.Weapons;
 using System.Linq;
 
 namespace BotExtended
@@ -29,7 +28,6 @@ namespace BotExtended
             {
                 //System.Diagnostics.Debugger.Break();
                 BotManager.Initialize();
-                WeaponManager.Initialize();
 
                 if (Game.IsEditorTest)
                 {

@@ -118,7 +118,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
             ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <0-10>: Set maximum bot count");
-            ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
+            ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [Team] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [factionrotation|fr] <1-10>: Set faction rotation interval for every n rounds");
             ScriptHelper.PrintMessage("/<botextended|be> [nextfaction|nf]: Change the faction in the currrent faction rotation to the next faction");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
@@ -217,6 +217,8 @@ namespace BotExtended
                 var accountID = pieces.First();
                 var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
 
+                // TODO: display prettier message. Show all for all factions, show except for all faction minus a small amount of others
+                // TODO: show other team faction too. Remember to update CurrentFaction
                 if (activeUsers.ContainsKey(accountID))
                 {
                     var userName = activeUsers[accountID].Name;
@@ -229,7 +231,7 @@ namespace BotExtended
             }
 
             ScriptHelper.PrintMessage("-Factions", ScriptHelper.WARNING_COLOR);
-            foreach (var botFaction in settings.BotFactions)
+            foreach (var botFaction in settings.BotFactions[BotManager.BotTeam])
             {
                 var index = (int)botFaction;
                 ScriptHelper.PrintMessage(index + ": " + botFaction);
@@ -240,7 +242,7 @@ namespace BotExtended
 
             ScriptHelper.PrintMessage("-Faction rotation interval: " + rotationInterval, ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, ScriptHelper.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Current faction: " + settings.CurrentFaction, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Current faction: " + settings.CurrentFaction[BotManager.BotTeam], ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
         }
 
@@ -317,7 +319,7 @@ namespace BotExtended
 
         private static void SetFactions(IEnumerable<string> arguments)
         {
-            var allBotFactions = BotHelper.GetAvailableBotFactions()
+            var allBotFactions = SharpHelper.EnumToList<BotFaction>()
                 .Select((f) => SharpHelper.EnumToString(f))
                 .ToList();
             var botFactions = new List<string>();
@@ -331,9 +333,18 @@ namespace BotExtended
                 return;
             }
 
-            if (arguments.Count() == 1 && arguments.Single() == "all")
+            var team = PlayerTeam.Team4;
+            if (TryParseTeam(arguments.First(), out team, PlayerTeam.Team4))
             {
-                botFactions = allBotFactions;
+                arguments = arguments.Skip(1);
+            }
+
+            if (arguments.Count() == 1 && (arguments.Single() == "all" || arguments.Single() == "none"))
+            {
+                if (arguments.Single() == "all")
+                    botFactions = BotHelper.GetAvailableBotFactions().Select((f) => SharpHelper.EnumToString(f)).ToList();
+                if (arguments.Single() == "none")
+                    botFactions = new List<string> { "None" };
             }
             else
             {
@@ -344,6 +355,13 @@ namespace BotExtended
                 }
                 foreach (var arg in arguments)
                 {
+                    if (arg == "none")
+                    {
+                        ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: Cannot mix None with other options", ScriptHelper.WARNING_COLOR);
+                        return;
+                    }
+
                     if (SharpHelper.TryParseEnum(arg, out botFaction))
                     {
                         botFactions.Add(SharpHelper.EnumToString(botFaction));
@@ -362,7 +380,7 @@ namespace BotExtended
                 botFactions = allBotFactions.Where((f) => !botFactions.Contains(f)).ToList();
             }
 
-            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTIONS"), botFactions.Distinct().ToArray());
+            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTIONS_" + team), botFactions.Distinct().ToArray());
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 

@@ -1,7 +1,10 @@
 ﻿using BotExtended.Bots;
+using BotExtended.Library;
+using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Factions
 {
@@ -32,7 +35,56 @@ namespace BotExtended.Factions
             }
         }
 
-        public IEnumerable<Bot> Spawn(int factionCount)
+        private static Dictionary<PlayerTeam, List<IPlayer>> m_playerByTeam = null;
+        private static Dictionary<PlayerTeam, List<IPlayer>> PlayerByTeam
+        {
+            get
+            {
+                if (m_playerByTeam == null)
+                {
+                    m_playerByTeam = new Dictionary<PlayerTeam, List<IPlayer>>()
+                    {
+                        { PlayerTeam.Independent, new List<IPlayer>() },
+                        { PlayerTeam.Team1, new List<IPlayer>() },
+                        { PlayerTeam.Team2, new List<IPlayer>() },
+                        { PlayerTeam.Team3, new List<IPlayer>() },
+                        { PlayerTeam.Team4, new List<IPlayer>() },
+                    };
+                    foreach (var player in Game.GetPlayers())
+                    {
+                        PlayerByTeam[player.GetTeam()].Add(player);
+                    }
+                }
+                return m_playerByTeam;
+            }
+        }
+
+        public IEnumerable<Bot> Spawn(PlayerTeam team)
+        {
+            var factionCount = PlayerByTeam[team].Count;
+
+            return Spawn(factionCount, team, (i, botType, isBoss) =>
+            {
+                var player = PlayerByTeam[team][i];
+                ScriptHelper.LogDebug(player.Name, team, i, botType);
+                if (isBoss)
+                    return BotManager.SpawnBot(botType, BotFaction, player, team: team, triggerOnSpawn: false);
+                else
+                    return BotManager.SpawnBot(botType, BotFaction, player, true, true, team, true, triggerOnSpawn: false);
+            });
+        }
+        public IEnumerable<Bot> Spawn(int factionCount, PlayerTeam team)
+        {
+            return Spawn(factionCount, team, (_, botType, isBoss) =>
+            {
+                if (isBoss)
+                    return BotManager.SpawnBot(botType, BotFaction, team: team, triggerOnSpawn: false);
+                else
+                    return BotManager.SpawnBot(botType, BotFaction, null, true, true, team, true, triggerOnSpawn: false);
+            });
+        }
+
+        private IEnumerable<Bot> Spawn(int factionCount, PlayerTeam team, Func<int, BotType, bool, Bot> spawnCallback)
         {
             var bots = new List<Bot>();
             if (factionCount == 0) return bots;
@@ -40,6 +92,7 @@ namespace BotExtended.Factions
             var subFactionCount = 0;
             var factionCountRemaining = factionCount;
             var mobCount = HasBoss ? factionCount - 1 : factionCount;
+            var i = 0;
 
             foreach (var subFaction in SubFactions)
             {
@@ -54,7 +107,7 @@ namespace BotExtended.Factions
                     while (factionCountRemaining > 0 && (botCountRemainingThisType > 0 || subFactionCount == SubFactions.Count))
                     {
                         var botType = subFaction.GetRandomType();
-                        var bot = BotManager.SpawnBot(botType, BotFaction, triggerOnSpawn: false);
+                        var bot = spawnCallback(i++, botType, false);
 
                         bots.Add(bot);
                         factionCountRemaining--;
@@ -64,7 +117,7 @@ namespace BotExtended.Factions
                 else
                 {
                     var botType = subFaction.GetRandomType();
-                    var bot = BotManager.SpawnBot(botType, BotFaction, null, true, true, BotManager.BotTeam, true, triggerOnSpawn: false);
+                    var bot = spawnCallback(i++, botType, true);
 
                     bots.Add(bot);
                     factionCountRemaining--;

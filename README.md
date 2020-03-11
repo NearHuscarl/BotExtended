@@ -217,7 +217,7 @@ Usage: `/<botextended|be> [create|c] <BotType> [1|2|3|4|_] [Count]`
 
 Spawn one or a group of bots. First argument is `BotType`. See [`listbot`](#listbot) to list all `BotType`s. This is the only required argument
 
-Second argument is team to spawn to from `1` to `4`, `_` is indenpendent. Default to indenpendent
+Second argument is team to spawn to from `t1` to `t4`, `t0` is indenpendent. Default to indenpendent
 
 Third argument is number of bot to spawn. Default to 1
 
@@ -232,13 +232,25 @@ Spawn one funnyman
 Spawn 5 metrocops at Team 2
 
 ```
-/be c 34 2 5
+/be c 34 t2 5
 ```
 
-Spawn 3 bandidos independently
+Spawn 3 bandidos at team independent
 
 ```
-/be c bandido _ 3
+/be c bandido t0 3
+```
+
+Spawn 1 cowboy at team 2
+
+```
+/be c cowboy t2
+```
+
+Spawn 2 cowboy at team independent
+
+```
+/be c bandido 2
 ```
 
 ### `botcount`
@@ -255,9 +267,9 @@ How it works: On startup of every round, the script will search for the number o
 
 ### `faction`
 
-Usage: `/<botextended|be> [faction|f] [-e] <names|indexes|all>`
+Usage: `/<botextended|be> [Team] [faction|f] [-e] <names|indexes|all>`
 
-Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exclude those `BotFaction`s instead
+Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exclude those `BotFaction`s instead. Select `none` to disable spawning bot to that team. Team arguments ranges from `t1` to `t4`
 
 ```bash
 /be f sniper thug boss_jo boss_hacker
@@ -279,6 +291,11 @@ Select all except zombie factions
 
 ```
 /be f -e Zombie ZombieHard Boss_Zombie
+```
+
+Don't spawn bots on team 3
+```
+/be f t3 none
 ```
 
 To select one `BotFaction` to spawn every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `0` to disable rotation
@@ -330,4 +347,4 @@ Reset player Spud to normal
 
 Usage: `/<botextended|be> [clearplsettings|cp]`
 
-Clear all player settings
+Clear all player settings.
