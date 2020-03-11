@@ -148,5 +148,10 @@ namespace BotExtended
 
             return profile;
         }
+
+        public static void SetPlayer(IPlayer player, BotType botType)
+        {
+            BotManager.SpawnBot(botType, BotFaction.None, player, true, true, player.GetTeam());
+        }
     }
 }

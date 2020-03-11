@@ -90,8 +90,6 @@ namespace BotExtended.Bots
 
         public void OnUpdate(float elapsed)
         {
-            ScriptHelper.LogDebug(m_state);
-
             switch (m_state)
             {
                 case EngineerState.Normal:
@@ -140,11 +138,8 @@ namespace BotExtended.Bots
 
         public void OnDeath(PlayerDeathArgs args)
         {
-            if (args.Killed)
-            {
-                Actor.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-                Actor.BuildCompletedEvent -= OnBuildCompleted;
-            }
+            Actor.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
+            Actor.BuildCompletedEvent -= OnBuildCompleted;
         }
 
         private bool IsAttacked()

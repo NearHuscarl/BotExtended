@@ -5,8 +5,14 @@ namespace BotExtended
 {
     public static class Constants
     {
+        internal const int BOT_COUNT_MIN = 1;
+        internal const int BOT_COUNT_MAX = 10;
+
+        internal const int BOT_SPAWN_COUNT_MIN = 1;
+        internal const int BOT_SPAWN_COUNT_MAX = 15;
+
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "3.5.6";
+        internal const string CURRENT_VERSION = "3.5.7";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // default settings value

@@ -14,13 +14,15 @@ namespace BotExtended
         public readonly int RoundsUntilFactionRotation;
         public readonly List<BotFaction> BotFactions;
         public readonly BotFaction CurrentFaction;
+        public readonly string[] PlayerSettings;
 
         public Settings(
             int botCount,
             int factionRotationInterval,
             int roundsUntilFactionRotation,
             List<BotFaction> botFactions,
-            BotFaction currentFaction
+            BotFaction currentFaction,
+            string[] playerSettings
             )
         {
             BotCount = botCount;
@@ -29,6 +31,7 @@ namespace BotExtended
             BotFactions = botFactions;
             BotFactions = botFactions;
             CurrentFaction = currentFaction;
+            PlayerSettings = playerSettings;
         }
 
         public static Settings Get()
@@ -41,7 +44,7 @@ namespace BotExtended
                 BotHelper.Storage.SetItem(botCountKey, Constants.DEFAULT_MAX_BOT_COUNT);
             }
 
-            botCount = (int)MathHelper.Clamp(botCount, 1, 10);
+            botCount = (int)MathHelper.Clamp(botCount, Constants.BOT_COUNT_MIN, Constants.BOT_COUNT_MAX);
 
             int factionRotationInterval;
             var factionRotationIntervalKey = BotHelper.StorageKey("FACTION_ROTATION_INTERVAL");
@@ -78,12 +81,20 @@ namespace BotExtended
             foreach (var faction in factions)
                 botFactions.Add(SharpHelper.StringToEnum<BotFaction>(faction));
 
+            string[] playerSettings;
+            var playerSettingsKey = BotHelper.StorageKey("PLAYER_SETTINGS");
+            if (!BotHelper.Storage.TryGetItemStringArr(playerSettingsKey, out playerSettings))
+            {
+                playerSettings = new string[] { };
+            }
+
             return new Settings(
                 botCount,
                 factionRotationInterval,
                 roundsUntilRotation,
                 botFactions,
-                SharpHelper.StringToEnum<BotFaction>(currentFactionStr)
+                SharpHelper.StringToEnum<BotFaction>(currentFactionStr),
+                playerSettings
             );
         }
     }

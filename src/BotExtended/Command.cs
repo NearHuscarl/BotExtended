@@ -86,6 +86,11 @@ namespace BotExtended
                     SetPlayer(arguments);
                     break;
 
+                case "cp":
+                case "clearplsettings":
+                    ClearPlayerSettings();
+                    break;
+
                 case "st":
                 case "stats":
                     PrintStatistics();
@@ -96,15 +101,8 @@ namespace BotExtended
                     ClearStatistics();
                     break;
 
-                case "ka":
-                    KillAll(); // For debugging purpose only
-                    break;
-                case "gm":
-                    ToggleGodMode();
-                    break;
-
                 default:
-                    ScriptHelper.PrintMessage("Invalid command", ScriptHelper.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid command: " + command, ScriptHelper.ERROR_COLOR);
                     break;
             }
         }
@@ -119,13 +117,39 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [findfaction|ff] <query>: Find all bot factions that match query");
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
-            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-10>: Set maximum bot count");
+            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <0-10>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [factionrotation|fr] <1-10>: Set faction rotation interval for every n rounds");
             ScriptHelper.PrintMessage("/<botextended|be> [nextfaction|nf]: Change the faction in the currrent faction rotation to the next faction");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
+            ScriptHelper.PrintMessage("/<botextended|be> [clearplsettings|cp]: Clear all player settings");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot factions stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot factions stats");
+        }
+
+        private static bool TryParseTeam(string arg, out PlayerTeam result, PlayerTeam defaultValue = PlayerTeam.Independent)
+        {
+            switch (arg)
+            {
+                case "t1":
+                    result = PlayerTeam.Team1;
+                    return true;
+                case "t2":
+                    result = PlayerTeam.Team2;
+                    return true;
+                case "t3":
+                    result = PlayerTeam.Team3;
+                    return true;
+                case "t4":
+                    result = PlayerTeam.Team4;
+                    return true;
+                case "t0":
+                    result = PlayerTeam.Independent;
+                    return true;
+                default:
+                    result = defaultValue;
+                    return false;
+            }
         }
 
         private static void PrintVersion()
@@ -185,6 +209,25 @@ namespace BotExtended
 
             var settings = Settings.Get();
 
+            ScriptHelper.PrintMessage("-Player settings", ScriptHelper.WARNING_COLOR);
+            var activeUsers = Game.GetActiveUsers().ToDictionary(u => u.AccountID, u => u);
+            foreach (var ps in settings.PlayerSettings)
+            {
+                var pieces = ps.Split('.');
+                var accountID = pieces.First();
+                var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
+
+                if (activeUsers.ContainsKey(accountID))
+                {
+                    var userName = activeUsers[accountID].Name;
+                    ScriptHelper.PrintMessage(userName + ": " + botType);
+                }
+                else
+                {
+                    ScriptHelper.PrintMessage(accountID + ": " + botType);
+                }
+            }
+
             ScriptHelper.PrintMessage("-Factions", ScriptHelper.WARNING_COLOR);
             foreach (var botFaction in settings.BotFactions)
             {
@@ -203,63 +246,73 @@ namespace BotExtended
 
         private static void CreateNewBot(IEnumerable<string> arguments)
         {
-            var query = arguments.FirstOrDefault();
-            if (query == null) return;
-            var argList = arguments.ToList();
+            if (arguments.Count() < 1)
+                return;
 
-            var team = PlayerTeam.Independent;
-            if (arguments.Count() >= 2 && argList[1] != "_")
-            {
-                if (!Enum.TryParse(argList[1], ignoreCase: true, result: out team))
-                    team = PlayerTeam.Independent;
-            }
-
-            var count = 1;
-            if (arguments.Count() >= 3)
-            {
-                if (int.TryParse(argList[2], out count))
-                    count = (int)MathHelper.Clamp(count, 1, 15);
-                else
-                    count = 1;
-            }
-
+            var botTypeStr = arguments.First();
             var botType = BotType.None;
 
-            if (SharpHelper.TryParseEnum(query, out botType))
+            if (SharpHelper.TryParseEnum(botTypeStr, out botType))
             {
-                for (var i = 0; i < count; i++)
-                {
-                    BotManager.SpawnBot(botType, player: null,
-                        equipWeapons: true,
-                        setProfile: true,
-                        team: team,
-                        ignoreFullSpawner: true);
-                }
-
-                // Dont use the string name in case it just an index
-                var bot = count > 1 ? " bots" : " bot";
-                ScriptHelper.PrintMessage("Spawned " + count + " " + SharpHelper.EnumToString(botType) + bot + " as " + team);
+                arguments = arguments.Skip(1);
             }
             else
             {
                 ScriptHelper.PrintMessage("--BotExtended spawn bot--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid query: " + query, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("Invalid query: " + botTypeStr, ScriptHelper.WARNING_COLOR);
+                return;
             }
+
+            var team = PlayerTeam.Independent;
+            if (arguments.Any())
+            {
+                if (TryParseTeam(arguments.First(), out team))
+                    arguments = arguments.Skip(1);
+            }
+
+            var count = 1;
+            if (arguments.Any())
+            {
+                if (int.TryParse(arguments.First(), out count))
+                    count = (int)MathHelper.Clamp(count, Constants.BOT_SPAWN_COUNT_MIN, Constants.BOT_SPAWN_COUNT_MAX);
+                else
+                    count = 1;
+            }
+
+            for (var i = 0; i < count; i++)
+            {
+                BotManager.SpawnBot(botType, player: null,
+                    equipWeapons: true,
+                    setProfile: true,
+                    team: team,
+                    ignoreFullSpawner: true);
+            }
+
+            // Dont use the string name in case it just an index
+            var bot = count > 1 ? " bots" : " bot";
+            ScriptHelper.PrintMessage("Spawned " + count + " " + SharpHelper.EnumToString(botType) + bot + " as " + team);
         }
 
         private static void SetBotCount(IEnumerable<string> arguments)
         {
-            var firstArg = arguments.FirstOrDefault();
-            if (firstArg == null) return;
-            int value = -1;
+            if (arguments.Count() != 1)
+                return;
 
-            if (int.TryParse(firstArg, out value))
+            var countStr = arguments.First();
+            var count = 1;
+            if (arguments.Any())
             {
-                BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_COUNT"), value);
-                ScriptHelper.PrintMessage("[Botextended] Update successfully");
+                if (int.TryParse(countStr, out count))
+                    count = (int)MathHelper.Clamp(count, Constants.BOT_COUNT_MIN, Constants.BOT_COUNT_MAX);
+                else
+                {
+                    ScriptHelper.PrintMessage("[Botextended] Invalid query: " + countStr, ScriptHelper.WARNING_COLOR);
+                    return;
+                }
             }
-            else
-                ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
+
+            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_COUNT"), count);
+            ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
         private static void SetFactions(IEnumerable<string> arguments)
@@ -277,6 +330,7 @@ namespace BotExtended
                 ScriptHelper.PrintMessage("Invalid command: Argument is empty", ScriptHelper.WARNING_COLOR);
                 return;
             }
+
             if (arguments.Count() == 1 && arguments.Single() == "all")
             {
                 botFactions = allBotFactions;
@@ -337,7 +391,54 @@ namespace BotExtended
 
         private static void CreateBot(IPlayer player, BotType bt)
         {
-            var bot = BotManager.SpawnBot(bt, BotFaction.None, player, true, true, player.GetTeam());
+            if (player.IsUser)
+            {
+                var userID = player.GetUser().AccountID;
+                if (!string.IsNullOrEmpty(userID))
+                {
+                    var key = BotHelper.StorageKey("PLAYER_SETTINGS");
+                    var value = userID + "." + bt;
+                    string[] playerSettings;
+
+                    if (BotHelper.Storage.TryGetItemStringArr(key, out playerSettings))
+                    {
+                        var update = false;
+                        for (var i = 0; i < playerSettings.Length; i++)
+                        {
+                            if (playerSettings[i].StartsWith(userID))
+                            {
+                                update = true;
+                                if (bt == BotType.None)
+                                {
+                                    var r = new List<string>(playerSettings);
+                                    r.RemoveAt(i);
+                                    playerSettings = r.ToArray();
+                                }
+                                else
+                                    playerSettings[i] = value;
+                                break;
+                            }
+                        }
+
+                        if (!update)
+                        {
+                            var a = playerSettings.ToList();
+                            a.Add(value);
+                            playerSettings = a.ToArray();
+                        }
+                    }
+                    else
+                        playerSettings = new string[] { value };
+
+                    BotHelper.Storage.SetItem(key, playerSettings);
+                }
+            }
+            if (bt == BotType.None)
+            {
+                ScriptHelper.PrintMessage("Player " + player.Name + " will be reset next round");
+                return;
+            }
+            BotHelper.SetPlayer(player, bt);
         }
         public static void SetPlayer(IEnumerable<string> arguments)
         {
@@ -360,28 +461,44 @@ namespace BotExtended
 
             foreach (var player in Game.GetPlayers())
             {
-                if (!player.IsUser || player.IsRemoved) continue;
+                if (player.IsRemoved) continue;
 
-                var playerIndex = -1;
-                var playerSlotIndex = player.GetUser().GameSlotIndex;
-
-                if (int.TryParse(playerArg, out playerIndex))
+                if (player.IsUser)
                 {
-                    if (playerSlotIndex == playerIndex)
+                    var playerIndex = -1;
+                    var playerSlotIndex = player.GetUser().GameSlotIndex;
+
+                    if (int.TryParse(playerArg, out playerIndex))
                     {
-                        CreateBot(player, botType);return;
+                        if (playerSlotIndex == playerIndex)
+                        {
+                            CreateBot(player, botType); return;
+                        }
+                    }
+                    else
+                    {
+                        if (player.Name.ToLower() == playerArg)
+                        {
+                            CreateBot(player, botType); return;
+                        }
                     }
                 }
                 else
                 {
                     if (player.Name.ToLower() == playerArg)
                     {
-                        CreateBot(player, botType);return;
+                        CreateBot(player, botType); return;
                     }
                 }
             }
             ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
             ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+        }
+
+        private static void ClearPlayerSettings()
+        {
+            BotHelper.Storage.RemoveItem(BotHelper.StorageKey("PLAYER_SETTINGS"));
+            ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
         private static void PrintStatistics()
@@ -426,42 +543,6 @@ namespace BotExtended
             }
 
             ScriptHelper.PrintMessage("[Botextended] Clear successfully");
-        }
-
-        private static void KillAll()
-        {
-            if (!Game.IsEditorTest) return;
-            var players = Game.GetPlayers();
-            foreach (var player in players)
-            {
-                if (player.GetUser() == null || !player.GetUser().IsHost)
-                    player.Kill();
-            }
-        }
-
-        private static bool m_godMode = (Game.IsEditorTest ? true : false);
-        private static void ToggleGodMode()
-        {
-            m_godMode = !m_godMode;
-            var modifiers = Game.GetPlayers()[0].GetModifiers();
-
-            if (m_godMode)
-            {
-                modifiers.MaxHealth = 5000;
-                modifiers.CurrentHealth = 5000;
-                modifiers.InfiniteAmmo = 1;
-                modifiers.MeleeStunImmunity = 1;
-                ScriptHelper.PrintMessage("[Botextended] God mode - ON");
-            }
-            else
-            {
-                modifiers.MaxHealth = 100;
-                modifiers.CurrentHealth = 100;
-                modifiers.InfiniteAmmo = 0;
-                modifiers.MeleeStunImmunity = 0;
-                ScriptHelper.PrintMessage("[Botextended] God mode - OFF");
-            }
-            Game.GetPlayers()[0].SetModifiers(modifiers);
         }
     }
 }
