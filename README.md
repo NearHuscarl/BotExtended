@@ -16,8 +16,15 @@ under development and maybe full of bugs :bug:
 - Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
 
 <!-- ## Factions
- -->
 
+### Assassin
+
+
+## Bots
+
+### AssassinMelee
+
+### AssassinRange -->
 
 ## Script Commands
 
@@ -306,8 +313,21 @@ Change the faction in the currrent faction rotation to the next faction
 Usage: `/<botextended|be> [setplayer|sp] <player> <BotType>`
 
 Set player outfit, weapons and modifiers to the same as `BotType`. Player argument can be either name or slot index. Type `/listplayers`
-to see the list of players and their respective indexes.
+to see the list of players and their respective indexes. this settings will be saved permanently. To reset, replace `BotType` value with `None`.
+Use [`clearplsettings`](#clearplsettings) to reset settings for all players.
 
+Set player 0 to funnyman
 ```
 /be sp 0 funnyman
 ```
+
+Reset player Spud to normal
+```
+/be sp spud none
+```
+
+### `clearplsettings`
+
+Usage: `/<botextended|be> [clearplsettings|cp]`
+
+Clear all player settings
