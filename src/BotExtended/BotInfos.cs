@@ -519,6 +519,7 @@ namespace BotExtended
                 case BotType.MetroCop2:
                 {
                     botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Streetsweeper | SearchItems.Powerups | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.AboveNormal,
@@ -527,6 +528,7 @@ namespace BotExtended
                         SprintSpeedModifier = Speed.AboveNormal,
                         MeleeForceModifier = MeleeForce.AboveNormal,
                         SizeModifier = Size.BelowNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;

@@ -31,7 +31,7 @@ namespace BotExtended.Bots
             set { Player.SetWorldPosition(value); }
         }
 
-        // TODO: remove if Gurt add in ScriptAPI. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3963
+        // TODO: remove if Gurt add this in ScriptAPI. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3963
         public bool IsThrowableActivated { get; private set; }
 
         public delegate void PlayerDropWeaponCallback(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo);
@@ -405,6 +405,26 @@ namespace BotExtended.Bots
                 Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
                 Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
             }
+        }
+
+        public bool IsStunned { get; private set; }
+        private Events.UpdateCallback m_effect;
+        public void Stun(uint stunnedTime, Action<float> effect, uint effectTime = 0)
+        {
+            IsStunned = true;
+            Player.SetInputEnabled(false);
+            Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
+
+            m_effect = Events.UpdateCallback.Start(effect, effectTime);
+
+            ScriptHelper.Timeout(() =>
+            {
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.StopDeathKneel));
+                Player.SetInputEnabled(true);
+                IsStunned = false;
+                Events.UpdateCallback.Stop(m_effect);
+                m_effect = null;
+            }, stunnedTime);
         }
     }
 }

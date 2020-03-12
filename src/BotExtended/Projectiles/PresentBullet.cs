@@ -68,7 +68,7 @@ namespace BotExtended.Projectiles
             "WpnMineThrown",
         };
 
-        public override IObject OnProjectileCreated(IProjectile projectile)
+        public override IObject OnCustomProjectileCreated(IProjectile projectile)
         {
             switch (projectile.ProjectileItem)
             {
@@ -96,7 +96,7 @@ namespace BotExtended.Projectiles
             return customBullet;
         }
 
-        public override void OnProjectileHit(IObject projectile)
+        public override void OnCustomProjectileHit(IObject projectile)
         {
             var position = projectile.GetWorldPosition();
 

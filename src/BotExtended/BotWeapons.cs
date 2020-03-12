@@ -575,6 +575,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.SHOCK_BATON,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Stun,
                         UseLazer = true,
                     });
                     break;

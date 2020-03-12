@@ -4,6 +4,6 @@
     {
         None,
         Present,
-        Electric,
+        Stun,
     }
 }

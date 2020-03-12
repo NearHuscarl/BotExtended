@@ -188,7 +188,7 @@ namespace BotExtended.Bots
             // }
 
             // Don't build turret when enemies are nearby
-            foreach (var bot in BotManager.GetBots<Bot>())
+            foreach (var bot in BotManager.GetBots())
             {
                 if (!ScriptHelper.SameTeam(player, bot.Player))
                 {

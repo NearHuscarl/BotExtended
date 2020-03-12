@@ -1,5 +1,6 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
+using System;
 using System.Collections.Generic;
 
 namespace BotExtended.Projectiles
@@ -8,9 +9,15 @@ namespace BotExtended.Projectiles
     {
         private class ProjectileInfo
         {
+            public IProjectile Projectile;
+            public RangedWeaponPowerup Powerup;
+        }
+        private class CustomProjectileInfo
+        {
             public IObject Projectile;
             public RangedWeaponPowerup Powerup;
         }
+
         public class WeaponInfo
         {
             public IObjectWeaponItem Weapon = null;
@@ -19,18 +26,21 @@ namespace BotExtended.Projectiles
             public MeleeWeaponPowerup MeleePowerup = MeleeWeaponPowerup.None;
         }
 
-        private static Dictionary<int, ProjectileInfo> m_extendedProjs = new Dictionary<int, ProjectileInfo>();
+        private static Dictionary<int, CustomProjectileInfo> m_customProjectiles = new Dictionary<int, CustomProjectileInfo>();
+        private static Dictionary<int, ProjectileInfo> m_projectiles = new Dictionary<int, ProjectileInfo>();
         private static Dictionary<int, WeaponInfo> m_weapons = new Dictionary<int, WeaponInfo>();
         private static Dictionary<int, WeaponPowerupInfo> m_owners = new Dictionary<int, WeaponPowerupInfo>();
         private static readonly Dictionary<RangedWeaponPowerup, ProjectileHooks> m_projHooks =
             new Dictionary<RangedWeaponPowerup, ProjectileHooks>()
             {
-                { RangedWeaponPowerup.Present, new PresentBullet() }
+                { RangedWeaponPowerup.Present, new PresentBullet() },
+                { RangedWeaponPowerup.Stun, new StunBullet() }
             };
 
         public static void Initialize()
         {
             Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
+            Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
@@ -158,13 +168,39 @@ namespace BotExtended.Projectiles
 
                 if (powerup != RangedWeaponPowerup.None)
                 {
-                    var proj = m_projHooks[powerup].OnProjectileCreated(projectile);
-                    m_extendedProjs.Add(proj.UniqueID, new ProjectileInfo()
+                    var customProjectile = m_projHooks[powerup].OnCustomProjectileCreated(projectile);
+                    var normalProjectile = m_projHooks[powerup].OnProjectileCreated(projectile);
+
+                    if (customProjectile != null)
                     {
-                        Projectile = proj,
-                        Powerup = powerup,
-                    });
+                        m_customProjectiles.Add(customProjectile.UniqueID, new CustomProjectileInfo()
+                        {
+                            Projectile = customProjectile,
+                            Powerup = powerup,
+                        });
+                    }
+                    if (normalProjectile != null)
+                    {
+                        m_projectiles.Add(normalProjectile.InstanceID, new ProjectileInfo()
+                        {
+                            Projectile = normalProjectile,
+                            Powerup = powerup,
+                        });
+                    }
                 }
+            }
+        }
+
+        private static void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
+        {
+            if (m_projectiles.ContainsKey(projectile.InstanceID))
+            {
+                var projInfo = m_projectiles[projectile.InstanceID];
+
+                m_projHooks[projInfo.Powerup].OnProjectileHit(projInfo.Projectile, args);
+
+                if (args.RemoveFlag)
+                    m_projectiles.Remove(projectile.InstanceID);
             }
         }
 
@@ -172,12 +208,12 @@ namespace BotExtended.Projectiles
         {
             foreach (var obj in objs)
             {
-                if (m_extendedProjs.ContainsKey(obj.UniqueID))
+                if (m_customProjectiles.ContainsKey(obj.UniqueID))
                 {
-                    var projInfo = m_extendedProjs[obj.UniqueID];
+                    var projInfo = m_customProjectiles[obj.UniqueID];
 
-                    m_projHooks[projInfo.Powerup].OnProjectileHit(projInfo.Projectile);
-                    m_extendedProjs.Remove(obj.UniqueID);
+                    m_projHooks[projInfo.Powerup].OnCustomProjectileHit(projInfo.Projectile);
+                    m_customProjectiles.Remove(obj.UniqueID);
                 }
             }
         }

@@ -514,5 +514,7 @@ namespace BotExtended
                 if (b != null) yield return b;
             }
         }
+
+        public static IEnumerable<Bot> GetBots() { return GetBots<Bot>(); }
     }
 }
