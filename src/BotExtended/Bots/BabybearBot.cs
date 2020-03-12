@@ -11,6 +11,7 @@ namespace BotExtended.Bots
         private IPlayer m_offender;
         public static int EnrageTime = 30; // seconds
         public int m_enrageCount = 0;
+        private static Queue<string> Names = new Queue<string>(new[] { "Timmy", "Jimmy" });
 
         public BabybearBot(BotArgs args) : base(args) { }
 
@@ -18,7 +19,6 @@ namespace BotExtended.Bots
         {
             base.OnSpawn(others);
 
-            var names = new Queue<string>(new[] { "Timmy", "Jimmy" });
             UpdateInterval = 0;
 
             foreach (var bot in others)
@@ -31,7 +31,7 @@ namespace BotExtended.Bots
             }
             if (m_mommy.Player == null) return;
 
-            Player.SetBotName(names.Dequeue());
+            Player.SetBotName(Names.Dequeue());
 
             var behavior = Player.GetBotBehaviorSet();
             behavior.RangedWeaponUsage = false;

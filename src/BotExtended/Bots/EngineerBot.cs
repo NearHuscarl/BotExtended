@@ -74,8 +74,9 @@ namespace BotExtended.Bots
         {
             var profile = Player.GetProfile();
             var originalColor = profile.Head.Color1;
+            var flashCount = 20;
 
-            for (uint i = 0; i < 20; i++)
+            for (uint i = 0; i < flashCount; i++)
             {
                 var ii = i;
 
@@ -88,7 +89,7 @@ namespace BotExtended.Bots
                     else
                         color = "ClothingLightYellow";
 
-                    if (ii == 9)
+                    if (ii == flashCount-1)
                         color = originalColor;
 
                     profile.Head.Color1 = color;
