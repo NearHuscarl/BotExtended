@@ -30,11 +30,6 @@ namespace BotExtended.Bots
 
             if (others.Count() >= 1) // has cults
                 Player.SetBotName("Mommy Bear");
-
-            var behavior = Player.GetBotBehaviorSet();
-            behavior.GuardRange = 1f;
-            behavior.ChaseRange = 1f;
-            Player.SetBotBehaviorSet(behavior);
         }
 
         private float m_startEnrageTime = 0f;
@@ -44,36 +39,45 @@ namespace BotExtended.Bots
 
             if (IsEnraged)
             {
-                if (!ChaseOffender())
-                {
-                    m_offender = FindClosestTarget();
-                }
+                ChaseOffender();
 
-                if (ScriptHelper.IsElapsed(m_startEnrageTime, m_enrageTime))
+                m_startEnrageTime += elapsed;
+                if (m_startEnrageTime >= m_enrageTime)
                 {
                     StopEnraging();
+                    m_startEnrageTime = 0f;
                 }
             }
         }
 
-        private bool ChaseOffender()
+        private float oldDistance = 0f;
+        private void ChaseOffender()
         {
-            if (m_offender == null || m_offender.IsDead) return false;
+            if (m_offender == null || m_offender.IsDead) return;
 
             // This is a workaround to make a bot target specific IPlayer
-            // Need those 2 lines for it to work
+            // The thing is if the bot is guarding another target, that target will not be enemy even if they're from different teams
+            // So the workaround is to set target to null when the target is close
+            // Need these 2 lines for it to work
             // behavior.GuardRange = 1f;
             // behavior.ChaseRange = 1f;
-            if (Vector2.Distance(Position, m_offender.GetWorldPosition()) < 75)
+            Game.DrawCircle(m_offender.GetWorldPosition(), 75);
+
+            var distanceToTarget = Vector2.Distance(Position, m_offender.GetWorldPosition());
+            if (distanceToTarget < 35 && oldDistance >= 35)
             {
                 Player.SetGuardTarget(null);
+                oldDistance = distanceToTarget;
             }
-            else
+            if (distanceToTarget >= 35 && oldDistance < 35)
             {
+                var behavior = Player.GetBotBehaviorSet();
+                behavior.GuardRange = 1f;
+                behavior.ChaseRange = 1f;
+                Player.SetBotBehaviorSet(behavior);
                 Player.SetGuardTarget(m_offender);
+                oldDistance = distanceToTarget;
             }
-
-            return true;
         }
 
         private PlayerModifiers m_normalModifiers;
@@ -83,7 +87,7 @@ namespace BotExtended.Bots
         public void Enrage(IPlayer offender, int enrageTime)
         {
             if (Player.IsRemoved || Player == null) return;
-            bool hasAlreadyEnraged = IsEnraged;
+            var hasAlreadyEnraged = IsEnraged;
 
             if (hasAlreadyEnraged)
                 Game.CreateDialogue("GRRRRRRRROOAAR!", ScriptHelper.Red, Player);
@@ -92,10 +96,11 @@ namespace BotExtended.Bots
             Player.SetGuardTarget(offender);
 
             Game.CreateDialogue(RandomHelper.GetItem(PlayerEnrageReactions), offender);
-            
+
             if (!hasAlreadyEnraged)
                 m_normalModifiers = Player.GetModifiers();
             var enrageModifiers = Player.GetModifiers();
+            enrageModifiers.MeleeStunImmunity = Constants.TOGGLE_ON;
             enrageModifiers.RunSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
             enrageModifiers.SprintSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
             enrageModifiers.MeleeForceModifier = MeleeForce.ExtremelyStrong;
@@ -110,7 +115,6 @@ namespace BotExtended.Bots
 
             IsEnraged = true;
             m_enrageTime = enrageTime;
-            m_startEnrageTime = Game.TotalElapsedGameTime;
             m_offender = offender;
         }
 

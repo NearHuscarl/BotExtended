@@ -403,8 +403,10 @@ namespace BotExtended
         private static BotBehaviorSet Rage(BotBehaviorSet botBehaviorSet)
         {
             botBehaviorSet = VeryOffensive(botBehaviorSet);
-            botBehaviorSet.MeleeWaitTimeLimitMin = 400f;
-            botBehaviorSet.MeleeWaitTimeLimitMax = 600f;
+            botBehaviorSet.MeleeWaitTimeLimitMin = 200f;
+            botBehaviorSet.MeleeWaitTimeLimitMax = 400f;
+            botBehaviorSet.TeamLineUp = false;
+            botBehaviorSet.RangedWeaponLOSIgnoreTeammates = true;
 
             botBehaviorSet.OffensiveEnrageLevel = 0.8f;
             botBehaviorSet.NavigationRandomPausesLevel = 0.1f;
