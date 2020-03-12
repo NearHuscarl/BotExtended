@@ -67,9 +67,9 @@ namespace BotExtended.Factions
             {
                 var player = PlayerByTeam[team][i];
                 if (isBoss)
-                    return BotManager.SpawnBot(botType, BotFaction, player, team: team, triggerOnSpawn: false);
-                else
                     return BotManager.SpawnBot(botType, BotFaction, player, true, true, team, true, triggerOnSpawn: false);
+                else
+                    return BotManager.SpawnBot(botType, BotFaction, player, team: team, triggerOnSpawn: false);
             });
         }
         public IEnumerable<Bot> Spawn(int factionCount, PlayerTeam team)
@@ -77,9 +77,9 @@ namespace BotExtended.Factions
             return Spawn(factionCount, team, (_, botType, isBoss) =>
             {
                 if (isBoss)
-                    return BotManager.SpawnBot(botType, BotFaction, team: team, triggerOnSpawn: false);
-                else
                     return BotManager.SpawnBot(botType, BotFaction, null, true, true, team, true, triggerOnSpawn: false);
+                else
+                    return BotManager.SpawnBot(botType, BotFaction, team: team, triggerOnSpawn: false);
             });
         }
 
