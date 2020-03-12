@@ -83,23 +83,6 @@ namespace BotExtended
 
             var botSpawnCount = Math.Min(settings.BotCount, m_playerSpawners.Count);
 
-            var activeUsers = Game.GetActiveUsers()
-                .Where((u) => !u.IsBot && u.IsUser)
-                .ToDictionary(u => u.AccountID, u => u);
-
-            foreach (var ps in settings.PlayerSettings)
-            {
-                var pieces = ps.Split('.');
-                var accountID = pieces.First();
-
-                if (activeUsers.ContainsKey(accountID))
-                {
-                    var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
-                    var userID = activeUsers[accountID].UserIdentifier;
-                    BotHelper.SetPlayer(Game.GetActiveUser(userID).GetPlayer(), botType);
-                }
-            }
-
             foreach (var item in CurrentBotFaction)
             {
                 var team = item.Key;
@@ -115,6 +98,23 @@ namespace BotExtended
                 else
                 {
                     SpawnRandomFaction(faction, 0, team);
+                }
+            }
+
+            var activeUsers = Game.GetActiveUsers()
+                .Where((u) => !u.IsBot && u.IsUser)
+                .ToDictionary(u => u.AccountID, u => u);
+
+            foreach (var ps in settings.PlayerSettings)
+            {
+                var pieces = ps.Split('.');
+                var accountID = pieces.First();
+
+                if (activeUsers.ContainsKey(accountID))
+                {
+                    var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
+                    var userID = activeUsers[accountID].UserIdentifier;
+                    BotHelper.SetPlayer(Game.GetActiveUser(userID).GetPlayer(), botType);
                 }
             }
         }
