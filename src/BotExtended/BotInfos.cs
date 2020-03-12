@@ -519,7 +519,9 @@ namespace BotExtended
                 case BotType.MetroCop2:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Streetsweeper | SearchItems.Powerups | SearchItems.Health;
+                    // TODO: add search range to nearby for handgun once gurt fixes the search range bug
+                    // the gun this bot is equipped is inferior so it will prefer other ones
+                    botInfo.SearchItems = SearchItems.Streetsweeper | SearchItems.Powerups | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.AboveNormal,

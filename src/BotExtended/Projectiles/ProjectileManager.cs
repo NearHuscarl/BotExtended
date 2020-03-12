@@ -2,6 +2,7 @@
 using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
+using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Projectiles
 {
@@ -24,11 +25,22 @@ namespace BotExtended.Projectiles
             public float TotalAmmo = -1;
             public RangedWeaponPowerup RangePowerup = RangedWeaponPowerup.None;
             public MeleeWeaponPowerup MeleePowerup = MeleeWeaponPowerup.None;
+            public bool HasPowerup
+            {
+                get { return RangePowerup != RangedWeaponPowerup.None || MeleePowerup != MeleeWeaponPowerup.None; }
+            }
+        }
+
+        private class Weapon
+        {
+            public Weapon(WeaponInfo info) { WeaponInfo = info; }
+            public WeaponInfo WeaponInfo;
+            public float EffectTime = 0f;
         }
 
         private static Dictionary<int, CustomProjectileInfo> m_customProjectiles = new Dictionary<int, CustomProjectileInfo>();
         private static Dictionary<int, ProjectileInfo> m_projectiles = new Dictionary<int, ProjectileInfo>();
-        private static Dictionary<int, WeaponInfo> m_weapons = new Dictionary<int, WeaponInfo>();
+        private static Dictionary<int, Weapon> m_weapons = new Dictionary<int, Weapon>();
         private static Dictionary<int, WeaponPowerupInfo> m_owners = new Dictionary<int, WeaponPowerupInfo>();
         private static readonly Dictionary<RangedWeaponPowerup, ProjectileHooks> m_projHooks =
             new Dictionary<RangedWeaponPowerup, ProjectileHooks>()
@@ -39,12 +51,57 @@ namespace BotExtended.Projectiles
 
         public static void Initialize()
         {
+            Events.UpdateCallback.Start(OnUpdate);
             Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
             Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
-        private static WeaponPowerupInfo GetWeaponPowerupInfo(int playerUniqueID)
+        private static void OnUpdate(float elapsed)
+        {
+            var removedKeys = new List<int>();
+
+            foreach (var item in m_weapons)
+            {
+                var weapon = item.Value;
+                Game.DrawArea(weapon.WeaponInfo.Weapon.GetAABB());
+                Game.DrawCircle(weapon.WeaponInfo.Weapon.GetWorldPosition(), 1, Color.Red);
+
+                var weaponObject = weapon.WeaponInfo.Weapon;
+
+                if (weaponObject.IsRemoved)
+                {
+                    removedKeys.Add(item.Key);
+                    continue;
+                }
+                if (weapon.WeaponInfo.HasPowerup)
+                {
+                    PlayMoreShinyEffect(weapon, elapsed);
+                }
+            }
+
+            foreach (var key in removedKeys)
+                m_weapons.Remove(key);
+        }
+
+        private static void PlayMoreShinyEffect(Weapon weapon, float elapsed)
+        {
+            var weaponObject = weapon.WeaponInfo.Weapon;
+            var hitBox = weaponObject.GetAABB();
+            weapon.EffectTime += elapsed;
+
+            if (weapon.EffectTime >= 400)
+            {
+                Game.PlayEffect(EffectName.ItemGleam, new Vector2()
+                {
+                    X = RandomHelper.Between(hitBox.Left, hitBox.Right),
+                    Y = RandomHelper.Between(hitBox.Bottom, hitBox.Top),
+                });
+                weapon.EffectTime = 0f;
+            }
+        }
+
+        private static WeaponPowerupInfo GetOrCreateWeaponPowerupInfo(int playerUniqueID)
         {
             WeaponPowerupInfo weaponInfo;
             if (!m_owners.TryGetValue(playerUniqueID, out weaponInfo))
@@ -58,7 +115,7 @@ namespace BotExtended.Projectiles
         internal static void SetPrimaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(player.UniqueID);
+            WeaponPowerupInfo weaponInfo = GetOrCreateWeaponPowerupInfo(player.UniqueID);
 
             weaponInfo.Primary = weaponItem;
             weaponInfo.PrimaryPowerup = powerup;
@@ -68,7 +125,7 @@ namespace BotExtended.Projectiles
         internal static void SetSecondaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetWeaponPowerupInfo(player.UniqueID);
+            WeaponPowerupInfo weaponInfo = GetOrCreateWeaponPowerupInfo(player.UniqueID);
 
             weaponInfo.Secondary = weaponItem;
             weaponInfo.SecondaryPowerup = powerup;
@@ -77,7 +134,7 @@ namespace BotExtended.Projectiles
 
         internal static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weapon, float totalAmmo)
         {
-            var oldWeaponInfo = GetWeaponPowerupInfo(previousOwner.UniqueID);
+            var oldWeaponInfo = GetOrCreateWeaponPowerupInfo(previousOwner.UniqueID);
             var newWeaponInfo = new WeaponInfo()
             {
                 Weapon = weapon,
@@ -108,7 +165,7 @@ namespace BotExtended.Projectiles
                     break;
             }
 
-            m_weapons.Add(weapon.UniqueID, newWeaponInfo);
+            m_weapons.Add(weapon.UniqueID, new Weapon(newWeaponInfo));
         }
 
         public static bool IsAlreadyTracked(IObject weapon)
@@ -120,25 +177,26 @@ namespace BotExtended.Projectiles
         {
             if (!m_weapons.ContainsKey(weapon.UniqueID)) return;
 
-            var weaponInfo = GetWeaponPowerupInfo(newOwner.UniqueID);
+            GetOrCreateWeaponPowerupInfo(newOwner.UniqueID);
+            var weaponInfo = m_weapons[weapon.UniqueID].WeaponInfo;
 
             switch (weapon.WeaponItemType)
             {
                 case WeaponItemType.Melee:
                     m_owners[newOwner.UniqueID].Melee = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].MeleePowerup = m_weapons[weapon.UniqueID].MeleePowerup;
+                    m_owners[newOwner.UniqueID].MeleePowerup = weaponInfo.MeleePowerup;
                     break;
                 case WeaponItemType.Rifle:
                     m_owners[newOwner.UniqueID].Primary = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].PrimaryPowerup = m_weapons[weapon.UniqueID].RangePowerup;
+                    m_owners[newOwner.UniqueID].PrimaryPowerup = weaponInfo.RangePowerup;
                     break;
                 case WeaponItemType.Handgun:
                     m_owners[newOwner.UniqueID].Secondary = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].SecondaryPowerup = m_weapons[weapon.UniqueID].RangePowerup;
+                    m_owners[newOwner.UniqueID].SecondaryPowerup = weaponInfo.RangePowerup;
                     break;
                 case WeaponItemType.Thrown:
                     m_owners[newOwner.UniqueID].Throwable = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].ThrowablePowerup = m_weapons[weapon.UniqueID].RangePowerup;
+                    m_owners[newOwner.UniqueID].ThrowablePowerup = weaponInfo.RangePowerup;
                     break;
             }
 
@@ -147,17 +205,17 @@ namespace BotExtended.Projectiles
 
         public static WeaponInfo GetWeaponInfo(int objectID)
         {
-            WeaponInfo weaponInfo;
-            if (!m_weapons.TryGetValue(objectID, out weaponInfo))
+            Weapon weapon;
+            if (!m_weapons.TryGetValue(objectID, out weapon))
                 return new WeaponInfo();
-            return weaponInfo;
+            return weapon.WeaponInfo;
         }
 
         private static void OnProjectileCreated(IProjectile[] projectiles)
         {
             foreach (var projectile in projectiles)
             {
-                var powerupInfo = GetWeaponPowerupInfo(projectile.InitialOwnerPlayerID);
+                var powerupInfo = GetOrCreateWeaponPowerupInfo(projectile.InitialOwnerPlayerID);
                 var powerup = RangedWeaponPowerup.None;
                 var weaponItem = ScriptHelper.GetWeaponItem(projectile.ProjectileItem);
 

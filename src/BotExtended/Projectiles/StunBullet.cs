@@ -101,8 +101,6 @@ namespace BotExtended.Projectiles
         {
             var position = args.HitPosition;
 
-            var obj = Game.GetObject(args.HitObjectID);
-
             if (args.IsPlayer)
             {
                 var player = Game.GetPlayer(args.HitObjectID);

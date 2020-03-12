@@ -213,11 +213,12 @@ namespace BotExtended.Bots
             {
                 if (CurrentWeapon(i) != m_prevWeapons[i])
                 {
-                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE && !eventHasFired)
+                    // NOTE: multiple weapons can be dropped in 1 frame if the player dies
+                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Pickup);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE && !eventHasFired)
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Drop);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE && !eventHasFired)
+                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Swap);
                     m_prevWeapons[i] = CurrentWeapon(i);
                 }
@@ -276,7 +277,7 @@ namespace BotExtended.Bots
             {
                 // Checking if the weapon is already tracked to filter is a necessary workaround because dropped weapon cannot
                 // be tracked reliably due to the lack of API. Without this check, if the wrong weapon is added to the weapon
-                // pool twice when the player dropped again, it will throw
+                // pool twice when the player dropped again, it will throw somewhere else
                 if (droppedWeaponObj == null &&
                     nearbyWeapon.WeaponItem == m_prevWeapons[weaponIndex] && !ProjectileManager.IsAlreadyTracked(nearbyWeapon))
                 {
@@ -386,7 +387,7 @@ namespace BotExtended.Bots
             return target;
         }
 
-        public void Disarm(Vector2 dropDirection, bool destroyWeapon)
+        public void Disarm(Vector2 dropDirection, bool destroyWeapon = false)
         {
             if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
                 || Player.CurrentWeaponDrawn == WeaponItemType.Rifle
