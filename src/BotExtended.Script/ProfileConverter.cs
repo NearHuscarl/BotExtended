@@ -25,21 +25,27 @@ namespace BotExtended.Script
 
             // Depend on the number of PlayerProfileInfo tiles you have on the Map Editor, you may have to wait for a bit
             // Once you can focus the SFD Map Debug window, right click the area, select all and copy the generated C# code
-            var convertArea = Game.GetCameraArea();
-            var playerProfiles = Game.GetObjectsByArea<IObjectPlayerProfileInfo>(convertArea);
+            //
+            // Convert all profiles found in the map editor
+            // Convert();
+            //
+            // Convert a specific profile by profile name or IObjectPlayerProfileInfo's custom ID
+            // Convert("Engineer", "Kinpin", "Police");
+            Convert("SurvivorCrazy");
+
+            //System.Diagnostics.Debugger.Break();
+        }
+
+        private void Convert(params string[] ids)
+        {
+            var idLookup = new HashSet<string>(ids);
+            var playerProfiles = Game.GetObjects<IObjectPlayerProfileInfo>();
 
             foreach (var playerProfile in playerProfiles)
             {
-                Game.WriteToConsole(Convert(playerProfile.GetProfile()));
+                if (idLookup.Contains(playerProfile.CustomID) || idLookup.Contains(playerProfile.GetProfile().Name))
+                    Game.WriteToConsole(Convert(playerProfile.GetProfile()));
             }
-
-            // Convert a specific PlayerProfileInfo:
-            // Edit your Object ID field
-            // Uncomment the below 2 lines of code and fill in the same ID as your PlayerProfileInfo
-            //var result = (IObjectPlayerProfileInfo)Game.GetSingleObjectByCustomId("Santa");
-            //Game.WriteToConsole(Convert(result.GetProfile()));
-
-            //System.Diagnostics.Debugger.Break();
         }
 
         private static string EnumToString<T>(T enumVal)
