@@ -104,7 +104,7 @@ namespace BotExtended.Projectiles
             if (args.IsPlayer)
             {
                 var player = Game.GetPlayer(args.HitObjectID);
-                var bot = BotManager.GetExtendedBot(player);
+                var bot = BotManager.GetBot(player);
 
                 if (bot != Bot.None)
                 {

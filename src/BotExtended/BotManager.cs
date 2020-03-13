@@ -101,9 +101,7 @@ namespace BotExtended
                 }
             }
 
-            var activeUsers = Game.GetActiveUsers()
-                .Where((u) => !u.IsBot && u.IsUser)
-                .ToDictionary(u => u.AccountID, u => u);
+            var activeUsers = ScriptHelper.GetActiveUsersByAccountID();
 
             foreach (var ps in settings.PlayerSettings)
             {
@@ -225,7 +223,7 @@ namespace BotExtended
 
             foreach (var player in Game.GetPlayers())
             {
-                var bot = GetExtendedBot(player);
+                var bot = GetBot(player);
 
                 if (bot != Bot.None)
                     bot.Update(elapsed);
@@ -245,7 +243,7 @@ namespace BotExtended
                 if (!arg.IsPlayer) continue;
 
                 var maybePlayer = arg.HitObject;
-                var bot = GetExtendedBot(maybePlayer);
+                var bot = GetBot(maybePlayer);
 
                 if (bot != Bot.None)
                 {
@@ -269,7 +267,7 @@ namespace BotExtended
                 attacker = Game.GetPlayer(projectile.OwnerPlayerID);
             }
 
-            var bot = GetExtendedBot(player);
+            var bot = GetBot(player);
             if (bot != Bot.None)
             {
                 bot.OnDamage(attacker, args);
@@ -288,7 +286,7 @@ namespace BotExtended
 
                 if (CanInfectFrom(attacker) && directContact)
                 {
-                    var extendedBot = GetExtendedBot(player);
+                    var extendedBot = GetBot(player);
 
                     if (!extendedBot.Info.ImmuneToInfect)
                     {
@@ -304,7 +302,7 @@ namespace BotExtended
         {
             if (player == null) return;
 
-            var bot = GetExtendedBot(player);
+            var bot = GetBot(player);
             if (bot == Bot.None) return;
 
             if (!args.Removed)
@@ -333,7 +331,7 @@ namespace BotExtended
             if (!args.IsPlayer) return;
 
             var player = Game.GetPlayer(args.HitObjectID);
-            var bot = GetExtendedBot(player);
+            var bot = GetBot(player);
             if (bot == Bot.None) return;
 
             // I use this instead of PlayerDamage callback because this one include additional
@@ -343,13 +341,13 @@ namespace BotExtended
 
         private static void OnPlayerKeyInput(IPlayer player, VirtualKeyInfo[] keyInfos)
         {
-            var bot = GetExtendedBot(player);
+            var bot = GetBot(player);
             if (bot == Bot.None) return;
 
             bot.OnPlayerKeyInput(keyInfos);
         }
 
-        public static Bot GetExtendedBot(IObject player)
+        public static Bot GetBot(IObject player)
         {
             Bot bot;
             if (m_bots.TryGetValue(player.CustomID, out bot)) return bot;
@@ -358,7 +356,7 @@ namespace BotExtended
 
         public static bool CanInfectFrom(IPlayer player)
         {
-            var extendedBot = GetExtendedBot(player);
+            var extendedBot = GetBot(player);
 
             return extendedBot != Bot.None
                     && extendedBot.Info.ZombieStatus != ZombieStatus.Human;

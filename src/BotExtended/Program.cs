@@ -3,6 +3,7 @@ using SFDGameScriptInterface;
 using System.Collections.Generic;
 using BotExtended.Library;
 using System.Linq;
+using BotExtended.Factions;
 
 namespace BotExtended
 {
@@ -43,7 +44,7 @@ namespace BotExtended
                     modifiers.MeleeStunImmunity = 1;
                     //modifiers.InfiniteAmmo = 1;
 
-                    //player.SetTeam(PlayerTeam.Team1);
+                    player.SetTeam(PlayerTeam.Team1);
                     player.SetHitEffect(PlayerHitEffect.Metal);
                     player.SetModifiers(modifiers);
                     player.GiveWeaponItem(WeaponItem.WHIP);
@@ -53,22 +54,29 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
                     //Game.SetAllowedCameraModes(CameraMode.Static);
-                    //Game.SetCameraArea(new Area(-170, -150, -210, 50));
-                    //// image size: 180 x 180 - top: 24 left: 37M 36F
+                    //Game.SetCameraArea(new Area(10, -130, -10, 130));
+                    //// image size: 140 x 140 - top: 20 left: 30M 30F
                     //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
-                    //Command.SetPlayer(new List<string>() { "player 2", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 3", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 4", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 5", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 6", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 7", "AssassinRange" });
-                    //Command.SetPlayer(new List<string>() { "player 8", "AssassinRange" });
+                    //Command.SetPlayer(new List<string>() { "player 2", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 3", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 4", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 5", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 6", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 7", "Agent" });
+                    //Command.SetPlayer(new List<string>() { "player 8", "Agent" });
 
-                    //foreach (var p in Game.GetPlayers())
+                    //ScriptHelper.Timeout(() =>
                     //{
-                    //    p.SetInputEnabled(false);
-                    //    p.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
-                    //}
+                    //    foreach (var p in Game.GetPlayers())
+                    //    {
+                    //        p.SetInputEnabled(false);
+                    //        if (RandomHelper.Boolean())
+                    //        {
+                    //            p.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
+                    //            ScriptHelper.Timeout(() => p.SetInputEnabled(true), 3000);
+                    //        }
+                    //    }
+                    //}, 3160);
                 }
             }
             catch (Exception e)

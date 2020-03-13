@@ -11,7 +11,7 @@
         Cowboy,
         Engineer,
         Gangster,
-        Marauder,
+        Survivor,
         MetroCop,
         Police,
         PoliceSWAT,

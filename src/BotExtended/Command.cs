@@ -210,23 +210,32 @@ namespace BotExtended
             var settings = Settings.Get();
 
             ScriptHelper.PrintMessage("-Player settings", ScriptHelper.WARNING_COLOR);
-            var activeUsers = Game.GetActiveUsers().ToDictionary(u => u.AccountID, u => u);
-            foreach (var ps in settings.PlayerSettings)
-            {
-                var pieces = ps.Split('.');
-                var accountID = pieces.First();
-                var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
 
-                // TODO: display prettier message. Show all for all factions, show except for all faction minus a small amount of others
-                // TODO: show other team faction too. Remember to update CurrentFaction
-                if (activeUsers.ContainsKey(accountID))
+            var activeUsers = ScriptHelper.GetActiveUsersByAccountID();
+
+            if (settings.PlayerSettings.Count() == 0)
+            {
+                ScriptHelper.PrintMessage("<Empty>");
+            }
+            else
+            {
+                foreach (var ps in settings.PlayerSettings)
                 {
-                    var userName = activeUsers[accountID].Name;
-                    ScriptHelper.PrintMessage(userName + ": " + botType);
-                }
-                else
-                {
-                    ScriptHelper.PrintMessage(accountID + ": " + botType);
+                    var pieces = ps.Split('.');
+                    var accountID = pieces.First();
+                    var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
+
+                    // TODO: display prettier message. Show all for all factions, show except for all faction minus a small amount of others
+                    // TODO: show other team faction too. Remember to update CurrentFaction
+                    if (activeUsers.ContainsKey(accountID))
+                    {
+                        var userName = activeUsers[accountID].Name;
+                        ScriptHelper.PrintMessage(userName + ": " + botType);
+                    }
+                    else
+                    {
+                        ScriptHelper.PrintMessage(accountID + ": " + botType);
+                    }
                 }
             }
 

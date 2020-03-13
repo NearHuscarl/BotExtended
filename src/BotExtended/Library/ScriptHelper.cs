@@ -361,5 +361,20 @@ namespace BotExtended.Library
         }
 
         public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
+
+        public static Dictionary<string, IUser> GetActiveUsersByAccountID()
+        {
+            var usersByAccountID = new Dictionary<string, IUser>();
+
+            // NOTE: there can be multiple users with the same AccountID in the Map Editor. wtf moment
+            // Anyway, get the first IUser match only
+            foreach (var user in Game.GetActiveUsers())
+            {
+                if (!usersByAccountID.ContainsKey(user.AccountID))
+                    usersByAccountID.Add(user.AccountID, user);
+            }
+
+            return usersByAccountID;
+        }
     }
 }

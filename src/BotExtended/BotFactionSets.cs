@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_MetroCop;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Zombie;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -153,19 +153,19 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Marauder
-                case BotFaction.Marauder:
+                #region Survivor
+                case BotFaction.Survivor:
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(new List<BotType>()
                         {
-                            BotType.MarauderBiker,
-                            BotType.MarauderCrazy,
-                            BotType.MarauderNaked,
-                            BotType.MarauderRifleman,
-                            BotType.MarauderRobber,
-                            BotType.MarauderTough,
+                            BotType.SurvivorBiker,
+                            BotType.SurvivorCrazy,
+                            BotType.SurvivorNaked,
+                            BotType.SurvivorRifleman,
+                            BotType.SurvivorRobber,
+                            BotType.SurvivorTough,
                         }, 1f),
                     });
                     break;

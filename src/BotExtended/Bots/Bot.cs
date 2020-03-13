@@ -326,7 +326,7 @@ namespace BotExtended.Bots
 
             if (player == null) return;
 
-            var bot = BotManager.GetExtendedBot(player) as CowboyBot;
+            var bot = BotManager.GetBot(player) as CowboyBot;
 
             if (bot != null)
             {

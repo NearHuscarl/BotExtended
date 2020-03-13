@@ -181,13 +181,13 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Marauder
-                case BotType.MarauderBiker:
-                case BotType.MarauderCrazy:
-                case BotType.MarauderNaked:
-                case BotType.MarauderRifleman:
-                case BotType.MarauderRobber:
-                case BotType.MarauderTough:
+                #region Survivor
+                case BotType.SurvivorBiker:
+                case BotType.SurvivorCrazy:
+                case BotType.SurvivorNaked:
+                case BotType.SurvivorRifleman:
+                case BotType.SurvivorRobber:
+                case BotType.SurvivorTough:
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 1f;
@@ -200,6 +200,28 @@ namespace BotExtended
                         SizeModifier = Size.BelowNormal,
                     };
                     botInfo.ZombieStatus = ZombieStatus.Infected;
+
+                    switch (botType)
+                    {
+                        case BotType.SurvivorCrazy:
+                            botInfo.Modifiers.CurrentHealth = Health.VeryWeak;
+                            botInfo.Modifiers.MeleeDamageDealtModifier = DamageDealt.High;
+                            botInfo.Modifiers.RunSpeedModifier = Speed.Fast;
+                            botInfo.Modifiers.SprintSpeedModifier = Speed.Fast;
+                            break;
+                        case BotType.SurvivorNaked:
+                            botInfo.Modifiers.RunSpeedModifier = Speed.AboveNormal;
+                            botInfo.Modifiers.SprintSpeedModifier = Speed.AboveNormal;
+                            break;
+                        case BotType.SurvivorTough:
+                            botInfo.Modifiers.MeleeDamageTakenModifier = DamageTaken.SlightlyResistant;
+                            botInfo.Modifiers.MeleeForceModifier = MeleeForce.Strong;
+                            botInfo.Modifiers.SizeModifier = Size.Big;
+                            botInfo.Modifiers.RunSpeedModifier = Speed.Slow;
+                            botInfo.Modifiers.SprintSpeedModifier = Speed.Slow;
+                            break;
+                    }
+
                     break;
                 }
                 #endregion
@@ -676,8 +698,8 @@ namespace BotExtended
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
                         MeleeDamageDealtModifier = DamageDealt.AboveNormal,
-                        RunSpeedModifier = Speed.BelowNormal,
-                        SprintSpeedModifier = Speed.BelowNormal,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
                         SizeModifier = Size.Big,
                     };
                     botInfo.IsBoss = true;

@@ -53,13 +53,13 @@
         Kingpin,
         Kriegbär,
 
-        // Infected marauders, turn into zombie when dying
-        MarauderBiker,
-        MarauderCrazy,
-        MarauderNaked,
-        MarauderRifleman,
-        MarauderRobber,
-        MarauderTough,
+        // zombie infected survivors, turn into zombie after dying
+        SurvivorBiker,
+        SurvivorCrazy,
+        SurvivorNaked,
+        SurvivorRifleman,
+        SurvivorRobber,
+        SurvivorTough,
 
         // Tier3: Meatgrinder Begins
         Meatgrinder,

@@ -442,8 +442,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderBiker
-                case BotType.MarauderBiker:
+                #region SurvivorBiker
+                case BotType.SurvivorBiker:
                 {
                     weapons.Add(new WeaponSet()
                     {
@@ -453,8 +453,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderCrazy
-                case BotType.MarauderCrazy:
+                #region SurvivorCrazy
+                case BotType.SurvivorCrazy:
                 {
                     weapons.Add(new WeaponSet()
                     {
@@ -464,8 +464,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderNaked
-                case BotType.MarauderNaked:
+                #region SurvivorNaked
+                case BotType.SurvivorNaked:
                 {
                     weapons.Add(new WeaponSet()
                     {
@@ -475,8 +475,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderRifleman
-                case BotType.MarauderRifleman:
+                #region SurvivorRifleman
+                case BotType.SurvivorRifleman:
                 {
                     weapons.Add(new WeaponSet()
                     {
@@ -486,8 +486,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderRobber
-                case BotType.MarauderRobber:
+                #region SurvivorRobber
+                case BotType.SurvivorRobber:
                 {
                     weapons.Add(new WeaponSet()
                     {
@@ -497,8 +497,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderTough
-                case BotType.MarauderTough:
+                #region SurvivorTough
+                case BotType.SurvivorTough:
                 {
                     weapons.Add(new WeaponSet()
                     {

@@ -34,13 +34,14 @@ namespace BotExtended
 
             var player = Game.CreatePlayer(Body.GetWorldPosition());
             var zombieType = BotHelper.GetZombieType(Type);
+            ScriptHelper.LogDebug(Type, "->", zombieType);
             var zombie = BotManager.SpawnBot(zombieType, Faction, player, equipWeapons: false, setProfile: false);
             var zombieBody = zombie.Player;
 
             var modifiers = Body.GetModifiers();
-            // Marauder has fake MaxHealth to have blood effect on the face
-            if (Enum.GetName(typeof(BotType), BotManager.GetExtendedBot(Body).Type).StartsWith("Marauder"))
-                modifiers.CurrentHealth = modifiers.MaxHealth = 75;
+            // Survivor has fake MaxHealth to have blood effect on the face
+            if (Enum.GetName(typeof(BotType), BotManager.GetBot(Body).Type).StartsWith("Survivor"))
+                modifiers.CurrentHealth = modifiers.MaxHealth = 50;
             else
                 modifiers.CurrentHealth = modifiers.MaxHealth * 0.75f;
             zombieBody.SetModifiers(modifiers);

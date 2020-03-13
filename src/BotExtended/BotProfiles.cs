@@ -1177,34 +1177,34 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderBiker
-                case BotType.MarauderBiker:
+                #region SurvivorBiker
+                case BotType.SurvivorBiker:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
+                        Name = "Survivor",
                         Accesory = null,
                         ChestOver = new IProfileClothingItem("JacketBlack", "ClothingDarkGray", "ClothingGray", ""),
-                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingLightGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("HawaiiShirt", "ClothingLightGray", "ClothingLightRed", ""),
                         Feet = new IProfileClothingItem("Boots", "ClothingDarkGray", "ClothingLightGray", ""),
                         Gender = Gender.Male,
                         Hands = null,
                         Head = new IProfileClothingItem("MotorcycleHelmet", "ClothingLightRed", "ClothingDarkGray", ""),
                         Legs = new IProfileClothingItem("Pants", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed", ""),
                         Waist = null,
                     });
                     break;
                 }
                 #endregion
 
-                #region MarauderCrazy
-                case BotType.MarauderCrazy:
+                #region SurvivorCrazy
+                case BotType.SurvivorCrazy:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
-                        Accesory = null,
+                        Name = "Survivor",
+                        Accesory = new IProfileClothingItem("SmallMoustache", "ClothingLightRed", "ClothingLightGray", ""),
                         ChestOver = null,
                         ChestUnder = null,
                         Feet = null,
@@ -1212,19 +1212,19 @@ namespace BotExtended
                         Hands = null,
                         Head = new IProfileClothingItem("Cap", "ClothingBlue", "ClothingLightGray", ""),
                         Legs = new IProfileClothingItem("TornPants", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed", ""),
                         Waist = new IProfileClothingItem("SatchelBelt", "ClothingBrown", "ClothingLightGray", ""),
                     });
                     break;
                 }
                 #endregion
 
-                #region MarauderNaked
-                case BotType.MarauderNaked:
+                #region SurvivorNaked
+                case BotType.SurvivorNaked:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
+                        Name = "Survivor",
                         Accesory = new IProfileClothingItem("DogTag", "ClothingLightGray", "ClothingLightGray", ""),
                         ChestOver = null,
                         ChestUnder = null,
@@ -1233,19 +1233,19 @@ namespace BotExtended
                         Hands = null,
                         Head = new IProfileClothingItem("Cap", "ClothingDarkGray", "ClothingLightGray", ""),
                         Legs = new IProfileClothingItem("Pants", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed", ""),
                         Waist = null,
                     });
                     break;
                 }
                 #endregion
 
-                #region MarauderRifleman
-                case BotType.MarauderRifleman:
+                #region SurvivorRifleman
+                case BotType.SurvivorRifleman:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
+                        Name = "Survivor",
                         Accesory = null,
                         ChestOver = null,
                         ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkBlue", "ClothingLightGray", ""),
@@ -1261,12 +1261,12 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MarauderRobber
-                case BotType.MarauderRobber:
+                #region SurvivorRobber
+                case BotType.SurvivorRobber:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
+                        Name = "Survivor",
                         Accesory = null,
                         ChestOver = new IProfileClothingItem("JacketBlack", "ClothingDarkGray", "ClothingGray", ""),
                         ChestUnder = new IProfileClothingItem("TShirt", "ClothingGray", "ClothingLightGray", ""),
@@ -1275,19 +1275,19 @@ namespace BotExtended
                         Hands = null,
                         Head = null,
                         Legs = new IProfileClothingItem("Pants", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed", ""),
                         Waist = null,
                     });
                     break;
                 }
                 #endregion
 
-                #region MarauderTough
-                case BotType.MarauderTough:
+                #region SurvivorTough
+                case BotType.SurvivorTough:
                 {
                     profiles.Add(new IProfile()
                     {
-                        Name = "Marauder",
+                        Name = "Survivor",
                         Accesory = null,
                         ChestOver = new IProfileClothingItem("KevlarVest", "ClothingDarkGray", "ClothingLightGray", ""),
                         ChestUnder = new IProfileClothingItem("LumberjackShirt2", "ClothingBrown", "ClothingDarkBrown", ""),
@@ -1296,7 +1296,7 @@ namespace BotExtended
                         Hands = null,
                         Head = new IProfileClothingItem("Helmet2", "ClothingGray", "ClothingLightGray", ""),
                         Legs = new IProfileClothingItem("Pants", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed", ""),
                         Waist = null,
                     });
                     break;

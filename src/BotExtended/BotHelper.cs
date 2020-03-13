@@ -76,6 +76,7 @@ namespace BotExtended
             return emptySpawners;
         }
 
+        // TODO: need better type detection
         public static BotType GetZombieType(BotType botType)
         {
             if (botType == BotType.None)
@@ -88,8 +89,6 @@ namespace BotExtended
             {
                 case BotAI.Hacker:
                 case BotAI.Expert:
-                case BotAI.Hard:
-                case BotAI.MeleeHard:
                 case BotAI.MeleeExpert:
                     return BotType.ZombieFighter;
 
@@ -102,10 +101,12 @@ namespace BotExtended
 
             var modifiers = botInfo.Modifiers;
 
-            if (modifiers.SprintSpeedModifier >= 1.1f)
+            if (modifiers.SprintSpeedModifier >= Speed.Fast)
                 return BotType.ZombieChild;
 
-            if (modifiers.SizeModifier == 1.25f)
+            if (modifiers.SizeModifier >= Size.Big && modifiers.SizeModifier < Size.Chonky)
+                return BotType.ZombieBruiser;
+            if (modifiers.SizeModifier == Size.Chonky)
                 return BotType.ZombieFat;
 
             return BotType.Zombie;
@@ -133,11 +134,13 @@ namespace BotExtended
             {
                 case "Normal":
                 case "Tattoos":
+                case "Warpaint":
                     profile.Skin = new IProfileClothingItem("Zombie", "Skin1", "ClothingLightGray", "");
                     break;
 
                 case "Normal_fem":
                 case "Tattoos_fem":
+                case "Warpaint_fem":
                     profile.Skin = new IProfileClothingItem("Zombie_fem", "Skin1", "ClothingLightGray", "");
                     break;
 
