@@ -19,7 +19,7 @@ namespace BotExtended
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
         // Player corpses waiting to be transformed into zombies
-        private static List<InfectedCorpse> m_infectedCorpses = new List<InfectedCorpse>();
+        private static Dictionary<int, InfectedCorpse> m_infectedCorpses = new Dictionary<int, InfectedCorpse>();
         private static List<PlayerSpawner> m_playerSpawners;
         private static Dictionary<string, Bot> m_bots = new Dictionary<string, Bot>();
 
@@ -211,24 +211,41 @@ namespace BotExtended
             var elapsed = Game.TotalElapsedGameTime - m_lastUpdateTime;
 
             // Turning corpses killed by zombie into another one after some time
-            foreach (var corpse in m_infectedCorpses.ToList())
+            foreach (var corpse in m_infectedCorpses.Values.ToList())
             {
                 corpse.Update();
 
                 if (corpse.IsZombie || !corpse.CanTurnIntoZombie)
                 {
-                    m_infectedCorpses.Remove(corpse);
+                    m_infectedCorpses.Remove(corpse.UniqueID);
                 }
             }
 
+            var removeList = new List<string>();
             foreach (var player in Game.GetPlayers())
             {
                 var bot = GetBot(player);
 
                 if (bot != Bot.None)
+                {
+                    if (bot.Player.IsRemoved)
+                    {
+                        removeList.Add(bot.Player.CustomID);
+                        continue;
+                    }
+                    if (bot.Player.IsDead && bot.IsInfectedByZombie
+                        && !m_infectedCorpses.ContainsKey(bot.Player.UniqueID))
+                    {
+                        AddInfectedCorpse(bot);
+                    }
                     bot.Update(elapsed);
+                }
                 else
                     Wrap(player); // Normal players that are not extended bots
+            }
+            foreach (var key in removeList)
+            {
+                m_bots.Remove(key);
             }
 
             m_lastUpdateTime = Game.TotalElapsedGameTime;
@@ -272,30 +289,6 @@ namespace BotExtended
             {
                 bot.OnDamage(attacker, args);
             }
-
-            UpdateInfectedStatus(player, attacker, args);
-        }
-
-        private static void UpdateInfectedStatus(IPlayer player, IPlayer attacker, PlayerDamageArgs args)
-        {
-            if (!CanInfectFrom(player) && !player.IsBurnedCorpse && attacker != null)
-            {
-                var directContact = args.DamageType == PlayerDamageEventType.Melee
-                    && attacker.CurrentWeaponDrawn == WeaponItemType.NONE
-                    && !attacker.IsKicking && !attacker.IsJumpKicking;
-
-                if (CanInfectFrom(attacker) && directContact)
-                {
-                    var extendedBot = GetBot(player);
-
-                    if (!extendedBot.Info.ImmuneToInfect)
-                    {
-                        Game.PlayEffect(EffectName.CustomFloatText, player.GetWorldPosition(), "infected");
-                        Game.ShowChatMessage(attacker.Name + " infected " + player.Name);
-                        extendedBot.Info.ZombieStatus = ZombieStatus.Infected;
-                    }
-                }
-            }
         }
 
         private static void OnPlayerDeath(IPlayer player, PlayerDeathArgs args)
@@ -319,10 +312,16 @@ namespace BotExtended
             }
             else
             {
-                if (bot.Info.ZombieStatus == ZombieStatus.Infected)
-                {
-                    m_infectedCorpses.Add(new InfectedCorpse(player, bot.Type, bot.Faction));
-                }
+                AddInfectedCorpse(bot);
+            }
+        }
+
+        private static void AddInfectedCorpse(Bot bot)
+        {
+            if (bot.Info.ZombieStatus == ZombieStatus.Infected)
+            {
+                var player = bot.Player;
+                m_infectedCorpses.Add(player.UniqueID, new InfectedCorpse(player, bot.Type, bot.Faction));
             }
         }
 
@@ -352,14 +351,6 @@ namespace BotExtended
             Bot bot;
             if (m_bots.TryGetValue(player.CustomID, out bot)) return bot;
             return Bot.None;
-        }
-
-        public static bool CanInfectFrom(IPlayer player)
-        {
-            var extendedBot = GetBot(player);
-
-            return extendedBot != Bot.None
-                    && extendedBot.Info.ZombieStatus != ZombieStatus.Human;
         }
 
         private static IPlayer SpawnPlayer(bool ignoreFullSpawner = false)
@@ -504,6 +495,7 @@ namespace BotExtended
             BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTION_RND_STATE"), rndState);
         }
 
+        public static IEnumerable<Bot> GetBots() { return GetBots<Bot>(); }
         public static IEnumerable<T> GetBots<T>() where T : Bot
         {
             foreach (var bot in m_bots.Values)
@@ -512,7 +504,5 @@ namespace BotExtended
                 if (b != null) yield return b;
             }
         }
-
-        public static IEnumerable<Bot> GetBots() { return GetBots<Bot>(); }
     }
 }

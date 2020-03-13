@@ -64,6 +64,7 @@ namespace BotExtended.Bots
 
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
+            base.OnDamage(attacker, args);
             m_offender = attacker;
         }
 

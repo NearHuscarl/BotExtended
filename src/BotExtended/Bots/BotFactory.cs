@@ -72,6 +72,15 @@ namespace BotExtended.Bots
                     bot = new MirrorManBot(args);
                     break;
 
+                case BotType.SurvivorBiker:
+                case BotType.SurvivorCrazy:
+                case BotType.SurvivorNaked:
+                case BotType.SurvivorRifleman:
+                case BotType.SurvivorRobber:
+                case BotType.SurvivorTough:
+                    bot = new SurvivorBot(args);
+                    break;
+
                 case BotType.Teddybear:
                     bot = new TeddybearBot(args);
                     break;

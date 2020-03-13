@@ -9,6 +9,7 @@ namespace BotExtended
     class InfectedCorpse
     {
         public static int TimeToTurnIntoZombie = 5000;
+        public int UniqueID { get; private set; }
         public BotType Type { get; set; }
         public BotFaction Faction { get; set; }
         public IPlayer Body { get; set; }
@@ -19,6 +20,7 @@ namespace BotExtended
 
         public InfectedCorpse(IPlayer player, BotType botType, BotFaction faction)
         {
+            UniqueID = player.UniqueID;
             Type = botType;
             Faction = faction;
             Body = player;

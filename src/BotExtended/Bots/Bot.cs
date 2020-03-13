@@ -318,7 +318,10 @@ namespace BotExtended.Bots
             SaySpawnLine();
         }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
-        public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args) { }
+        public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
+        {
+            UpdateInfectedStatus(attacker, args);
+        }
 
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
@@ -359,6 +362,29 @@ namespace BotExtended.Bots
                         m_lastThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
                     }
                     break;
+                }
+            }
+        }
+
+        public bool CanInfect { get { return Info.ZombieStatus != ZombieStatus.Human; } }
+        public bool IsInfectedByZombie { get { return Info.ZombieStatus == ZombieStatus.Infected; } }
+        private void UpdateInfectedStatus(IPlayer attacker, PlayerDamageArgs args)
+        {
+            if (!CanInfect && !Player.IsBurnedCorpse && attacker != null)
+            {
+                var directContact = args.DamageType == PlayerDamageEventType.Melee
+                    && attacker.CurrentWeaponDrawn == WeaponItemType.NONE
+                    && !attacker.IsKicking && !attacker.IsJumpKicking;
+                var attackerBot = BotManager.GetBot(attacker);
+
+                if (attackerBot.CanInfect && directContact)
+                {
+                    if (!Info.ImmuneToInfect)
+                    {
+                        Game.PlayEffect(EffectName.CustomFloatText, Position, "infected");
+                        Game.ShowChatMessage(attacker.Name + " infected " + Player.Name);
+                        Info.ZombieStatus = ZombieStatus.Infected;
+                    }
                 }
             }
         }

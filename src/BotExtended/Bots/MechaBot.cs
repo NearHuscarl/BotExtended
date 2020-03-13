@@ -385,6 +385,8 @@ namespace BotExtended.Bots
 
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
+            base.OnDamage(attacker, args);
+
             var mod = Player.GetModifiers();
             var currentHealth = mod.CurrentHealth;
             var maxHealth = mod.MaxHealth;

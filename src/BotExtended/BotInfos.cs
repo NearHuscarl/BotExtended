@@ -193,7 +193,7 @@ namespace BotExtended
                     botInfo.EquipWeaponChance = 1f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.Weak * 100, // Fake blood on the face to make it look like the infected
+                        MaxHealth = Health.Weak,
                         CurrentHealth = Health.Weak,
                         ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
                         MeleeDamageDealtModifier = DamageDealt.BelowNormal,
@@ -215,6 +215,7 @@ namespace BotExtended
                             break;
                         case BotType.SurvivorTough:
                             botInfo.Modifiers.MeleeDamageTakenModifier = DamageTaken.SlightlyResistant;
+                            botInfo.Modifiers.ProjectileDamageTakenModifier = DamageTaken.SlightlyResistant;
                             botInfo.Modifiers.MeleeForceModifier = MeleeForce.Strong;
                             botInfo.Modifiers.SizeModifier = Size.Big;
                             botInfo.Modifiers.RunSpeedModifier = Speed.Slow;
