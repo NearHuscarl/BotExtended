@@ -18,7 +18,6 @@ namespace BotExtended.Bots
             Player.SetModifiers(modifiers);
         }
 
-        private float m_oldHealth;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);

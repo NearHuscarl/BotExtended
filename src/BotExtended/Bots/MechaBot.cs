@@ -131,7 +131,7 @@ namespace BotExtended.Bots
             if (m_superchargeEnergy < EnergyToCharge)
                 m_superchargeEnergy += elapsed;
 
-            DrawDebugging();
+            Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), Position + Vector2.UnitY * 30);
         }
 
         private List<IPlayer> chargedPlayers = new List<IPlayer>();
@@ -142,13 +142,16 @@ namespace BotExtended.Bots
                 if (player == Player) continue;
 
                 var position = player.GetWorldPosition();
+                var minAngle = Player.FacingDirection > 0 ? 0 : 90;
+                var maxAngle = Player.FacingDirection > 0 ? 90 : 180;
 
                 if (ScriptHelper.IntersectCircle(player.GetAABB(), Position, ChargeHitRange)
                     && !chargedPlayers.Contains(player))
                 {
                     Game.PlayEffect(EffectName.Electric, position);
                     Game.PlaySound("ElectricSparks", position);
-                    player.SetLinearVelocity(RandomHelper.Direction(90, Player.FacingDirection == 1 ? 0 : 180) * 15f);
+                    var direction = RandomHelper.Direction(minAngle, maxAngle);
+                    player.SetLinearVelocity(direction * 15f);
                     MakePlayerStaggering(player);
                     chargedPlayers.Add(player);
                 }
@@ -191,19 +194,6 @@ namespace BotExtended.Bots
             return m_state == MechaState.Normal && m_superchargeEnergy >= EnergyToCharge && !Player.IsInMidAir;
         }
 
-        public Vector2[] GetLineOfSight()
-        {
-            var lineStart = Position + Vector2.UnitY * 12f;
-
-            return new Vector2[]
-            {
-                lineStart,
-                lineStart + Player.AimVector * (ChargeMinimumRange + ChargeRange),
-            };
-        }
-
-        public static readonly float ChargeMinimumRange = 30f;
-        public static readonly float ChargeRange = 60;
         public static readonly float ChargeHitRange = 25f;
 
         public override void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
@@ -290,22 +280,6 @@ namespace BotExtended.Bots
             m_superchargeEnergy = 0f;
             chargedPlayers.Clear();
             m_state = MechaState.Normal;
-        }
-
-        private void DrawDebugging()
-        {
-            if (!Game.IsEditorTest) return;
-            var los = GetLineOfSight();
-
-            Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), Position + Vector2.UnitY * 30);
-            Game.DrawCircle(Position, ChargeMinimumRange, Color.Red);
-            Game.DrawCircle(Position, ChargeHitRange, Color.Cyan);
-            if (m_superchargeEnergy >= EnergyToCharge)
-            {
-                Game.DrawLine(los[0], los[1], Color.Green);
-            }
-            else
-                Game.DrawLine(los[0], los[1], Color.Red);
         }
 
         private void UpdateCorpse(float elapsed)

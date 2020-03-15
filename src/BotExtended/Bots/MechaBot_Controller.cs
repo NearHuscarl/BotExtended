@@ -1,10 +1,14 @@
 ﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {
     public class MechaBot_Controller : IController<MechaBot>
     {
+        private static readonly float ChargeMinimumRange = 30f;
+        private static readonly float ChargeRange = 60;
+
         public MechaBot Actor { get; set; }
 
         public MechaBot_Controller() { }
@@ -18,6 +22,19 @@ namespace BotExtended.Bots
                     Actor.ExecuteSupercharge();
                 }
             }
+
+            DrawDebugging();
+        }
+
+        private Vector2[] GetLineOfSight()
+        {
+            var lineStart = Actor.Position + Vector2.UnitY * 12f;
+
+            return new Vector2[]
+            {
+                lineStart,
+                lineStart + Actor.Player.AimVector * (ChargeMinimumRange + ChargeRange),
+            };
         }
 
         private bool ShouldSuperCharge()
@@ -29,7 +46,7 @@ namespace BotExtended.Bots
 
         private bool HasTargetToCharge()
         {
-            var los = Actor.GetLineOfSight();
+            var los = GetLineOfSight();
             var lineStart = los[0];
             var lineEnd = los[1];
 
@@ -39,15 +56,30 @@ namespace BotExtended.Bots
                 var inMinimumRange = ScriptHelper.IntersectCircle(
                     player.GetAABB(),
                     Actor.Position,
-                    MechaBot.ChargeMinimumRange);
+                    ChargeMinimumRange);
 
-                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && player.GetTeam() != Actor.Player.GetTeam())
+                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && !ScriptHelper.SameTeam(player, Actor.Player))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private void DrawDebugging()
+        {
+            if (!Game.IsEditorTest) return;
+            var los = GetLineOfSight();
+
+            Game.DrawCircle(Actor.Position, ChargeMinimumRange, Color.Red);
+            Game.DrawCircle(Actor.Position, MechaBot.ChargeHitRange, Color.Cyan);
+            if (Actor.CanSuperCharge())
+            {
+                Game.DrawLine(los[0], los[1], Color.Green);
+            }
+            else
+                Game.DrawLine(los[0], los[1], Color.Red);
         }
     }
 }

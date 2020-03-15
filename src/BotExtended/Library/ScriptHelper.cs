@@ -268,10 +268,31 @@ namespace BotExtended.Library
             }
         }
 
-        public static bool IntersectCircle(Vector2 position, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
+        private static void NormalizeMinMaxAngle(ref float minAngle, ref float maxAngle, bool smallSector)
         {
-            var fullCircle = minAngle == 0 && maxAngle == MathHelper.TwoPI;
+            minAngle = MathExtension.NormalizeAngle(minAngle);
+            maxAngle = MathExtension.NormalizeAngle(maxAngle);
 
+            if (minAngle > maxAngle)
+            {
+                var swap = minAngle;
+                minAngle = maxAngle;
+                maxAngle = swap;
+            }
+
+            if (maxAngle - minAngle > MathHelper.PI && smallSector)
+            {
+                var oldMinAngle = minAngle;
+                minAngle = maxAngle;
+                maxAngle = oldMinAngle + MathHelper.TwoPI;
+            }
+        }
+
+        public static bool IntersectCircle(Vector2 position, Vector2 center, float radius,
+            float minAngle = 0, float maxAngle = 0, bool smallSector = true)
+        {
+            NormalizeMinMaxAngle(ref minAngle, ref maxAngle, smallSector);
+            var fullCircle = minAngle == 0 && maxAngle == 0;
             var distanceToCenter = Vector2.Distance(position, center);
 
             if (distanceToCenter <= radius)
@@ -280,7 +301,8 @@ namespace BotExtended.Library
                 {
                     var angle = MathExtension.NormalizeAngle(GetAngle(position - center));
 
-                    if (angle >= minAngle && angle <= maxAngle)
+                    if (angle >= minAngle && angle <= maxAngle
+                            || angle + MathHelper.TwoPI >= minAngle && angle + MathHelper.TwoPI <= maxAngle)
                         return true;
                 }
                 else
@@ -290,9 +312,15 @@ namespace BotExtended.Library
             return false;
         }
 
-        public static bool IntersectCircle(Area area, Vector2 center, float radius, float minAngle = 0, float maxAngle = MathHelper.TwoPI)
+        public static bool IntersectCircle(Area area, Vector2 center, float radius)
         {
-            var fullCircle = minAngle == 0 && maxAngle == MathHelper.TwoPI;
+            return IntersectCircle(area, center, radius, 0, 0, false);
+        }
+        public static bool IntersectCircle(Area area, Vector2 center, float radius,
+            float minAngle = 0, float maxAngle = 0, bool smallSector = true)
+        {
+            NormalizeMinMaxAngle(ref minAngle, ref maxAngle, smallSector);
+            var fullCircle = minAngle == 0 && maxAngle == 0;
             var lines = new List<Vector2[]>()
             {
                 new Vector2[] { area.BottomRight, area.BottomLeft },
@@ -312,7 +340,8 @@ namespace BotExtended.Library
                         var corner = line[0];
                         var angle = MathExtension.NormalizeAngle(GetAngle(corner - center));
 
-                        if (angle >= minAngle && angle <= maxAngle)
+                        if (angle >= minAngle && angle <= maxAngle
+                            || angle + MathHelper.TwoPI >= minAngle && angle + MathHelper.TwoPI <= maxAngle)
                             return true;
                     }
                     else

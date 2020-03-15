@@ -17,8 +17,7 @@ namespace BotExtended.Bots
             WeaponItem.HAMMER,
         };
 
-        public static readonly float CreateNewCooldownTime = 12000;
-        public static readonly float BuildTime = 5000; // TODO: remove
+        public static readonly float CreateNewCooldownTime = Game.IsEditorTest ? 3000 : 12000;
 
         private EngineerBot_Controller m_controller;
         private TurretPlaceholder m_placeholder;
@@ -239,7 +238,7 @@ namespace BotExtended.Bots
 
         private float m_hitCooldown = 0f; // Prevent player spamming attack combo to speedup building progress
         private int m_buildProgress = 0;
-        private static readonly int MaxProgress = 6;
+        private static readonly int MaxProgress = Game.IsEditorTest ? 2 : 6;
         private void UpdateBuildingProgress()
         {
             if (!MakeSurePlaceHolderExists())

@@ -221,18 +221,12 @@ namespace BotExtended
                 }
             }
 
-            var removeList = new List<string>();
             foreach (var player in Game.GetPlayers())
             {
                 var bot = GetBot(player);
 
                 if (bot != Bot.None)
                 {
-                    if (bot.Player.IsRemoved)
-                    {
-                        removeList.Add(bot.Player.CustomID);
-                        continue;
-                    }
                     if (bot.Player.IsDead && bot.IsInfectedByZombie
                         && !m_infectedCorpses.ContainsKey(bot.Player.UniqueID))
                     {
@@ -242,10 +236,6 @@ namespace BotExtended
                 }
                 else
                     Wrap(player); // Normal players that are not extended bots
-            }
-            foreach (var key in removeList)
-            {
-                m_bots.Remove(key);
             }
 
             m_lastUpdateTime = Game.TotalElapsedGameTime;
@@ -309,6 +299,7 @@ namespace BotExtended
             {
                 bot.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
                 bot.PlayerPickUpWeaponEvent -= OnPlayerPickUpWeapon;
+                m_bots.Remove(bot.Player.CustomID);
             }
             else
             {

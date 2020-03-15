@@ -21,10 +21,48 @@ namespace BotExtended.Library
         {
             return (float)(angleDegree * Math.PI) / 180;
         }
-        public static double NormalizeAngle(double radian)
+        public static float NormalizeAngle(float radian)
         {
             var result = radian % MathHelper.TwoPI;
             return result < 0 ? result + MathHelper.TwoPI : result;
+        }
+
+        public static float Min(float a1, float a2, float a3)
+        {
+            float res;
+            res = Math.Min(a1, a2);
+            res = Math.Min(res, a3);
+
+            return res;
+        }
+
+        public static float Min(float a1, float a2, float a3, float a4)
+        {
+            float res;
+            res = Math.Min(a1, a2);
+            res = Math.Min(res, a3);
+            res = Math.Min(res, a4);
+
+            return res;
+        }
+
+        public static float Max(float a1, float a2, float a3)
+        {
+            float res;
+            res = Math.Max(a1, a2);
+            res = Math.Max(res, a3);
+
+            return res;
+        }
+
+        public static float Max(float a1, float a2, float a3, float a4)
+        {
+            float res;
+            res = Math.Max(a1, a2);
+            res = Math.Max(res, a3);
+            res = Math.Max(res, a4);
+
+            return res;
         }
     }
 }

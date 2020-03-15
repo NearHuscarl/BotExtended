@@ -5,5 +5,7 @@
         None,
         Present,
         Stun,
+        Spinner,
+        Gravity,
     }
 }

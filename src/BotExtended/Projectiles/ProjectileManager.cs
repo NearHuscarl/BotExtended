@@ -41,47 +41,87 @@ namespace BotExtended.Projectiles
         private static Dictionary<int, CustomProjectileInfo> m_customProjectiles = new Dictionary<int, CustomProjectileInfo>();
         private static Dictionary<int, ProjectileInfo> m_projectiles = new Dictionary<int, ProjectileInfo>();
         private static Dictionary<int, Weapon> m_weapons = new Dictionary<int, Weapon>();
-        private static Dictionary<int, WeaponPowerupInfo> m_owners = new Dictionary<int, WeaponPowerupInfo>();
+        private static Dictionary<int, PlayerWeapon> m_owners = new Dictionary<int, PlayerWeapon>();
+
         private static readonly Dictionary<RangedWeaponPowerup, ProjectileHooks> m_projHooks =
             new Dictionary<RangedWeaponPowerup, ProjectileHooks>()
             {
                 { RangedWeaponPowerup.Present, new PresentBullet() },
-                { RangedWeaponPowerup.Stun, new StunBullet() }
+                { RangedWeaponPowerup.Stun, new StunBullet() },
+                { RangedWeaponPowerup.Gravity, new GravityGunHook() },
             };
 
         public static void Initialize()
         {
             Events.UpdateCallback.Start(OnUpdate);
+            Events.PlayerDeathCallback.Start(OnPlayerDeath);
             Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
             Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
+            Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
         }
 
         private static void OnUpdate(float elapsed)
         {
-            var removedKeys = new List<int>();
-
             foreach (var item in m_weapons)
             {
                 var weapon = item.Value;
-                Game.DrawArea(weapon.WeaponInfo.Weapon.GetAABB());
-                Game.DrawCircle(weapon.WeaponInfo.Weapon.GetWorldPosition(), 1, Color.Red);
-
-                var weaponObject = weapon.WeaponInfo.Weapon;
-
-                if (weaponObject.IsRemoved)
-                {
-                    removedKeys.Add(item.Key);
-                    continue;
-                }
                 if (weapon.WeaponInfo.HasPowerup)
                 {
                     PlayMoreShinyEffect(weapon, elapsed);
                 }
             }
 
-            foreach (var key in removedKeys)
-                m_weapons.Remove(key);
+            foreach (var o in m_owners)
+            {
+                var player = o.Value.Primary.Owner;
+                // Custom event drop weapon fires first and set the owner to null before
+                // the player dead event actually remove the player from m_owner
+                if (player == null) continue;
+
+                var playerWpn = o.Value;
+
+                if (player.CurrentWeaponDrawn == WeaponItemType.Rifle)
+                {
+                    playerWpn.Primary.Update(elapsed,
+                         player.CurrentPrimaryWeapon.WeaponItem,
+                         player.CurrentPrimaryWeapon.TotalAmmo);
+                }
+                if (player.CurrentWeaponDrawn == WeaponItemType.Handgun)
+                {
+                    playerWpn.Secondary.Update(elapsed,
+                         player.CurrentPrimaryWeapon.WeaponItem,
+                         player.CurrentPrimaryWeapon.TotalAmmo);
+                }
+            }
+        }
+
+        private static void OnPlayerDeath(IPlayer player, PlayerDeathArgs args)
+        {
+            if (args.Removed)
+            {
+                if (m_owners.ContainsKey(player.UniqueID))
+                {
+                    m_owners.Remove(player.UniqueID);
+                }
+            }
+        }
+
+        private static void OnPlayerKeyInput(IPlayer player, VirtualKeyInfo[] keyInfos)
+        {
+            PlayerWeapon playerWpn;
+
+            if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
+            {
+                if (player.CurrentWeaponDrawn == WeaponItemType.Rifle)
+                {
+                    playerWpn.Primary.OnPlayerKeyInput(keyInfos);
+                }
+                if (player.CurrentWeaponDrawn == WeaponItemType.Handgun)
+                {
+                    playerWpn.Secondary.OnPlayerKeyInput(keyInfos);
+                }
+            }
         }
 
         private static void PlayMoreShinyEffect(Weapon weapon, float elapsed)
@@ -101,40 +141,38 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private static WeaponPowerupInfo GetOrCreateWeaponPowerupInfo(int playerUniqueID)
+        private static PlayerWeapon GetOrCreatePlayerWeapon(int playerUniqueID)
         {
-            WeaponPowerupInfo weaponInfo;
-            if (!m_owners.TryGetValue(playerUniqueID, out weaponInfo))
+            PlayerWeapon playerWpn;
+            if (!m_owners.TryGetValue(playerUniqueID, out playerWpn))
             {
-                weaponInfo = new WeaponPowerupInfo();
-                m_owners.Add(playerUniqueID, weaponInfo);
+                playerWpn = PlayerWeapon.Empty;
+                m_owners.Add(playerUniqueID, playerWpn);
             }
-            return weaponInfo;
+            return playerWpn;
         }
 
         internal static void SetPrimaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetOrCreateWeaponPowerupInfo(player.UniqueID);
+            var playerWpn = GetOrCreatePlayerWeapon(player.UniqueID);
 
-            weaponInfo.Primary = weaponItem;
-            weaponInfo.PrimaryPowerup = powerup;
-            m_owners[player.UniqueID] = weaponInfo;
+            playerWpn.Primary = RangeWeaponFactory.Create(player, weaponItem, powerup);
+            m_owners[player.UniqueID] = playerWpn;
         }
 
         internal static void SetSecondaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (powerup == RangedWeaponPowerup.None) return;
-            WeaponPowerupInfo weaponInfo = GetOrCreateWeaponPowerupInfo(player.UniqueID);
+            var playerWpn = GetOrCreatePlayerWeapon(player.UniqueID);
 
-            weaponInfo.Secondary = weaponItem;
-            weaponInfo.SecondaryPowerup = powerup;
-            m_owners[player.UniqueID] = weaponInfo;
+            playerWpn.Secondary = RangeWeaponFactory.Create(player, weaponItem, powerup);
+            m_owners[player.UniqueID] = playerWpn;
         }
 
         internal static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weapon, float totalAmmo)
         {
-            var oldWeaponInfo = GetOrCreateWeaponPowerupInfo(previousOwner.UniqueID);
+            var oldPlayerWpn = GetOrCreatePlayerWeapon(previousOwner.UniqueID);
             var newWeaponInfo = new WeaponInfo()
             {
                 Weapon = weapon,
@@ -144,24 +182,20 @@ namespace BotExtended.Projectiles
             switch (weapon.WeaponItemType)
             {
                 case WeaponItemType.Melee:
-                    newWeaponInfo.MeleePowerup = oldWeaponInfo.MeleePowerup;
-                    m_owners[previousOwner.UniqueID].Melee = WeaponItem.NONE;
-                    m_owners[previousOwner.UniqueID].MeleePowerup = MeleeWeaponPowerup.None;
+                    newWeaponInfo.MeleePowerup = oldPlayerWpn.Melee.Powerup;
+                    m_owners[previousOwner.UniqueID].Melee.Remove();
                     break;
                 case WeaponItemType.Rifle:
-                    newWeaponInfo.RangePowerup = oldWeaponInfo.PrimaryPowerup;
-                    m_owners[previousOwner.UniqueID].Primary = WeaponItem.NONE;
-                    m_owners[previousOwner.UniqueID].PrimaryPowerup = RangedWeaponPowerup.None;
+                    newWeaponInfo.RangePowerup = oldPlayerWpn.Primary.Powerup;
+                    m_owners[previousOwner.UniqueID].Primary.Remove();
                     break;
                 case WeaponItemType.Handgun:
-                    newWeaponInfo.RangePowerup = oldWeaponInfo.SecondaryPowerup;
-                    m_owners[previousOwner.UniqueID].Secondary = WeaponItem.NONE;
-                    m_owners[previousOwner.UniqueID].SecondaryPowerup = RangedWeaponPowerup.None;
+                    newWeaponInfo.RangePowerup = oldPlayerWpn.Secondary.Powerup;
+                    m_owners[previousOwner.UniqueID].Secondary.Remove();
                     break;
                 case WeaponItemType.Thrown:
-                    newWeaponInfo.RangePowerup = oldWeaponInfo.ThrowablePowerup;
-                    m_owners[previousOwner.UniqueID].Throwable = WeaponItem.NONE;
-                    m_owners[previousOwner.UniqueID].ThrowablePowerup = RangedWeaponPowerup.None;
+                    newWeaponInfo.RangePowerup = oldPlayerWpn.Throwable.Powerup;
+                    m_owners[previousOwner.UniqueID].Throwable.Remove();
                     break;
             }
 
@@ -177,26 +211,26 @@ namespace BotExtended.Projectiles
         {
             if (!m_weapons.ContainsKey(weapon.UniqueID)) return;
 
-            GetOrCreateWeaponPowerupInfo(newOwner.UniqueID);
+            GetOrCreatePlayerWeapon(newOwner.UniqueID);
             var weaponInfo = m_weapons[weapon.UniqueID].WeaponInfo;
+            var createRangeWeapon = new Func<RangeWpn>(
+                () => RangeWeaponFactory.Create(newOwner, weapon.WeaponItem, weaponInfo.RangePowerup));
+            var aa = new Action<int>((int a) => { });
 
             switch (weapon.WeaponItemType)
             {
                 case WeaponItemType.Melee:
-                    m_owners[newOwner.UniqueID].Melee = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].MeleePowerup = weaponInfo.MeleePowerup;
+                    // TODO: create power melee weapon with factory if implement one
+                    m_owners[newOwner.UniqueID].Melee.Add(weapon.WeaponItem, weaponInfo.MeleePowerup);
                     break;
                 case WeaponItemType.Rifle:
-                    m_owners[newOwner.UniqueID].Primary = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].PrimaryPowerup = weaponInfo.RangePowerup;
+                    m_owners[newOwner.UniqueID].Primary = createRangeWeapon();
                     break;
                 case WeaponItemType.Handgun:
-                    m_owners[newOwner.UniqueID].Secondary = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].SecondaryPowerup = weaponInfo.RangePowerup;
+                    m_owners[newOwner.UniqueID].Secondary = createRangeWeapon();
                     break;
                 case WeaponItemType.Thrown:
-                    m_owners[newOwner.UniqueID].Throwable = weapon.WeaponItem;
-                    m_owners[newOwner.UniqueID].ThrowablePowerup = weaponInfo.RangePowerup;
+                    m_owners[newOwner.UniqueID].Throwable = createRangeWeapon();
                     break;
             }
 
@@ -215,14 +249,19 @@ namespace BotExtended.Projectiles
         {
             foreach (var projectile in projectiles)
             {
-                var powerupInfo = GetOrCreateWeaponPowerupInfo(projectile.InitialOwnerPlayerID);
+                var ownerID = projectile.InitialOwnerPlayerID;
+
+                // Projectile is not fired from IPlayer, custom weapon with custom powerup is not supported
+                if (ownerID == 0) continue;
+
+                var playerWpn = GetOrCreatePlayerWeapon(ownerID);
                 var powerup = RangedWeaponPowerup.None;
                 var weaponItem = ScriptHelper.GetWeaponItem(projectile.ProjectileItem);
 
-                if (weaponItem == powerupInfo.Primary)
-                    powerup = powerupInfo.PrimaryPowerup;
-                if (weaponItem == powerupInfo.Secondary)
-                    powerup = powerupInfo.SecondaryPowerup;
+                if (weaponItem == playerWpn.Primary.Name)
+                    powerup = playerWpn.Primary.Powerup;
+                if (weaponItem == playerWpn.Secondary.Name)
+                    powerup = playerWpn.Secondary.Powerup;
 
                 if (powerup != RangedWeaponPowerup.None)
                 {
@@ -272,6 +311,11 @@ namespace BotExtended.Projectiles
 
                     m_projHooks[projInfo.Powerup].OnCustomProjectileHit(projInfo.Projectile);
                     m_customProjectiles.Remove(obj.UniqueID);
+                }
+
+                if (m_weapons.ContainsKey(obj.UniqueID))
+                {
+                    m_weapons.Remove(obj.UniqueID);
                 }
             }
         }
