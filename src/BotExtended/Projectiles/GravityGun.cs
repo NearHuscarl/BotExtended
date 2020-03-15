@@ -11,7 +11,7 @@ namespace BotExtended.Projectiles
 {
     class GravityGun : RangeWpn
     {
-        public static readonly Vector2 FarAwayPosition = Game.GetCameraMaxArea().BottomLeft - Vector2.UnitX * 10;
+        private static readonly Vector2 FarAwayPosition = Game.GetCameraMaxArea().BottomLeft - Vector2.UnitX * 10;
 
         public GravityGun(IPlayer owner, WeaponItem name) : base(owner)
         {
@@ -61,14 +61,6 @@ namespace BotExtended.Projectiles
             Game.DrawLine(holdPosition, end);
 
             return new Vector2[] { holdPosition, end };
-
-            //var left = MathExtension.Min(holdPosition.X, end.X, end1.X, end2.X);
-            //var right = MathExtension.Max(holdPosition.X, end.X, end1.X, end2.X);
-            //var bottom = MathExtension.Min(holdPosition.Y, end.Y, end1.Y, end2.Y);
-            //var top = MathExtension.Max(holdPosition.Y, end.Y, end1.Y, end2.Y);
-            //var filterArea = new Area(top, left, bottom, right);
-
-            //return filterArea;
         }
 
         public override void Update(float elapsed, WeaponItem weapon, float currentAmmo)
@@ -108,7 +100,7 @@ namespace BotExtended.Projectiles
             else
             {
                 if (IsTargetedObjectStabilized)
-                    StopStabilizeTargetedObject();
+                    StopStabilizingTargetedObject();
 
                 m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
                 m_magnetJoint.SetWorldPosition(FarAwayPosition);
@@ -154,11 +146,11 @@ namespace BotExtended.Projectiles
 
             if (!targetedObjectFound)
             {
-                StopStabilizeTargetedObject();
+                StopStabilizingTargetedObject();
             }
         }
 
-        private void StopStabilizeTargetedObject()
+        private void StopStabilizingTargetedObject()
         {
             if (m_distanceJointObject != null)
             {
@@ -222,26 +214,6 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private void Release()
-        {
-            if (m_targetedObject != null)
-            {
-                m_targetedObject.SetLinearVelocity(Owner.AimVector * .7f / m_targetedObject.GetMass());
-
-                if (m_targetedObject.GetCollisionFilter().CategoryBits == 0x10) // dynamics_g2
-                {
-                    m_targetedObject.SetLinearVelocity(Owner.AimVector * 1f / m_targetedObject.GetMass());
-                    m_targetedObject.TrackAsMissile(true);
-                }
-                else
-                {
-                    m_targetedObject.SetLinearVelocity(Owner.AimVector * .7f / m_targetedObject.GetMass());
-                }
-
-                StopStabilizeTargetedObject();
-            }
-        }
-
         private IEnumerable<RayCastResult> RayCastTargetObject(bool isSearching)
         {
             var scanLine = GetScanLine();
@@ -293,6 +265,24 @@ namespace BotExtended.Projectiles
                     m_pullJoint.Remove();
                     m_pullJoint = CreatePullJointObject();
                 }
+            }
+        }
+
+        private void Release()
+        {
+            if (m_targetedObject != null)
+            {
+                if (m_targetedObject.GetCollisionFilter().CategoryBits == 0x10) // dynamics_g2
+                {
+                    m_targetedObject.SetLinearVelocity(Owner.AimVector * 1f / m_targetedObject.GetMass());
+                    m_targetedObject.TrackAsMissile(true);
+                }
+                else
+                {
+                    m_targetedObject.SetLinearVelocity(Owner.AimVector * .7f / m_targetedObject.GetMass());
+                }
+
+                StopStabilizingTargetedObject();
             }
         }
     }

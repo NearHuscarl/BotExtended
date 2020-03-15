@@ -550,17 +550,20 @@ namespace BotExtended.Weapons
         private List<IPlayer> GetPlayersInRange()
         {
             var scanRange = Range + 22;
-            // TODO: remove hardcode numbers
-            var area = new Area(
-                RotationCenter - Vector2.UnitY * 261,
-                RotationCenter + Vector2.UnitX * scanRange * Direction + Vector2.UnitY * (Range - 130));
-            area.Normalize();
+            var topPosition = RotationCenter + ScriptHelper.GetDirection(MaxAngle) * scanRange;
+            var botPosition = RotationCenter + ScriptHelper.GetDirection(MinAngle) * scanRange;
+
+            var left = Math.Min(RotationCenter.X, RotationCenter.X + scanRange * Direction);
+            var right = Math.Max(RotationCenter.X, RotationCenter.X + scanRange * Direction);
+            var bottom = Math.Min(topPosition.Y, botPosition.Y);
+            var top = Math.Max(topPosition.Y, botPosition.Y);
+            var filterArea = new Area(top, left, bottom, right);
 
             Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MinAngle) * scanRange, Color.Cyan);
             Game.DrawLine(RotationCenter, RotationCenter + ScriptHelper.GetDirection(MaxAngle) * scanRange, Color.Cyan);
-            //Game.DrawArea(area);
+            Game.DrawArea(filterArea);
 
-            var players = Game.GetObjectsByArea<IPlayer>(area)
+            var players = Game.GetObjectsByArea<IPlayer>(filterArea)
                 .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), RotationCenter, scanRange, MinAngle, MaxAngle)
                 && !p.IsDead)
                 .ToList();
