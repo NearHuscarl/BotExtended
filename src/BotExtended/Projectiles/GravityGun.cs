@@ -18,7 +18,7 @@ namespace BotExtended.Projectiles
             Powerup = RangedWeaponPowerup.Gravity;
             Name = name;
 
-            m_invisibleMagnet = Game.CreateObject("BgCarnivalLight03A");
+            m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall");
             m_invisibleMagnet.SetBodyType(BodyType.Static);
             var farBg = Game.CreateObject("FarBgBlimp00");
             m_invisibleMagnet.SetCollisionFilter(farBg.GetCollisionFilter());
@@ -63,9 +63,9 @@ namespace BotExtended.Projectiles
             return new Vector2[] { holdPosition, end };
         }
 
-        public override void Update(float elapsed, WeaponItem weapon, float currentAmmo)
+        public override void Update(float elapsed)
         {
-            base.Update(elapsed, weapon, currentAmmo);
+            base.Update(elapsed);
 
             if (Owner.IsManualAiming)
             {
@@ -168,7 +168,7 @@ namespace BotExtended.Projectiles
         {
             m_targetedObject.SetLinearVelocity(Vector2.Zero);
 
-            m_distanceJointObject = Game.CreateObject("BgCarnivalLight03A");
+            m_distanceJointObject = Game.CreateObject("InvisibleBlockSmall");
             m_distanceJointObject.SetBodyType(BodyType.Dynamic);
 
             m_distanceJoint = (IObjectDistanceJoint)Game.CreateObject("DistanceJoint");
@@ -209,9 +209,15 @@ namespace BotExtended.Projectiles
                 }
                 if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.ATTACK)
                 {
-                    Release();
                 }
             }
+        }
+
+        public override void OnProjectileCreated(IProjectile projectile)
+        {
+            // Remove projectile completely since gravity gun only use objects laying around the map as ammunation
+            projectile.FlagForRemoval();
+            Release();
         }
 
         private IEnumerable<RayCastResult> RayCastTargetObject(bool isSearching)

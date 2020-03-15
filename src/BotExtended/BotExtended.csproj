@@ -58,7 +58,6 @@
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
-    <Compile Include="Projectiles\GravityGunHook.cs" />
     <Compile Include="Projectiles\RangeWeaponFactory.cs" />
     <Compile Include="Projectiles\RangeWpn.cs" />
     <Compile Include="Projectiles\MeleeWeaponPowerup.cs" />
