@@ -44,19 +44,28 @@ namespace BotExtended.Projectiles
         private IObject m_targetedObject;
         public bool IsTargetedObjectStabilized { get; private set; }
 
-        private Vector2 GetHoldPosition()
+        private Vector2 GetHoldPosition(bool useOffset)
         {
+            var offset = 0f;
+
+            if (m_targetedObject != null && useOffset)
+            {
+                var hitbox = m_targetedObject.GetAABB();
+                var length = Math.Max(hitbox.Width, hitbox.Height);
+                offset = length / 2f;
+            }
+
             var aimAngle = ScriptHelper.GetAngle(Owner.AimVector);
             var neckPosition = Owner.GetWorldPosition() + Vector2.UnitY * 10 - Vector2.UnitX * Owner.FacingDirection * 2;
             var crosshairCenter = neckPosition + ScriptHelper.GetDirection(aimAngle + MathHelper.PIOver2 * Owner.FacingDirection)
                 * 2 /*3 -> more aligned with crosshair but not very aligned with the gun barrel*/;
 
-            return crosshairCenter + Owner.AimVector * 25;
+            return crosshairCenter + Owner.AimVector * (15 + offset);
         }
 
         private Vector2[] GetScanLine()
         {
-            var holdPosition = GetHoldPosition();
+            var holdPosition = GetHoldPosition(false);
             var end = holdPosition + Owner.AimVector * Range;
             Game.DrawLine(holdPosition, end);
 
@@ -69,7 +78,7 @@ namespace BotExtended.Projectiles
 
             if (Owner.IsManualAiming)
             {
-                var holdPosition = GetHoldPosition();
+                var holdPosition = GetHoldPosition(true);
                 m_invisibleMagnet.SetWorldPosition(holdPosition);
                 // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
                 m_magnetJoint.SetWorldPosition(holdPosition);
@@ -89,8 +98,8 @@ namespace BotExtended.Projectiles
                 if (Game.IsEditorTest)
                 {
                     if (m_targetedObject != null)
-                        Game.DrawArea(m_targetedObject.GetAABB());
-                    Game.DrawCircle(GetHoldPosition(), .5f, Color.Red);
+                        Game.DrawArea(m_targetedObject.GetAABB(), Color.Blue);
+                    Game.DrawCircle(holdPosition, .5f, Color.Red);
 
                     var to = m_pullJoint.GetTargetObject();
                     if (to != null)
@@ -207,9 +216,6 @@ namespace BotExtended.Projectiles
                 {
                     PickupObject();
                 }
-                if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.ATTACK)
-                {
-                }
             }
         }
 
@@ -247,11 +253,13 @@ namespace BotExtended.Projectiles
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
 
             if (m_targetedObject != null)
+            {
                 pullJoint.SetWorldPosition(m_targetedObject.GetWorldPosition());
+                pullJoint.SetForce(100 * m_targetedObject.GetMass());
+            }
 
             pullJoint.SetTargetObject(m_targetedObject);
             pullJoint.SetTargetObjectJoint(m_magnetJoint);
-            pullJoint.SetForce(2);
 
             return pullJoint;
         }
@@ -267,25 +275,42 @@ namespace BotExtended.Projectiles
                     m_targetedObject = result.HitObject;
 
                     // m_targetObjectJoint.Position is fucked up if key input event fires. idk why
-                    m_magnetJoint.SetWorldPosition(GetHoldPosition());
+                    m_magnetJoint.SetWorldPosition(GetHoldPosition(true));
                     m_pullJoint.Remove();
                     m_pullJoint = CreatePullJointObject();
                 }
             }
         }
 
+        // Don't make heavy objects fly too slow or light objects fly too fast
+        private Vector2 ClampVelocity(Vector2 velocity)
+        {
+            if (velocity.Length() < 20)
+                velocity = Owner.AimVector * 20f;
+            if (velocity.Length() > 1500)
+                velocity = Owner.AimVector * 1500;
+
+            return velocity;
+        }
+
         private void Release()
         {
             if (m_targetedObject != null)
             {
+                var mass = m_targetedObject.GetMass();
+
                 if (m_targetedObject.GetCollisionFilter().CategoryBits == 0x10) // dynamics_g2
                 {
-                    m_targetedObject.SetLinearVelocity(Owner.AimVector * 1f / m_targetedObject.GetMass());
+                    var velocity = Owner.AimVector * 1f / mass;
+
+                    m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
                     m_targetedObject.TrackAsMissile(true);
                 }
                 else
                 {
-                    m_targetedObject.SetLinearVelocity(Owner.AimVector * .7f / m_targetedObject.GetMass());
+                    var velocity = Owner.AimVector * .7f / mass;
+
+                    m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
                 }
 
                 StopStabilizingTargetedObject();
