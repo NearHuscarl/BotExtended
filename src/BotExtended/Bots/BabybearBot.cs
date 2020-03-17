@@ -53,7 +53,7 @@ namespace BotExtended.Bots
             if (Player.IsRocketRiding && !m_trackRocketRidingOffender)
             {
                 var projectile = Game.GetProjectile(Player.RocketRidingProjectileInstanceID);
-                m_offender = Game.GetPlayer(projectile.OwnerPlayerID);
+                m_offender = Game.GetPlayer(projectile.InitialOwnerPlayerID);
                 m_trackRocketRidingOffender = true;
             }
             else
@@ -87,6 +87,30 @@ namespace BotExtended.Bots
 
             m_enrageCount++;
             m_mommy.Enrage(m_offender, EnrageTime * m_enrageCount * 1000);
+        }
+
+        private IPlayer FindClosestTarget()
+        {
+            IPlayer target = null;
+
+            foreach (var player in Game.GetPlayers())
+            {
+                var result = ScriptHelper.IsDifferentTeam(player, Player);
+                if (player.IsDead || player.IsRemoved || !ScriptHelper.IsDifferentTeam(player, Player))
+                    continue;
+
+                if (target == null) target = player;
+
+                var targetDistanceSq = Vector2.DistanceSquared(target.GetWorldPosition(), Position);
+                var potentialTargetDistanceSq = Vector2.DistanceSquared(player.GetWorldPosition(), Position);
+
+                if (potentialTargetDistanceSq < targetDistanceSq)
+                {
+                    target = player;
+                }
+            }
+
+            return target;
         }
     }
 }

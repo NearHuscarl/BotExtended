@@ -1,5 +1,6 @@
 ﻿using SFDGameScriptInterface;
 using System;
+using System.Collections.Generic;
 
 namespace BotExtended
 {
@@ -17,6 +18,7 @@ namespace BotExtended
             DeathLineChance = 1f;
             ZombieStatus = ZombieStatus.Human;
             ImmuneToInfect = false;
+            SpecificSearchItems = new HashSet<WeaponItem>();
         }
 
         public BotInfo(IPlayer player)
@@ -32,6 +34,7 @@ namespace BotExtended
             DeathLineChance = 0f;
             ZombieStatus = ZombieStatus.Human;
             ImmuneToInfect = false;
+            SpecificSearchItems = new HashSet<WeaponItem>();
         }
 
         private float equipWeaponChance;
@@ -43,6 +46,7 @@ namespace BotExtended
 
         public BotAI AIType { get; set; }
         public SearchItems SearchItems { get; set; }
+        public HashSet<WeaponItem> SpecificSearchItems { get; set; }
         public PlayerModifiers Modifiers { get; set; }
         public bool IsBoss { get; set; }
         public string SpawnLine { get; set; }

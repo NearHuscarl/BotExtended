@@ -23,7 +23,8 @@ namespace BotExtended
             // 4. Define bot behavior in BotBehaviors.cs (optional)
             // 5. Define bot info in BotInfos.cs
             // 6. Define bot class in Bots/ and add it to BotFactory.cs for additional behaviors (optional)
-            // 7. Define bot faction and sub-faction in BotFactionSets.cs
+            // 7. Define bot faction name in BotFaction.cs (optional)
+            // 8. Define bot faction and sub-faction in BotFactionSets.cs
 
             try
             {
@@ -52,6 +53,14 @@ namespace BotExtended
                     player.GiveWeaponItem(WeaponItem.ASSAULT);
                     player.GiveWeaponItem(WeaponItem.GRENADES);
                     player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
+
+                    //foreach (var p in Game.GetPlayers())
+                    //{
+                    //    if (p.Name != "Near" && p.IsUser)
+                    //    {
+                    //        p.SetUser(null);
+                    //    }
+                    //}
 
                     //Game.SetAllowedCameraModes(CameraMode.Static);
                     //Game.SetCameraArea(new Area(10, -130, -10, 130));

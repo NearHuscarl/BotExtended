@@ -288,11 +288,6 @@ namespace BotExtended
             var bot = GetBot(player);
             if (bot == Bot.None) return;
 
-            if (!args.Removed)
-            {
-                bot.SayDeathLine();
-            }
-
             bot.OnDeath(args);
 
             if (args.Removed)

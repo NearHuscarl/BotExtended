@@ -442,6 +442,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boffin
+                case BotType.Boffin:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Boffin",
+                        Accesory = new IProfileClothingItem("Glasses", "ClothingGreen", "ClothingLightGreen", ""),
+                        ChestOver = new IProfileClothingItem("Coat", "ClothingLightGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("LeatherJacket", "ClothingLightGray", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGlovesBlack", "ClothingYellow", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("Mohawk", "ClothingLightGray", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("PantsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = null,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region ClownBodyguard
                 case BotType.ClownBodyguard:
                 {

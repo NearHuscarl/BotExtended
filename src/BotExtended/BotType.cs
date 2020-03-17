@@ -23,6 +23,8 @@
         Bodyguard,
         Bodyguard2, // heavy bodyguard
 
+        Boffin,
+
         ClownBodyguard,
         ClownBoxer,
         ClownCowboy,

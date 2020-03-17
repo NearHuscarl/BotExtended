@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\Bot_GravityGunAI.cs" />
     <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Bots\EngineerBot_Controller.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />
+    <Compile Include="Library\Mapper.cs" />
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />

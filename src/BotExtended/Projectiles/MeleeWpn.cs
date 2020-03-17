@@ -1,4 +1,5 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 
 namespace BotExtended.Projectiles
 {
@@ -15,6 +16,7 @@ namespace BotExtended.Projectiles
         public void Add(WeaponItem name, MeleeWeaponPowerup powerup)
         {
             Name = name;
+            Type = Mapper.GetWeaponItemType(name);
             Powerup = powerup;
         }
 

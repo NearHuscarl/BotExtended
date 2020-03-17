@@ -1,21 +1,23 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 
 namespace BotExtended.Projectiles
 {
     class RangeWpn : Wpn
     {
         public RangedWeaponPowerup Powerup { get; protected set; }
-        
+
         public RangeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, RangedWeaponPowerup.None) { }
-        public RangeWpn(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner)
+        public RangeWpn(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
+            : base(owner, name)
         {
-            Name = name;
             Powerup = powerup;
         }
 
         public void Add(WeaponItem name, RangedWeaponPowerup powerup)
         {
             Name = name;
+            Type = Mapper.GetWeaponItemType(name);
             Powerup = powerup;
         }
 

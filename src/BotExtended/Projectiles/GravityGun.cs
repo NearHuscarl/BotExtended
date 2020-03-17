@@ -13,11 +13,8 @@ namespace BotExtended.Projectiles
     {
         private static readonly Vector2 FarAwayPosition = Game.GetCameraMaxArea().BottomLeft - Vector2.UnitX * 10;
 
-        public GravityGun(IPlayer owner, WeaponItem name) : base(owner)
+        public GravityGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Gravity)
         {
-            Powerup = RangedWeaponPowerup.Gravity;
-            Name = name;
-
             m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall");
             m_invisibleMagnet.SetBodyType(BodyType.Static);
             var farBg = Game.CreateObject("FarBgBlimp00");
@@ -30,7 +27,7 @@ namespace BotExtended.Projectiles
             m_pullJoint = CreatePullJointObject();
         }
 
-        private static readonly float Range = 80;
+        public static readonly float Range = 80;
 
         private IObject m_invisibleMagnet;
         private IObjectTargetObjectJoint m_magnetJoint;
@@ -42,9 +39,11 @@ namespace BotExtended.Projectiles
         private IObjectTargetObjectJoint m_targetedObjectJoint;
 
         private IObject m_targetedObject;
+        public IObject TargetedObject { get { return m_targetedObject; } }
+
         public bool IsTargetedObjectStabilized { get; private set; }
 
-        private Vector2 GetHoldPosition(bool useOffset)
+        public Vector2 GetHoldPosition(bool useOffset)
         {
             var offset = 0f;
 
@@ -67,7 +66,6 @@ namespace BotExtended.Projectiles
         {
             var holdPosition = GetHoldPosition(false);
             var end = holdPosition + Owner.AimVector * Range;
-            Game.DrawLine(holdPosition, end);
 
             return new Vector2[] { holdPosition, end };
         }
@@ -83,23 +81,25 @@ namespace BotExtended.Projectiles
                 // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
                 m_magnetJoint.SetWorldPosition(holdPosition);
 
-                Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
-                Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
-                if (m_distanceJointObject != null)
-                {
-                    Game.DrawArea(m_distanceJointObject.GetAABB(), Color.Green);
-                }
-
                 if (m_targetedObject != null)
                 {
-                    TryStabilizeTargetObject(holdPosition);
+                    TryStabilizeTargetedObject(holdPosition);
                 }
 
                 if (Game.IsEditorTest)
                 {
+                    var scanLine = GetScanLine();
+
+                    Game.DrawLine(scanLine[0], scanLine[1]);
+                    Game.DrawCircle(holdPosition, .5f, Color.Red);
+                    //Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
+                    //Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
+
                     if (m_targetedObject != null)
                         Game.DrawArea(m_targetedObject.GetAABB(), Color.Blue);
-                    Game.DrawCircle(holdPosition, .5f, Color.Red);
+
+                    //if (m_distanceJointObject != null)
+                    //    Game.DrawArea(m_distanceJointObject.GetAABB(), Color.Green);
 
                     var to = m_pullJoint.GetTargetObject();
                     if (to != null)
@@ -108,7 +108,7 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                if (IsTargetedObjectStabilized)
+                if (IsTargetedObjectStabilized || m_targetedObject != null)
                     StopStabilizingTargetedObject();
 
                 m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
@@ -116,9 +116,9 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private void TryStabilizeTargetObject(Vector2 holdPosition)
+        private void TryStabilizeTargetedObject(Vector2 holdPosition)
         {
-            var results = RayCastTargetObject(false);
+            var results = RayCastTargetedObject(false);
             var stablizeZone = new Area(
                 holdPosition.Y + 10,
                 holdPosition.X - 10,
@@ -126,11 +126,12 @@ namespace BotExtended.Projectiles
                 holdPosition.X + 10
                 );
 
-            Game.DrawArea(stablizeZone);
+            Game.DrawArea(stablizeZone, Color.Green);
 
             var targetedObjectFound = false;
+            var targetHitbox = m_targetedObject.GetAABB();
 
-            if (stablizeZone.Intersects(m_targetedObject.GetAABB()))
+            if (stablizeZone.Intersects(targetHitbox))
                 targetedObjectFound = true;
 
             foreach (var result in results)
@@ -141,7 +142,7 @@ namespace BotExtended.Projectiles
                 {
                     targetedObjectFound = true;
 
-                    if (stablizeZone.Intersects(m_targetedObject.GetAABB()))
+                    if (stablizeZone.Intersects(targetHitbox))
                     {
                         if (!IsTargetedObjectStabilized)
                         {
@@ -223,16 +224,26 @@ namespace BotExtended.Projectiles
         {
             // Remove projectile completely since gravity gun only use objects laying around the map as ammunation
             projectile.FlagForRemoval();
+
+            // Cannot use ia 1 because we only want this particular gun to have indefinite ammo
+            if (BotManager.GetBot(Owner).CurrentAmmo == 0)
+            {
+                if (Type == WeaponItemType.Rifle)
+                    Owner.SetCurrentPrimaryWeaponAmmo(Owner.CurrentPrimaryWeapon.MaxTotalAmmo - 1);
+                if (Type == WeaponItemType.Handgun)
+                    Owner.SetCurrentSecondaryWeaponAmmo(Owner.CurrentSecondaryWeapon.MaxTotalAmmo - 1);
+            }
+
             Release();
         }
 
-        private IEnumerable<RayCastResult> RayCastTargetObject(bool isSearching)
+        private IEnumerable<RayCastResult> RayCastTargetedObject(bool isSearching)
         {
             var scanLine = GetScanLine();
             var rcInput = new RayCastInput()
             {
                 FilterOnMaskBits = true,
-                MaskBits = 0x0018, // dynamics_g1, dynamics_g2
+                MaskBits = CategoryBits.Dynamic,
                 ClosestHitOnly = isSearching,
             };
             var results = Game.RayCast(scanLine[0], scanLine[1], rcInput);
@@ -254,8 +265,11 @@ namespace BotExtended.Projectiles
 
             if (m_targetedObject != null)
             {
+                var mass = m_targetedObject.GetMass();
                 pullJoint.SetWorldPosition(m_targetedObject.GetWorldPosition());
-                pullJoint.SetForce(100 * m_targetedObject.GetMass());
+                var force = (float)Math.Pow(10000 * mass, 1.1) / 50;
+                //ScriptHelper.LogDebug(mass, force);
+                pullJoint.SetForce(force);
             }
 
             pullJoint.SetTargetObject(m_targetedObject);
@@ -264,15 +278,28 @@ namespace BotExtended.Projectiles
             return pullJoint;
         }
 
-        private void PickupObject()
+        public void PickupObject()
         {
             if (m_targetedObject == null)
             {
-                var result = RayCastTargetObject(true).FirstOrDefault();
+                var results = RayCastTargetedObject(true);
 
-                if (result.HitObject != null)
+                if (results.Count() > 0)
                 {
-                    m_targetedObject = result.HitObject;
+                    m_targetedObject = results.First().HitObject;
+
+                    // destroy TargetObjectJoint so hanging stuff call be pulled
+                    var joints = Game.GetObjectsByArea<IObjectTargetObjectJoint>(m_targetedObject.GetAABB());
+                    foreach (var j in joints)
+                    {
+                        if (j.GetTargetObject().UniqueID == m_targetedObject.UniqueID)
+                        {
+                            m_targetedObject.SetLinearVelocity(Vector2.Zero);
+                            j.SetTargetObject(null);
+                            j.Remove();
+                            break;
+                        }
+                    }
 
                     // m_targetObjectJoint.Position is fucked up if key input event fires. idk why
                     m_magnetJoint.SetWorldPosition(GetHoldPosition(true));
@@ -293,24 +320,33 @@ namespace BotExtended.Projectiles
             return velocity;
         }
 
+        public override void Remove()
+        {
+            base.Remove();
+            StopStabilizingTargetedObject();
+        }
+
         private void Release()
         {
+            if (m_targetedObject == null)
+            {
+                var results = RayCastTargetedObject(true);
+                if (results.Count() > 0)
+                {
+                    m_targetedObject = results.First().HitObject;
+                }
+            }
+
             if (m_targetedObject != null)
             {
                 var mass = m_targetedObject.GetMass();
+                var velocity = Owner.AimVector * 45 / (float)Math.Pow(1 - mass, .6);
+
+                m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
 
                 if (m_targetedObject.GetCollisionFilter().CategoryBits == 0x10) // dynamics_g2
                 {
-                    var velocity = Owner.AimVector * 1f / mass;
-
-                    m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
                     m_targetedObject.TrackAsMissile(true);
-                }
-                else
-                {
-                    var velocity = Owner.AimVector * .7f / mass;
-
-                    m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
                 }
 
                 StopStabilizingTargetedObject();

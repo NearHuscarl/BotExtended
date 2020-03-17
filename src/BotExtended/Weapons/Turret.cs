@@ -585,12 +585,12 @@ namespace BotExtended.Weapons
         {
             if (HasDamage(TurretDamage.SensorDamaged))
             {
-                foreach (var result in RayCastHelper.PlayersInSight(start, end))
+                foreach (var result in RayCastHelper.Players(start, end))
                     yield return Game.GetPlayer(result.ObjectID);
             }
             else
             {
-                foreach (var result in RayCastHelper.PlayersInSight(start, end, true, Team, Owner))
+                foreach (var result in RayCastHelper.Players(start, end, true, Team, Owner))
                     yield return Game.GetPlayer(result.ObjectID);
             }
         }

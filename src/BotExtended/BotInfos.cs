@@ -352,7 +352,24 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Demolitionist
+                #region Boss Boffin
+                case BotType.Boffin:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.SpecificSearchItems.Add(WeaponItem.GRENADE_LAUNCHER);
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Demolitionist
                 case BotType.Demolitionist:
                 {
                     botInfo.AIType = BotAI.RangeHard;
@@ -374,7 +391,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Fritzliebe
+                #region Boss Fritzliebe
                 case BotType.Fritzliebe:
                 {
                     botInfo.AIType = BotAI.Expert;
@@ -389,7 +406,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Funnyman
+                #region Boss Funnyman
                 case BotType.Funnyman:
                 {
                     botInfo.AIType = BotAI.Expert;
@@ -404,7 +421,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Hacker
+                #region Boss Hacker
                 case BotType.Hacker:
                 {
                     botInfo.AIType = BotAI.Hacker;
@@ -421,7 +438,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Incinerator
+                #region Boss Incinerator
                 case BotType.Incinerator:
                 {
                     botInfo.AIType = BotAI.Hard;
@@ -437,7 +454,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Jo
+                #region Boss Jo
                 case BotType.Jo:
                 {
                     botInfo.AIType = BotAI.MeleeExpert;
@@ -454,7 +471,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Kingpin
+                #region Boss Kingpin
                 case BotType.Kingpin:
                 {
                     botInfo.AIType = BotAI.Hard;
@@ -469,7 +486,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Kriegbär
+                #region Boss Kriegbär
                 case BotType.Kriegbär:
                 {
                     botInfo.AIType = BotAI.Expert;
@@ -491,7 +508,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Meatgrinder
+                #region Boss Meatgrinder
                 case BotType.Meatgrinder:
                 {
                     botInfo.AIType = BotAI.Meatgrinder;
@@ -514,7 +531,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Mecha
+                #region Boss Mecha
                 case BotType.Mecha:
                 {
                     botInfo.AIType = BotAI.Hulk;
@@ -538,7 +555,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses MetroCop2
+                #region Boss MetroCop2
                 case BotType.MetroCop2:
                 {
                     botInfo.AIType = BotAI.Expert;
@@ -560,7 +577,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses MirrorMan
+                #region Boss MirrorMan
                 case BotType.MirrorMan:
                 {
                     botInfo.AIType = BotAI.Expert;
@@ -585,7 +602,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Ninja
+                #region Boss Ninja
                 case BotType.Ninja:
                 {
                     botInfo.AIType = BotAI.Ninja;
@@ -608,7 +625,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Teddybear
+                #region Boss Teddybear
                 case BotType.Teddybear:
                 {
                     botInfo.AIType = BotAI.Hulk;
@@ -629,7 +646,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Babybear
+                #region Boss Babybear
                 case BotType.Babybear:
                 {
                     botInfo.AIType = BotAI.Easy;
@@ -647,7 +664,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Santa
+                #region Boss Santa
                 case BotType.Santa:
                 {
                     botInfo.AIType = BotAI.Hard; // ChallengeA
@@ -667,7 +684,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses Sheriff
+                #region Boss Sheriff
                 case BotType.Sheriff:
                 {
                     botInfo.AIType = BotAI.Sheriff;
@@ -690,7 +707,7 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Bosses ZombieFighter
+                #region Boss ZombieFighter
                 case BotType.ZombieFighter:
                 {
                     botInfo.AIType = BotAI.ZombieFighter;

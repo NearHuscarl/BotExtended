@@ -5,6 +5,7 @@ using static BotExtended.Library.Mocks.MockObjects;
 using BotExtended.Factions;
 using System;
 using BotExtended.Projectiles;
+using System.Linq;
 
 namespace BotExtended.Bots
 {
@@ -40,6 +41,8 @@ namespace BotExtended.Bots
         public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo);
         public event PlayerPickUpWeaponCallback PlayerPickUpWeaponEvent;
 
+        private Bot_GravityGunAI m_botGravityGunAI = new Bot_GravityGunAI();
+
         public Bot()
         {
             Player = null;
@@ -70,8 +73,8 @@ namespace BotExtended.Bots
             var spawnLine = Info.SpawnLine;
             var spawnLineChance = Info.SpawnLineChance;
 
-            if (!string.IsNullOrWhiteSpace(spawnLine) && RandomHelper.Between(0f, 1f) < spawnLineChance)
-                GameScriptInterface.Game.CreateDialogue(spawnLine, DialogueColor, Player, duration: 3000f);
+            if (!string.IsNullOrWhiteSpace(spawnLine) && RandomHelper.Percentage(spawnLineChance))
+                Game.CreateDialogue(spawnLine, DialogueColor, Player, duration: 3000f);
         }
 
         public void SayDeathLine()
@@ -81,7 +84,7 @@ namespace BotExtended.Bots
             var deathLine = Info.DeathLine;
             var deathLineChance = Info.DeathLineChance;
 
-            if (!string.IsNullOrWhiteSpace(deathLine) && RandomHelper.Between(0f, 1f) < deathLineChance)
+            if (!string.IsNullOrWhiteSpace(deathLine) && RandomHelper.Percentage(deathLineChance))
                 Game.CreateDialogue(deathLine, DialogueColor, Player, duration: 3000f);
         }
 
@@ -116,6 +119,7 @@ namespace BotExtended.Bots
                 m_lastUpdateElapsed = 0;
             }
             UpdateWeaponStatus();
+            UpdateCustomWeaponAI(elapsed);
         }
 
         private float m_bloodEffectElapsed = 0;
@@ -155,9 +159,15 @@ namespace BotExtended.Bots
                 return -1;
             }
         }
-        private WeaponItem CurrentWeapon() { return CurrentWeapon(CurrentWeaponIndex); }
-        private float CurrentAmmo() { return CurrentAmmo(CurrentWeaponIndex); }
-        private WeaponItem CurrentWeapon(int index)
+        public WeaponItem CurrentWeapon
+        {
+            get { return GetCurrentWeapon(CurrentWeaponIndex); }
+        }
+        public float CurrentAmmo
+        {
+            get { return GetCurrentAmmo(CurrentWeaponIndex); }
+        }
+        private WeaponItem GetCurrentWeapon(int index)
         {
             switch (index)
             {
@@ -176,7 +186,7 @@ namespace BotExtended.Bots
             }
             return WeaponItem.NONE;
         }
-        private float CurrentAmmo(int index)
+        private float GetCurrentAmmo(int index)
         {
             switch (index)
             {
@@ -196,7 +206,7 @@ namespace BotExtended.Bots
 
         private bool IsHoldingActivateableThrowable()
         {
-            var currentWpn = CurrentWeapon();
+            var currentWpn = CurrentWeapon;
             return currentWpn == WeaponItem.GRENADES
                 || currentWpn == WeaponItem.C4
                 || currentWpn == WeaponItem.MOLOTOVS
@@ -211,16 +221,16 @@ namespace BotExtended.Bots
 
             for (var i = 0; i < m_prevWeapons.Count; i++)
             {
-                if (CurrentWeapon(i) != m_prevWeapons[i])
+                if (GetCurrentWeapon(i) != m_prevWeapons[i])
                 {
                     // NOTE: multiple weapons can be dropped in 1 frame if the player dies
-                    if (m_prevWeapons[i] == WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
+                    if (m_prevWeapons[i] == WeaponItem.NONE && GetCurrentWeapon(i) != WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Pickup);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) == WeaponItem.NONE)
+                    if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) == WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Drop);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && CurrentWeapon(i) != WeaponItem.NONE)
+                    if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) != WeaponItem.NONE)
                         eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Swap);
-                    m_prevWeapons[i] = CurrentWeapon(i);
+                    m_prevWeapons[i] = GetCurrentWeapon(i);
                 }
             }
 
@@ -228,13 +238,13 @@ namespace BotExtended.Bots
             {
                 for (var i = 0; i < m_prevAmmo.Count; i++)
                 {
-                    if (CurrentAmmo(i) != m_prevAmmo[i])
+                    if (GetCurrentAmmo(i) != m_prevAmmo[i])
                     {
-                        if (m_prevWeapons[i] == CurrentWeapon(i))
+                        if (m_prevWeapons[i] == GetCurrentWeapon(i))
                             CheckFireWeaponEvent(i, WeaponEvent.Refill);
                     }
                     // this can only be updated after calling CheckFireWeaponEvent()
-                    m_prevAmmo[i] = CurrentAmmo(i);
+                    m_prevAmmo[i] = GetCurrentAmmo(i);
                 }
             }
 
@@ -287,7 +297,7 @@ namespace BotExtended.Bots
                     }
                 }
                 if (pickedupWeaponObj == null &&
-                    nearbyWeapon.WeaponItem == CurrentWeapon(weaponIndex))
+                    nearbyWeapon.WeaponItem == GetCurrentWeapon(weaponIndex))
                 {
                     if (weaponEvent == WeaponEvent.Pickup || weaponEvent == WeaponEvent.Swap || weaponEvent == WeaponEvent.Refill)
                     {
@@ -311,6 +321,35 @@ namespace BotExtended.Bots
             }
 
             return eventFired;
+        }
+
+        private void UpdateCustomWeaponAI(float elapsed)
+        {
+            if (Player.IsUser) return;
+
+            foreach (var nearbyWeapon in m_nearbyWeapons)
+            {
+                if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem))
+                {
+                    Player.SetInputEnabled(false);
+                    Player.AddCommand(new PlayerCommand(PlayerCommandType.Activate));
+                    ScriptHelper.Timeout(() => Player.SetInputEnabled(true), 1);
+                    break;
+                }
+            }
+
+            var botBehaviorSet = Player.GetBotBehaviorSet();
+
+            // tuning the accuracy or fire rate to match BotBehaviorSet is not supported. PRs are welcome
+            if (botBehaviorSet.RangedWeaponMode != BotBehaviorRangedWeaponMode.HipFire)
+            {
+                var currentRangeWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player).CurrentRangeWeapon;
+
+                if (currentRangeWeapon != null && currentRangeWeapon.Powerup == RangedWeaponPowerup.Gravity)
+                {
+                    m_botGravityGunAI.Update(elapsed, this, (GravityGun)currentRangeWeapon);
+                }
+            }
         }
 
         public virtual void OnSpawn(IEnumerable<Bot> bots)
@@ -347,7 +386,29 @@ namespace BotExtended.Bots
                 }
             }
         }
-        public virtual void OnDeath(PlayerDeathArgs args) { }
+        public virtual void OnDeath(PlayerDeathArgs args)
+        {
+            if (args.Killed)
+            {
+                SayDeathLine();
+            }
+
+            if (args.Removed)
+            {
+                m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
+
+                for (var i = 0; i < m_prevWeapons.Count; i++)
+                {
+                    if (GetCurrentWeapon(i) != m_prevWeapons[i])
+                    {
+                        // NOTE: multiple weapons can be dropped in 1 frame if the player dies
+                        if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) == WeaponItem.NONE)
+                            CheckFireWeaponEvent(i, WeaponEvent.Drop);
+                        m_prevWeapons[i] = GetCurrentWeapon(i);
+                    }
+                }
+            }
+        }
 
         private int m_lastThrowableAmmo = 0;
         public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
@@ -389,30 +450,6 @@ namespace BotExtended.Bots
             }
         }
 
-        protected IPlayer FindClosestTarget()
-        {
-            IPlayer target = null;
-
-            foreach (var player in Game.GetPlayers())
-            {
-                var result = ScriptHelper.IsDifferentTeam(player, Player);
-                if (player.IsDead || player.IsRemoved || !ScriptHelper.IsDifferentTeam(player, Player))
-                    continue;
-
-                if (target == null) target = player;
-
-                var targetDistance = Vector2.Distance(target.GetWorldPosition(), Position);
-                var potentialTargetDistance = Vector2.Distance(player.GetWorldPosition(), Position);
-
-                if (potentialTargetDistance < targetDistance)
-                {
-                    target = player;
-                }
-            }
-
-            return target;
-        }
-
         public void Disarm(Vector2 dropDirection, bool destroyWeapon = false)
         {
             if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
@@ -421,7 +458,7 @@ namespace BotExtended.Bots
                 || Player.CurrentWeaponDrawn == WeaponItemType.Thrown && !IsThrowableActivated)
             {
                 var weapon = Game.CreateObject(
-                    ScriptHelper.ObjectID(CurrentWeapon(), IsThrowableActivated),
+                    Mapper.ObjectID(CurrentWeapon, IsThrowableActivated),
                     Player.GetWorldPosition(), 0,
                     Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection +
                     Vector2.UnitY * RandomHelper.Between(1, 7) + dropDirection * 3,

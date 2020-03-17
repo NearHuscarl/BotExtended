@@ -159,6 +159,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boffin
+                case BotType.Boffin:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Gravity,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region ClownBodyguard
                 case BotType.ClownBodyguard:
                 {

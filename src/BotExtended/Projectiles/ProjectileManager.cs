@@ -90,8 +90,15 @@ namespace BotExtended.Projectiles
         {
             if (args.Removed)
             {
-                if (m_owners.ContainsKey(player.UniqueID))
+                PlayerWeapon playerWpn;
+
+                if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
                 {
+                    playerWpn.Melee.Remove();
+                    playerWpn.Primary.Remove();
+                    playerWpn.Secondary.Remove();
+                    playerWpn.Throwable.Remove();
+                    playerWpn.Powerup.Remove();
                     m_owners.Remove(player.UniqueID);
                 }
             }
@@ -126,7 +133,7 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private static PlayerWeapon GetOrCreatePlayerWeapon(IPlayer owner)
+        public static PlayerWeapon GetOrCreatePlayerWeapon(IPlayer owner)
         {
             PlayerWeapon playerWpn;
             if (!m_owners.TryGetValue(owner.UniqueID, out playerWpn))
@@ -241,7 +248,7 @@ namespace BotExtended.Projectiles
                 var owner = Game.GetPlayer(ownerID);
                 var playerWpn = GetOrCreatePlayerWeapon(owner);
                 var powerup = RangedWeaponPowerup.None;
-                var weaponItem = ScriptHelper.GetWeaponItem(projectile.ProjectileItem);
+                var weaponItem = Mapper.GetWeaponItem(projectile.ProjectileItem);
 
                 if (weaponItem == playerWpn.Primary.Name)
                     powerup = playerWpn.Primary.Powerup;

@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Mecha;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Boffin;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -351,6 +351,18 @@ namespace BotExtended
                     {
                         new SubFaction(CommonZombieTypes, 0.7f),
                         new SubFaction(MutatedZombieTypes, 0.3f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Boss_Boffin
+                // TODO: add scientist minions
+                case BotFaction.Boss_Boffin:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Boffin),
                     });
                     break;
                 }

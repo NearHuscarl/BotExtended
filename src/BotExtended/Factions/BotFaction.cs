@@ -22,6 +22,7 @@
         ZombieHard,
 
         Boss_Demolitionist = Constants.BOSS_FACTION_START_INDEX,
+        Boss_Boffin,
         Boss_Funnyman,
         Boss_Jo,
         Boss_Hacker,

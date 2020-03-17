@@ -1,4 +1,5 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 
 namespace BotExtended.Projectiles
 {
@@ -6,6 +7,7 @@ namespace BotExtended.Projectiles
     {
         public static RangeWpn Create(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
         {
+            var type = Mapper.GetWeaponItemType(name);
             switch (powerup)
             {
                 case RangedWeaponPowerup.Gravity:

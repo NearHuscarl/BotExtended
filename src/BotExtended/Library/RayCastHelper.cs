@@ -59,6 +59,7 @@ namespace BotExtended.Library
 
         public static bool SameTeamRaycast(IPlayer p1, IPlayer p2, PlayerTeam t1)
         {
+            if (p1 == null || p2 == null) return false;
             // t1 is cached before p1 is removed
             if (p1.IsRemoved)
             {
@@ -74,7 +75,7 @@ namespace BotExtended.Library
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static IEnumerable<RayCastResult> PlayersInSight(Vector2 start, Vector2 end,
+        public static IEnumerable<RayCastResult> Players(Vector2 start, Vector2 end,
             bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
             var rayCastInput = new RayCastInput()
@@ -145,8 +146,31 @@ namespace BotExtended.Library
 
                 if (!blocked)
                 {
-                    Game.DrawArea(player.GetAABB(), Color.Green);
+                    //Game.DrawArea(player.GetAABB(), Color.Green);
                     yield return result;
+                }
+            }
+        }
+
+        public static IEnumerable<IPlayer> GetPlayersInRange(Vector2 center, float radius, float minAngle = 0, float maxAngle = 0,
+            bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
+        {
+            var filterArea = new Area(
+                center.Y + radius,
+                center.X - radius,
+                center.Y - radius,
+                center.X + radius);
+            var players = Game.GetObjectsByArea<IPlayer>(filterArea)
+                .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), center, radius, minAngle, maxAngle));
+
+            foreach (var player in players)
+            {
+                if (ScriptHelper.SameTeam(player, fromPlayer) && blockTeammates)
+                    continue;
+
+                foreach (var result in Players(center, player.GetWorldPosition(), blockTeammates, team, fromPlayer))
+                {
+                    yield return Game.GetPlayer(result.ObjectID);
                 }
             }
         }

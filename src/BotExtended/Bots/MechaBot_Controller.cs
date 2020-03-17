@@ -50,7 +50,7 @@ namespace BotExtended.Bots
             var lineStart = los[0];
             var lineEnd = los[1];
 
-            foreach (var result in RayCastHelper.PlayersInSight(lineStart, lineEnd))
+            foreach (var result in RayCastHelper.Players(lineStart, lineEnd))
             {
                 var player = Game.GetPlayer(result.ObjectID);
                 var inMinimumRange = ScriptHelper.IntersectCircle(
