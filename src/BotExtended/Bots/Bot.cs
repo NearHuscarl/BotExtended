@@ -340,7 +340,6 @@ namespace BotExtended.Bots
 
             var botBehaviorSet = Player.GetBotBehaviorSet();
 
-            // tuning the accuracy or fire rate to match BotBehaviorSet is not supported. PRs are welcome
             if (botBehaviorSet.RangedWeaponMode != BotBehaviorRangedWeaponMode.HipFire)
             {
                 var currentRangeWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player).CurrentRangeWeapon;

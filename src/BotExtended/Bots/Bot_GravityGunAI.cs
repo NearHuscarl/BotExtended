@@ -34,16 +34,14 @@ namespace BotExtended.Bots
             // Trick the bot to use this weapon only when there are objects around
             // and stop using it when there is nothing to shoot with
             UpdateWeaponUsage(bot, gun);
-            Game.DrawText(m_state.ToString(), bot.Position);
+            Game.DrawText(m_state.ToString() + " " + player.IsInputEnabled + " " + player.GetBotBehaviorSet().RangedWeaponUsage, bot.Position);
 
             if (!player.IsManualAiming)
             {
-                if (m_state != State.Normal || m_state != State.Cooldown)
+                if (m_state != State.Normal && m_state != State.Cooldown)
                 {
-                    Stop(bot);
-                    m_state = State.Normal;
+                    Stop(bot, State.Normal);
                 }
-                return;
             }
 
             m_timeout += elapsed;
@@ -137,8 +135,6 @@ namespace BotExtended.Bots
                             Stop(bot);
                         }
                     }
-                    else
-                        Stop(bot);
                     break;
                 }
                 case State.Cooldown:
@@ -185,14 +181,14 @@ namespace BotExtended.Bots
 
         private void ChangeState(State state)
         {
-            ScriptHelper.LogDebug(m_state, "->", state);
+            //ScriptHelper.LogDebug(m_state, "->", state);
             m_timeout = 0f;
             m_state = state;
         }
 
-        private void Stop(Bot bot)
+        private void Stop(Bot bot, State state = State.Cooldown)
         {
-            ChangeState(State.Cooldown);
+            ChangeState(state);
             m_cooldownTime = Game.TotalElapsedGameTime;
             m_nearestObject = null;
             m_targetEnemy = null;
