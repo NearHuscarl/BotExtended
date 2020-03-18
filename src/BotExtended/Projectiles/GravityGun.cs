@@ -328,7 +328,7 @@ namespace BotExtended.Projectiles
             StopStabilizingTargetedObject();
         }
 
-        private void Release()
+        public void Release()
         {
             if (m_targetedObject == null)
             {

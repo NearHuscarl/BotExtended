@@ -160,7 +160,9 @@ namespace BotExtended.Bots
 
                         if (m_nearestObject.GetLinearVelocity().Length() < 1 && m_shootDelayTime >= m_shootDelayTimeThisTurn)
                         {
-                            Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
+                            // Shoot manually for now because PlayerCommand only works sometimes!
+                            gun.Release();
+                            //Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                             m_shootDelayTime = 0f;
                             Stop();
                         }

@@ -359,21 +359,22 @@ namespace BotExtended.Bots
         {
             if (Player.IsUser) return;
 
-            foreach (var nearbyWeapon in m_nearbyWeapons)
-            {
-                Game.DrawArea(nearbyWeapon.GetAABB(), Color.Grey);
-                if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem)
-                    && !Player.IsStaggering && !Player.IsStunned && Player.IsOnGround)
-                {
-                    Player.SetInputEnabled(false);
-                    Player.AddCommand(new PlayerCommand(PlayerCommandType.Activate));
-                    ScriptHelper.Timeout(() =>
-                    {
-                        Player.SetInputEnabled(true);
-                    }, 1);
-                    break;
-                }
-            }
+            //foreach (var nearbyWeapon in m_nearbyWeapons)
+            //{
+            //    Game.DrawArea(nearbyWeapon.GetAABB(), Color.Grey);
+            //    if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem)
+            //        && !Player.IsStaggering && !Player.IsStunned && Player.IsOnGround)
+            //    {
+            //        Player.SetInputEnabled(false);
+            //        Player.AddCommand(new PlayerCommand(PlayerCommandType.Activate, nearbyWeapon.UniqueID));
+            //        ScriptHelper.Timeout(() =>
+            //        {
+            //            Player.ClearCommandQueue();
+            //            Player.SetInputEnabled(true);
+            //        }, 10);
+            //        break;
+            //    }
+            //}
 
             var botBehaviorSet = Player.GetBotBehaviorSet();
 
