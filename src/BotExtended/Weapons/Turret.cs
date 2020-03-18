@@ -156,7 +156,7 @@ namespace BotExtended.Weapons
                 var minMax = NormalizeMinMaxAngle(minCompAngle, maxCompAngle);
                 var angle = NormalizeAngle(Direction > 0 ? value : value - MathHelper.PI);
 
-                //ScriptHelper.LogDebugF("{0:0} {1:0} {2:0} {3:0}, {4}",
+                //ScriptHelper.LogDebug(
                 //    minMax[0] * 180 / Math.PI,
                 //    minMax[1] * 180 / Math.PI,
                 //    angle * 180 / Math.PI,

@@ -19,12 +19,14 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
-        private static string GetDefaultPlaceholder(int count)
+        public static string GetDefaultPlaceholder(object[] messages)
         {
             var placeholder = "";
+            var count = messages.Length;
             for (var i = 0; i < count; i++)
             {
-                placeholder += "{" + i + "}";
+                var isFloatOrDouble = messages[i] is float || messages[i] is double;
+                placeholder += "{" + i + (isFloatOrDouble ? ":0.00" : "") + "}";
                 if (i != count - 1) placeholder += " ";
             }
             return placeholder;
@@ -35,7 +37,7 @@ namespace BotExtended.Library
             {
                 if (string.IsNullOrEmpty(placeholder))
                 {
-                    placeholder = GetDefaultPlaceholder(values.Length);
+                    placeholder = GetDefaultPlaceholder(values);
                 }
                 Game.WriteToConsole(string.Format(placeholder, values));
             }
@@ -45,7 +47,7 @@ namespace BotExtended.Library
         {
             if (Game.IsEditorTest)
             {
-                Game.WriteToConsole(string.Format(GetDefaultPlaceholder(values.Length), values));
+                Game.WriteToConsole(string.Format(GetDefaultPlaceholder(values), values));
             }
         }
 

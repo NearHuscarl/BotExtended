@@ -361,7 +361,6 @@ namespace BotExtended
                     {
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
-                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.SpecificSearchItems.Add(WeaponItem.GRENADE_LAUNCHER);
                     botInfo.IsBoss = true;

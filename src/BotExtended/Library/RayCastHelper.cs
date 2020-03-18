@@ -152,6 +152,13 @@ namespace BotExtended.Library
             }
         }
 
+        public static IEnumerable<IPlayer> GetPlayersInRange(IPlayer player, float radius, float minAngle = 0, float maxAngle = 0,
+            bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
+        {
+            return GetPlayersInRange(player.GetWorldPosition() + Vector2.UnitY * 10, radius, minAngle, maxAngle,
+                blockTeammates, team, fromPlayer);
+        }
+
         public static IEnumerable<IPlayer> GetPlayersInRange(Vector2 center, float radius, float minAngle = 0, float maxAngle = 0,
             bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
@@ -168,7 +175,8 @@ namespace BotExtended.Library
                 if (ScriptHelper.SameTeam(player, fromPlayer) && blockTeammates)
                     continue;
 
-                foreach (var result in Players(center, player.GetWorldPosition(), blockTeammates, team, fromPlayer))
+                var playerPosition = player.GetWorldPosition() + Vector2.UnitY * 10;
+                foreach (var result in Players(center, playerPosition, blockTeammates, team, fromPlayer))
                 {
                     yield return Game.GetPlayer(result.ObjectID);
                 }

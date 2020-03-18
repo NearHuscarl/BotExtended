@@ -122,6 +122,15 @@ namespace BotExtended.Bots
             UpdateCustomWeaponAI(elapsed);
         }
 
+        public void LogDebug(params object[] messages)
+        {
+            if (Game.IsEditorTest)
+            {
+                var ph = ScriptHelper.GetDefaultPlaceholder(messages);
+                Game.DrawText(string.Format(ph, messages), Position);
+            }
+        }
+
         private float m_bloodEffectElapsed = 0;
         protected virtual void OnUpdate(float elapsed)
         {
@@ -166,7 +175,9 @@ namespace BotExtended.Bots
         public float CurrentAmmo
         {
             get { return GetCurrentAmmo(CurrentWeaponIndex); }
+            set { SetCurrentAmmo(CurrentWeaponIndex, value); }
         }
+
         private WeaponItem GetCurrentWeapon(int index)
         {
             switch (index)
@@ -186,7 +197,7 @@ namespace BotExtended.Bots
             }
             return WeaponItem.NONE;
         }
-        private float GetCurrentAmmo(int index)
+        public float GetCurrentAmmo(int index)
         {
             switch (index)
             {
@@ -202,6 +213,27 @@ namespace BotExtended.Bots
                     return Player.CurrentThrownItem.CurrentAmmo;
             }
             return 0;
+        }
+        public void SetCurrentAmmo(int currentWeaponIndex, float value)
+        {
+            switch (currentWeaponIndex)
+            {
+                case 0:
+                    Player.SetCurrentMeleeMakeshiftDurability(value);
+                    break;
+                case 1:
+                    Player.SetCurrentMeleeDurability(value);
+                    break;
+                case 2:
+                    Player.SetCurrentPrimaryWeaponAmmo((int)value);
+                    break;
+                case 3:
+                    Player.SetCurrentSecondaryWeaponAmmo((int)value);
+                    break;
+                case 4:
+                    Player.SetCurrentThrownItemAmmo((int)value);
+                    break;
+            }
         }
 
         private bool IsHoldingActivateableThrowable()
@@ -248,6 +280,7 @@ namespace BotExtended.Bots
                 }
             }
 
+            // TODO: cannot diff ammo -> returns wrong result when using ia 1
             var currentThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
             if (IsHoldingActivateableThrowable() && currentThrowableAmmo + 1 == m_lastThrowableAmmo || currentThrowableAmmo == 0)
             {
@@ -342,11 +375,17 @@ namespace BotExtended.Bots
 
             if (botBehaviorSet.RangedWeaponMode != BotBehaviorRangedWeaponMode.HipFire)
             {
-                var currentRangeWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player).CurrentRangeWeapon;
+                var playerWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player);
+                GravityGun gun = null;
 
-                if (currentRangeWeapon != null && currentRangeWeapon.Powerup == RangedWeaponPowerup.Gravity)
+                if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity)
+                    gun = (GravityGun)playerWeapon.Primary;
+                if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity)
+                    gun = (GravityGun)playerWeapon.Secondary;
+
+                if (gun != null)
                 {
-                    m_botGravityGunAI.Update(elapsed, this, (GravityGun)currentRangeWeapon);
+                    m_botGravityGunAI.Update(elapsed, this, gun);
                 }
             }
         }
