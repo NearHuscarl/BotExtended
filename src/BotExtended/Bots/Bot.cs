@@ -41,29 +41,28 @@ namespace BotExtended.Bots
         public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo);
         public event PlayerPickUpWeaponCallback PlayerPickUpWeaponEvent;
 
-        private Bot_GravityGunAI m_botGravityGunAI = new Bot_GravityGunAI();
+        private Bot_GravityGunAI m_botGravityGunAI;
 
-        public Bot()
+        private Bot()
         {
-            Player = null;
+            m_botGravityGunAI = new Bot_GravityGunAI(this);
+            PlayerDropWeaponEvent += m_botGravityGunAI.OnPlayerDropWeapon;
+        }
+        public Bot(IPlayer player = null, BotFaction faction = BotFaction.None) : this()
+        {
+            Player = player;
             Type = BotType.None;
-            Faction = BotFaction.None;
-            Info = new BotInfo();
+            Faction = faction;
+            Info = new BotInfo(player);
             UpdateInterval = 100;
             IsThrowableActivated = false;
         }
-        public Bot(BotArgs args)
+        public Bot(BotArgs args) : this()
         {
             Player = args.Player;
             Type = args.BotType;
             Faction = args.BotFaction;
             Info = args.Info;
-        }
-        public Bot(IPlayer player, BotFaction faction = BotFaction.None) : this()
-        {
-            Player = player;
-            Faction = faction;
-            Info = new BotInfo(player);
         }
 
         public void SaySpawnLine()
@@ -362,11 +361,16 @@ namespace BotExtended.Bots
 
             foreach (var nearbyWeapon in m_nearbyWeapons)
             {
-                if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem))
+                Game.DrawArea(nearbyWeapon.GetAABB(), Color.Grey);
+                if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem)
+                    && !Player.IsStaggering && !Player.IsStunned && Player.IsOnGround)
                 {
                     Player.SetInputEnabled(false);
                     Player.AddCommand(new PlayerCommand(PlayerCommandType.Activate));
-                    ScriptHelper.Timeout(() => Player.SetInputEnabled(true), 1);
+                    ScriptHelper.Timeout(() =>
+                    {
+                        Player.SetInputEnabled(true);
+                    }, 1);
                     break;
                 }
             }
@@ -385,7 +389,7 @@ namespace BotExtended.Bots
 
                 if (gun != null)
                 {
-                    m_botGravityGunAI.Update(elapsed, this, gun);
+                    m_botGravityGunAI.Update(elapsed, gun);
                 }
             }
         }
@@ -429,6 +433,7 @@ namespace BotExtended.Bots
             if (args.Killed)
             {
                 SayDeathLine();
+                PlayerDropWeaponEvent -= m_botGravityGunAI.OnPlayerDropWeapon;
             }
 
             if (args.Removed)

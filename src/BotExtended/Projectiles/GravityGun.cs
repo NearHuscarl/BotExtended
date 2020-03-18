@@ -288,13 +288,13 @@ namespace BotExtended.Projectiles
                 {
                     m_targetedObject = results.First().HitObject;
 
-                    ScriptHelper.LogDebug("Crash", m_targetedObject == null);
-
                     // destroy TargetObjectJoint so hanging stuff call be pulled
                     var joints = Game.GetObjectsByArea<IObjectTargetObjectJoint>(m_targetedObject.GetAABB());
                     foreach (var j in joints)
                     {
-                        if (j.GetTargetObject().UniqueID == m_targetedObject.UniqueID)
+                        var to = j.GetTargetObject();
+                        if (to == null) continue;
+                        if (to.UniqueID == m_targetedObject.UniqueID)
                         {
                             m_targetedObject.SetLinearVelocity(Vector2.Zero);
                             j.SetTargetObject(null);
