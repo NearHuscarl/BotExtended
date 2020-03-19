@@ -92,15 +92,22 @@ namespace BotExtended.Projectiles
             {
                 PlayerWeapon playerWpn;
 
-                if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
+                // Wait until the next frame to remove the owner
+                // Since the custom Drop/Pickup event is fired in the UpdateCallback
+                // and OnPlayerDeath is executed before OnUpdate
+                // so we have to wait for the event callback handling logic in this frame
+                ScriptHelper.Timeout(() =>
                 {
-                    playerWpn.Melee.Remove();
-                    playerWpn.Primary.Remove();
-                    playerWpn.Secondary.Remove();
-                    playerWpn.Throwable.Remove();
-                    playerWpn.Powerup.Remove();
-                    m_owners.Remove(player.UniqueID);
-                }
+                    if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
+                    {
+                        playerWpn.Melee.Remove();
+                        playerWpn.Primary.Remove();
+                        playerWpn.Secondary.Remove();
+                        playerWpn.Throwable.Remove();
+                        playerWpn.Powerup.Remove();
+                        m_owners.Remove(player.UniqueID);
+                    }
+                }, 1);
             }
         }
 

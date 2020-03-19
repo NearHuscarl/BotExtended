@@ -40,7 +40,7 @@ namespace BotExtended.Bots
 
         public void Update(float elapsed, GravityGun gun)
         {
-            Bot.LogDebug(m_state, Player.GetBotBehaviorSet().RangedWeaponUsage, Player.CurrentPrimaryWeapon.CurrentAmmo);
+            //Bot.LogDebug(m_state, Player.GetBotBehaviorSet().RangedWeaponUsage, Player.CurrentPrimaryWeapon.CurrentAmmo);
 
             if (m_state == State.Normal || m_state == State.Cooldown)
             {
@@ -189,7 +189,7 @@ namespace BotExtended.Bots
             if (SearchNearestObject(gun) == null || m_state == State.Cooldown)
             {
                 // the old solution was to set ammo to 0 to disable using this gun. But the bot
-                // will always shealth weapon when running out of ammo and switch back, which
+                // will always sheathe weapon when running out of ammo and switch back, which
                 // is very slow and distracting
                 // Forbidden bot to use ranged weapon for a while will not make it switch weapon back and forth
                 if (botBehaviorSet.RangedWeaponUsage)
@@ -210,7 +210,7 @@ namespace BotExtended.Bots
 
         private void ChangeState(State state)
         {
-            ScriptHelper.LogDebug(m_state, "->", state);
+            //ScriptHelper.LogDebug(m_state, "->", state);
             m_timeout = 0f;
             m_state = state;
             m_executeOnce = false;
