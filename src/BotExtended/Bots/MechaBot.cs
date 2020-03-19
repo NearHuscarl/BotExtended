@@ -161,6 +161,7 @@ namespace BotExtended.Bots
             area.Grow(4);
             foreach (var obj in Game.GetObjectsByArea(area))
             {
+                // TODO: is keyword may affect performance. Need profiling
                 if (obj.UniqueID == Player.UniqueID || obj is IPlayer)
                     continue;
 

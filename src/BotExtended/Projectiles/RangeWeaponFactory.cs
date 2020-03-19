@@ -11,7 +11,9 @@ namespace BotExtended.Projectiles
             switch (powerup)
             {
                 case RangedWeaponPowerup.Gravity:
-                    return new GravityGun(owner, name);
+                    return new GravityGun(owner, name, RangedWeaponPowerup.Gravity);
+                case RangedWeaponPowerup.GravityDE:
+                    return new GravityGun(owner, name, RangedWeaponPowerup.GravityDE);
                 default:
                     return new RangeWpn(owner, name, powerup);
             }

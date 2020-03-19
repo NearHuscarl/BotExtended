@@ -7,5 +7,6 @@
         Stun,
         Spinner,
         Gravity,
+        GravityDE,
     }
 }

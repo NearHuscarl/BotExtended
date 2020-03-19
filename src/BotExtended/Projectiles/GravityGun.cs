@@ -13,8 +13,15 @@ namespace BotExtended.Projectiles
     {
         private static readonly Vector2 FarAwayPosition = Game.GetCameraMaxArea().BottomLeft - Vector2.UnitX * 10;
 
-        public GravityGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Gravity)
+        public GravityGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup)
         {
+            if (powerup == RangedWeaponPowerup.GravityDE)
+                IsSupercharged = true;
+            else if (powerup == RangedWeaponPowerup.Gravity)
+                IsSupercharged = false;
+            else
+                throw new Exception("Unknown powerup for gravity gun: " + powerup);
+
             m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall");
             m_invisibleMagnet.SetBodyType(BodyType.Static);
             var farBg = Game.CreateObject("FarBgBlimp00");
@@ -28,6 +35,20 @@ namespace BotExtended.Projectiles
         }
 
         public static readonly float Range = 80;
+
+        public bool IsSupercharged { get; private set; }
+        public Area GetStabilizedZone()
+        {
+            return GetStabilizedZone(GetHoldPosition(true));
+        }
+        private Area GetStabilizedZone(Vector2 holdPosition)
+        {
+            return new Area(
+                holdPosition.Y + 10,
+                holdPosition.X - 10,
+                holdPosition.Y - 10,
+                holdPosition.X + 10);
+        }
 
         private IObject m_invisibleMagnet;
         private IObjectTargetObjectJoint m_magnetJoint;
@@ -120,19 +141,14 @@ namespace BotExtended.Projectiles
         private void TryStabilizeTargetedObject(Vector2 holdPosition)
         {
             var results = RayCastTargetedObject(false);
-            var stablizeZone = new Area(
-                holdPosition.Y + 10,
-                holdPosition.X - 10,
-                holdPosition.Y - 10,
-                holdPosition.X + 10
-                );
+            var stabilizedZone = GetStabilizedZone(holdPosition);
 
-            Game.DrawArea(stablizeZone, Color.Green);
+            Game.DrawArea(stabilizedZone, Color.Green);
 
             var targetedObjectFound = false;
             var targetHitbox = m_targetedObject.GetAABB();
 
-            if (stablizeZone.Intersects(targetHitbox))
+            if (stabilizedZone.Intersects(targetHitbox))
                 targetedObjectFound = true;
 
             foreach (var result in results)
@@ -143,7 +159,7 @@ namespace BotExtended.Projectiles
                 {
                     targetedObjectFound = true;
 
-                    if (stablizeZone.Intersects(targetHitbox))
+                    if (stabilizedZone.Intersects(targetHitbox))
                     {
                         if (!IsTargetedObjectStabilized)
                         {
@@ -159,6 +175,15 @@ namespace BotExtended.Projectiles
             {
                 StopStabilizingTargetedObject();
             }
+            else
+            {
+                var player = m_targetedObject as IPlayer;
+                if (player != null && !player.IsStaggering)
+                {
+                    // Not sure why StaggerInfinite is not infinite!
+                    player.AddCommand(new PlayerCommand(PlayerCommandType.StaggerInfinite));
+                }
+            }
         }
 
         private void StopStabilizingTargetedObject()
@@ -169,6 +194,9 @@ namespace BotExtended.Projectiles
                 m_distanceJoint.Remove();
                 m_targetedObjectJoint.Remove();
             }
+
+            var player = m_targetedObject as IPlayer;
+            if (player != null) player.SetInputEnabled(true);
 
             m_pullJoint.SetTargetObject(null);
             m_targetedObject = null;
@@ -244,14 +272,14 @@ namespace BotExtended.Projectiles
             var rcInput = new RayCastInput()
             {
                 FilterOnMaskBits = true,
-                MaskBits = CategoryBits.Dynamic,
+                MaskBits = (ushort)(IsSupercharged ? CategoryBits.Dynamic + CategoryBits.Player : CategoryBits.Dynamic),
                 ClosestHitOnly = isSearching,
             };
             var results = Game.RayCast(scanLine[0], scanLine[1], rcInput);
 
             foreach (var result in results)
             {
-                if (result.HitObject == null || result.IsPlayer)
+                if (result.HitObject == null)
                     continue;
 
                 yield return result;
@@ -268,7 +296,11 @@ namespace BotExtended.Projectiles
             {
                 var mass = m_targetedObject.GetMass();
                 pullJoint.SetWorldPosition(m_targetedObject.GetWorldPosition());
+                // TODO: cannot lift very heavy objects (piano)
                 var force = (float)Math.Pow(10000 * mass, 1.1) / 50;
+                if (m_targetedObject is IPlayer)
+                    force = 10;
+
                 //ScriptHelper.LogDebug(mass, force);
                 pullJoint.SetForce(force);
             }
@@ -287,11 +319,20 @@ namespace BotExtended.Projectiles
 
                 if (results.Count() > 0)
                 {
-                    m_targetedObject = results.First().HitObject;
+                    var result = results.First();
+                    m_targetedObject = result.HitObject;
+                    var targetHitbox = m_targetedObject.GetAABB();
 
-                    // destroy TargetObjectJoint so hanging stuff call be pulled
-                    var joints = Game.GetObjectsByArea<IObjectTargetObjectJoint>(m_targetedObject.GetAABB());
-                    foreach (var j in joints)
+                    // if is player, make them staggering
+                    if (result.IsPlayer)
+                    {
+                        var player = (IPlayer)m_targetedObject;
+                        player.SetInputEnabled(false);
+                        player.AddCommand(new PlayerCommand(PlayerCommandType.StaggerInfinite));
+                    }
+
+                    // destroy TargetObjectJoint so hanging stuff can be pulled
+                    foreach (var j in Game.GetObjectsByArea<IObjectTargetObjectJoint>(targetHitbox))
                     {
                         var to = j.GetTargetObject();
                         if (to == null) continue;
@@ -300,9 +341,16 @@ namespace BotExtended.Projectiles
                             m_targetedObject.SetLinearVelocity(Vector2.Zero);
                             j.SetTargetObject(null);
                             j.Remove();
-                            break;
                         }
                     }
+                    foreach (var j in Game.GetObjectsByArea<IObjectWeldJoint>(targetHitbox))
+                    {
+                        j.RemoveTargetObject(m_targetedObject);
+                    }
+
+                    // some objects that are in dynamic collision group but is static (SurveillanceCamera)
+                    if (m_targetedObject.GetBodyType() == BodyType.Static)
+                        m_targetedObject.SetBodyType(BodyType.Dynamic);
 
                     // m_targetObjectJoint.Position is fucked up if key input event fires. idk why
                     m_magnetJoint.SetWorldPosition(GetHoldPosition(true));

@@ -383,9 +383,11 @@ namespace BotExtended.Bots
                 var playerWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player);
                 GravityGun gun = null;
 
-                if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity)
+                if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity
+                    || playerWeapon.Primary.Powerup == RangedWeaponPowerup.GravityDE)
                     gun = (GravityGun)playerWeapon.Primary;
-                if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity)
+                if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity
+                    || playerWeapon.Secondary.Powerup == RangedWeaponPowerup.GravityDE)
                     gun = (GravityGun)playerWeapon.Secondary;
 
                 if (gun != null)

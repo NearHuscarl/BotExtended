@@ -27,6 +27,10 @@ namespace BotExtended.Bots
 
             switch (botType)
             {
+                case BotType.Boffin:
+                    bot = new BoffinBot(args);
+                    break;
+
                 case BotType.Cowboy:
                 case BotType.ClownCowboy:
                     bot = new CowboyBot(args);
@@ -37,7 +41,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Engineer:
-                    bot = new EngineerBot(args, player.IsUser ? null : new EngineerBot_Controller());
+                    bot = new EngineerBot(args, player.IsBot ? new EngineerBot_Controller() : null);
                     break;
 
                 case BotType.ZombieFat:
@@ -65,7 +69,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Mecha:
-                    bot = new MechaBot(args, player.IsUser ? null : new MechaBot_Controller());
+                    bot = new MechaBot(args, player.IsBot ? new MechaBot_Controller() : null);
                     break;
 
                 case BotType.MirrorMan:
