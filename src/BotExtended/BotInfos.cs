@@ -134,6 +134,7 @@ namespace BotExtended
                 #region Grunt
                 case BotType.Biker:
                 case BotType.NaziScientist:
+                case BotType.Scientist:
                 case BotType.Thug:
                 {
                     botInfo.AIType = BotAI.Grunt;
@@ -160,6 +161,7 @@ namespace BotExtended
                 case BotType.Elf:
                 case BotType.Engineer:
                 case BotType.Gangster:
+                case BotType.LabAssistant:
                 case BotType.MetroCop:
                 case BotType.Police:
                 case BotType.PoliceSWAT:

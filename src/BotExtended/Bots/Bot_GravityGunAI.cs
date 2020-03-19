@@ -22,12 +22,12 @@ namespace BotExtended.Bots
         private readonly Bot Bot;
         private IPlayer Player { get { return Bot.Player; } }
 
+        private bool m_executeOnce = false;
         private float m_cooldownTime = 0f;
         private float m_timeout = 0f; // in case bot gets stuck in a state
         private float m_shootDelayTime = 0f;
         private float m_shootDelayTimeThisTurn = 0f;
         private IObject m_nearestObject;
-        private List<int> m_unusabledObjectThisTurn = new List<int>();
         private IPlayer m_targetEnemy;
         private static readonly float CooldownTime = Game.IsEditorTest ? 1000 : 1000;
 
@@ -40,7 +40,7 @@ namespace BotExtended.Bots
 
         public void Update(float elapsed, GravityGun gun)
         {
-            Bot.LogDebug(m_state, Player.GetBotBehaviorSet().RangedWeaponUsage);
+            Bot.LogDebug(m_state, Player.GetBotBehaviorSet().RangedWeaponUsage, Player.CurrentPrimaryWeapon.CurrentAmmo);
 
             if (m_state == State.Normal || m_state == State.Cooldown)
             {
@@ -53,7 +53,7 @@ namespace BotExtended.Bots
                 m_timeout += elapsed;
                 if (m_timeout >= 3000f)
                     Stop();
-                if (Player.IsStaggering || Player.IsStunned || !Player.IsOnGround)
+                if (Player.IsStaggering || Player.IsStunned || !Player.IsOnGround || Player.IsBurningInferno)
                     Stop();
             }
 
@@ -80,9 +80,8 @@ namespace BotExtended.Bots
                         m_nearestObject = SearchNearestObject(gun);
                     }
 
-                    if (m_nearestObject != null)
+                    if (m_nearestObject != null && !m_executeOnce)
                     {
-                        ChangeState(State.AimingTargetedObject);
                         Player.SetInputEnabled(false);
 
                         if (Player.CurrentWeaponDrawn != gun.Type)
@@ -94,7 +93,16 @@ namespace BotExtended.Bots
                                 Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
                         }
 
+                        if (GetCurrentAmmo(gun) == 0)
+                            Player.AddCommand(new PlayerCommand(PlayerCommandType.Reload));
+
                         Player.AddCommand(new PlayerCommand(PlayerCommandType.StartAimAtPrecise, m_nearestObject.UniqueID));
+                        m_executeOnce = true;
+                    }
+
+                    if (m_nearestObject != null && Player.CurrentWeaponDrawn == gun.Type && GetCurrentAmmo(gun) > 0)
+                    {
+                        ChangeState(State.AimingTargetedObject);
                     }
                     break;
                 }
@@ -108,9 +116,6 @@ namespace BotExtended.Bots
                     {
                         //Stop();
                         ChangeState(State.Normal);
-                        // the range changes all the time when the player aims up and down so some objects
-                        // may be in range initially but not in range when after being aimed
-                        m_unusabledObjectThisTurn.Add(m_nearestObject.UniqueID);
                         break;
                     }
 
@@ -160,11 +165,8 @@ namespace BotExtended.Bots
 
                         if (m_nearestObject.GetLinearVelocity().Length() < 1 && m_shootDelayTime >= m_shootDelayTimeThisTurn)
                         {
-                            // Shoot manually for now because PlayerCommand only works sometimes!
-                            gun.Release();
-                            //Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
+                            Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                             m_shootDelayTime = 0f;
-                            Stop();
                         }
                     }
                     break;
@@ -211,6 +213,7 @@ namespace BotExtended.Bots
             ScriptHelper.LogDebug(m_state, "->", state);
             m_timeout = 0f;
             m_state = state;
+            m_executeOnce = false;
         }
 
         private void Stop()
@@ -219,8 +222,15 @@ namespace BotExtended.Bots
             m_cooldownTime = Game.TotalElapsedGameTime;
             m_nearestObject = null;
             m_targetEnemy = null;
-            m_unusabledObjectThisTurn.Clear();
             Bot.Player.SetInputEnabled(true);
+        }
+
+        private int GetCurrentAmmo(GravityGun gun)
+        {
+            return gun.Type == WeaponItemType.Rifle ?
+                Player.CurrentPrimaryWeapon.CurrentAmmo
+                :
+                Player.CurrentSecondaryWeapon.CurrentAmmo;
         }
 
         private float[] GetRangeLimit()
@@ -265,7 +275,6 @@ namespace BotExtended.Bots
                 if (isDynamicObject
                     && ScriptHelper.IntersectCircle(obj.GetAABB(), holdPosition, GravityGun.Range, rangeLimit[0], rangeLimit[1])
                     && !minimumRange.Intersects(obj.GetAABB())
-                    && !m_unusabledObjectThisTurn.Contains(obj.UniqueID)
                     && (nearestObject == null ||
                         Vector2.DistanceSquared(holdPosition, objPosition) <
                         Vector2.DistanceSquared(holdPosition, nearestObject.GetWorldPosition())))

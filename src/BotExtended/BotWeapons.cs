@@ -455,6 +455,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region LabAssistant
+                case BotType.LabAssistant:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                        Powerup = WeaponItem.STRENGTHBOOST,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region SurvivorBiker
                 case BotType.SurvivorBiker:
                 {
@@ -785,6 +802,18 @@ namespace BotExtended
                         Primary = WeaponItem.M60,
                         PrimaryPowerup = RangedWeaponPowerup.Present,
                         Secondary = WeaponItem.UZI,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Scientist
+                case BotType.Scientist:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
                     });
                     break;
                 }

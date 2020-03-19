@@ -357,12 +357,24 @@ namespace BotExtended
                 #endregion
 
                 #region Boss_Boffin
-                // TODO: add scientist minions
                 case BotFaction.Boss_Boffin:
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Boffin),
+                        new SubFaction(BotType.Scientist, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Boffin),
+                        new SubFaction(BotType.LabAssistant, .5f),
+                        new SubFaction(BotType.Scientist, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Boffin),
+                        new SubFaction(BotType.Scientist, .75f),
+                        new SubFaction(BotType.LabAssistant, .25f),
                     });
                     break;
                 }

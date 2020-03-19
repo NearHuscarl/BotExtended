@@ -145,7 +145,7 @@ namespace BotExtended.Bots
         private bool IsAttacked()
         {
             var player = Actor.Player;
-            return (player.IsStaggering || player.IsCaughtByPlayerInDive || player.IsStunned || player.IsFalling);
+            return (player.IsStaggering || player.IsCaughtByPlayerInDive || player.IsStunned || player.IsFalling || player.IsBurningInferno);
         }
         private bool IsInactive()
         {

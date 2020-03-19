@@ -56,6 +56,11 @@ namespace BotExtended.Library
             Events.UpdateCallback.Start((float e) => callback.Invoke(), interval, 1);
         }
 
+        public static void RunIn(Action callback, int seconds)
+        {
+            Events.UpdateCallback.Start((float e) => callback.Invoke(), 0, (ushort)(60 * seconds));
+        }
+
         public static bool IsElapsed(float timeStarted, float timeToElapse)
         {
             return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;

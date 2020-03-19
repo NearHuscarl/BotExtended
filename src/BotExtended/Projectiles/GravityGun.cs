@@ -38,6 +38,7 @@ namespace BotExtended.Projectiles
         private IObjectDistanceJoint m_distanceJoint;
         private IObjectTargetObjectJoint m_targetedObjectJoint;
 
+        private IObject m_releasedObject;
         private IObject m_targetedObject;
         public IObject TargetedObject { get { return m_targetedObject; } }
 
@@ -328,7 +329,8 @@ namespace BotExtended.Projectiles
             StopStabilizingTargetedObject();
         }
 
-        public void Release()
+        private bool m_stopPlayingReleaseEffect = false;
+        private void Release()
         {
             if (m_targetedObject == null)
             {
@@ -350,6 +352,29 @@ namespace BotExtended.Projectiles
                 {
                     m_targetedObject.TrackAsMissile(true);
                 }
+
+                // PS: I dont like the effects, uncomment if you want to see it
+                //m_releasedObject = m_targetedObject;
+                //m_stopPlayingReleaseEffect = true;
+                //ScriptHelper.RunIn(() =>
+                //{
+                //    if (m_releasedObject.IsRemoved) return;
+
+                //    Game.PlayEffect(EffectName.BulletSlowmoTrace, m_releasedObject.GetWorldPosition());
+                //    for (var i = 0; i < 1; i++)
+                //    {
+                //        var hitbox = m_releasedObject.GetAABB();
+                //        var center = hitbox.Center;
+                //        var halfWidth = hitbox.Width / 2;
+                //        var halfHeight = hitbox.Height / 2;
+                //        var effectPosition = new Vector2()
+                //        {
+                //            X = RandomHelper.Between(center.X - halfWidth, center.X + halfWidth),
+                //            Y = RandomHelper.Between(center.Y - halfHeight, center.Y + halfHeight),
+                //        };
+                //        Game.PlayEffect(EffectName.ItemGleam, effectPosition);
+                //    }
+                //}, 1);
 
                 StopStabilizingTargetedObject();
             }

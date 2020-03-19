@@ -24,6 +24,8 @@
         Bodyguard2, // heavy bodyguard
 
         Boffin,
+        LabAssistant,
+        Scientist,
 
         ClownBodyguard,
         ClownBoxer,

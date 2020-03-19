@@ -408,7 +408,7 @@ namespace BotExtended
 
             if (equipWeapons)
             {
-                if (RandomHelper.Between(0f, 1f) < info.EquipWeaponChance)
+                if (RandomHelper.Percentage(info.EquipWeaponChance))
                 {
                     weaponSet = RandomHelper.GetItem(GetWeapons(botType));
                 }
