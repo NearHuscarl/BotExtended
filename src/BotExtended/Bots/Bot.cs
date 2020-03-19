@@ -357,7 +357,7 @@ namespace BotExtended.Bots
 
         private void UpdateCustomWeaponAI(float elapsed)
         {
-            if (Player.IsUser) return;
+            if (!Player.IsBot) return;
 
             //foreach (var nearbyWeapon in m_nearbyWeapons)
             //{
