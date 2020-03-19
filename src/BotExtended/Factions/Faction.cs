@@ -65,6 +65,8 @@ namespace BotExtended.Factions
 
             return Spawn(factionCount, team, (i, botType, isBoss) =>
             {
+                if (i >= PlayerByTeam[team].Count())
+                    return null;
                 var player = PlayerByTeam[team][i];
                 if (isBoss)
                     return BotManager.SpawnBot(botType, BotFaction, player, true, true, team, true, triggerOnSpawn: false);
@@ -106,9 +108,11 @@ namespace BotExtended.Factions
                     while (factionCountRemaining > 0 && (botCountRemainingThisType > 0 || subFactionCount == SubFactions.Count))
                     {
                         var botType = subFaction.GetRandomType();
-                        var bot = spawnCallback(i++, botType, false);
 
-                        bots.Add(bot);
+                        var bot = spawnCallback(i++, botType, false);
+                        if (bot != null)
+                            bots.Add(bot);
+
                         factionCountRemaining--;
                         botCountRemainingThisType--;
                     }
@@ -117,8 +121,9 @@ namespace BotExtended.Factions
                 {
                     var botType = subFaction.GetRandomType();
                     var bot = spawnCallback(i++, botType, true);
+                    if (bot != null)
+                        bots.Add(bot);
 
-                    bots.Add(bot);
                     factionCountRemaining--;
                 }
             }
