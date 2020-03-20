@@ -54,7 +54,7 @@ namespace BotExtended.Bots
 
         public void Update(float elapsed, GravityGun gun)
         {
-            Bot.LogDebug(m_state, Player.IsInputEnabled, gun.IsSupercharged);
+            Bot.LogDebug(m_state, Player.IsInputEnabled, Player.GetBotBehaviorSet().RangedWeaponUsage);
 
             if (m_state == State.Normal || m_state == State.Cooldown)
             {
@@ -93,7 +93,7 @@ namespace BotExtended.Bots
                     m_searchDelay = Game.TotalElapsedGameTime;
 
                     var enemies = SearchEnemies(gun);
-                    if (enemies.Count() > 0 && NearestObject == null)
+                    if (!EnemiesNearby() && enemies.Count() > 0 && NearestObject == null)
                     {
                         NearestObject = gun.IsSupercharged ? enemies.First() : SearchNearestObject(gun);
                     }
@@ -236,6 +236,29 @@ namespace BotExtended.Bots
             }
         }
 
+        private Area DangerArea
+        {
+            get
+            {
+                return new Area(
+                    Bot.Position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
+                    Bot.Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
+            }
+        }
+
+        private bool EnemiesNearby()
+        {
+            foreach (var player in Game.GetPlayers())
+            {
+                if (!ScriptHelper.SameTeam(Player, player))
+                {
+                    if (DangerArea.Intersects(player.GetAABB()))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         private void ChangeState(State state)
         {
             var objName = NearestObject != null ? NearestObject.Name : "";
@@ -308,9 +331,8 @@ namespace BotExtended.Bots
                 if (isDynamicObject
                     && ScriptHelper.IntersectCircle(obj.GetAABB(), holdPosition, GravityGun.Range, rangeLimit[0], rangeLimit[1])
                     && !minimumRange.Intersects(obj.GetAABB())
-                    && (nearestObject == null ||
-                        Vector2.DistanceSquared(holdPosition, objPosition) <
-                        Vector2.DistanceSquared(holdPosition, nearestObject.GetWorldPosition())))
+                    && obj.GetMass() < .32f /* Cannot pull very heavy object. Disable for now */
+                    && (nearestObject == null || Rank(nearestObject, obj) == 1))
                 {
                     var rcInput = new RayCastInput()
                     {
@@ -337,6 +359,31 @@ namespace BotExtended.Bots
             }
 
             return nearestObject;
+        }
+
+        // Higher weight means the object with that collision group deals more damage generally
+        private static readonly Dictionary<ushort, int> CollisionCategoryWeight = new Dictionary<ushort, int>()
+        {
+            { CategoryBits.DynamicG2, 0 },
+            { CategoryBits.Dynamic, 1 },
+            { CategoryBits.DynamicG1, 2 },
+        };
+
+        private int Rank(IObject o1, IObject o2)
+        {
+            var o1c = o2.GetCollisionFilter().CategoryBits;
+            var o2c = o2.GetCollisionFilter().CategoryBits;
+
+            if (CollisionCategoryWeight[o1c] < CollisionCategoryWeight[o2c])
+                return 1;
+
+            /* Cannot pull very heavy object. Disable for now */
+            if (o2.GetMass() >= .32f)
+                return -1;
+
+            if (o2.GetMass() > o1.GetMass())
+                return 1;
+            return -1;
         }
 
         private bool IsObjectInRange(GravityGun gun, IObject obj)

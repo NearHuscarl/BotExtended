@@ -356,8 +356,7 @@ namespace BotExtended.Weapons
             var end = position - Vector2.UnitY * 15;
             var rayCastInput = new RayCastInput()
             {
-                // static_ground, dynamic_platforms
-                MaskBits = 0x000B,
+                MaskBits = CategoryBits.StaticGround + CategoryBits.DynamicPlatform,
                 FilterOnMaskBits = true,
             };
             var results = Game.RayCast(start, end, rayCastInput);

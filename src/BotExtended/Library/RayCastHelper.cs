@@ -44,8 +44,7 @@ namespace BotExtended.Library
         {
             var rayCastInput = new RayCastInput()
             {
-                // static_ground, dynamic_platforms
-                MaskBits = 0x000B,
+                MaskBits = CategoryBits.StaticGround + CategoryBits.DynamicPlatform + CategoryBits.DynamicG1,
                 FilterOnMaskBits = true,
             };
             var results = Game.RayCast(start, end, rayCastInput);
@@ -85,10 +84,8 @@ namespace BotExtended.Library
                 // Search for categoryBits for the object types you want to accept for collision
                 // Calc sum of those values (in binary) and convert to hex
                 // 
-                // static_ground, players, dynamic_platforms
-                MaskBits = 0x000F,
+                MaskBits = CategoryBits.StaticGround + CategoryBits.DynamicPlatform + CategoryBits.Player + CategoryBits.DynamicG1,
                 FilterOnMaskBits = true,
-                //Types = new Type[1] { typeof(IPlayer) },
             };
             var results = Game.RayCast(start, end, rayCastInput);
             var smallestBlockedFraction = float.PositiveInfinity;

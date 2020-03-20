@@ -152,7 +152,7 @@ namespace BotExtended.Bots
 
             var rayCastInput = new RayCastInput()
             {
-                MaskBits = 0x0001, // static_ground
+                MaskBits = CategoryBits.StaticGround,
                 FilterOnMaskBits = true,
             };
 

@@ -301,7 +301,7 @@ namespace BotExtended.Projectiles
                 if (m_targetedObject is IPlayer)
                     force = 10;
 
-                //ScriptHelper.LogDebug(mass, force);
+                //ScriptHelper.LogDebug(m_targetedObject.Name, mass, force);
                 pullJoint.SetForce(force);
             }
 
