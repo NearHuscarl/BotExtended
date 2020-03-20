@@ -69,8 +69,6 @@ namespace BotExtended.Weapons
         private IObjectAlterCollisionTile m_alterCollisionTile;
         private IObject m_ground;
 
-        private Dictionary<float, IObject> m_ejectedCasings = new Dictionary<float, IObject>();
-
         public static readonly int TotalAmmo = Game.IsEditorTest ? 1000 : 300; // TODO: Remove
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
@@ -386,7 +384,6 @@ namespace BotExtended.Weapons
                 Destroy();
 
             UpdateRotation(elapsed);
-            UpdateCasings();
             UpdateBrokenEffects(elapsed);
 
             switch (m_state)
@@ -459,24 +456,6 @@ namespace BotExtended.Weapons
                     Game.PlayEffect(EffectName.Dig, m_tip.GetWorldPosition());
                     m_smokeEffectTime = 0f;
                 }
-            }
-        }
-
-        private void UpdateCasings()
-        {
-            var removedList = new List<float>();
-            foreach (var casing in m_ejectedCasings)
-            {
-                var timeAdded = casing.Key;
-                if (ScriptHelper.IsElapsed(timeAdded, 700))
-                {
-                    removedList.Add(timeAdded);
-                }
-            }
-            foreach (var i in removedList)
-            {
-                m_ejectedCasings[i].Remove();
-                m_ejectedCasings.Remove(i);
             }
         }
 
@@ -738,9 +717,9 @@ namespace BotExtended.Weapons
             m_currentAmmo--;
 
             var emittedAngle = (Direction > 0 ? 90 + 45 : 45) + RandomHelper.Between(-.3f, .3f);
-            var casing = Game.CreateObject("WpnC4Detonator", RotationCenter, MathHelper.PIOver2,
+            // "ShellBig" "ShellSmall" "ShellShotgun" "ShellGLauncher"
+            var casing = Game.CreateObject("ShellBig", RotationCenter, 0,
                 ScriptHelper.GetDirection(emittedAngle) * 4, RandomHelper.Between(-5, 5));
-            m_ejectedCasings.Add(Game.TotalElapsedGameTime, casing);
         }
 
         private void StartFiring() { if (m_state != TurretState.Firing) m_state = TurretState.Firing; }

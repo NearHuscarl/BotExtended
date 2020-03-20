@@ -20,7 +20,6 @@ namespace BotExtended.Projectiles
         {
             Name = WeaponItem.NONE;
             Type = WeaponItemType.NONE;
-            Owner = null;
         }
     }
 }

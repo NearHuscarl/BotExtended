@@ -23,6 +23,7 @@ namespace BotExtended.Bots
 
             if (Player.GetHealth() <= 50 && m_currentPowerup != RangedWeaponPowerup.GravityDE)
             {
+                // Wait until next frame to re-equip the same gun so the custom DropEvent can diff weapon properly (and fire)
                 ScriptHelper.Timeout(() =>
                 {
                     Game.PlayEffect(EffectName.Electric, Position);
@@ -31,17 +32,20 @@ namespace BotExtended.Bots
                     m_currentPowerup = RangedWeaponPowerup.GravityDE;
                     ResetWeapon();
                     Player.SetStrengthBoostTime(1000 * 60 * 1);
-                }, 1);
+                }, 0);
             }
         }
 
         private void OnDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
         {
-            weaponObj.Remove();
-            ResetWeapon();
+            if (weaponObj.WeaponItemType == WeaponItemType.Rifle)
+            {
+                weaponObj.Remove();
+                ResetWeapon();
+            }
         }
 
-        private void ResetWeapon(RangedWeaponPowerup powerup = RangedWeaponPowerup.None)
+        private void ResetWeapon()
         {
             var weaponSet = GetWeapons(Type).First();
 

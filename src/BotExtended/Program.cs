@@ -73,19 +73,6 @@ namespace BotExtended
                     //Command.SetPlayer(new List<string>() { "player 6", "Agent" });
                     //Command.SetPlayer(new List<string>() { "player 7", "Agent" });
                     //Command.SetPlayer(new List<string>() { "player 8", "Agent" });
-
-                    //ScriptHelper.Timeout(() =>
-                    //{
-                    //    foreach (var p in Game.GetPlayers())
-                    //    {
-                    //        p.SetInputEnabled(false);
-                    //        if (RandomHelper.Boolean())
-                    //        {
-                    //            p.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
-                    //            ScriptHelper.Timeout(() => p.SetInputEnabled(true), 3000);
-                    //        }
-                    //    }
-                    //}, 3160);
                 }
             }
             catch (Exception e)
