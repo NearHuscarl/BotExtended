@@ -34,7 +34,7 @@ namespace BotExtended.Projectiles
             m_pullJoint = CreatePullJointObject();
         }
 
-        public static readonly float Range = 80;
+        public static readonly float Range = 160;
 
         public bool IsSupercharged { get; private set; }
         public Area GetStabilizedZone()
@@ -43,11 +43,7 @@ namespace BotExtended.Projectiles
         }
         private Area GetStabilizedZone(Vector2 holdPosition)
         {
-            return new Area(
-                holdPosition.Y + 10,
-                holdPosition.X - 10,
-                holdPosition.Y - 10,
-                holdPosition.X + 10);
+            return ScriptHelper.GrowFromCenter(holdPosition, 20);
         }
 
         private IObject m_invisibleMagnet;
@@ -60,8 +56,7 @@ namespace BotExtended.Projectiles
         private IObjectTargetObjectJoint m_targetedObjectJoint;
 
         private IObject m_releasedObject;
-        private IObject m_targetedObject;
-        public IObject TargetedObject { get { return m_targetedObject; } }
+        public IObject TargetedObject { get; private set; }
 
         public bool IsTargetedObjectStabilized { get; private set; }
 
@@ -69,9 +64,9 @@ namespace BotExtended.Projectiles
         {
             var offset = 0f;
 
-            if (m_targetedObject != null && useOffset)
+            if (TargetedObject != null && useOffset)
             {
-                var hitbox = m_targetedObject.GetAABB();
+                var hitbox = TargetedObject.GetAABB();
                 var length = Math.Max(hitbox.Width, hitbox.Height);
                 offset = length / 2f;
             }
@@ -103,7 +98,7 @@ namespace BotExtended.Projectiles
                 // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
                 m_magnetJoint.SetWorldPosition(holdPosition);
 
-                if (m_targetedObject != null)
+                if (TargetedObject != null)
                 {
                     TryStabilizeTargetedObject(holdPosition);
                 }
@@ -117,8 +112,8 @@ namespace BotExtended.Projectiles
                     //Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
                     //Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
 
-                    if (m_targetedObject != null)
-                        Game.DrawArea(m_targetedObject.GetAABB(), Color.Blue);
+                    if (TargetedObject != null)
+                        Game.DrawArea(TargetedObject.GetAABB(), Color.Blue);
 
                     //if (m_distanceJointObject != null)
                     //    Game.DrawArea(m_distanceJointObject.GetAABB(), Color.Green);
@@ -130,7 +125,7 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                if (IsTargetedObjectStabilized || m_targetedObject != null)
+                if (IsTargetedObjectStabilized || TargetedObject != null)
                     StopStabilizingTargetedObject();
 
                 m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
@@ -146,7 +141,7 @@ namespace BotExtended.Projectiles
             Game.DrawArea(stabilizedZone, Color.Green);
 
             var targetedObjectFound = false;
-            var targetHitbox = m_targetedObject.GetAABB();
+            var targetHitbox = TargetedObject.GetAABB();
 
             if (stabilizedZone.Intersects(targetHitbox))
                 targetedObjectFound = true;
@@ -155,7 +150,7 @@ namespace BotExtended.Projectiles
             {
                 if (result.HitObject == null) continue;
 
-                if (result.HitObject.UniqueID == m_targetedObject.UniqueID)
+                if (result.HitObject.UniqueID == TargetedObject.UniqueID)
                 {
                     targetedObjectFound = true;
 
@@ -177,7 +172,7 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                var player = m_targetedObject as IPlayer;
+                var player = TargetedObject as IPlayer;
                 if (player != null && !player.IsStaggering)
                 {
                     // Not sure why StaggerInfinite is not infinite!
@@ -195,17 +190,26 @@ namespace BotExtended.Projectiles
                 m_targetedObjectJoint.Remove();
             }
 
-            var player = m_targetedObject as IPlayer;
+            var player = TargetedObject as IPlayer;
             if (player != null) player.SetInputEnabled(true);
 
             m_pullJoint.SetTargetObject(null);
-            m_targetedObject = null;
+
+            if (TargetedObject != null)
+            {
+                if (Owner.IsBot)
+                    TargetedObject.SetCollisionFilter(m_oldCollisionFilter);
+                if (TargetedObject.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2)
+                    TargetedObject.TrackAsMissile(true); // must be called after updating CollisionFilter
+                TargetedObject.SetMass(m_oldMass);
+                TargetedObject = null;
+            }
             IsTargetedObjectStabilized = false;
         }
 
         private void StabilizeTargetedObject()
         {
-            m_targetedObject.SetLinearVelocity(Vector2.Zero);
+            TargetedObject.SetLinearVelocity(Vector2.Zero);
 
             m_distanceJointObject = Game.CreateObject("InvisibleBlockSmall");
             m_distanceJointObject.SetBodyType(BodyType.Dynamic);
@@ -216,9 +220,9 @@ namespace BotExtended.Projectiles
 
             m_targetedObjectJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint");
 
-            var targetedObjPosition = m_targetedObject.GetAABB().Center;
+            var targetedObjPosition = TargetedObject.GetAABB().Center;
             m_distanceJointObject.SetWorldPosition(targetedObjPosition);
-            m_targetedObject.SetWorldPosition(targetedObjPosition);
+            TargetedObject.SetWorldPosition(targetedObjPosition);
             m_pullJoint.SetWorldPosition(targetedObjPosition);
             m_distanceJoint.SetWorldPosition(targetedObjPosition);
             // if DistanceJoint and TargetObjectJoint is at the same position, weird things may happen
@@ -228,7 +232,7 @@ namespace BotExtended.Projectiles
             m_pullJoint.SetTargetObject(m_distanceJointObject);
             m_distanceJoint.SetTargetObject(m_distanceJointObject);
             m_distanceJoint.SetTargetObjectJoint(m_targetedObjectJoint);
-            m_targetedObjectJoint.SetTargetObject(m_targetedObject);
+            m_targetedObjectJoint.SetTargetObject(TargetedObject);
 
             IsTargetedObjectStabilized = true;
         }
@@ -292,83 +296,83 @@ namespace BotExtended.Projectiles
         {
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
 
-            if (m_targetedObject != null)
+            if (TargetedObject != null)
             {
-                var mass = m_targetedObject.GetMass();
-                pullJoint.SetWorldPosition(m_targetedObject.GetWorldPosition());
-                // TODO: cannot lift very heavy objects (piano)
-                var force = (float)Math.Pow(10000 * mass, 1.1) / 50;
-                if (m_targetedObject is IPlayer)
-                    force = 10;
+                var mass = TargetedObject.GetMass();
 
-                //ScriptHelper.LogDebug(m_targetedObject.Name, mass, force);
-                pullJoint.SetForce(force);
+                TargetedObject.SetMass(.01f);
+                pullJoint.SetWorldPosition(TargetedObject.GetWorldPosition());
+                pullJoint.SetForce(5);
+                pullJoint.SetForcePerDistance(0);
             }
 
-            pullJoint.SetTargetObject(m_targetedObject);
+            pullJoint.SetTargetObject(TargetedObject);
             pullJoint.SetTargetObjectJoint(m_magnetJoint);
 
             return pullJoint;
         }
 
+        private CollisionFilter m_oldCollisionFilter;
+        private float m_oldMass;
         public void PickupObject()
         {
-            if (m_targetedObject == null)
+            if (TargetedObject == null)
             {
                 var results = RayCastTargetedObject(true);
 
                 if (results.Count() > 0)
                 {
                     var result = results.First();
-                    m_targetedObject = result.HitObject;
-                    var targetHitbox = m_targetedObject.GetAABB();
+                    TargetedObject = result.HitObject;
+                    m_oldMass = TargetedObject.GetMass();
 
                     // if is player, make them staggering
                     if (result.IsPlayer)
                     {
-                        var player = (IPlayer)m_targetedObject;
+                        var player = (IPlayer)TargetedObject;
                         player.SetInputEnabled(false);
                         player.AddCommand(new PlayerCommand(PlayerCommandType.StaggerInfinite));
                     }
 
                     // destroy TargetObjectJoint so hanging stuff can be pulled
-                    foreach (var j in Game.GetObjectsByArea<IObjectTargetObjectJoint>(targetHitbox))
+                    foreach (var j in Game.GetObjectsByArea<IObjectTargetObjectJoint>(TargetedObject.GetAABB()))
                     {
                         var to = j.GetTargetObject();
                         if (to == null) continue;
-                        if (to.UniqueID == m_targetedObject.UniqueID)
+                        if (to.UniqueID == TargetedObject.UniqueID)
                         {
-                            m_targetedObject.SetLinearVelocity(Vector2.Zero);
+                            TargetedObject.SetLinearVelocity(Vector2.Zero);
                             j.SetTargetObject(null);
                             j.Remove();
                         }
                     }
-                    foreach (var j in Game.GetObjectsByArea<IObjectWeldJoint>(targetHitbox))
+                    foreach (var j in Game.GetObjectsByArea<IObjectWeldJoint>(TargetedObject.GetAABB()))
                     {
-                        j.RemoveTargetObject(m_targetedObject);
+                        j.RemoveTargetObject(TargetedObject);
                     }
 
                     // some objects that are in dynamic collision group but is static (SurveillanceCamera)
-                    if (m_targetedObject.GetBodyType() == BodyType.Static)
-                        m_targetedObject.SetBodyType(BodyType.Dynamic);
+                    if (TargetedObject.GetBodyType() == BodyType.Static)
+                        TargetedObject.SetBodyType(BodyType.Dynamic);
 
                     // m_targetObjectJoint.Position is fucked up if key input event fires. idk why
                     m_magnetJoint.SetWorldPosition(GetHoldPosition(true));
                     m_pullJoint.Remove();
                     m_pullJoint = CreatePullJointObject();
+
+                    // The AI when using GravityGun is not very good so I give the bots a little edge advantage
+                    if (Owner.IsBot)
+                    {
+                        m_oldCollisionFilter = TargetedObject.GetCollisionFilter();
+                        var noStaticCollision = TargetedObject.GetCollisionFilter();
+                        // https://www.mythologicinteractiveforums.com/viewtopic.php?t=1012
+                        noStaticCollision.CategoryBits = 0x1010; // marker or something
+                        noStaticCollision.MaskBits = (ushort)(noStaticCollision.MaskBits % 2 == 1 ?
+                            noStaticCollision.MaskBits - 1 : noStaticCollision.MaskBits);
+                        TargetedObject.SetCollisionFilter(noStaticCollision);
+                    }
                 }
             }
-        }
-
-        // Don't make heavy objects fly too slow or light objects fly too fast
-        private Vector2 ClampVelocity(Vector2 velocity)
-        {
-            if (velocity.Length() < 20)
-                velocity = Owner.AimVector * 20f;
-            if (velocity.Length() > 1500)
-                velocity = Owner.AimVector * 1500;
-
-            return velocity;
         }
 
         public override void Remove()
@@ -380,26 +384,21 @@ namespace BotExtended.Projectiles
         private bool m_stopPlayingReleaseEffect = false;
         private void Release()
         {
-            if (m_targetedObject == null)
+            if (TargetedObject == null)
             {
                 var results = RayCastTargetedObject(true);
                 if (results.Count() > 0)
                 {
-                    m_targetedObject = results.First().HitObject;
+                    TargetedObject = results.First().HitObject;
                 }
             }
 
-            if (m_targetedObject != null)
+            if (TargetedObject != null)
             {
-                var mass = m_targetedObject.GetMass();
-                var velocity = Owner.AimVector * 45 / (float)Math.Pow(1 - mass, .6);
+                var mass = TargetedObject.GetMass();
+                var velocity = Owner.AimVector * 50;
 
-                m_targetedObject.SetLinearVelocity(ClampVelocity(velocity));
-
-                if (m_targetedObject.GetCollisionFilter().CategoryBits == 0x10) // dynamics_g2
-                {
-                    m_targetedObject.TrackAsMissile(true);
-                }
+                TargetedObject.SetLinearVelocity(velocity);
 
                 // PS: I dont like the effects, uncomment if you want to see it
                 //m_releasedObject = m_targetedObject;

@@ -21,7 +21,7 @@ namespace BotExtended.Bots
         {
             base.OnUpdate(elapsed);
 
-            if (Player.GetHealth() <= 50 && m_currentPowerup != RangedWeaponPowerup.GravityDE)
+            if (Player.GetHealth() <= 80 && m_currentPowerup != RangedWeaponPowerup.GravityDE)
             {
                 // Wait until next frame to re-equip the same gun so the custom DropEvent can diff weapon properly (and fire)
                 ScriptHelper.Timeout(() =>
@@ -32,6 +32,10 @@ namespace BotExtended.Bots
                     m_currentPowerup = RangedWeaponPowerup.GravityDE;
                     ResetWeapon();
                     Player.SetStrengthBoostTime(1000 * 60 * 1);
+
+                    var mod = Player.GetModifiers();
+                    mod.MeleeForceModifier = MeleeForce.Strong;
+                    Player.SetModifiers(mod);
                 }, 0);
             }
         }

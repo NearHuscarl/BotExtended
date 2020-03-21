@@ -159,11 +159,7 @@ namespace BotExtended.Library
         public static IEnumerable<IPlayer> GetPlayersInRange(Vector2 center, float radius, float minAngle = 0, float maxAngle = 0,
             bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
-            var filterArea = new Area(
-                center.Y + radius,
-                center.X - radius,
-                center.Y - radius,
-                center.X + radius);
+            var filterArea = ScriptHelper.GrowFromCenter(center, radius * 2); 
             var players = Game.GetObjectsByArea<IPlayer>(filterArea)
                 .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), center, radius, minAngle, maxAngle));
 

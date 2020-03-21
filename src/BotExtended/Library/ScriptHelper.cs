@@ -240,5 +240,19 @@ namespace BotExtended.Library
 
             return usersByAccountID;
         }
+
+        public static Area GrowFromCenter(Vector2 center, float width, float height = 0)
+        {
+            if (height == 0) height = width;
+            var halfWidth = width / 2;
+            var halfHeight = height / 2;
+
+            return new Area(
+                center.Y + halfHeight,
+                center.X - halfWidth,
+                center.Y - halfHeight,
+                center.X + halfWidth
+                );
+        }
     }
 }
