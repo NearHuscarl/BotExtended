@@ -343,6 +343,35 @@ Reset player Spud to normal
 /be sp spud none
 ```
 
+### `setweapon`
+
+Usage: `/<botextended|be> [setweapon|sw] <player> <WeaponItem> <Powerup>`
+
+Give specific player a powerup weapon
+
+Give player near an electroshock magnum which can stun players on critical hit
+```
+/be setweapon near magnum stun
+```
+
+Same command as above but use indexes to shorten the command
+
+```
+/be sw 0 1 1
+```
+
+Remove powerup. Magnum now fires normal rounds
+
+```
+/be sw near magnum none
+```
+
+Remove all powerup weapons that in the player's inventory (not apply until the next round)
+
+```
+/be sw near none
+```
+
 ### `clearplsettings`
 
 Usage: `/<botextended|be> [clearplsettings|cp]`
