@@ -117,13 +117,10 @@ namespace BotExtended
             if (player == null || weaponSet.IsEmpty) return;
 
             player.GiveWeaponItem(weaponSet.Melee);
-            player.GiveWeaponItem(weaponSet.Primary);
-            player.GiveWeaponItem(weaponSet.Secondary);
+            ProjectileManager.SetPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
+            ProjectileManager.SetPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
             player.GiveWeaponItem(weaponSet.Throwable);
             player.GiveWeaponItem(weaponSet.Powerup);
-
-            ProjectileManager.SetPrimaryPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
-            ProjectileManager.SetSecondaryPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
 
             if (weaponSet.UseLazer) player.GiveWeaponItem(WeaponItem.LAZER);
         }
@@ -154,7 +151,29 @@ namespace BotExtended
 
         public static void SetPlayer(IPlayer player, BotType botType)
         {
+            if (botType == BotType.None)
+                return;
             BotManager.SpawnBot(botType, BotFaction.None, player, true, true, player.GetTeam());
+        }
+
+        public static void SetWeapon(IPlayer player, string weaponItemStr, string powerupStr)
+        {
+            var weaponItem = SharpHelper.StringToEnum<WeaponItem>(weaponItemStr);
+            var type = Mapper.GetWeaponItemType(weaponItem);
+
+            switch (type)
+            {
+                // TODO: Melee powerup
+                case WeaponItemType.Melee:
+                    break;
+                case WeaponItemType.Rifle:
+                case WeaponItemType.Handgun:
+                {
+                    var powerup = SharpHelper.StringToEnum<RangedWeaponPowerup>(powerupStr);
+                    ProjectileManager.SetPowerup(player, weaponItem, powerup);
+                    break;
+                }
+            }
         }
     }
 }

@@ -105,14 +105,23 @@ namespace BotExtended
 
             foreach (var ps in settings.PlayerSettings)
             {
-                var pieces = ps.Split('.');
-                var accountID = pieces.First();
+                var pst = PlayerSettings.Parse(ps);
 
-                if (activeUsers.ContainsKey(accountID))
+                if (activeUsers.ContainsKey(pst.AccountID))
                 {
-                    var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
-                    var userID = activeUsers[accountID].UserIdentifier;
-                    BotHelper.SetPlayer(Game.GetActiveUser(userID).GetPlayer(), botType);
+                    var userID = activeUsers[pst.AccountID].UserIdentifier;
+                    var player = Game.GetActiveUser(userID).GetPlayer();
+
+                    if (pst.BotType != "None")
+                    {
+                        var botType = SharpHelper.StringToEnum<BotType>(pst.BotType);
+                        BotHelper.SetPlayer(player, botType);
+                    }
+
+                    foreach (var w in pst.Weapons)
+                    {
+                        BotHelper.SetWeapon(player, w[0], w[1]);
+                    }
                 }
             }
         }

@@ -83,7 +83,7 @@ namespace BotExtended.Projectiles
         private IObject ToPresentBullet(IProjectile projectile)
         {
             var customBullet = Game.CreateObject("XmasPresent00",
-                worldPosition: projectile.Position,
+                worldPosition: projectile.Position + projectile.Direction * 3,
                 angle: (float)Math.Atan2(projectile.Direction.X, projectile.Direction.Y),
                 linearVelocity: projectile.Velocity / 50 + new Vector2(0, 3),
                 angularVelocity: 50f * (int)(projectile.Direction.X % 1),

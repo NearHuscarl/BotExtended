@@ -60,6 +60,7 @@
     <Compile Include="Library\Mapper.cs" />
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
+    <Compile Include="PlayerSettings.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
     <Compile Include="Projectiles\RangeWeaponFactory.cs" />
     <Compile Include="Projectiles\RangeWpn.cs" />

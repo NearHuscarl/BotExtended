@@ -6,6 +6,7 @@ using System.Linq;
 using static BotExtended.GameScript;
 using static BotExtended.Library.Mocks.MockObjects;
 using BotExtended.Library;
+using BotExtended.Projectiles;
 
 namespace BotExtended
 {
@@ -86,6 +87,11 @@ namespace BotExtended
                     SetPlayer(arguments);
                     break;
 
+                case "sw":
+                case "setweapon":
+                    SetWeapon(arguments);
+                    break;
+
                 case "cp":
                 case "clearplsettings":
                     ClearPlayerSettings();
@@ -122,6 +128,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [factionrotation|fr] <1-10>: Set faction rotation interval for every n rounds");
             ScriptHelper.PrintMessage("/<botextended|be> [nextfaction|nf]: Change the faction in the currrent faction rotation to the next faction");
             ScriptHelper.PrintMessage("/<botextended|be> [setplayer|sp] <player> <BotType>: Set <player> outfit, weapons and modifiers to <BotType>");
+            ScriptHelper.PrintMessage("/<botextended|be> [setweapon|sw] <player> <WeaponItem> <Powerup>: Give <player> powerup weapon");
             ScriptHelper.PrintMessage("/<botextended|be> [clearplsettings|cp]: Clear all player settings");
             ScriptHelper.PrintMessage("/<botextended|be> [stats|st]: List all bot types and bot factions stats");
             ScriptHelper.PrintMessage("/<botextended|be> [clearstats|cst]: Clear all bot types and bot factions stats");
@@ -150,6 +157,47 @@ namespace BotExtended
                     result = defaultValue;
                     return false;
             }
+        }
+
+        private static bool TryParsePlayer(string args, out IPlayer result)
+        {
+            foreach (var player in Game.GetPlayers())
+            {
+                if (player.IsRemoved) continue;
+
+                if (player.IsUser)
+                {
+                    var playerIndex = -1;
+                    var playerSlotIndex = player.GetUser().GameSlotIndex;
+
+                    if (int.TryParse(args, out playerIndex))
+                    {
+                        if (playerSlotIndex == playerIndex)
+                        {
+                            result = player;
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (player.Name.ToLower() == args)
+                        {
+                            result = player;
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (player.Name.ToLower() == args)
+                    {
+                        result = player;
+                        return true;
+                    }
+                }
+            }
+            result = null;
+            return false;
         }
 
         private static void PrintVersion()
@@ -221,29 +269,43 @@ namespace BotExtended
             {
                 foreach (var ps in settings.PlayerSettings)
                 {
-                    var pieces = ps.Split('.');
-                    var accountID = pieces.First();
-                    var botType = SharpHelper.StringToEnum<BotType>(pieces.Last());
+                    var playerSettings = PlayerSettings.Parse(ps);
+                    var accountID = playerSettings.AccountID;
+                    var name = activeUsers.ContainsKey(accountID) ? activeUsers[accountID].Name : accountID;
 
-                    // TODO: display prettier message. Show all for all factions, show except for all faction minus a small amount of others
-                    // TODO: show other team faction too. Remember to update CurrentFaction
-                    if (activeUsers.ContainsKey(accountID))
+                    ScriptHelper.PrintMessage(name + ": " + playerSettings.BotType);
+                    foreach (var w in playerSettings.Weapons)
                     {
-                        var userName = activeUsers[accountID].Name;
-                        ScriptHelper.PrintMessage(userName + ": " + botType);
-                    }
-                    else
-                    {
-                        ScriptHelper.PrintMessage(accountID + ": " + botType);
+                        ScriptHelper.PrintMessage(" - " + w[0] + " " + w[1]);
                     }
                 }
             }
 
             ScriptHelper.PrintMessage("-Factions", ScriptHelper.WARNING_COLOR);
-            foreach (var botFaction in settings.BotFactions[BotManager.BotTeam])
+
+            // TODO: show except for all faction minus a small amount of others
+            foreach (var team in new PlayerTeam[] { PlayerTeam.Team1, PlayerTeam.Team2, PlayerTeam.Team3, PlayerTeam.Team4, })
             {
-                var index = (int)botFaction;
-                ScriptHelper.PrintMessage(index + ": " + botFaction);
+                var factions = settings.BotFactions[team];
+                var currentFaction = settings.CurrentFaction[team];
+
+                ScriptHelper.PrintMessage(" -" + team, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("  -Factions: ", ScriptHelper.WARNING_COLOR);
+
+                if (factions.Count == SharpHelper.EnumToArray<BotFaction>().Count() - 1 /* minus BotFaction.None */)
+                {
+                    ScriptHelper.PrintMessage("  ALL");
+                }
+                else
+                {
+                    foreach (var botFaction in factions)
+                    {
+                        var index = (int)botFaction;
+                        ScriptHelper.PrintMessage("  " + index + ": " + botFaction);
+                    }
+                }
+
+                ScriptHelper.PrintMessage("  -Current faction: " + currentFaction, ScriptHelper.WARNING_COLOR);
             }
 
             var rotationInterval = settings.FactionRotationEnabled ? settings.FactionRotationInterval.ToString() : "Disabled";
@@ -251,7 +313,6 @@ namespace BotExtended
 
             ScriptHelper.PrintMessage("-Faction rotation interval: " + rotationInterval, ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, ScriptHelper.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Current faction: " + settings.CurrentFaction[BotManager.BotTeam], ScriptHelper.WARNING_COLOR);
             ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
         }
 
@@ -416,110 +477,170 @@ namespace BotExtended
             ScriptHelper.PrintMessage("[Botextended] Update successfully");
         }
 
-        private static void CreateBot(IPlayer player, BotType bt)
+        private static void UpdatePlayerSettings(IPlayer player, Func<PlayerSettings, PlayerSettings> update)
         {
-            if (player.IsUser)
+            if (!player.IsUser) return;
+            var accountID = player.GetUser().AccountID;
+            if (string.IsNullOrEmpty(accountID)) return;
+
+            var key = BotHelper.StorageKey("PLAYER_SETTINGS");
+            string[] allPlayerSettings;
+
+            if (BotHelper.Storage.TryGetItemStringArr(key, out allPlayerSettings))
             {
-                var userID = player.GetUser().AccountID;
-                if (!string.IsNullOrEmpty(userID))
+                var isUpdate = false;
+                for (var i = 0; i < allPlayerSettings.Length; i++)
                 {
-                    var key = BotHelper.StorageKey("PLAYER_SETTINGS");
-                    var value = userID + "." + bt;
-                    string[] playerSettings;
-
-                    if (BotHelper.Storage.TryGetItemStringArr(key, out playerSettings))
+                    if (allPlayerSettings[i].StartsWith(accountID))
                     {
-                        var update = false;
-                        for (var i = 0; i < playerSettings.Length; i++)
-                        {
-                            if (playerSettings[i].StartsWith(userID))
-                            {
-                                update = true;
-                                if (bt == BotType.None)
-                                {
-                                    var r = new List<string>(playerSettings);
-                                    r.RemoveAt(i);
-                                    playerSettings = r.ToArray();
-                                }
-                                else
-                                    playerSettings[i] = value;
-                                break;
-                            }
-                        }
+                        var oldPlayerSettings = PlayerSettings.Parse(allPlayerSettings[i]);
+                        var newPlayerSettings = update(oldPlayerSettings);
 
-                        if (!update)
+                        isUpdate = true;
+
+                        // TODO: wait for gurt to fix the Storage bug
+                        if (false /*newPlayerSettings.IsEmpty()*/)
                         {
-                            var a = playerSettings.ToList();
-                            a.Add(value);
-                            playerSettings = a.ToArray();
+                            var r = allPlayerSettings.ToList();
+                            r.RemoveAt(i);
+                            allPlayerSettings = r.ToArray();
                         }
+                        else
+                            allPlayerSettings[i] = newPlayerSettings.ToString();
+                        break;
                     }
-                    else
-                        playerSettings = new string[] { value };
+                }
 
-                    BotHelper.Storage.SetItem(key, playerSettings);
+                if (!isUpdate)
+                {
+                    var a = allPlayerSettings.ToList();
+                    var newPlayerSettings = update(PlayerSettings.Empty(accountID));
+
+                    if (!newPlayerSettings.IsEmpty())
+                    {
+                        a.Add(newPlayerSettings.ToString());
+                        allPlayerSettings = a.ToArray();
+                    }
                 }
             }
-            if (bt == BotType.None)
+            else
             {
-                ScriptHelper.PrintMessage("Player " + player.Name + " will be reset next round");
-                return;
+                var newPlayerSettings = update(PlayerSettings.Empty(accountID));
+
+                if (!newPlayerSettings.IsEmpty())
+                {
+                    allPlayerSettings = new string[] { newPlayerSettings.ToString() };
+                }
             }
-            BotHelper.SetPlayer(player, bt);
+
+            BotHelper.Storage.SetItem(key, allPlayerSettings);
         }
+
         public static void SetPlayer(IEnumerable<string> arguments)
         {
             if (arguments.Count() < 2)
             {
-                ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
                 ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
                 return;
             }
-            var playerArg = string.Join(" ", arguments.Take(arguments.Count() - 1));
-            var botTypeArg = arguments.Last();
-            BotType botType;
 
+            var playerArg = string.Join(" ", arguments.Take(arguments.Count() - 1));
+            IPlayer player;
+            if (!TryParsePlayer(playerArg, out player))
+            {
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+                return;
+            }
+            else
+                arguments = arguments.Skip(arguments.Count() - 1);
+
+            var botTypeArg = arguments.First();
+            BotType botType;
             if (!SharpHelper.TryParseEnum(botTypeArg, out botType))
             {
-                ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
                 ScriptHelper.PrintMessage("Invalid BotType: " + botTypeArg, ScriptHelper.WARNING_COLOR);
                 return;
             }
 
-            foreach (var player in Game.GetPlayers())
+            UpdatePlayerSettings(player, (old) => old.Update(botType.ToString()));
+
+            if (botType == BotType.None)
+                ScriptHelper.PrintMessage("Player " + player.Name + " will be reset next round");
+            else
+                BotHelper.SetPlayer(player, botType);
+        }
+
+        public static void SetWeapon(IEnumerable<string> arguments)
+        {
+            if (arguments.Count() == 2)
+                arguments = arguments.Concat(new string[] { "None" });
+
+            if (arguments.Count() < 3)
             {
-                if (player.IsRemoved) continue;
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
+                return;
+            }
 
-                if (player.IsUser)
+            var playerArg = string.Join(" ", arguments.Take(arguments.Count() - 2));
+            IPlayer player;
+            if (!TryParsePlayer(playerArg, out player))
+            {
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+                return;
+            }
+            else
+                arguments = arguments.Skip(arguments.Count() - 2);
+
+            var weaponItemArg = arguments.First();
+            WeaponItem weaponItem;
+            if (!SharpHelper.TryParseEnum(weaponItemArg, out weaponItem))
+            {
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid WeaponItem: " + weaponItemArg, ScriptHelper.WARNING_COLOR);
+                return;
+            }
+            else
+            {
+                weaponItemArg = weaponItem.ToString();
+                arguments = arguments.Skip(1);
+            }
+
+            var powerupArg = arguments.First();
+            var type = Mapper.GetWeaponItemType(weaponItem);
+            if (type == WeaponItemType.Rifle || type == WeaponItemType.Handgun || type == WeaponItemType.Thrown)
+            {
+                RangedWeaponPowerup powerup;
+                if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
                 {
-                    var playerIndex = -1;
-                    var playerSlotIndex = player.GetUser().GameSlotIndex;
-
-                    if (int.TryParse(playerArg, out playerIndex))
-                    {
-                        if (playerSlotIndex == playerIndex)
-                        {
-                            CreateBot(player, botType); return;
-                        }
-                    }
-                    else
-                    {
-                        if (player.Name.ToLower() == playerArg)
-                        {
-                            CreateBot(player, botType); return;
-                        }
-                    }
+                    ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid range powerup: " + powerupArg, ScriptHelper.WARNING_COLOR);
+                    return;
                 }
                 else
-                {
-                    if (player.Name.ToLower() == playerArg)
-                    {
-                        CreateBot(player, botType); return;
-                    }
-                }
+                    powerupArg = powerup.ToString();
             }
-            ScriptHelper.PrintMessage("--BotExtended decorate--", ScriptHelper.ERROR_COLOR);
-            ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+            if (type == WeaponItemType.Melee)
+            {
+                MeleeWeaponPowerup powerup;
+                if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
+                {
+                    ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid melee powerup: " + powerupArg, ScriptHelper.WARNING_COLOR);
+                    return;
+                }
+                else
+                    powerupArg = powerup.ToString();
+            }
+
+            if (weaponItemArg == "NONE")
+                ScriptHelper.PrintMessage("Player " + player.Name + "'s weapon will be reset next round");
+            UpdatePlayerSettings(player, (old) => old.Update(type, weaponItemArg, powerupArg));
+            BotHelper.SetWeapon(player, weaponItemArg, powerupArg);
         }
 
         private static void ClearPlayerSettings()

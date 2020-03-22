@@ -151,27 +151,33 @@ namespace BotExtended.Projectiles
             return playerWpn;
         }
 
-        internal static void SetPrimaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
+        internal static void SetPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
-            if (powerup == RangedWeaponPowerup.None) return;
             var playerWpn = GetOrCreatePlayerWeapon(player);
+            var type = Mapper.GetWeaponItemType(weaponItem);
 
-            if (playerWpn.Primary != null)
-                playerWpn.Primary.Remove();
+            switch (type)
+            {
+                // TODO: Melee powerup
+                case WeaponItemType.Melee:
+                    break;
+                case WeaponItemType.Rifle:
+                {
+                    if (playerWpn.Primary != null)
+                        playerWpn.Primary.Remove();
+                    playerWpn.Primary = RangeWeaponFactory.Create(player, weaponItem, powerup);
+                    break;
+                }
+                case WeaponItemType.Handgun:
+                {
+                    if (playerWpn.Secondary != null)
+                        playerWpn.Secondary.Remove();
+                    playerWpn.Secondary = RangeWeaponFactory.Create(player, weaponItem, powerup);
+                    break;
+                }
+            }
 
-            playerWpn.Primary = RangeWeaponFactory.Create(player, weaponItem, powerup);
-            m_owners[player.UniqueID] = playerWpn;
-        }
-
-        internal static void SetSecondaryPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
-        {
-            if (powerup == RangedWeaponPowerup.None) return;
-            var playerWpn = GetOrCreatePlayerWeapon(player);
-
-            if (playerWpn.Secondary != null)
-                playerWpn.Secondary.Remove();
-
-            playerWpn.Secondary = RangeWeaponFactory.Create(player, weaponItem, powerup);
+            player.GiveWeaponItem(weaponItem);
             m_owners[player.UniqueID] = playerWpn;
         }
 

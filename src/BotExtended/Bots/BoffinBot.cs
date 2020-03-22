@@ -53,8 +53,7 @@ namespace BotExtended.Bots
         {
             var weaponSet = GetWeapons(Type).First();
 
-            Player.GiveWeaponItem(weaponSet.Primary);
-            ProjectileManager.SetPrimaryPowerup(Player, weaponSet.Primary, m_currentPowerup);
+            ProjectileManager.SetPowerup(Player, weaponSet.Primary, m_currentPowerup);
         }
 
         public override void OnDeath(PlayerDeathArgs args)
