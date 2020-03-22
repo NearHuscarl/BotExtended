@@ -29,7 +29,6 @@ namespace BotExtended.Bots
         private float m_shootDelayTime = 0f;
         private float m_shootDelayTimeThisTurn = 0f;
         private float m_stateDelay = 0f;
-        private Vector2 m_objPosition = Vector2.Zero;
 
         private bool m_nearestObjectIsPlayer;
         private IObject m_nearestObject;
@@ -174,28 +173,16 @@ namespace BotExtended.Bots
                     if (IsObjectInRange(gun, NearestObject) && Player.IsManualAiming)
                     {
                         gun.PickupObject();
-                        m_objPosition = gun.TargetedObject.GetWorldPosition();
                         ChangeState(State.Retrieving);
                     }
                     break;
                 }
                 case State.Retrieving:
                 {
-                    if (gun.TargetedObject == null)
+                    if (gun.TargetedObject == null || IsObjectStuck(gun.TargetedObject))
                     {
                         Stop();
                         break;
-                    }
-                    // stop if object is stuck
-                    if (ScriptHelper.IsElapsed(m_stateDelay, 30))
-                    {
-                        var currentPosition = gun.TargetedObject.GetWorldPosition();
-                        if (Vector2.Distance(currentPosition, m_objPosition) < 3)
-                        {
-                            Stop();
-                            m_objPosition = currentPosition;
-                        }
-                        m_stateDelay = Game.TotalElapsedGameTime;
                     }
                     if (gun.IsTargetedObjectStabilized && gun.TargetedObject.GetLinearVelocity().Length() < 1)
                     {
@@ -260,6 +247,29 @@ namespace BotExtended.Bots
                     break;
                 }
             }
+        }
+
+        private float m_objStuckCheckTime;
+        private Vector2 m_oldObjPosition = Vector2.Zero;
+        private bool IsObjectStuck(IObject obj)
+        {
+            if (m_oldObjPosition == Vector2.Zero)
+            {
+                m_oldObjPosition = obj.GetWorldPosition();
+                return false; // init
+            }
+
+            if (ScriptHelper.IsElapsed(m_objStuckCheckTime, 30))
+            {
+                var currentPosition = obj.GetWorldPosition();
+                if (Vector2.Distance(currentPosition, m_oldObjPosition) < .5f)
+                {
+                    return true;
+                }
+                m_oldObjPosition = currentPosition;
+                m_objStuckCheckTime = Game.TotalElapsedGameTime;
+            }
+            return false;
         }
 
         private BotBehaviorSet m_oldBotBehaviorSet = null;
@@ -377,6 +387,8 @@ namespace BotExtended.Bots
             m_state = state;
             m_executeOnce = false;
             m_stateDelay = Game.TotalElapsedGameTime;
+            m_objStuckCheckTime = Game.TotalElapsedGameTime;
+            m_oldObjPosition = Vector2.Zero;
         }
 
         private void Stop()

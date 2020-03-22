@@ -134,5 +134,18 @@ namespace BotExtended.Library
             }
             return Direction(Rnd, minAngle, maxAngle);
         }
+
+        public static Vector2 WithinArea(Area area)
+        {
+            var center = area.Center;
+            var halfWidth = area.Width / 2;
+            var halfHeight = area.Height / 2;
+
+            return new Vector2()
+            {
+                X = Between(center.X - halfWidth, center.X + halfWidth),
+                Y = Between(center.Y - halfHeight, center.Y + halfHeight),
+            };
+        }
     }
 }

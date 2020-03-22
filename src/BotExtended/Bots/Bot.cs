@@ -119,6 +119,9 @@ namespace BotExtended.Bots
             }
             UpdateWeaponStatus();
             UpdateCustomWeaponAI(elapsed);
+
+            if (IsStunned && !Player.IsDeathKneeling)
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
         }
 
         public void LogDebug(params object[] messages)
@@ -474,10 +477,11 @@ namespace BotExtended.Bots
         }
 
         public bool CanInfect { get { return Info.ZombieStatus != ZombieStatus.Human; } }
+        public bool CanBeInfected { get { return !CanInfect && !Info.ImmuneToInfect && !Player.IsBurnedCorpse; } }
         public bool IsInfectedByZombie { get { return Info.ZombieStatus == ZombieStatus.Infected; } }
         private void UpdateInfectedStatus(IPlayer attacker, PlayerDamageArgs args)
         {
-            if (!CanInfect && !Player.IsBurnedCorpse && attacker != null)
+            if (CanBeInfected && attacker != null)
             {
                 var directContact = args.DamageType == PlayerDamageEventType.Melee
                     && attacker.CurrentWeaponDrawn == WeaponItemType.NONE
@@ -486,16 +490,22 @@ namespace BotExtended.Bots
 
                 if (attackerBot.CanInfect && directContact)
                 {
-                    if (!Info.ImmuneToInfect)
-                    {
-                        Game.PlayEffect(EffectName.CustomFloatText, Position, "infected");
-                        Game.ShowChatMessage(attacker.Name + " infected " + Player.Name);
-                        Info.ZombieStatus = ZombieStatus.Infected;
-                    }
+                    Infect();
+                    Game.ShowChatMessage(attacker.Name + " infected " + Player.Name);
                 }
             }
         }
 
+        public void Infect()
+        {
+            if (CanBeInfected)
+            {
+                Game.PlayEffect(EffectName.CustomFloatText, Position, "infected");
+                Info.ZombieStatus = ZombieStatus.Infected;
+            }
+        }
+
+        // TODO: IPlayer.Disarm confirmed in future version
         public void Disarm(Vector2 dropDirection, bool destroyWeapon = false)
         {
             if (Player.CurrentWeaponDrawn == WeaponItemType.Melee

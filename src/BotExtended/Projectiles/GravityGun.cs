@@ -126,10 +126,12 @@ namespace BotExtended.Projectiles
             else
             {
                 if (IsTargetedObjectStabilized || TargetedObject != null)
+                {
                     StopStabilizingTargetedObject();
 
-                m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
-                m_magnetJoint.SetWorldPosition(FarAwayPosition);
+                    m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
+                    m_magnetJoint.SetWorldPosition(FarAwayPosition);
+                }
             }
         }
 
@@ -314,7 +316,7 @@ namespace BotExtended.Projectiles
 
         private CollisionFilter m_oldCollisionFilter;
         private float m_oldMass;
-        public void PickupObject()
+        public bool PickupObject()
         {
             if (TargetedObject == null)
             {
@@ -371,8 +373,10 @@ namespace BotExtended.Projectiles
                             noStaticCollision.MaskBits - 1 : noStaticCollision.MaskBits);
                         TargetedObject.SetCollisionFilter(noStaticCollision);
                     }
+                    return true;
                 }
             }
+            return false;
         }
 
         public override void Remove()
@@ -410,15 +414,7 @@ namespace BotExtended.Projectiles
                 //    Game.PlayEffect(EffectName.BulletSlowmoTrace, m_releasedObject.GetWorldPosition());
                 //    for (var i = 0; i < 1; i++)
                 //    {
-                //        var hitbox = m_releasedObject.GetAABB();
-                //        var center = hitbox.Center;
-                //        var halfWidth = hitbox.Width / 2;
-                //        var halfHeight = hitbox.Height / 2;
-                //        var effectPosition = new Vector2()
-                //        {
-                //            X = RandomHelper.Between(center.X - halfWidth, center.X + halfWidth),
-                //            Y = RandomHelper.Between(center.Y - halfHeight, center.Y + halfHeight),
-                //        };
+                //        var effectPosition = ScriptHelerp.WithinArea(m_releasedObject.GetAABB());
                 //        Game.PlayEffect(EffectName.ItemGleam, effectPosition);
                 //    }
                 //}, 1);

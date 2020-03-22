@@ -156,6 +156,9 @@ namespace BotExtended.Projectiles
             if (powerup == RangedWeaponPowerup.None) return;
             var playerWpn = GetOrCreatePlayerWeapon(player);
 
+            if (playerWpn.Primary != null)
+                playerWpn.Primary.Remove();
+
             playerWpn.Primary = RangeWeaponFactory.Create(player, weaponItem, powerup);
             m_owners[player.UniqueID] = playerWpn;
         }
@@ -164,6 +167,9 @@ namespace BotExtended.Projectiles
         {
             if (powerup == RangedWeaponPowerup.None) return;
             var playerWpn = GetOrCreatePlayerWeapon(player);
+
+            if (playerWpn.Secondary != null)
+                playerWpn.Secondary.Remove();
 
             playerWpn.Secondary = RangeWeaponFactory.Create(player, weaponItem, powerup);
             m_owners[player.UniqueID] = playerWpn;
