@@ -6,7 +6,7 @@ using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Projectiles
 {
-    class PresentBullet : ProjectileHooks
+    class PresentBullet : CustomProjectile
     {
         private static readonly List<string> m_presents = new List<string>()
         {
@@ -68,7 +68,9 @@ namespace BotExtended.Projectiles
             "WpnMineThrown",
         };
 
-        public override IObject OnCustomProjectileCreated(IProjectile projectile)
+        public PresentBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Present) { }
+
+        protected override IObject OnProjectileCreated(IProjectile projectile)
         {
             switch (projectile.ProjectileItem)
             {
@@ -80,7 +82,7 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private IObject ToPresentBullet(IProjectile projectile)
+        private static IObject ToPresentBullet(IProjectile projectile)
         {
             var customBullet = Game.CreateObject("XmasPresent00",
                 worldPosition: projectile.Position + projectile.Direction * 3,
@@ -96,13 +98,14 @@ namespace BotExtended.Projectiles
             return customBullet;
         }
 
-        public override void OnCustomProjectileHit(IObject projectile)
+        public override void OnProjectileHit()
         {
-            var position = projectile.GetWorldPosition();
+            var position = Instance.GetWorldPosition();
 
             // normally, the present spawn some random shits upon destroyed. make the present disappeared
             // and spawn something else as a workaround
-            projectile.SetWorldPosition(new Vector2(-5000, 5000));
+            Instance.SetWorldPosition(new Vector2(-1000, 1000));
+            Game.PlayEffect(EffectName.DestroyCloth, position);
 
             var rndNum = RandomHelper.Between(0, 100);
             if (rndNum < 1) // big oof

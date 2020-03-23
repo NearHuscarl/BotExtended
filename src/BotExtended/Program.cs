@@ -31,6 +31,17 @@ namespace BotExtended
                 //System.Diagnostics.Debugger.Break();
                 BotManager.Initialize();
 
+                //foreach (var p in Game.GetPlayers())
+                //{
+                //    if (p.Name == "Near")
+                //    {
+                //        p.SetUser(null);
+                //        p.SetBotBehaviorSet(BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.BotB));
+                //        p.SetBotBehaviorActive(true);
+                //        p.SetBotName("Near");
+                //    }
+                //}
+
                 if (Game.IsEditorTest)
                 {
                     var player = Game.GetPlayers()[0];
@@ -39,28 +50,29 @@ namespace BotExtended
                     modifiers.MaxHealth = 5000;
                     modifiers.CurrentHealth = 5000;
                     modifiers.EnergyConsumptionModifier = .1f;
-                    //modifiers.EnergyRechargeModifier = 1.5f;
                     modifiers.RunSpeedModifier = 1.25f;
                     modifiers.SprintSpeedModifier = 1.25f;
-                    modifiers.MeleeStunImmunity = 1;
+                    //modifiers.MeleeStunImmunity = 1;
                     //modifiers.InfiniteAmmo = 1;
 
                     player.SetTeam(PlayerTeam.Team1);
                     player.SetHitEffect(PlayerHitEffect.Metal);
                     player.SetModifiers(modifiers);
-                    player.GiveWeaponItem(WeaponItem.WHIP);
-                    player.GiveWeaponItem(WeaponItem.FLAREGUN);
-                    player.GiveWeaponItem(WeaponItem.ASSAULT);
-                    player.GiveWeaponItem(WeaponItem.GRENADES);
-                    player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
+                    //player.GiveWeaponItem(WeaponItem.KNIFE);
+                    //player.GiveWeaponItem(WeaponItem.FLAREGUN);
+                    //player.GiveWeaponItem(WeaponItem.ASSAULT);
+                    //player.GiveWeaponItem(WeaponItem.GRENADES);
+                    //player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
-                    //foreach (var p in Game.GetPlayers())
-                    //{
-                    //    if (p.Name != "Near" && p.IsUser)
-                    //    {
-                    //        p.SetUser(null);
-                    //    }
-                    //}
+                    foreach (var p in Game.GetPlayers())
+                    {
+                        //if (p.Name != "Near" && p.IsUser)
+                        //{
+                        //    p.SetUser(null);
+                        //}
+                        if (p.Name == "Scientist" || p.Name == "Lab Assistant")
+                            p.Remove();
+                    }
 
                     //Game.SetAllowedCameraModes(CameraMode.Static);
                     //Game.SetCameraArea(new Area(10, -130, -10, 130));

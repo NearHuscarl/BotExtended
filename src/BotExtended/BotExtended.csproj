@@ -61,7 +61,11 @@
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="PlayerSettings.cs" />
+    <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
+    <Compile Include="Projectiles\Projectile.cs" />
+    <Compile Include="Projectiles\ProjectileBase.cs" />
+    <Compile Include="Projectiles\ProjectileFactory.cs" />
     <Compile Include="Projectiles\RangeWeaponFactory.cs" />
     <Compile Include="Projectiles\RangeWpn.cs" />
     <Compile Include="Projectiles\MeleeWeaponPowerup.cs" />
@@ -71,7 +75,6 @@
     <Compile Include="Projectiles\ThrowWpn.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />
     <Compile Include="Projectiles\RangedWeaponPowerup.cs" />
-    <Compile Include="Projectiles\ProjectileHooks.cs" />
     <Compile Include="BotAI.cs" />
     <Compile Include="BotBehaviors.cs" />
     <Compile Include="BotFactionSets.cs" />

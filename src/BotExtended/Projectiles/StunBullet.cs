@@ -6,12 +6,14 @@ using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Projectiles
 {
-    class StunBullet : ProjectileHooks
+    class StunBullet : Projectile
     {
         private static readonly uint StunnedTime = 3000;
         private static readonly float EMPBlastRadius = 15f;
 
-        public override IProjectile OnProjectileCreated(IProjectile projectile)
+        public StunBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Stun) { }
+
+        protected override IProjectile OnProjectileCreated(IProjectile projectile)
         {
             switch (projectile.ProjectileItem)
             {
@@ -23,7 +25,7 @@ namespace BotExtended.Projectiles
             }
         }
 
-        public override void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
+        public override void OnProjectileHit(ProjectileHitArgs args)
         {
             var rndNum = RandomHelper.Between(0, 100);
             if (rndNum < 1)

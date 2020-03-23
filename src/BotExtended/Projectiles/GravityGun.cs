@@ -71,6 +71,7 @@ namespace BotExtended.Projectiles
                 offset = length / 2f;
             }
 
+            // TODO: Use IPlayer.GetWeaponMuzzleInfo(out Vector2 worldPosition, out Vector2 direction) https://www.mythologicinteractiveforums.com/viewtopic.php?f=34&t=3971
             var aimAngle = ScriptHelper.GetAngle(Owner.AimVector);
             var neckPosition = Owner.GetWorldPosition() + Vector2.UnitY * 10 - Vector2.UnitX * Owner.FacingDirection * 2;
             var crosshairCenter = neckPosition + ScriptHelper.GetDirection(aimAngle + MathHelper.PIOver2 * Owner.FacingDirection)

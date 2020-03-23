@@ -31,6 +31,8 @@ namespace BotExtended.Library
             }
             return placeholder;
         }
+
+        // TODO: remove once added in future ScriptAPI
         public static void LogDebugF(string placeholder, params object[] values)
         {
             if (Game.IsEditorTest)
@@ -43,6 +45,7 @@ namespace BotExtended.Library
             }
         }
 
+        // TODO: remove once added in future ScriptAPI
         public static void LogDebug(params object[] values)
         {
             if (Game.IsEditorTest)

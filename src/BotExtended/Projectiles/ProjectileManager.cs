@@ -2,23 +2,13 @@
 using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Projectiles
 {
     class ProjectileManager
     {
-        private class ProjectileInfo
-        {
-            public IProjectile Projectile;
-            public RangedWeaponPowerup Powerup;
-        }
-        private class CustomProjectileInfo
-        {
-            public IObject Projectile;
-            public RangedWeaponPowerup Powerup;
-        }
-
         public class WeaponInfo
         {
             public IObjectWeaponItem Weapon = null;
@@ -38,17 +28,10 @@ namespace BotExtended.Projectiles
             public float EffectTime = 0f;
         }
 
-        private static Dictionary<int, CustomProjectileInfo> m_customProjectiles = new Dictionary<int, CustomProjectileInfo>();
-        private static Dictionary<int, ProjectileInfo> m_projectiles = new Dictionary<int, ProjectileInfo>();
+        private static Dictionary<int, ProjectileBase> m_customProjectiles = new Dictionary<int, ProjectileBase>();
+        private static Dictionary<int, ProjectileBase> m_projectiles = new Dictionary<int, ProjectileBase>();
         private static Dictionary<int, Weapon> m_weapons = new Dictionary<int, Weapon>();
         private static Dictionary<int, PlayerWeapon> m_owners = new Dictionary<int, PlayerWeapon>();
-
-        private static readonly Dictionary<RangedWeaponPowerup, ProjectileHooks> m_projHooks =
-            new Dictionary<RangedWeaponPowerup, ProjectileHooks>()
-            {
-                { RangedWeaponPowerup.Present, new PresentBullet() },
-                { RangedWeaponPowerup.Stun, new StunBullet() },
-            };
 
         public static void Initialize()
         {
@@ -71,6 +54,24 @@ namespace BotExtended.Projectiles
                 }
             }
 
+            var removeList = new List<int>();
+            foreach (var kv in m_projectiles)
+            {
+                var projectile = kv.Value;
+                projectile.Update(elapsed);
+                if (projectile.IsRemoved)
+                    removeList.Add(kv.Key); // Projectile.ID is already reset to 0
+            }
+            // Projectiles dont have OnProjectileTerminated like how IObjects have OnObjectTerminated
+            // So when the projectiles go outside of the map and dont hit anything, it will be removed here
+            foreach (var r in removeList)
+                m_projectiles.Remove(r);
+
+            foreach (var projectile in m_customProjectiles.Values)
+            {
+                projectile.Update(elapsed);
+            }
+
             foreach (var o in m_owners)
             {
                 var player = o.Value.Primary.Owner;
@@ -90,7 +91,7 @@ namespace BotExtended.Projectiles
         {
             if (args.Removed)
             {
-                PlayerWeapon playerWpn;
+                var uniqueID = player.UniqueID;
 
                 // Wait until the next frame to remove the owner
                 // Since the custom Drop/Pickup event is fired in the UpdateCallback
@@ -98,14 +99,16 @@ namespace BotExtended.Projectiles
                 // so we have to wait for the event callback handling logic in this frame
                 ScriptHelper.Timeout(() =>
                 {
-                    if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
+                    PlayerWeapon playerWpn;
+
+                    if (m_owners.TryGetValue(uniqueID, out playerWpn))
                     {
                         playerWpn.Melee.Remove();
                         playerWpn.Primary.Remove();
                         playerWpn.Secondary.Remove();
                         playerWpn.Throwable.Remove();
                         playerWpn.Powerup.Remove();
-                        m_owners.Remove(player.UniqueID);
+                        m_owners.Remove(uniqueID);
                     }
                 }, 1);
             }
@@ -276,27 +279,13 @@ namespace BotExtended.Projectiles
 
                 if (powerup != RangedWeaponPowerup.None)
                 {
-                    if (m_projHooks.ContainsKey(powerup))
+                    var proj = ProjectileFactory.Create(projectile, powerup);
+                    if (proj != null && proj.Powerup != RangedWeaponPowerup.None)
                     {
-                        var customProjectile = m_projHooks[powerup].OnCustomProjectileCreated(projectile);
-                        var normalProjectile = m_projHooks[powerup].OnProjectileCreated(projectile);
-
-                        if (customProjectile != null)
-                        {
-                            m_customProjectiles.Add(customProjectile.UniqueID, new CustomProjectileInfo()
-                            {
-                                Projectile = customProjectile,
-                                Powerup = powerup,
-                            });
-                        }
-                        if (normalProjectile != null)
-                        {
-                            m_projectiles.Add(normalProjectile.InstanceID, new ProjectileInfo()
-                            {
-                                Projectile = normalProjectile,
-                                Powerup = powerup,
-                            });
-                        }
+                        if (proj.IsCustomProjectile)
+                            m_customProjectiles.Add(proj.ID, proj);
+                        else
+                            m_projectiles.Add(proj.ID, proj);
                     }
 
                     var currentRangeWpn = playerWpn.CurrentRangeWeapon;
@@ -317,10 +306,9 @@ namespace BotExtended.Projectiles
 
                 var owner = Game.GetPlayer(ownerID);
                 var playerWpn = GetOrCreatePlayerWeapon(owner);
-                var projInfo = m_projectiles[projectile.InstanceID];
+                var proj = m_projectiles[projectile.InstanceID];
 
-                if (m_projHooks.ContainsKey(projInfo.Powerup))
-                    m_projHooks[projInfo.Powerup].OnProjectileHit(projInfo.Projectile, args);
+                proj.OnProjectileHit(args);
 
                 var currentRangeWpn = playerWpn.CurrentRangeWeapon;
                 if (currentRangeWpn != null)
@@ -337,10 +325,9 @@ namespace BotExtended.Projectiles
             {
                 if (m_customProjectiles.ContainsKey(obj.UniqueID))
                 {
-                    var projInfo = m_customProjectiles[obj.UniqueID];
+                    var proj = m_customProjectiles[obj.UniqueID];
 
-                    if (m_projHooks.ContainsKey(projInfo.Powerup))
-                        m_projHooks[projInfo.Powerup].OnCustomProjectileHit(projInfo.Projectile);
+                    proj.OnProjectileHit();
                     m_customProjectiles.Remove(obj.UniqueID);
                 }
 
