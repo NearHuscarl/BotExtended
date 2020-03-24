@@ -9,23 +9,6 @@ namespace BotExtended.Bots
 {
     class EngineerBot_Controller : Controller<EngineerBot>
     {
-        private EngineerBot m_actor;
-        public override EngineerBot Actor
-        {
-            get { return m_actor; }
-            set
-            {
-                if (m_actor != null)
-                {
-                    m_actor.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-                    m_actor.BuildCompletedEvent -= OnBuildCompleted;
-                }
-                m_actor = value;
-                m_actor.PlayerDropWeaponEvent += OnPlayerDropWeapon;
-                m_actor.BuildCompletedEvent += OnBuildCompleted;
-            }
-        }
-
         public bool IsBuilding { get { return m_state == EngineerState.Building; } }
 
         private Area DangerArea
@@ -76,7 +59,7 @@ namespace BotExtended.Bots
 
         private AvailableTurretDirection m_availableDirection = AvailableTurretDirection.None;
 
-        private void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
+        public void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
         {
             if (!Actor.HasEquipment())
             {
@@ -86,10 +69,12 @@ namespace BotExtended.Bots
 
         private float m_analyzePlaceCooldown = 0f;
         private float m_buildCooldown = 0f;
-        private float BuildCooldownTime = 7000;
+        private readonly float BuildCooldownTime = 7000;
 
         public override void OnUpdate(float elapsed)
         {
+            Actor.LogDebug(m_state, Actor.BuildProgress);
+
             switch (m_state)
             {
                 case EngineerState.Normal:
@@ -122,8 +107,10 @@ namespace BotExtended.Bots
         }
 
         private float m_damageTakenWhileBuilding = 0f;
-        public void OnDamage(IPlayer attacker, PlayerDamageArgs args)
+        public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
+            base.OnDamage(attacker, args);
+
             if (IsBuilding)
             {
                 m_damageTakenWhileBuilding += args.Damage;
@@ -134,12 +121,6 @@ namespace BotExtended.Bots
                     m_damageTakenWhileBuilding = 0;
                 }
             }
-        }
-
-        public void OnDeath(PlayerDeathArgs args)
-        {
-            Actor.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-            Actor.BuildCompletedEvent -= OnBuildCompleted;
         }
 
         private bool IsAttacked()
@@ -352,6 +333,6 @@ namespace BotExtended.Bots
             }
         }
 
-        private void OnBuildCompleted() { StopBuilding(); }
+        public void OnBuildCompleted() { StopBuilding(); }
     }
 }

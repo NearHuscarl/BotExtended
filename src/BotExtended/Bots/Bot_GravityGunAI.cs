@@ -47,10 +47,7 @@ namespace BotExtended.Bots
 
         public Bot_GravityGunAI(Bot bot) { Bot = bot; }
 
-        public void OnPlayerDropWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo)
-        {
-            Stop();
-        }
+        public void OnDroppedWeapon(PlayerWeaponRemovedArg arg) { Stop(); }
 
         public void Update(float elapsed, GravityGun gun)
         {

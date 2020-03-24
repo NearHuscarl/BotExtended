@@ -71,13 +71,11 @@ namespace BotExtended.Projectiles
                 offset = length / 2f;
             }
 
-            // TODO: Use IPlayer.GetWeaponMuzzleInfo(out Vector2 worldPosition, out Vector2 direction) https://www.mythologicinteractiveforums.com/viewtopic.php?f=34&t=3971
-            var aimAngle = ScriptHelper.GetAngle(Owner.AimVector);
-            var neckPosition = Owner.GetWorldPosition() + Vector2.UnitY * 10 - Vector2.UnitX * Owner.FacingDirection * 2;
-            var crosshairCenter = neckPosition + ScriptHelper.GetDirection(aimAngle + MathHelper.PIOver2 * Owner.FacingDirection)
-                * 2 /*3 -> more aligned with crosshair but not very aligned with the gun barrel*/;
+            Vector2 position;
+            Vector2 direction;
+            Owner.GetWeaponMuzzleInfo(out position, out direction);
 
-            return crosshairCenter + Owner.AimVector * (15 + offset);
+            return position + direction * (6 + offset);
         }
 
         private Vector2[] GetScanLine()
@@ -110,6 +108,9 @@ namespace BotExtended.Projectiles
 
                     Game.DrawLine(scanLine[0], scanLine[1]);
                     Game.DrawCircle(holdPosition, .5f, Color.Red);
+
+                    //Game.DrawCircle(position, .5f, Color.Blue);
+                    //Game.DrawLine(position, position + direction * 6, Color.Yellow);
                     //Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
                     //Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
 

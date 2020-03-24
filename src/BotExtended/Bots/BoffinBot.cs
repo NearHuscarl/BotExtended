@@ -13,7 +13,6 @@ namespace BotExtended.Bots
 
         public BoffinBot(BotArgs args) : base(args)
         {
-            PlayerDropWeaponEvent += OnDropWeapon;
             m_currentPowerup = GetWeapons(Type).First().PrimaryPowerup;
         }
 
@@ -23,28 +22,29 @@ namespace BotExtended.Bots
 
             if (Player.GetHealth() <= 80 && m_currentPowerup != RangedWeaponPowerup.GravityDE)
             {
-                // Wait until next frame to re-equip the same gun so the custom DropEvent can diff weapon properly (and fire)
-                ScriptHelper.Timeout(() =>
-                {
-                    Game.PlayEffect(EffectName.Electric, Position);
-                    Game.PlaySound("ElectricSparks", Position);
-                    Game.CreateDialogue("You underestimate the gravity of the situation", DialogueColor, Player, duration: 3500, showInChat: false);
-                    m_currentPowerup = RangedWeaponPowerup.GravityDE;
-                    ResetWeapon();
-                    Player.SetStrengthBoostTime(1000 * 60 * 1);
+                Game.PlayEffect(EffectName.Electric, Position);
+                Game.PlaySound("ElectricSparks", Position);
+                Game.CreateDialogue("You underestimate the gravity of the situation", DialogueColor, Player, duration: 3500, showInChat: false);
+                m_currentPowerup = RangedWeaponPowerup.GravityDE;
+                ResetWeapon();
+                Player.SetStrengthBoostTime(1000 * 60 * 1);
 
-                    var mod = Player.GetModifiers();
-                    mod.MeleeForceModifier = MeleeForce.Strong;
-                    Player.SetModifiers(mod);
-                }, 0);
+                var mod = Player.GetModifiers();
+                mod.MeleeForceModifier = MeleeForce.Strong;
+                SetModifiers(mod);
             }
         }
 
-        private void OnDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
+        public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
         {
-            if (weaponObj.WeaponItemType == WeaponItemType.Rifle)
+            base.OnDroppedWeapon(arg);
+
+            if (arg.WeaponItemType == WeaponItemType.Rifle && !Player.IsDead)
             {
-                weaponObj.Remove();
+                if (arg.TargetObjectID != 0)
+                {
+                    Game.GetObject(arg.TargetObjectID).Remove();
+                }
                 ResetWeapon();
             }
         }
@@ -52,14 +52,7 @@ namespace BotExtended.Bots
         private void ResetWeapon()
         {
             var weaponSet = GetWeapons(Type).First();
-
             ProjectileManager.SetPowerup(Player, weaponSet.Primary, m_currentPowerup);
-        }
-
-        public override void OnDeath(PlayerDeathArgs args)
-        {
-            PlayerDropWeaponEvent -= OnDropWeapon;
-            base.OnDeath(args);
         }
     }
 }

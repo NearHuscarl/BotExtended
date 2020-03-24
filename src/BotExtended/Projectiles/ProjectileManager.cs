@@ -12,12 +12,11 @@ namespace BotExtended.Projectiles
         public class WeaponInfo
         {
             public IObjectWeaponItem Weapon = null;
-            public float TotalAmmo = -1;
-            public RangedWeaponPowerup RangePowerup = RangedWeaponPowerup.None;
+            public RangedWeaponPowerup RangedPowerup = RangedWeaponPowerup.None;
             public MeleeWeaponPowerup MeleePowerup = MeleeWeaponPowerup.None;
             public bool HasPowerup
             {
-                get { return RangePowerup != RangedWeaponPowerup.None || MeleePowerup != MeleeWeaponPowerup.None; }
+                get { return RangedPowerup != RangedWeaponPowerup.None || MeleePowerup != MeleeWeaponPowerup.None; }
             }
         }
 
@@ -36,11 +35,18 @@ namespace BotExtended.Projectiles
         public static void Initialize()
         {
             Events.UpdateCallback.Start(OnUpdate);
+            Events.PlayerWeaponAddedActionCallback.Start(OnPlayerPickedUpWeapon);
+            Events.PlayerWeaponRemovedActionCallback.Start(OnPlayerDroppedWeapon);
             Events.PlayerDeathCallback.Start(OnPlayerDeath);
+            Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
             Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
             Events.ProjectileHitCallback.Start(OnProjectileHit);
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
-            Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
+
+            //Events.UpdateCallback.Start((e) =>
+            //{
+            //    ScriptHelper.LogDebug(m_owners.Count, m_projectiles.Count, m_customProjectiles.Count, m_weapons.Count);
+            //}, 30, 0);
         }
 
         private static void OnUpdate(float elapsed)
@@ -74,14 +80,9 @@ namespace BotExtended.Projectiles
 
             foreach (var o in m_owners)
             {
-                var player = o.Value.Primary.Owner;
-                // Custom event drop weapon fires first and set the owner to null before
-                // the player dead event actually remove the player from m_owner
-                if (player == null) continue;
-
                 var playerWpn = o.Value;
-
                 var currentRangeWpn = playerWpn.CurrentRangeWeapon;
+
                 if (currentRangeWpn != null)
                     currentRangeWpn.Update(elapsed);
             }
@@ -91,26 +92,17 @@ namespace BotExtended.Projectiles
         {
             if (args.Removed)
             {
-                var uniqueID = player.UniqueID;
+                PlayerWeapon playerWpn;
 
-                // Wait until the next frame to remove the owner
-                // Since the custom Drop/Pickup event is fired in the UpdateCallback
-                // and OnPlayerDeath is executed before OnUpdate
-                // so we have to wait for the event callback handling logic in this frame
-                ScriptHelper.Timeout(() =>
+                if (m_owners.TryGetValue(player.UniqueID, out playerWpn))
                 {
-                    PlayerWeapon playerWpn;
-
-                    if (m_owners.TryGetValue(uniqueID, out playerWpn))
-                    {
-                        playerWpn.Melee.Remove();
-                        playerWpn.Primary.Remove();
-                        playerWpn.Secondary.Remove();
-                        playerWpn.Throwable.Remove();
-                        playerWpn.Powerup.Remove();
-                        m_owners.Remove(uniqueID);
-                    }
-                }, 1);
+                    playerWpn.Melee.Remove();
+                    playerWpn.Primary.Remove();
+                    playerWpn.Secondary.Remove();
+                    playerWpn.Throwable.Remove();
+                    playerWpn.Powerup.Remove();
+                    m_owners.Remove(player.UniqueID);
+                }
             }
         }
 
@@ -145,6 +137,8 @@ namespace BotExtended.Projectiles
 
         public static PlayerWeapon GetOrCreatePlayerWeapon(IPlayer owner)
         {
+            if (owner.UniqueID == 0) return null;
+
             PlayerWeapon playerWpn;
             if (!m_owners.TryGetValue(owner.UniqueID, out playerWpn))
             {
@@ -184,70 +178,68 @@ namespace BotExtended.Projectiles
             m_owners[player.UniqueID] = playerWpn;
         }
 
-        internal static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weapon, float totalAmmo)
+        private static void OnPlayerDroppedWeapon(IPlayer player, PlayerWeaponRemovedArg arg)
         {
-            var oldPlayerWpn = GetOrCreatePlayerWeapon(previousOwner);
-            var newWeaponInfo = new WeaponInfo()
-            {
-                Weapon = weapon,
-                TotalAmmo = totalAmmo,
-            };
+            // ID == 0 means no weapon is dropped. For example: Activating instant powerup will make it disappeared, not dropped
+            if (arg.TargetObjectID == 0) return;
 
-            switch (weapon.WeaponItemType)
+            // player argument may be a null object if the weapon drops right after the player was gibbed
+            if (player.UniqueID == 0) return;
+
+            var oldPlayerWpn = GetOrCreatePlayerWeapon(player);
+            var weaponObject = (IObjectWeaponItem)Game.GetObject(arg.TargetObjectID);
+            var newWeaponInfo = new WeaponInfo() { Weapon = weaponObject };
+
+            switch (weaponObject.WeaponItemType)
             {
                 case WeaponItemType.Melee:
                     newWeaponInfo.MeleePowerup = oldPlayerWpn.Melee.Powerup;
-                    m_owners[previousOwner.UniqueID].Melee.Remove();
+                    m_owners[player.UniqueID].Melee.Remove();
                     break;
                 case WeaponItemType.Rifle:
-                    newWeaponInfo.RangePowerup = oldPlayerWpn.Primary.Powerup;
-                    m_owners[previousOwner.UniqueID].Primary.Remove();
+                    newWeaponInfo.RangedPowerup = oldPlayerWpn.Primary.Powerup;
+                    m_owners[player.UniqueID].Primary.Remove();
                     break;
                 case WeaponItemType.Handgun:
-                    newWeaponInfo.RangePowerup = oldPlayerWpn.Secondary.Powerup;
-                    m_owners[previousOwner.UniqueID].Secondary.Remove();
+                    newWeaponInfo.RangedPowerup = oldPlayerWpn.Secondary.Powerup;
+                    m_owners[player.UniqueID].Secondary.Remove();
                     break;
                 case WeaponItemType.Thrown:
-                    newWeaponInfo.RangePowerup = oldPlayerWpn.Throwable.Powerup;
-                    m_owners[previousOwner.UniqueID].Throwable.Remove();
+                    newWeaponInfo.RangedPowerup = oldPlayerWpn.Throwable.Powerup;
+                    m_owners[player.UniqueID].Throwable.Remove();
                     break;
             }
 
-            m_weapons.Add(weapon.UniqueID, new Weapon(newWeaponInfo));
+            m_weapons.Add(weaponObject.UniqueID, new Weapon(newWeaponInfo));
         }
 
-        public static bool IsAlreadyTracked(IObject weapon)
+        private static void OnPlayerPickedUpWeapon(IPlayer player, PlayerWeaponAddedArg arg)
         {
-            return m_weapons.ContainsKey(weapon.UniqueID);
-        }
+            if (!m_weapons.ContainsKey(arg.SourceObjectID) || arg.SourceObjectID == 0) return;
 
-        internal static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weapon, float totalAmmo)
-        {
-            if (!m_weapons.ContainsKey(weapon.UniqueID)) return;
+            GetOrCreatePlayerWeapon(player);
+            var weaponInfo = m_weapons[arg.SourceObjectID].WeaponInfo;
+            var createRangedWeapon = new Func<RangeWpn>(
+                () => RangeWeaponFactory.Create(player, arg.WeaponItem, weaponInfo.RangedPowerup));
 
-            GetOrCreatePlayerWeapon(newOwner);
-            var weaponInfo = m_weapons[weapon.UniqueID].WeaponInfo;
-            var createRangeWeapon = new Func<RangeWpn>(
-                () => RangeWeaponFactory.Create(newOwner, weapon.WeaponItem, weaponInfo.RangePowerup));
-
-            switch (weapon.WeaponItemType)
+            switch (arg.WeaponItemType)
             {
                 case WeaponItemType.Melee:
                     // TODO: create power melee weapon with factory if implement one
-                    m_owners[newOwner.UniqueID].Melee.Add(weapon.WeaponItem, weaponInfo.MeleePowerup);
+                    m_owners[player.UniqueID].Melee.Add(arg.WeaponItem, weaponInfo.MeleePowerup);
                     break;
                 case WeaponItemType.Rifle:
-                    m_owners[newOwner.UniqueID].Primary = createRangeWeapon();
+                    m_owners[player.UniqueID].Primary = createRangedWeapon();
                     break;
                 case WeaponItemType.Handgun:
-                    m_owners[newOwner.UniqueID].Secondary = createRangeWeapon();
+                    m_owners[player.UniqueID].Secondary = createRangedWeapon();
                     break;
                 case WeaponItemType.Thrown:
-                    m_owners[newOwner.UniqueID].Throwable = createRangeWeapon();
+                    m_owners[player.UniqueID].Throwable = createRangedWeapon();
                     break;
             }
 
-            m_weapons.Remove(weapon.UniqueID);
+            m_weapons.Remove(arg.SourceObjectID);
         }
 
         public static WeaponInfo GetWeaponInfo(int objectID)
@@ -331,10 +323,16 @@ namespace BotExtended.Projectiles
                     m_customProjectiles.Remove(obj.UniqueID);
                 }
 
-                if (m_weapons.ContainsKey(obj.UniqueID))
+                var uniqueID = obj.UniqueID;
+
+                // wait until the next frame to remove in case weapon picked-up event fire and remove at the end of the last frame
+                ScriptHelper.Timeout(() =>
                 {
-                    m_weapons.Remove(obj.UniqueID);
-                }
+                    if (m_weapons.ContainsKey(uniqueID))
+                    {
+                        m_weapons.Remove(uniqueID);
+                    }
+                }, 0);
             }
         }
     }

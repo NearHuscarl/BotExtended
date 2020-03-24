@@ -30,6 +30,8 @@ namespace BotExtended
 
             m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();
 
+            Events.PlayerWeaponAddedActionCallback.Start(OnPlayerPickedupWeapon);
+            Events.PlayerWeaponRemovedActionCallback.Start(OnPlayerDroppedWeapon);
             Events.PlayerMeleeActionCallback.Start(OnPlayerMeleeAction);
             Events.PlayerDamageCallback.Start(OnPlayerDamage);
             Events.PlayerDeathCallback.Start(OnPlayerDeath);
@@ -162,56 +164,22 @@ namespace BotExtended
             }
         }
 
-        public static void TriggerOnSpawn(Bot bot)
+        public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(m_bots.Values); }
+
+        private static void OnPlayerPickedupWeapon(IPlayer player, PlayerWeaponAddedArg arg)
         {
-            bot.OnSpawn(m_bots.Values);
-            bot.PlayerDropWeaponEvent += OnPlayerDropWeapon;
-            bot.PlayerPickUpWeaponEvent += OnPlayerPickUpWeapon;
+            if (player == null) return;
+            var bot = GetBot(player);
+            if (bot == Bot.None) return;
+            bot.OnPickedupWeapon(arg);
         }
 
-        private static void OnPlayerDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
+        private static void OnPlayerDroppedWeapon(IPlayer player, PlayerWeaponRemovedArg arg)
         {
-            if (Game.IsEditorTest)
-            {
-                ScriptHelper.LogDebugF("Drop Event: {0} {1} {2}", previousOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
-                Events.UpdateCallback.Start((e) =>
-                {
-                    Game.DrawArea(weaponObj.GetAABB(), Color.Yellow);
-                }, 0, (ushort)(60 * 2));
-            }
-
-            ProjectileManager.OnPlayerDropWeapon(previousOwner, weaponObj, totalAmmo);
-        }
-
-        private static void OnPlayerPickUpWeapon(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo)
-        {
-            ProjectileManager.OnPlayerPickUpWeapon(newOwner, weaponObj, totalAmmo);
-            ScriptHelper.LogDebugF("Pickup Event: {0} {1} {2}", newOwner.Name, weaponObj.WeaponItem, weaponObj.UniqueID);
-
-            // The reason I need to keep track of all weapons's ammo on map and set the ammo when players pickup weapons manually is
-            // because there is no API to get the current ammo for weapons laying around the map. Which I need to make
-            // things like custom disarm where the player will drop weapon on command but the current ammo of dropped weapon is lost
-            if (totalAmmo != -1)
-            {
-                switch (weaponObj.WeaponItemType)
-                {
-                    case WeaponItemType.Melee:
-                        if (newOwner.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
-                            newOwner.SetCurrentMeleeMakeshiftDurability(totalAmmo);
-                        else
-                            newOwner.SetCurrentMeleeDurability(totalAmmo);
-                        break;
-                    case WeaponItemType.Rifle:
-                        newOwner.SetCurrentPrimaryWeaponAmmo((int)totalAmmo);
-                        break;
-                    case WeaponItemType.Handgun:
-                        newOwner.SetCurrentSecondaryWeaponAmmo((int)totalAmmo);
-                        break;
-                    case WeaponItemType.Thrown:
-                        newOwner.SetCurrentThrownItemAmmo((int)totalAmmo);
-                        break;
-                }
-            }
+            if (player == null) return;
+            var bot = GetBot(player);
+            if (bot == Bot.None) return;
+            bot.OnDroppedWeapon(arg);
         }
 
         private static float m_lastUpdateTime = 0f;
@@ -301,8 +269,6 @@ namespace BotExtended
 
             if (args.Removed)
             {
-                bot.PlayerDropWeaponEvent -= OnPlayerDropWeapon;
-                bot.PlayerPickUpWeaponEvent -= OnPlayerPickUpWeapon;
                 m_bots.Remove(bot.Player.CustomID);
             }
             else

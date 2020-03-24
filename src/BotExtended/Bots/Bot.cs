@@ -32,21 +32,11 @@ namespace BotExtended.Bots
             set { Player.SetWorldPosition(value); }
         }
 
-        // TODO: remove if Gurt add this in ScriptAPI. https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3963
-        public bool IsThrowableActivated { get; private set; }
-
-        public delegate void PlayerDropWeaponCallback(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo);
-        public event PlayerDropWeaponCallback PlayerDropWeaponEvent;
-
-        public delegate void PlayerPickUpWeaponCallback(IPlayer newOwner, IObjectWeaponItem weaponObj, float totalAmmo);
-        public event PlayerPickUpWeaponCallback PlayerPickUpWeaponEvent;
-
         private Bot_GravityGunAI m_botGravityGunAI;
 
         private Bot()
         {
             m_botGravityGunAI = new Bot_GravityGunAI(this);
-            PlayerDropWeaponEvent += m_botGravityGunAI.OnPlayerDropWeapon;
         }
         public Bot(IPlayer player = null, BotFaction faction = BotFaction.None) : this()
         {
@@ -55,7 +45,6 @@ namespace BotExtended.Bots
             Faction = faction;
             Info = new BotInfo(player);
             UpdateInterval = 100;
-            IsThrowableActivated = false;
         }
         public Bot(BotArgs args) : this()
         {
@@ -129,12 +118,20 @@ namespace BotExtended.Bots
         {
             if (Game.IsEditorTest)
             {
-                var ph = ScriptHelper.GetDefaultPlaceholder(messages);
+                var ph = ScriptHelper.GetDefaultFormatter(messages);
                 Game.DrawText(string.Format(ph, messages), Position);
             }
         }
 
         protected virtual void OnUpdate(float elapsed) { }
+
+        public virtual void OnPickedupWeapon(PlayerWeaponAddedArg arg) { }
+        public virtual void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
+        {
+            var gun = GetGravityGun();
+            if (gun != null)
+                m_botGravityGunAI.OnDroppedWeapon(arg);
+        }
 
         private int CurrentWeaponIndex
         {
@@ -226,130 +223,44 @@ namespace BotExtended.Bots
             }
         }
 
-        private bool IsHoldingActivateableThrowable()
-        {
-            var currentWpn = CurrentWeapon;
-            return currentWpn == WeaponItem.GRENADES
-                || currentWpn == WeaponItem.C4
-                || currentWpn == WeaponItem.MOLOTOVS
-                || currentWpn == WeaponItem.MINES;
-        }
-
-        private IObjectWeaponItem[] m_nearbyWeapons;
         private void UpdateWeaponStatus()
         {
-            m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
-            var eventHasFired = false;
-
             for (var i = 0; i < m_prevWeapons.Count; i++)
             {
                 if (GetCurrentWeapon(i) != m_prevWeapons[i])
                 {
-                    // NOTE: multiple weapons can be dropped in 1 frame if the player dies
-                    if (m_prevWeapons[i] == WeaponItem.NONE && GetCurrentWeapon(i) != WeaponItem.NONE)
-                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Pickup);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) == WeaponItem.NONE)
-                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Drop);
-                    if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) != WeaponItem.NONE)
-                        eventHasFired = CheckFireWeaponEvent(i, WeaponEvent.Swap);
                     m_prevWeapons[i] = GetCurrentWeapon(i);
                 }
             }
 
-            if (!eventHasFired)
+            for (var i = 0; i < m_prevAmmo.Count; i++)
             {
-                for (var i = 0; i < m_prevAmmo.Count; i++)
-                {
-                    if (GetCurrentAmmo(i) != m_prevAmmo[i])
-                    {
-                        if (m_prevWeapons[i] == GetCurrentWeapon(i))
-                            CheckFireWeaponEvent(i, WeaponEvent.Refill);
-                    }
-                    // this can only be updated after calling CheckFireWeaponEvent()
-                    m_prevAmmo[i] = GetCurrentAmmo(i);
-                }
-            }
-
-            // TODO: cannot diff ammo -> returns wrong result when using ia 1
-            var currentThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
-            if (IsHoldingActivateableThrowable() && currentThrowableAmmo + 1 == m_lastThrowableAmmo || currentThrowableAmmo == 0)
-            {
-                // something just had been thrown
-                IsThrowableActivated = false;
-                m_lastThrowableAmmo = currentThrowableAmmo;
+                m_prevAmmo[i] = GetCurrentAmmo(i);
             }
         }
 
-        private enum WeaponEvent
+        private GravityGun GetGravityGun()
         {
-            Pickup,
-            Drop,
-            Swap,
-            Refill,
-        }
-        private bool CheckFireWeaponEvent(int weaponIndex, WeaponEvent weaponEvent)
-        {
-            var eventFired = false;
-            // TODO: event will not fire if player pick up the same weapon when have max ammo!
-            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3946
-            IObjectWeaponItem droppedWeaponObj = null;
-            IObjectWeaponItem pickedupWeaponObj = null;
+            var playerWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player);
+            if (playerWeapon == null) return null;
 
-            // max velocity first OR min diff pos.X first
-            Array.Sort(m_nearbyWeapons, (a, b) =>
-            {
-                if (a.GetLinearVelocity().LengthSquared() > b.GetLinearVelocity().LengthSquared()
-                || Math.Abs(a.GetWorldPosition().X - Player.GetWorldPosition().X) < 1
-                && Math.Abs(b.GetWorldPosition().X - Player.GetWorldPosition().X) > 1)
-                    return -1;
+            if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity
+                || playerWeapon.Primary.Powerup == RangedWeaponPowerup.GravityDE)
+                return (GravityGun)playerWeapon.Primary;
+            if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity
+                || playerWeapon.Secondary.Powerup == RangedWeaponPowerup.GravityDE)
+                return (GravityGun)playerWeapon.Secondary;
 
-                return 1;
-            });
-
-            foreach (var nearbyWeapon in m_nearbyWeapons)
-            {
-                // Checking if the weapon is already tracked to filter is a necessary workaround because dropped weapon cannot
-                // be tracked reliably due to the lack of API. Without this check, if the wrong weapon is added to the weapon
-                // pool twice when the player dropped again, it will throw somewhere else
-                if (droppedWeaponObj == null &&
-                    nearbyWeapon.WeaponItem == m_prevWeapons[weaponIndex] && !ProjectileManager.IsAlreadyTracked(nearbyWeapon))
-                {
-                    if (weaponEvent == WeaponEvent.Drop || weaponEvent == WeaponEvent.Swap)
-                    {
-                        droppedWeaponObj = nearbyWeapon;
-                    }
-                }
-                if (pickedupWeaponObj == null &&
-                    nearbyWeapon.WeaponItem == GetCurrentWeapon(weaponIndex))
-                {
-                    if (weaponEvent == WeaponEvent.Pickup || weaponEvent == WeaponEvent.Swap || weaponEvent == WeaponEvent.Refill)
-                    {
-                        pickedupWeaponObj = nearbyWeapon;
-                    }
-                }
-            }
-
-            // defer firing events until now to make sure drop event always fired before pickup event
-            if (droppedWeaponObj != null && PlayerDropWeaponEvent != null)
-            {
-                PlayerDropWeaponEvent.Invoke(Player, droppedWeaponObj, m_prevAmmo[weaponIndex]);
-                eventFired = true;
-            }
-
-            if (pickedupWeaponObj != null && PlayerPickUpWeaponEvent != null)
-            {
-                PlayerPickUpWeaponEvent.Invoke(Player, pickedupWeaponObj,
-                    ProjectileManager.GetWeaponInfo(pickedupWeaponObj.UniqueID).TotalAmmo);
-                eventFired = true;
-            }
-
-            return eventFired;
+            return null;
         }
 
         private void UpdateCustomWeaponAI(float elapsed)
         {
             if (!Player.IsBot) return;
 
+            // TODO: Avoid disabling input because it's error-prone
+            // Equip the weapon and ammo manually and remove the IObjectWeaponItem
+            // if gurt adds this https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3986
             //foreach (var nearbyWeapon in m_nearbyWeapons)
             //{
             //    Game.DrawArea(nearbyWeapon.GetAABB(), Color.Grey);
@@ -371,20 +282,9 @@ namespace BotExtended.Bots
 
             if (botBehaviorSet.RangedWeaponMode != BotBehaviorRangedWeaponMode.HipFire)
             {
-                var playerWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player);
-                GravityGun gun = null;
-
-                if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity
-                    || playerWeapon.Primary.Powerup == RangedWeaponPowerup.GravityDE)
-                    gun = (GravityGun)playerWeapon.Primary;
-                if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity
-                    || playerWeapon.Secondary.Powerup == RangedWeaponPowerup.GravityDE)
-                    gun = (GravityGun)playerWeapon.Secondary;
-
+                var gun = GetGravityGun();
                 if (gun != null)
-                {
                     m_botGravityGunAI.Update(elapsed, gun);
-                }
             }
         }
 
@@ -442,42 +342,10 @@ namespace BotExtended.Bots
             if (args.Killed)
             {
                 SayDeathLine();
-                PlayerDropWeaponEvent -= m_botGravityGunAI.OnPlayerDropWeapon;
-            }
-
-            if (args.Removed)
-            {
-                m_nearbyWeapons = Game.GetObjectsByArea<IObjectWeaponItem>(Player.GetAABB());
-
-                for (var i = 0; i < m_prevWeapons.Count; i++)
-                {
-                    if (GetCurrentWeapon(i) != m_prevWeapons[i])
-                    {
-                        // NOTE: multiple weapons can be dropped in 1 frame if the player dies
-                        if (m_prevWeapons[i] != WeaponItem.NONE && GetCurrentWeapon(i) == WeaponItem.NONE)
-                            CheckFireWeaponEvent(i, WeaponEvent.Drop);
-                        m_prevWeapons[i] = GetCurrentWeapon(i);
-                    }
-                }
             }
         }
 
-        private int m_lastThrowableAmmo = 0;
-        public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)
-        {
-            foreach (var keyInfo in keyInfos)
-            {
-                if (keyInfo.Event == VirtualKeyEvent.Pressed && keyInfo.Key == VirtualKey.ATTACK)
-                {
-                    if (IsHoldingActivateableThrowable())
-                    {
-                        IsThrowableActivated = true;
-                        m_lastThrowableAmmo = Player.CurrentThrownItem.CurrentAmmo;
-                    }
-                    break;
-                }
-            }
-        }
+        public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos) { }
 
         public bool CanInfect { get { return Info.ZombieStatus != ZombieStatus.Human; } }
         public bool CanBeInfected { get { return !CanInfect && !Info.ImmuneToInfect && !Player.IsBurnedCorpse; } }
@@ -508,26 +376,24 @@ namespace BotExtended.Bots
             }
         }
 
-        // TODO: IPlayer.Disarm confirmed in future version
-        public void Disarm(Vector2 dropDirection, bool destroyWeapon = false)
+        public void Disarm(Vector2 projDirection, bool destroyWeapon = false)
         {
-            if (Player.CurrentWeaponDrawn == WeaponItemType.Melee
-                || Player.CurrentWeaponDrawn == WeaponItemType.Rifle
-                || Player.CurrentWeaponDrawn == WeaponItemType.Handgun
-                || Player.CurrentWeaponDrawn == WeaponItemType.Thrown && !IsThrowableActivated)
-            {
-                var weapon = Game.CreateObject(
-                    Mapper.ObjectID(CurrentWeapon, IsThrowableActivated),
-                    Player.GetWorldPosition(), 0,
-                    Vector2.UnitX * RandomHelper.Between(2, 6) * -Player.FacingDirection +
-                    Vector2.UnitY * RandomHelper.Between(1, 7) + dropDirection * 3,
-                    RandomHelper.Between(0, MathHelper.TwoPI), Player.FacingDirection);
+            if (Player.CurrentWeaponDrawn == WeaponItemType.NONE) return;
 
-                if (destroyWeapon)
-                    weapon.SetHealth(0);
-                Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
-                Player.RemoveWeaponItemType(Player.CurrentWeaponDrawn);
-            }
+            var velocity =
+                    Vector2.UnitX * RandomHelper.Between(.25f, 2.5f) * Math.Sign(projDirection.X) +
+                    Vector2.UnitY * RandomHelper.Between(.25f, 2.5f);
+
+            if (Math.Sign(projDirection.X) == Math.Sign(Player.GetLinearVelocity().X))
+                velocity += Vector2.UnitX * (Player.GetLinearVelocity().X / 2);
+
+            Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
+
+            // TODO: check if gurt fixed grenade diarm bug
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3991
+            var weapon = Player.Disarm(Player.CurrentWeaponDrawn, velocity, false);
+            if (destroyWeapon)
+                weapon.SetHealth(0);
         }
 
         public bool IsStunned { get; private set; }

@@ -5,32 +5,22 @@ namespace BotExtended.Bots
 {
     class SheriffBot : CowboyBot
     {
-        public SheriffBot(BotArgs args) : base(args)
-        {
-            PlayerDropWeaponEvent += OnDropWeapon;
-        }
+        public SheriffBot(BotArgs args) : base(args) { }
 
-        protected override void OnUpdate(float elapsed)
+        public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
         {
-            base.OnUpdate(elapsed);
-        }
+            base.OnDroppedWeapon(arg);
 
-        private void OnDropWeapon(IPlayer previousOwner, IObjectWeaponItem weaponObj, float totalAmmo)
-        {
-            // Don't give primary weapon again. it's OP
-            if (weaponObj.WeaponItemType == WeaponItemType.Rifle)
+            if (!Player.IsDead)
             {
-                Player.GiveWeaponItem(WeaponItem.REVOLVER);
+                // Don't give primary weapon again. it's OP
+                if (arg.WeaponItemType == WeaponItemType.Rifle)
+                {
+                    Player.GiveWeaponItem(WeaponItem.REVOLVER);
+                }
+                else
+                    Player.GiveWeaponItem(arg.WeaponItem);
             }
-            else
-                Player.GiveWeaponItem(weaponObj.WeaponItem);
-        }
-
-        public override void OnDeath(PlayerDeathArgs args)
-        {
-            base.OnDeath(args);
-
-            PlayerDropWeaponEvent -= OnDropWeapon;
         }
     }
 }

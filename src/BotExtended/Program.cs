@@ -52,7 +52,7 @@ namespace BotExtended
                     modifiers.EnergyConsumptionModifier = .1f;
                     modifiers.RunSpeedModifier = 1.25f;
                     modifiers.SprintSpeedModifier = 1.25f;
-                    //modifiers.MeleeStunImmunity = 1;
+                    modifiers.MeleeStunImmunity = 1;
                     //modifiers.InfiniteAmmo = 1;
 
                     player.SetTeam(PlayerTeam.Team1);
@@ -61,17 +61,27 @@ namespace BotExtended
                     //player.GiveWeaponItem(WeaponItem.KNIFE);
                     //player.GiveWeaponItem(WeaponItem.FLAREGUN);
                     //player.GiveWeaponItem(WeaponItem.ASSAULT);
-                    //player.GiveWeaponItem(WeaponItem.GRENADES);
-                    //player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
+                    player.GiveWeaponItem(WeaponItem.GRENADES);
+                    player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
 
+                    var n = 0;
                     foreach (var p in Game.GetPlayers())
                     {
-                        //if (p.Name != "Near" && p.IsUser)
-                        //{
-                        //    p.SetUser(null);
-                        //}
-                        if (p.Name == "Scientist" || p.Name == "Lab Assistant")
+                        if (p.Name != "Near" && p.IsUser)
+                        {
+                            //p.SetUser(null);
+                        }
+                        if (p.Name == "Boffin")
+                        {
+                            p.SetHealth(81);
+                        }
+                        if (p.Name.StartsWith("Cowboy") || p.Name.StartsWith("Bandido"))
                             p.Remove();
+                        if (p.Name.StartsWith("Engineer"))
+                        {
+                            if (n > 0) p.Remove();
+                            n++;
+                        }
                     }
 
                     //Game.SetAllowedCameraModes(CameraMode.Static);

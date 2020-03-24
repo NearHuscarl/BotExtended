@@ -21,7 +21,6 @@ namespace BotExtended.Bots
 
         private EngineerBot_Controller m_controller;
         private TurretPlaceholder m_placeholder;
-        public event Action BuildCompletedEvent;
 
         public EngineerBot(BotArgs args, EngineerBot_Controller controller) : base(args)
         {
@@ -123,6 +122,14 @@ namespace BotExtended.Bots
                 && Player.CurrentMeleeMakeshiftWeapon.WeaponItem == WeaponItem.NONE;
         }
 
+        public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
+        {
+            base.OnDroppedWeapon(arg);
+
+            if (m_controller != null)
+                m_controller.OnDroppedWeapon(arg);
+        }
+
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             base.OnDamage(attacker, args);
@@ -135,9 +142,6 @@ namespace BotExtended.Bots
         {
             base.OnDeath(args);
             StopOccupying();
-
-            if (m_controller != null)
-                m_controller.OnDeath(args);
         }
 
         private bool IsNearEdge()
@@ -238,7 +242,8 @@ namespace BotExtended.Bots
 
         private float m_hitCooldown = 0f; // Prevent player spamming attack combo to speedup building progress
         private int m_buildProgress = 0;
-        private static readonly int MaxProgress = Game.IsEditorTest ? 2 : 6;
+        private static readonly int MaxProgress = Game.IsEditorTest ? 8 : 6;
+        public float BuildProgress { get { return m_buildProgress / (float)MaxProgress ; } }
         private void UpdateBuildingProgress()
         {
             if (!MakeSurePlaceHolderExists())
@@ -256,14 +261,14 @@ namespace BotExtended.Bots
                 Game.PlaySound("ImpactMetal", hitPosition);
 
                 m_buildProgress++;
-                m_placeholder.BuildProgress = m_buildProgress / (float)MaxProgress;
+                m_placeholder.BuildProgress = BuildProgress;
 
                 if (m_buildProgress >= MaxProgress)
                 {
                     WeaponManager.SpawnTurret(Player, m_placeholder.Position, m_placeholder.Direction);
 
-                    if (BuildCompletedEvent != null)
-                        BuildCompletedEvent.Invoke();
+                    if (m_controller != null)
+                        m_controller.OnBuildCompleted();
 
                     m_placeholder.Remove();
                     StopOccupying();
