@@ -7,10 +7,10 @@ using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {
-    class EngineerBot_Controller : IController<EngineerBot>
+    class EngineerBot_Controller : Controller<EngineerBot>
     {
         private EngineerBot m_actor;
-        public EngineerBot Actor
+        public override EngineerBot Actor
         {
             get { return m_actor; }
             set
@@ -88,7 +88,7 @@ namespace BotExtended.Bots
         private float m_buildCooldown = 0f;
         private float BuildCooldownTime = 7000;
 
-        public void OnUpdate(float elapsed)
+        public override void OnUpdate(float elapsed)
         {
             switch (m_state)
             {
@@ -144,13 +144,11 @@ namespace BotExtended.Bots
 
         private bool IsAttacked()
         {
-            var player = Actor.Player;
-            return (player.IsStaggering || player.IsCaughtByPlayerInDive || player.IsStunned || player.IsFalling || player.IsBurningInferno);
+            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned || Player.IsFalling || Player.IsBurningInferno);
         }
         private bool IsInactive()
         {
-            var player = Actor.Player;
-            return (player.IsIdle || player.IsWalking) && !player.IsInMidAir && !IsAttacked();
+            return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked();
         }
         private bool CanBuildTurretNow()
         {
@@ -164,10 +162,8 @@ namespace BotExtended.Bots
             if (!Actor.CanBuildTurretHere())
                 return false;
 
-            var player = Actor.Player;
-
             m_availableDirection = AvailableTurretDirection.None;
-            var prioritizedDirection = player.FacingDirection == 1 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
+            var prioritizedDirection = Player.FacingDirection == 1 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
             for (var i = 0; i < ScanLines.Count; i++)
             {
                 var scanLine = ScanLines[i];
@@ -190,7 +186,7 @@ namespace BotExtended.Bots
             // Don't build turret when enemies are nearby
             foreach (var bot in BotManager.GetBots())
             {
-                if (!ScriptHelper.SameTeam(player, bot.Player))
+                if (!ScriptHelper.SameTeam(Player, bot.Player))
                 {
                     if (DangerArea.Intersects(bot.Player.GetAABB()))
                         return false;
@@ -207,7 +203,7 @@ namespace BotExtended.Bots
                 area.Normalize();
                 Game.DrawArea(area);
                 //ScriptHelper.LogDebug(area, area.Intersects(player.GetAABB()));
-                if (area.Intersects(player.GetAABB()))
+                if (area.Intersects(Player.GetAABB()))
                     return false;
 
                 if (ScriptHelper.IntersectCircle(Actor.Position, turret.Position, 275, turret.MinAngle, turret.MaxAngle))
@@ -241,21 +237,18 @@ namespace BotExtended.Bots
 
         private void GoToExistingPlaceholder()
         {
-            var player = Actor.Player;
-            var bs = player.GetBotBehaviorSet();
+            var bs = Player.GetBotBehaviorSet();
 
-            player.SetGuardTarget(m_targetPlaceholder.RepresentedObject);
+            Player.SetGuardTarget(m_targetPlaceholder.RepresentedObject);
             bs.GuardRange = 1f;
             bs.ChaseRange = 1f;
-            player.SetBotBehaviorSet(bs);
+            Player.SetBotBehaviorSet(bs);
             m_state = EngineerState.GoingToPlaceholder;
         }
 
         private void CheckArriveTargetPlaceholder()
         {
-            var player = Actor.Player;
-
-            if (m_targetPlaceholder.GetAABB().Intersects(player.GetAABB()) && Actor.HasEquipment())
+            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && Actor.HasEquipment())
             {
                 // At the time the builder arrives, another builder may arrived first and already started building
                 if (!WeaponManager.GetUntouchedTurretPlaceholders()
@@ -270,7 +263,7 @@ namespace BotExtended.Bots
                     {
                         if (!ShouldBuildTurretHere())
                         {
-                            player.SetGuardTarget(null);
+                            Player.SetGuardTarget(null);
                             m_state = EngineerState.Normal;
                         }
                     }
@@ -288,12 +281,10 @@ namespace BotExtended.Bots
         }
         private void StartBuildingTurret(TurretDirection direction)
         {
-            var player = Actor.Player;
-
-            player.SetInputEnabled(false);
-            if (player.CurrentWeaponDrawn != WeaponItemType.Melee)
-                player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
-            player.AddCommand(new PlayerCommand(PlayerCommandType.Walk, direction == TurretDirection.Left ?
+            Player.SetInputEnabled(false);
+            if (Player.CurrentWeaponDrawn != WeaponItemType.Melee)
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawMelee));
+            Player.AddCommand(new PlayerCommand(PlayerCommandType.Walk, direction == TurretDirection.Left ?
                 PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right, 10));
 
             m_state = EngineerState.PreBuilding;
@@ -305,14 +296,14 @@ namespace BotExtended.Bots
             if (IsAttacked())
                 StopBuilding();
 
-            if (Actor.Player.IsIdle)
+            if (Player.IsIdle)
             {
                 // Wait for the player to walk to position. If execute StartCrouch immediately, player will roll instead
                 // WaitDestinationReached not working btw
                 m_prepareTimer += elapsed;
                 if (m_prepareTimer >= 150)
                 {
-                    Actor.Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
+                    Player.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch));
 
                     if (m_targetPlaceholder == null)
                     {
@@ -323,7 +314,7 @@ namespace BotExtended.Bots
                     else
                     {
                         // Execute first hit before changing state to occupy placeholder
-                        Actor.Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
+                        Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                         ScriptHelper.Timeout(() =>
                         {
                             m_state = EngineerState.Building;
@@ -340,8 +331,8 @@ namespace BotExtended.Bots
             m_buildCooldown = 0f;
             m_targetPlaceholder = null;
 
-            Actor.Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
-            Actor.Player.SetInputEnabled(true);
+            Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
+            Player.SetInputEnabled(true);
             m_state = EngineerState.Normal;
         }
 
@@ -356,7 +347,7 @@ namespace BotExtended.Bots
 
             if (ScriptHelper.IsElapsed(m_hitTimer, HitTime))
             {
-                Actor.Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
+                Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                 m_hitTimer = Game.TotalElapsedGameTime;
             }
         }

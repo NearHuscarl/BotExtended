@@ -35,7 +35,7 @@ namespace BotExtended.Bots
         }
 
         private MechaState m_state;
-        private IController<MechaBot> m_controller;
+        private Controller<MechaBot> m_controller;
 
         public MechaBot(BotArgs args, MechaBot_Controller controller) : base(args)
         {

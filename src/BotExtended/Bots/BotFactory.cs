@@ -44,12 +44,8 @@ namespace BotExtended.Bots
                     bot = new EngineerBot(args, player.IsBot ? new EngineerBot_Controller() : null);
                     break;
 
-                case BotType.ZombieFat:
-                    bot = new ZombieFatBot(args);
-                    break;
-
-                case BotType.ZombieFlamer:
-                    bot = new ZombieFlamerBot(args);
+                case BotType.Funnyman:
+                    bot = new FunnymanBot(args, player.IsBot ? new FunnymanBot_Controller() : null);
                     break;
 
                 case BotType.Hacker:
@@ -91,6 +87,14 @@ namespace BotExtended.Bots
 
                 case BotType.Babybear:
                     bot = new BabybearBot(args);
+                    break;
+
+                case BotType.ZombieFat:
+                    bot = new ZombieFatBot(args);
+                    break;
+
+                case BotType.ZombieFlamer:
+                    bot = new ZombieFlamerBot(args);
                     break;
 
                 default:

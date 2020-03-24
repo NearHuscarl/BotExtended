@@ -105,7 +105,7 @@ namespace BotExtended.Bots
             enrageModifiers.SprintSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
             enrageModifiers.MeleeForceModifier = MeleeForce.ExtremelyStrong;
             enrageModifiers.EnergyConsumptionModifier = .25f;
-            Player.SetModifiers(enrageModifiers);
+            SetModifiers(enrageModifiers);
 
             m_normalBehaviorSet = Player.GetBotBehaviorSet();
             var bs = GetBehaviorSet(BotAI.RagingHulk, hasAlreadyEnraged ? SearchItems.Melee | SearchItems.Makeshift : SearchItems.Makeshift);
@@ -120,12 +120,8 @@ namespace BotExtended.Bots
 
         private void StopEnraging()
         {
-            var mod = Player.GetModifiers();
-            m_normalModifiers.CurrentHealth = mod.CurrentHealth;
-            m_normalModifiers.CurrentEnergy = mod.CurrentEnergy;
-
             Player.SetGuardTarget(null);
-            Player.SetModifiers(m_normalModifiers);
+            SetModifiers(m_normalModifiers);
             Player.SetBotBehaviorSet(m_normalBehaviorSet);
             Player.SetStrengthBoostTime(0);
             IsEnraged = false;

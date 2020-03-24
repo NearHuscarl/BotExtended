@@ -4,16 +4,12 @@ using static BotExtended.Library.Mocks.MockObjects;
 
 namespace BotExtended.Bots
 {
-    public class MechaBot_Controller : IController<MechaBot>
+    public class MechaBot_Controller : Controller<MechaBot>
     {
         private static readonly float ChargeMinimumRange = 30f;
         private static readonly float ChargeRange = 60;
 
-        public MechaBot Actor { get; set; }
-
-        public MechaBot_Controller() { }
-
-        public void OnUpdate(float elapsed)
+        public override void OnUpdate(float elapsed)
         {
             if (Actor.CanSuperCharge())
             {
@@ -33,14 +29,13 @@ namespace BotExtended.Bots
             return new Vector2[]
             {
                 lineStart,
-                lineStart + Actor.Player.AimVector * (ChargeMinimumRange + ChargeRange),
+                lineStart + Player.AimVector * (ChargeMinimumRange + ChargeRange),
             };
         }
 
         private bool ShouldSuperCharge()
         {
-            var player = Actor.Player;
-            return (player.IsSprinting || player.IsIdle || player.IsWalking || player.IsRunning)
+            return (Player.IsSprinting || Player.IsIdle || Player.IsWalking || Player.IsRunning)
                 && HasTargetToCharge();
         }
 
@@ -58,7 +53,7 @@ namespace BotExtended.Bots
                     Actor.Position,
                     ChargeMinimumRange);
 
-                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && !ScriptHelper.SameTeam(player, Actor.Player))
+                if (!inMinimumRange && !player.IsDead && !player.IsInMidAir && !ScriptHelper.SameTeam(player, Player))
                 {
                     return true;
                 }

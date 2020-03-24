@@ -15,7 +15,7 @@ namespace BotExtended.Bots
             var modifiers = Player.GetModifiers();
             m_actualMaxHealth = (int)Player.GetMaxHealth();
             modifiers.MaxHealth = m_actualMaxHealth * 100;
-            Player.SetModifiers(modifiers);
+            SetModifiers(modifiers);
         }
 
         protected override void OnUpdate(float elapsed)

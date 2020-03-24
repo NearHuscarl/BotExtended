@@ -13,7 +13,6 @@ namespace BotExtended.Bots
         private enum State
         {
             Normal,
-            Fleeing, // Gravity gun is best use for run'n'gunner. Compeletely useless and is a liability at close range
             AimingTargetedObject,
             Retrieving,
             AimingEnemy,
@@ -67,13 +66,10 @@ namespace BotExtended.Bots
             {
                 m_timeout += elapsed;
 
-                if (m_state != State.Fleeing)
-                {
-                    if (m_timeout >= 3000f)
-                        Stop();
-                    if (Player.IsStaggering || Player.IsStunned || !Player.IsOnGround || Player.IsBurningInferno)
-                        Stop();
-                }
+                if (m_timeout >= 3000f)
+                    Stop();
+                if (Player.IsStaggering || Player.IsStunned || !Player.IsOnGround || Player.IsBurningInferno)
+                    Stop();
             }
 
             if (Game.IsEditorTest)
@@ -88,43 +84,15 @@ namespace BotExtended.Bots
                 if (m_targetEnemy != null)
                     Game.DrawArea(m_targetEnemy.GetAABB(), Color.Green);
                 Game.DrawArea(DangerArea, Color.Cyan);
-                if (m_targetLocation != null)
-                    Game.DrawArea(m_targetLocation.GetAABB(), Color.Green);
             }
 
             switch (m_state)
             {
-                case State.Fleeing:
-                {
-                    if (!ScriptHelper.IsElapsed(m_stateDelay, 30))
-                        break;
-                    m_stateDelay = Game.TotalElapsedGameTime;
-
-                    var enemiesNearby = EnemiesNearby();
-                    if (!enemiesNearby)
-                    {
-                        StopFleeing();
-                        Stop();
-                        //ChangeState(State.Normal);
-                        break;
-                    }
-                    if (Player.GetAABB().Intersects(m_targetLocation.GetAABB()) && enemiesNearby)
-                    {
-                        StopFleeing();
-                        Stop();
-                        //ChangeState(State.Normal);
-                    }
-                    break;
-                }
                 case State.Normal:
                 {
                     if (!ScriptHelper.IsElapsed(m_stateDelay, 30))
                         break;
                     m_stateDelay = Game.TotalElapsedGameTime;
-
-                    // TODO: Flee state will be removed completely after it's used as reference when implmenting Funnyman
-                    //if (EnemiesNearby() && TryToFlee())
-                    //    break;
 
                     var enemies = SearchEnemies(gun);
                     if (enemies.Count() > 0 && NearestObject == null)
@@ -272,70 +240,8 @@ namespace BotExtended.Bots
             return false;
         }
 
-        private BotBehaviorSet m_oldBotBehaviorSet = null;
-        private IObject m_targetLocation = null;
-        private Area SafeArea(Vector2 spawnPosition) { return ScriptHelper.GrowFromCenter(spawnPosition, 60, 30); }
-        private IObjectPathNode[] AllPathNodes
-        {
-            get
-            {
-                // NOTE: cannot init field since markers only available after Startup()
-                // TODO: Game.GetObjectsByArea<IObjectPathNode> doesn't work. Maybe a ScriptAPI bug
-                return Game.GetObjects<IObjectPathNode>();
-            }
-        }
-        private bool TryToFlee()
-        {
-            var pathNodes = Game.GetObjects<IObjectPathNode>();
-            foreach (var spawner in Game.GetObjectsByName("SpawnPlayer"))
-            {
-                var safeArea = SafeArea(spawner.GetWorldPosition());
-                var enemiesNearSpawner = Game.GetObjectsByArea<IPlayer>(safeArea).Any(p => !ScriptHelper.SameTeam(Player, p));
-                var pathNode = AllPathNodes.Where((p) => p.GetAABB().Intersects(spawner.GetAABB())).FirstOrDefault();
-
-                if (pathNode == null) continue;
-
-                if (!enemiesNearSpawner)
-                {
-                    if (m_targetLocation == null)
-                        m_targetLocation = pathNode;
-                    else if (m_targetLocation != null && Vector2.DistanceSquared(m_targetLocation.GetWorldPosition(), Bot.Position)
-                        > Vector2.DistanceSquared(pathNode.GetWorldPosition(), Bot.Position))
-                        m_targetLocation = pathNode;
-                }
-            }
-
-            if (m_targetLocation != null)
-            {
-                if (m_oldBotBehaviorSet == null)
-                    m_oldBotBehaviorSet = Player.GetBotBehaviorSet();
-                var runningBehavior = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.FunnymanRunning);
-                runningBehavior.MeleeUsage = true; // dont just run like that coward funnyman
-                runningBehavior.GuardRange = 1f;
-                runningBehavior.ChaseRange = 1f;
-                Player.SetBotBehaviorSet(runningBehavior);
-                Player.SetGuardTarget(m_targetLocation);
-                Player.ClearCommandQueue();
-                Player.SetInputEnabled(true);
-                ChangeState(State.Fleeing);
-                return true;
-            }
-            return false;
-        }
-
-        private void StopFleeing()
-        {
-            Player.SetBotBehaviorSet(m_oldBotBehaviorSet);
-            Player.SetGuardTarget(null);
-            m_targetLocation = null;
-            m_oldBotBehaviorSet = null;
-        }
-
         private void UpdateWeaponUsage(GravityGun gun)
         {
-            // BotBehaviorSet is already modified when fleeing.
-            if (m_state == State.Fleeing) return;
-
             var botBehaviorSet = Player.GetBotBehaviorSet();
 
             if (SearchNearestObject(gun) == null || m_state == State.Cooldown)

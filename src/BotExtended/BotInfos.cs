@@ -411,6 +411,7 @@ namespace BotExtended
                 case BotType.Funnyman:
                 {
                     botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Health | SearchItems.Powerups;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.ExtremelyStrong,

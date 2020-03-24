@@ -119,6 +119,7 @@ namespace BotExtended.Bots
             }
             UpdateWeaponStatus();
             UpdateCustomWeaponAI(elapsed);
+            UpdateInfectedEffect(elapsed);
 
             if (IsStunned && !Player.IsDeathKneeling)
                 Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
@@ -133,20 +134,7 @@ namespace BotExtended.Bots
             }
         }
 
-        private float m_bloodEffectElapsed = 0;
-        protected virtual void OnUpdate(float elapsed)
-        {
-            if (Info.ZombieStatus == ZombieStatus.Infected && !Player.IsRemoved && !Player.IsBurnedCorpse)
-            {
-                m_bloodEffectElapsed += elapsed;
-
-                if (m_bloodEffectElapsed > 300)
-                {
-                    Game.PlayEffect(EffectName.BloodTrail, Position);
-                    m_bloodEffectElapsed = 0;
-                }
-            }
-        }
+        protected virtual void OnUpdate(float elapsed) { }
 
         private int CurrentWeaponIndex
         {
@@ -400,6 +388,21 @@ namespace BotExtended.Bots
             }
         }
 
+        private float m_bloodEffectElapsed = 0;
+        private void UpdateInfectedEffect(float elapsed)
+        {
+            if (Info.ZombieStatus == ZombieStatus.Infected && !Player.IsRemoved && !Player.IsBurnedCorpse)
+            {
+                m_bloodEffectElapsed += elapsed;
+
+                if (m_bloodEffectElapsed > 300)
+                {
+                    Game.PlayEffect(EffectName.BloodTrail, Position);
+                    m_bloodEffectElapsed = 0;
+                }
+            }
+        }
+
         public virtual void OnSpawn(IEnumerable<Bot> bots)
         {
             SaySpawnLine();
@@ -545,6 +548,14 @@ namespace BotExtended.Bots
                 Events.UpdateCallback.Stop(m_effect);
                 m_effect = null;
             }, stunnedTime);
+        }
+
+        // set modifiers without changing current health and energy
+        public void SetModifiers(PlayerModifiers modifiers)
+        {
+            modifiers.CurrentHealth = Player.GetHealth();
+            modifiers.CurrentEnergy = Player.GetEnergy();
+            Player.SetModifiers(modifiers);
         }
     }
 }
