@@ -4,7 +4,7 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static BotExtended.Library.Mocks.MockObjects;
 using static BotExtended.GameScript;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BotExtended.Library;
 using SFDGameScriptInterface;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
@@ -237,6 +237,7 @@ namespace BotExtended.Projectiles
             m_distanceJoint.SetTargetObject(m_distanceJointObject);
             m_distanceJoint.SetTargetObjectJoint(m_targetedObjectJoint);
             m_targetedObjectJoint.SetTargetObject(TargetedObject);
+            m_pullJoint.SetForce(15);
 
             IsTargetedObjectStabilized = true;
         }
@@ -274,6 +275,11 @@ namespace BotExtended.Projectiles
             Release();
         }
 
+        // List of objects that are in dynamic collision group but not really interact with other dynamic objects (try for yourself)
+        public static readonly HashSet<string> Blacklist = new HashSet<string>()
+        {
+            "Lamp00",
+        };
         private IEnumerable<RayCastResult> RayCastTargetedObject(bool isSearching)
         {
             var scanLine = GetScanLine();
@@ -287,7 +293,7 @@ namespace BotExtended.Projectiles
 
             foreach (var result in results)
             {
-                if (result.HitObject == null)
+                if (result.HitObject == null || Blacklist.Contains(result.HitObject.Name))
                     continue;
 
                 yield return result;
@@ -302,12 +308,11 @@ namespace BotExtended.Projectiles
 
             if (TargetedObject != null)
             {
-                var mass = TargetedObject.GetMass();
-
-                TargetedObject.SetMass(.01f);
+                TargetedObject.SetMass(.004f);
                 pullJoint.SetWorldPosition(TargetedObject.GetWorldPosition());
-                pullJoint.SetForce(5);
+                pullJoint.SetForce(TargetedObject is IPlayer ? 15 : 4); // IPlayer doesn't have mass, maybe a bit heavier than normal
                 pullJoint.SetForcePerDistance(0);
+
             }
 
             pullJoint.SetTargetObject(TargetedObject);
@@ -401,8 +406,7 @@ namespace BotExtended.Projectiles
 
             if (TargetedObject != null)
             {
-                var mass = TargetedObject.GetMass();
-                var velocity = Owner.AimVector * 50;
+                var velocity = Owner.AimVector * 40;
 
                 TargetedObject.SetLinearVelocity(velocity);
 

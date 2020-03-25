@@ -5,7 +5,6 @@ using BotExtended.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BotExtended.Library.Mocks.MockObjects;
 using static BotExtended.GameScript;
 using BotExtended.Projectiles;
 using BotExtended.Weapons;

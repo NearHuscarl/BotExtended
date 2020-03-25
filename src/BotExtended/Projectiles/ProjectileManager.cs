@@ -3,7 +3,7 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
@@ -180,14 +180,17 @@ namespace BotExtended.Projectiles
 
         private static void OnPlayerDroppedWeapon(IPlayer player, PlayerWeaponRemovedArg arg)
         {
-            // ID == 0 means no weapon is dropped. For example: Activating instant powerup will make it disappeared, not dropped
+            // ID == 0 means no weapon was dropped. For example: Activating instant powerup will make it disappeared, not dropped
             if (arg.TargetObjectID == 0) return;
 
             // player argument may be a null object if the weapon drops right after the player was gibbed
             if (player.UniqueID == 0) return;
 
+            // dropped weapons dont not always have IObjectWeaponItem type. For example thrown grenades have IObject type
+            var weaponObject = Game.GetObject(arg.TargetObjectID) as IObjectWeaponItem;
+            if (weaponObject == null) return;
+
             var oldPlayerWpn = GetOrCreatePlayerWeapon(player);
-            var weaponObject = (IObjectWeaponItem)Game.GetObject(arg.TargetObjectID);
             var newWeaponInfo = new WeaponInfo() { Weapon = weaponObject };
 
             switch (weaponObject.WeaponItemType)

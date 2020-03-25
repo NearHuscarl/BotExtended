@@ -1,7 +1,7 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
 using System;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Weapons
 {

@@ -117,7 +117,7 @@
     <Compile Include="Weapons\Weapon.cs" />
     <Compile Include="Weapons\WeaponManager.cs" />
     <Compile Include="ZombieStatus.cs" />
-    <Compile Include="Library\Mocks\Game.cs" />
+    <Compile Include="Library\SFD.cs" />
     <Compile Include="Library\RandomHelper.cs" />
     <Compile Include="Library\Rnd.cs" />
     <Compile Include="Library\ScriptHelper.cs" />

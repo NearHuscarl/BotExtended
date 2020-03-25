@@ -3,7 +3,7 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Weapons
 {
@@ -683,7 +683,7 @@ namespace BotExtended.Weapons
                 }
             }
 
-            if (Math.Abs(Angle - m_targetAngle) > 0.0174f)
+            if (Math.Abs(Angle - m_targetAngle) > MathExtension.OneDeg)
             {
                 m_rotateTimer += elapsed;
                 if (m_rotateTimer >= 1/60)

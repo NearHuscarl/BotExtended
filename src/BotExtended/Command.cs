@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.GameScript;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 using BotExtended.Library;
 using BotExtended.Projectiles;
 

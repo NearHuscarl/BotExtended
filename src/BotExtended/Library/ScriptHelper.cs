@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFDGameScriptInterface;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Library
 {
@@ -37,12 +37,12 @@ namespace BotExtended.Library
 
         public static void Timeout(Action callback, uint interval)
         {
-            Events.UpdateCallback.Start((float e) => callback.Invoke(), interval, 1);
+            Events.UpdateCallback.Start(e => callback.Invoke(), interval, 1);
         }
 
-        public static void RunIn(Action callback, int seconds)
+        public static void RunIn(Action callback, int ms)
         {
-            Events.UpdateCallback.Start((float e) => callback.Invoke(), 0, (ushort)(60 * seconds));
+            Events.UpdateCallback.Start(e => callback.Invoke(), 0, (ushort)(60 * ms / 1000));
         }
 
         public static bool IsElapsed(float timeStarted, float timeToElapse)
@@ -235,8 +235,21 @@ namespace BotExtended.Library
                 center.Y + halfHeight,
                 center.X - halfWidth,
                 center.Y - halfHeight,
-                center.X + halfWidth
-                );
+                center.X + halfWidth);
+        }
+
+        public static void Stopwatch(Func<string> action, int reportThreshold = 1)
+        {
+            var stopwatch = new System.Diagnostics.Stopwatch();
+
+            stopwatch.Start();
+            var name = action();
+            stopwatch.Stop();
+
+            var stackTrace = new System.Diagnostics.StackFrame(1);
+
+            if (stopwatch.ElapsedMilliseconds >= reportThreshold)
+                LogDebugF("-Perf {2,6} {0}:{1}", stopwatch.ElapsedMilliseconds, stackTrace.GetMethod().Name, name);
         }
     }
 }

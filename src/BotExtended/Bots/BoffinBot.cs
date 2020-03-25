@@ -3,7 +3,7 @@ using BotExtended.Projectiles;
 using SFDGameScriptInterface;
 using System.Linq;
 using static BotExtended.GameScript;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {

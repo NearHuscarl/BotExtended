@@ -1,7 +1,7 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
@@ -25,7 +25,7 @@ namespace BotExtended.Bots
 
             var center = Position + Vector2.UnitY * 5;
             if (Game.IsEditorTest)
-                ScriptHelper.RunIn(() => Game.DrawCircle(center, InfectRadius, Color.Cyan), 3);
+                ScriptHelper.RunIn(() => Game.DrawCircle(center, InfectRadius, Color.Cyan), 3000);
 
             foreach (var bot in BotManager.GetBots())
             {

@@ -414,8 +414,8 @@ namespace BotExtended
                     botInfo.SearchItems = SearchItems.Primary | SearchItems.Health | SearchItems.Powerups;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.ExtremelyStrong,
-                        CurrentHealth = Health.ExtremelyStrong,
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
                         SizeModifier = Size.AboveNormal,
                     };
                     botInfo.IsBoss = true;

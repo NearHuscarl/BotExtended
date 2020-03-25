@@ -3,7 +3,7 @@ using BotExtended.Library;
 using System;
 using System.Collections.Generic;
 using static BotExtended.GameScript;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 using System.Linq;
 
 namespace BotExtended.Bots

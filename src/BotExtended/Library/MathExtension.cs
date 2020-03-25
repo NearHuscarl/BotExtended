@@ -17,6 +17,8 @@ namespace BotExtended.Library
 
         public const float PI_3Over2 = TwoPI - PIOver2;
 
+        public const float OneDeg = MathHelper.PI / 180;
+
         public static float ToRadians(double angleDegree)
         {
             return (float)(angleDegree * Math.PI) / 180;

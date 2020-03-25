@@ -4,7 +4,7 @@ using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BotExtended.Library.Mocks.MockObjects;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
@@ -13,6 +13,7 @@ namespace BotExtended.Bots
         private enum State
         {
             Normal,
+            Reloading,
             AimingTargetedObject,
             Retrieving,
             AimingEnemy,
@@ -76,189 +77,191 @@ namespace BotExtended.Bots
                     Game.DrawArea(o.GetAABB(), Color.Red);
                 if (NearestObject != null)
                     Game.DrawArea(NearestObject.GetAABB(), Color.Magenta);
-                foreach (var p in SearchEnemies(gun))
+                foreach (var p in SearchedEnemies)
                     Game.DrawArea(p.GetAABB(), Color.Cyan);
                 if (m_targetEnemy != null)
                     Game.DrawArea(m_targetEnemy.GetAABB(), Color.Green);
                 Game.DrawArea(DangerArea, Color.Cyan);
             }
 
-            switch (m_state)
-            {
-                case State.Normal:
+            //ScriptHelper.Stopwatch(() =>
+            //{
+                switch (m_state)
                 {
-                    if (!ScriptHelper.IsElapsed(m_stateDelay, 30))
-                        break;
-                    m_stateDelay = Game.TotalElapsedGameTime;
-
-                    var enemies = SearchEnemies(gun);
-                    if (enemies.Count() > 0 && NearestObject == null)
+                    case State.Normal:
                     {
-                        NearestObject = gun.IsSupercharged ? enemies.First() : SearchNearestObject(gun);
-                    }
-
-                    if (NearestObject != null && !m_executeOnce && Player.IsOnGround
-                        && !Player.IsStaggering && !Player.IsStunned && !Player.IsHoldingPlayerInGrab)
-                    {
-                        Player.SetInputEnabled(false);
-
-                        if (Player.CurrentWeaponDrawn != gun.Type)
+                        if (!ScriptHelper.IsElapsed(m_stateDelay, 30))
+                            break;
+                        m_stateDelay = Game.TotalElapsedGameTime;
+                        if (EnemiesNearby())
                         {
-                            if (gun.Type == WeaponItemType.Rifle)
-                                Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawRifle));
-                            if (gun.Type == WeaponItemType.Handgun)
-                                Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
+                            if (!Player.IsInputEnabled) Player.SetInputEnabled(true);
+                            break;
                         }
 
-                        if (GetCurrentAmmo(gun) == 0)
-                            Player.AddCommand(new PlayerCommand(PlayerCommandType.Reload));
-
-                        Player.AddCommand(new PlayerCommand(PlayerCommandType.StartAimAtPrecise, NearestObject.UniqueID));
-                        m_executeOnce = true;
-                    }
-
-                    if (NearestObject != null && Player.CurrentWeaponDrawn == gun.Type && GetCurrentAmmo(gun) > 0)
-                    {
-                        ChangeState(State.AimingTargetedObject);
-                    }
-                    break;
-                }
-                case State.AimingTargetedObject:
-                {
-                    var rangeLimit = GetRangeLimit();
-                    var holdPosition = gun.GetHoldPosition(false);
-
-                    if (!ScriptHelper.IntersectCircle(NearestObject.GetAABB(), holdPosition, GravityGun.Range,
-                        rangeLimit[0], rangeLimit[1]))
-                    {
-                        Stop();
-                        break;
-                    }
-
-                    if (IsObjectInRange(gun, NearestObject) && Player.IsManualAiming)
-                    {
-                        gun.PickupObject();
-                        ChangeState(State.Retrieving);
-                    }
-                    break;
-                }
-                case State.Retrieving:
-                {
-                    if (gun.TargetedObject == null || IsObjectStuck(gun.TargetedObject))
-                    {
-                        Stop();
-                        break;
-                    }
-                    if (gun.IsTargetedObjectStabilized && gun.TargetedObject.GetLinearVelocity().Length() < 1)
-                    {
-                        var enemies = SearchEnemies(gun);
-                        if (enemies.Count() > 0 || m_nearestObjectIsPlayer)
+                        var enemies = SearchedEnemies;
+                        if (enemies.Count() > 0 && NearestObject == null)
                         {
-                            if (enemies.Count() > 1 && m_nearestObjectIsPlayer)
+                            NearestObject = gun.IsSupercharged ? enemies.First() : SearchNearestObject(gun);
+                        }
+
+                        if (NearestObject != null && !m_executeOnce && Player.IsOnGround
+                            && !Player.IsStaggering && !Player.IsStunned && !Player.IsHoldingPlayerInGrab)
+                        {
+                            Player.SetInputEnabled(false);
+
+                            if (Player.CurrentWeaponDrawn != gun.Type)
                             {
-                                foreach (var enemy in enemies)
+                                if (gun.Type == WeaponItemType.Rifle)
+                                    Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawRifle));
+                                if (gun.Type == WeaponItemType.Handgun)
+                                    Player.AddCommand(new PlayerCommand(PlayerCommandType.DrawHandgun));
+                            }
+
+                            if (GetCurrentAmmo(gun) == 0)
+                            {
+                                Player.AddCommand(new PlayerCommand(PlayerCommandType.Reload));
+                                ChangeState(State.Reloading);
+                                break;
+                            }
+
+                            Player.AddCommand(new PlayerCommand(PlayerCommandType.StartAimAtPrecise, NearestObject.UniqueID));
+                            m_executeOnce = true;
+                        }
+
+                        if (NearestObject != null && Player.CurrentWeaponDrawn == gun.Type && GetCurrentAmmo(gun) > 0)
+                        {
+                            ChangeState(State.AimingTargetedObject);
+                        }
+                        break;
+                    }
+                    case State.Reloading:
+                    {
+                        if (!Player.IsReloading) ChangeState(State.Normal);
+                        break;
+                    }
+                    case State.AimingTargetedObject:
+                    {
+                        var rangeLimit = GetRangeLimit();
+                        var holdPosition = gun.GetHoldPosition(false);
+
+                        if (!ScriptHelper.IntersectCircle(NearestObject.GetAABB(), holdPosition, GravityGun.Range,
+                            rangeLimit[0], rangeLimit[1]))
+                        {
+                            Stop();
+                            break;
+                        }
+
+                        if (Player.IsManualAiming && MaybeLockTarget(gun, NearestObject) && IsObjectInRange(gun, NearestObject))
+                        {
+                            gun.PickupObject();
+                            ChangeState(State.Retrieving);
+                        }
+                        break;
+                    }
+                    case State.Retrieving:
+                    {
+                        if (gun.TargetedObject == null || IsObjectStuck(gun.TargetedObject))
+                        {
+                            Stop();
+                            break;
+                        }
+                        if (gun.IsTargetedObjectStabilized && gun.TargetedObject.GetLinearVelocity().Length() < 1)
+                        {
+                            var enemies = SearchedEnemies;
+                            if (enemies.Count() > 0 || m_nearestObjectIsPlayer)
+                            {
+                                if (enemies.Count() > 1 && m_nearestObjectIsPlayer)
                                 {
-                                    if (enemy.UniqueID != NearestObject.UniqueID)
+                                    foreach (var enemy in enemies)
                                     {
-                                        m_targetEnemy = enemy;break;
+                                        if (enemy.UniqueID != NearestObject.UniqueID)
+                                        {
+                                            m_targetEnemy = enemy; break;
+                                        }
                                     }
                                 }
-                            }
-                            else if (enemies.Count() > 0)
-                                m_targetEnemy = enemies.First();
+                                else if (enemies.Count() > 0)
+                                    m_targetEnemy = enemies.First();
 
-                            if (m_targetEnemy != null)
-                                Player.AddCommand(new PlayerCommand(PlayerCommandType.StartAimAtPrecise, m_targetEnemy.UniqueID));
-                            ChangeState(State.AimingEnemy);
-                            var botBehaviorSet = Player.GetBotBehaviorSet();
-                            m_shootDelayTimeThisTurn = RandomHelper.Between(
-                                botBehaviorSet.RangedWeaponPrecisionAimShootDelayMin,
-                                botBehaviorSet.RangedWeaponPrecisionAimShootDelayMax);
+                                if (m_targetEnemy != null)
+                                    Player.AddCommand(new PlayerCommand(PlayerCommandType.StartAimAtPrecise, m_targetEnemy.UniqueID));
+                                ChangeState(State.AimingEnemy);
+                                var botBehaviorSet = Player.GetBotBehaviorSet();
+                                m_shootDelayTimeThisTurn = RandomHelper.Between(
+                                    botBehaviorSet.RangedWeaponPrecisionAimShootDelayMin,
+                                    botBehaviorSet.RangedWeaponPrecisionAimShootDelayMax);
+                            }
+                            else
+                                Stop();
                         }
-                        else
-                            Stop();
-                    }
-                    break;
-                }
-                case State.AimingEnemy:
-                {
-                    if (gun.TargetedObject == null || m_targetEnemy != null && (m_targetEnemy.IsDead || m_targetEnemy.IsRemoved))
-                    {
-                        Stop();
                         break;
                     }
-                    if (IsPlayerInRange(gun, m_targetEnemy) || m_nearestObjectIsPlayer)
+                    case State.AimingEnemy:
                     {
-                        m_shootDelayTime += elapsed;
-
-                        if (m_shootDelayTime >= m_shootDelayTimeThisTurn)
+                        if (gun.TargetedObject == null || m_targetEnemy != null && (m_targetEnemy.IsDead || m_targetEnemy.IsRemoved))
                         {
-                            if (!m_nearestObjectIsPlayer && NearestObject.GetLinearVelocity().Length() < 1
-                                || m_nearestObjectIsPlayer)
+                            Stop();
+                            break;
+                        }
+                        if (IsPlayerInRange(gun, m_targetEnemy) || m_nearestObjectIsPlayer)
+                        {
+                            m_shootDelayTime += elapsed;
+
+                            if (m_shootDelayTime >= m_shootDelayTimeThisTurn)
                             {
-                                Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
-                                m_shootDelayTime = 0f;
+                                if (!m_nearestObjectIsPlayer && NearestObject.GetLinearVelocity().Length() < 1
+                                    || m_nearestObjectIsPlayer)
+                                {
+                                    Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
+                                    m_shootDelayTime = 0f;
+                                }
                             }
                         }
+                        break;
                     }
-                    break;
-                }
-                case State.Cooldown:
-                {
-                    if (ScriptHelper.IsElapsed(m_cooldownTime, CooldownTime))
+                    case State.Cooldown:
                     {
-                        ChangeState(State.Normal);
+                        if (ScriptHelper.IsElapsed(m_cooldownTime, CooldownTime))
+                        {
+                            ChangeState(State.Normal);
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
+
+            //    return m_state.ToString();
+            //});
         }
 
-        private float m_objStuckCheckTime;
-        private Vector2 m_oldObjPosition = Vector2.Zero;
-        private bool IsObjectStuck(IObject obj)
-        {
-            if (m_oldObjPosition == Vector2.Zero)
-            {
-                m_oldObjPosition = obj.GetWorldPosition();
-                return false; // init
-            }
-
-            if (ScriptHelper.IsElapsed(m_objStuckCheckTime, 30))
-            {
-                var currentPosition = obj.GetWorldPosition();
-                if (Vector2.Distance(currentPosition, m_oldObjPosition) < .5f)
-                {
-                    return true;
-                }
-                m_oldObjPosition = currentPosition;
-                m_objStuckCheckTime = Game.TotalElapsedGameTime;
-            }
-            return false;
-        }
-
+        private float m_checkObjectTime = 0f;
         private void UpdateWeaponUsage(GravityGun gun)
         {
             var botBehaviorSet = Player.GetBotBehaviorSet();
 
-            if (SearchNearestObject(gun) == null || m_state == State.Cooldown)
+            if (ScriptHelper.IsElapsed(m_checkObjectTime, 8))
             {
-                // the old solution was to set ammo to 0 to disable using this gun. But the bot
-                // will always sheathe weapon when running out of ammo and switch back, which
-                // is very slow and distracting
-                // Forbidden bot to use ranged weapon for a while will not make it switch weapon back and forth
-                if (botBehaviorSet.RangedWeaponUsage)
+                m_checkObjectTime = Game.TotalElapsedGameTime;
+
+                if (SearchNearestObject(gun) == null || m_state == State.Cooldown)
                 {
-                    botBehaviorSet.RangedWeaponUsage = false;
-                    Player.SetBotBehaviorSet(botBehaviorSet);
+                    // the old solution was to set ammo to 0 to disable using this gun. But the bot
+                    // will always sheathe weapon when running out of ammo and switch back, which
+                    // is very slow and distracting
+                    // Forbidden bot to use ranged weapon for a while will not make it switch weapon back and forth
+                    if (botBehaviorSet.RangedWeaponUsage)
+                    {
+                        botBehaviorSet.RangedWeaponUsage = false;
+                        Player.SetBotBehaviorSet(botBehaviorSet);
+                    }
                 }
-            }
-            else
-            {
-                if (!botBehaviorSet.RangedWeaponUsage)
+                else
                 {
-                    botBehaviorSet.RangedWeaponUsage = true;
-                    Player.SetBotBehaviorSet(botBehaviorSet);
+                    if (!botBehaviorSet.RangedWeaponUsage)
+                    {
+                        botBehaviorSet.RangedWeaponUsage = true;
+                        Player.SetBotBehaviorSet(botBehaviorSet);
+                    }
                 }
             }
         }
@@ -285,14 +288,17 @@ namespace BotExtended.Bots
         {
             var objName = NearestObject != null ? NearestObject.Name : "";
             var eneName = m_targetEnemy != null ? m_targetEnemy.Name : "";
-            ScriptHelper.LogDebug(m_state, "->", state, "[", objName, ",", eneName, "]");
+            // TODO: remove ToString() once gurt fixed
+            ScriptHelper.LogDebug(m_state.ToString(), "->", state.ToString(), "[", objName, ",", eneName, "]");
             m_timeout = 0f;
             m_state = state;
             m_executeOnce = false;
             m_stateDelay = Game.TotalElapsedGameTime;
             m_objStuckCheckTime = Game.TotalElapsedGameTime;
             m_oldObjPosition = Vector2.Zero;
-        }
+            m_aimCheckTime = Game.TotalElapsedGameTime;
+            m_aimDirection = Vector2.Zero;
+    }
 
         private void Stop()
         {
@@ -313,8 +319,7 @@ namespace BotExtended.Bots
 
         private float[] GetRangeLimit()
         {
-            var oneDeg = 0.0174533f;
-            var offset = Player.FacingDirection > 0 ? -oneDeg : oneDeg;
+            var offset = Player.FacingDirection > 0 ? -MathExtension.OneDeg : MathExtension.OneDeg;
 
             return new float[] { -MathHelper.PIOver2, MathHelper.PIOver2 + offset };
         }
@@ -348,6 +353,7 @@ namespace BotExtended.Bots
                 var objPosition = obj.GetWorldPosition();
 
                 if (isDynamicObject
+                    && !GravityGun.Blacklist.Contains(obj.Name)
                     && ScriptHelper.IntersectCircle(obj.GetAABB(), holdPosition, GravityGun.Range, rangeLimit[0], rangeLimit[1])
                     && !minimumRange.Intersects(obj.GetAABB())
                     && (nearestObject == null || Rank(nearestObject, obj) == 1))
@@ -403,6 +409,29 @@ namespace BotExtended.Bots
             return -1;
         }
 
+        private float m_aimCheckTime;
+        private Vector2 m_aimDirection = Vector2.Zero;
+        private bool MaybeLockTarget(GravityGun gun, IObject obj)
+        {
+            if (m_aimDirection == Vector2.Zero)
+            {
+                m_aimDirection = Player.AimVector;
+                return false; // init
+            }
+
+            if (ScriptHelper.IsElapsed(m_aimCheckTime, 15))
+            {
+                var aimDirection = Player.AimVector;
+                if (Math.Abs(ScriptHelper.GetAngle(aimDirection) - ScriptHelper.GetAngle(m_aimDirection)) < MathExtension.OneDeg)
+                {
+                    return true;
+                }
+                m_aimDirection = aimDirection;
+                m_aimCheckTime = Game.TotalElapsedGameTime;
+            }
+            return false;
+        }
+
         private bool IsObjectInRange(GravityGun gun, IObject obj)
         {
             var holdPosition = gun.GetHoldPosition(false);
@@ -418,6 +447,29 @@ namespace BotExtended.Bots
             {
                 if (result.ObjectID == obj.UniqueID)
                     return true;
+            }
+            return false;
+        }
+
+        private float m_objStuckCheckTime;
+        private Vector2 m_oldObjPosition = Vector2.Zero;
+        private bool IsObjectStuck(IObject obj)
+        {
+            if (m_oldObjPosition == Vector2.Zero)
+            {
+                m_oldObjPosition = obj.GetWorldPosition();
+                return false; // init
+            }
+
+            if (ScriptHelper.IsElapsed(m_objStuckCheckTime, 30))
+            {
+                var currentPosition = obj.GetWorldPosition();
+                if (Vector2.Distance(currentPosition, m_oldObjPosition) < .5f)
+                {
+                    return true;
+                }
+                m_oldObjPosition = currentPosition;
+                m_objStuckCheckTime = Game.TotalElapsedGameTime;
             }
             return false;
         }
@@ -441,12 +493,22 @@ namespace BotExtended.Bots
             return false;
         }
 
-        private IEnumerable<IPlayer> SearchEnemies(GravityGun gun)
+        private float m_checkEnemyTime = 0f;
+        private IEnumerable<IPlayer> m_searchedEnemies = new List<IPlayer>();
+        private IEnumerable<IPlayer> SearchedEnemies
         {
-            var rangeLimit = GetRangeLimit();
+            get
+            {
+                if (ScriptHelper.IsElapsed(m_checkEnemyTime, 16))
+                {
+                    m_checkEnemyTime = Game.TotalElapsedGameTime;
+                    var rangeLimit = GetRangeLimit();
 
-            return RayCastHelper.GetPlayersInRange(Player, GravityGun.Range * 4, rangeLimit[0], rangeLimit[1],
-                true, Player.GetTeam(), Player);
+                    m_searchedEnemies = RayCastHelper.GetPlayersInRange(Player, GravityGun.Range * 4, rangeLimit[0], rangeLimit[1],
+                        true, Player.GetTeam(), Player);
+                }
+                return m_searchedEnemies;
+            }
         }
     }
 }
