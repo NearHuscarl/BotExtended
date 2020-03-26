@@ -64,9 +64,9 @@ namespace BotExtended.Projectiles
             foreach (var kv in m_projectiles)
             {
                 var projectile = kv.Value;
-                projectile.Update(elapsed);
+                projectile.OnUpdate(elapsed);
                 if (projectile.IsRemoved)
-                    removeList.Add(kv.Key); // Projectile.ID is already reset to 0
+                    removeList.Add(kv.Key); // Projectile.ID was already reset to 0 at this point
             }
             // Projectiles dont have OnProjectileTerminated like how IObjects have OnObjectTerminated
             // So when the projectiles go outside of the map and dont hit anything, it will be removed here
@@ -75,7 +75,7 @@ namespace BotExtended.Projectiles
 
             foreach (var projectile in m_customProjectiles.Values)
             {
-                projectile.Update(elapsed);
+                projectile.OnUpdate(elapsed);
             }
 
             foreach (var o in m_owners)

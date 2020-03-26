@@ -24,7 +24,7 @@ namespace BotExtended.Bots
 
         public EngineerBot(BotArgs args, EngineerBot_Controller controller) : base(args)
         {
-            UpdateInterval = 0;
+            UpdateDelay = 0;
 
             if (controller != null)
             {

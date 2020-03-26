@@ -1,4 +1,6 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
@@ -8,13 +10,24 @@ namespace BotExtended.Projectiles
         public abstract bool IsRemoved { get; }
         public RangedWeaponPowerup Powerup { get; protected set; }
         public bool IsCustomProjectile { get; protected set; }
+        protected float UpdateDelay { get; set; }
 
         public ProjectileBase(RangedWeaponPowerup powerup)
         {
             Powerup = powerup;
+            UpdateDelay = 0f;
         }
 
-        public virtual void Update(float elapsed) { }
+        private float m_updateTime = 0f;
+        public void OnUpdate(float elapsed)
+        {
+            if (ScriptHelper.IsElapsed(m_updateTime, UpdateDelay))
+            {
+                m_updateTime = Game.TotalElapsedGameTime;
+                Update(elapsed);
+            }
+        }
+        protected virtual void Update(float elapsed) { }
 
         public virtual void OnProjectileHit() { }
         public virtual void OnProjectileHit(ProjectileHitArgs args) { }

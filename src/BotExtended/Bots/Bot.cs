@@ -25,7 +25,7 @@ namespace BotExtended.Bots
         public BotType Type { get; set; }
         public BotFaction Faction { get; set; }
         public BotInfo Info { get; set; }
-        public int UpdateInterval { get; set; }
+        public int UpdateDelay { get; set; }
         public Vector2 Position
         {
             get { return Player.GetWorldPosition(); }
@@ -44,7 +44,7 @@ namespace BotExtended.Bots
             Type = BotType.None;
             Faction = faction;
             Info = new BotInfo(player);
-            UpdateInterval = 100;
+            UpdateDelay = 100;
         }
         public Bot(BotArgs args) : this()
         {
@@ -96,12 +96,12 @@ namespace BotExtended.Bots
             0, // powerup - should always be 0
         };
 
-        private float m_lastUpdateElapsed;
+        private float m_lastUpdateElapsed = 0f;
         public void Update(float elapsed)
         {
             m_lastUpdateElapsed += elapsed;
 
-            if (m_lastUpdateElapsed >= UpdateInterval)
+            if (m_lastUpdateElapsed >= UpdateDelay)
             {
                 OnUpdate(m_lastUpdateElapsed);
                 m_lastUpdateElapsed = 0;

@@ -231,11 +231,16 @@ namespace BotExtended.Library
             var halfWidth = width / 2;
             var halfHeight = height / 2;
 
+            return GrowFromCenter(center, halfWidth, halfHeight, halfWidth, halfHeight);
+        }
+
+        public static Area GrowFromCenter(Vector2 center, float toLeft, float toTop, float toRight, float toBottom)
+        {
             return new Area(
-                center.Y + halfHeight,
-                center.X - halfWidth,
-                center.Y - halfHeight,
-                center.X + halfWidth);
+                center.Y + toTop,
+                center.X - toLeft,
+                center.Y - toBottom,
+                center.X + toRight);
         }
 
         public static void Stopwatch(Func<string> action, int reportThreshold = 1)
@@ -250,6 +255,17 @@ namespace BotExtended.Library
 
             if (stopwatch.ElapsedMilliseconds >= reportThreshold)
                 LogDebugF("-Perf {2,6} {0}:{1}", stopwatch.ElapsedMilliseconds, stackTrace.GetMethod().Name, name);
+        }
+
+        public static ProjectilePowerup GetPowerup(IProjectile projectile)
+        {
+            if (projectile.PowerupBounceActive)
+                return ProjectilePowerup.Bouncing;
+
+            if (projectile.PowerupFireActive)
+                return ProjectilePowerup.Fire;
+
+            return ProjectilePowerup.None;
         }
     }
 }

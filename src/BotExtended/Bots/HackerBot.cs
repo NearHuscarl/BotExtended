@@ -4,7 +4,7 @@
     {
         public HackerBot(BotArgs args) : base(args)
         {
-            UpdateInterval = 200;
+            UpdateDelay = 200;
         }
 
         protected override void OnUpdate(float elapsed)

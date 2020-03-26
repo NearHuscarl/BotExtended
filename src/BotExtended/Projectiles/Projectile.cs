@@ -16,6 +16,6 @@ namespace BotExtended.Projectiles
             IsCustomProjectile = false;
         }
 
-        protected virtual IProjectile OnProjectileCreated(IProjectile projectile) { return null; }
+        protected virtual IProjectile OnProjectileCreated(IProjectile projectile) { return projectile; }
     }
 }

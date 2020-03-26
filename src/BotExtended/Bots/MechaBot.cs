@@ -39,7 +39,7 @@ namespace BotExtended.Bots
 
         public MechaBot(BotArgs args, MechaBot_Controller controller) : base(args)
         {
-            UpdateInterval = 0;
+            UpdateDelay = 0;
             m_state = MechaState.Normal;
 
             if (controller != null)

@@ -19,7 +19,7 @@ namespace BotExtended.Bots
         {
             base.OnSpawn(others);
 
-            UpdateInterval = 0;
+            UpdateDelay = 0;
 
             foreach (var bot in others)
             {

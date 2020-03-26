@@ -82,11 +82,7 @@ namespace BotExtended.Projectiles
 
             for (var i = 0; i < 360; i += 72) // Play electric effect 5 times in circle (360 / 5 = 72)
             {
-                var direction = new Vector2()
-                {
-                    X = (float)Math.Cos(MathExtension.ToRadians(i)),
-                    Y = (float)Math.Sin(MathExtension.ToRadians(i)),
-                };
+                var direction = ScriptHelper.GetDirection(MathExtension.ToRadians(i));
 
                 Game.PlayEffect(EffectName.Electric, position + direction * EMPBlastRadius);
                 Game.PlaySound("ElectricSparks", position);
