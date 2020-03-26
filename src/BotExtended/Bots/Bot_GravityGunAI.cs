@@ -288,8 +288,8 @@ namespace BotExtended.Bots
         {
             var objName = NearestObject != null ? NearestObject.Name : "";
             var eneName = m_targetEnemy != null ? m_targetEnemy.Name : "";
-            // TODO: remove ToString() once gurt fixed
-            ScriptHelper.LogDebug(m_state.ToString(), "->", state.ToString(), "[", objName, ",", eneName, "]");
+
+            ScriptHelper.LogDebug(m_state, "->", state, "[", objName, ",", eneName, "]");
             m_timeout = 0f;
             m_state = state;
             m_executeOnce = false;

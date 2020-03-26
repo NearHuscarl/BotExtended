@@ -9,9 +9,8 @@ namespace BotExtended.Projectiles
 {
     class ProjectileManager
     {
-        public class WeaponInfo
+        private class PowerupInfo
         {
-            public IObjectWeaponItem Weapon = null;
             public RangedWeaponPowerup RangedPowerup = RangedWeaponPowerup.None;
             public MeleeWeaponPowerup MeleePowerup = MeleeWeaponPowerup.None;
             public bool HasPowerup
@@ -19,14 +18,23 @@ namespace BotExtended.Projectiles
                 get { return RangedPowerup != RangedWeaponPowerup.None || MeleePowerup != MeleeWeaponPowerup.None; }
             }
         }
+        private class WeaponInfo : PowerupInfo
+        {
+            public WeaponItem Weapon = WeaponItem.NONE;
+        }
+        private class WeaponObjectInfo : PowerupInfo
+        {
+            public IObjectWeaponItem Weapon = null;
+        }
 
         private class Weapon
         {
-            public Weapon(WeaponInfo info) { WeaponInfo = info; }
-            public WeaponInfo WeaponInfo;
+            public Weapon(WeaponObjectInfo info) { WeaponInfo = info; }
+            public WeaponObjectInfo WeaponInfo;
             public float EffectTime = 0f;
         }
 
+        private static Dictionary<int, List<WeaponInfo>> m_queuedPowerups = new Dictionary<int, List<WeaponInfo>>();
         private static Dictionary<int, ProjectileBase> m_customProjectiles = new Dictionary<int, ProjectileBase>();
         private static Dictionary<int, ProjectileBase> m_projectiles = new Dictionary<int, ProjectileBase>();
         private static Dictionary<int, Weapon> m_weapons = new Dictionary<int, Weapon>();
@@ -45,7 +53,12 @@ namespace BotExtended.Projectiles
 
             //Events.UpdateCallback.Start((e) =>
             //{
-            //    ScriptHelper.LogDebug(m_owners.Count, m_projectiles.Count, m_customProjectiles.Count, m_weapons.Count);
+            //    ScriptHelper.LogDebug(
+            //        m_owners.Count,
+            //        m_queuedPowerups.Count,
+            //        m_projectiles.Count,
+            //        m_customProjectiles.Count,
+            //        m_weapons.Count);
             //}, 30, 0);
         }
 
@@ -103,6 +116,11 @@ namespace BotExtended.Projectiles
                     playerWpn.Powerup.Remove();
                     m_owners.Remove(player.UniqueID);
                 }
+
+                if (m_queuedPowerups.ContainsKey(player.UniqueID))
+                {
+                    m_queuedPowerups.Remove(player.UniqueID);
+                }
             }
         }
 
@@ -150,32 +168,15 @@ namespace BotExtended.Projectiles
 
         internal static void SetPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
-            var playerWpn = GetOrCreatePlayerWeapon(player);
-            var type = Mapper.GetWeaponItemType(weaponItem);
+            if (!m_queuedPowerups.ContainsKey(player.UniqueID))
+                m_queuedPowerups[player.UniqueID] = new List<WeaponInfo>();
 
-            switch (type)
+            m_queuedPowerups[player.UniqueID].Add(new WeaponInfo
             {
-                // TODO: Melee powerup
-                case WeaponItemType.Melee:
-                    break;
-                case WeaponItemType.Rifle:
-                {
-                    if (playerWpn.Primary != null)
-                        playerWpn.Primary.Remove();
-                    playerWpn.Primary = RangeWeaponFactory.Create(player, weaponItem, powerup);
-                    break;
-                }
-                case WeaponItemType.Handgun:
-                {
-                    if (playerWpn.Secondary != null)
-                        playerWpn.Secondary.Remove();
-                    playerWpn.Secondary = RangeWeaponFactory.Create(player, weaponItem, powerup);
-                    break;
-                }
-            }
-
+                Weapon = weaponItem,
+                RangedPowerup = powerup,
+            });
             player.GiveWeaponItem(weaponItem);
-            m_owners[player.UniqueID] = playerWpn;
         }
 
         private static void OnPlayerDroppedWeapon(IPlayer player, PlayerWeaponRemovedArg arg)
@@ -191,25 +192,29 @@ namespace BotExtended.Projectiles
             if (weaponObject == null) return;
 
             var oldPlayerWpn = GetOrCreatePlayerWeapon(player);
-            var newWeaponInfo = new WeaponInfo() { Weapon = weaponObject };
+            var newWeaponInfo = new WeaponObjectInfo() { Weapon = weaponObject };
 
             switch (weaponObject.WeaponItemType)
             {
                 case WeaponItemType.Melee:
                     newWeaponInfo.MeleePowerup = oldPlayerWpn.Melee.Powerup;
                     m_owners[player.UniqueID].Melee.Remove();
+                    // TODO: add null object
                     break;
                 case WeaponItemType.Rifle:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Primary.Powerup;
                     m_owners[player.UniqueID].Primary.Remove();
+                    m_owners[player.UniqueID].Primary = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
                 case WeaponItemType.Handgun:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Secondary.Powerup;
                     m_owners[player.UniqueID].Secondary.Remove();
+                    m_owners[player.UniqueID].Secondary = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
                 case WeaponItemType.Thrown:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Throwable.Powerup;
                     m_owners[player.UniqueID].Throwable.Remove();
+                    m_owners[player.UniqueID].Throwable = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
             }
 
@@ -218,10 +223,22 @@ namespace BotExtended.Projectiles
 
         private static void OnPlayerPickedUpWeapon(IPlayer player, PlayerWeaponAddedArg arg)
         {
-            if (!m_weapons.ContainsKey(arg.SourceObjectID) || arg.SourceObjectID == 0) return;
+            if (!m_weapons.ContainsKey(arg.SourceObjectID) && !m_queuedPowerups.ContainsKey(player.UniqueID))
+                return;
 
             GetOrCreatePlayerWeapon(player);
-            var weaponInfo = m_weapons[arg.SourceObjectID].WeaponInfo;
+
+            // TODO: gibbed player doesn't fire OnPlayerDropped, so calling m_weapons.GetItem() will throw
+            // wait for gurt to fix and remove this line:
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3999&p=23441#p23441
+            if (arg.SourceObjectID != 0 && !m_weapons.ContainsKey(arg.SourceObjectID))
+                return;
+
+            var weaponInfo = arg.SourceObjectID == 0 ?
+                (PowerupInfo)m_queuedPowerups[player.UniqueID].Where(wi => wi.Weapon == arg.WeaponItem).FirstOrDefault() :
+                (PowerupInfo)m_weapons[arg.SourceObjectID].WeaponInfo;
+            if (weaponInfo == null) return;
+
             var createRangedWeapon = new Func<RangeWpn>(
                 () => RangeWeaponFactory.Create(player, arg.WeaponItem, weaponInfo.RangedPowerup));
 
@@ -242,15 +259,10 @@ namespace BotExtended.Projectiles
                     break;
             }
 
-            m_weapons.Remove(arg.SourceObjectID);
-        }
-
-        public static WeaponInfo GetWeaponInfo(int objectID)
-        {
-            Weapon weapon;
-            if (!m_weapons.TryGetValue(objectID, out weapon))
-                return new WeaponInfo();
-            return weapon.WeaponInfo;
+            if (arg.SourceObjectID == 0)
+                m_queuedPowerups[player.UniqueID].Remove((WeaponInfo)weaponInfo);
+            else
+                m_weapons.Remove(arg.SourceObjectID);
         }
 
         private static void OnProjectileCreated(IProjectile[] projectiles)
@@ -328,7 +340,10 @@ namespace BotExtended.Projectiles
 
                 var uniqueID = obj.UniqueID;
 
-                // wait until the next frame to remove in case weapon picked-up event fire and remove at the end of the last frame
+                // wait and see if the picked-up callback fires and removes first. this callback should only remove m_weapons here
+                // if it's despawned
+                // because picked-up callback is fired at the end of the update, removing the object now will lead to null
+                // exception later on in the picked-up callback
                 ScriptHelper.Timeout(() =>
                 {
                     if (m_weapons.ContainsKey(uniqueID))

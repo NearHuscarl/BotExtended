@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SFDGameScriptInterface;
 using static BotExtended.Library.SFD;
 
@@ -32,8 +33,32 @@ namespace BotExtended.Library
             return placeholder;
         }
 
-        public static void LogDebugF(string format, params object[] values) { Game.WriteToConsoleF(format, values); }
-        public static void LogDebug(params object[] values) { Game.WriteToConsole(values); }
+        // TODO: remove once gurt fixes
+        // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3995
+        // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3994
+        private static string ToDisplayString(params object[] values)
+        {
+            var str = "";
+
+            foreach (var v in values)
+            {
+                if (v == null)
+                    str += " null";
+                str += " " + v;
+            }
+
+            return str;
+        }
+        public static void LogDebugF(string format, params object[] values)
+        {
+            if (!Game.IsEditorTest) return;
+            Game.WriteToConsoleF(format, ToDisplayString(values));
+        }
+        public static void LogDebug(params object[] values)
+        {
+            if (!Game.IsEditorTest) return;
+            Game.WriteToConsole(ToDisplayString(values));
+        }
 
         public static void Timeout(Action callback, uint interval)
         {
@@ -243,6 +268,10 @@ namespace BotExtended.Library
                 center.X + toRight);
         }
 
+        public static System.Reflection.MethodBase GetMethodInfo(int skipFrames)
+        {
+            return new System.Diagnostics.StackFrame(1).GetMethod();
+        }
         public static void Stopwatch(Func<string> action, int reportThreshold = 1)
         {
             var stopwatch = new System.Diagnostics.Stopwatch();
@@ -251,10 +280,8 @@ namespace BotExtended.Library
             var name = action();
             stopwatch.Stop();
 
-            var stackTrace = new System.Diagnostics.StackFrame(1);
-
             if (stopwatch.ElapsedMilliseconds >= reportThreshold)
-                LogDebugF("-Perf {2,6} {0}:{1}", stopwatch.ElapsedMilliseconds, stackTrace.GetMethod().Name, name);
+                LogDebugF("-Perf {2,6} {0}:{1}", stopwatch.ElapsedMilliseconds, GetMethodInfo(1).Name, name);
         }
 
         public static ProjectilePowerup GetPowerup(IProjectile projectile)
