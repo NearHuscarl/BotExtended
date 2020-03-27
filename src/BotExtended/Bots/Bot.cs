@@ -11,11 +11,8 @@ namespace BotExtended.Bots
 {
     public class Bot
     {
-        private static readonly Bot none = new Bot();
-        public static Bot None
-        {
-            get { return none;  }
-        }
+        public static readonly Bot None;
+        static Bot() { None = new Bot(); }
 
         public static Color DialogueColor
         {
@@ -34,27 +31,27 @@ namespace BotExtended.Bots
 
         private Bot_GravityGunAI m_botGravityGunAI;
 
-        private Bot()
+        private Bot(IPlayer player = null)
         {
             m_botGravityGunAI = new Bot_GravityGunAI(this);
-        }
-        public Bot(IPlayer player = null, BotFaction faction = BotFaction.None) : this()
-        {
             Player = player;
-            Type = BotType.None;
+            InfectTeam = player != null ? player.GetTeam() : BotManager.BotTeam;
+        }
+        public Bot(IPlayer player, BotType type, BotFaction faction) : this(player)
+        {
+            Type = type;
             Faction = faction;
             Info = new BotInfo(player);
             UpdateDelay = 100;
         }
-        public Bot(BotArgs args) : this()
+        public Bot(BotArgs args) : this(args.Player)
         {
-            Player = args.Player;
             Type = args.BotType;
             Faction = args.BotFaction;
             Info = args.Info;
         }
 
-        public void SaySpawnLine()
+        private void SaySpawnLine()
         {
             if (Info == null) return;
 
@@ -361,18 +358,21 @@ namespace BotExtended.Bots
 
                 if (attackerBot.CanInfect && directContact)
                 {
-                    Infect();
+                    Infect(attackerBot.InfectTeam);
                     Game.ShowChatMessage(attacker.Name + " infected " + Player.Name);
                 }
             }
         }
 
-        public void Infect()
+        public PlayerTeam InfectTeam { get; private set; }
+        public void Infect(PlayerTeam team)
         {
             if (CanBeInfected)
             {
+                InfectTeam = team;
                 Game.PlayEffect(EffectName.CustomFloatText, Position, "infected");
                 Info.ZombieStatus = ZombieStatus.Infected;
+                ScriptHelper.LogDebug(Player.Name, InfectTeam);
             }
         }
 

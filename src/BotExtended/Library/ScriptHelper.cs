@@ -270,7 +270,7 @@ namespace BotExtended.Library
 
         public static System.Reflection.MethodBase GetMethodInfo(int skipFrames)
         {
-            return new System.Diagnostics.StackFrame(1).GetMethod();
+            return new System.Diagnostics.StackFrame(skipFrames).GetMethod();
         }
         public static void Stopwatch(Func<string> action, int reportThreshold = 1)
         {

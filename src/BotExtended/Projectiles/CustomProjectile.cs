@@ -8,7 +8,7 @@ namespace BotExtended.Projectiles
         public override int ID { get { return Instance.UniqueID; } }
         public override bool IsRemoved { get { return Instance == null ? true : Instance.IsRemoved; } }
 
-        public CustomProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(powerup)
+        public CustomProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             Instance = OnProjectileCreated(projectile);
             if (Instance == null) Powerup = RangedWeaponPowerup.None;

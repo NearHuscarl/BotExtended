@@ -7,13 +7,15 @@ namespace BotExtended.Projectiles
     abstract class ProjectileBase
     {
         public abstract int ID { get; }
+        public int OwnerID { get; private set; }
         public abstract bool IsRemoved { get; }
         public RangedWeaponPowerup Powerup { get; protected set; }
         public bool IsCustomProjectile { get; protected set; }
         protected float UpdateDelay { get; set; }
 
-        public ProjectileBase(RangedWeaponPowerup powerup)
+        public ProjectileBase(IProjectile projectile, RangedWeaponPowerup powerup)
         {
+            OwnerID = projectile.InitialOwnerPlayerID;
             Powerup = powerup;
             UpdateDelay = 0f;
         }

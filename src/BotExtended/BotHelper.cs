@@ -125,6 +125,28 @@ namespace BotExtended
             if (weaponSet.UseLazer) player.GiveWeaponItem(WeaponItem.LAZER);
         }
 
+        public static WeaponSet GetWeaponSet(IPlayer player)
+        {
+            var meleeWpn = player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE ?
+                player.CurrentMeleeMakeshiftWeapon.WeaponItem :
+                player.CurrentMeleeWeapon.WeaponItem;
+            var playerWpn = ProjectileManager.GetOrCreatePlayerWeapon(player);
+
+            return new WeaponSet()
+            {
+                Melee = meleeWpn,
+                // TODO: add melee powerup weapon here
+                Primary = player.CurrentPrimaryWeapon.WeaponItem,
+                PrimaryPowerup = playerWpn != null ? playerWpn.Primary.Powerup : RangedWeaponPowerup.None,
+                Secondary = player.CurrentSecondaryWeapon.WeaponItem,
+                SecondaryPowerup = playerWpn != null ? playerWpn.Secondary.Powerup : RangedWeaponPowerup.None,
+                Throwable = player.CurrentThrownItem.WeaponItem,
+                Powerup = player.CurrentPowerupItem.WeaponItem,
+                // TODO: wait for gurt to add this: https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=4000
+                //UseLazer = ...
+            };
+        }
+
         public static IProfile ToZombieProfile(IProfile profile)
         {
             switch (profile.Skin.Name)
@@ -153,7 +175,7 @@ namespace BotExtended
         {
             if (botType == BotType.None)
                 return;
-            BotManager.SpawnBot(botType, BotFaction.None, player, true, true, player.GetTeam());
+            BotManager.SpawnBot(botType, BotFaction.None, player, player.GetTeam());
         }
 
         public static void SetWeapon(IPlayer player, string weaponItemStr, string powerupStr)

@@ -111,7 +111,10 @@ namespace BotExtended.Projectiles
             if (rndNum < 1) // big oof
             {
                 var player = Game.CreatePlayer(position);
-                var bot = BotManager.SpawnBot(BotType.Santa, player: player, triggerOnSpawn: false);
+                var owner = Game.GetPlayer(OwnerID);
+                var bot = BotManager.SpawnBot(BotType.Santa, player: player,
+                    team: owner != null ? owner.GetTeam() : PlayerTeam.Independent,
+                    triggerOnSpawn: false);
 
                 bot.Info.SpawnLine = "Surprise motherfucker!";
                 BotManager.TriggerOnSpawn(bot);

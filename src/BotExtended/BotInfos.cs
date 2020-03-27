@@ -269,7 +269,7 @@ namespace BotExtended
                         SizeModifier = Size.BelowNormal,
                     };
                     botInfo.SpawnLine = "Brainzz";
-                    botInfo.SpawnLineChance = 0.1f;
+                    botInfo.SpawnLineChance = Game.IsEditorTest ? 1f : 0.1f;
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
                     break;
                 }

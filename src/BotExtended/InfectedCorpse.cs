@@ -36,8 +36,13 @@ namespace BotExtended
 
             var player = Game.CreatePlayer(Body.GetWorldPosition());
             var zombieType = BotHelper.GetZombieType(Type);
+            var oldProfile = Body.GetProfile();
+            var oldWeapons = BotHelper.GetWeaponSet(Body); // TODO: test gun with lazer once gurt fixed https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=4000
+
             ScriptHelper.LogDebug(Type, "->", zombieType);
-            var zombie = BotManager.SpawnBot(zombieType, Faction, player, equipWeapons: false, setProfile: false);
+            player.SetBotName(Body.Name); // NOTE: set right now so SpawnLine dialogue will show the bot name correctly
+
+            var zombie = BotManager.SpawnBot(zombieType, Faction, player, BotManager.GetBot(Body).InfectTeam);
             var zombieBody = zombie.Player;
 
             var modifiers = Body.GetModifiers();
@@ -46,11 +51,10 @@ namespace BotExtended
                 modifiers.CurrentHealth = modifiers.MaxHealth = 50;
             else
                 modifiers.CurrentHealth = modifiers.MaxHealth * 0.75f;
-            zombieBody.SetModifiers(modifiers);
 
-            var profile = Body.GetProfile();
-            zombieBody.SetProfile(BotHelper.ToZombieProfile(profile));
-            zombieBody.SetBotName(Body.Name);
+            zombieBody.SetModifiers(modifiers);
+            zombieBody.SetProfile(BotHelper.ToZombieProfile(oldProfile));
+            BotHelper.Equip(zombieBody, oldWeapons);
 
             Body.Remove();
             Body = zombieBody;

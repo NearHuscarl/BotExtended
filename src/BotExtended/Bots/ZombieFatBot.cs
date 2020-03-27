@@ -31,7 +31,7 @@ namespace BotExtended.Bots
             {
                 if (ScriptHelper.IntersectCircle(bot.Player.GetAABB(), center, InfectRadius))
                 {
-                    bot.Infect();
+                    bot.Infect(InfectTeam);
                     Game.ShowChatMessage(bot.Player.Name + " is infected");
                 }
             }

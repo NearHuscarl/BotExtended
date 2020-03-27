@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.GameScript;
+using static BotExtended.Library.SFD;
 using BotExtended.Projectiles;
 using BotExtended.Weapons;
 
@@ -270,7 +271,7 @@ namespace BotExtended
             {
                 m_bots.Remove(bot.Player.CustomID);
             }
-            else
+            if (args.Killed)
             {
                 AddInfectedCorpse(bot);
             }
@@ -344,7 +345,7 @@ namespace BotExtended
 
         private static Bot Wrap(IPlayer player)
         {
-            var bot = new Bot(player);
+            var bot = new Bot(player, BotType.None, BotFaction.None);
 
             if (string.IsNullOrEmpty(player.CustomID))
             {
@@ -361,8 +362,6 @@ namespace BotExtended
             BotType botType,
             BotFaction faction = BotFaction.None,
             IPlayer player = null,
-            bool equipWeapons = true,
-            bool setProfile = true,
             PlayerTeam team = BotTeam,
             bool ignoreFullSpawner = false,
             bool triggerOnSpawn = true)
@@ -376,30 +375,26 @@ namespace BotExtended
                 player.CustomID = Guid.NewGuid().ToString("N");
             }
 
+            player.SetTeam(team);
+
             var bot = BotFactory.Create(player, botType, faction);
             var info = bot.Info;
             var weaponSet = WeaponSet.Empty;
 
-            if (equipWeapons)
+            if (RandomHelper.Percentage(info.EquipWeaponChance))
             {
-                if (RandomHelper.Percentage(info.EquipWeaponChance))
-                {
-                    weaponSet = RandomHelper.GetItem(GetWeapons(botType));
-                }
-                BotHelper.Equip(player, weaponSet);
+                weaponSet = RandomHelper.GetItem(GetWeapons(botType));
             }
+            BotHelper.Equip(player, weaponSet);
 
-            if (setProfile)
-            {
-                var profile = RandomHelper.GetItem(GetProfiles(botType));
-                player.SetProfile(profile);
+            var profile = RandomHelper.GetItem(GetProfiles(botType));
+            player.SetProfile(profile);
+            if (player.Name == "COM")
                 player.SetBotName(profile.Name);
-            }
 
             player.SetModifiers(info.Modifiers);
             player.SetBotBehaviorSet(GetBehaviorSet(info.AIType, info.SearchItems));
             player.SetBotBehaviorActive(true);
-            player.SetTeam(team);
 
             m_bots[player.CustomID] = bot; // This may be updated if using setplayer command
 

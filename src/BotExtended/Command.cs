@@ -353,11 +353,7 @@ namespace BotExtended
 
             for (var i = 0; i < count; i++)
             {
-                BotManager.SpawnBot(botType, player: null,
-                    equipWeapons: true,
-                    setProfile: true,
-                    team: team,
-                    ignoreFullSpawner: true);
+                BotManager.SpawnBot(botType, player: null, team: team, ignoreFullSpawner: true);
             }
 
             // Dont use the string name in case it just an index
