@@ -143,7 +143,7 @@ namespace BotExtended.Projectiles
                 ScriptHelper.Timeout(() =>
                 {
                     Game.PlaySound("SilencedUzi", m_explodePosition);
-                    Game.SpawnProjectile(ProjectileItem.REVOLVER, m_explodePosition, direction, powerup);
+                    Game.SpawnProjectile(ProjectileItem.MAGNUM, m_explodePosition, direction, powerup);
 
                     if (ii == 360 - angleInBetween)
                         ChangeState(State.Exploded);

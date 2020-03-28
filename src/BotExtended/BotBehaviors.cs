@@ -12,6 +12,23 @@ namespace BotExtended
             public const float Small = 30f;
         }
 
+        public static BotMeleeActions HulkMeleeActions
+        {
+            get
+            {
+                return new BotMeleeActions()
+                {
+                    Attack = (ushort)10,
+                    AttackCombo = (ushort)20,
+                    Block = (ushort)1,
+                    Kick = (ushort)1,
+                    Jump = (ushort)1,
+                    Wait = (ushort)20, // Hulk's original is 50
+                    Grab = (ushort)6
+                };
+            }
+        }
+
         public static BotBehaviorSet GetBehaviorSet(BotAI botAI, SearchItems searchItems = SearchItems.None)
         {
             var botBehaviorSet = new BotBehaviorSet()
@@ -223,16 +240,7 @@ namespace BotExtended
                 case BotAI.Hulk:
                 {
                     botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.Hulk);
-                    botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions()
-                    {
-                        Attack = (ushort)10,
-                        AttackCombo = (ushort)20,
-                        Block = (ushort)1,
-                        Kick = (ushort)1,
-                        Jump = (ushort)1,
-                        Wait = (ushort)20, // Hulk's original is 50
-                        Grab = (ushort)6
-                    });
+                    botBehaviorSet.SetMeleeActionsAll(HulkMeleeActions);
                     break;
                 }
                 #endregion
@@ -284,6 +292,15 @@ namespace BotExtended
                 {
                     botBehaviorSet = GetBehaviorSet(BotAI.Grunt);
                     botBehaviorSet = TriggerHappy(botBehaviorSet);
+                    break;
+                }
+                #endregion
+
+                #region Kingpin
+                case BotAI.Kingpin:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.Hard);
+                    botBehaviorSet.SetMeleeActionsAll(HulkMeleeActions);
                     break;
                 }
                 #endregion

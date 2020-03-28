@@ -29,6 +29,7 @@
         // Trigger-happy hard
         Sheriff,
 
+        Kingpin,
         Meatgrinder,
         Ninja,
         Sniper,

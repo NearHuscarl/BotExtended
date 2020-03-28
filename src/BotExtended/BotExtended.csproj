@@ -56,6 +56,7 @@
     <Compile Include="Bots\FunnymanBot.cs" />
     <Compile Include="Bots\FunnymanBot_Controller.cs" />
     <Compile Include="Bots\Controller.cs" />
+    <Compile Include="Bots\KingpinBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />

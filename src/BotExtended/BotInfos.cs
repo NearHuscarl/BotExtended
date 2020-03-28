@@ -269,7 +269,7 @@ namespace BotExtended
                         SizeModifier = Size.BelowNormal,
                     };
                     botInfo.SpawnLine = "Brainzz";
-                    botInfo.SpawnLineChance = Game.IsEditorTest ? 1f : 0.1f;
+                    botInfo.SpawnLineChance = 0.1f;
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
                     break;
                 }
@@ -476,11 +476,12 @@ namespace BotExtended
                 #region Boss Kingpin
                 case BotType.Kingpin:
                 {
-                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper;
+                    botInfo.AIType = BotAI.Kingpin;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.ExtremelyStrong,
-                        CurrentHealth = Health.ExtremelyStrong,
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
                         SizeModifier = Size.AboveNormal,
                     };
                     botInfo.IsBoss = true;

@@ -6,7 +6,7 @@ namespace BotExtended.Bots
     {
         private Controller<FunnymanBot> m_controller;
 
-        public FunnymanBot(BotArgs args, FunnymanBot_Controller controller) : base(args)
+        public FunnymanBot(BotArgs args, Controller<FunnymanBot> controller) : base(args)
         {
             if (controller != null)
             {

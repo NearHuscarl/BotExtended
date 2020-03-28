@@ -57,7 +57,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Kingpin:
-                    bot = new KingpinBot(args);
+                    bot = new KingpinBot(args, player.IsBot ? new KingpinBot_Controller() : null);
                     break;
 
                 case BotType.Kriegbär:
