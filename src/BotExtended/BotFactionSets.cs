@@ -225,6 +225,28 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Punk
+                case BotFaction.Punk:
+                {
+                    // TODO: add punk semi boss
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Punk, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Punk, 0.5f),
+                        new SubFaction(BotType.Biker, 0.5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Punk, 0.6f),
+                        new SubFaction(BotType.PunkHulk, 0.4f),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Sniper
                 case BotFaction.Sniper:
                 {
@@ -351,6 +373,30 @@ namespace BotExtended
                     {
                         new SubFaction(CommonZombieTypes, 0.7f),
                         new SubFaction(MutatedZombieTypes, 0.3f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Boss_Balista
+                case BotFaction.Boss_Balista:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Balista),
+                        new SubFaction(BotType.Punk, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Balista),
+                        new SubFaction(BotType.Punk, .5f),
+                        new SubFaction(BotType.PunkHulk, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Balista),
+                        new SubFaction(BotType.Punk, .75f),
+                        new SubFaction(BotType.PunkHulk, .25f),
                     });
                     break;
                 }

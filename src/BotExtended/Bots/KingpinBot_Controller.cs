@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
@@ -14,9 +15,17 @@ namespace BotExtended.Bots
             {
                 Player.SetInputEnabled(false);
             }
-            if (!Player.IsHoldingPlayerInGrab && !Player.IsInputEnabled)
+
+            if (Player.IsHoldingPlayerInGrab)
             {
-                Player.SetInputEnabled(true);
+                var grabbedPlayer = Game.GetPlayer(Player.HoldingPlayerInGrabID);
+                if (grabbedPlayer == null || grabbedPlayer.IsDead)
+                    Player.SetInputEnabled(true);
+            }
+            else
+            {
+                if (!Player.IsInputEnabled)
+                    Player.SetInputEnabled(true);
             }
         }
     }

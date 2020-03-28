@@ -18,10 +18,12 @@
         Sniper,
         Soldier,
         Thug,
+        Punk,
         Zombie,
         ZombieHard,
 
         Boss_Demolitionist = Constants.BOSS_FACTION_START_INDEX,
+        Boss_Balista,
         Boss_Boffin,
         Boss_Funnyman,
         Boss_Jo,

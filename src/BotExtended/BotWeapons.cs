@@ -86,6 +86,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Balista
+                case BotType.Balista:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.CHAIN,
+                        Primary = WeaponItem.ASSAULT,
+                        Secondary = WeaponItem.UZI,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bandido
                 case BotType.Bandido:
                 {
@@ -788,6 +801,47 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.SMG,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Punk
+                case BotType.Punk:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BAT,
+                        Secondary = WeaponItem.PISTOL,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Secondary = WeaponItem.UZI,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BASEBALL,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL45,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region PunkHulk
+                case BotType.PunkHulk:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
                     });
                     break;
                 }

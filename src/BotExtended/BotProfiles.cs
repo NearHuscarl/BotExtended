@@ -244,6 +244,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Balista
+                case BotType.Balista:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Balista",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("MilitaryJacket_fem", "ClothingDarkYellow", "ClothingLightRed", ""),
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("Afro", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin1", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("SmallBelt_fem", "ClothingBrown", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Biker
                 case BotType.Biker:
                 case BotType.BikerHulk:
@@ -1996,6 +2017,286 @@ namespace BotExtended
                         Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkBlue", "ClothingLightGray", ""),
                         Skin = new IProfileClothingItem("Normal", "Skin2", "ClothingLightGray", ""),
                         Waist = null,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Punk
+                case BotType.Punk:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("StuddedJacket", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("MotorcycleHelmet", "ClothingLightYellow", "ClothingOrange", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin2", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("StuddedVest", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Buzzcut", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin1", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = null,
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Mohawk", "ClothingLightRed", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin4", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("JacketBlack_fem", "ClothingBlue", "ClothingDarkBlue", ""),
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Beret", "ClothingDarkYellow", "ClothingLightYellow", ""),
+                        Legs = new IProfileClothingItem("TornPants_fem", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("AmmoBeltWaist_fem", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("StuddedJacket", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Mohawk", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin2", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("Vizor", "ClothingDarkGray", "ClothingLightRed", ""),
+                        ChestOver = new IProfileClothingItem("StuddedJacket", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Mohawk", "ClothingLightPurple", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingDarkYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("StuddedVest_fem", "ClothingBlue", "ClothingDarkBlue", ""),
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingPink", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Buzzcut", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants_fem", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin1", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Belt_fem", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("StuddedJacket", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Headband", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin2", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingLightYellow", "ClothingLightYellow", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Mohawk", "ClothingOrange", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingDarkYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("Vizor", "ClothingDarkGray", "ClothingLightPurple", ""),
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingLightYellow", "ClothingLightYellow", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Headband", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("StuddedVest", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Beret", "ClothingDarkYellow", "ClothingLightYellow", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin1", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("CoatBlack_fem", "ClothingBlue", "ClothingDarkBlue", ""),
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingLightYellow", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Beret", "ClothingDarkYellow", "ClothingLightYellow", ""),
+                        Legs = new IProfileClothingItem("TornPants_fem", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint_fem", "Skin1", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("AmmoBeltWaist_fem", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingDarkGray", "ClothingLightOrange", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("MotorcycleHelmet", "ClothingDarkGray", "ClothingLightOrange", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("AmmoBeltWaist", "ClothingDarkOrange", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("StuddedVest", "ClothingBlue", "ClothingBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Hood", "ClothingLightRed", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin1", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region PunkHulk
+                case BotType.PunkHulk:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk Muscle",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = null,
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingLightGray", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin1", "ClothingYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk Muscle",
+                        Accesory = new IProfileClothingItem("Goggles", "ClothingDarkGray", "ClothingLightRed", ""),
+                        ChestOver = null,
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = new IProfileClothingItem("ShortsBlack", "ClothingCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightRed", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingLightBlue", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk Muscle",
+                        Accesory = new IProfileClothingItem("RestraintMask", "ClothingDarkYellow", "ClothingLightGray", ""),
+                        ChestOver = null,
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = new IProfileClothingItem("ShortsBlack", "ClothingCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingLightRed", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingLightBlue", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk Muscle",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = null,
+                        ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingLightGray", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Headband", "ClothingOrange", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin4", "ClothingLightYellow", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingLightBlue", "ClothingLightGray", ""),
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Punk Muscle",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingLightYellow", "ClothingLightYellow", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = new IProfileClothingItem("TornPants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin1", "ClothingDarkYellow", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
                     });
                     break;
                 }

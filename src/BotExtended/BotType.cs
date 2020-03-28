@@ -13,6 +13,9 @@
                // Tier2: Piston Posse, Tower Trouble
         Agent2, // Dumb agent, strong weapon
                 // Tier1: High Moon Holdout
+
+        Balista,
+
         Bandido,
         // Tier1: Police Station Punchout, Warehouse Wreckage
         // Tier2: Bar Brawl
@@ -106,6 +109,10 @@
         // Tier1: Storage Showdown, Rooftops Rumble, Police Station Punchout, Alley Ambush, Warehouse Wreckage, Heavy Hostility
         Thug,
         ThugHulk,
+
+        // Like thug but with different skins, balista's faction
+        Punk,
+        PunkHulk,
 
         // Tier3: Hotel Cleanup
         Zombie,

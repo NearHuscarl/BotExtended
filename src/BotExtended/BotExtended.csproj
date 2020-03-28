@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\BalistaBot.cs" />
     <Compile Include="Bots\BoffinBot.cs" />
     <Compile Include="Bots\Bot_GravityGunAI.cs" />
     <Compile Include="Bots\CowboyBot.cs" />

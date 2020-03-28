@@ -114,6 +114,7 @@ namespace BotExtended
                 case BotType.BikerHulk:
                 case BotType.GangsterHulk:
                 case BotType.ThugHulk:
+                case BotType.PunkHulk:
                 {
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
@@ -136,6 +137,7 @@ namespace BotExtended
                 case BotType.NaziScientist:
                 case BotType.Scientist:
                 case BotType.Thug:
+                case BotType.Punk:
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 0.5f;
@@ -350,6 +352,27 @@ namespace BotExtended
                     botInfo.SpawnLine = "Brainzz";
                     botInfo.SpawnLineChance = 0.1f;
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
+                    break;
+                }
+                #endregion
+
+                #region Boss Balista
+                case BotType.Balista:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.All;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyLow,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        SizeModifier = Size.AboveNormal,
+                    };
+                    botInfo.IsBoss = true;
                     break;
                 }
                 #endregion
