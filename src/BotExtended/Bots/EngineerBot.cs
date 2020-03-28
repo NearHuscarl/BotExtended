@@ -98,28 +98,31 @@ namespace BotExtended.Bots
         }
 
         private int m_prevTotalAttackSwings = 0;
-        public bool MaybeIsBuildingTurret()
+        private bool MaybeIsBuildingTurret()
         {
             if (Player.IsCrouching
                 && m_prevTotalAttackSwings != Player.Statistics.TotalMeleeAttackSwings
-                && IsHoldingEquipment())
+                && IsHoldingEquipment)
             {
                 return true;
             }
             return false;
         }
 
-        public bool HasEnoughEnergy()
+        public bool HasEnoughEnergy
         {
-            return m_createNewTurretCooldown >= CreateNewCooldownTime;
+            get { return m_createNewTurretCooldown >= CreateNewCooldownTime; }
         }
 
-        public bool HasEquipment() { return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem); }
-        public bool IsHoldingEquipment()
+        public bool HasEquipment { get { return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem); } }
+        private bool IsHoldingEquipment
         {
-            return HasEquipment()
-                && Player.CurrentWeaponDrawn == WeaponItemType.Melee
-                && Player.CurrentMeleeMakeshiftWeapon.WeaponItem == WeaponItem.NONE;
+            get
+            {
+                return HasEquipment
+                    && Player.CurrentWeaponDrawn == WeaponItemType.Melee
+                    && Player.CurrentMeleeMakeshiftWeapon.WeaponItem == WeaponItem.NONE;
+            }
         }
 
         public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
@@ -189,7 +192,7 @@ namespace BotExtended.Bots
 
         public bool CreateNewTurret()
         {
-            if (HasEnoughEnergy())
+            if (HasEnoughEnergy)
             {
                 if (!CanBuildTurretHere())
                 {

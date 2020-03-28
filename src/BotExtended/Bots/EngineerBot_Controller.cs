@@ -61,15 +61,13 @@ namespace BotExtended.Bots
 
         public void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
         {
-            if (!Actor.HasEquipment())
+            if (!Actor.HasEquipment)
             {
                 StopBuilding();
             }
         }
 
         private float m_analyzePlaceCooldown = 0f;
-        private float m_buildCooldown = 0f;
-        private readonly float BuildCooldownTime = 7000;
 
         public override void OnUpdate(float elapsed)
         {
@@ -78,9 +76,7 @@ namespace BotExtended.Bots
             switch (m_state)
             {
                 case EngineerState.Normal:
-                    m_buildCooldown += elapsed;
-
-                    if ((Actor.HasEnoughEnergy() || m_buildCooldown >= BuildCooldownTime) && Actor.HasEquipment())
+                    if (Actor.HasEnoughEnergy && Actor.HasEquipment)
                         m_state = EngineerState.Analyzing;
                     break;
                 case EngineerState.Analyzing:
@@ -123,21 +119,22 @@ namespace BotExtended.Bots
             }
         }
 
-        private bool IsAttacked()
+        private bool IsAttacked
         {
-            return (Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned || Player.IsFalling || Player.IsBurningInferno);
+            get
+            {
+                return Player.IsStaggering || Player.IsCaughtByPlayerInDive || Player.IsStunned
+                    || Player.IsFalling || Player.IsBurningInferno;
+            }
         }
-        private bool IsInactive()
+        private bool IsInactive
         {
-            return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked();
+            get { return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked; }
         }
-        private bool CanBuildTurretNow()
-        {
-            return Actor.HasEquipment() && IsInactive();
-        }
+        private bool CanBuildTurretNow { get { return Actor.HasEquipment && IsInactive; } }
         private bool ShouldBuildTurretHere()
         {
-            if (!CanBuildTurretNow())
+            if (!CanBuildTurretNow)
                 return false;
 
             if (!Actor.CanBuildTurretHere())
@@ -229,14 +226,14 @@ namespace BotExtended.Bots
 
         private void CheckArriveTargetPlaceholder()
         {
-            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && Actor.HasEquipment())
+            if (m_targetPlaceholder.GetAABB().Intersects(Player.GetAABB()) && Actor.HasEquipment)
             {
                 // At the time the builder arrives, another builder may arrived first and already started building
                 if (!WeaponManager.GetUntouchedTurretPlaceholders()
                     .Where((p) => p.Key == m_targetPlaceholder.UniqueID)
                     .Any())
                 {
-                    if (!IsInactive())
+                    if (!IsInactive)
                     {
                         m_state = EngineerState.Analyzing;
                     }
@@ -274,7 +271,7 @@ namespace BotExtended.Bots
         private float m_prepareTimer = 0f;
         private void UpdatePrebuilding(float elapsed)
         {
-            if (IsAttacked())
+            if (IsAttacked)
                 StopBuilding();
 
             if (Player.IsIdle)
@@ -309,7 +306,6 @@ namespace BotExtended.Bots
         private void StopBuilding()
         {
             m_hitTimer = 0f;
-            m_buildCooldown = 0f;
             m_targetPlaceholder = null;
 
             Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
@@ -321,7 +317,7 @@ namespace BotExtended.Bots
         private static readonly uint HitTime = 700;
         private void UpdateBuildingTurret()
         {
-            if (IsAttacked() || !Actor.IsOccupying)
+            if (IsAttacked || !Actor.IsOccupying)
             {
                 StopBuilding(); return;
             }

@@ -9,7 +9,7 @@ namespace BotExtended.Projectiles
 {
     class ProjectileManager
     {
-        private class PowerupInfo
+        public class PowerupInfo
         {
             public RangedWeaponPowerup RangedPowerup = RangedWeaponPowerup.None;
             public MeleeWeaponPowerup MeleePowerup = MeleeWeaponPowerup.None;
@@ -166,6 +166,17 @@ namespace BotExtended.Projectiles
             return playerWpn;
         }
 
+        public static PowerupInfo GetPowerupInfo(int weaponObjectID)
+        {
+            Weapon weapon;
+
+            if (m_weapons.TryGetValue(weaponObjectID, out weapon))
+            {
+                return weapon.WeaponInfo;
+            }
+            return null;
+        }
+
         internal static void SetPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (!m_queuedPowerups.ContainsKey(player.UniqueID))
@@ -177,6 +188,30 @@ namespace BotExtended.Projectiles
                 RangedPowerup = powerup,
             });
             player.GiveWeaponItem(weaponItem);
+        }
+
+        internal static IObjectWeaponItem CreateWeapon(string objectID, MeleeWeaponPowerup powerup)
+        {
+            var weaponObject = (IObjectWeaponItem)Game.CreateObject(objectID);
+            var newWeaponInfo = new WeaponObjectInfo()
+            {
+                Weapon = weaponObject,
+                MeleePowerup = powerup,
+            };
+            m_weapons.Add(weaponObject.UniqueID, new Weapon(newWeaponInfo));
+            return weaponObject;
+        }
+
+        internal static IObjectWeaponItem CreateWeapon(string objectID, RangedWeaponPowerup powerup)
+        {
+            var weaponObject = (IObjectWeaponItem)Game.CreateObject(objectID);
+            var newWeaponInfo = new WeaponObjectInfo()
+            {
+                Weapon = weaponObject,
+                RangedPowerup = powerup,
+            };
+            m_weapons.Add(weaponObject.UniqueID, new Weapon(newWeaponInfo));
+            return weaponObject;
         }
 
         private static void OnPlayerDroppedWeapon(IPlayer player, PlayerWeaponRemovedArg arg)

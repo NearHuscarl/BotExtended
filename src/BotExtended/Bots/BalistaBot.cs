@@ -1,10 +1,5 @@
 ﻿using BotExtended.Projectiles;
 using SFDGameScriptInterface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
@@ -29,7 +24,8 @@ namespace BotExtended.Bots
             if (!Player.IsReloading && m_fireReloadEvent)
                 m_fireReloadEvent = false;
 
-            if (m_rifleReloadTime >= 2)
+            if (Player.IsDead) return;
+            if (m_rifleReloadTime >= 2 || Player.CurrentPrimaryWeapon.TotalAmmo == 0)
             {
                 var playerWpn = ProjectileManager.GetOrCreatePlayerWeapon(Player);
 
@@ -52,11 +48,25 @@ namespace BotExtended.Bots
         {
             base.OnDroppedWeapon(arg);
 
+            if (arg.WeaponItemType != WeaponItemType.Rifle)
+                return;
+
+            var weaponObject = Game.GetObject(arg.TargetObjectID);
+
             if (!Player.IsDead)
             {
-                var weaponObject = Game.GetObject(arg.TargetObjectID);
                 if (weaponObject != null)
                     weaponObject.SetHealth(0);
+            }
+            else
+            {
+                // always drops powerup weapon as a reward for players
+                var powerupWpn = ProjectileManager.CreateWeapon("WpnGrenadeLauncher", RangedWeaponPowerup.Spinner);
+
+                powerupWpn.SetWorldPosition(weaponObject.GetWorldPosition());
+                powerupWpn.SetLinearVelocity(weaponObject.GetLinearVelocity());
+                powerupWpn.SetAngularVelocity(weaponObject.GetAngularVelocity());
+                weaponObject.Remove();
             }
         }
     }

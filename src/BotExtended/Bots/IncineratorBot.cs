@@ -24,9 +24,9 @@ namespace BotExtended.Bots
 
             if (Player.CurrentPrimaryWeapon.WeaponItem == WeaponItem.FLAMETHROWER)
             {
-                Game.TriggerExplosion(Position);
                 Game.SpawnFireNodes(Position, 20, 5f, FireNodeType.Flamethrower);
                 Game.TriggerFireplosion(Position, 60f);
+                Game.TriggerExplosion(Position);
             }
         }
     }
