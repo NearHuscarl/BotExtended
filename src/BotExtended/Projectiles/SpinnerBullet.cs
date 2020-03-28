@@ -103,7 +103,8 @@ namespace BotExtended.Projectiles
             foreach (var o in os)
             {
                 var collisionFilter = o.GetCollisionFilter();
-                if (collisionFilter.BlockExplosions && Instance.TotalDistanceTraveled >= 100)
+                if ((collisionFilter.BlockExplosions || collisionFilter.CategoryBits == CategoryBits.Player)
+                    && Instance.TotalDistanceTraveled >= 100)
                 {
                     if (Game.IsEditorTest)
                     {
