@@ -49,6 +49,14 @@ namespace BotExtended.Library
             if (!Game.IsEditorTest) return;
             Game.WriteToConsole(ToDisplayString(values));
         }
+        public static void LogF(string format, params object[] values)
+        {
+            Game.WriteToConsoleF(format, ToDisplayString(values));
+        }
+        public static void Log(params object[] values)
+        {
+            Game.WriteToConsole(ToDisplayString(values));
+        }
 
         public static void Timeout(Action callback, uint interval)
         {

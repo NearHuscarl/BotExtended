@@ -25,16 +25,19 @@ namespace BotExtended.Bots
                 m_fireReloadEvent = false;
 
             if (Player.IsDead) return;
-            if (m_rifleReloadTime >= 2 || Player.CurrentPrimaryWeapon.TotalAmmo == 0)
+            if (IsUsingPowerupWpn && Player.CurrentPrimaryWeapon.TotalAmmo == 0)
+                ProjectileManager.SetPowerup(Player, WeaponItem.ASSAULT, RangedWeaponPowerup.None);
+            else if (!IsUsingPowerupWpn && (m_rifleReloadTime >= 1 || Player.CurrentPrimaryWeapon.TotalAmmo == 0))
+                ProjectileManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Spinner);
+        }
+
+        private bool IsUsingPowerupWpn
+        {
+            get
             {
                 var playerWpn = ProjectileManager.GetOrCreatePlayerWeapon(Player);
-
-                if (playerWpn.Primary.Name == WeaponItem.GRENADE_LAUNCHER && playerWpn.Primary.Powerup == RangedWeaponPowerup.Spinner)
-                    ProjectileManager.SetPowerup(Player, WeaponItem.ASSAULT, RangedWeaponPowerup.None);
-                else
-                    ProjectileManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Spinner);
-
-                m_rifleReloadTime = 0;
+                return playerWpn.Primary.Name == WeaponItem.GRENADE_LAUNCHER
+                    && playerWpn.Primary.Powerup == RangedWeaponPowerup.Spinner;
             }
         }
 
@@ -42,6 +45,12 @@ namespace BotExtended.Bots
         {
             if (Player.CurrentWeaponDrawn == WeaponItemType.Rifle)
                 m_rifleReloadTime++;
+        }
+
+        public override void OnPickedupWeapon(PlayerWeaponAddedArg arg)
+        {
+            base.OnPickedupWeapon(arg);
+            m_rifleReloadTime = 0;
         }
 
         public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)

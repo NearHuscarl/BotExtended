@@ -61,9 +61,9 @@ namespace BotExtended
                     }
                     if (p.Name == "Boffin")
                     {
-                        p.SetHealth(81);
+                        //p.SetHealth(81);
                     }
-                    if (p.Name.StartsWith("Clown") || p.Name.StartsWith("Cowboy"))
+                    if (p.Name.StartsWith("Scientist") || p.Name.StartsWith("Lab"))
                         p.Remove();
                     if (p.Name.StartsWith("Engineer"))
                     {
@@ -71,13 +71,6 @@ namespace BotExtended
                         n++;
                     }
                 }
-
-                Events.UpdateCallback.Start((e) =>
-                {
-                    var me = Game.GetPlayers()[0];
-                    Game.DrawCircle(me.GetWorldPosition(), WpnSearchRange.Nearby, Color.Red);
-                    Game.DrawCircle(me.GetWorldPosition(), WpnSearchRange.InSight);
-                });
 
                 //Game.SetAllowedCameraModes(CameraMode.Static);
                 //Game.SetCameraArea(new Area(10, -130, -10, 130));

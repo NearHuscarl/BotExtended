@@ -361,8 +361,8 @@ namespace BotExtended.Projectiles
                 if (currentRangeWpn != null)
                     playerWpn.CurrentRangeWeapon.OnProjectileHit(projectile, args);
 
-                if (args.RemoveFlag)
-                    m_projectiles.Remove(projectile.InstanceID);
+                // NOTE: the reason I dont remove projectile when RemoveFlag = true is because some projectiles
+                // like Spinner have longer lifecycle than the original projectile itself
             }
         }
 

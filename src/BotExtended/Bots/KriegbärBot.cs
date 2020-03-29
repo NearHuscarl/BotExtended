@@ -19,7 +19,7 @@ namespace BotExtended.Bots
             Player.SetBotBehaviorSet(behavior);
 
             var fritzliebe = others.FirstOrDefault(Q => Q.Type == BotType.Fritzliebe);
-            if (fritzliebe.Player == null) return;
+            if (fritzliebe == null || fritzliebe.Player == null) return;
 
             Player.SetGuardTarget(fritzliebe.Player);
         }
