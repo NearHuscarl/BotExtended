@@ -40,10 +40,7 @@ namespace BotExtended
             Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
-            InitRandomSeed();
-
             var settings = Settings.Get();
-
             if (settings.RoundsUntilFactionRotation == 1 || settings.CurrentFaction[BotTeam] == BotFaction.None)
             {
                 foreach (var team in SharpHelper.EnumToList<PlayerTeam>())
@@ -125,24 +122,6 @@ namespace BotExtended
                         BotHelper.SetWeapon(player, w[0], w[1]);
                     }
                 }
-            }
-        }
-
-        private static void InitRandomSeed()
-        {
-            int[] botFactionRndState;
-
-            if (BotHelper.Storage.TryGetItemIntArr(BotHelper.StorageKey("BOT_FACTION_RND_STATE"), out botFactionRndState))
-            {
-                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd(
-                    botFactionRndState.Skip(2).ToArray(),
-                    botFactionRndState[0],
-                    botFactionRndState[1])
-                );
-            }
-            else
-            {
-                RandomHelper.AddRandomGenerator("BOT_FACTION", new Rnd());
             }
         }
 
@@ -439,15 +418,6 @@ namespace BotExtended
             }
 
             BotHelper.Storage.SetItem(factionWinStatsKey, new int[] { winCount, totalMatch });
-            StoreRandomSeed();
-        }
-
-        private static void StoreRandomSeed()
-        {
-            var rnd = RandomHelper.GetRandomGenerator("BOT_FACTION");
-            var rndState = new int[] { rnd.inext, rnd.inextp }.Concat(rnd.SeedArray).ToArray();
-
-            BotHelper.Storage.SetItem(BotHelper.StorageKey("BOT_FACTION_RND_STATE"), rndState);
         }
 
         public static IEnumerable<Bot> GetBots() { return GetBots<Bot>(); }

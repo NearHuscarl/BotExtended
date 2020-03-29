@@ -6,71 +6,33 @@ namespace BotExtended.Library
 {
     public static class RandomHelper
     {
-        public static Rnd Rnd { get; set; }
-        private static Dictionary<string, Rnd> m_rnds = new Dictionary<string, Rnd>();
+        public static Random Rnd { get; set; }
 
         static RandomHelper()
         {
-            Rnd = new Rnd();
+            Rnd = new Random();
         }
 
-        public static void AddRandomGenerator(string name, Rnd rnd)
+        public static bool Boolean()
         {
-            m_rnds.Add(name, rnd);
-        }
-        public static Rnd GetRandomGenerator(string name)
-        {
-            if (m_rnds.ContainsKey(name))
-            {
-                return m_rnds[name];
-            }
-            return null;
+            return Rnd.NextDouble() >= 0.5;
         }
 
-        private static bool Boolean(Rnd rnd)
+        public static float Between(float min, float max)
         {
-            return rnd.NextDouble() >= 0.5;
-        }
-        public static bool Boolean(string seedName = "")
-        {
-            if (m_rnds.ContainsKey(seedName))
-            {
-                return Boolean(m_rnds[seedName]);
-            }
-            return Boolean(Rnd);
+            return (float)Rnd.NextDouble() * (max - min) + min;
         }
 
-        private static float Between(Rnd rnd, float min, float max)
-        {
-            return (float)rnd.NextDouble() * (max - min) + min;
-        }
-        public static float Between(float min, float max, string seedName = "")
-        {
-            if (m_rnds.ContainsKey(seedName))
-            {
-                return Between(m_rnds[seedName], min, max);
-            }
-            return Between(Rnd, min, max);
-        }
-
-        private static T GetItem<T>(Rnd rnd, List<T> list)
+        public static T GetItem<T>(List<T> list)
         {
             if (list.Count == 0)
                 throw new Exception("list is empty duh. me cant randomize");
 
-            var rndIndex = rnd.Next(list.Count);
+            var rndIndex = Rnd.Next(list.Count);
             return list[rndIndex];
         }
-        public static T GetItem<T>(List<T> list, string seedName = "")
-        {
-            if (m_rnds.ContainsKey(seedName))
-            {
-                return GetItem(m_rnds[seedName], list);
-            }
-            return GetItem(Rnd, list);
-        }
 
-        private static T GetEnumValue<T>(Rnd rnd) where T : struct, IConvertible
+        public static T GetEnumValue<T>() where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
             {
@@ -78,20 +40,7 @@ namespace BotExtended.Library
             }
 
             var enumValues = Enum.GetValues(typeof(T));
-            return (T)enumValues.GetValue(rnd.Next(enumValues.Length));
-        }
-        public static T GetEnumValue<T>(string seedName = "") where T : struct, IConvertible
-        {
-            if (!typeof(T).IsEnum)
-            {
-                throw new ArgumentException("T must be an enumerated type");
-            }
-
-            if (m_rnds.ContainsKey(seedName))
-            {
-                return GetEnumValue<T>(m_rnds[seedName]);
-            }
-            return GetEnumValue<T>(Rnd);
+            return (T)enumValues.GetValue(Rnd.Next(enumValues.Length));
         }
 
         /// <summary>
@@ -119,20 +68,12 @@ namespace BotExtended.Library
             return list;
         }
 
-        private static Vector2 Direction(Rnd rnd, float minAngle, float maxAngle)
+        public static Vector2 Direction(float minAngle, float maxAngle)
         {
             var angle = Between(minAngle, maxAngle);
             var radianAngle = MathExtension.ToRadians(angle);
 
             return ScriptHelper.GetDirection(radianAngle);
-        }
-        public static Vector2 Direction(float minAngle = 0, float maxAngle = 360, string seedName = "")
-        {
-            if (m_rnds.ContainsKey(seedName))
-            {
-                return Direction(m_rnds[seedName], minAngle, maxAngle);
-            }
-            return Direction(Rnd, minAngle, maxAngle);
         }
 
         public static Vector2 WithinArea(Area area)

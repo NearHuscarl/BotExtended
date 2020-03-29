@@ -24,6 +24,7 @@ namespace BotExtended.Library
                 yield return enumVal;
             }
         }
+        // a bit faster than ToString(). https://stackoverflow.com/a/17034624/9449426
         public static string EnumToString<T>(T enumVal)
         {
             return Enum.GetName(typeof(T), enumVal);

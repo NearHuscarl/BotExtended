@@ -95,57 +95,9 @@ namespace BotExtended.Library
 
         public static WeaponItem GetWeaponItem(ProjectileItem projectileItem)
         {
-            switch (projectileItem)
-            {
-                case ProjectileItem.ASSAULT:
-                    return WeaponItem.ASSAULT;
-                case ProjectileItem.BAZOOKA:
-                    return WeaponItem.BAZOOKA;
-                case ProjectileItem.BOW:
-                    return WeaponItem.BOW;
-                case ProjectileItem.CARBINE:
-                    return WeaponItem.CARBINE;
-                case ProjectileItem.DARK_SHOTGUN:
-                    return WeaponItem.DARK_SHOTGUN;
-                case ProjectileItem.FLAKCANNON:
-                    return WeaponItem.NONE;
-                case ProjectileItem.FLAREGUN:
-                    return WeaponItem.FLAREGUN;
-                case ProjectileItem.GRENADE_LAUNCHER:
-                    return WeaponItem.GRENADE_LAUNCHER;
-                case ProjectileItem.M60:
-                    return WeaponItem.M60;
-                case ProjectileItem.MACHINE_PISTOL:
-                    return WeaponItem.MACHINE_PISTOL;
-                case ProjectileItem.MAGNUM:
-                    return WeaponItem.MAGNUM;
-                case ProjectileItem.MP50:
-                    return WeaponItem.MP50;
-                case ProjectileItem.PISTOL:
-                    return WeaponItem.PISTOL;
-                case ProjectileItem.PISTOL45:
-                    return WeaponItem.PISTOL45;
-                case ProjectileItem.REVOLVER:
-                    return WeaponItem.REVOLVER;
-                case ProjectileItem.SAWED_OFF:
-                    return WeaponItem.SAWED_OFF;
-                case ProjectileItem.SHOTGUN:
-                    return WeaponItem.SHOTGUN;
-                case ProjectileItem.SILENCEDPISTOL:
-                    return WeaponItem.SILENCEDPISTOL;
-                case ProjectileItem.SILENCEDUZI:
-                    return WeaponItem.SILENCEDUZI;
-                case ProjectileItem.SMG:
-                    return WeaponItem.SMG;
-                case ProjectileItem.SNIPER:
-                    return WeaponItem.SNIPER;
-                case ProjectileItem.TOMMYGUN:
-                    return WeaponItem.TOMMYGUN;
-                case ProjectileItem.UZI:
-                    return WeaponItem.UZI;
-                default:
-                    return WeaponItem.NONE;
-            }
+            if (projectileItem == ProjectileItem.FLAKCANNON)
+                return WeaponItem.NONE;
+            return SharpHelper.StringToEnum<WeaponItem>(SharpHelper.EnumToString<ProjectileItem>(projectileItem));
         }
     }
 }

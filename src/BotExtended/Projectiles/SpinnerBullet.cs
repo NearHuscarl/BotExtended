@@ -1,4 +1,5 @@
-﻿using BotExtended.Library;
+﻿using System;
+using BotExtended.Library;
 using SFDGameScriptInterface;
 using static BotExtended.Library.SFD;
 
@@ -48,6 +49,7 @@ namespace BotExtended.Projectiles
                     Instance.Position = m_explodePosition;
                     Instance.Velocity = Vector2.Zero;
                     Instance.Direction = Vector2.Zero;
+                    UpdateExploding();
                     break;
                 }
                 case State.Exploded:
@@ -131,24 +133,27 @@ namespace BotExtended.Projectiles
 
             ChangeState(State.Exploding);
             m_explodePosition = Instance.Position;
+        }
 
-            var totalBullets = 20;
-            var angleInBetween = (360 / totalBullets);
-
-            for (var i = 0; i < 360; i += angleInBetween) // Shoot 20 times in circle (360 / 20 = 18)
+        private float m_fireTime = 0f;
+        private float m_fireAngle = 0f;
+        private void UpdateExploding()
+        {
+            if (ScriptHelper.IsElapsed(m_fireTime, 30))
             {
-                var ii = i;
-                var direction = ScriptHelper.GetDirection(MathExtension.ToRadians(i));
+                var totalBullets = 20;
+                var angleInBetween = 360 / totalBullets;
                 var powerup = ScriptHelper.GetPowerup(Instance);
+                var direction = ScriptHelper.GetDirection(MathExtension.ToRadians(m_fireAngle));
 
-                ScriptHelper.Timeout(() =>
-                {
-                    Game.PlaySound("SilencedUzi", m_explodePosition);
-                    Game.SpawnProjectile(ProjectileItem.MAGNUM, m_explodePosition, direction, powerup);
+                Game.PlaySound("SilencedUzi", m_explodePosition);
+                Game.SpawnProjectile(ProjectileItem.MAGNUM, m_explodePosition, direction, powerup);
 
-                    if (ii == 360 - angleInBetween)
-                        ChangeState(State.Exploded);
-                }, (ushort)(ii / angleInBetween * 30));
+                if (m_fireAngle == 360 - angleInBetween)
+                    ChangeState(State.Exploded);
+
+                m_fireTime = Game.TotalElapsedGameTime;
+                m_fireAngle += angleInBetween;
             }
         }
 

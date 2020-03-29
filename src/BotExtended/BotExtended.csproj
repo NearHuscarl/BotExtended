@@ -122,7 +122,6 @@
     <Compile Include="ZombieStatus.cs" />
     <Compile Include="Library\SFD.cs" />
     <Compile Include="Library\RandomHelper.cs" />
-    <Compile Include="Library\Rnd.cs" />
     <Compile Include="Library\ScriptHelper.cs" />
     <Compile Include="Library\SharpHelper.cs" />
     <Compile Include="Program.cs" />

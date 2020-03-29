@@ -494,8 +494,7 @@ namespace BotExtended
 
                         isUpdate = true;
 
-                        // TODO: wait for gurt to fix the Storage bug
-                        if (false /*newPlayerSettings.IsEmpty()*/)
+                        if (newPlayerSettings.IsEmpty())
                         {
                             var r = allPlayerSettings.ToList();
                             r.RemoveAt(i);

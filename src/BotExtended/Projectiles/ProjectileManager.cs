@@ -62,8 +62,11 @@ namespace BotExtended.Projectiles
             //}, 30, 0);
         }
 
-        private static void OnUpdate(float elapsed)
+        private static float m_lastUpdateTime = 0f;
+        private static void OnUpdate(float _)
         {
+            var elapsed = Game.TotalElapsedGameTime - m_lastUpdateTime;
+
             foreach (var item in m_weapons)
             {
                 var weapon = item.Value;
@@ -99,6 +102,8 @@ namespace BotExtended.Projectiles
                 if (currentRangeWpn != null)
                     currentRangeWpn.Update(elapsed);
             }
+
+            m_lastUpdateTime = Game.TotalElapsedGameTime;
         }
 
         private static void OnPlayerDeath(IPlayer player, PlayerDeathArgs args)

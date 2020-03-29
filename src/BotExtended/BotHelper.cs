@@ -50,7 +50,7 @@ namespace BotExtended
             else
                 filteredBotFactions = botFactions;
 
-            var rndBotFaction = RandomHelper.GetItem(filteredBotFactions, "BOT_FACTION");
+            var rndBotFaction = RandomHelper.GetItem(filteredBotFactions);
 
             return rndBotFaction;
         }
