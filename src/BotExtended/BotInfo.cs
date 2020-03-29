@@ -13,28 +13,23 @@ namespace BotExtended
             SearchItems = SearchItems.None;
             IsBoss = false;
             SpawnLine = "";
-            SpawnLineChance = 1f;
             DeathLine = "";
+            SpawnLineChance = 1f;
             DeathLineChance = 1f;
             ZombieStatus = ZombieStatus.Human;
             ImmuneToInfect = false;
+            SearchRange = WpnSearchRange.Infinite;
             SpecificSearchItems = new HashSet<WeaponItem>();
         }
 
-        public BotInfo(IPlayer player)
+        public BotInfo(IPlayer player) : this()
         {
             EquipWeaponChance = 0f;
             AIType = BotAI.None;
             SearchItems = player.GetBotBehaviorSet().SearchItems;
             Modifiers = player.GetModifiers();
-            IsBoss = false;
-            SpawnLine = "";
             SpawnLineChance = 0f;
-            DeathLine = "";
             DeathLineChance = 0f;
-            ZombieStatus = ZombieStatus.Human;
-            ImmuneToInfect = false;
-            SpecificSearchItems = new HashSet<WeaponItem>();
         }
 
         private float equipWeaponChance;
@@ -49,6 +44,7 @@ namespace BotExtended
         public HashSet<WeaponItem> SpecificSearchItems { get; set; }
         public PlayerModifiers Modifiers { get; set; }
         public bool IsBoss { get; set; }
+        public float SearchRange { get; set; }
         public string SpawnLine { get; set; }
         public float SpawnLineChance { get; set; }
         public string DeathLine { get; set; }

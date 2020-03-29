@@ -26,85 +26,70 @@ namespace BotExtended
             // 7. Define bot faction name in BotFaction.cs (optional)
             // 8. Define bot faction and sub-faction in BotFactionSets.cs
 
-            try
+            //System.Diagnostics.Debugger.Break();
+
+            BotManager.Initialize();
+
+            if (Game.IsEditorTest)
             {
-                //System.Diagnostics.Debugger.Break();
-                BotManager.Initialize();
+                var player = Game.GetPlayers()[0];
+                var modifiers = player.GetModifiers();
 
-                //foreach (var p in Game.GetPlayers())
-                //{
-                //    if (p.Name == "Near")
-                //    {
-                //        p.SetUser(null);
-                //        p.SetBotBehaviorSet(BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.BotB));
-                //        p.SetBotBehaviorActive(true);
-                //        p.SetBotName("Near");
-                //    }
-                //}
+                modifiers.MaxHealth = 5000;
+                modifiers.CurrentHealth = 5000;
+                modifiers.EnergyConsumptionModifier = .1f;
+                modifiers.RunSpeedModifier = 1.25f;
+                modifiers.SprintSpeedModifier = 1.25f;
+                modifiers.MeleeStunImmunity = 1;
+                //modifiers.InfiniteAmmo = 1;
 
-                if (Game.IsEditorTest)
+                player.SetTeam(PlayerTeam.Team1);
+                player.SetHitEffect(PlayerHitEffect.Metal);
+                player.SetModifiers(modifiers);
+                //player.GiveWeaponItem(WeaponItem.KNIFE);
+                //player.GiveWeaponItem(WeaponItem.FLAREGUN);
+                //player.GiveWeaponItem(WeaponItem.ASSAULT);
+                player.GiveWeaponItem(WeaponItem.GRENADES);
+                player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
+
+                var n = 0;
+                foreach (var p in Game.GetPlayers())
                 {
-                    var player = Game.GetPlayers()[0];
-                    var modifiers = player.GetModifiers();
-
-                    modifiers.MaxHealth = 5000;
-                    modifiers.CurrentHealth = 5000;
-                    modifiers.EnergyConsumptionModifier = .1f;
-                    modifiers.RunSpeedModifier = 1.25f;
-                    modifiers.SprintSpeedModifier = 1.25f;
-                    modifiers.MeleeStunImmunity = 1;
-                    //modifiers.InfiniteAmmo = 1;
-
-                    player.SetTeam(PlayerTeam.Team1);
-                    player.SetHitEffect(PlayerHitEffect.Metal);
-                    player.SetModifiers(modifiers);
-                    //player.GiveWeaponItem(WeaponItem.KNIFE);
-                    //player.GiveWeaponItem(WeaponItem.FLAREGUN);
-                    //player.GiveWeaponItem(WeaponItem.ASSAULT);
-                    player.GiveWeaponItem(WeaponItem.GRENADES);
-                    player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
-
-                    var n = 0;
-                    foreach (var p in Game.GetPlayers())
+                    if (p.Name != "Near" && p.IsUser)
                     {
-                        if (p.Name != "Near" && p.IsUser)
-                        {
-                            //p.SetUser(null);
-                        }
-                        if (p.Name == "Boffin")
-                        {
-                            p.SetHealth(81);
-                        }
-                        if (p.Name.StartsWith("Cowboy") || p.Name.StartsWith("Bandido"))
-                            p.Remove();
-                        if (p.Name.StartsWith("Engineer"))
-                        {
-                            if (n > 0) p.Remove();
-                            n++;
-                        }
+                        //p.SetUser(null);
                     }
-
-                    //Game.SetAllowedCameraModes(CameraMode.Static);
-                    //Game.SetCameraArea(new Area(10, -130, -10, 130));
-                    //// image size: 140 x 140 - top: 20 left: 30M 30F
-                    //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
-                    //Command.SetPlayer(new List<string>() { "player 2", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 3", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 4", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 5", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 6", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 7", "Agent" });
-                    //Command.SetPlayer(new List<string>() { "player 8", "Agent" });
+                    if (p.Name == "Boffin")
+                    {
+                        p.SetHealth(81);
+                    }
+                    if (p.Name.StartsWith("Clown") || p.Name.StartsWith("Cowboy"))
+                        p.Remove();
+                    if (p.Name.StartsWith("Engineer"))
+                    {
+                        if (n > 0) p.Remove();
+                        n++;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Game.ShowChatMessage(string.Format("[BotExtended script]: {0}", e.Message), ScriptHelper.ERROR_COLOR);
-                Game.WriteToConsole("[BotExtended script]: Error");
-                Game.WriteToConsole(e.Message);
-                Game.WriteToConsole(e.Source);
-                Game.WriteToConsole(e.StackTrace);
-                Game.WriteToConsole(e.TargetSite.ToString());
+
+                Events.UpdateCallback.Start((e) =>
+                {
+                    var me = Game.GetPlayers()[0];
+                    Game.DrawCircle(me.GetWorldPosition(), WpnSearchRange.Nearby, Color.Red);
+                    Game.DrawCircle(me.GetWorldPosition(), WpnSearchRange.InSight);
+                });
+
+                //Game.SetAllowedCameraModes(CameraMode.Static);
+                //Game.SetCameraArea(new Area(10, -130, -10, 130));
+                //// image size: 140 x 140 - top: 20 left: 30M 30F
+                //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
+                //Command.SetPlayer(new List<string>() { "player 2", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 3", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 4", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 5", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 6", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 7", "Agent" });
+                //Command.SetPlayer(new List<string>() { "player 8", "Agent" });
             }
         }
 

@@ -435,6 +435,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Expert;
                     botInfo.SearchItems = SearchItems.Primary | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Strong,
@@ -501,6 +502,7 @@ namespace BotExtended
                 {
                     botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper;
                     botInfo.AIType = BotAI.Kingpin;
+                    botInfo.SearchRange = WpnSearchRange.Nearby; // encourage this bot to fight in melee to crush enemies
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Strong,
@@ -694,6 +696,7 @@ namespace BotExtended
                 case BotType.Santa:
                 {
                     botInfo.AIType = BotAI.Hard; // ChallengeA
+                    botInfo.SearchRange = WpnSearchRange.InSight;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.VeryStrong,

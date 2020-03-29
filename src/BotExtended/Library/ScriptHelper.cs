@@ -20,31 +20,21 @@ namespace BotExtended.Library
             Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
         }
 
-        public static string GetDefaultFormatter(object[] messages)
-        {
-            var placeholder = "";
-            var count = messages.Length;
-            for (var i = 0; i < count; i++)
-            {
-                var isFloatOrDouble = messages[i] is float || messages[i] is double;
-                placeholder += "{" + i + (isFloatOrDouble ? ":0.00" : "") + "}";
-                if (i != count - 1) placeholder += " ";
-            }
-            return placeholder;
-        }
-
         // TODO: remove once gurt fixes
         // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3995
         // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3994
-        private static string ToDisplayString(params object[] values)
+        public static string ToDisplayString(params object[] values)
         {
             var str = "";
 
             foreach (var v in values)
             {
                 if (v == null)
-                    str += " null";
-                str += " " + v;
+                    str += " <null>";
+                else if (v is float || v is double)
+                    str += ((float)v).ToString("0.00");
+                else
+                    str += " " + v;
             }
 
             return str;

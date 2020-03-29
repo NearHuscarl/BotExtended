@@ -21,7 +21,7 @@ namespace BotExtended
         // Player corpses waiting to be transformed into zombies
         private static Dictionary<int, InfectedCorpse> m_infectedCorpses = new Dictionary<int, InfectedCorpse>();
         private static List<PlayerSpawner> m_playerSpawners;
-        private static Dictionary<string, Bot> m_bots = new Dictionary<string, Bot>();
+        private static Dictionary<int, Bot> m_bots = new Dictionary<int, Bot>();
 
         public static void Initialize()
         {
@@ -248,7 +248,7 @@ namespace BotExtended
 
             if (args.Removed)
             {
-                m_bots.Remove(bot.Player.CustomID);
+                m_bots.Remove(bot.Player.UniqueID);
             }
             if (args.Killed)
             {
@@ -289,7 +289,7 @@ namespace BotExtended
         public static Bot GetBot(IObject player)
         {
             Bot bot;
-            if (m_bots.TryGetValue(player.CustomID, out bot)) return bot;
+            if (m_bots.TryGetValue(player.UniqueID, out bot)) return bot;
             return Bot.None;
         }
 
@@ -325,13 +325,7 @@ namespace BotExtended
         private static Bot Wrap(IPlayer player)
         {
             var bot = new Bot(player, BotType.None, BotFaction.None);
-
-            if (string.IsNullOrEmpty(player.CustomID))
-            {
-                player.CustomID = Guid.NewGuid().ToString("N");
-            }
-
-            m_bots.Add(player.CustomID, bot);
+            m_bots.Add(player.UniqueID, bot);
             TriggerOnSpawn(bot);
 
             return bot;
@@ -347,12 +341,6 @@ namespace BotExtended
         {
             if (player == null) player = SpawnPlayer(ignoreFullSpawner);
             if (player == null) return null;
-            // player.UniqueID is unique but seems like it can change value during
-            // the script lifetime. Use custom id + guid() to get the const unique id
-            if (string.IsNullOrEmpty(player.CustomID))
-            {
-                player.CustomID = Guid.NewGuid().ToString("N");
-            }
 
             player.SetTeam(team);
 
@@ -371,11 +359,16 @@ namespace BotExtended
             if (player.Name == "COM")
                 player.SetBotName(profile.Name);
 
+            var behaviorSet = GetBehaviorSet(info.AIType);
+
+            behaviorSet.SearchItems = info.SearchItems;
+            behaviorSet.SearchItemRange = info.SearchRange;
+
+            player.SetBotBehaviorSet(behaviorSet);
             player.SetModifiers(info.Modifiers);
-            player.SetBotBehaviorSet(GetBehaviorSet(info.AIType, info.SearchItems));
             player.SetBotBehaviorActive(true);
 
-            m_bots[player.CustomID] = bot; // This may be updated if using setplayer command
+            m_bots[player.UniqueID] = bot; // This may be updated if using setplayer command
 
             if (triggerOnSpawn)
                 TriggerOnSpawn(bot);

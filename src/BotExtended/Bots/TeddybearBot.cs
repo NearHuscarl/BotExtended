@@ -108,7 +108,8 @@ namespace BotExtended.Bots
             SetModifiers(enrageModifiers);
 
             m_normalBehaviorSet = Player.GetBotBehaviorSet();
-            var bs = GetBehaviorSet(BotAI.RagingHulk, hasAlreadyEnraged ? SearchItems.Melee | SearchItems.Makeshift : SearchItems.Makeshift);
+            var bs = GetBehaviorSet(BotAI.RagingHulk);
+            bs.SearchItems = hasAlreadyEnraged ? SearchItems.Melee | SearchItems.Makeshift : SearchItems.Makeshift;
             Player.SetBotBehaviorSet(bs);
 
             Player.SetStrengthBoostTime(enrageTime);

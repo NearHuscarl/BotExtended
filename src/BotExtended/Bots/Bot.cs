@@ -115,8 +115,7 @@ namespace BotExtended.Bots
         {
             if (Game.IsEditorTest)
             {
-                var ph = ScriptHelper.GetDefaultFormatter(messages);
-                Game.DrawText(string.Format(ph, messages), Position);
+                Game.DrawText(ScriptHelper.ToDisplayString(messages), Position);
             }
         }
 
@@ -372,7 +371,6 @@ namespace BotExtended.Bots
                 InfectTeam = team;
                 Game.PlayEffect(EffectName.CustomFloatText, Position, "infected");
                 Info.ZombieStatus = ZombieStatus.Infected;
-                ScriptHelper.LogDebug(Player.Name, InfectTeam);
             }
         }
 

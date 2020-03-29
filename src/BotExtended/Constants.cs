@@ -12,7 +12,7 @@ namespace BotExtended
         internal const int BOT_SPAWN_COUNT_MAX = 15;
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.3.2";
+        internal const string CURRENT_VERSION = "5.3.3";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // default settings value
@@ -338,5 +338,12 @@ namespace BotExtended
         internal const ushort Items = 0x0020;
         internal const ushort Debris = 0x0010;
         internal const ushort DynamicsThrown = 0x8000;
+    }
+
+    public static class WpnSearchRange
+    {
+        public const float Infinite = 0f;
+        public const float InSight = 80f;
+        public const float Nearby = 10f;
     }
 }

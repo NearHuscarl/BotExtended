@@ -24,6 +24,8 @@ namespace BotExtended.Bots
             base.OnDeath(args);
 
             var center = Position + Vector2.UnitY * 5;
+            var hitbox = Player.GetAABB();
+
             if (Game.IsEditorTest)
                 ScriptHelper.RunIn(() => Game.DrawCircle(center, InfectRadius, Color.Cyan), 3000);
 
@@ -38,7 +40,6 @@ namespace BotExtended.Bots
 
             Game.TriggerExplosion(Position);
 
-            var hitbox = Player.GetAABB();
             for (var i = 0; i < 5; i++)
             {
                 Game.CreateObject(RandomHelper.GetItem(Giblets), RandomHelper.WithinArea(hitbox),

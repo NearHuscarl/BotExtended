@@ -4,14 +4,6 @@ namespace BotExtended
 {
     public partial class GameScript : GameScriptInterface
     {
-        // Useless now. https://www.mythologicinteractiveforums.com/viewtopic.php?f=15&t=3940
-        public static class SearchRangeSettings
-        {
-            public const float Infinite = 0f;
-            public const float Large = 125f;
-            public const float Small = 30f;
-        }
-
         public static BotMeleeActions HulkMeleeActions
         {
             get
@@ -29,7 +21,7 @@ namespace BotExtended
             }
         }
 
-        public static BotBehaviorSet GetBehaviorSet(BotAI botAI, SearchItems searchItems = SearchItems.None)
+        public static BotBehaviorSet GetBehaviorSet(BotAI botAI)
         {
             var botBehaviorSet = new BotBehaviorSet()
             {
@@ -371,6 +363,7 @@ namespace BotExtended
                     botBehaviorSet.DefensiveRollFireLevel = 0.1f;
                     botBehaviorSet.OffensiveDiveLevel = 0f;
                     botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 0f;
+                    botBehaviorSet.RocketRideProficiency = .8f;
                     break;
                 }
                 #endregion
@@ -388,7 +381,7 @@ namespace BotExtended
             }
 
             botBehaviorSet.SearchForItems = true;
-            botBehaviorSet.SearchItems = searchItems; // Disable SearchItems by setting to None
+            botBehaviorSet.SearchItems = SearchItems.None; // Disable SearchItems by setting to None
 
             return botBehaviorSet;
         }
