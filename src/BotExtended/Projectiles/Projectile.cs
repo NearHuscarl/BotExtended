@@ -17,5 +17,14 @@ namespace BotExtended.Projectiles
         }
 
         protected virtual IProjectile OnProjectileCreated(IProjectile projectile) { return projectile; }
+
+        public static bool IsShotgunShell(IProjectile projectile)
+        {
+            return projectile.ProjectileItem == ProjectileItem.SHOTGUN
+                     || projectile.ProjectileItem == ProjectileItem.DARK_SHOTGUN
+                     || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
+        }
+
+        public bool ShotgunShell { get { return IsShotgunShell(Instance); } }
     }
 }
