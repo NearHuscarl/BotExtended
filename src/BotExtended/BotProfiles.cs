@@ -484,6 +484,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Cindy
+                case BotType.Cindy:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Cindy",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightBlue", ""),
+                        ChestOver = new IProfileClothingItem("VestBlack_fem", "ClothingDarkGray", "ClothingOrange", ""),
+                        ChestUnder = new IProfileClothingItem("PoliceShirt_fem", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingDarkBrown", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("Cap", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("SatchelBelt_fem", "ClothingDarkCyan", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region ClownBodyguard
                 case BotType.ClownBodyguard:
                 {

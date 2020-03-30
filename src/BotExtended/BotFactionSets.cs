@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Boffin;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_MetroCop;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -352,8 +352,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region ZombieHard
-                case BotFaction.ZombieHard:
+                #region ZombieMutated
+                case BotFaction.ZombieMutated:
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
@@ -421,6 +421,24 @@ namespace BotExtended
                         new SubFaction(BotType.Boffin),
                         new SubFaction(BotType.Scientist, .75f),
                         new SubFaction(BotType.LabAssistant, .25f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Boss_Cindy
+                case BotFaction.Boss_Cindy:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Cindy),
+                        new SubFaction(BotType.Police, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Cindy),
+                        new SubFaction(BotType.Police, 0.7f),
+                        new SubFaction(BotType.PoliceSWAT, 0.3f),
                     });
                     break;
                 }

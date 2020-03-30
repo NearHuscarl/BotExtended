@@ -35,6 +35,10 @@ namespace BotExtended.Bots
                     bot = new BoffinBot(args);
                     break;
 
+                case BotType.Cindy:
+                    bot = new CindyBot(args);
+                    break;
+
                 case BotType.Cowboy:
                 case BotType.ClownCowboy:
                     bot = new CowboyBot(args);

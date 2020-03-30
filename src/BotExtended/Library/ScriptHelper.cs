@@ -32,7 +32,7 @@ namespace BotExtended.Library
                 if (v == null)
                     str += " <null>";
                 else if (v is float || v is double)
-                    str += ((float)v).ToString("0.00");
+                    str += " " + ((float)v).ToString("0.00");
                 else
                     str += " " + v;
             }
@@ -222,6 +222,26 @@ namespace BotExtended.Library
         public static float GetAngle(Vector2 direction)
         {
             return (float)Math.Atan2(direction.Y, direction.X);
+        }
+
+        public static float[] Flip(float[] angles, FlipDirection direction)
+        {
+            if (direction == FlipDirection.Horizontal)
+            {
+                angles[0] = MathExtension.FlipAngleY(angles[0]);
+                angles[1] = MathExtension.FlipAngleY(angles[1]);
+            }
+            else
+            {
+                angles[0] = MathExtension.FlipAngleX(angles[0]);
+                angles[1] = MathExtension.FlipAngleX(angles[1]);
+            }
+
+            return new float[]
+            {
+                Math.Min(angles[0], angles[1]),
+                Math.Max(angles[0], angles[1]),
+            };
         }
 
         public static bool SameTeam(IPlayer player1, IPlayer player2)

@@ -185,6 +185,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Cindy
+                case BotType.Cindy:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.SHOCK_BATON,
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Stun,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region ClownBodyguard
                 case BotType.ClownBodyguard:
                 {
@@ -617,8 +630,8 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.SHOCK_BATON,
-                        Secondary = WeaponItem.PISTOL,
-                        SecondaryPowerup = RangedWeaponPowerup.Stun,
+                        Primary = WeaponItem.DARK_SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Blast,
                         UseLazer = true,
                     });
                     break;

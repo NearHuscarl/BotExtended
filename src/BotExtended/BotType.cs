@@ -30,6 +30,8 @@
         LabAssistant,
         Scientist,
 
+        Cindy,
+
         ClownBodyguard,
         ClownBoxer,
         ClownCowboy,

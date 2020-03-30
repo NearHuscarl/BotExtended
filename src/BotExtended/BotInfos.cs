@@ -393,6 +393,28 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Cindy
+                case BotType.Cindy:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Streetsweeper | SearchItems.Powerups | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        MaxEnergy = Stamina.High,
+                        CurrentEnergy = Stamina.High,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Demolitionist
                 case BotType.Demolitionist:
                 {
@@ -587,13 +609,11 @@ namespace BotExtended
                 case BotType.MetroCop2:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    // TODO: add search range to nearby for handgun once gurt fixes the search range bug
-                    // the gun this bot is equipped is inferior so it will prefer other ones
                     botInfo.SearchItems = SearchItems.Streetsweeper | SearchItems.Powerups | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.AboveNormal,
-                        CurrentHealth = Health.AboveNormal,
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
                         RunSpeedModifier = Speed.AboveNormal,
                         SprintSpeedModifier = Speed.AboveNormal,
                         MeleeForceModifier = MeleeForce.AboveNormal,

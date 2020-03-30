@@ -51,6 +51,7 @@
     <Compile Include="Bots\BalistaBot.cs" />
     <Compile Include="Bots\BoffinBot.cs" />
     <Compile Include="Bots\Bot_GravityGunAI.cs" />
+    <Compile Include="Bots\CindyBot.cs" />
     <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Bots\EngineerBot_Controller.cs" />
@@ -61,10 +62,12 @@
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />
+    <Compile Include="FlipDirection.cs" />
     <Compile Include="Library\Mapper.cs" />
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="PlayerSettings.cs" />
+    <Compile Include="Projectiles\BlastBullet.cs" />
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
     <Compile Include="Projectiles\Projectile.cs" />

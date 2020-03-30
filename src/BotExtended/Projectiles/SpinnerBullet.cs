@@ -32,7 +32,14 @@ namespace BotExtended.Projectiles
 
         public SpinnerBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Spinner)
         {
-            UpdateDelay = 4;
+            if (projectile.ProjectileItem == ProjectileItem.BAZOOKA
+                || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
+                || projectile.ProjectileItem == ProjectileItem.FLAREGUN
+                || projectile.ProjectileItem == ProjectileItem.BOW
+                || projectile.ProjectileItem == ProjectileItem.SNIPER)
+                UpdateDelay = 0;
+            else
+                UpdateDelay = 4;
         }
 
         protected override void Update(float elapsed)
@@ -49,10 +56,8 @@ namespace BotExtended.Projectiles
                 }
                 case State.Exploding:
                 {
-                    // TODO: wait for gurt to fix this and test again
-                    // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&p=23439&sid=3b9c195145b551d2b961648ddc5f432d#p23439
                     Instance.Position = m_explodePosition;
-                    Instance.Velocity = Vector2.Zero;
+                    Instance.Velocity = new Vector2(0, 100);
                     Instance.Direction = Vector2.Zero;
                     UpdateExploding();
                     break;
@@ -67,8 +72,10 @@ namespace BotExtended.Projectiles
             // events
             if (state == State.Exploding)
             {
-                Instance.Velocity = Vector2.Zero;
+                Instance.Velocity = new Vector2(0, 100);
                 Instance.Direction = Vector2.Zero;
+                if (Instance.ProjectileItem != ProjectileItem.GRENADE_LAUNCHER)
+                    Instance.FlagForRemoval();
             }
             if (state == State.Exploded)
             {

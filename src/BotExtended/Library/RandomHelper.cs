@@ -68,12 +68,14 @@ namespace BotExtended.Library
             return list;
         }
 
-        public static Vector2 Direction(float minAngle, float maxAngle)
+        public static Vector2 Direction(float minAngle, float maxAngle, bool useRadians = false)
         {
             var angle = Between(minAngle, maxAngle);
-            var radianAngle = MathExtension.ToRadians(angle);
 
-            return ScriptHelper.GetDirection(radianAngle);
+            if (!useRadians)
+                angle = MathExtension.ToRadians(angle);
+
+            return ScriptHelper.GetDirection(angle);
         }
 
         public static Vector2 WithinArea(Area area)

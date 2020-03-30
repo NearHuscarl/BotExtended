@@ -19,9 +19,13 @@ namespace BotExtended.Library
 
         public const float OneDeg = MathHelper.PI / 180;
 
-        public static float ToRadians(double angleDegree)
+        public static float ToRadians(float angleDegree)
         {
             return (float)(angleDegree * Math.PI) / 180;
+        }
+        public static float ToDegree(float radians)
+        {
+            return radians * 180 / (float)Math.PI;
         }
         public static float NormalizeAngle(float radian)
         {
@@ -29,42 +33,19 @@ namespace BotExtended.Library
             return result < 0 ? result + MathHelper.TwoPI : result;
         }
 
-        public static float Min(float a1, float a2, float a3)
+        public static float FlipAngleX(float angle)
         {
-            float res;
-            res = Math.Min(a1, a2);
-            res = Math.Min(res, a3);
-
-            return res;
+            angle = NormalizeAngle(angle);
+            return MathHelper.TwoPI - angle;
         }
 
-        public static float Min(float a1, float a2, float a3, float a4)
+        public static float FlipAngleY(float angle)
         {
-            float res;
-            res = Math.Min(a1, a2);
-            res = Math.Min(res, a3);
-            res = Math.Min(res, a4);
-
-            return res;
-        }
-
-        public static float Max(float a1, float a2, float a3)
-        {
-            float res;
-            res = Math.Max(a1, a2);
-            res = Math.Max(res, a3);
-
-            return res;
-        }
-
-        public static float Max(float a1, float a2, float a3, float a4)
-        {
-            float res;
-            res = Math.Max(a1, a2);
-            res = Math.Max(res, a3);
-            res = Math.Max(res, a4);
-
-            return res;
+            angle = NormalizeAngle(angle);
+            if (angle < MathHelper.PI)
+                return MathHelper.PI - angle;
+            else
+                return MathHelper.TwoPI - angle + MathHelper.PI;
         }
     }
 }

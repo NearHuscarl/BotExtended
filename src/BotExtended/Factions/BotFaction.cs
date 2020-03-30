@@ -20,11 +20,12 @@
         Thug,
         Punk,
         Zombie,
-        ZombieHard,
+        ZombieMutated,
 
         Boss_Demolitionist = Constants.BOSS_FACTION_START_INDEX,
         Boss_Balista,
         Boss_Boffin,
+        Boss_Cindy,
         Boss_Funnyman,
         Boss_Jo,
         Boss_Hacker,

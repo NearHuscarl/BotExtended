@@ -6,6 +6,7 @@
         Present,
         Stun,
         Spinner,
+        Blast,
         Gravity,
         GravityDE,
     }
