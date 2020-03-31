@@ -28,8 +28,18 @@ namespace BotExtended.Projectiles
             get
             {
                 return Instance.ProjectileItem == ProjectileItem.SHOTGUN
-                         || Instance.ProjectileItem == ProjectileItem.DARK_SHOTGUN
-                         || Instance.ProjectileItem == ProjectileItem.SAWED_OFF;
+                    || Instance.ProjectileItem == ProjectileItem.DARK_SHOTGUN
+                    || Instance.ProjectileItem == ProjectileItem.SAWED_OFF;
+            }
+        }
+
+        public bool IsExplosiveProjectile
+        {
+            get
+            {
+                // TODO: test Flak Cannon
+                return Instance.ProjectileItem == ProjectileItem.BAZOOKA
+                    || Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER;
             }
         }
 

@@ -11,12 +11,8 @@ namespace BotExtended.Projectiles
 
         protected override bool OnProjectileCreated()
         {
-            switch (Instance.ProjectileItem)
-            {
-                case ProjectileItem.GRENADE_LAUNCHER:
-                case ProjectileItem.BAZOOKA:
-                    return false;
-            }
+            if (IsExplosiveProjectile)
+                return false;
 
             Instance.DamageDealtModifier = IsShotgunShell ? .15f : .5f;
             return true;

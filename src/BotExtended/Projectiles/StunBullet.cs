@@ -18,26 +18,20 @@ namespace BotExtended.Projectiles
 
         protected override bool OnProjectileCreated()
         {
-            switch (Instance.ProjectileItem)
+            if (IsExplosiveProjectile)
             {
-                case ProjectileItem.BAZOOKA:
-                case ProjectileItem.GRENADE_LAUNCHER:
-                {
-                    StunChance = 0f;
-                    StunRangeChance = 1f;
-                    break;
-                }
-                default:
-                {
-                    StunChance = .19f;
-                    StunRangeChance = .01f;
+                StunChance = 0f;
+                StunRangeChance = 1f;
+            }
+            else
+            {
+                StunChance = .19f;
+                StunRangeChance = .01f;
 
-                    if (IsShotgunShell) // shotguns have double chance to stun
-                    {
-                        StunChance = StunChance / ProjectilesPerShell * 2;
-                        StunRangeChance = StunRangeChance / ProjectilesPerShell * 2;
-                    }
-                    break;
+                if (IsShotgunShell) // shotguns have double chance to stun
+                {
+                    StunChance = StunChance / ProjectilesPerShell * 2;
+                    StunRangeChance = StunRangeChance / ProjectilesPerShell * 2;
                 }
             }
 

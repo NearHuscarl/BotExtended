@@ -12,8 +12,11 @@ namespace BotExtended
         internal const int BOT_SPAWN_COUNT_MAX = 15;
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.4.2";
+        internal const string CURRENT_VERSION = "5.4.3";
         internal const string STORAGE_KEY_PREFIX = "BE_";
+
+        // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank
+        internal const float ExplosionRadius = 38.5f;
 
         // default settings value
         internal static readonly string[] DEFAULT_FACTIONS = BotHelper.GetAvailableBotFactions()
