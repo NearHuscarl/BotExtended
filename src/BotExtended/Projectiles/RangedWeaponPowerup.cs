@@ -9,5 +9,6 @@
         Blast,
         Gravity,
         GravityDE,
+        Tearing,
     }
 }

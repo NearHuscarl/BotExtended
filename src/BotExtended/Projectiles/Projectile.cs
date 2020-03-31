@@ -10,21 +10,49 @@ namespace BotExtended.Projectiles
 
         public Projectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
-            Instance = OnProjectileCreated(projectile);
-            if (Instance == null) Powerup = RangedWeaponPowerup.None;
+            Instance = projectile;
+
+            if (!OnProjectileCreated())
+            {
+                Instance = null;
+                Powerup = RangedWeaponPowerup.None;
+            }
 
             IsCustomProjectile = false;
         }
 
-        protected virtual IProjectile OnProjectileCreated(IProjectile projectile) { return projectile; }
+        protected virtual bool OnProjectileCreated() { return true; }
 
-        public static bool IsShotgunShell(IProjectile projectile)
+        public bool IsShotgunShell
         {
-            return projectile.ProjectileItem == ProjectileItem.SHOTGUN
-                     || projectile.ProjectileItem == ProjectileItem.DARK_SHOTGUN
-                     || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
+            get
+            {
+                return Instance.ProjectileItem == ProjectileItem.SHOTGUN
+                         || Instance.ProjectileItem == ProjectileItem.DARK_SHOTGUN
+                         || Instance.ProjectileItem == ProjectileItem.SAWED_OFF;
+            }
         }
 
-        public bool ShotgunShell { get { return IsShotgunShell(Instance); } }
+        public int ProjectilesPerShell
+        {
+            get
+            {
+                if (Instance == null) return 0;
+
+                switch (Instance.ProjectileItem)
+                {
+                    case ProjectileItem.SHOTGUN:
+                        return 6;
+                    case ProjectileItem.DARK_SHOTGUN:
+                        return 8;
+                    case ProjectileItem.SAWED_OFF:
+                        return 6;
+                    case ProjectileItem.NONE:
+                        return 0;
+                    default:
+                        return 1;
+                }
+            }
+        }
     }
 }

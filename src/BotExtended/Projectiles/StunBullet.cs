@@ -13,26 +13,45 @@ namespace BotExtended.Projectiles
 
         public StunBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Stun) { }
 
-        protected override IProjectile OnProjectileCreated(IProjectile projectile)
+        public float StunChance { get; private set; }
+        public float StunRangeChance { get; private set; }
+
+        protected override bool OnProjectileCreated()
         {
-            switch (projectile.ProjectileItem)
+            switch (Instance.ProjectileItem)
             {
                 case ProjectileItem.BAZOOKA:
                 case ProjectileItem.GRENADE_LAUNCHER:
-                    return null;
+                {
+                    StunChance = 0f;
+                    StunRangeChance = 1f;
+                    break;
+                }
                 default:
-                    return projectile;
+                {
+                    StunChance = .19f;
+                    StunRangeChance = .01f;
+
+                    if (IsShotgunShell) // shotguns have double chance to stun
+                    {
+                        StunChance = StunChance / ProjectilesPerShell * 2;
+                        StunRangeChance = StunRangeChance / ProjectilesPerShell * 2;
+                    }
+                    break;
+                }
             }
+
+            return true;
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)
         {
-            var rndNum = RandomHelper.Between(0, 100);
-            if (rndNum < 1)
+            var rndNum = RandomHelper.Between(0, 1);
+            if (rndNum < StunRangeChance)
             {
                 ElectrocuteRange(args.HitPosition);
             }
-            if (1 <= rndNum && rndNum < 21)
+            if (StunRangeChance <= rndNum && rndNum < StunChance)
             {
                 Electrocute(args);
             }

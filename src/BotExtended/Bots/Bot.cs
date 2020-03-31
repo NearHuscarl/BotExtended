@@ -252,7 +252,7 @@ namespace BotExtended.Bots
 
         private void UpdateCustomWeaponAI(float elapsed)
         {
-            if (!Player.IsBot) return;
+            if (!Player.IsBot || IsStunned) return;
 
             // TODO: Avoid disabling input because it's error-prone
             // Equip the weapon and ammo manually and remove the IObjectWeaponItem

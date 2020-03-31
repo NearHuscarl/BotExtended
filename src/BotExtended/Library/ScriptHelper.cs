@@ -42,7 +42,7 @@ namespace BotExtended.Library
         public static void LogDebugF(string format, params object[] values)
         {
             if (!Game.IsEditorTest) return;
-            Game.WriteToConsoleF(format, ToDisplayString(values));
+            Game.WriteToConsoleF(format, values);
         }
         public static void LogDebug(params object[] values)
         {
@@ -51,7 +51,7 @@ namespace BotExtended.Library
         }
         public static void LogF(string format, params object[] values)
         {
-            Game.WriteToConsoleF(format, ToDisplayString(values));
+            Game.WriteToConsoleF(format, values);
         }
         public static void Log(params object[] values)
         {

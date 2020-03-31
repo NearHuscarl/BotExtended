@@ -21,6 +21,8 @@ namespace BotExtended.Projectiles
                     return new StunBullet(projectile);
                 case RangedWeaponPowerup.Spinner:
                     return new SpinnerBullet(projectile);
+                case RangedWeaponPowerup.Tearing:
+                    return new TearingBullet(projectile);
                 default:
                     return null;
             }

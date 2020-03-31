@@ -9,10 +9,7 @@ namespace BotExtended.Projectiles
     {
         private Vector2 m_explodePosition;
 
-        public override bool IsRemoved
-        {
-            get { return m_state == State.Exploded; }
-        }
+        public override bool IsRemoved { get { return m_state == State.Exploded; } }
 
         private enum Direction
         {

@@ -374,6 +374,7 @@ namespace BotExtended.Projectiles
                 {
                     var proj = m_customProjectiles[obj.UniqueID];
 
+                    // TODO: wrong place to call this
                     proj.OnProjectileHit();
                     m_customProjectiles.Remove(obj.UniqueID);
                 }

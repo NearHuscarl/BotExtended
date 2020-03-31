@@ -9,17 +9,17 @@ namespace BotExtended.Projectiles
     {
         public BlastBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Blast) { }
 
-        protected override IProjectile OnProjectileCreated(IProjectile projectile)
+        protected override bool OnProjectileCreated()
         {
-            switch (projectile.ProjectileItem)
+            switch (Instance.ProjectileItem)
             {
                 case ProjectileItem.GRENADE_LAUNCHER:
                 case ProjectileItem.BAZOOKA:
-                    return null;
+                    return false;
             }
 
-            projectile.DamageDealtModifier = IsShotgunShell(projectile) ? .1f : .5f;
-            return projectile;
+            Instance.DamageDealtModifier = IsShotgunShell ? .15f : .5f;
+            return true;
         }
 
         protected override void Update(float elapsed)
@@ -75,7 +75,7 @@ namespace BotExtended.Projectiles
             var position = Instance.Position;
             var pushDirection = Instance.Direction;
             var upDirection = RandomHelper.Direction(angles[0], angles[1], true);
-            var modifiers = ShotgunShell ? .2f : 1f;
+            var modifiers = IsShotgunShell ? .2f : 1f;
             var velocity = hitObject.GetLinearVelocity();
 
             if (args.IsPlayer)

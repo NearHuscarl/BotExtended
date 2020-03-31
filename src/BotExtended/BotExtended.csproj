@@ -80,6 +80,7 @@
     <Compile Include="Projectiles\PlayerWeapon.cs" />
     <Compile Include="Projectiles\SpinnerBullet.cs" />
     <Compile Include="Projectiles\StunBullet.cs" />
+    <Compile Include="Projectiles\TearingBullet.cs" />
     <Compile Include="Projectiles\ThrowWpn.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />
     <Compile Include="Projectiles\RangedWeaponPowerup.cs" />
