@@ -250,6 +250,29 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Stripper
+                case BotType.Stripper:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Weak,
+                        CurrentHealth = Health.Weak,
+                        ProjectileDamageDealtModifier = DamageDealt.FairlyHigh,
+                        ProjectileCritChanceDealtModifier = DamageDealt.FairlyHigh,
+                        MeleeDamageDealtModifier = DamageDealt.FairlyLow,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        FireDamageTakenModifier = DamageTaken.Vulnerable,
+                        SizeModifier = Size.BelowNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    break;
+                }
+                #endregion
+
                 #region Zombie
                 case BotType.Zombie:
                 case BotType.ZombieAgent:

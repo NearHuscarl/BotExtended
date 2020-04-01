@@ -37,6 +37,9 @@ namespace BotExtended.Projectiles
                 }
             }
 
+            TearingChance = MathHelper.Clamp(TearingChance * Instance.DamageDealtModifier, 0, 1);
+            Tearing2Chance = MathHelper.Clamp(Tearing2Chance * Instance.DamageDealtModifier, 0, 1);
+
             return base.OnProjectileCreated();
         }
 
@@ -169,6 +172,7 @@ namespace BotExtended.Projectiles
                 {
                     switch (clothingItem)
                     {
+                        // TODO: add female cases?
                         case "Afro":
                         case "Buzzcut":
                         case "Mohawk":
@@ -180,6 +184,8 @@ namespace BotExtended.Projectiles
                 {
                     switch (clothingItem)
                     {
+                        case "ClownMakeup":
+                        case "ClownMakeup_fem":
                         case "Moustache":
                         case "Small Moustache":
                             return false;
@@ -191,23 +197,23 @@ namespace BotExtended.Projectiles
             return true;
         }
 
-        private IProfile Strip(IProfile profile, ClothingType cloethingType)
+        private IProfile Strip(IProfile profile, ClothingType clothingType)
         {
-            if (cloethingType == ClothingType.Accesory)
+            if (clothingType == ClothingType.Accesory)
                 profile.Accesory = null;
-            if (cloethingType == ClothingType.ChestOver)
+            if (clothingType == ClothingType.ChestOver)
                 profile.ChestOver = null;
-            if (cloethingType == ClothingType.ChestUnder)
+            if (clothingType == ClothingType.ChestUnder)
                 profile.ChestUnder = null;
-            if (cloethingType == ClothingType.Feet)
+            if (clothingType == ClothingType.Feet)
                 profile.Feet = null;
-            if (cloethingType == ClothingType.Hands)
+            if (clothingType == ClothingType.Hands)
                 profile.Hands = null;
-            if (cloethingType == ClothingType.Head)
+            if (clothingType == ClothingType.Head)
                 profile.Head = null;
-            if (cloethingType == ClothingType.Legs)
+            if (clothingType == ClothingType.Legs)
                 profile.Legs = null;
-            if (cloethingType == ClothingType.Waist)
+            if (clothingType == ClothingType.Waist)
                 profile.Waist = null;
             return profile;
         }

@@ -956,6 +956,33 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Stripper
+                case BotType.Stripper:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Tearing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.REVOLVER,
+                        SecondaryPowerup = RangedWeaponPowerup.Tearing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Tearing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SAWED_OFF,
+                        PrimaryPowerup = RangedWeaponPowerup.Tearing,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Teddybear
                 case BotType.Teddybear:
                 {

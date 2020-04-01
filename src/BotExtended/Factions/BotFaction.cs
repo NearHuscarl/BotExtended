@@ -17,6 +17,7 @@
         PoliceSWAT,
         Sniper,
         Soldier,
+        Stripper,
         Thug,
         Punk,
         Zombie,

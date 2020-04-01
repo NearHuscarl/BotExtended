@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Boffin;
+            if (Game.IsEditorTest) botFaction = BotFaction.Stripper;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -253,6 +253,38 @@ namespace BotExtended
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Sniper, 1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Stripper
+                case BotFaction.Stripper:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Stripper, .5f),
+                        new SubFaction(BotType.Bodyguard, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Stripper, .5f),
+                        new SubFaction(BotType.BikerHulk, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Stripper, .5f),
+                        new SubFaction(BotType.GangsterHulk, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Stripper, .5f),
+                        new SubFaction(BotType.PunkHulk, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Stripper, .5f),
+                        new SubFaction(BotType.ThugHulk, .5f),
                     });
                     break;
                 }

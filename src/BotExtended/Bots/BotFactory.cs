@@ -89,6 +89,10 @@ namespace BotExtended.Bots
                     bot = new SurvivorBot(args);
                     break;
 
+                case BotType.Stripper:
+                    bot = new StripperBot(args);
+                    break;
+
                 case BotType.Teddybear:
                     bot = new TeddybearBot(args);
                     break;

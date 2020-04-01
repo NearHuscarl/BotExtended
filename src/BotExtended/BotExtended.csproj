@@ -61,6 +61,7 @@
     <Compile Include="Bots\KingpinBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
+    <Compile Include="Bots\StripperBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />
     <Compile Include="FlipDirection.cs" />
     <Compile Include="Library\Mapper.cs" />

@@ -2555,6 +2555,83 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Stripper
+                case BotType.Stripper:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Stripper",
+                        Accesory = null,
+                        ChestOver = null,
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("RidingBoots", "ClothingBrown", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = null,
+                        Legs = null,
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingDarkGray", ""),
+                        Waist = null,
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Stripper",
+                        Accesory = null,
+                        ChestOver = null,
+                        ChestUnder = null,
+                        Feet = null,
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = null,
+                        Skin = new IProfileClothingItem("Normal", "Skin1", "ClothingLightGray", ""),
+                        Waist = null,
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Stripper",
+                        Accesory = null,
+                        ChestOver = null,
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("HighHeels", "ClothingLightRed", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = null,
+                        Legs = null,
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingLightRed", ""),
+                        Waist = null,
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Stripper",
+                        Accesory = null,
+                        ChestOver = null,
+                        ChestUnder = new IProfileClothingItem("TornShirt_fem", "ClothingGreen", "ClothingLightGray", ""),
+                        Feet = null,
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = null,
+                        Legs = null,
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingGreen", ""),
+                        Waist = null,
+                    });
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Stripper",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("ShoulderHolster_fem", "ClothingPurple", "ClothingLightGray", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("RidingBootsBlack", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = null,
+                        Head = null,
+                        Legs = null,
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingPurple", ""),
+                        Waist = null,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bear
                 case BotType.Teddybear:
                 case BotType.Babybear:

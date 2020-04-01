@@ -105,6 +105,8 @@
         Soldier,
         Soldier2,
 
+        Stripper,
+
         Teddybear,
         Babybear,
 
