@@ -195,7 +195,7 @@ namespace BotExtended.Projectiles
             }
 
             var player = TargetedObject as IPlayer;
-            if (player != null) player.SetInputEnabled(true);
+            if (player != null) player.SetInputEnabled(m_oldInputEnabled);
 
             m_pullJoint.SetTargetObject(null);
 
@@ -321,8 +321,16 @@ namespace BotExtended.Projectiles
             return pullJoint;
         }
 
+        private void MakePlayer(IPlayer player, PlayerCommandType CommandType)
+        {
+            m_oldInputEnabled = player.IsInputEnabled;
+            player.SetInputEnabled(false);
+            player.AddCommand(new PlayerCommand(CommandType));
+        }
+
         private CollisionFilter m_oldCollisionFilter;
         private float m_oldMass;
+        private bool m_oldInputEnabled;
         public bool PickupObject()
         {
             if (TargetedObject == null)
@@ -339,8 +347,7 @@ namespace BotExtended.Projectiles
                     if (result.IsPlayer)
                     {
                         var player = (IPlayer)TargetedObject;
-                        player.SetInputEnabled(false);
-                        player.AddCommand(new PlayerCommand(PlayerCommandType.StaggerInfinite));
+                        MakePlayer(player, PlayerCommandType.StaggerInfinite);
                     }
 
                     // destroy TargetObjectJoint so hanging stuff can be pulled
@@ -400,7 +407,9 @@ namespace BotExtended.Projectiles
                 var results = RayCastTargetedObject(true);
                 if (results.Count() > 0)
                 {
-                    TargetedObject = results.First().HitObject;
+                    var result = results.First();
+                    TargetedObject = result.HitObject;
+                    if (result.IsPlayer) MakePlayer((IPlayer)result.HitObject, PlayerCommandType.Fall);
                 }
             }
 

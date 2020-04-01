@@ -57,11 +57,13 @@ namespace BotExtended.Bots
 
                     if (Game.IsEditorTest)
                     {
+                        var color = RandomHelper.GetItem(Color.Red, Color.Yellow, Color.Blue, Color.Green, Color.Magenta, Color.Cyan);
+
                         ScriptHelper.RunIn(() =>
                         {
-                            Game.DrawArea(m_bouncer.GetAABB(), Color.Red);
-                            Game.DrawLine(m_bouncer.GetWorldPosition(), Player.GetWorldPosition(), Color.Red);
-                            Game.DrawArea(Player.GetAABB(), Color.Green);
+                            Game.DrawArea(m_bouncer.GetAABB(), color);
+                            Game.DrawLine(m_bouncer.GetWorldPosition(), Player.GetWorldPosition(), color);
+                            Game.DrawArea(Player.GetAABB(), color);
                         }, 2000);
                     }
                     break;
