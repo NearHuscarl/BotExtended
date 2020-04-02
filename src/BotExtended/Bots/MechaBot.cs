@@ -134,7 +134,8 @@ namespace BotExtended.Bots
             Game.DrawText(string.Format("{0}/{1}", m_superchargeEnergy, EnergyToCharge), Position + Vector2.UnitY * 30);
         }
 
-        private List<IPlayer> chargedPlayers = new List<IPlayer>();
+        private HashSet<int> chargedPlayers = new HashSet<int>();
+        private HashSet<int> chargedObjects = new HashSet<int>();
         private void UpdateSuperCharging(float elapsed)
         {
             foreach (var player in Game.GetPlayers())
@@ -142,18 +143,19 @@ namespace BotExtended.Bots
                 if (player == Player) continue;
 
                 var position = player.GetWorldPosition();
-                var minAngle = Player.FacingDirection > 0 ? 0 : 90;
-                var maxAngle = Player.FacingDirection > 0 ? 90 : 180;
+                var angles = new float[] { MathExtension.ToRadians(25), MathExtension.ToRadians(65) };
+                if (Player.FacingDirection < 0)
+                    angles = ScriptHelper.Flip(angles, FlipDirection.Horizontal);
 
                 if (ScriptHelper.IntersectCircle(player.GetAABB(), Position, ChargeHitRange)
-                    && !chargedPlayers.Contains(player))
+                    && !chargedPlayers.Contains(player.UniqueID))
                 {
                     Game.PlayEffect(EffectName.Electric, position);
                     Game.PlaySound("ElectricSparks", position);
-                    var direction = RandomHelper.Direction(minAngle, maxAngle);
+                    var direction = RandomHelper.Direction(angles[0], angles[1], true);
                     player.SetLinearVelocity(direction * 15f);
-                    MakePlayerStaggering(player);
-                    chargedPlayers.Add(player);
+                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall);
+                    chargedPlayers.Add(player.UniqueID);
                 }
             }
 
@@ -161,20 +163,17 @@ namespace BotExtended.Bots
             area.Grow(4);
             foreach (var obj in Game.GetObjectsByArea(area))
             {
-                // TODO: is keyword may affect performance. Need profiling
-                if (obj.UniqueID == Player.UniqueID || obj is IPlayer)
+                if (obj.UniqueID == Player.UniqueID || chargedObjects.Contains(obj.UniqueID) || obj is IPlayer)
                     continue;
 
-                if (obj.GetBodyType() == BodyType.Dynamic || RayCastHelper.ObjectsBulletCanDestroy.Contains(obj.Name))
+                if (ScriptHelper.IsDynamicObject(obj) || RayCastHelper.ObjectsBulletCanDestroy.Contains(obj.Name))
                 {
                     if (ScriptHelper.IntersectCircle(obj.GetWorldPosition(), Position, ChargeHitRange))
                     {
                         var v = obj.GetLinearVelocity();
-                        if (v.Length() < 12)
-                        {
-                            obj.SetLinearVelocity(v + Vector2.UnitX * Player.FacingDirection * 10);
-                            obj.SetHealth(obj.GetHealth() - 3);
-                        }
+                        obj.SetLinearVelocity(v + Vector2.UnitX * Player.FacingDirection * 25);
+                        obj.SetHealth(obj.GetHealth() - 3);
+                        chargedObjects.Add(obj.UniqueID);
                     }
                 }
             }
@@ -264,22 +263,12 @@ namespace BotExtended.Bots
             m_state = MechaState.Supercharging;
         }
 
-        private void MakePlayerStaggering(IPlayer player)
-        {
-            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=15&t=3810
-            player.SetInputEnabled(false);
-            ScriptHelper.Timeout(() =>
-            {
-                player.AddCommand(new PlayerCommand(PlayerCommandType.Stagger));
-                player.SetInputEnabled(true);
-            }, 1);
-        }
-
         private void StopSuperCharge()
         {
             Player.SetInputEnabled(true);
             m_superchargeEnergy = 0f;
             chargedPlayers.Clear();
+            chargedObjects.Clear();
             m_state = MechaState.Normal;
         }
 

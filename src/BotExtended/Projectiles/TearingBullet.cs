@@ -96,6 +96,7 @@ namespace BotExtended.Projectiles
             {
                 var strippedProfile = StripUnderwear(profile);
                 player.SetProfile(strippedProfile);
+                player.SetBotName("Naked " + player.Name);
             }
             else
             {

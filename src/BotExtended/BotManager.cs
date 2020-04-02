@@ -286,12 +286,14 @@ namespace BotExtended
             bot.OnPlayerKeyInput(keyInfos);
         }
 
-        public static Bot GetBot(IObject player)
+        public static Bot GetBot(int UniqueID)
         {
             Bot bot;
-            if (m_bots.TryGetValue(player.UniqueID, out bot)) return bot;
+            if (m_bots.TryGetValue(UniqueID, out bot)) return bot;
             return Bot.None;
         }
+
+        public static Bot GetBot(IObject player) { return GetBot(player.UniqueID); }
 
         private static IPlayer SpawnPlayer(bool ignoreFullSpawner = false)
         {

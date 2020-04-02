@@ -14,19 +14,8 @@ namespace BotExtended.Projectiles
             if (IsExplosiveProjectile)
                 return false;
 
-            Instance.DamageDealtModifier = IsShotgunShell ? .15f : .5f;
+            Instance.DamageDealtModifier = IsShotgunShell ? .35f : .5f;
             return true;
-        }
-
-        protected override void Update(float elapsed)
-        {
-            base.Update(elapsed);
-
-            if (Instance.TotalDistanceTraveled >= 70)
-            {
-                Game.PlayEffect(EffectName.BulletHit, Instance.Position);
-                Instance.FlagForRemoval();
-            }
         }
 
         private IObject GetObject(ProjectileHitArgs args)
@@ -37,14 +26,7 @@ namespace BotExtended.Projectiles
 
                 if (!player.IsFalling)
                 {
-                    ScriptHelper.LogDebug(player.Name, "fall");
-                    player.SetInputEnabled(false);
-                    player.AddCommand(new PlayerCommand(PlayerCommandType.Fall));
-                    ScriptHelper.Timeout(() =>
-                    {
-                        player.ClearCommandQueue();
-                        player.SetInputEnabled(true);
-                    }, 30);
+                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall, 30);
                 }
 
                 return player;

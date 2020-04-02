@@ -149,14 +149,14 @@ namespace BotExtended.Library
             }
         }
 
-        public static IEnumerable<IPlayer> GetPlayersInRange(IPlayer player, float radius, float minAngle = 0, float maxAngle = 0,
+        public static IEnumerable<IPlayer> GetFirstPlayerInRange(IPlayer player, float radius, float minAngle = 0, float maxAngle = 0,
             bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
-            return GetPlayersInRange(player.GetWorldPosition() + Vector2.UnitY * 10, radius, minAngle, maxAngle,
+            return GetFirstPlayerInRange(player.GetWorldPosition() + Vector2.UnitY * 15, radius, minAngle, maxAngle,
                 blockTeammates, team, fromPlayer);
         }
 
-        public static IEnumerable<IPlayer> GetPlayersInRange(Vector2 center, float radius, float minAngle = 0, float maxAngle = 0,
+        public static IEnumerable<IPlayer> GetFirstPlayerInRange(Vector2 center, float radius, float minAngle = 0, float maxAngle = 0,
             bool blockTeammates = false, PlayerTeam team = PlayerTeam.Independent, IPlayer fromPlayer = null)
         {
             var filterArea = ScriptHelper.GrowFromCenter(center, radius * 2); 
@@ -168,10 +168,11 @@ namespace BotExtended.Library
                 if (ScriptHelper.SameTeam(player, fromPlayer) && blockTeammates)
                     continue;
 
-                var playerPosition = player.GetWorldPosition() + Vector2.UnitY * 10;
+                var playerPosition = player.GetWorldPosition() + Vector2.UnitY * 7;
                 foreach (var result in Players(center, playerPosition, blockTeammates, team, fromPlayer))
                 {
                     yield return Game.GetPlayer(result.ObjectID);
+                    break;
                 }
             }
         }

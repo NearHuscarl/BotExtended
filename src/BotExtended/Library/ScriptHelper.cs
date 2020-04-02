@@ -312,5 +312,37 @@ namespace BotExtended.Library
 
             return ProjectilePowerup.None;
         }
+
+        public static bool IsMeAlone()
+        {
+            var users = Game.GetActiveUsers().Where(u => !u.IsBot);
+            var i = 0;
+
+            foreach (var u in users)
+            {
+                if (u.AccountName == "NearHuscarl") i++;
+            }
+            return users.Count() == i;
+        }
+
+        public static bool IsDynamicObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic;
+        }
+
+        public static void ExecuteSingleCommand(IPlayer player, PlayerCommandType commandType, uint delay = 10)
+        {
+            var oldInputEnabled = player.IsInputEnabled;
+            player.SetInputEnabled(false);
+            player.AddCommand(new PlayerCommand(commandType));
+            Timeout(() =>
+            {
+                player.ClearCommandQueue();
+                player.SetInputEnabled(oldInputEnabled);
+            }, delay);
+        }
     }
 }

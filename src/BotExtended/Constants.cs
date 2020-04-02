@@ -10,6 +10,7 @@ namespace BotExtended
 
         internal const int BOT_SPAWN_COUNT_MIN = 1;
         internal const int BOT_SPAWN_COUNT_MAX = 15;
+        internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();
 
         internal const int BOSS_FACTION_START_INDEX = 200;
         internal const string CURRENT_VERSION = "5.5.1";
