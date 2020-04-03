@@ -5,28 +5,8 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
-    class SpinnerBullet : Projectile
+    class SpinnerBullet : HoveringProjectile
     {
-        private Vector2 m_explodePosition;
-
-        public override bool IsRemoved { get { return m_state == State.Exploded; } }
-
-        private enum Direction
-        {
-            Left,
-            Top,
-            Right,
-            Bottom,
-        }
-
-        private enum State
-        {
-            Normal,
-            Exploding,
-            Exploded,
-        }
-        private State m_state = State.Normal;
-
         public SpinnerBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Spinner)
         {
             if (projectile.ProjectileItem == ProjectileItem.BAZOOKA
@@ -39,114 +19,16 @@ namespace BotExtended.Projectiles
                 UpdateDelay = 4;
         }
 
-        protected override void Update(float elapsed)
+        protected override void OnHover()
         {
-            base.Update(elapsed);
-
-            switch (m_state)
-            {
-                case State.Normal:
-                {
-                    if (CanExplode())
-                        Explode();
-                    break;
-                }
-                case State.Exploding:
-                {
-                    Instance.Position = m_explodePosition;
-                    Instance.Velocity = new Vector2(0, 100);
-                    Instance.Direction = Vector2.Zero;
-                    UpdateExploding();
-                    break;
-                }
-                case State.Exploded:
-                    break;
-            }
-        }
-
-        private void ChangeState(State state)
-        {
-            // events
-            if (state == State.Exploding)
-            {
-                Instance.Velocity = new Vector2(0, 100);
-                Instance.Direction = Vector2.Zero;
-                if (Instance.ProjectileItem != ProjectileItem.GRENADE_LAUNCHER)
-                    Instance.FlagForRemoval();
-            }
-            if (state == State.Exploded)
-            {
+            base.OnHover();
+            if (Instance.ProjectileItem != ProjectileItem.GRENADE_LAUNCHER)
                 Instance.FlagForRemoval();
-
-                if (Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
-                    || Instance.ProjectileItem == ProjectileItem.BAZOOKA)
-                    Game.TriggerExplosion(m_explodePosition);
-                else
-                    Game.PlayEffect(EffectName.Block, m_explodePosition);
-            }
-
-            m_state = state;
-        }
-
-        private Direction GetHeadingDirection(float angle)
-        {
-            angle = MathExtension.NormalizeAngle(angle);
-
-            if (angle >= 0 && angle < MathHelper.PIOver4 || angle >= MathExtension.PI_3Over2 && angle <= MathExtension.PIOver2)
-                return Direction.Right;
-            if (angle >= MathHelper.PIOver4 && angle < MathHelper.PIOver2 + MathHelper.PIOver4)
-                return Direction.Top;
-            if (angle >= MathHelper.PIOver2 + MathHelper.PIOver4 && angle < MathHelper.PI + MathHelper.PIOver4)
-                return Direction.Left;
-            return Direction.Bottom;
-        }
-
-        private bool CanExplode()
-        {
-            var headingDirection = GetHeadingDirection(ScriptHelper.GetAngle(Instance.Direction));
-            var explodeRange = ScriptHelper.GrowFromCenter(Instance.Position,
-                headingDirection == Direction.Left ? 60 : 10,
-                headingDirection == Direction.Top ? 60 : 10,
-                headingDirection == Direction.Right ? 60 : 10,
-                headingDirection == Direction.Bottom ? 60 : 10);
-            var os = Game.GetObjectsByArea(explodeRange, PhysicsLayer.Active);
-
-            foreach (var o in os)
-            {
-                var collisionFilter = o.GetCollisionFilter();
-                if ((collisionFilter.BlockExplosions || collisionFilter.CategoryBits == CategoryBits.Player)
-                    && Instance.TotalDistanceTraveled >= 100)
-                {
-                    if (Game.IsEditorTest)
-                    {
-                        var position = Instance.Position;
-                        ScriptHelper.RunIn(() =>
-                        {
-                            Game.DrawCircle(position, .5f, Color.Red);
-                            Game.DrawLine(position, o.GetWorldPosition(), Color.Yellow);
-                            Game.DrawArea(o.GetAABB(), Color.Yellow);
-                            Game.DrawText(o.Name + " " + headingDirection, position);
-                            Game.DrawArea(explodeRange);
-                        }, 2000);
-                    }
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void Explode()
-        {
-            if (Instance.IsRemoved) return;
-
-            ChangeState(State.Exploding);
-            m_explodePosition = Instance.Position;
         }
 
         private float m_fireTime = 0f;
         private float m_fireAngle = 0f;
-        private void UpdateExploding()
+        protected override void UpdateHovering(float elapsed)
         {
             if (ScriptHelper.IsElapsed(m_fireTime, 30))
             {
@@ -155,24 +37,25 @@ namespace BotExtended.Projectiles
                 var powerup = ScriptHelper.GetPowerup(Instance);
                 var direction = ScriptHelper.GetDirection(MathExtension.ToRadians(m_fireAngle));
 
-                Game.PlaySound("SilencedUzi", m_explodePosition);
-                Game.SpawnProjectile(ProjectileItem.MAGNUM, m_explodePosition, direction, powerup);
+                Game.PlaySound("SilencedUzi", HoverPosition);
+                Game.SpawnProjectile(ProjectileItem.MAGNUM, HoverPosition, direction, powerup);
 
                 if (m_fireAngle == 360 - angleInBetween)
-                    ChangeState(State.Exploded);
+                    Destroy();
 
                 m_fireTime = Game.TotalElapsedGameTime;
                 m_fireAngle += angleInBetween;
             }
         }
 
-        public override void OnProjectileHit(ProjectileHitArgs args)
+        protected override void Destroy()
         {
-            base.OnProjectileHit(args);
-
-            // in case bouncing ammo hit multiple times
-            if (m_state == State.Normal && args.RemoveFlag)
-                Explode();
+            base.Destroy();
+            if (Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
+                || Instance.ProjectileItem == ProjectileItem.BAZOOKA)
+                Game.TriggerExplosion(HoverPosition);
+            else
+                Game.PlayEffect(EffectName.Block, HoverPosition);
         }
     }
 }

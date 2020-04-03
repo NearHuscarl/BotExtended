@@ -3,6 +3,7 @@
     public enum RangedWeaponPowerup
     {
         None,
+        Blackhole,
         Present,
         Stun,
         Spinner,

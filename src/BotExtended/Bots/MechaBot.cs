@@ -163,7 +163,7 @@ namespace BotExtended.Bots
             area.Grow(4);
             foreach (var obj in Game.GetObjectsByArea(area))
             {
-                if (obj.UniqueID == Player.UniqueID || chargedObjects.Contains(obj.UniqueID) || obj is IPlayer)
+                if (obj.UniqueID == Player.UniqueID || chargedObjects.Contains(obj.UniqueID) || ScriptHelper.IsPlayer(obj))
                     continue;
 
                 if (ScriptHelper.IsDynamicObject(obj) || RayCastHelper.ObjectsBulletCanDestroy.Contains(obj.Name))

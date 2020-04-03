@@ -40,8 +40,7 @@ namespace BotExtended.Bots
             set
             {
                 m_nearestObject = value;
-                // using is keyword in update loop reduces fps to 10-20
-                m_nearestObjectIsPlayer = m_nearestObject is IPlayer;
+                m_nearestObjectIsPlayer = ScriptHelper.IsPlayer(m_nearestObject);
             }
         }
 

@@ -68,9 +68,11 @@
     <Compile Include="Library\MathExtension.cs" />
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="PlayerSettings.cs" />
+    <Compile Include="Projectiles\BlackholeProjectile.cs" />
     <Compile Include="Projectiles\BlastBullet.cs" />
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
+    <Compile Include="Projectiles\HoveringProjectile.cs" />
     <Compile Include="Projectiles\Projectile.cs" />
     <Compile Include="Projectiles\ProjectileBase.cs" />
     <Compile Include="Projectiles\ProjectileFactory.cs" />

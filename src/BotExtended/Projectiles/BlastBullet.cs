@@ -53,14 +53,14 @@ namespace BotExtended.Projectiles
             var position = Instance.Position;
             var pushDirection = Instance.Direction;
             var upDirection = RandomHelper.Direction(angles[0], angles[1], true);
-            var modifiers = IsShotgunShell ? .2f : 1f;
+            var modifiers = GetForceModifier();
             var velocity = hitObject.GetLinearVelocity();
 
             if (args.IsPlayer)
             {
                 velocity += Instance.Direction * 4 + upDirection * 14 * modifiers;
-                if (velocity.Length() >= 12)
-                    velocity -= Vector2.Normalize(velocity) * (velocity.Length() - 12);
+                if (velocity.Length() >= 15)
+                    velocity -= Vector2.Normalize(velocity) * (velocity.Length() - 15);
                 hitObject.SetLinearVelocity(velocity);
             }
             else
@@ -76,11 +76,21 @@ namespace BotExtended.Projectiles
             {
                 ScriptHelper.RunIn(() =>
                 {
+                    if (args.IsPlayer)
+                        Game.DrawText(modifiers.ToString(), position);
                     Game.DrawLine(position, position + pushDirection * 3);
                     Game.DrawLine(position, position + upDirection * 3, Color.Yellow);
                     Game.DrawLine(position, position + velocity, Color.Green);
                 }, 2000);
             }
+        }
+
+        private float GetForceModifier()
+        {
+            // (0,1.25) (70,1) (140, 0.75)
+            var ammoModifier = IsShotgunShell ? .3f : 1f;
+            var modifier = ammoModifier * (1.25f - 0.00357143f * Instance.TotalDistanceTraveled);
+            return Math.Max(modifier, ammoModifier * .5f);
         }
     }
 }

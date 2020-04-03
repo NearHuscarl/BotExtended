@@ -13,6 +13,8 @@ namespace BotExtended.Projectiles
         {
             switch (powerup)
             {
+                case RangedWeaponPowerup.Blackhole:
+                    return new BlackholeProjectile(projectile);
                 case RangedWeaponPowerup.Blast:
                     return new BlastBullet(projectile);
                 case RangedWeaponPowerup.Present:

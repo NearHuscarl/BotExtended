@@ -195,7 +195,11 @@ namespace BotExtended.Projectiles
             }
 
             var player = TargetedObject as IPlayer;
-            if (player != null) player.SetInputEnabled(m_oldInputEnabled);
+            if (player != null)
+            {
+                player.AddCommand(new PlayerCommand(PlayerCommandType.StopStagger));
+                player.SetInputEnabled(m_oldInputEnabled);
+            }
 
             m_pullJoint.SetTargetObject(null);
 
@@ -310,9 +314,8 @@ namespace BotExtended.Projectiles
             {
                 TargetedObject.SetMass(.004f);
                 pullJoint.SetWorldPosition(TargetedObject.GetWorldPosition());
-                pullJoint.SetForce(TargetedObject is IPlayer ? 15 : 4); // IPlayer doesn't have mass, maybe a bit heavier than normal
+                pullJoint.SetForce(ScriptHelper.IsPlayer(TargetedObject) ? 15 : 4); // IPlayer doesn't have mass, maybe a bit heavier than normal
                 pullJoint.SetForcePerDistance(0);
-
             }
 
             pullJoint.SetTargetObject(TargetedObject);
@@ -324,8 +327,12 @@ namespace BotExtended.Projectiles
         private void MakePlayer(IPlayer player, PlayerCommandType CommandType)
         {
             m_oldInputEnabled = player.IsInputEnabled;
+            var faceDirection = player.GetWorldPosition().X > GetHoldPosition(false).X
+                ? PlayerCommandFaceDirection.Right : PlayerCommandFaceDirection.Left;
             player.SetInputEnabled(false);
-            player.AddCommand(new PlayerCommand(CommandType));
+            // some command like Stagger not working without this line
+            player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, faceDirection));
+            ScriptHelper.Timeout(() => player.AddCommand(new PlayerCommand(CommandType)), 2);
         }
 
         private CollisionFilter m_oldCollisionFilter;
@@ -350,22 +357,8 @@ namespace BotExtended.Projectiles
                         MakePlayer(player, PlayerCommandType.StaggerInfinite);
                     }
 
-                    // destroy TargetObjectJoint so hanging stuff can be pulled
-                    foreach (var j in Game.GetObjectsByArea<IObjectTargetObjectJoint>(TargetedObject.GetAABB()))
-                    {
-                        var to = j.GetTargetObject();
-                        if (to == null) continue;
-                        if (to.UniqueID == TargetedObject.UniqueID)
-                        {
-                            TargetedObject.SetLinearVelocity(Vector2.Zero);
-                            j.SetTargetObject(null);
-                            j.Remove();
-                        }
-                    }
-                    foreach (var j in Game.GetObjectsByArea<IObjectWeldJoint>(TargetedObject.GetAABB()))
-                    {
-                        j.RemoveTargetObject(TargetedObject);
-                    }
+                    // destroy Joints so hanging stuff can be pulled
+                    ScriptHelper.Unscrew(TargetedObject);
 
                     // some objects that are in dynamic collision group but is static (SurveillanceCamera)
                     if (TargetedObject.GetBodyType() == BodyType.Static)
@@ -383,8 +376,7 @@ namespace BotExtended.Projectiles
                         var noStaticCollision = TargetedObject.GetCollisionFilter();
                         // https://www.mythologicinteractiveforums.com/viewtopic.php?t=1012
                         noStaticCollision.CategoryBits = 0x1010; // marker or something
-                        noStaticCollision.MaskBits = (ushort)(noStaticCollision.MaskBits % 2 == 1 ?
-                            noStaticCollision.MaskBits - 1 : noStaticCollision.MaskBits);
+                        noStaticCollision.MaskBits = (ushort)(noStaticCollision.MaskBits & 0x11);
                         TargetedObject.SetCollisionFilter(noStaticCollision);
                     }
                     return true;

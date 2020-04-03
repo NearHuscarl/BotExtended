@@ -325,6 +325,13 @@ namespace BotExtended.Library
             return users.Count() == i;
         }
 
+        // Never use is keyword to check if IObject is IPlayer. it's extremely slow
+        public static bool IsPlayer(IObject obj)
+        {
+            if (obj == null) return false;
+            return obj.GetCollisionFilter().CategoryBits == CategoryBits.Player;
+        }
+
         public static bool IsDynamicObject(IObject obj)
         {
             var cf = obj.GetCollisionFilter();
@@ -333,16 +340,49 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.Dynamic;
         }
 
-        public static void ExecuteSingleCommand(IPlayer player, PlayerCommandType commandType, uint delay = 10)
+        public static void Unscrew(IObject o)
+        {
+            var hitbox = o.GetAABB();
+            foreach (var j in Game.GetObjectsByArea<IObjectTargetObjectJoint>(hitbox))
+            {
+                var to = j.GetTargetObject();
+                if (to == null) continue;
+                if (to.UniqueID == o.UniqueID)
+                {
+                    o.SetLinearVelocity(Vector2.Zero);
+                    j.SetTargetObject(null);
+                    j.Remove();
+                }
+            }
+            foreach (var j in Game.GetObjectsByArea<IObjectWeldJoint>(hitbox))
+            {
+                j.RemoveTargetObject(o);
+            }
+            foreach (var j in Game.GetObjectsByArea<IObjectRevoluteJoint>(hitbox))
+            {
+                if (j.GetTargetObjectA().UniqueID == o.UniqueID)
+                    j.SetTargetObjectA(null);
+            }
+        }
+
+        public static void ExecuteSingleCommand(IPlayer player, PlayerCommandType commandType, uint delay = 10,
+            PlayerCommandFaceDirection facingDirection = PlayerCommandFaceDirection.None)
         {
             var oldInputEnabled = player.IsInputEnabled;
             player.SetInputEnabled(false);
-            player.AddCommand(new PlayerCommand(commandType));
+            // some commands like Stagger not working without this line
+            player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, facingDirection));
+
             Timeout(() =>
             {
-                player.ClearCommandQueue();
-                player.SetInputEnabled(oldInputEnabled);
-            }, delay);
+                player.AddCommand(new PlayerCommand(commandType, facingDirection));
+                if (delay == 0) return;
+                Timeout(() =>
+                {
+                    player.ClearCommandQueue();
+                    player.SetInputEnabled(oldInputEnabled);
+                }, delay);
+            }, 2);
         }
     }
 }
