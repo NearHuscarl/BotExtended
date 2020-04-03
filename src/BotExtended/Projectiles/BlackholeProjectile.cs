@@ -14,7 +14,6 @@ namespace BotExtended.Projectiles
             public IObject Object;
             public IObjectPullJoint PullJoint;
             public float OriginalMass;
-            public bool OriginalInputEnabled;
             public bool UnScrewed = false;
         }
 
@@ -27,7 +26,6 @@ namespace BotExtended.Projectiles
         private float m_activeTime = 0f;
         private IObject m_blackhole;
         private List<IObject> m_blackholes = new List<IObject>();
-        private IObjectWeldJoint m_blackholeWeldJoint;
 
         private IObjectTargetObjectJoint m_magnetJoint;
         private IObjectRevoluteJoint m_revoluteJoint;
@@ -62,22 +60,18 @@ namespace BotExtended.Projectiles
             Game.RunCommand("/settime .1");
             ScriptHelper.Timeout(() => Game.RunCommand("/settime 1"), 2000);
 
-            m_blackhole = Game.CreateObject("FgShadow00A");
+            m_blackhole = Game.CreateObject("Shadow00A");
             m_blackhole.SetBodyType(BodyType.Dynamic);
             m_blackhole.SetCollisionFilter(noCollisionFilter);
             m_blackhole.SetWorldPosition(HoverPosition);
 
-            m_blackholeWeldJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-            m_blackholeWeldJoint.AddTargetObject(m_blackhole);
-
-            for (var i = 1; i < 20; i++)
+            for (var i = 1; i < 40; i++)
             {
-                var egg = Game.CreateObject("FgShadow00A");
-                egg.SetAngle(MathHelper.TwoPI * i / 19, false);
-                egg.SetBodyType(BodyType.Dynamic);
+                var egg = Game.CreateObject("Shadow00A");
+                egg.SetAngle(MathHelper.TwoPI * i / 39);
+                egg.SetBodyType(BodyType.Static);
                 egg.SetCollisionFilter(noCollisionFilter);
                 egg.SetWorldPosition(HoverPosition);
-                m_blackholeWeldJoint.AddTargetObject(egg);
                 m_blackholes.Add(egg);
             }
 
@@ -192,14 +186,8 @@ namespace BotExtended.Projectiles
 
                 if (o.IsRemoved || pos == Range.Outside)
                 {
-                    objectInfo.PullJoint.Remove();
                     removeList.Add(kv.Key);
-
-                    if (ScriptHelper.IsPlayer(o))
-                    {
-                        var player = Game.GetPlayer(o.UniqueID);
-                        player.SetInputEnabled(objectInfo.OriginalInputEnabled);
-                    }
+                    StopPulling(objectInfo);
                 }
 
                 if (ScriptHelper.IsPlayer(o))
@@ -272,14 +260,10 @@ namespace BotExtended.Projectiles
 
         private void Pull(IObject o)
         {
-            var player = o as IPlayer;
-            var originalInputEnabled = true;
+            var player = ScriptHelper.CastPlayer(o);
 
             if (player != null)
-            {
-                originalInputEnabled = player.IsInputEnabled;
                 ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 20, GetStaggerDirection(player));
-            }
 
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
             var originalMass = o.GetMass();
@@ -299,7 +283,6 @@ namespace BotExtended.Projectiles
                 Object = o,
                 OriginalMass = originalMass,
                 PullJoint = pullJoint,
-                OriginalInputEnabled = originalInputEnabled,
             });
         }
 
@@ -308,20 +291,24 @@ namespace BotExtended.Projectiles
             base.Destroy();
             m_blackhole.Remove();
             foreach (var o in m_blackholes) o.Remove();
-            m_blackholeWeldJoint.Remove();
             m_magnetJoint.Remove();
 
             foreach (var objectInfo in m_pulledObjects.Values)
             {
-                objectInfo.Object.SetMass(objectInfo.OriginalMass);
-                objectInfo.PullJoint.Remove();
+                StopPulling(objectInfo);
+            }
+        }
 
-                if (ScriptHelper.IsPlayer(objectInfo.Object))
-                {
-                    var player = Game.GetPlayer(objectInfo.Object.UniqueID);
-                    if (player != null)
-                        player.SetInputEnabled(objectInfo.OriginalInputEnabled);
-                }
+        private void StopPulling(PulledObjectInfo objectInfo)
+        {
+            objectInfo.Object.SetMass(objectInfo.OriginalMass);
+            objectInfo.PullJoint.Remove();
+
+            if (ScriptHelper.IsPlayer(objectInfo.Object))
+            {
+                var player = Game.GetPlayer(objectInfo.Object.UniqueID);
+                if (player != null)
+                    player.SetInputEnabled(true);
             }
         }
     }

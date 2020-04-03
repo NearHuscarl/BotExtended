@@ -176,7 +176,7 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                var player = TargetedObject as IPlayer;
+                var player = ScriptHelper.CastPlayer(TargetedObject);
                 if (player != null && !player.IsStaggering)
                 {
                     // Not sure why StaggerInfinite is not infinite!
@@ -194,11 +194,11 @@ namespace BotExtended.Projectiles
                 m_targetedObjectJoint.Remove();
             }
 
-            var player = TargetedObject as IPlayer;
+            var player = ScriptHelper.CastPlayer(TargetedObject);
             if (player != null)
             {
                 player.AddCommand(new PlayerCommand(PlayerCommandType.StopStagger));
-                player.SetInputEnabled(m_oldInputEnabled);
+                player.SetInputEnabled(true);
             }
 
             m_pullJoint.SetTargetObject(null);
@@ -326,7 +326,6 @@ namespace BotExtended.Projectiles
 
         private void MakePlayer(IPlayer player, PlayerCommandType CommandType)
         {
-            m_oldInputEnabled = player.IsInputEnabled;
             var faceDirection = player.GetWorldPosition().X > GetHoldPosition(false).X
                 ? PlayerCommandFaceDirection.Right : PlayerCommandFaceDirection.Left;
             player.SetInputEnabled(false);
@@ -337,7 +336,6 @@ namespace BotExtended.Projectiles
 
         private CollisionFilter m_oldCollisionFilter;
         private float m_oldMass;
-        private bool m_oldInputEnabled;
         public bool PickupObject()
         {
             if (TargetedObject == null)

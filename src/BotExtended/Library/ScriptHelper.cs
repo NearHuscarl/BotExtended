@@ -331,6 +331,12 @@ namespace BotExtended.Library
             if (obj == null) return false;
             return obj.GetCollisionFilter().CategoryBits == CategoryBits.Player;
         }
+        // A faster cast player (dont use as/is)
+        public static IPlayer CastPlayer(IObject obj)
+        {
+            if (obj == null) return null;
+            return Game.GetPlayer(obj.UniqueID);
+        }
 
         public static bool IsDynamicObject(IObject obj)
         {
@@ -368,7 +374,6 @@ namespace BotExtended.Library
         public static void ExecuteSingleCommand(IPlayer player, PlayerCommandType commandType, uint delay = 10,
             PlayerCommandFaceDirection facingDirection = PlayerCommandFaceDirection.None)
         {
-            var oldInputEnabled = player.IsInputEnabled;
             player.SetInputEnabled(false);
             // some commands like Stagger not working without this line
             player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, facingDirection));
@@ -380,7 +385,7 @@ namespace BotExtended.Library
                 Timeout(() =>
                 {
                     player.ClearCommandQueue();
-                    player.SetInputEnabled(oldInputEnabled);
+                    player.SetInputEnabled(true);
                 }, delay);
             }, 2);
         }
