@@ -7,6 +7,8 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
+    enum BlackholeSize { Small, Big }
+
     class BlackholeProjectile : HoveringProjectile
     {
         private class PulledObjectInfo
@@ -17,7 +19,9 @@ namespace BotExtended.Projectiles
             public bool UnScrewed = false;
         }
 
-        private static readonly float ActiveTime = Game.IsEditorTest ? 4000 : 4000;
+        private static List<Vector2> BlackholeLocations = new List<Vector2>();
+
+        private float ActiveTime = 4000;
         public const float SuckRadius = 150;
         public const float PullRadius = 100;
         public const float EventHorizon = 50;
@@ -32,6 +36,28 @@ namespace BotExtended.Projectiles
         private Dictionary<int, PulledObjectInfo> m_pulledObjects = new Dictionary<int, PulledObjectInfo>();
         private enum Range { Center, EventHorizon, Level2, Level1, Outside, }
 
+        private BlackholeSize m_size;
+        public BlackholeSize Size
+        {
+            get { return m_size; }
+            private set
+            {
+                m_size = value;
+                if (value == BlackholeSize.Big)
+                {
+                    ExplodeRange = 50;
+                    ExplodeRange2 = .5f;
+                    ActiveTime = Game.IsEditorTest ? 30000 : 4000;
+                }
+                else
+                {
+                    ExplodeRange = 0;
+                    ExplodeRange2 = 0;
+                    ActiveTime = 2000;
+                }
+            }
+        }
+
         public BlackholeProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Blackhole)
         {
             UpdateDelay = 0;
@@ -45,9 +71,12 @@ namespace BotExtended.Projectiles
                 || Instance.ProjectileItem == ProjectileItem.BOW
                 || Instance.ProjectileItem == ProjectileItem.FLAREGUN
                 || Instance.ProjectileItem == ProjectileItem.MAGNUM)
-                return true;
-
-            return false;
+            {
+                Size = BlackholeSize.Big;
+            }
+            else
+                Size = BlackholeSize.Small;
+            return true;
         }
 
         protected override void OnHover()
@@ -55,15 +84,31 @@ namespace BotExtended.Projectiles
             base.OnHover();
             Instance.FlagForRemoval();
 
+            // no blackhole too close with other blackholes
+            foreach (var hole in BlackholeLocations)
+            {
+                if (ScriptHelper.GrowFromCenter(hole, DestroyRadius * 2).Contains(HoverPosition))
+                {
+                    Destroy();
+                    return;
+                }
+            }
+            BlackholeLocations.Add(HoverPosition);
+
             var noCollisionFilter = Game.CreateObject("FarBgBlimp00").GetCollisionFilter();
 
-            Game.RunCommand("/settime .1");
-            ScriptHelper.Timeout(() => Game.RunCommand("/settime 1"), 2000);
+            if (Size == BlackholeSize.Big)
+            {
+                Game.RunCommand("/settime .1");
+                ScriptHelper.Timeout(() => Game.RunCommand("/settime 1"), 2000);
+            }
 
             m_blackhole = Game.CreateObject("Shadow00A");
             m_blackhole.SetBodyType(BodyType.Dynamic);
             m_blackhole.SetCollisionFilter(noCollisionFilter);
             m_blackhole.SetWorldPosition(HoverPosition);
+
+            ScriptHelper.RunIn(() => Game.DrawCircle(HoverPosition, .5f, Color.Green), 10000);
 
             for (var i = 1; i < 40; i++)
             {
@@ -82,7 +127,7 @@ namespace BotExtended.Projectiles
             m_revoluteJoint = (IObjectRevoluteJoint)Game.CreateObject("RevoluteJoint");
             m_revoluteJoint.SetWorldPosition(HoverPosition);
             m_revoluteJoint.SetTargetObjectA(m_blackhole);
-            m_revoluteJoint.SetMotorEnabled(true);
+            //m_revoluteJoint.SetMotorEnabled(true);
             m_revoluteJoint.SetMotorSpeed(3000);
             m_revoluteJoint.SetMaxMotorTorque(50000);
 
@@ -115,66 +160,106 @@ namespace BotExtended.Projectiles
         protected override void UpdateHovering(float elapsed)
         {
             base.UpdateHovering(elapsed);
+            DrawDebugging();
 
             if (ScriptHelper.IsElapsed(m_activeTime, ActiveTime))
             {
                 Destroy(); return;
             }
 
-            if (ScriptHelper.IsElapsed(m_updateDelay, 30))
+            if (ScriptHelper.IsElapsed(m_updateDelay, 30) && Size == BlackholeSize.Big)
             {
                 m_updateDelay = Game.TotalElapsedGameTime;
-
-                var filterArea = ScriptHelper.GrowFromCenter(HoverPosition, SuckRadius * 2);
-                var objectsInRadius = Game.GetObjectsByArea(filterArea, PhysicsLayer.Active)
-                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, SuckRadius));
-
-                Game.DrawCircle(HoverPosition, SuckRadius, Color.Cyan);
-                Game.DrawCircle(HoverPosition, PullRadius, Color.Red);
-                Game.DrawCircle(HoverPosition, EventHorizon, Color.Red);
-                Game.DrawCircle(HoverPosition, DestroyRadius, Color.Red);
-                Game.DrawArea(m_blackhole.GetAABB(), Color.Red);
-                Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
-
-                foreach (var o in objectsInRadius)
-                {
-                    if (!m_pulledObjects.ContainsKey(o.UniqueID) && (ScriptHelper.IsDynamicObject(o) || ScriptHelper.IsPlayer(o)))
-                    {
-                        Pull(o);
-                    }
-                }
-
-                var destroyArea = ScriptHelper.GrowFromCenter(HoverPosition, DestroyRadius * 2);
-                objectsInRadius = Game.GetObjectsByArea(filterArea, PhysicsLayer.Active)
-                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, DestroyRadius));
-
-                foreach (var o in objectsInRadius)
-                {
-                    if (m_pulledObjects.ContainsKey(o.UniqueID))
-                    {
-                        o.SetHealth(o.GetHealth() - 1f);
-                        if (o.GetHealth() == 0) o.Destroy();
-                    }
-                }
+                UpdateObjectsStatus();
             }
 
             if (ScriptHelper.IsElapsed(m_update2Delay, 15))
             {
                 m_update2Delay = Game.TotalElapsedGameTime;
-                var projectiles = Game.GetProjectiles()
-                    .Where(p => ScriptHelper.IntersectCircle(p.Position, HoverPosition, SuckRadius));
-                foreach (var projectile in projectiles)
+                UpdateEntities();
+            }
+
+            if (Size == BlackholeSize.Big)
+                UpdatePulledObjects();
+        }
+
+        private void UpdateEntities()
+        {
+            var projectiles = Game.GetProjectiles()
+                .Where(p => ScriptHelper.IntersectCircle(p.Position, HoverPosition, SuckRadius));
+            foreach (var projectile in projectiles)
+            {
+                if (ScriptHelper.IntersectCircle(projectile.Position, HoverPosition, 10))
                 {
-                    if (ScriptHelper.IntersectCircle(projectile.Position, HoverPosition, 5))
+                    projectile.FlagForRemoval();
+                    continue;
+                }
+                var pf = Vector2.Normalize(HoverPosition - projectile.Position) * GetPullForce(projectile.Position);
+                projectile.Direction = projectile.Direction + pf;
+            }
+
+            if (Size == BlackholeSize.Small) return;
+
+            var filterArea = ScriptHelper.GrowFromCenter(HoverPosition, SuckRadius * 2);
+            var fireNodes = Game.GetFireNodes(filterArea)
+                .Where(p => ScriptHelper.IntersectCircle(p.Position, HoverPosition, SuckRadius));
+            foreach (var fireNode in fireNodes)
+            {
+                if (fireNode.AttachedToObjectID != 0 && Game.GetObject(fireNode.AttachedToObjectID).Name == "ItemDebrisFlamethrower01")
+                    continue;
+
+                // cannot move fireNode, create object with fireNode and move it instead
+                var position = fireNode.Position;
+                var objectIgnited = Game.CreateObject("ItemDebrisFlamethrower01", position);
+
+                objectIgnited.SetLinearVelocity(fireNode.Velocity);
+                objectIgnited.SetMaxFire();
+
+                Game.EndFireNode(fireNode.InstanceID);
+            }
+        }
+
+        private void UpdateObjectsStatus()
+        {
+            var filterArea = ScriptHelper.GrowFromCenter(HoverPosition, SuckRadius * 2);
+            var objectsInArea = Game.GetObjectsByArea(filterArea, PhysicsLayer.Active)
+                .Where(o => (ScriptHelper.IsDynamicObject(o) || ScriptHelper.IsPlayer(o)));
+
+            if (m_pulledObjects.Count < 10) // lag :(
+            {
+                var objectInSuckRadius = objectsInArea
+                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, SuckRadius));
+                foreach (var o in objectInSuckRadius)
+                {
+                    if (!m_pulledObjects.ContainsKey(o.UniqueID))
                     {
-                        projectile.FlagForRemoval();
-                        continue;
+                        Pull(o);
                     }
-                    var pf = Vector2.Normalize(HoverPosition - projectile.Position) * GetPullForce(projectile.Position);
-                    projectile.Direction = projectile.Direction + pf;
                 }
             }
 
+            var objectsInDestroyedRadius = objectsInArea
+                .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, DestroyRadius));
+
+            foreach (var o in objectsInDestroyedRadius)
+            {
+                if (m_pulledObjects.ContainsKey(o.UniqueID))
+                {
+                    var smallObject = o.GetAABB().Width * o.GetAABB().Height <= 100;
+                    var player = ScriptHelper.CastPlayer(o);
+
+                    // TODO: gurt fix please?
+                    if (player != null) player.DealDamage(1f);
+                    else o.SetHealth(o.GetHealth() - 1f);
+
+                    if (smallObject || o.GetHealth() == 0)
+                        o.Destroy();
+                }
+            }
+        }
+
+        private void UpdatePulledObjects()
+        {
             var removeList = new List<int>();
             foreach (var kv in m_pulledObjects)
             {
@@ -240,6 +325,20 @@ namespace BotExtended.Projectiles
             foreach (var i in removeList) m_pulledObjects.Remove(i);
         }
 
+        private void DrawDebugging()
+        {
+            if (Game.IsEditorTest)
+            {
+                Game.DrawCircle(HoverPosition, SuckRadius, Color.Cyan);
+                Game.DrawCircle(HoverPosition, PullRadius, Color.Red);
+                Game.DrawCircle(HoverPosition, EventHorizon, Color.Red);
+                Game.DrawCircle(HoverPosition, DestroyRadius, Color.Red);
+                Game.DrawArea(m_blackhole.GetAABB(), Color.Blue);
+                Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
+                foreach (var o in m_pulledObjects.Values) Game.DrawArea(o.Object.GetAABB(), Color.Yellow);
+            }
+        }
+
         private float GetPullForce(Vector2 position)
         {
             return .05f * 1 / (float)Math.Pow(Vector2.Distance(position, HoverPosition) / SuckRadius, 1.5);
@@ -289,9 +388,11 @@ namespace BotExtended.Projectiles
         protected override void Destroy()
         {
             base.Destroy();
-            m_blackhole.Remove();
+            BlackholeLocations.Remove(HoverPosition);
+
+            if (m_blackhole != null) m_blackhole.Remove();
             foreach (var o in m_blackholes) o.Remove();
-            m_magnetJoint.Remove();
+            if (m_magnetJoint != null) m_magnetJoint.Remove();
 
             foreach (var objectInfo in m_pulledObjects.Values)
             {

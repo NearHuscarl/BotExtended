@@ -498,6 +498,20 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Reznor
+                case BotType.Reznor:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.BAZOOKA,
+                        PrimaryPowerup = RangedWeaponPowerup.Blackhole,
+                        Secondary = WeaponItem.PISTOL45,
+                        UseLazer = true,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region SurvivorBiker
                 case BotType.SurvivorBiker:
                 {
@@ -951,6 +965,42 @@ namespace BotExtended
                     {
                         Primary = WeaponItem.GRENADE_LAUNCHER,
                         Secondary = WeaponItem.PISTOL,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Spacer
+                case BotType.Spacer:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.SHOCK_BATON,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SMG,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.FLAREGUN,
+                        UseLazer = true,
+                        Throwable = WeaponItem.MINES,
                     });
                     break;
                 }

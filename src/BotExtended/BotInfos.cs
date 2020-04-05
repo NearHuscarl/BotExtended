@@ -167,6 +167,7 @@ namespace BotExtended
                 case BotType.MetroCop:
                 case BotType.Police:
                 case BotType.PoliceSWAT:
+                case BotType.Spacer:
                 {
                     botInfo.AIType = BotAI.Grunt;
                     botInfo.EquipWeaponChance = 1f;
@@ -729,6 +730,27 @@ namespace BotExtended
                         SprintSpeedModifier = Speed.VeryFast,
                         MeleeForceModifier = MeleeForce.Weak,
                         SizeModifier = Size.Tiny,
+                    };
+                    botInfo.IsBoss = true; // set IsBoss to spawn once
+                    break;
+                }
+                #endregion
+
+                #region Boss Reznor
+                case BotType.Reznor:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        CanBurn = Constants.TOGGLE_ON,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
                     };
                     botInfo.IsBoss = true; // set IsBoss to spawn once
                     break;

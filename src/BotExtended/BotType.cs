@@ -96,6 +96,8 @@
         Police,
         PoliceSWAT,
 
+        Reznor,
+
         // Tier3: Holiday Hullabaloo
         Santa,
         Sheriff,
@@ -104,6 +106,8 @@
         // Tier2: Facility Foray
         Soldier,
         Soldier2,
+
+        Spacer, // thug on space
 
         Stripper,
 

@@ -366,7 +366,9 @@ namespace BotExtended.Library
             }
             foreach (var j in Game.GetObjectsByArea<IObjectRevoluteJoint>(hitbox))
             {
-                if (j.GetTargetObjectA().UniqueID == o.UniqueID)
+                var to = j.GetTargetObjectA();
+                if (to == null) continue;
+                if (to.UniqueID == o.UniqueID)
                     j.SetTargetObjectA(null);
             }
         }

@@ -12,6 +12,8 @@ namespace BotExtended.Projectiles
     class HoveringProjectile : Projectile
     {
         protected Vector2 HoverPosition;
+        protected float ExplodeRange = 60;
+        protected float ExplodeRange2 = 10;
 
         private enum Direction
         {
@@ -98,10 +100,10 @@ namespace BotExtended.Projectiles
         {
             var headingDirection = GetHeadingDirection(ScriptHelper.GetAngle(Instance.Direction));
             var explodeRange = ScriptHelper.GrowFromCenter(Instance.Position,
-                headingDirection == Direction.Left ? 60 : 10,
-                headingDirection == Direction.Top ? 60 : 10,
-                headingDirection == Direction.Right ? 60 : 10,
-                headingDirection == Direction.Bottom ? 60 : 10);
+                headingDirection == Direction.Left ? ExplodeRange : ExplodeRange2,
+                headingDirection == Direction.Top ? ExplodeRange : ExplodeRange2,
+                headingDirection == Direction.Right ? ExplodeRange : ExplodeRange2,
+                headingDirection == Direction.Bottom ? ExplodeRange : ExplodeRange2);
             var os = Game.GetObjectsByArea(explodeRange, PhysicsLayer.Active);
 
             foreach (var o in os)

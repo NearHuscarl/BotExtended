@@ -28,7 +28,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Balista;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Boffin;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -253,6 +253,18 @@ namespace BotExtended
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Sniper, 1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Spacer
+                case BotFaction.Spacer:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Reznor),
+                        new SubFaction(BotType.Spacer, 1f),
                     });
                     break;
                 }
