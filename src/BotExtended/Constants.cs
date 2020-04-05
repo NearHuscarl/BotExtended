@@ -13,7 +13,7 @@ namespace BotExtended
         internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.7.0";
+        internal const string CURRENT_VERSION = "5.7.1";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank

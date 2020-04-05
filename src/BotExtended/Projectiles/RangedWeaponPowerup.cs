@@ -4,12 +4,13 @@
     {
         None,
         Blackhole,
+        Blast,
+        DoubleTrouble,
+        Gravity,
+        GravityDE,
         Present,
         Stun,
         Spinner,
-        Blast,
-        Gravity,
-        GravityDE,
         Tearing,
     }
 }

@@ -364,6 +364,8 @@ namespace BotExtended.Projectiles
             if (player != null)
                 ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 20, GetStaggerDirection(player));
 
+            if (o.GetBodyType() == BodyType.Static) o.SetBodyType(BodyType.Dynamic);
+
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
             var originalMass = o.GetMass();
 

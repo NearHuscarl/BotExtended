@@ -108,7 +108,6 @@
         Soldier2,
 
         Spacer, // thug on space
-
         Stripper,
 
         Teddybear,
