@@ -1,45 +1,21 @@
-﻿using BotExtended.Library;
-using System.Collections.Generic;
-using System.Linq;
-using static BotExtended.GameScript;
-
-namespace BotExtended.Factions
+﻿namespace BotExtended.Factions
 {
     public class SubFaction
     {
-        public SubFaction(List<BotType> types, float weight)
+        public SubFaction(BotType[] types, float weight = 0f)
         {
             Types = types;
             Weight = weight;
         }
 
-        public SubFaction(BotType type, float weight)
+        public SubFaction(BotType type, float weight = 0f)
         {
-            Types = new List<BotType>() { type };
+            Types = type == BotType.None ? new BotType[] { } : new BotType[] { type };
             Weight = weight;
         }
 
-        public SubFaction(BotType type)
-        {
-            Types = new List<BotType>() { type };
-            Weight = 0f;
-        }
-
-        private List<BotType> types;
-        public List<BotType> Types
-        {
-            get { return types; }
-            set
-            {
-                types = value;
-                HasBoss = GetInfo(types.First()).IsBoss;
-            }
-        }
-        public float Weight { get; set; }
-        public bool HasBoss { get; private set; }
-        public BotType GetRandomType()
-        {
-            return RandomHelper.GetItem(Types);
-        }
+        public BotType[] Types { get; private set; }
+        public float Weight { get; private set; }
+        public bool HasBoss { get { return Weight == 0; } }
     }
 }

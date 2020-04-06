@@ -7,7 +7,7 @@ namespace BotExtended
 {
     public partial class GameScript : GameScriptInterface
     {
-        private static List<BotType> CommonZombieTypes = new List<BotType>()
+        private static BotType[] CommonZombieTypes = new BotType[]
         {
             BotType.Zombie,
             BotType.ZombieAgent,
@@ -19,7 +19,7 @@ namespace BotExtended
             BotType.ZombieThug,
             BotType.ZombieWorker,
         };
-        private static List<BotType> MutatedZombieTypes = new List<BotType>()
+        private static BotType[] MutatedZombieTypes = new BotType[]
         {
             BotType.ZombieBruiser,
             BotType.ZombieChild,
@@ -29,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Thug;
+            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Teddybear;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -159,7 +159,7 @@ namespace BotExtended
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(new List<BotType>()
+                        new SubFaction(new BotType[]
                         {
                             BotType.SurvivorBiker,
                             BotType.SurvivorCrazy,
@@ -327,7 +327,7 @@ namespace BotExtended
                 #region Thug
                 case BotFaction.Thug:
                 {
-                    var thugBoss = RandomHelper.GetItem(BotType.Bobby);
+                    var thugBoss = RandomHelper.GetItem(BotType.None, BotType.Bobby);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(thugBoss),
@@ -515,7 +515,7 @@ namespace BotExtended
                     factionSet.AddFaction(new List<SubFaction>()
                     {
                         new SubFaction(BotType.Funnyman),
-                        new SubFaction(new List<BotType>()
+                        new SubFaction(new BotType[]
                         {
                             BotType.ClownBoxer,
                             BotType.ClownCowboy,

@@ -16,6 +16,7 @@ namespace BotExtended
     {
         private static Dictionary<PlayerTeam, BotFaction> CurrentBotFaction = new Dictionary<PlayerTeam, BotFaction>();
         public static int CurrentFactionSetIndex { get; private set; }
+        public static Faction CurrentFaction { get; private set; }
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
         // Player corpses waiting to be transformed into zombies
@@ -129,13 +130,12 @@ namespace BotExtended
         {
             var factionSet = GetFactionSet(botFaction);
             var rndFactionIndex = RandomHelper.Rnd.Next(factionSet.Factions.Count);
-            var faction = factionSet.Factions[rndFactionIndex];
-
+            CurrentFaction = factionSet.Factions[rndFactionIndex];
             CurrentFactionSetIndex = rndFactionIndex;
 
             var bots = botCount == 0
-                ? faction.Spawn(team)
-                : faction.Spawn(botCount, team);
+                ? CurrentFaction.Spawn(team)
+                : CurrentFaction.Spawn(botCount, team);
 
             foreach (var bot in bots)
             {
@@ -387,14 +387,16 @@ namespace BotExtended
 
             foreach (var player in Game.GetPlayers())
             {
-                if (!player.IsDead && player.GetTeam() == PlayerTeam.Team4)
+                if (!player.IsDead && player.GetTeam() == BotTeam)
                 {
                     factionDead = false;
                     break;
                 }
             }
 
-            var factionWinStatsKey = BotHelper.StorageKey(CurrentBotFaction[BotTeam], CurrentFactionSetIndex) + "_WIN_STATS";
+            var bosses = string.Join(".", CurrentFaction.Bosses);
+            var factionWinStatsKey = BotHelper.StorageKey(CurrentBotFaction[BotTeam], CurrentFactionSetIndex)
+                + "_" + bosses.ToUpper() + "_WIN_STATS";
             int[] factionOldWinStats;
             int winCount, totalMatch;
 

@@ -40,11 +40,13 @@ namespace BotExtended.Projectiles
                     if (r.HitObject.UniqueID == owner.UniqueID)
                     {
                         var spawnPosition = r.Position + secondProjDirection * 1f;
+                        var projectileItem = Instance.ProjectileItem;
+                        var powerup = ScriptHelper.GetPowerup(Instance);
+
                         // TODO: make a bug report and hope gurt will fix it
                         ScriptHelper.Timeout(() =>
                         {
-                            Game.SpawnProjectile(Instance.ProjectileItem, spawnPosition, secondProjDirection,
-                                ScriptHelper.GetPowerup(Instance));
+                            Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, powerup);
                         }, 0);
 
                         if (Game.IsEditorTest)

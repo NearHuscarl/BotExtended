@@ -10,28 +10,32 @@ namespace BotExtended.Factions
 {
     public class Faction
     {
-        public BotFaction BotFaction { get; set; }
-        public int Index { get; set; }
+        public BotFaction BotFaction { get; private set; }
         public List<SubFaction> SubFactions { get; private set; }
         public float TotalScore { get; private set; }
         public bool HasBoss { get; private set; }
+        public List<BotType> Bosses { get; private set; }
 
         public Faction(List<SubFaction> subFactions, BotFaction botFaction)
         {
             BotFaction = botFaction;
-            SubFactions = subFactions;
+            SubFactions = new List<SubFaction>();
             HasBoss = false;
+            Bosses = new List<BotType>();
 
             foreach (var subFaction in subFactions)
             {
-                var hasBoss = subFaction.HasBoss;
-                if (hasBoss)
+                if (subFaction.Types.Length == 0) continue;
+
+                if (subFaction.HasBoss)
                 {
                     HasBoss = true;
-                    continue;
+                    Bosses.Add(subFaction.Types.Single());
                 }
+                else
+                    TotalScore += subFaction.Weight;
 
-                TotalScore += subFaction.Weight;
+                SubFactions.Add(subFaction);
             }
         }
 
@@ -107,8 +111,7 @@ namespace BotExtended.Factions
 
                     while (factionCountRemaining > 0 && (botCountRemainingThisType > 0 || subFactionCount == SubFactions.Count))
                     {
-                        var botType = subFaction.GetRandomType();
-
+                        var botType = RandomHelper.GetItem(subFaction.Types);
                         var bot = spawnCallback(i++, botType, false);
                         if (bot != null)
                             bots.Add(bot);
@@ -119,7 +122,7 @@ namespace BotExtended.Factions
                 }
                 else
                 {
-                    var botType = subFaction.GetRandomType();
+                    var botType = RandomHelper.GetItem(subFaction.Types);
                     var bot = spawnCallback(i++, botType, true);
                     if (bot != null)
                         bots.Add(bot);
