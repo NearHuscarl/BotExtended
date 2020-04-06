@@ -401,6 +401,26 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Bobby
+                case BotType.Bobby:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        SizeModifier = Size.AboveNormal,
+                        ProjectileDamageDealtModifier = DamageDealt.FairlyHigh,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Boffin
                 case BotType.Boffin:
                 {

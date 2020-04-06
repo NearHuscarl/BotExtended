@@ -441,6 +441,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Bobby
+                case BotType.Bobby:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Bobby",
+                        Accesory = new IProfileClothingItem("DogTag", "ClothingLightGray", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("VestBlack", "ClothingDarkBlue", "ClothingDarkBlue", ""),
+                        ChestUnder = null,
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("BucketHat", "ClothingDarkGray", "ClothingLightYellow", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingLightBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Warpaint", "Skin2", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingDarkGray", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bodyguard
                 case BotType.Bodyguard:
                 case BotType.Bodyguard2:

@@ -1,6 +1,7 @@
 ﻿using SFDGameScriptInterface;
 using BotExtended.Factions;
 using System.Collections.Generic;
+using BotExtended.Library;
 
 namespace BotExtended
 {
@@ -28,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Soldier;
+            if (Game.IsEditorTest) botFaction = BotFaction.Thug;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -326,17 +327,21 @@ namespace BotExtended
                 #region Thug
                 case BotFaction.Thug:
                 {
+                    var thugBoss = RandomHelper.GetItem(BotType.Bobby);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(thugBoss),
                         new SubFaction(BotType.Thug, 1f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(thugBoss),
                         new SubFaction(BotType.Thug, 0.5f),
                         new SubFaction(BotType.Biker, 0.5f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(thugBoss),
                         new SubFaction(BotType.Thug, 0.6f),
                         new SubFaction(BotType.ThugHulk, 0.4f),
                     });

@@ -71,6 +71,7 @@
     <Compile Include="Projectiles\BlackholeProjectile.cs" />
     <Compile Include="Projectiles\BlastBullet.cs" />
     <Compile Include="Projectiles\CustomProjectile.cs" />
+    <Compile Include="Projectiles\DoubleTroubleProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
     <Compile Include="Projectiles\HoveringProjectile.cs" />
     <Compile Include="Projectiles\Projectile.cs" />

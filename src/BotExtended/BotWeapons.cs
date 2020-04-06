@@ -150,6 +150,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Bobby
+                case BotType.Bobby:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.DoubleTrouble,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.DoubleTrouble,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bodyguard
                 case BotType.Bodyguard:
                 {
@@ -193,6 +212,12 @@ namespace BotExtended
                         Melee = WeaponItem.SHOCK_BATON,
                         Secondary = WeaponItem.PISTOL,
                         SecondaryPowerup = RangedWeaponPowerup.Stun,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.SHOCK_BATON,
+                        Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.Stun,
                     });
                     break;
                 }
@@ -493,20 +518,6 @@ namespace BotExtended
                     {
                         Secondary = WeaponItem.PISTOL,
                         Powerup = WeaponItem.STRENGTHBOOST,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region Reznor
-                case BotType.Reznor:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Primary = WeaponItem.BAZOOKA,
-                        PrimaryPowerup = RangedWeaponPowerup.Blackhole,
-                        Secondary = WeaponItem.PISTOL45,
-                        UseLazer = true,
                     });
                     break;
                 }
@@ -869,6 +880,28 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Reznor
+                case BotType.Reznor:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.BAZOOKA,
+                        PrimaryPowerup = RangedWeaponPowerup.Blackhole,
+                        Secondary = WeaponItem.PISTOL45,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.GRENADES,
+                        PrimaryPowerup = RangedWeaponPowerup.Blackhole,
+                        Secondary = WeaponItem.PISTOL45,
+                        SecondaryPowerup = RangedWeaponPowerup.Blackhole,
+                        UseLazer = true,
                     });
                     break;
                 }

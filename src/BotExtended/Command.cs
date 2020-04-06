@@ -358,7 +358,7 @@ namespace BotExtended
 
             // Dont use the string name in case it just an index
             var bot = count > 1 ? " bots" : " bot";
-            ScriptHelper.PrintMessage("Spawned " + count + " " + SharpHelper.EnumToString(botType) + bot + " as " + team);
+            ScriptHelper.PrintMessage("Spawned " + count + " " + SharpHelper.EnumToString(botType) + bot + " to " + team);
         }
 
         private static void SetBotCount(IEnumerable<string> arguments)
