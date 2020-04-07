@@ -2463,6 +2463,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Raze
+                case BotType.Raze:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Raze",
+                        Accesory = new IProfileClothingItem("SunGlasses", "ClothingDarkGray", "ClothingLightBlue", ""),
+                        ChestOver = new IProfileClothingItem("OfficerJacket_fem", "ClothingDarkGray", "ClothingYellow", ""),
+                        ChestUnder = new IProfileClothingItem("PoliceShirt_fem", "ClothingGray", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("BootsBlack", "ClothingDarkOrange", "ClothingLightGray", ""),
+                        Gender = Gender.Female,
+                        Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingGray", "ClothingLightGray", ""),
+                        Head = new IProfileClothingItem("Cap", "ClothingGray", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants_fem", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingLightBlue", ""),
+                        Waist = new IProfileClothingItem("Belt_fem", "ClothingGray", "ClothingYellow", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Reznor
                 case BotType.Reznor:
                 {

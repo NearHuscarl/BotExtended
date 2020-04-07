@@ -29,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Teddybear;
+            if (Game.IsEditorTest) botFaction = BotFaction.PoliceSWAT;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -218,8 +218,10 @@ namespace BotExtended
                 #region PoliceSWAT
                 case BotFaction.PoliceSWAT:
                 {
+                    var boss = RandomHelper.GetItem(BotType.None, BotType.Raze);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(boss),
                         new SubFaction(BotType.PoliceSWAT, 1f),
                     });
                     break;
@@ -327,21 +329,21 @@ namespace BotExtended
                 #region Thug
                 case BotFaction.Thug:
                 {
-                    var thugBoss = RandomHelper.GetItem(BotType.None, BotType.Bobby);
+                    var boss = RandomHelper.GetItem(BotType.None, BotType.Bobby);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(thugBoss),
+                        new SubFaction(boss),
                         new SubFaction(BotType.Thug, 1f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(thugBoss),
+                        new SubFaction(boss),
                         new SubFaction(BotType.Thug, 0.5f),
                         new SubFaction(BotType.Biker, 0.5f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(thugBoss),
+                        new SubFaction(boss),
                         new SubFaction(BotType.Thug, 0.6f),
                         new SubFaction(BotType.ThugHulk, 0.4f),
                     });

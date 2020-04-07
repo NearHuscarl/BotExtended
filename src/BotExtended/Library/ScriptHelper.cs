@@ -346,6 +346,17 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.Dynamic;
         }
 
+        public static bool IsInteractiveObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic
+                || cf.CategoryBits == CategoryBits.Player
+                || cf.CategoryBits == CategoryBits.DynamicPlatform
+                || cf.CategoryBits == CategoryBits.StaticGround;
+        }
+
         public static void Unscrew(IObject o)
         {
             var hitbox = o.GetAABB();

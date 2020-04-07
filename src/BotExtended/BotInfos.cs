@@ -756,6 +756,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Raze
+                case BotType.Raze:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Secondary | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        ExplosionDamageTakenModifier = DamageTaken.VeryResistant,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Reznor
                 case BotType.Reznor:
                 {

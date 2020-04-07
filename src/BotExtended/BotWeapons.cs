@@ -885,6 +885,21 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Raze
+                case BotType.Raze:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.StickyBomb,
+                        Secondary = WeaponItem.PISTOL45,
+                        Throwable = WeaponItem.C4,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Reznor
                 case BotType.Reznor:
                 {

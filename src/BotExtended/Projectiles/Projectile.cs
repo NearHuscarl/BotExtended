@@ -4,9 +4,13 @@ namespace BotExtended.Projectiles
 {
     class Projectile : ProjectileBase
     {
-        public IProjectile Instance { get; private set; }
+        public readonly IProjectile Instance;
         public override int ID { get { return Instance.InstanceID; } }
-        public override bool IsRemoved { get { return Instance == null ? true : Instance.IsRemoved; } }
+        public override bool IsRemoved
+        {
+            get { return Instance.IsRemoved; }
+            protected set { }
+        }
 
         public Projectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
@@ -14,7 +18,6 @@ namespace BotExtended.Projectiles
 
             if (!OnProjectileCreated())
             {
-                Instance = null;
                 Powerup = RangedWeaponPowerup.None;
             }
 

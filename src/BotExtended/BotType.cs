@@ -131,6 +131,7 @@
         Mecha,
         MirrorMan,
         Ninja,
+        Raze,
         Reznor,
         // Tier3: Holiday Hullabaloo
         Santa,

@@ -78,24 +78,8 @@ namespace BotExtended.Projectiles
                 case ProjectileItem.GRENADE_LAUNCHER:
                     return null;
                 default:
-                    return ToPresentBullet(projectile);
+                    return CreateCustomProjectile(projectile, "XmasPresent00");
             }
-        }
-
-        private static IObject ToPresentBullet(IProjectile projectile)
-        {
-            var customBullet = Game.CreateObject("XmasPresent00",
-                worldPosition: projectile.Position + projectile.Direction * 3,
-                angle: (float)Math.Atan2(projectile.Direction.X, projectile.Direction.Y),
-                linearVelocity: projectile.Velocity / 50 + new Vector2(0, 3),
-                angularVelocity: 50f * (int)(projectile.Direction.X % 1),
-                faceDirection: (int)(projectile.Direction.X % 1)
-                );
-
-            customBullet.TrackAsMissile(true);
-            projectile.FlagForRemoval();
-
-            return customBullet;
         }
 
         public override void OnProjectileHit()

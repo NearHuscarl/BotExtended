@@ -11,6 +11,7 @@
         Present,
         Stun,
         Spinner,
+        StickyBomb,
         Tearing,
     }
 }

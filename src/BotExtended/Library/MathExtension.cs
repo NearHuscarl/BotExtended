@@ -33,6 +33,11 @@ namespace BotExtended.Library
             return result < 0 ? result + MathHelper.TwoPI : result;
         }
 
+        public static float Diff(float a, float b)
+        {
+            return Math.Abs(Math.Abs(a) - Math.Abs(b));
+        }
+
         public static float FlipAngleX(float angle)
         {
             angle = NormalizeAngle(angle);

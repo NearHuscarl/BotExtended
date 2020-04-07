@@ -83,6 +83,7 @@
     <Compile Include="Projectiles\MeleeWpn.cs" />
     <Compile Include="Projectiles\PlayerWeapon.cs" />
     <Compile Include="Projectiles\SpinnerBullet.cs" />
+    <Compile Include="Projectiles\StickyBombProjectile.cs" />
     <Compile Include="Projectiles\StunBullet.cs" />
     <Compile Include="Projectiles\TearingBullet.cs" />
     <Compile Include="Projectiles\ThrowWpn.cs" />

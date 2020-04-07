@@ -8,7 +8,7 @@ namespace BotExtended.Projectiles
     {
         public abstract int ID { get; }
         public int OwnerID { get; private set; }
-        public abstract bool IsRemoved { get; }
+        public abstract bool IsRemoved { get; protected set; }
         public RangedWeaponPowerup Powerup { get; protected set; }
         public bool IsCustomProjectile { get; protected set; }
         protected float UpdateDelay { get; set; }
