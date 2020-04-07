@@ -6,7 +6,7 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
-    public class MechaBot : Bot
+    public class MechaBot : RobotBot
     {
         private static readonly List<string> DebrisList = new List<string> {
             "MetalDebris00A",
@@ -31,7 +31,6 @@ namespace BotExtended.Bots
             PreparingSupercharge,
             Supercharging,
             DealthKneeling,
-            Dead,
         }
 
         private MechaState m_state;
@@ -61,10 +60,8 @@ namespace BotExtended.Bots
             behavior.RangedWeaponUsage = false;
 
             Player.SetBotBehaviorSet(behavior);
-            Player.SetHitEffect(PlayerHitEffect.Metal);
         }
 
-        private float m_electricElapsed = 0f;
         protected override void OnUpdate(float elapsed)
         {
             if (Player == null || Player.IsRemoved) return;
@@ -79,16 +76,8 @@ namespace BotExtended.Bots
             switch (m_state)
             {
                 case MechaState.Normal:
-                {
-                    var mod = Player.GetModifiers();
-                    var healthLeft = mod.CurrentHealth / mod.MaxHealth;
-
-                    if (healthLeft <= 0.4f)
-                        UpdateNearDeathEffects(elapsed, healthLeft);
-
                     UpdateSuperChargeEnergy(elapsed);
                     break;
-                }
                 case MechaState.PreparingSupercharge:
                     UpdatePrepareSuperCharge(elapsed);
                     break;
@@ -97,9 +86,6 @@ namespace BotExtended.Bots
                     break;
                 case MechaState.DealthKneeling:
                     UpdateDealthKneeling(elapsed);
-                    break;
-                case MechaState.Dead:
-                    UpdateCorpse(elapsed);
                     break;
             }
         }
@@ -272,81 +258,6 @@ namespace BotExtended.Bots
             m_state = MechaState.Normal;
         }
 
-        private void UpdateCorpse(float elapsed)
-        {
-            if (!Player.IsDead) return; // Safeguard
-            m_electricElapsed += elapsed;
-
-            if (m_electricElapsed >= 1000)
-            {
-                if (RandomHelper.Boolean())
-                {
-                    var position = Player.GetWorldPosition();
-                    position.X += RandomHelper.Between(-10, 10);
-                    position.Y += RandomHelper.Between(-10, 10);
-
-                    Game.PlayEffect(EffectName.Electric, position);
-
-                    if (RandomHelper.Boolean())
-                    {
-                        Game.PlayEffect(EffectName.Steam, position);
-                        Game.PlayEffect(EffectName.Steam, position);
-                        Game.PlayEffect(EffectName.Steam, position);
-                    }
-                    if (RandomHelper.Boolean())
-                        Game.PlayEffect(EffectName.Sparks, position);
-                    if (RandomHelper.Boolean())
-                        Game.PlayEffect(EffectName.Fire, position);
-
-                    Game.PlaySound("ElectricSparks", position);
-                    m_electricElapsed = 0f;
-                }
-                else
-                {
-                    m_electricElapsed -= RandomHelper.Between(0, m_electricElapsed);
-                }
-            }
-        }
-        private void UpdateNearDeathEffects(float elapsed, float healthLeft)
-        {
-            m_electricElapsed += elapsed;
-
-            if (m_electricElapsed >= 700)
-            {
-                if (RandomHelper.Boolean())
-                {
-                    var position = Player.GetWorldPosition();
-                    position.X += RandomHelper.Between(-10, 10);
-                    position.Y += RandomHelper.Between(-10, 10);
-
-                    if (healthLeft <= 0.2f)
-                    {
-                        Game.PlayEffect(EffectName.Fire, position);
-                        Game.PlaySound("Flamethrower", position);
-                    }
-                    if (healthLeft <= 0.3f)
-                    {
-                        Game.PlayEffect(EffectName.Sparks, position);
-                    }
-                    if (healthLeft <= 0.4f)
-                    {
-                        if (RandomHelper.Boolean())
-                        {
-                            Game.PlayEffect(EffectName.Steam, position);
-                            Game.PlayEffect(EffectName.Steam, position);
-                        }
-                        Game.PlayEffect(EffectName.Electric, position);
-                        Game.PlaySound("ElectricSparks", position);
-                    }
-                    m_electricElapsed = 0f;
-                }
-                else
-                {
-                    m_electricElapsed -= RandomHelper.Between(0, m_electricElapsed);
-                }
-            }
-        }
-
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             base.OnDamage(attacker, args);
@@ -440,9 +351,7 @@ namespace BotExtended.Bots
 
                 for (var i = 0; i < count; i++)
                 {
-                    var position = Player.GetWorldPosition();
-                    position.X += RandomHelper.Between(-10, 10);
-                    position.Y += RandomHelper.Between(-10, 10);
+                    var position = RandomHelper.WithinArea(Player.GetAABB());
                     Game.PlayEffect(effectName, position);
                 }
             }
@@ -496,7 +405,6 @@ namespace BotExtended.Bots
             Player.AddCommand(new PlayerCommand(PlayerCommandType.StopDeathKneel));
             Player.SetBotBehaviorActive(true);
             Player.Kill();
-            m_state = MechaState.Dead;
         }
 
         private float m_kneelingTime = 0f;

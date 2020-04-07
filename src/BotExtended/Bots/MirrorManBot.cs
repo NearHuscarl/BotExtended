@@ -44,10 +44,7 @@ namespace BotExtended.Bots
                 {
                     if (RandomHelper.Boolean())
                     {
-                        var position = Player.GetWorldPosition();
-                        position.X += RandomHelper.Between(-10, 10);
-                        position.Y += RandomHelper.Between(-10, 10);
-                        Game.PlayEffect(EffectName.ItemGleam, position);
+                        Game.PlayEffect(EffectName.ItemGleam, RandomHelper.WithinArea(Player.GetAABB()));
                         m_effectTimes[i] = 0;
                     }
                     else

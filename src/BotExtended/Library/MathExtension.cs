@@ -37,6 +37,23 @@ namespace BotExtended.Library
         {
             return Math.Abs(Math.Abs(a) - Math.Abs(b));
         }
+        public static float DiffAngle(float a, float b)
+        {
+            a = NormalizeAngle(a);
+            b = NormalizeAngle(b);
+
+            var da = a - b;
+            var db = a - b + MathHelper.PI * 2;
+            var dc = a - b - MathHelper.PI * 2;
+
+            var r = da;
+            if (Math.Abs(r) > Math.Abs(db))
+                r = db;
+            if (Math.Abs(r) > Math.Abs(dc))
+                r = dc;
+
+            return r;
+        }
 
         public static float FlipAngleX(float angle)
         {

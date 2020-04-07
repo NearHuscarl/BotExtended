@@ -44,6 +44,10 @@ namespace BotExtended.Bots
                     bot = new CowboyBot(args);
                     break;
 
+                case BotType.Cyborg:
+                    bot = new CyborgBot(args);
+                    break;
+
                 case BotType.Sheriff:
                     bot = new SheriffBot(args);
                     break;

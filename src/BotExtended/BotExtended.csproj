@@ -53,6 +53,7 @@
     <Compile Include="Bots\Bot_GravityGunAI.cs" />
     <Compile Include="Bots\CindyBot.cs" />
     <Compile Include="Bots\CowboyBot.cs" />
+    <Compile Include="Bots\CyborgBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Bots\EngineerBot_Controller.cs" />
     <Compile Include="Bots\FunnymanBot.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\DoubleTroubleProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
+    <Compile Include="Projectiles\GuidedProjectile.cs" />
     <Compile Include="Projectiles\HoveringProjectile.cs" />
     <Compile Include="Projectiles\Projectile.cs" />
     <Compile Include="Projectiles\ProjectileBase.cs" />

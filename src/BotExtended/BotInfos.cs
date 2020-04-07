@@ -160,6 +160,7 @@ namespace BotExtended
                 case BotType.Bodyguard2:
                 case BotType.ClownBodyguard:
                 case BotType.ClownGangster:
+                case BotType.Cyborg:
                 case BotType.Elf:
                 case BotType.Engineer:
                 case BotType.Gangster:
@@ -182,6 +183,8 @@ namespace BotExtended
 
                     if (botType == BotType.Engineer)
                         botInfo.Modifiers.SizeModifier = Size.Normal;
+                    if (botType == BotType.Cyborg)
+                        botInfo.ImmuneToInfect = true;
                     break;
                 }
                 #endregion

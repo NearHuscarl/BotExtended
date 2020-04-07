@@ -29,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.PoliceSWAT;
+            if (Game.IsEditorTest) botFaction = BotFaction.Robot;
             var factionSet = new FactionSet(botFaction);
 
             switch (botFaction)
@@ -245,6 +245,17 @@ namespace BotExtended
                     {
                         new SubFaction(BotType.Punk, 0.6f),
                         new SubFaction(BotType.PunkHulk, 0.4f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Robot
+                case BotFaction.Robot:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Cyborg, 1f),
                     });
                     break;
                 }

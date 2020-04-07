@@ -299,6 +299,34 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Cyborg
+                case BotType.Cyborg:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Homing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Homing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL45,
+                        SecondaryPowerup = RangedWeaponPowerup.Homing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.DARK_SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Homing,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Demolitionist
                 case BotType.Demolitionist:
                 {

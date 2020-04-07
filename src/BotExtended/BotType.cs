@@ -23,6 +23,7 @@
         // Tier1: The Teahouse Job, Rooftop Retribution
         Bodyguard,
         Bodyguard2, // heavy bodyguard
+        Cyborg, // grunt robot
 
         LabAssistant,
         Scientist,

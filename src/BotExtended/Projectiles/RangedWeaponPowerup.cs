@@ -6,6 +6,7 @@
         Blackhole,
         Blast,
         DoubleTrouble,
+        Homing,
         Gravity,
         GravityDE,
         Present,

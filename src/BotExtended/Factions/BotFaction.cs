@@ -15,6 +15,7 @@
         MetroCop,
         Police,
         PoliceSWAT,
+        Robot,
         Sniper,
         Soldier,
         Spacer,
