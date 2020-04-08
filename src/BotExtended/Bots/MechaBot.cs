@@ -48,9 +48,9 @@ namespace BotExtended.Bots
             }
         }
 
-        public override void OnSpawn(IEnumerable<Bot> others)
+        public override void OnSpawn()
         {
-            base.OnSpawn(others);
+            base.OnSpawn();
 
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;

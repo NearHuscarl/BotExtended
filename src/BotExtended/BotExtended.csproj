@@ -61,6 +61,7 @@
     <Compile Include="Bots\Controller.cs" />
     <Compile Include="Bots\KingpinBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
+    <Compile Include="Bots\RobotBot.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
     <Compile Include="Bots\StripperBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Projectiles\BlastBullet.cs" />
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\DoubleTroubleProjectile.cs" />
+    <Compile Include="Projectiles\FatigueProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
     <Compile Include="Projectiles\GuidedProjectile.cs" />
     <Compile Include="Projectiles\HoveringProjectile.cs" />

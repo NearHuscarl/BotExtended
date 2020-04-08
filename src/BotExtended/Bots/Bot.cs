@@ -18,6 +18,7 @@ namespace BotExtended.Bots
         {
             get { return new Color(128, 32, 32); }
         }
+        public BotBehaviorSet BotBehaviorSet { get; private set; }
         public IPlayer Player { get; set; }
         public BotType Type { get; set; }
         public BotFaction Faction { get; set; }
@@ -36,6 +37,8 @@ namespace BotExtended.Bots
             m_botGravityGunAI = new Bot_GravityGunAI(this);
             Player = player;
             InfectTeam = player != null ? player.GetTeam() : BotManager.BotTeam;
+            UpdateDelay = 0;
+            BotBehaviorSet = player != null ? player.GetBotBehaviorSet() : null;
         }
         public Bot(IPlayer player, BotType type, BotFaction faction) : this(player)
         {
@@ -299,10 +302,7 @@ namespace BotExtended.Bots
             }
         }
 
-        public virtual void OnSpawn(IEnumerable<Bot> bots)
-        {
-            SaySpawnLine();
-        }
+        public virtual void OnSpawn() { SaySpawnLine(); }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
@@ -335,10 +335,7 @@ namespace BotExtended.Bots
         }
         public virtual void OnDeath(PlayerDeathArgs args)
         {
-            if (args.Killed)
-            {
-                SayDeathLine();
-            }
+            if (args.Killed) SayDeathLine();
         }
 
         public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos) { }
@@ -415,11 +412,20 @@ namespace BotExtended.Bots
         }
 
         // set modifiers without changing current health and energy
-        public void SetModifiers(PlayerModifiers modifiers)
+        public void SetModifiers(PlayerModifiers modifiers, bool permanent = false)
         {
             modifiers.CurrentHealth = Player.GetHealth();
             modifiers.CurrentEnergy = Player.GetEnergy();
             Player.SetModifiers(modifiers);
+            if (permanent) Info.Modifiers = modifiers;
         }
+        public void ResetModifiers() { SetModifiers(Info.Modifiers); }
+
+        public void SetBotBehaviorSet(BotBehaviorSet botBehaviorSet, bool permanent = false)
+        {
+            Player.SetBotBehaviorSet(botBehaviorSet);
+            if (permanent) BotBehaviorSet = botBehaviorSet;
+        }
+        public void ResetBotBehaviorSet() { Player.SetBotBehaviorSet(BotBehaviorSet); }
     }
 }

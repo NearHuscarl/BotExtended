@@ -7,11 +7,7 @@ namespace BotExtended.Library
     public static class RandomHelper
     {
         public static Random Rnd { get; set; }
-
-        static RandomHelper()
-        {
-            Rnd = new Random();
-        }
+        static RandomHelper() { Rnd = new Random(); }
 
         public static bool Boolean()
         {

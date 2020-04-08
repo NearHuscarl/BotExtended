@@ -10,6 +10,8 @@ namespace BotExtended.Bots
 {
     public class TeddybearBot : Bot
     {
+        public const int EnrageTime = 30000;
+
         public bool IsEnraged { get; private set; }
         private static readonly List<string> PlayerEnrageReactions = new List<string>()
         {
@@ -20,32 +22,26 @@ namespace BotExtended.Bots
             "It's not my fault",
         };
 
-        public TeddybearBot(BotArgs args) : base(args) { }
+        public TeddybearBot(BotArgs args) : base(args) { IsEnraged = false; }
 
-        public override void OnSpawn(IEnumerable<Bot> others)
-        {
-            base.OnSpawn(others);
-
-            IsEnraged = false;
-
-            if (others.Count() >= 1) // has cults
-                Player.SetBotName("Mommy Bear");
-        }
-
-        private float m_startEnrageTime = 0f;
+        private float m_enrageTimeElasped = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
+
+            if (Game.IsEditorTest)
+                LogDebug(m_enrageTimeElasped, m_enrageTime,
+                    Player.GetModifiers().RunSpeedModifier, Player.GetBotBehaviorSet().SearchItems);
 
             if (IsEnraged)
             {
                 ChaseOffender();
 
-                m_startEnrageTime += elapsed;
-                if (m_startEnrageTime >= m_enrageTime)
+                m_enrageTimeElasped += elapsed;
+                if (m_enrageTimeElasped >= m_enrageTime)
                 {
                     StopEnraging();
-                    m_startEnrageTime = 0f;
+                    m_enrageTimeElasped = 0f;
                 }
             }
         }
@@ -74,31 +70,33 @@ namespace BotExtended.Bots
                 var behavior = Player.GetBotBehaviorSet();
                 behavior.GuardRange = 1f;
                 behavior.ChaseRange = 1f;
-                Player.SetBotBehaviorSet(behavior);
+                SetBotBehaviorSet(behavior);
                 Player.SetGuardTarget(m_offender);
                 oldDistance = distanceToTarget;
             }
         }
 
-        private PlayerModifiers m_normalModifiers;
-        private BotBehaviorSet m_normalBehaviorSet;
         private int m_enrageTime = 0;
         private IPlayer m_offender;
-        public void Enrage(IPlayer offender, int enrageTime)
+        public void Enrage(IPlayer offender)
         {
             if (Player.IsRemoved || Player == null) return;
+
             var hasAlreadyEnraged = IsEnraged;
+            m_enrageTime = EnrageTime;
+            m_enrageTimeElasped = 0;
 
             if (hasAlreadyEnraged)
+            {
+                m_enrageTime *= 2;
                 Game.CreateDialogue("GRRRRRRRROOAAR!", ScriptHelper.Red, Player);
+            }
             else
                 Game.CreateDialogue("GRRRRRR", ScriptHelper.Orange, Player);
             Player.SetGuardTarget(offender);
 
             Game.CreateDialogue(RandomHelper.GetItem(PlayerEnrageReactions), offender);
-
-            if (!hasAlreadyEnraged)
-                m_normalModifiers = Player.GetModifiers();
+            
             var enrageModifiers = Player.GetModifiers();
             enrageModifiers.MeleeStunImmunity = Constants.TOGGLE_ON;
             enrageModifiers.RunSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;
@@ -107,26 +105,24 @@ namespace BotExtended.Bots
             enrageModifiers.EnergyConsumptionModifier = .25f;
             SetModifiers(enrageModifiers);
 
-            m_normalBehaviorSet = Player.GetBotBehaviorSet();
             var bs = GetBehaviorSet(BotAI.RagingHulk);
             bs.SearchItems = hasAlreadyEnraged ? SearchItems.Melee | SearchItems.Makeshift : SearchItems.Makeshift;
-            Player.SetBotBehaviorSet(bs);
-
-            Player.SetStrengthBoostTime(enrageTime);
+            SetBotBehaviorSet(bs);
+            Player.SetStrengthBoostTime(float.MaxValue);
 
             IsEnraged = true;
-            m_enrageTime = enrageTime;
             m_offender = offender;
         }
 
         private void StopEnraging()
         {
             Player.SetGuardTarget(null);
-            SetModifiers(m_normalModifiers);
-            Player.SetBotBehaviorSet(m_normalBehaviorSet);
+            ResetModifiers();
+            ResetBotBehaviorSet();
             Player.SetStrengthBoostTime(0);
             IsEnraged = false;
             m_offender = null;
+            m_enrageTime = 0;
         }
     }
 }

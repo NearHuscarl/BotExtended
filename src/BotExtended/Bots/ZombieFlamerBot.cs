@@ -6,9 +6,9 @@ namespace BotExtended.Bots
     {
         public ZombieFlamerBot(BotArgs args) : base(args) { }
 
-        public override void OnSpawn(IEnumerable<Bot> bots)
+        public override void OnSpawn()
         {
-            base.OnSpawn(bots);
+            base.OnSpawn();
             Player.SetMaxFire();
         }
     }

@@ -279,6 +279,20 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region BabyBear
+                case BotAI.Babybear:
+                {
+                    botBehaviorSet = GetBehaviorSet(BotAI.Easy);
+                    botBehaviorSet.RangedWeaponUsage = false;
+                    botBehaviorSet.SearchForItems = false;
+                    botBehaviorSet.OffensiveClimbingLevel = 0.9f;
+                    botBehaviorSet.OffensiveSprintLevel = 0.85f;
+                    botBehaviorSet.GuardRange = 16;
+                    botBehaviorSet.ChaseRange = 16;
+                    break;
+                }
+                #endregion
+
                 #region Cowboy
                 case BotAI.Cowboy:
                 {

@@ -48,10 +48,10 @@ namespace BotExtended.Bots
                     m_occupiedBouncerIDs.Add(m_bouncer.UniqueID);
 
                     var bs = m_bouncer.GetBotBehaviorSet();
-
                     bs.GuardRange = 10f;
                     bs.ChaseRange = 11.5f;
-                    m_bouncer.SetBotBehaviorSet(bs);
+                    bot.SetBotBehaviorSet(bs, true);
+
                     m_bouncer.SetGuardTarget(Player);
                     m_bouncer.SetBotName("Bouncer");
 

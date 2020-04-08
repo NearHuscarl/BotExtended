@@ -8,10 +8,11 @@ namespace BotExtended.Bots
     {
         public IncineratorBot(BotArgs args) : base(args) { }
 
-        public override void OnSpawn(IEnumerable<Bot> bots)
+        public override void OnSpawn()
         {
-            base.OnSpawn(bots);
+            base.OnSpawn();
 
+            // TODO: move to BotBehavior
             var behavior = Player.GetBotBehaviorSet();
             behavior.SearchForItems = false;
             behavior.RangedWeaponPrecisionInterpolateTime = 0f;

@@ -15,9 +15,9 @@ namespace BotExtended.Bots
 
         public RobotBot(BotArgs args) : base(args) { }
 
-        public override void OnSpawn(IEnumerable<Bot> bots)
+        public override void OnSpawn()
         {
-            base.OnSpawn(bots);
+            base.OnSpawn();
             Player.SetHitEffect(PlayerHitEffect.Metal);
         }
 

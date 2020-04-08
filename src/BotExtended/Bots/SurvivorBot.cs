@@ -7,15 +7,15 @@ namespace BotExtended.Bots
         public SurvivorBot(BotArgs args) : base (args) { }
 
         private int m_actualMaxHealth = 100;
-        public override void OnSpawn(IEnumerable<Bot> bots)
+        public override void OnSpawn()
         {
-            base.OnSpawn(bots);
+            base.OnSpawn();
             // Fake blood on the face to make it look like the infected
             // NOTE: Don't modify modifiers in ctor. modifiers will be applied after ctor call and before OnSpawn call
             var modifiers = Player.GetModifiers();
             m_actualMaxHealth = (int)Player.GetMaxHealth();
             modifiers.MaxHealth = m_actualMaxHealth * 100;
-            SetModifiers(modifiers);
+            SetModifiers(modifiers, true);
         }
 
         protected override void OnUpdate(float elapsed)

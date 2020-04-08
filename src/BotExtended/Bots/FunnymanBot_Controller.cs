@@ -13,9 +13,6 @@ namespace BotExtended.Bots
     class FunnymanBot_Controller : Controller<FunnymanBot>
     {
         private Area SafeArea(Vector2 spawnPosition) { return ScriptHelper.GrowFromCenter(spawnPosition, 60, 30); }
-
-        private BotBehaviorSet m_oldBotBehaviorSet = null;
-        private PlayerModifiers m_oldPlayerModifiers = null;
         private IObject m_targetLocation = null;
 
         enum State
@@ -136,11 +133,6 @@ namespace BotExtended.Bots
 
             if (m_targetLocation != null)
             {
-                if (m_oldBotBehaviorSet == null)
-                    m_oldBotBehaviorSet = Player.GetBotBehaviorSet();
-                if (m_oldPlayerModifiers == null)
-                    m_oldPlayerModifiers = Player.GetModifiers();
-
                 var runningBehavior = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.FunnymanRunning);
 
                 runningBehavior.GuardRange = 1f;
@@ -154,12 +146,10 @@ namespace BotExtended.Bots
 
         private void StopFleeing()
         {
-            Player.SetBotBehaviorSet(m_oldBotBehaviorSet);
-            Actor.SetModifiers(m_oldPlayerModifiers);
+            Actor.ResetBotBehaviorSet();
+            Actor.ResetModifiers();
             Player.SetGuardTarget(null);
             m_targetLocation = null;
-            m_oldBotBehaviorSet = null;
-            m_oldPlayerModifiers = null;
             ChangeState(State.Normal);
         }
     }

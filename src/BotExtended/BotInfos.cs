@@ -744,7 +744,7 @@ namespace BotExtended
                 #region Boss Babybear
                 case BotType.Babybear:
                 {
-                    botInfo.AIType = BotAI.Easy;
+                    botInfo.AIType = BotAI.Babybear;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.VeryWeak,

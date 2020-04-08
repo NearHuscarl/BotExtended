@@ -137,13 +137,10 @@ namespace BotExtended
                 ? CurrentFaction.Spawn(team)
                 : CurrentFaction.Spawn(botCount, team);
 
-            foreach (var bot in bots)
-            {
-                TriggerOnSpawn(bot);
-            }
+            foreach (var bot in bots) TriggerOnSpawn(bot);
         }
 
-        public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(m_bots.Values); }
+        public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(); }
 
         private static void OnPlayerPickedupWeapon(IPlayer player, PlayerWeaponAddedArg arg)
         {
@@ -366,7 +363,7 @@ namespace BotExtended
             behaviorSet.SearchItems = info.SearchItems;
             behaviorSet.SearchItemRange = info.SearchRange;
 
-            player.SetBotBehaviorSet(behaviorSet);
+            bot.SetBotBehaviorSet(behaviorSet, true);
             player.SetModifiers(info.Modifiers);
             player.SetBotBehaviorActive(true);
 

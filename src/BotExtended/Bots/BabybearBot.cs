@@ -2,6 +2,7 @@
 using BotExtended.Library;
 using System.Collections.Generic;
 using static BotExtended.Library.SFD;
+using System;
 
 namespace BotExtended.Bots
 {
@@ -9,46 +10,30 @@ namespace BotExtended.Bots
     {
         private TeddybearBot m_mommy = null;
         private IPlayer m_offender;
-        public static int EnrageTime = 30; // seconds
-        public int m_enrageCount = 0;
         private static Queue<string> Names = new Queue<string>(new[] { "Timmy", "Jimmy" });
 
         public BabybearBot(BotArgs args) : base(args) { }
 
-        public override void OnSpawn(IEnumerable<Bot> others)
+        public override void OnSpawn()
         {
-            base.OnSpawn(others);
-
-            UpdateDelay = 0;
-
-            foreach (var bot in others)
-            {
-                if (bot.Type == BotType.Teddybear)
-                {
-                    m_mommy = (TeddybearBot)bot;
-                    break;
-                }
-            }
-            if (m_mommy.Player == null) return;
-
+            base.OnSpawn();
             Player.SetBotName(Names.Dequeue());
-
-            var behavior = Player.GetBotBehaviorSet();
-            behavior.RangedWeaponUsage = false;
-            behavior.SearchForItems = false;
-            behavior.OffensiveClimbingLevel = 0.9f;
-            behavior.OffensiveSprintLevel = 0.85f;
-            behavior.GuardRange = 16;
-            behavior.ChaseRange = 16;
-            Player.SetBotBehaviorSet(behavior);
-
-            Player.SetGuardTarget(m_mommy.Player);
         }
 
         private bool m_trackRocketRidingOffender = false;
+        private float m_findDelay = -2000f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
+
+            if (m_mommy == null)
+            {
+                if (ScriptHelper.IsElapsed(m_findDelay, 2000))
+                {
+                    m_findDelay = Game.TotalElapsedGameTime;
+                    FindMommy();
+                }
+            }
 
             if (Player.IsRocketRiding && !m_trackRocketRidingOffender)
             {
@@ -62,6 +47,20 @@ namespace BotExtended.Bots
             }
         }
 
+        private void FindMommy()
+        {
+            foreach (var bot in BotManager.GetBots())
+            {
+                if (bot.Type == BotType.Teddybear)
+                {
+                    m_mommy = (TeddybearBot)bot;
+                    m_mommy.Player.SetBotName("Mommy Bear");
+                    break;
+                }
+            }
+            Player.SetGuardTarget(m_mommy.Player);
+        }
+
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             base.OnDamage(attacker, args);
@@ -73,20 +72,12 @@ namespace BotExtended.Bots
             base.OnDeath(args);
 
             if (!args.Removed)
-            {
-                if (RandomHelper.Between(0, 1) <= 0.75f)
-                {
-                    Game.PlaySound("CartoonScream", Position);
-                }
-            }
+                if (RandomHelper.Percentage(.75f)) Game.PlaySound("CartoonScream", Position);
 
             if (m_offender == null)
-            {
                 m_offender = FindClosestTarget();
-            }
 
-            m_enrageCount++;
-            m_mommy.Enrage(m_offender, EnrageTime * m_enrageCount * 1000);
+            m_mommy.Enrage(m_offender);
         }
 
         private IPlayer FindClosestTarget()

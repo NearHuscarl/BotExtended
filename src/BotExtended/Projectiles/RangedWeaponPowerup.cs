@@ -6,6 +6,7 @@
         Blackhole,
         Blast,
         DoubleTrouble,
+        Fatigue,
         Homing,
         Gravity,
         GravityDE,
