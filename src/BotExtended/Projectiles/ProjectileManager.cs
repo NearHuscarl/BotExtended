@@ -351,15 +351,19 @@ namespace BotExtended.Projectiles
                 // Projectile is not fired from IPlayer, custom weapon with custom powerup is not supported
                 if (ownerID == 0) return;
 
-                var owner = Game.GetPlayer(ownerID);
-                var playerWpn = GetOrCreatePlayerWeapon(owner);
                 var proj = m_projectiles[projectile.InstanceID];
-
                 proj.OnProjectileHit(args);
 
-                var currentRangeWpn = playerWpn.CurrentRangeWeapon;
-                if (currentRangeWpn != null)
-                    playerWpn.CurrentRangeWeapon.OnProjectileHit(projectile, args);
+                // TODO: powerup is not activated if the player is dead
+                PlayerWeapon playerWpn;
+                if (m_owners.TryGetValue(ownerID, out playerWpn))
+                {
+                    var currentRangeWpn = playerWpn.CurrentRangeWeapon;
+                    if (currentRangeWpn != null)
+                    {
+                        playerWpn.CurrentRangeWeapon.OnProjectileHit(projectile, args);
+                    }
+                }
 
                 // NOTE: the reason I dont remove projectile when RemoveFlag = true is because some projectiles
                 // like Spinner have longer lifecycle than the original projectile itself

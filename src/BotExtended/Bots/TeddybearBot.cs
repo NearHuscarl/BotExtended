@@ -96,7 +96,7 @@ namespace BotExtended.Bots
             Player.SetGuardTarget(offender);
 
             Game.CreateDialogue(RandomHelper.GetItem(PlayerEnrageReactions), offender);
-            
+
             var enrageModifiers = Player.GetModifiers();
             enrageModifiers.MeleeStunImmunity = Constants.TOGGLE_ON;
             enrageModifiers.RunSpeedModifier = hasAlreadyEnraged ? Speed.ExtremelyFast : Speed.VeryFast;

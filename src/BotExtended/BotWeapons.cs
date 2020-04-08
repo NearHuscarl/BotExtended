@@ -940,7 +940,7 @@ namespace BotExtended
                     });
                     weapons.Add(new WeaponSet()
                     {
-                        Primary = WeaponItem.GRENADES,
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
                         PrimaryPowerup = RangedWeaponPowerup.Blackhole,
                         Secondary = WeaponItem.PISTOL45,
                         SecondaryPowerup = RangedWeaponPowerup.Blackhole,

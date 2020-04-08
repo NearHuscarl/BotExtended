@@ -74,10 +74,11 @@ namespace BotExtended.Bots
             if (!args.Removed)
                 if (RandomHelper.Percentage(.75f)) Game.PlaySound("CartoonScream", Position);
 
-            if (m_offender == null)
+            if (m_offender == null || m_offender.IsDead)
                 m_offender = FindClosestTarget();
 
-            m_mommy.Enrage(m_offender);
+            if (m_offender != null)
+                m_mommy.Enrage(m_offender);
         }
 
         private IPlayer FindClosestTarget()
@@ -86,7 +87,6 @@ namespace BotExtended.Bots
 
             foreach (var player in Game.GetPlayers())
             {
-                var result = ScriptHelper.IsDifferentTeam(player, Player);
                 if (player.IsDead || player.IsRemoved || !ScriptHelper.IsDifferentTeam(player, Player))
                     continue;
 

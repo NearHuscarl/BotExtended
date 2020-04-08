@@ -141,6 +141,13 @@ namespace BotExtended
             foreach (var bot in bots) TriggerOnSpawn(bot);
         }
 
+        public static void SetPlayer(Bot bot, IPlayer player)
+        {
+            var oldPlayer = bot.Player;
+            m_bots.Remove(oldPlayer.UniqueID);
+            m_bots[player.UniqueID] = bot;
+        }
+
         public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(); }
 
         private static void OnPlayerPickedupWeapon(IPlayer player, PlayerWeaponAddedArg arg)

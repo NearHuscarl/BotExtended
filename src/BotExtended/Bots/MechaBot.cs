@@ -280,23 +280,17 @@ namespace BotExtended.Bots
         {
             base.OnDeath(args);
 
-            if (Player == null) return;
+            if (Player == null || m_useDoubleBody) return;
 
-            var selfDestructed = false;
-
-            if (args.Removed)
-            {
-                SelfDestruct(); selfDestructed = true;
-            }
+            if (args.Removed) SelfDestruct();
             else
             {
-                if (RandomHelper.Boolean())
-                {
-                    SelfDestruct(); selfDestructed = true;
-                }
+                if (RandomHelper.Boolean()) SelfDestruct();
             }
-            if (!m_useDoubleBody && !selfDestructed)
+
+            if (!m_useDoubleBody && !m_destroyed)
             {
+                m_useDoubleBody = true;
                 var doubleBody = Game.CreatePlayer(Position);
 
                 Decorate(doubleBody);
@@ -309,13 +303,10 @@ namespace BotExtended.Bots
                 doubleBody.SetNametagVisible(false);
                 doubleBody.SetFaceDirection(Player.GetFaceDirection());
 
-                // reset CustomID so when call Player.Remove() it will not called OnDeath() again for the old body
-                doubleBody.CustomID = Player.CustomID;
-                Player.CustomID = "";
+                BotManager.SetPlayer(this, doubleBody);
                 Player.Remove();
                 Player = doubleBody;
 
-                m_useDoubleBody = true;
                 StartDeathKneeling();
             }
         }
@@ -336,8 +327,10 @@ namespace BotExtended.Bots
             existingPlayer.SetHitEffect(Player.GetHitEffect());
         }
 
+        private bool m_destroyed = false;
         private void SelfDestruct()
         {
+            m_destroyed = true;
             var effects = new List<Tuple<string, int>>() {
                     Tuple.Create(EffectName.BulletHitMetal, 1),
                     Tuple.Create(EffectName.Steam, 2),
@@ -355,8 +348,6 @@ namespace BotExtended.Bots
                     Game.PlayEffect(effectName, position);
                 }
             }
-
-            Game.TriggerExplosion(Position);
 
             for (var i = 0; i < 4; i++)
             {
@@ -383,6 +374,8 @@ namespace BotExtended.Bots
                         0f);
                 }
             }
+
+            Game.TriggerExplosion(Position);
         }
 
         private void StartDeathKneeling()
