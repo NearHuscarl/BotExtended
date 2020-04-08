@@ -25,7 +25,7 @@ namespace BotExtended.Projectiles
 
             if (owner.GetWeaponMuzzleInfo(out position, out direction))
             {
-                var secondProjDirection = Vector2.Negate(direction);
+                var secondProjDirection = Vector2.Negate(Instance.Direction);
                 var start = position;
                 var end = position + secondProjDirection * 20;
                 var results = Game.RayCast(end, start, new RayCastInput()

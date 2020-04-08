@@ -129,6 +129,7 @@ namespace BotExtended
         private static void SpawnRandomFaction(BotFaction botFaction, int botCount, PlayerTeam team)
         {
             var factionSet = GetFactionSet(botFaction);
+            if (factionSet.Factions.Count == 0) return;
             var rndFactionIndex = RandomHelper.Rnd.Next(factionSet.Factions.Count);
             CurrentFaction = factionSet.Factions[rndFactionIndex];
             CurrentFactionSetIndex = rndFactionIndex;
