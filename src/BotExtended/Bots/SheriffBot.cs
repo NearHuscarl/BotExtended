@@ -11,7 +11,7 @@ namespace BotExtended.Bots
         {
             base.OnDroppedWeapon(arg);
 
-            if (!Player.IsDead)
+            if (!Player.IsDead && Player.CurrentSecondaryWeapon.WeaponItem == WeaponItem.NONE)
             {
                 // Don't give primary weapon again. it's OP
                 if (arg.WeaponItemType == WeaponItemType.Rifle)
