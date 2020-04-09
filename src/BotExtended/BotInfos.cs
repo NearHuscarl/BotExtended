@@ -720,6 +720,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss PoliceChief
+                case BotType.PoliceChief:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        EnergyRechargeModifier = EnergyRecharge.Quick,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Teddybear
                 case BotType.Teddybear:
                 {

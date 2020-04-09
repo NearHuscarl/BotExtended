@@ -843,6 +843,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region PoliceChief
+                case BotType.PoliceChief:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BATON,
+                        Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Fatigue,
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Fatigue,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.SHOCK_BATON,
+                        Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Fatigue,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region PoliceSWAT
                 case BotType.PoliceSWAT:
                 {

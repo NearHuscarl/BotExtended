@@ -132,6 +132,7 @@
         Mecha,
         MirrorMan,
         Ninja,
+        PoliceChief,
         Raze,
         Reznor,
         // Tier3: Holiday Hullabaloo

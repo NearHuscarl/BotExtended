@@ -29,8 +29,11 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Boss_Teddybear;
+            if (Game.IsEditorTest) botFaction = BotFaction.Police;
             var factionSet = new FactionSet(botFaction);
+            var bosses = GetBosses(botFaction);
+            bosses.Add(BotType.None); // Have a chance to spawn faction without boss
+            var mainBoss = RandomHelper.GetItem(bosses);
 
             switch (botFaction)
             {
@@ -199,15 +202,18 @@ namespace BotExtended
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Police, 1f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Police, 0.7f),
                         new SubFaction(BotType.PoliceSWAT, 0.3f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.PoliceSWAT, 0.8f),
                         new SubFaction(BotType.Police, 0.2f),
                     });
@@ -218,10 +224,9 @@ namespace BotExtended
                 #region PoliceSWAT
                 case BotFaction.PoliceSWAT:
                 {
-                    var boss = RandomHelper.GetItem(BotType.None, BotType.Raze);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(boss),
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.PoliceSWAT, 1f),
                     });
                     break;
@@ -234,15 +239,18 @@ namespace BotExtended
                     // TODO: add punk semi boss
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Punk, 1f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Punk, 0.5f),
                         new SubFaction(BotType.Biker, 0.5f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Punk, 0.6f),
                         new SubFaction(BotType.PunkHulk, 0.4f),
                     });
@@ -340,21 +348,20 @@ namespace BotExtended
                 #region Thug
                 case BotFaction.Thug:
                 {
-                    var boss = RandomHelper.GetItem(BotType.None, BotType.Bobby);
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(boss),
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Thug, 1f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(boss),
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Thug, 0.5f),
                         new SubFaction(BotType.Biker, 0.5f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(boss),
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Thug, 0.6f),
                         new SubFaction(BotType.ThugHulk, 0.4f),
                     });
@@ -735,6 +742,30 @@ namespace BotExtended
             }
 
             return factionSet;
+        }
+
+        public static List<BotType> GetBosses(BotFaction faction)
+        {
+            var bosses = new List<BotType>();
+
+            switch (faction)
+            {
+                case BotFaction.Police:
+                    bosses.Add(BotType.PoliceChief);
+                    bosses.Add(BotType.Cindy);
+                    break;
+                case BotFaction.PoliceSWAT:
+                    bosses.Add(BotType.Raze);
+                    break;
+                case BotFaction.Punk:
+                    bosses.Add(BotType.Balista);
+                    break;
+                case BotFaction.Thug:
+                    bosses.Add(BotType.Bobby);
+                    break;
+            }
+
+            return bosses;
         }
     }
 }

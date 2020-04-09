@@ -1,4 +1,8 @@
-﻿using SFDGameScriptInterface;
+﻿using BotExtended.Library;
+using SFDGameScriptInterface;
+using System.Collections.Generic;
+using System.Linq;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
@@ -25,6 +29,22 @@ namespace BotExtended.Projectiles
         }
 
         protected virtual bool OnProjectileCreated() { return true; }
+
+        public override void OnProjectileHit(ProjectileHitArgs args)
+        {
+            base.OnProjectileHit(args);
+
+            if (IsExplosiveProjectile)
+            {
+                var explosiveArea = ScriptHelper.GrowFromCenter(args.HitPosition, Constants.ExplosionRadius * 2);
+                var playersInRadius = Game.GetObjectsByArea<IPlayer>(explosiveArea)
+                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), args.HitPosition, Constants.ExplosionRadius));
+
+                OnProjectileExploded(playersInRadius);
+            }
+        }
+
+        protected virtual void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius) { }
 
         public bool IsShotgunShell
         {

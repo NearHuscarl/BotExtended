@@ -2239,6 +2239,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region PoliceChief
+                case BotType.PoliceChief:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Police Chief",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingDarkGray", "ClothingYellow", ""),
+                        ChestUnder = new IProfileClothingItem("PoliceShirt", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("Shoes", "ClothingDarkBrown", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("PoliceHat", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkBlue", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingDarkGray", "ClothingGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region PoliceSWAT
                 case BotType.PoliceSWAT:
                 {

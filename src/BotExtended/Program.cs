@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BotExtended.Library;
 using System.Linq;
 using BotExtended.Factions;
+using BotExtended.Projectiles;
 
 namespace BotExtended
 {
@@ -41,7 +42,7 @@ namespace BotExtended
                 modifiers.RunSpeedModifier = 1.25f;
                 modifiers.SprintSpeedModifier = 1.25f;
                 modifiers.MeleeStunImmunity = 1;
-                //modifiers.InfiniteAmmo = 1;
+                modifiers.InfiniteAmmo = 1;
 
                 player.SetTeam(PlayerTeam.Team1);
                 player.SetHitEffect(PlayerHitEffect.Metal);
@@ -55,13 +56,14 @@ namespace BotExtended
                 var n = 0;
                 foreach (var p in Game.GetPlayers())
                 {
-                    if (p.Name != "Near" && p.IsUser)
+                    if (p.Name != "Near")
                     {
+                        //p.SetInputEnabled(false);
                         //p.SetUser(null);
                     }
-                    if (p.Name == "Boffin")
+                    if (p.Name.StartsWith("Mecha"))
                     {
-                        //p.SetHealth(81);
+                        p.SetHealth(1);
                     }
                     if (p.Name.StartsWith("Scientist") || p.Name.StartsWith("Lab"))
                         p.Remove();

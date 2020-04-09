@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,16 +48,7 @@ namespace BotExtended.Projectiles
         {
             base.OnProjectileHit(args);
 
-            if (IsExplosiveProjectile)
-            {
-                var explosiveArea = ScriptHelper.GrowFromCenter(args.HitPosition, Constants.ExplosionRadius * 2);
-                var playersInRadius = Game.GetObjectsByArea<IPlayer>(explosiveArea)
-                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), args.HitPosition, Constants.ExplosionRadius));
-
-                foreach (var player in playersInRadius)
-                    Strip(player);
-            }
-            else
+            if (!IsExplosiveProjectile)
             {
                 if (!args.IsPlayer)
                     return;
@@ -64,6 +56,13 @@ namespace BotExtended.Projectiles
                 var player = Game.GetPlayer(args.HitObjectID);
                 Strip(player);
             }
+        }
+
+        protected override void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius)
+        {
+            base.OnProjectileExploded(playersInRadius);
+            foreach (var player in playersInRadius)
+                Strip(player);
         }
 
         private void Strip(IPlayer player)

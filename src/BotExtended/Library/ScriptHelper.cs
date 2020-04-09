@@ -402,5 +402,12 @@ namespace BotExtended.Library
                 }, delay);
             }, 2);
         }
+
+        public static Vector2 GetFarAwayPosition()
+        {
+            var randX = RandomHelper.Between(0, 20);
+            var randy = RandomHelper.Between(0, 20);
+            return Game.GetCameraMaxArea().BottomLeft + new Vector2(-10 - randX, -10 - randy);
+        }
     }
 }
