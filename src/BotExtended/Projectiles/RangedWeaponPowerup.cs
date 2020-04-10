@@ -7,6 +7,7 @@
         Blast,
         DoubleTrouble,
         Fatigue,
+        Gauss,
         Homing,
         Gravity,
         GravityDE,

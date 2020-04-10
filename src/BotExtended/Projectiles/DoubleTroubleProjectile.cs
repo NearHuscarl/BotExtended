@@ -20,8 +20,7 @@ namespace BotExtended.Projectiles
         protected override bool OnProjectileCreated()
         {
             var owner = Game.GetPlayer(Instance.InitialOwnerPlayerID);
-            Vector2 position;
-            Vector2 direction;
+            Vector2 position, direction;
 
             if (owner.GetWeaponMuzzleInfo(out position, out direction))
             {

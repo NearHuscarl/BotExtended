@@ -11,7 +11,7 @@ namespace BotExtended.Projectiles
 {
     class GravityGun : RangeWpn
     {
-        private static readonly Vector2 FarAwayPosition = Game.GetCameraMaxArea().BottomLeft - Vector2.UnitX * 10;
+        private static readonly Vector2 FarAwayPosition = ScriptHelper.GetFarAwayPosition();
 
         public GravityGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup)
         {
@@ -71,8 +71,7 @@ namespace BotExtended.Projectiles
                 offset = length / 2f;
             }
 
-            Vector2 position;
-            Vector2 direction;
+            Vector2 position, direction;
             Owner.GetWeaponMuzzleInfo(out position, out direction);
 
             return position + direction * (6 + offset);

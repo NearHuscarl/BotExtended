@@ -19,6 +19,7 @@
         Sniper,
         Soldier,
         Spacer,
+        SpaceSniper,
         Stripper,
         Thug,
         Punk,

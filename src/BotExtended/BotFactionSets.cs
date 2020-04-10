@@ -27,13 +27,20 @@ namespace BotExtended
             BotType.ZombieFlamer,
         };
 
-        public static FactionSet GetFactionSet(BotFaction botFaction)
+        public static FactionSet GetFactionSet(BotFaction botFaction, int bossIndex = -1)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Police;
+            if (Game.IsEditorTest) botFaction = BotFaction.SpaceSniper;
             var factionSet = new FactionSet(botFaction);
             var bosses = GetBosses(botFaction);
-            bosses.Add(BotType.None); // Have a chance to spawn faction without boss
-            var mainBoss = RandomHelper.GetItem(bosses);
+
+            bosses.Insert(0, BotType.None); // Have a chance to spawn faction without boss
+
+            // TODO: add sub-bosses
+            BotType mainBoss;
+            if (bossIndex >= 0 && bossIndex < bosses.Count)
+                mainBoss = bosses[bossIndex];
+            else
+                mainBoss = RandomHelper.GetItem(bosses);
 
             switch (botFaction)
             {
@@ -285,8 +292,31 @@ namespace BotExtended
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(BotType.Reznor),
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.Spacer, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.Spacer, .7f),
+                        new SubFaction(BotType.SpaceSniper, .3f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.Spacer, .9f),
+                        new SubFaction(BotType.SpaceSniper, .1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region SpaceSniper
+                case BotFaction.SpaceSniper:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.SpaceSniper, 1f),
                     });
                     break;
                 }
@@ -759,6 +789,10 @@ namespace BotExtended
                     break;
                 case BotFaction.Punk:
                     bosses.Add(BotType.Balista);
+                    break;
+                case BotFaction.Spacer:
+                    bosses.Add(BotType.Reznor);
+                    //bosses.Add(BotType.Reznor);
                     break;
                 case BotFaction.Thug:
                     bosses.Add(BotType.Bobby);

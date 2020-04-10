@@ -32,16 +32,17 @@ namespace BotExtended.Projectiles
             }
             if (Target != null) Game.DrawArea(Target.GetAABB());
 
-            Guide();
+            Guide(elapsed);
         }
 
-        private void Guide()
+        private void Guide(float elapsed)
         {
             if (Target == null) return;
 
             var projectileAngle = ScriptHelper.GetAngle(Instance.Direction);
             var targetAngle = ScriptHelper.GetAngle(Target.GetWorldPosition() - Instance.Position);
-            var steerAngle = Math.Sign(MathExtension.DiffAngle(targetAngle, projectileAngle)) * MathExtension.OneDeg * 10;
+            var steerAngle = Math.Sign(MathExtension.DiffAngle(targetAngle, projectileAngle))
+                * MathExtension.OneDeg * elapsed * 2/3;
 
             Instance.Direction = ScriptHelper.GetDirection(projectileAngle + steerAngle);
         }

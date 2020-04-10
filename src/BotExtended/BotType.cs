@@ -78,6 +78,7 @@
         Soldier2,
 
         Spacer, // thug on space
+        SpaceSniper,
         Stripper,
 
         // Tier1: Storage Showdown, Rooftops Rumble, Police Station Punchout, Alley Ambush, Warehouse Wreckage, Heavy Hostility

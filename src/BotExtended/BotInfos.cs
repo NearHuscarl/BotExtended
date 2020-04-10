@@ -237,8 +237,11 @@ namespace BotExtended
 
                 #region Sniper
                 case BotType.Sniper:
+                case BotType.SpaceSniper:
                 {
                     botInfo.AIType = BotAI.Sniper;
+                    botInfo.SearchItems = SearchItems.Primary;
+                    botInfo.SearchRange = WpnSearchRange.Nearby;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Weak,
@@ -250,6 +253,12 @@ namespace BotExtended
                         SprintSpeedModifier = Speed.Slow,
                         SizeModifier = Size.BelowNormal,
                     };
+
+                    if (botType == BotType.SpaceSniper)
+                    {
+                        botInfo.Modifiers.ProjectileDamageDealtModifier = DamageDealt.Normal;
+                        botInfo.Modifiers.ProjectileCritChanceDealtModifier = DamageDealt.Normal;
+                    }
                     break;
                 }
                 #endregion

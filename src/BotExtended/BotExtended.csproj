@@ -75,6 +75,7 @@
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\DoubleTroubleProjectile.cs" />
     <Compile Include="Projectiles\FatigueProjectile.cs" />
+    <Compile Include="Projectiles\GaussGun.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
     <Compile Include="Projectiles\HomingProjectile.cs" />
     <Compile Include="Projectiles\HoveringProjectile.cs" />

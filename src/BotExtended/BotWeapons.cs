@@ -551,72 +551,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region SurvivorBiker
-                case BotType.SurvivorBiker:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Primary = WeaponItem.SMG,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region SurvivorCrazy
-                case BotType.SurvivorCrazy:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.KNIFE,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region SurvivorNaked
-                case BotType.SurvivorNaked:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.MACHETE,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region SurvivorRifleman
-                case BotType.SurvivorRifleman:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Primary = WeaponItem.SAWED_OFF,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region SurvivorRobber
-                case BotType.SurvivorRobber:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Secondary = WeaponItem.REVOLVER,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region SurvivorTough
-                case BotType.SurvivorTough:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.LEAD_PIPE,
-                    });
-                    break;
-                }
-                #endregion
-
                 #region Meatgrinder
                 case BotType.Meatgrinder:
                 {
@@ -1103,6 +1037,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region SpaceSniper
+                case BotType.SpaceSniper:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.Gauss,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.Gauss,
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Gauss,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Stripper
                 case BotType.Stripper:
                 {
@@ -1125,6 +1078,57 @@ namespace BotExtended
                     {
                         Primary = WeaponItem.SAWED_OFF,
                         PrimaryPowerup = RangedWeaponPowerup.Tearing,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Survivor
+                case BotType.SurvivorBiker:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SMG,
+                    });
+                    break;
+                }
+                case BotType.SurvivorCrazy:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                    });
+                    break;
+                }
+                case BotType.SurvivorNaked:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.MACHETE,
+                    });
+                    break;
+                }
+                case BotType.SurvivorRifleman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SAWED_OFF,
+                    });
+                    break;
+                }
+                case BotType.SurvivorRobber:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.REVOLVER,
+                    });
+                    break;
+                }
+                case BotType.SurvivorTough:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.LEAD_PIPE,
                     });
                     break;
                 }
