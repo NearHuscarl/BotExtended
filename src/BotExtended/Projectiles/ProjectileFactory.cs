@@ -23,6 +23,8 @@ namespace BotExtended.Projectiles
                     return new FatigueProjectile(projectile);
                 case RangedWeaponPowerup.Homing:
                     return new HomingProjectile(projectile);
+                case RangedWeaponPowerup.Lightning:
+                    return new LightningProjectile(projectile);
                 case RangedWeaponPowerup.Present:
                     return new PresentBullet(projectile);
                 case RangedWeaponPowerup.Spinner:

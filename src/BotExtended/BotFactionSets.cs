@@ -29,7 +29,8 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction, int bossIndex = -1)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.SpaceSniper;
+            if (Game.IsEditorTest) botFaction = BotFaction.None;
+            if (Game.IsEditorTest) bossIndex = 1;
             var factionSet = new FactionSet(botFaction);
             var bosses = GetBosses(botFaction);
 
@@ -791,6 +792,7 @@ namespace BotExtended
                     bosses.Add(BotType.Balista);
                     break;
                 case BotFaction.Spacer:
+                    bosses.Add(BotType.Amos);
                     bosses.Add(BotType.Reznor);
                     //bosses.Add(BotType.Reznor);
                     break;

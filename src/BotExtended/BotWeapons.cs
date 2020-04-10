@@ -28,6 +28,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Amos
+                case BotType.Amos:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.DARK_SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Gauss,
+                        Secondary = WeaponItem.PISTOL,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Agent2
                 case BotType.Agent2:
                 {

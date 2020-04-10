@@ -110,6 +110,7 @@
         ZombieWorker,
 
         // ---BOSS---
+        Amos,
         Balista,
         Bobby,
         Boffin,

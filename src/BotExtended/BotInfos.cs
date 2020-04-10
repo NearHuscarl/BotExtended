@@ -392,6 +392,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Amos
+                case BotType.Amos:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Primary;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeDamageDealtModifier = DamageDealt.High,
+                        ImpactDamageTakenModifier = DamageTaken.FairlyResistant,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        SizeModifier = Size.Big,
+                    };
+                    break;
+                }
+                #endregion
+
                 #region Boss Balista
                 case BotType.Balista:
                 {

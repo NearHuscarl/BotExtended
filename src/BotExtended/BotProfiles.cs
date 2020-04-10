@@ -47,6 +47,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Amos
+                case BotType.Amos:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Amos",
+                        Accesory = null,
+                        ChestOver = new IProfileClothingItem("Vest", "ClothingDarkCyan", "ClothingDarkCyan", ""),
+                        ChestUnder = new IProfileClothingItem("TShirt", "ClothingCyan", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("Boots", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = null,
+                        Legs = new IProfileClothingItem("Pants", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingGray", ""),
+                        Waist = new IProfileClothingItem("Belt", "ClothingDarkGray", "ClothingGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Assassin
                 case BotType.AssassinMelee:
                 case BotType.AssassinRange:

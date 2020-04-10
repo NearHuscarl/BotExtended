@@ -93,6 +93,13 @@ namespace BotExtended.Projectiles
             Fatigue(args.HitObjectID);
         }
 
+        protected override void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius)
+        {
+            base.OnProjectileExploded(playersInRadius);
+            foreach (var player in playersInRadius)
+                Fatigue(player.UniqueID);
+        }
+
         private void Fatigue(int playerID)
         {
             var player = Game.GetPlayer(playerID);
@@ -140,13 +147,6 @@ namespace BotExtended.Projectiles
                     bot.ResetBotBehaviorSet();
                 }
             }, 6000);
-        }
-
-        protected override void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius)
-        {
-            base.OnProjectileExploded(playersInRadius);
-            foreach (var player in playersInRadius)
-                Fatigue(player.UniqueID);
         }
     }
 }
