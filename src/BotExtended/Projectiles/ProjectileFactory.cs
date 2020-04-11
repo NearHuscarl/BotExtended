@@ -33,6 +33,8 @@ namespace BotExtended.Projectiles
                     return new StickyBombProjectile(projectile);
                 case RangedWeaponPowerup.Stun:
                     return new StunBullet(projectile);
+                case RangedWeaponPowerup.SuicideDove:
+                    return new SuicideDoveProjectile(projectile);
                 case RangedWeaponPowerup.Tearing:
                     return new TearingBullet(projectile);
                 default:

@@ -115,6 +115,7 @@ namespace BotExtended
                 case BotType.GangsterHulk:
                 case BotType.ThugHulk:
                 case BotType.PunkHulk:
+                case BotType.Lumberjack:
                 {
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
@@ -163,7 +164,9 @@ namespace BotExtended
                 case BotType.Cyborg:
                 case BotType.Elf:
                 case BotType.Engineer:
+                case BotType.Farmer:
                 case BotType.Gangster:
+                case BotType.Gardener:
                 case BotType.LabAssistant:
                 case BotType.MetroCop:
                 case BotType.Police:
@@ -180,11 +183,17 @@ namespace BotExtended
                         MeleeDamageDealtModifier = DamageDealt.BelowNormal,
                         SizeModifier = Size.BelowNormal,
                     };
+                    botInfo.SpawnLineChance = .01f;
+                    botInfo.DeathLineChance = .01f;
 
                     if (botType == BotType.Engineer)
                         botInfo.Modifiers.SizeModifier = Size.Normal;
                     if (botType == BotType.Cyborg)
                         botInfo.ImmuneToInfect = true;
+                    if (botType == BotType.Gardener)
+                        botInfo.SpawnLine = "It's almost harvesting season";
+                    if (botType == BotType.Hunter)
+                        botInfo.SpawnLine = "You can run, but you cant hide";
                     break;
                 }
                 #endregion
@@ -236,6 +245,7 @@ namespace BotExtended
                 #endregion
 
                 #region Sniper
+                case BotType.Hunter:
                 case BotType.Sniper:
                 case BotType.SpaceSniper:
                 {
@@ -557,6 +567,25 @@ namespace BotExtended
                         EnergyConsumptionModifier = Constants.TOGGLE_OFF,
                         RunSpeedModifier = Speed.AboveNormal,
                         SprintSpeedModifier = Speed.AboveNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Handler
+                case BotType.Handler:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups | SearchItems.Primary | SearchItems.Secondary;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        MaxEnergy = Stamina.VeryHigh,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;

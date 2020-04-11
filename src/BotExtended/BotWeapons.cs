@@ -419,6 +419,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Farmer
+                case BotType.Farmer:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SAWED_OFF,
+                        PrimaryPowerup = RangedWeaponPowerup.Blast,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Blast,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {
@@ -506,6 +523,52 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Gardener
+                case BotType.Gardener:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.TEAPOT,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Handler
+                case BotType.Handler:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.WHIP,
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.SuicideDove,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Hunter
+                case BotType.Hunter:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.CARBINE,
+                        //PrimaryPowerup = TODO: add Bleeding powerup
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.SNIPER,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Incinerator
                 case BotType.Incinerator:
                 {
@@ -558,6 +621,22 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        Powerup = WeaponItem.STRENGTHBOOST,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Lumberjack
+                case BotType.Lumberjack:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.CHAINSAW,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.AXE,
                         Powerup = WeaponItem.STRENGTHBOOST,
                     });
                     break;
@@ -631,7 +710,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.SHOCK_BATON,
                         Primary = WeaponItem.DARK_SHOTGUN,
-                        PrimaryPowerup = RangedWeaponPowerup.Blast,
+                        PrimaryPowerup = RangedWeaponPowerup.Lightning,
                         UseLazer = true,
                     });
                     break;

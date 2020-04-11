@@ -36,12 +36,12 @@ namespace BotExtended
                 var player = Game.GetPlayers()[0];
                 var modifiers = player.GetModifiers();
 
-                modifiers.MaxHealth = 5000;
-                modifiers.CurrentHealth = 5000;
+                modifiers.MaxHealth = 300;
+                modifiers.CurrentHealth = 300;
                 modifiers.EnergyConsumptionModifier = .1f;
                 modifiers.RunSpeedModifier = 1.25f;
                 modifiers.SprintSpeedModifier = 1.25f;
-                modifiers.MeleeStunImmunity = 1;
+                //modifiers.MeleeStunImmunity = 1;
                 modifiers.InfiniteAmmo = 1;
 
                 player.SetTeam(PlayerTeam.Team1);
@@ -65,11 +65,11 @@ namespace BotExtended
                     {
                         p.SetHealth(1);
                     }
-                    if (p.Name.StartsWith("Scientist") || p.Name.StartsWith("Lab"))
+                    if (p.Name.StartsWith("Cowboy") || p.Name.StartsWith("Bandido"))
                         p.Remove();
-                    if (p.Name.StartsWith("Engineer"))
+                    if (p.Name.StartsWith("Hunter"))
                     {
-                        if (n > 0) p.Remove();
+                        if (n > 2) p.Remove();
                         n++;
                     }
                 }

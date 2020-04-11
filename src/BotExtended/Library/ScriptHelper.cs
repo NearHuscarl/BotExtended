@@ -105,11 +105,6 @@ namespace BotExtended.Library
             }
         }
 
-        public static bool IsDifferentTeam(IPlayer player1, IPlayer player2)
-        {
-            return player1.GetTeam() != player2.GetTeam() || player1.GetTeam() == PlayerTeam.Independent;
-        }
-
         private static void NormalizeMinMaxAngle(ref float minAngle, ref float maxAngle, bool smallSector)
         {
             minAngle = MathExtension.NormalizeAngle(minAngle);

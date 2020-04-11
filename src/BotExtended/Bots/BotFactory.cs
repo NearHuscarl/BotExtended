@@ -48,10 +48,6 @@ namespace BotExtended.Bots
                     bot = new CyborgBot(args);
                     break;
 
-                case BotType.Sheriff:
-                    bot = new SheriffBot(args);
-                    break;
-
                 case BotType.Engineer:
                     bot = new EngineerBot(args, player.IsBot ? new EngineerBot_Controller() : null);
                     break;
@@ -62,6 +58,10 @@ namespace BotExtended.Bots
 
                 case BotType.Hacker:
                     bot = new HackerBot(args);
+                    break;
+
+                case BotType.Hunter:
+                    bot = new HunterBot(args);
                     break;
 
                 case BotType.Incinerator:
@@ -82,6 +82,10 @@ namespace BotExtended.Bots
 
                 case BotType.MirrorMan:
                     bot = new MirrorManBot(args);
+                    break;
+
+                case BotType.Sheriff:
+                    bot = new SheriffBot(args);
                     break;
 
                 case BotType.SurvivorBiker:

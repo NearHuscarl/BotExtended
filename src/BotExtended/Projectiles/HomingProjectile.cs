@@ -10,13 +10,10 @@ namespace BotExtended.Projectiles
     /// </summary>
     class HomingProjectile : Projectile
     {
-        public readonly PlayerTeam Team;
         public IPlayer Target { get; private set; }
 
         public HomingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Homing)
         {
-            // in case the original player is not available when the projectile hits
-            Team = Game.GetPlayer(Instance.InitialOwnerPlayerID).GetTeam();
             //if (Game.IsEditorTest) Instance.Velocity /= 20;
         }
 
@@ -53,12 +50,7 @@ namespace BotExtended.Projectiles
 
             foreach (var player in Game.GetPlayers())
             {
-                var playerTeam = player.GetTeam();
-
-                if (Team == playerTeam && Team != PlayerTeam.Independent
-                    || Instance.InitialOwnerPlayerID == player.UniqueID
-                    || player.IsDead)
-                    continue;
+                if (SameTeam(player) || player.IsDead) continue;
 
                 var distanceToPlayer = Vector2.Distance(Instance.Position, player.GetWorldPosition());
                 if (minDistanceToPlayer > distanceToPlayer)

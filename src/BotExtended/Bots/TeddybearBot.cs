@@ -46,7 +46,7 @@ namespace BotExtended.Bots
             }
         }
 
-        private float oldDistance = 0f;
+        private float m_oldDistance = 0f;
         private void ChaseOffender()
         {
             if (m_offender == null || m_offender.IsDead) return;
@@ -57,22 +57,21 @@ namespace BotExtended.Bots
             // Need these 2 lines for it to work
             // behavior.GuardRange = 1f;
             // behavior.ChaseRange = 1f;
-            Game.DrawCircle(m_offender.GetWorldPosition(), 75);
 
             var distanceToTarget = Vector2.Distance(Position, m_offender.GetWorldPosition());
-            if (distanceToTarget < 35 && oldDistance >= 35)
+            if (distanceToTarget < 35 && m_oldDistance >= 35)
             {
                 Player.SetGuardTarget(null);
-                oldDistance = distanceToTarget;
+                m_oldDistance = distanceToTarget;
             }
-            if (distanceToTarget >= 35 && oldDistance < 35)
+            if (distanceToTarget >= 35 && m_oldDistance < 35)
             {
                 var behavior = Player.GetBotBehaviorSet();
                 behavior.GuardRange = 1f;
                 behavior.ChaseRange = 1f;
                 SetBotBehaviorSet(behavior);
                 Player.SetGuardTarget(m_offender);
-                oldDistance = distanceToTarget;
+                m_oldDistance = distanceToTarget;
             }
         }
 

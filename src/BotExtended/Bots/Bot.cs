@@ -315,22 +315,30 @@ namespace BotExtended.Bots
 
             if (player == null) return;
 
-            var bot = BotManager.GetBot(player) as CowboyBot;
+            var bot = BotManager.GetBot(player);
+            var cowboyBot = bot as CowboyBot;
 
-            if (bot != null)
+            // TODO: not apply if the bot is dead before this event runs
+            if (cowboyBot != null)
             {
                 if (args.IsCrit)
                 {
-                    var destroyWeapon = RandomHelper.Percentage(bot.DestroyWeaponWhenCritDisarmChance);
-                    if (RandomHelper.Percentage(bot.CritDisarmChance))
+                    var destroyWeapon = RandomHelper.Percentage(cowboyBot.DestroyWeaponWhenCritDisarmChance);
+                    if (RandomHelper.Percentage(cowboyBot.CritDisarmChance))
                         Disarm(projectile.Direction, destroyWeapon);
                 }
                 else
                 {
-                    var destroyWeapon = RandomHelper.Percentage(bot.DestroyWeaponWhenDisarmChance);
-                    if (RandomHelper.Percentage(bot.DisarmChance))
+                    var destroyWeapon = RandomHelper.Percentage(cowboyBot.DestroyWeaponWhenDisarmChance);
+                    if (RandomHelper.Percentage(cowboyBot.DisarmChance))
                         Disarm(projectile.Direction, destroyWeapon);
                 }
+            }
+            if (bot.Type == BotType.Hunter && !Player.IsRemoved)
+            {
+                var skinName = Player.GetProfile().Skin.Name;
+                if (skinName == "FrankenbearSkin" || skinName == "BearSkin")
+                    Player.DealDamage(projectile.GetProperties().PlayerDamage * 2);
             }
         }
         public virtual void OnDeath(PlayerDeathArgs args)

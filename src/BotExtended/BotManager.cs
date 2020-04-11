@@ -272,15 +272,16 @@ namespace BotExtended
 
         private static void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
-            if (!args.IsPlayer) return;
+            if (args.IsPlayer)
+            {
+                var player = Game.GetPlayer(args.HitObjectID);
+                var bot = GetBot(player);
+                if (bot == Bot.None) return;
 
-            var player = Game.GetPlayer(args.HitObjectID);
-            var bot = GetBot(player);
-            if (bot == Bot.None) return;
-
-            // I use this instead of PlayerDamage callback because this one include additional
-            // info like normal vector
-            bot.OnProjectileHit(projectile, args);
+                // I use this instead of PlayerDamage callback because this one include additional
+                // info like normal vector
+                bot.OnProjectileHit(projectile, args);
+            }
         }
 
         private static void OnPlayerKeyInput(IPlayer player, VirtualKeyInfo[] keyInfos)

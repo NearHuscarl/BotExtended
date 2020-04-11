@@ -13,10 +13,21 @@ namespace BotExtended.Projectiles
     {
         public const float ElectrocuteRadius = 20f;
         public override bool IsRemoved { get; protected set; }
+        public float LightningDamage { get; private set; }
 
         public LightningProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Lightning)
         {
             IsRemoved = false;
+        }
+
+        protected override bool OnProjectileCreated()
+        {
+            LightningDamage = 3f;
+
+            if (IsShotgunShell)
+                LightningDamage /= ProjectilesPerShell * 1.5f;
+
+            return true;
         }
 
         private HashSet<int> m_electrocutedObjects = new HashSet<int>();
@@ -27,6 +38,12 @@ namespace BotExtended.Projectiles
             var o = Game.GetObject(args.HitObjectID);
             if (o != null)
                 Electrocute(o);
+        }
+
+        protected override void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius)
+        {
+            base.OnProjectileExploded(playersInRadius);
+            foreach (var p in playersInRadius) Electrocute(p);
         }
 
         protected override void Update(float elapsed)
@@ -62,8 +79,8 @@ namespace BotExtended.Projectiles
             if (!ScriptHelper.IsIndestructible(obj))
             {
                 var p = ScriptHelper.CastPlayer(obj);
-                if (p != null) p.DealDamage(3);
-                else obj.SetHealth(obj.GetHealth() - 3);
+                if (p != null) p.DealDamage(LightningDamage);
+                else obj.SetHealth(obj.GetHealth() - LightningDamage);
                 Game.PlayEffect(EffectName.Electric, position);
                 if (RandomHelper.Percentage(.02f))
                 {
@@ -73,13 +90,7 @@ namespace BotExtended.Projectiles
             }
             m_electrocutedObjects.Add(obj.UniqueID);
 
-            var filterArea = ScriptHelper.GrowFromCenter(position, ElectrocuteRadius * 2);
-            var playersInRadius = Game.GetObjectsByArea<IPlayer>(filterArea)
-                .Where(o => !m_electrocutedObjects.Contains(o.UniqueID)
-                && ScriptHelper.IntersectCircle(o.GetAABB(), position, ElectrocuteRadius));
-            //ScriptHelper.RunIn(() => Game.DrawCircle(position, 20, Color.Cyan), 1000);
-
-            foreach (var p in playersInRadius)
+            foreach (var p in GetPlayerInRange(obj))
             {
                 m_pendingUpdate.Add(new Info()
                 {
@@ -116,6 +127,23 @@ namespace BotExtended.Projectiles
                         }
                     },
                 });
+            }
+        }
+
+        private IEnumerable<IPlayer> GetPlayerInRange(IObject electrocutedObject)
+        {
+            var position = electrocutedObject.GetWorldPosition();
+
+            if (ScriptHelper.IsPlayer(electrocutedObject))
+            {
+                var filterArea = ScriptHelper.GrowFromCenter(position, ElectrocuteRadius * 2);
+                return Game.GetObjectsByArea<IPlayer>(filterArea)
+                    .Where(o => !m_electrocutedObjects.Contains(o.UniqueID)
+                    && ScriptHelper.IntersectCircle(o.GetAABB(), position, ElectrocuteRadius));
+            }
+            else
+            {
+                return Game.GetObjectsByArea<IPlayer>(electrocutedObject.GetAABB());
             }
         }
 

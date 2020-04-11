@@ -29,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction, int bossIndex = -1)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.None;
+            if (Game.IsEditorTest) botFaction = BotFaction.Hunter;
             if (Game.IsEditorTest) bossIndex = 1;
             var factionSet = new FactionSet(botFaction);
             var bosses = GetBosses(botFaction);
@@ -148,6 +148,26 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Farmer
+                case BotFaction.Farmer:
+                {
+                    var nonFarmer = new BotType[] { BotType.Gardener, BotType.Lumberjack, BotType.Hunter, };
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.Farmer, 0.5f),
+                        new SubFaction(nonFarmer, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.Farmer, 0.3f),
+                        new SubFaction(nonFarmer, .7f),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Gangster
                 case BotFaction.Gangster:
                 {
@@ -165,20 +185,17 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Survivor
-                case BotFaction.Survivor:
+                #region Hunter
+                case BotFaction.Hunter:
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(new BotType[]
-                        {
-                            BotType.SurvivorBiker,
-                            BotType.SurvivorCrazy,
-                            BotType.SurvivorNaked,
-                            BotType.SurvivorRifleman,
-                            BotType.SurvivorRobber,
-                            BotType.SurvivorTough,
-                        }, 1f),
+                        new SubFaction(BotType.Hunter, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(BotType.Hunter, .7f),
+                        new SubFaction(BotType.Farmer, .3f),
                     });
                     break;
                 }
@@ -371,6 +388,25 @@ namespace BotExtended
                     {
                         new SubFaction(BotType.Soldier, 0.9f),
                         new SubFaction(BotType.Soldier2, 0.1f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Survivor
+                case BotFaction.Survivor:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(new BotType[]
+                        {
+                            BotType.SurvivorBiker,
+                            BotType.SurvivorCrazy,
+                            BotType.SurvivorNaked,
+                            BotType.SurvivorRifleman,
+                            BotType.SurvivorRobber,
+                            BotType.SurvivorTough,
+                        }, 1f),
                     });
                     break;
                 }
@@ -781,6 +817,9 @@ namespace BotExtended
 
             switch (faction)
             {
+                case BotFaction.Farmer:
+                    bosses.Add(BotType.Handler);
+                    break;
                 case BotFaction.Police:
                     bosses.Add(BotType.PoliceChief);
                     bosses.Add(BotType.Cindy);

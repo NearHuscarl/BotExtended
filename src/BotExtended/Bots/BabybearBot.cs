@@ -87,7 +87,7 @@ namespace BotExtended.Bots
 
             foreach (var player in Game.GetPlayers())
             {
-                if (player.IsDead || player.IsRemoved || !ScriptHelper.IsDifferentTeam(player, Player))
+                if (player.IsDead || player.IsRemoved || ScriptHelper.SameTeam(player, Player))
                     continue;
 
                 if (target == null) target = player;

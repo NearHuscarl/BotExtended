@@ -59,6 +59,7 @@
     <Compile Include="Bots\FunnymanBot.cs" />
     <Compile Include="Bots\FunnymanBot_Controller.cs" />
     <Compile Include="Bots\Controller.cs" />
+    <Compile Include="Bots\HunterBot.cs" />
     <Compile Include="Bots\KingpinBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\RobotBot.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Projectiles\SpinnerBullet.cs" />
     <Compile Include="Projectiles\StickyBombProjectile.cs" />
     <Compile Include="Projectiles\StunBullet.cs" />
+    <Compile Include="Projectiles\SuicideDoveProjectile.cs" />
     <Compile Include="Projectiles\TearingBullet.cs" />
     <Compile Include="Projectiles\ThrowWpn.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />

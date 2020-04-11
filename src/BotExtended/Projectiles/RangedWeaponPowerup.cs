@@ -16,6 +16,7 @@
         Stun,
         Spinner,
         StickyBomb,
+        SuicideDove,
         Tearing,
     }
 }
