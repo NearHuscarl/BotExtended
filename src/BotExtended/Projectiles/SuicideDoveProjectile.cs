@@ -78,6 +78,8 @@ namespace BotExtended.Projectiles
                 m_guideDelayTime = RandomHelper.Between(1000, 3000);
 
                 if (Target == null) return;
+                if (Vector2.Distance(Target.GetWorldPosition(), Instance.GetWorldPosition()) >= 60)
+                    m_guideDelayTime = 500;
 
                 var targetDirection = Vector2.Normalize(Target.GetWorldPosition() - Instance.GetWorldPosition());
                 var angle = MathExtension.NormalizeAngle(ScriptHelper.GetAngle(targetDirection));

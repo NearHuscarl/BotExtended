@@ -49,6 +49,7 @@ namespace BotExtended.Weapons
 
         private Dictionary<string, IObject> m_components = new Dictionary<string, IObject>();
         public override IEnumerable<IObject> Components { get { return m_components.Values; } }
+        public IPlayer Target { get; private set; }
 
         public override bool IsDestroyed { get; protected set; }
 
@@ -72,19 +73,6 @@ namespace BotExtended.Weapons
         public static readonly int TotalAmmo = Game.IsEditorTest ? 1000 : 300; // TODO: Remove
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
-
-        private IPlayer m_currentTarget;
-        public IPlayer CurrentTarget
-        {
-            get { return m_currentTarget; }
-            private set
-            {
-                if (CurrentTarget == null || CurrentTarget.UniqueID != value.UniqueID)
-                {
-                    m_currentTarget = value;
-                }
-            }
-        }
 
         private int m_direction = -1;
         public int Direction
@@ -377,7 +365,14 @@ namespace BotExtended.Weapons
         private float m_fireCooldown = 0;
         public override void Update(float elapsed)
         {
-            Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
+            if (Game.IsEditorTest)
+            {
+                Game.DrawText(string.Format("{0}/{1}", CurrentAmmo, TotalAmmo), RotationCenter - Vector2.UnitY * 15);
+                GetPlayersInRange();
+                var los = GetLineOfSight(AimVector);
+                Game.DrawLine(los[0], los[1], Color.Green);
+                if (Target != null) Game.DrawArea(Target.GetAABB(), Color.Magenta);
+            }
 
             if (m_ground.GetBodyType() == BodyType.Dynamic)
                 Destroy();
@@ -389,11 +384,11 @@ namespace BotExtended.Weapons
             {
                 case TurretState.Idle:
                     if (CurrentAmmo > 0)
-                        ScanTargets(elapsed);
+                        SeekAndDestroy();
                     break;
                 case TurretState.Firing:
                     if (CurrentAmmo > 0)
-                        ScanTargets(elapsed);
+                        SeekAndDestroy();
 
                     m_fireCooldown += elapsed;
                     if (m_fireCooldown >= 75)
@@ -573,84 +568,47 @@ namespace BotExtended.Weapons
             }
         }
 
-        private float m_changeTargetCooldown = 0f;
-        private void ScanTargets(float elasped)
+        private float m_scanDelay = 0f;
+        private void SeekAndDestroy()
         {
             if (HasDamage(TurretDamage.BarrelDamaged)) return;
 
-            var players = GetPlayersInRange();
-            var targetDirection = Vector2.Zero;
-            IPlayer target = null;
-
-            if (HasDamage(TurretDamage.RotorDamaged))
+            if (ScriptHelper.IsElapsed(m_scanDelay, 500))
             {
-                CheckFire();
-                return;
-            }
+                m_scanDelay = Game.TotalElapsedGameTime;
 
-            foreach (var player in players)
-            {
-                var direction = player.GetWorldPosition() - RotationCenter;
-                var los = GetLineOfSight(direction);
-                var targets = RayCast(los[0], los[1]);
-
-                if (targets.Count() > 0)
+                if (!HasDamage(TurretDamage.RotorDamaged))
                 {
-                    targetDirection = direction;
-                    target = player; break;
+                    foreach (var player in GetPlayersInRange())
+                    {
+                        var direction = player.GetWorldPosition() - RotationCenter;
+                        var los = GetLineOfSight(direction);
+                        var targets = RayCast(los[0], los[1]).Where(r => !r.IsDead);
+
+                        if (targets.Any())
+                        {
+                            Target = targets.FirstOrDefault(); break;
+                        }
+                    }
                 }
             }
 
-            m_changeTargetCooldown += elasped;
-
-            if (target != null && m_changeTargetCooldown > 500)
+            if (Target != null && !Target.IsDead)
             {
-                m_changeTargetCooldown = 0;
-                CurrentTarget = target;
-                RotateTo(ScriptHelper.GetAngle(targetDirection));
+                var direction = Target.GetWorldPosition() - RotationCenter;
+                RotateTo(ScriptHelper.GetAngle(direction));
             }
 
-            CheckFire(target);
-        }
-
-        private void CheckFire(IPlayer target)
-        {
-            if (target == null)
-            {
-                StopFiring();
-                return;
-            }
-
-            var los = GetLineOfSight(AimVector);
-            var players = RayCast(los[0], los[1]);
-            Game.DrawLine(los[0], los[1], Color.Green);
-
-            if (!players.Any())
-            {
-                StopFiring();
-                return;
-            }
-
-            foreach (var player in players)
-            {
-                if (player.UniqueID == target.UniqueID)
-                {
-                    StartFiring();
-                    break;
-                }
-            }
+            CheckFire();
         }
 
         private void CheckFire()
         {
             var los = GetLineOfSight(AimVector);
             var players = RayCast(los[0], los[1]);
-            Game.DrawLine(los[0], los[1], Color.Green);
 
             if (players.Any())
-            {
                 StartFiring();
-            }
             else
                 StopFiring();
         }
@@ -683,18 +641,8 @@ namespace BotExtended.Weapons
                 }
             }
 
-            if (Math.Abs(Angle - m_targetAngle) > MathExtension.OneDeg)
-            {
-                m_rotateTimer += elapsed;
-                if (m_rotateTimer >= 1/60)
-                {
-                    if (m_targetAngle > Angle)
-                        Angle+= .0174f;
-                    else
-                        Angle-= .0174f;
-                    m_rotateTimer = 0;
-                }
-            }
+            if (MathExtension.Diff(Angle, m_targetAngle) > MathExtension.OneDeg)
+                Angle += Math.Sign(m_targetAngle - Angle) * MathExtension.OneDeg * elapsed / 30f;
         }
 
         private void Fire()
@@ -703,10 +651,9 @@ namespace BotExtended.Weapons
                 return;
 
             var aimVector = AimVector;
-            var oneDeg = .0174f;
 
-            aimVector.X += RandomHelper.Between(-oneDeg, oneDeg);
-            aimVector.Y += RandomHelper.Between(-oneDeg, oneDeg);
+            aimVector.X += RandomHelper.Between(-MathExtension.OneDeg, MathExtension.OneDeg);
+            aimVector.Y += RandomHelper.Between(-MathExtension.OneDeg, MathExtension.OneDeg);
 
             Game.SpawnProjectile(ProjectileItem.M60, FirePosition, aimVector);
             // More info about muzzle effect
@@ -738,7 +685,6 @@ namespace BotExtended.Weapons
                     component.SetBodyType(BodyType.Dynamic);
             }
             m_components.Clear();
-
             IsDestroyed = true;
         }
     }
