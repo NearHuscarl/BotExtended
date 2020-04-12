@@ -613,32 +613,25 @@ namespace BotExtended.Weapons
                 StopFiring();
         }
 
-        private float m_rotateTimer = 0;
         private float m_targetAngle = 0;
         private void RotateTo(float angle)
         {
+            if (HasDamage(TurretDamage.RotorDamaged) || HasDamage(TurretDamage.ControllerDamaged)) return;
             m_targetAngle = NormalizeAngle(angle);
         }
 
         private float m_rndRotationTime = 0f;
+        private float m_rndRotationTimeElapsed = 0f;
         private void UpdateRotation(float elapsed)
         {
             if (HasDamage(TurretDamage.RotorDamaged))
                 return;
 
-            if (HasDamage(TurretDamage.ControllerDamaged))
+            if (HasDamage(TurretDamage.ControllerDamaged) && ScriptHelper.IsElapsed(m_rndRotationTimeElapsed, m_rndRotationTime))
             {
-                m_rndRotationTime += elapsed;
-                if (m_rndRotationTime >= 1000)
-                {
-                    if (RandomHelper.Boolean())
-                    {
-                        RotateTo(RandomHelper.Between(MinAngle, MaxAngle));
-                        m_rndRotationTime = 0f;
-                    }
-                    else
-                        m_rndRotationTime -= RandomHelper.Between(0, 500);
-                }
+                m_rndRotationTimeElapsed = Game.TotalElapsedGameTime;
+                m_rndRotationTime = RandomHelper.Between(800, 1500);
+                m_targetAngle = NormalizeAngle(RandomHelper.Between(MinAngle, MaxAngle));
             }
 
             if (MathExtension.Diff(Angle, m_targetAngle) > MathExtension.OneDeg)
