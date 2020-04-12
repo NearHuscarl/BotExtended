@@ -44,9 +44,7 @@ namespace BotExtended.Projectiles
         {
             base.OnProjectileCreated(projectile);
 
-            if (projectile.ProjectileItem == ProjectileItem.BOW
-                || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
-                || projectile.ProjectileItem == ProjectileItem.FLAREGUN)
+            if (Projectile.IsSlowProjectile(projectile))
                 return;
 
             var range = 300;

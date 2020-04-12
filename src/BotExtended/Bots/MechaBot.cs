@@ -158,7 +158,7 @@ namespace BotExtended.Bots
                     {
                         var v = obj.GetLinearVelocity();
                         obj.SetLinearVelocity(v + Vector2.UnitX * Player.FacingDirection * 25);
-                        obj.SetHealth(obj.GetHealth() - 3);
+                        ScriptHelper.DealDamage(obj, 3);
                         chargedObjects.Add(obj.UniqueID);
                     }
                 }

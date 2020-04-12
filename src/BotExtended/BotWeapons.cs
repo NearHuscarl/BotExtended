@@ -439,7 +439,11 @@ namespace BotExtended
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.MP50,
+                        PrimaryPowerup = RangedWeaponPowerup.Telsa,
+                    });
                     break;
                 }
                 #endregion

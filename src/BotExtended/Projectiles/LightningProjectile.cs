@@ -78,9 +78,7 @@ namespace BotExtended.Projectiles
             var position = obj.GetWorldPosition();
             if (!ScriptHelper.IsIndestructible(obj))
             {
-                var p = ScriptHelper.CastPlayer(obj);
-                if (p != null) p.DealDamage(LightningDamage);
-                else obj.SetHealth(obj.GetHealth() - LightningDamage);
+                ScriptHelper.DealDamage(obj, LightningDamage);
                 Game.PlayEffect(EffectName.Electric, position);
                 if (RandomHelper.Percentage(.02f))
                 {
@@ -90,7 +88,7 @@ namespace BotExtended.Projectiles
             }
             m_electrocutedObjects.Add(obj.UniqueID);
 
-            foreach (var p in GetPlayerInRange(obj))
+            foreach (var p in GetPlayersInRange(obj))
             {
                 m_pendingUpdate.Add(new Info()
                 {
@@ -130,12 +128,11 @@ namespace BotExtended.Projectiles
             }
         }
 
-        private IEnumerable<IPlayer> GetPlayerInRange(IObject electrocutedObject)
+        private IEnumerable<IPlayer> GetPlayersInRange(IObject electrocutedObject)
         {
-            var position = electrocutedObject.GetWorldPosition();
-
             if (ScriptHelper.IsPlayer(electrocutedObject))
             {
+                var position = electrocutedObject.GetWorldPosition();
                 var filterArea = ScriptHelper.GrowFromCenter(position, ElectrocuteRadius * 2);
                 return Game.GetObjectsByArea<IPlayer>(filterArea)
                     .Where(o => !m_electrocutedObjects.Contains(o.UniqueID)

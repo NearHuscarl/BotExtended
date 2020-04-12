@@ -116,6 +116,7 @@ namespace BotExtended
                 case BotType.ThugHulk:
                 case BotType.PunkHulk:
                 case BotType.Lumberjack:
+                case BotType.NaziMuscleSoldier:
                 {
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
@@ -169,6 +170,7 @@ namespace BotExtended
                 case BotType.Gardener:
                 case BotType.LabAssistant:
                 case BotType.MetroCop:
+                case BotType.NaziSoldier:
                 case BotType.Police:
                 case BotType.PoliceSWAT:
                 case BotType.Spacer:
@@ -528,11 +530,14 @@ namespace BotExtended
                 case BotType.Fritzliebe:
                 {
                     botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Health;
+                    botInfo.SearchRange = WpnSearchRange.Nearby;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
                         SizeModifier = Size.BelowNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     break;

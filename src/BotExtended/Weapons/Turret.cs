@@ -74,13 +74,7 @@ namespace BotExtended.Weapons
         private int m_currentAmmo = TotalAmmo;
         public int CurrentAmmo { get { return m_currentAmmo == -1 ? 0 : m_currentAmmo; } }
 
-        private int m_direction = -1;
-        public int Direction
-        {
-            get { return m_direction; }
-            private set { m_direction = value; }
-        }
-
+        public int Direction { get; private set; }
         public Vector2 AimVector { get { return ScriptHelper.GetDirection(Angle); } }
 
         private static readonly float _Deg30 = -0.523599f; // -30deg

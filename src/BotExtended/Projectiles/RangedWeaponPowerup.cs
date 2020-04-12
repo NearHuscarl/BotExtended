@@ -18,5 +18,6 @@
         StickyBomb,
         SuicideDove,
         Tearing,
+        Telsa,
     }
 }

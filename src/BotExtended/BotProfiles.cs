@@ -1983,20 +1983,6 @@ namespace BotExtended
                         Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray", ""),
                         Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray", ""),
                     });
-                    profiles.Add(new IProfile()
-                    {
-                        Name = "Nazi Soldier",
-                        Accesory = new IProfileClothingItem("Armband", "ClothingRed", "ClothingLightGray", ""),
-                        ChestOver = new IProfileClothingItem("MetroLawJacket", "ClothingGray", "ClothingLightGray", ""),
-                        ChestUnder = null,
-                        Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue", "ClothingLightGray", ""),
-                        Gender = Gender.Male,
-                        Hands = new IProfileClothingItem("GlovesBlack", "ClothingBlue", "ClothingLightGray", ""),
-                        Head = new IProfileClothingItem("SpikedHelmet", "ClothingGray", "ClothingLightGray", ""),
-                        Legs = new IProfileClothingItem("PantsBlack", "ClothingGray", "ClothingLightGray", ""),
-                        Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray", ""),
-                        Waist = null,
-                    });
                     break;
                 }
                 #endregion

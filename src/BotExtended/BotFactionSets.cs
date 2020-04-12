@@ -29,7 +29,7 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction, int bossIndex = -1)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.Hunter;
+            if (Game.IsEditorTest) botFaction = BotFaction.Nazi;
             if (Game.IsEditorTest) bossIndex = 1;
             var factionSet = new FactionSet(botFaction);
             var bosses = GetBosses(botFaction);
@@ -217,6 +217,24 @@ namespace BotExtended
                     {
                         new SubFaction(BotType.MetroCop, 0.5f),
                         new SubFaction(BotType.Agent2, 0.5f),
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Nazi
+                case BotFaction.Nazi:
+                {
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.NaziSoldier, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.NaziSoldier, 0.6f),
+                        new SubFaction(BotType.NaziMuscleSoldier, 0.4f),
                     });
                     break;
                 }
@@ -819,6 +837,11 @@ namespace BotExtended
             {
                 case BotFaction.Farmer:
                     bosses.Add(BotType.Handler);
+                    break;
+                case BotFaction.Nazi:
+                    bosses.Add(BotType.Fritzliebe);
+                    bosses.Add(BotType.Kriegbär);
+                    //bosses.Add(BotType.SSOfficer); TODO
                     break;
                 case BotFaction.Police:
                     bosses.Add(BotType.PoliceChief);

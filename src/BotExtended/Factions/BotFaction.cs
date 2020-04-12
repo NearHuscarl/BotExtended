@@ -14,6 +14,7 @@
         Gangster,
         Hunter,
         MetroCop,
+        Nazi,
         Police,
         PoliceSWAT,
         Robot,

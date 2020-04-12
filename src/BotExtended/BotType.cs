@@ -60,7 +60,6 @@
         NaziMuscleSoldier,
         NaziScientist,
         NaziSoldier,
-        SSOfficer,
 
         // Tier1: Mall Mayhem
         // Tier3: Police Station Escape!
@@ -145,6 +144,7 @@
         // Tier3: Holiday Hullabaloo
         Santa,
         Sheriff,
+        SSOfficer,
         Teddybear,
         Babybear,
         BaronVonHauptstein,

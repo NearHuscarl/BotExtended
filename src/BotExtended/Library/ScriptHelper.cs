@@ -404,5 +404,13 @@ namespace BotExtended.Library
             var randy = RandomHelper.Between(0, 20);
             return Game.GetCameraMaxArea().BottomLeft + new Vector2(-10 - randX, -10 - randy);
         }
+
+        // TODO: remove this if gurt added IObject.DealDamage()
+        public static void DealDamage(IObject o, float damage)
+        {
+            var p = CastPlayer(o);
+            if (p != null) p.DealDamage(damage);
+            else o.SetHealth(o.GetHealth() - damage);
+        }
     }
 }

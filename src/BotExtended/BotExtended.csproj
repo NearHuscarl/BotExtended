@@ -94,6 +94,7 @@
     <Compile Include="Projectiles\StunBullet.cs" />
     <Compile Include="Projectiles\SuicideDoveProjectile.cs" />
     <Compile Include="Projectiles\TearingBullet.cs" />
+    <Compile Include="Projectiles\TelsaProjectile.cs" />
     <Compile Include="Projectiles\ThrowWpn.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />
     <Compile Include="Projectiles\RangedWeaponPowerup.cs" />

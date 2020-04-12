@@ -246,12 +246,8 @@ namespace BotExtended.Projectiles
                 if (m_pulledObjects.ContainsKey(o.UniqueID))
                 {
                     var smallObject = o.GetAABB().Width * o.GetAABB().Height <= 100;
-                    var player = ScriptHelper.CastPlayer(o);
 
-                    // TODO: gurt fix please?
-                    if (player != null) player.DealDamage(1f);
-                    else o.SetHealth(o.GetHealth() - 1f);
-
+                    ScriptHelper.DealDamage(o, 1f);
                     if (smallObject || o.GetHealth() == 0)
                         o.Destroy();
                 }

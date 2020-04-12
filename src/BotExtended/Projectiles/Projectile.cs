@@ -66,6 +66,13 @@ namespace BotExtended.Projectiles
             }
         }
 
+        public static bool IsSlowProjectile(IProjectile projectile)
+        {
+            return projectile.ProjectileItem == ProjectileItem.BOW
+                || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
+                || projectile.ProjectileItem == ProjectileItem.FLAREGUN;
+        }
+
         public int ProjectilesPerShell
         {
             get
