@@ -12,7 +12,7 @@
         Agent, // Smart agent, weak weapon
                // Tier2: Piston Posse, Tower Trouble
         Agent2, // Dumb agent, strong weapon
-        
+
         // Tier1: High Moon Holdout
         Bandido,
         // Tier1: Police Station Punchout, Warehouse Wreckage
@@ -115,6 +115,7 @@
         // ---BOSS---
         Amos,
         Balista,
+        Balloonatic,
         Bobby,
         Boffin,
         Cindy,

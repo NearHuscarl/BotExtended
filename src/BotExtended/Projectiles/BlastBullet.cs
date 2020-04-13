@@ -72,17 +72,17 @@ namespace BotExtended.Projectiles
                 //ScriptHelper.LogDebug(hitObject.Name, mass, magnitude);
             }
 
-            if (Game.IsEditorTest)
-            {
-                ScriptHelper.RunIn(() =>
-                {
-                    if (args.IsPlayer)
-                        Game.DrawText(modifiers.ToString(), position);
-                    Game.DrawLine(position, position + pushDirection * 3);
-                    Game.DrawLine(position, position + upDirection * 3, Color.Yellow);
-                    Game.DrawLine(position, position + velocity, Color.Green);
-                }, 2000);
-            }
+            //if (Game.IsEditorTest)
+            //{
+            //    ScriptHelper.RunIn(() =>
+            //    {
+            //        if (args.IsPlayer)
+            //            Game.DrawText(modifiers.ToString(), position);
+            //        Game.DrawLine(position, position + pushDirection * 3);
+            //        Game.DrawLine(position, position + upDirection * 3, Color.Yellow);
+            //        Game.DrawLine(position, position + velocity, Color.Green);
+            //    }, 2000);
+            //}
         }
 
         private float GetForceModifier()

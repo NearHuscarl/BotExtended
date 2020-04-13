@@ -112,6 +112,21 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Balloonatic
+                case BotType.Balloonatic:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.SMG,
+                        PrimaryPowerup = RangedWeaponPowerup.Helium,
+                        Secondary = WeaponItem.UZI,
+                        SecondaryPowerup = RangedWeaponPowerup.Helium,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bandido
                 case BotType.Bandido:
                 {

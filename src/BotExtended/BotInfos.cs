@@ -446,6 +446,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Balloonatic
+                case BotType.Balloonatic:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Health;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        ImpactDamageTakenModifier = DamageTaken.VeryResistant,
+                        SizeModifier = Size.VeryBig,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Bobby
                 case BotType.Bobby:
                 {

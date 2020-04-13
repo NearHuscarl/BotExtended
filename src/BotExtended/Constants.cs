@@ -1,4 +1,5 @@
 ﻿using BotExtended.Library;
+using SFDGameScriptInterface;
 using System.Linq;
 
 namespace BotExtended
@@ -13,7 +14,7 @@ namespace BotExtended
         internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.13.0";
+        internal const string CURRENT_VERSION = "5.14.0";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank
@@ -29,6 +30,24 @@ namespace BotExtended
         // boolean value (1|0) for fields like InfiniteAmmo, CanBurn, MeleeStunImmunity...
         internal const int TOGGLE_ON = 1;
         internal const int TOGGLE_OFF = 0;
+
+        internal static CollisionFilter NoCollision
+        {
+            get
+            {
+                return new CollisionFilter()
+                {
+                    AboveBits = 0,
+                    CategoryBits = 0,
+                    MaskBits = 0,
+                    AbsorbProjectile = false,
+                    BlockExplosions = false,
+                    BlockFire = false,
+                    BlockMelee = false,
+                    ProjectileHit = false,
+                };
+            }
+        }
     }
 
     /// <summary>

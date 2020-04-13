@@ -15,16 +15,16 @@ namespace BotExtended.Bots
         {
             if (Info.IsBoss)
             {
-                DisarmChance = Game.IsEditorTest ? 1f : .35f;
-                CritDisarmChance = Game.IsEditorTest ? 1f : .65f;
-                DestroyWeaponWhenDisarmChance = Game.IsEditorTest ? 0f : .15f;
-                DestroyWeaponWhenCritDisarmChance = Game.IsEditorTest ? 0f : .35f;
+                DisarmChance = .35f;
+                CritDisarmChance = .65f;
+                DestroyWeaponWhenDisarmChance = .15f;
+                DestroyWeaponWhenCritDisarmChance = .35f;
             }
             else
             {
-                DisarmChance = Game.IsEditorTest ? 1f : .15f;
-                CritDisarmChance = Game.IsEditorTest ? 1f : .15f;
-                DestroyWeaponWhenDisarmChance = Game.IsEditorTest ? 1f : 0f;
+                DisarmChance = .15f;
+                CritDisarmChance = .15f;
+                DestroyWeaponWhenDisarmChance = 0f;
                 DestroyWeaponWhenCritDisarmChance = .01f;
             }
         }

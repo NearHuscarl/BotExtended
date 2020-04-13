@@ -30,6 +30,9 @@ namespace BotExtended.Bots
                 case BotType.Balista:
                     bot = new BalistaBot(args);
                     break;
+                case BotType.Balloonatic:
+                    bot = new BalloonaticBot(args);
+                    break;
 
                 case BotType.Boffin:
                     bot = new BoffinBot(args);

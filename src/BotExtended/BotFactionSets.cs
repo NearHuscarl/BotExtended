@@ -108,17 +108,20 @@ namespace BotExtended
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.ClownCowboy, 0.5f),
                         new SubFaction(BotType.ClownGangster, 0.25f),
                         new SubFaction(BotType.ClownBoxer, 0.25f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.ClownCowboy, 0.6f),
                         new SubFaction(BotType.ClownGangster, 0.4f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(mainBoss),
                         new SubFaction(BotType.ClownBoxer, 0.7f),
                         new SubFaction(BotType.ClownGangster, 0.3f),
                     });
@@ -835,6 +838,10 @@ namespace BotExtended
 
             switch (faction)
             {
+                case BotFaction.Clown:
+                    bosses.Add(BotType.Balloonatic);
+                    bosses.Add(BotType.Funnyman);
+                    break;
                 case BotFaction.Farmer:
                     bosses.Add(BotType.Handler);
                     break;

@@ -24,8 +24,7 @@ namespace BotExtended.Projectiles
 
             m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall");
             m_invisibleMagnet.SetBodyType(BodyType.Static);
-            var farBg = Game.CreateObject("FarBgBlimp00");
-            m_invisibleMagnet.SetCollisionFilter(farBg.GetCollisionFilter());
+            m_invisibleMagnet.SetCollisionFilter(Constants.NoCollision);
             m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
 
             m_magnetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint");

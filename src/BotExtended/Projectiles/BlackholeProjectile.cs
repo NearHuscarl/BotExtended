@@ -95,7 +95,7 @@ namespace BotExtended.Projectiles
             }
             BlackholeLocations.Add(HoverPosition);
 
-            var noCollisionFilter = Game.CreateObject("FarBgBlimp00").GetCollisionFilter();
+            var noCollision = Constants.NoCollision;
 
             if (Size == BlackholeSize.Big)
             {
@@ -105,7 +105,7 @@ namespace BotExtended.Projectiles
 
             m_blackhole = Game.CreateObject("Shadow00A");
             m_blackhole.SetBodyType(BodyType.Dynamic);
-            m_blackhole.SetCollisionFilter(noCollisionFilter);
+            m_blackhole.SetCollisionFilter(noCollision);
             m_blackhole.SetWorldPosition(HoverPosition);
 
             ScriptHelper.RunIn(() => Game.DrawCircle(HoverPosition, .5f, Color.Green), 10000);
@@ -115,7 +115,7 @@ namespace BotExtended.Projectiles
                 var egg = Game.CreateObject("Shadow00A");
                 egg.SetAngle(MathHelper.TwoPI * i / 39);
                 egg.SetBodyType(BodyType.Static);
-                egg.SetCollisionFilter(noCollisionFilter);
+                egg.SetCollisionFilter(noCollision);
                 egg.SetWorldPosition(HoverPosition);
                 m_blackholes.Add(egg);
             }

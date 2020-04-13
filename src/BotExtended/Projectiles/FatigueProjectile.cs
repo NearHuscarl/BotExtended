@@ -22,16 +22,15 @@ namespace BotExtended.Projectiles
         private static Dictionary<int, FatigueInfo> FatigueInfos = new Dictionary<int, FatigueInfo>();
         static FatigueProjectile()
         {
+            Events.PlayerDeathCallback.Start((p, _) => FatigueInfos.Remove(p.UniqueID));
             Events.UpdateCallback.Start(_ =>
             {
-                var removeList = new List<int>();
                 foreach (var kv in FatigueInfos)
                 {
                     var fatigueInfo = kv.Value;
                     if (fatigueInfo.IsExhausted)
                     {
                         var player = fatigueInfo.Player;
-                        if (player.IsDead) removeList.Add(player.UniqueID);
                         if (player.IsInMidAir && !player.IsFalling)
                         {
                             var velocity = player.GetLinearVelocity();
@@ -40,7 +39,6 @@ namespace BotExtended.Projectiles
                         }
                     }
                 }
-                foreach (var i in removeList) FatigueInfos.Remove(i);
 
                 if (Game.IsEditorTest)
                 {

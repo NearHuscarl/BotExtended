@@ -160,6 +160,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Balloonatic
+                case BotType.Balloonatic:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Balloonatic",
+                        Accesory = new IProfileClothingItem("ClownMakeup", "ClothingLightRed", "ClothingLightGray", ""),
+                        ChestOver = new IProfileClothingItem("Jacket", "ClothingOrange", "ClothingLightGreen", ""),
+                        ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingDarkRed", "ClothingLightYellow", ""),
+                        Feet = new IProfileClothingItem("Sneakers", "ClothingDarkOrange", "ClothingDarkGray", ""),
+                        Gender = Gender.Male,
+                        Hands = null,
+                        Head = new IProfileClothingItem("Afro", "ClothingLightPurple", "ClothingLightGray", ""),
+                        Legs = new IProfileClothingItem("Pants", "ClothingOrange", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray", ""),
+                        Waist = null,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Bandido
                 case BotType.Bandido:
                 {
