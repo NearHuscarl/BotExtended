@@ -87,6 +87,10 @@ namespace BotExtended.Bots
                     bot = new MirrorManBot(args);
                     break;
 
+                case BotType.PoliceChief:
+                    bot = new PoliceChiefBot(args);
+                    break;
+
                 case BotType.Sheriff:
                     bot = new SheriffBot(args);
                     break;

@@ -188,10 +188,12 @@ namespace BotExtended
                     botInfo.SpawnLineChance = .01f;
                     botInfo.DeathLineChance = .01f;
 
-                    if (botType == BotType.Engineer)
-                        botInfo.Modifiers.SizeModifier = Size.Normal;
+                    if (botType == BotType.Bandido)
+                        botInfo.AIType = BotAI.Cowboy;
                     if (botType == BotType.Cyborg)
                         botInfo.ImmuneToInfect = true;
+                    if (botType == BotType.Engineer)
+                        botInfo.Modifiers.SizeModifier = Size.Normal;
                     if (botType == BotType.Gardener)
                         botInfo.SpawnLine = "It's almost harvesting season";
                     if (botType == BotType.Hunter)
