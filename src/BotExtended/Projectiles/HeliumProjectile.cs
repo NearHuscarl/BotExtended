@@ -36,7 +36,7 @@ namespace BotExtended.Projectiles
 
             private Vector2 GetMagnetPosition() { return Player.GetWorldPosition() + Vector2.UnitY * 50; }
 
-            private List<float> m_deflateTimes = new List<float>();
+            private List<KeyValuePair<float, float>> m_deflateTimes = new List<KeyValuePair<float, float>>();
             private float m_updateDelay = 0f;
             private bool m_oldIsFalling = false;
             private Vector2 m_oldLinearVelocity = Vector2.Zero;
@@ -55,9 +55,10 @@ namespace BotExtended.Projectiles
 
                     if (m_deflateTimes.Any())
                     {
-                        if (Game.TotalElapsedGameTime >= m_deflateTimes.First())
+                        var deflateInfo = m_deflateTimes.First();
+                        if (Game.TotalElapsedGameTime >= deflateInfo.Key)
                         {
-                            Deflate();
+                            Deflate(deflateInfo.Value);
                             m_deflateTimes.RemoveAt(0);
                         }
                     }
@@ -83,27 +84,27 @@ namespace BotExtended.Projectiles
                 m_oldLinearVelocity = velocity;
             }
 
-            public void Inflate()
+            public void Inflate(float modifier)
             {
-                var prevDeflateTime = m_deflateTimes.Any() ? m_deflateTimes.Last() : Game.TotalElapsedGameTime;
+                var prevDeflateTime = m_deflateTimes.Any() ? m_deflateTimes.Last().Key : Game.TotalElapsedGameTime;
                 prevDeflateTime = Math.Max(prevDeflateTime, Game.TotalElapsedGameTime);
-                m_deflateTimes.Add(prevDeflateTime + 10000);
-
-                InflatedModifier += .0125f; // .2f is no-return value (~16 shots)
+                m_deflateTimes.Add(new KeyValuePair<float, float>(prevDeflateTime + 10000, modifier));
+                ScriptHelper.LogDebug(modifier);
+                InflatedModifier += .0125f * modifier; // .2f is no-return value (~16 shots)
 
                 var mod = Player.GetModifiers();
-                mod.SizeModifier += 0.015f;
-                mod.ImpactDamageTakenModifier -= .1f;
+                mod.SizeModifier += 0.015f * modifier;
+                mod.ImpactDamageTakenModifier -= .1f * modifier;
                 Player.SetModifiers(mod);
             }
 
-            public void Deflate()
+            public void Deflate(float modifier)
             {
-                InflatedModifier -= .0125f;
+                InflatedModifier -= .0125f * modifier;
 
                 var mod = Player.GetModifiers();
-                mod.SizeModifier -= 0.015f;
-                mod.ImpactDamageTakenModifier += .1f;
+                mod.SizeModifier -= 0.015f * modifier;
+                mod.ImpactDamageTakenModifier += .1f * modifier;
                 Player.SetModifiers(mod);
             }
 
@@ -162,8 +163,7 @@ namespace BotExtended.Projectiles
                 if (Game.IsEditorTest)
                 {
                     foreach (var info in HeliumInfos.Values)
-                        Game.DrawText(ScriptHelper.ToDisplayString(info.InflatedModifier,
-                            info.Player.GetModifiers().SizeModifier, info.Player.GetLinearVelocity().Y),
+                        Game.DrawText(ScriptHelper.ToDisplayString(info.InflatedModifier, info.Player.GetModifiers().SizeModifier),
                             info.Player.GetWorldPosition());
                 }
                 foreach (var info in HeliumInfos.Values) info.Update(e);
@@ -189,7 +189,8 @@ namespace BotExtended.Projectiles
             if (bot == Bot.None) return;
 
             var info = GetInfo(bot.Player);
-            info.Inflate();
+            var modifier = Instance.GetProperties().PlayerDamage / 6; // SMG projectile deals 6hp
+            info.Inflate(modifier);
         }
     }
 }

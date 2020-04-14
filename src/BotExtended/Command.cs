@@ -408,7 +408,7 @@ namespace BotExtended
             if (arguments.Count() == 1 && (arguments.Single() == "all" || arguments.Single() == "none"))
             {
                 if (arguments.Single() == "all")
-                    botFactions = BotHelper.GetAvailableBotFactions().Select((f) => SharpHelper.EnumToString(f)).ToList();
+                    botFactions = new List<string> { "All" };
                 if (arguments.Single() == "none")
                     botFactions = new List<string> { "None" };
             }

@@ -93,10 +93,18 @@ namespace BotExtended
                     BotHelper.Storage.SetItem(factionsKey, factions);
                 }
 
-                var botFactionList = new List<BotFaction>();
-                foreach (var faction in factions)
+                List<BotFaction> botFactionList;
+                if (factions.Count() == 1 && factions.Single() == "All")
                 {
-                    botFactionList.Add(SharpHelper.StringToEnum<BotFaction>(faction));
+                    botFactionList = BotHelper.GetAvailableBotFactions().ToList();
+                }
+                else
+                {
+                    botFactionList = new List<BotFaction>();
+                    foreach (var faction in factions)
+                    {
+                        botFactionList.Add(SharpHelper.StringToEnum<BotFaction>(faction));
+                    }
                 }
 
                 botFactions.Add(team, botFactionList);

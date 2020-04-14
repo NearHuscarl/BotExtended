@@ -14,16 +14,14 @@ namespace BotExtended
         internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.14.0";
+        internal const string CURRENT_VERSION = "5.14.1";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank
         internal const float ExplosionRadius = 38.5f;
 
         // default settings value
-        internal static readonly string[] DEFAULT_FACTIONS = BotHelper.GetAvailableBotFactions()
-                .Select((f) => SharpHelper.EnumToString(f))
-                .ToArray();
+        internal static readonly string[] DEFAULT_FACTIONS = new string[] { "All" };
         internal const int DEFAULT_MAX_BOT_COUNT = 5;
         internal const int DEFAULT_FACTION_ROTATION_INTERVAL = 3;
 
