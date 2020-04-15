@@ -84,6 +84,7 @@ namespace BotExtended.Projectiles
 
         public override void OnProjectileHit(ProjectileHitArgs args)
         {
+            IsRemoved = true;
             base.OnProjectileHit(args);
 
             if (!args.IsPlayer || IsExplosiveProjectile) return;
@@ -133,10 +134,12 @@ namespace BotExtended.Projectiles
 
             bot.SetModifiers(modifiers);
             fatigueInfo.ProjectileCount++;
+            IsRemoved = false;
 
             ScriptHelper.Timeout(() =>
             {
                 fatigueInfo.ProjectileCount--;
+                IsRemoved = true;
 
                 if (fatigueInfo.ProjectileCount == 0)
                 {
