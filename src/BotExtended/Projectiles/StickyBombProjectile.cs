@@ -34,7 +34,7 @@ namespace BotExtended.Projectiles
                     velocity = projectile.Velocity / 30 + Vector2.UnitY * 3;
                     break;
                 default:
-                    velocity = projectile.Velocity / 20;
+                    velocity = projectile.Velocity / 35;
                     break;
             }
 
@@ -47,7 +47,7 @@ namespace BotExtended.Projectiles
 
             if (TargetedObject == null)
                 CheckIfCollide();
-            
+
             if (TargetedObject != null) Game.DrawArea(TargetedObject.GetAABB(), Color.Red);
             if (TargetedPlayer != null)
             {
@@ -88,7 +88,22 @@ namespace BotExtended.Projectiles
             if (m_timeElasped != 0 && ScriptHelper.IsElapsed(m_timeElasped, 2000))
             {
                 if (m_weldJoint != null) m_weldJoint.Remove();
+                DealExplosionDamage();
                 Instance.Destroy();
+            }
+        }
+
+        private void DealExplosionDamage()
+        {
+            var center = Instance.GetWorldPosition();
+            var filterArea = ScriptHelper.GrowFromCenter(center, Constants.ExplosionRadius * 2);
+            var objectsInRadius = Game.GetObjectsByArea(filterArea)
+                .Where(o => filterArea.Contains(o.GetAABB())
+                && ScriptHelper.IntersectCircle(o.GetAABB(), center, Constants.ExplosionRadius));
+
+            foreach (var o in objectsInRadius)
+            {
+                if (ScriptHelper.IsIndestructible(o)) ScriptHelper.DealDamage(o, 1f);
             }
         }
 
@@ -98,8 +113,7 @@ namespace BotExtended.Projectiles
         {
             var currentVec = Instance.GetLinearVelocity();
 
-            if (MathExtension.Diff(currentVec.X, m_lastVelocity.X) >= 5
-                || MathExtension.Diff(currentVec.Y, m_lastVelocity.Y) >= 5
+            if (currentVec.Length() - m_lastVelocity.Length() <= -6
                 || MathExtension.Diff(Instance.GetAngle(), m_lastAngle) >= MathExtension.OneDeg * 3
                 || TotalDistanceTraveled >= 15 && currentVec.Length() <= 1)
             {
