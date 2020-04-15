@@ -342,16 +342,24 @@ namespace BotExtended.Projectiles
             }
         }
 
+        public static void UpdateProjectile(IProjectile oldP, IProjectile newP)
+        {
+            if (!m_projectiles.ContainsKey(oldP.InstanceID)) return;
+            var oldProjectile = m_projectiles[oldP.InstanceID];
+            m_projectiles.Remove(oldP.InstanceID);
+            m_projectiles.Add(newP.InstanceID, oldProjectile);
+        }
+
         private static void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
             if (m_projectiles.ContainsKey(projectile.InstanceID))
             {
-                var ownerID = projectile.InitialOwnerPlayerID;
+                var proj = m_projectiles[projectile.InstanceID];
+                var ownerID = proj.InitialOwnerPlayerID;
 
                 // Projectile is not fired from IPlayer, custom weapon with custom powerup is not supported
                 if (ownerID == 0) return;
 
-                var proj = m_projectiles[projectile.InstanceID];
                 proj.OnProjectileHit(args);
 
                 // TODO: powerup is not activated if the player is dead

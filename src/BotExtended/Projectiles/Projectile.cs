@@ -8,7 +8,18 @@ namespace BotExtended.Projectiles
 {
     class Projectile : ProjectileBase
     {
-        public readonly IProjectile Instance;
+        private IProjectile _instance;
+        public IProjectile Instance
+        {
+            get { return _instance; }
+            protected set
+            {
+                if (Instance != null && value != null)
+                    ProjectileManager.UpdateProjectile(Instance, value);
+                _instance = value;
+            }
+        }
+
         public override int ID { get { return Instance.InstanceID; } }
         public override bool IsRemoved
         {

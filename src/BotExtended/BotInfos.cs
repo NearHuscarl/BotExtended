@@ -943,6 +943,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Smoker
+                case BotType.Smoker:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchRange = WpnSearchRange.InSight;
+                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Powerups | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        FireDamageTakenModifier = DamageTaken.SlightlyResistant,
+                        ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss ZombieFighter
                 case BotType.ZombieFighter:
                 {

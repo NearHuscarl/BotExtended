@@ -1061,6 +1061,21 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Smoker
+                case BotType.Smoker:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Smoke,
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Fatigue,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Sniper
                 case BotType.Sniper:
                 {

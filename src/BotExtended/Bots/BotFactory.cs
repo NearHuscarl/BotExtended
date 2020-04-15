@@ -95,6 +95,10 @@ namespace BotExtended.Bots
                     bot = new SheriffBot(args);
                     break;
 
+                case BotType.Smoker:
+                    bot = new SmokerBot(args);
+                    break;
+
                 case BotType.SurvivorBiker:
                 case BotType.SurvivorCrazy:
                 case BotType.SurvivorNaked:

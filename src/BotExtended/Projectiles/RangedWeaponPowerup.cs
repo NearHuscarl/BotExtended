@@ -14,6 +14,7 @@
         GravityDE,
         Lightning,
         Present,
+        Smoke,
         Stun,
         Spinner,
         StickyBomb,

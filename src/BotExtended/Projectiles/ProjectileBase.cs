@@ -8,8 +8,11 @@ namespace BotExtended.Projectiles
     {
         public abstract int ID { get; }
         public PlayerTeam Team { get; private set; }
+        // Don't reference Instance.InitialOwnerPlayerID. Instance can be updated and makes
+        // Instance.InitialOwnerPlayerID become obsolete, since there is no way to copy InitialOwnerPlayerID
+        // value to the new Instance
+        // Also CustomProjectile do not have its own InitialOwnerPlayerID
         public int InitialOwnerPlayerID { get; private set; }
-        public int OwnerID { get; private set; }
         public abstract bool IsRemoved { get; protected set; }
         public RangedWeaponPowerup Powerup { get; protected set; }
         public bool IsCustomProjectile { get; protected set; }
@@ -17,7 +20,6 @@ namespace BotExtended.Projectiles
 
         public ProjectileBase(IProjectile projectile, RangedWeaponPowerup powerup)
         {
-            OwnerID = projectile.InitialOwnerPlayerID;
             Powerup = powerup;
             UpdateDelay = 0f;
             // in case the original player is not available when the projectile hits

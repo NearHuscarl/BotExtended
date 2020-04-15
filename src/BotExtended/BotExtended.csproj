@@ -63,8 +63,10 @@
     <Compile Include="Bots\HunterBot.cs" />
     <Compile Include="Bots\KingpinBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
+    <Compile Include="Bots\PoliceChiefBot.cs" />
     <Compile Include="Bots\RobotBot.cs" />
     <Compile Include="Bots\SheriffBot.cs" />
+    <Compile Include="Bots\SmokerBot.cs" />
     <Compile Include="Bots\StripperBot.cs" />
     <Compile Include="Bots\SurvivorBot.cs" />
     <Compile Include="FlipDirection.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Projectiles\MeleeWeaponPowerup.cs" />
     <Compile Include="Projectiles\MeleeWpn.cs" />
     <Compile Include="Projectiles\PlayerWeapon.cs" />
+    <Compile Include="Projectiles\SmokeProjectile.cs" />
     <Compile Include="Projectiles\SpinnerBullet.cs" />
     <Compile Include="Projectiles\StickyBombProjectile.cs" />
     <Compile Include="Projectiles\StunBullet.cs" />

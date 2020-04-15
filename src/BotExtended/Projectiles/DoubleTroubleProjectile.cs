@@ -19,7 +19,7 @@ namespace BotExtended.Projectiles
 
         protected override bool OnProjectileCreated()
         {
-            var owner = Game.GetPlayer(Instance.InitialOwnerPlayerID);
+            var owner = Game.GetPlayer(InitialOwnerPlayerID);
             Vector2 position, direction;
 
             if (owner.GetWeaponMuzzleInfo(out position, out direction))
@@ -42,7 +42,7 @@ namespace BotExtended.Projectiles
                         var projectileItem = Instance.ProjectileItem;
                         var powerup = ScriptHelper.GetPowerup(Instance);
 
-                        // TODO: make a bug report and hope gurt will fix it
+                        // TODO: wait for gurt to fix it
                         ScriptHelper.Timeout(() =>
                         {
                             Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, powerup);

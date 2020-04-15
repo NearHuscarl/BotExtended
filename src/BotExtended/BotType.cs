@@ -145,6 +145,7 @@
         // Tier3: Holiday Hullabaloo
         Santa,
         Sheriff,
+        Smoker,
         SSOfficer,
         Teddybear,
         Babybear,

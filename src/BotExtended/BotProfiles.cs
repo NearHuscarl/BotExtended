@@ -2652,6 +2652,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Smoker
+                case BotType.Smoker:
+                {
+                    profiles.Add(new IProfile()
+                    {
+                        Name = "Smoker",
+                        Accesory = new IProfileClothingItem("GasMask", "ClothingDarkGray", "ClothingLightCyan", ""),
+                        ChestOver = new IProfileClothingItem("KevlarVest", "ClothingDarkGray", "ClothingLightGray", ""),
+                        ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingCyan", "ClothingLightGray", ""),
+                        Feet = new IProfileClothingItem("Boots", "ClothingDarkGray", "ClothingLightGray", ""),
+                        Gender = Gender.Male,
+                        Hands = new IProfileClothingItem("SafetyGloves", "ClothingGray", "ClothingLightGray", ""),
+                        Head = null,
+                        Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkCyan", "ClothingLightGray", ""),
+                        Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray", ""),
+                        Waist = new IProfileClothingItem("CombatBelt", "ClothingCyan", "ClothingLightGray", ""),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Sniper
                 case BotType.Sniper:
                 {
