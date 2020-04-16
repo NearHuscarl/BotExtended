@@ -69,5 +69,18 @@ namespace BotExtended.Library
             else
                 return MathHelper.TwoPI - angle + MathHelper.PI;
         }
+
+        public static Vector2 ClampMagnitude(Vector2 vector, float maxLength)
+        {
+            var lengthSquare = vector.LengthSquared();
+            if (lengthSquare > maxLength * maxLength)
+            {
+                var length = (float)Math.Sqrt(lengthSquare);
+                var normalized_x = vector.X / length;
+                var normalized_y = vector.Y / length;
+                return new Vector2(normalized_x * maxLength, normalized_y * maxLength);
+            }
+            return vector;
+        }
     }
 }

@@ -132,7 +132,7 @@
         // Tier1: The Teahouse Job, Rooftop Retribution
         // Tier3: Unearthed
         Kingpin,
-        Kriegbär,
+        Kriegbar,
         MetroCop2,
         // Tier3: Meatgrinder Begins
         Meatgrinder,

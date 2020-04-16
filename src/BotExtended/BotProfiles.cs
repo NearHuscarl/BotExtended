@@ -1514,7 +1514,7 @@ namespace BotExtended
                 #endregion
 
                 #region Kriegbär
-                case BotType.Kriegbär:
+                case BotType.Kriegbar:
                 {
                     profiles.Add(new IProfile()
                     {

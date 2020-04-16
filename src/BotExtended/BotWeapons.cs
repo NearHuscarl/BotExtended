@@ -619,7 +619,7 @@ namespace BotExtended
                 #endregion
 
                 #region Kriegbär
-                case BotType.Kriegbär:
+                case BotType.Kriegbar:
                 {
                     weapons.Add(new WeaponSet()
                     {

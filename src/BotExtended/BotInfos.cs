@@ -669,9 +669,9 @@ namespace BotExtended
                 #endregion
 
                 #region Boss Kriegbär
-                case BotType.Kriegbär:
+                case BotType.Kriegbar:
                 {
-                    botInfo.AIType = BotAI.Expert;
+                    botInfo.AIType = BotAI.RagingHulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.UltraStrong,

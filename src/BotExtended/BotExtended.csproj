@@ -62,6 +62,7 @@
     <Compile Include="Bots\Controller.cs" />
     <Compile Include="Bots\HunterBot.cs" />
     <Compile Include="Bots\KingpinBot_Controller.cs" />
+    <Compile Include="Bots\KriegbarBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\PoliceChiefBot.cs" />
     <Compile Include="Bots\RobotBot.cs" />

@@ -242,7 +242,7 @@ namespace BotExtended.Library
         public static bool SameTeam(IPlayer player1, IPlayer player2)
         {
             if (player1 == null || player2 == null) return false;
-            return player1.GetTeam() == player2.GetTeam()
+            return player1.GetTeam() != PlayerTeam.Independent && player1.GetTeam() == player2.GetTeam()
                 || player1.GetTeam() == PlayerTeam.Independent && player1.UniqueID == player2.UniqueID;
         }
 

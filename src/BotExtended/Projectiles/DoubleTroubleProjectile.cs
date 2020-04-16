@@ -48,7 +48,7 @@ namespace BotExtended.Projectiles
                             Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, powerup);
                         }, 0);
 
-                        if (Game.IsEditorTest)
+                        if (false && Game.IsEditorTest)
                         {
                             ScriptHelper.RunIn(() =>
                             {

@@ -59,9 +59,7 @@ namespace BotExtended.Projectiles
             if (args.IsPlayer)
             {
                 velocity += Instance.Direction * 4 + upDirection * 14 * modifiers;
-                if (velocity.Length() >= 15)
-                    velocity -= Vector2.Normalize(velocity) * (velocity.Length() - 15);
-                hitObject.SetLinearVelocity(velocity);
+                hitObject.SetLinearVelocity(MathExtension.ClampMagnitude(velocity, 15));
             }
             else
             {

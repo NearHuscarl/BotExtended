@@ -316,7 +316,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
         }
 
-        private static void CreateNewBot(IEnumerable<string> arguments)
+        public static void CreateNewBot(IEnumerable<string> arguments)
         {
             if (arguments.Count() < 1)
                 return;
