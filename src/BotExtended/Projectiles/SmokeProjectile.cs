@@ -34,11 +34,13 @@ namespace BotExtended.Projectiles
                 var position = Instance.Position;
                 var direction = Instance.Direction;
 
+                Instance.DamageDealtModifier = 0.01f; // in case it's remved immediately
                 // TODO: wait for gurt to fix it
                 ScriptHelper.Timeout(() =>
                 {
                     Instance.FlagForRemoval();
                     Instance = Game.SpawnProjectile(ProjectileItem.GRENADE_LAUNCHER, position, direction, ProjectilePowerup.Bouncing);
+                    Instance.DamageDealtModifier = 0.01f;
                 }, 0);
 
                 return true;
@@ -120,7 +122,7 @@ namespace BotExtended.Projectiles
 
                 foreach (var player in Game.GetPlayers())
                 {
-                    if (!m_playersAffected.ContainsKey(player.UniqueID) && IsInside(player.GetWorldPosition())
+                    if (!m_playersAffected.ContainsKey(player.UniqueID) && IsInside(player)
                         && !AllPlayersAffected.Contains(player.UniqueID))
                     {
                         m_playersAffected.Add(player.UniqueID, new Info()
@@ -156,7 +158,7 @@ namespace BotExtended.Projectiles
                     var info = kv.Value;
                     var bot = BotManager.GetBot(kv.Key);
 
-                    if (bot == Bot.None || bot.Player.IsDead || !IsInside(info.Player.GetAABB()))
+                    if (bot == Bot.None || bot.Player.IsDead || !IsInside(info.Player))
                     {
                         bot.ResetModifiers();
                         bot.ResetBotBehaviorSet();
@@ -171,7 +173,11 @@ namespace BotExtended.Projectiles
         }
 
         private bool IsInside(Vector2 position) { return ScriptHelper.IntersectCircle(position, m_explodePosition, CurrentSmokeRadius); }
-        private bool IsInside(Area hitBox) { return ScriptHelper.IntersectCircle(hitBox, m_explodePosition, CurrentSmokeRadius); }
+        private bool IsInside(IPlayer player)
+        {
+            var hitBox = player.GetAABB();
+            return ScriptHelper.IntersectCircle(hitBox, m_explodePosition, CurrentSmokeRadius) && hitBox.Top >= m_groundPositionY;
+        }
 
         public override void OnProjectileHit(ProjectileHitArgs args)
         {
