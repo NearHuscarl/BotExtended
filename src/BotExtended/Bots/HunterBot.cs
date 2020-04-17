@@ -52,7 +52,7 @@ namespace BotExtended.Bots
         {
             foreach (var p in Game.GetPlayers())
             {
-                if (p.IsRemoved) continue;
+                if (p.IsRemoved || p.IsDead) continue;
                 var skinName = p.GetProfile().Skin.Name;
                 var isBear = skinName == "FrankenbearSkin" || skinName == "BearSkin";
 

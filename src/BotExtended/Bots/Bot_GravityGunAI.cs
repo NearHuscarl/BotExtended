@@ -294,15 +294,8 @@ namespace BotExtended.Bots
 
         private bool EnemiesNearby()
         {
-            foreach (var player in Game.GetPlayers())
-            {
-                if (!ScriptHelper.SameTeam(Player, player))
-                {
-                    if (DangerArea.Intersects(player.GetAABB()))
-                        return true;
-                }
-            }
-            return false;
+            return Game.GetPlayers()
+                .Where(p => !p.IsDead && !ScriptHelper.SameTeam(p, Player) && DangerArea.Intersects(p.GetAABB())).Any();
         }
 
         private void ChangeState(State state, string reason = "")

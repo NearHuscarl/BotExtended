@@ -56,7 +56,7 @@ namespace BotExtended.Bots
             }
         }
 
-        public IEnumerable<IPlayer> GetThrowTargets(int thrownPlayerID)
+        public IEnumerable<IPlayer> GetThrowTargets(int thrownPlayerID = 0)
         {
             var throwAngleLimits = new float[] { MathExtension.ToRadians(0), MathExtension.ToRadians(75) };
             if (Player.FacingDirection < 0)
@@ -111,6 +111,7 @@ namespace BotExtended.Bots
                     {
                         var hitObject = result.HitObject;
                         var throwDirection = Vector2.Normalize(hitObject.GetWorldPosition() - grabPosition);
+                        var throwTime = Game.TotalElapsedGameTime;
 
                         Game.DrawArea(hitObject.GetAABB(), Color.Cyan);
                         Game.DrawLine(grabPosition, grabPosition + throwDirection * 30, Color.Cyan);
@@ -120,7 +121,9 @@ namespace BotExtended.Bots
                         Events.PlayerDamageCallback damageCB = null;
                         damageCB = Events.PlayerDamageCallback.Start((IPlayer player, PlayerDamageArgs args) =>
                         {
-                            if (thrownPlayer.IsRemoved || !thrownPlayer.IsMissile && player.UniqueID != thrownPlayer.UniqueID)
+                            if (thrownPlayer.IsRemoved
+                            || !thrownPlayer.IsMissile && player.UniqueID != thrownPlayer.UniqueID
+                            || ScriptHelper.IsElapsed(throwTime, 2000))
                             {
                                 damageCB.Stop();
                             }

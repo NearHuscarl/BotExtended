@@ -96,15 +96,9 @@ namespace BotExtended.Bots
 
         private bool EnemiesInArea(Area area)
         {
-            foreach (var player in Game.GetPlayers())
-            {
-                if (!ScriptHelper.SameTeam(Player, player))
-                {
-                    if (area.Intersects(player.GetAABB()))
-                        return true;
-                }
-            }
-            return false;
+            return Game.GetPlayers()
+                .Where(p => !p.IsDead && !ScriptHelper.SameTeam(Player, p) && area.Intersects(p.GetAABB()))
+                .Any();
         }
 
         private static int removeme = 0;
