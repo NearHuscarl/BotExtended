@@ -74,10 +74,7 @@ namespace BotExtended.Projectiles
 
             bot.Stun(StunnedTime, (e) =>
             {
-                var position = bot.Position;
-                position.X += RandomHelper.Between(-10, 10);
-                position.Y += RandomHelper.Between(-10, 10);
-
+                var position = RandomHelper.WithinArea(bot.Player.GetAABB());
                 Game.PlayEffect(EffectName.Electric, position);
             }, 400);
         }

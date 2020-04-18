@@ -70,7 +70,7 @@ namespace BotExtended.Projectiles
 
         private float m_guideDelay = 0f;
         private float m_guideDelayTime = 1000f;
-        private void Guide(float elapsed)
+        private void Guide()
         {
             if (ScriptHelper.IsElapsed(m_guideDelay, m_guideDelayTime))
             {

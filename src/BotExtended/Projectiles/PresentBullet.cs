@@ -88,7 +88,7 @@ namespace BotExtended.Projectiles
 
             // normally, the present spawn some random shits upon destroyed. make the present disappeared
             // and spawn something else as a workaround
-            Instance.SetWorldPosition(new Vector2(-1000, 1000));
+            Instance.SetWorldPosition(ScriptHelper.GetFarAwayPosition());
             Game.PlayEffect(EffectName.DestroyCloth, position);
 
             var rndNum = RandomHelper.Between(0, 100);

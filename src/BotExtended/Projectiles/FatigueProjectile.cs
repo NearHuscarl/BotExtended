@@ -102,7 +102,8 @@ namespace BotExtended.Projectiles
         private void Fatigue(int playerID)
         {
             var player = Game.GetPlayer(playerID);
-            if (player == null || player.IsDead) return;
+            IsRemoved = player == null || player.IsDead;
+            if (IsRemoved) return;
 
             if (!FatigueInfos.ContainsKey(playerID))
             {
@@ -134,7 +135,6 @@ namespace BotExtended.Projectiles
 
             bot.SetModifiers(modifiers);
             fatigueInfo.ProjectileCount++;
-            IsRemoved = false;
 
             ScriptHelper.Timeout(() =>
             {
