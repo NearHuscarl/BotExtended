@@ -3,6 +3,8 @@
 This script adds a wide variety of bots to spice up combat. It is currently
 under development and maybe full of bugs :bug:
 
+[Demo](https://imgur.com/a/iIrAPf9)
+
 <!-- ## Features
 - **Large variety of bots**: 60+ new bots for you to fight. No more having to fight hard and expert bots all the time.
 - **Bot faction:** Bots will be spawned in many different factions: Thug, Police, Soldier, Assassin, Zombie... to keep you engaging every round.

@@ -52,39 +52,6 @@ namespace BotExtended
                 //player.GiveWeaponItem(WeaponItem.ASSAULT);
                 player.GiveWeaponItem(WeaponItem.GRENADES);
                 player.GiveWeaponItem(WeaponItem.STRENGTHBOOST);
-
-                var n = 0;
-                foreach (var p in Game.GetPlayers())
-                {
-                    if (p.Name != "Near")
-                    {
-                        //p.SetInputEnabled(false);
-                        //p.SetUser(null);
-                    }
-                    if (p.Name.StartsWith("Mecha"))
-                    {
-                        p.SetHealth(1);
-                    }
-                    if (p.Name.StartsWith("Cowboy") || p.Name.StartsWith("Bandido"))
-                        p.Remove();
-                    if (p.Name.StartsWith("Hunter"))
-                    {
-                        if (n > 2) p.Remove();
-                        n++;
-                    }
-                }
-
-                //Game.SetAllowedCameraModes(CameraMode.Static);
-                //Game.SetCameraArea(new Area(10, -130, -10, 130));
-                //// image size: 140 x 140 - top: 20 left: 30M 30F
-                //Command.SetPlayer(new List<string>() { "near", "MirrorMan" });
-                //Command.SetPlayer(new List<string>() { "player 2", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 3", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 4", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 5", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 6", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 7", "Agent" });
-                //Command.SetPlayer(new List<string>() { "player 8", "Agent" });
             }
         }
 

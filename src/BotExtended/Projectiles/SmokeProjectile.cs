@@ -16,7 +16,7 @@ namespace BotExtended.Projectiles
         public const float SmokeTime = 22000f;
         public override bool IsRemoved
         {
-            get { return m_explodeTime != 0f && !m_playersAffected.Any() && ScriptHelper.IsElapsed(m_explodeTime, 20000); }
+            get { return m_explodeTime != 0f && !m_playersAffected.Any() && ScriptHelper.IsElapsed(m_explodeTime, SmokeTime); }
         }
         private float m_explodeTime = 0f;
         private Vector2 m_explodePosition;
@@ -34,7 +34,7 @@ namespace BotExtended.Projectiles
                 var position = Instance.Position;
                 var direction = Instance.Direction;
 
-                Instance.DamageDealtModifier = 0.01f; // in case it's remved immediately
+                Instance.DamageDealtModifier = 0.01f; // in case it's removed immediately
                 // TODO: wait for gurt to fix it
                 ScriptHelper.Timeout(() =>
                 {

@@ -29,8 +29,6 @@ namespace BotExtended
 
         public static FactionSet GetFactionSet(BotFaction botFaction, int bossIndex = -1)
         {
-            if (Game.IsEditorTest) botFaction = BotFaction.None;
-            if (Game.IsEditorTest) bossIndex = 2;
             var factionSet = new FactionSet(botFaction);
             var bosses = GetBosses(botFaction);
 

@@ -36,7 +36,7 @@ namespace BotExtended.Projectiles
                 }
             }
 
-            Guide(elapsed);
+            Guide();
 
             if (Target != null)
             {
