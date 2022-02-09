@@ -30,7 +30,7 @@ under development and maybe full of bugs :bug:
 
 ## Script Commands
 
-BotExtended can be played using the default settings without you having to touch the commandline. But if you want to further customize or break stuff, this section is for you.
+BotExtended can be played using the default settings without you having to touch the command line. But if you want to further customize or break stuff, this section is for you.
 
 All of the commands start with `/botextended` or `/be`. Some commands may require one or more arguments.
 
@@ -59,7 +59,6 @@ A boss is a much stronger bot, some have special abilities: Mecha boss with bull
 ```
 /be lf
 ```
-
 
 <details>
   <summary>Result</summary>
@@ -96,8 +95,8 @@ A boss is a much stronger bot, some have special abilities: Mecha boss with bull
 212: Boss_Teddybear
 213: Boss_Zombie
 ```
-</details>
 
+</details>
 
 ### `listbot`
 
@@ -105,7 +104,7 @@ Usage: `/<botextended|be> [listbot|lb]`
 
 List all available `BotType`s.
 
-`BotType` describes a specific bot apperance, stats and behavior. Each `BotType` has different outfits, starting weapons, modifiers, AI behaviors and special abilities. A `BotFaction` must have multiple `BotType`s in the same theme. For example, Clown `BotFaction` can spawn ClownCowboy, ClownGangster and ClownBoxer `BotType`, but cannot spawn Gangster.
+`BotType` describes a specific bot's appearance, stats and behavior. Each `BotType` has different outfits, starting weapons, modifiers, AI behaviors and special abilities. A `BotFaction` must have multiple `BotType`s in the same theme. For example, Clown `BotFaction` can spawn ClownCowboy, ClownGangster and ClownBoxer `BotType`, but cannot spawn Gangster.
 
 ```
 /be lb
@@ -184,6 +183,7 @@ List all available `BotType`s.
 66: ZombieThug
 67: ZombieWorker
 ```
+
 </details>
 
 ### `findfaction`
@@ -217,13 +217,13 @@ Display current script settings
 
 Usage: `/<botextended|be> [create|c] <BotType> [1|2|3|4|_] [Count]`
 
-Spawn one or a group of bots. First argument is `BotType`. See [`listbot`](#listbot) to list all `BotType`s. This is the only required argument
+Spawn one or a group of bots. First argument is `BotType`. See [`listbot`](#listbot) to list all `BotType`s. This is the only required argument.
 
-Second argument is team to spawn to from `t1` to `t4`, `t0` is indenpendent. Default to indenpendent
+The second argument is the team to spawn from `t1` to `t4`, `t0` is independent. Default to independent.
 
-Third argument is number of bot to spawn. Default to 1
+Third argument is the number of bot to spawn. Default to 1.
 
-*Example*:
+_Example_:
 
 Spawn one funnyman
 
@@ -261,7 +261,7 @@ Usage: `/<botextended|be> [botcount|bc] <1-10>`
 
 Set the maximum bot count for a round. Be aware the number of bots will be capped based on 2 factors. The number of available `SpawnPlayer`s in the map and the `botcount` itself. So when you set `botcount` to 8 it will only spawn all 8 bots if the map is big enough to have all of the `SpawnPlayer`s needed.
 
-How it works: On startup of every round, the script will search for the number of `SpawnPlayer` tiles in the map, and substract the number of players and regular bots that already spawned. That number then is capped again if it exceeds the `botcount` limit.
+How it works: On startup of every round, the script will search for the number of `SpawnPlayer` tiles in the map, and subtract the number of players and regular bots that have already spawned. That number then is capped again if it exceeds the `botcount` limit.
 
 ```
 /be bc 2
@@ -271,36 +271,37 @@ How it works: On startup of every round, the script will search for the number o
 
 Usage: `/<botextended|be> [Team] [faction|f] [-e] <names|indexes|all>`
 
-Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is seperated by a space. `all` argument means randomize all `BotFaction`s. Add -e flag before the argument list to exclude those `BotFaction`s instead. Select `none` to disable spawning bot to that team. Team arguments ranges from `t1` to `t4`
+Select a list of `BotFaction`s by either name or index to randomly spawn on startup. Each faction is separated by a space. `all` argument means randomizing all `BotFaction`s. Add -e flag before the argument list to exclude those `BotFaction`s instead. Select `none` to disable spawning bot to that team. Team arguments ranges from `t1` to `t4`
 
 ```bash
 /be f sniper thug boss_jo boss_hacker
 ```
 
-You can use index for `BotFaction` name to shorten the command. See [`listfaction`](#listfaction) for more detail.
+You can use the index instead of `BotFaction` name to shorten the command. See [`listfaction`](#listfaction) for more detail.
 
 ```
 /be f 11 13 202 203
 ```
 
-Select all factions
+Select all factions.
 
 ```
 /be f all
 ```
 
-Select all except zombie factions
+Select all except zombie factions.
 
 ```
 /be f -e Zombie ZombieHard Boss_Zombie
 ```
 
-Don't spawn bots on team 3
+Don't spawn bots on team 3.
+
 ```
 /be f t3 none
 ```
 
-To select one `BotFaction` to spawn every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `0` to disable rotation
+To select one `BotFaction` to spawn every round, simply select that `BotFaction` only and set [`factionrotation`](#factionrotation) to `0` to disable rotation.
 
 ```bash
 /be fr 0
@@ -321,7 +322,7 @@ Set faction rotation interval for every n rounds. Set `0` to disable rotation
 
 Usage: `/<botextended|be> [nextfaction|nf]`
 
-Change the faction in the currrent faction rotation to the next faction
+Change the faction in the current faction rotation to the next faction
 
 ```
 /be nf
@@ -336,11 +337,13 @@ to see the list of players and their respective indexes. this settings will be s
 Use [`clearplsettings`](#clearplsettings) to reset settings for all players.
 
 Set player 0 to funnyman
+
 ```
 /be sp 0 funnyman
 ```
 
 Reset player Spud to normal
+
 ```
 /be sp spud none
 ```
@@ -349,26 +352,27 @@ Reset player Spud to normal
 
 Usage: `/<botextended|be> [setweapon|sw] <player> <WeaponItem> <Powerup>`
 
-Give specific player a powerup weapon
+Give specific player a powerup weapon.
 
-Give player near an electroshock magnum which can stun players on critical hit
+Give player near an electroshock magnum which can stun players on critical hit.
+
 ```
 /be setweapon near magnum stun
 ```
 
-Same command as above but use indexes to shorten the command
+Same command as above but use indexes to shorten the command.
 
 ```
 /be sw 0 1 1
 ```
 
-Remove powerup. Magnum now fires normal rounds
+Remove powerup. Magnum now fires normal rounds.
 
 ```
 /be sw near magnum none
 ```
 
-Remove all powerup weapons that in the player's inventory (not apply until the next round)
+Remove all powerup weapons that in the player's inventory (not apply until the next round).
 
 ```
 /be sw near none
