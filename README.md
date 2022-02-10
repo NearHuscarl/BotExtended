@@ -1,6 +1,6 @@
 # BotExtended
 
-This script adds a wide variety of bots to spice up combat. It is currently
+This script adds a wide variety of bots to spice up combat experience. It is currently
 under development and maybe full of bugs :bug:
 
 [Demo](https://imgur.com/a/iIrAPf9)
@@ -17,6 +17,18 @@ under development and maybe full of bugs :bug:
 - Download [this file](src/BotExtended/BotExtended.txt)
 - Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
 
+## Development
+
+- Clone [ScriptLinker](https://github.com/nearhuscarl/scriptlinker) project on my github.
+- Build in DEBUG mode. The global hotkeys doesn't work in RELEASE mode for some reasons but I'm too lazy to fix it now.
+- Open ScriptLinker > Script > New, then enter the _Name_, _Entry Point_ and _Project Directory_. Remind me to add a way to read the script metedata in the future.
+
+![New Script](./docs/NewScript.png)
+
+- Open [this](./src) solution in _Visual Studio_.
+- In BotExtended project, Click Reference > Add Reference > Browse > Select `...\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll`
+- Start coding and press `F8` to save change.
+
 <!-- ## Factions
 
 ### Assassin
@@ -30,7 +42,9 @@ under development and maybe full of bugs :bug:
 
 ## Script Commands
 
-BotExtended can be played using the default settings without you having to touch the command line. But if you want to further customize or break stuff, this section is for you.
+BotExtended can be played using the default settings without you having to touch the command line. But if you want to customize or try out different bots, weapons or factions, this section is for you.
+
+By default, the game spawns a random faction (See the faction list [here](#list-of-factions)) in team 4 in every match.
 
 All of the commands start with `/botextended` or `/be`. Some commands may require one or more arguments.
 
@@ -52,7 +66,7 @@ Usage: `/<botextended|be> [listfaction|lf]`
 
 List all of the available `BotFaction`s. A `BotFaction` consists of one or many different bots in a specific theme, for example: Assassin, Police, Zombie... Some `BotFaction`s only have one bot, usually a boss.
 
-A boss is a much stronger bot, some have special abilities: Mecha boss with bulletproof armor, Demolitionist who can one shot one kill. They are much harder to kill and is equivalent with several expert bots.
+A boss is a much stronger bot and often come with special abilities: Mecha boss with bulletproof armor, Demolitionist who can one shot one kill. They are much harder to kill and is equivalent with several expert bots.
 
 `BotFaction`s whose names prefixed with `Boss` will have at least one boss, sometimes spawn with its minions. (Kinpin and bodyguards, BadSanta and his Elks)
 
@@ -60,40 +74,57 @@ A boss is a much stronger bot, some have special abilities: Mecha boss with bull
 /be lf
 ```
 
+#### List of factions
+
 <details>
-  <summary>Result</summary>
+  <summary>Click to open</summary>
 
 ```
-0: Assassin
-1: Agent
-2: Bandido
-3: Biker
-4: Clown
-5: Cowboy
-6: Gangster
-7: Marauder
-8: MetroCop
-9: Police
-10: PoliceSWAT
-11: Sniper
-12: Soldier
-13: Thug
-14: Zombie
-15: ZombieHard
+0: None
+1: Assassin
+2: Agent
+3: Bandido
+4: Biker
+5: Clown
+6: Cowboy
+7: Engineer
+8: Farmer
+9: Gangster
+10: Hunter
+11: MetroCop
+12: Nazi
+13: Police
+14: PoliceSWAT
+15: Robot
+16: Sniper
+17: Soldier
+18: Spacer
+19: SpaceSniper
+20: Stripper
+21: Survivor
+22: Thug
+23: Punk
+24: Zombie
+25: ZombieMutated
 200: Boss_Demolitionist
-201: Boss_Funnyman
-202: Boss_Jo
-203: Boss_Hacker
-204: Boss_Incinerator
-205: Boss_Kingpin
-206: Boss_MadScientist
-207: Boss_Meatgrinder
-208: Boss_Mecha
-209: Boss_MetroCop
-210: Boss_Ninja
-211: Boss_Santa
-212: Boss_Teddybear
-213: Boss_Zombie
+201: Boss_Balista
+202: Boss_Boffin
+203: Boss_Cindy
+204: Boss_Funnyman
+205: Boss_Jo
+206: Boss_Hacker
+207: Boss_Incinerator
+208: Boss_Kingpin
+209: Boss_MadScientist
+210: Boss_Meatgrinder
+211: Boss_Mecha
+212: Boss_MetroCop
+213: Boss_MirrorMan
+214: Boss_Ninja
+215: Boss_Santa
+216: Boss_Sheriff
+217: Boss_Teddybear
+218: Boss_Zombie
 ```
 
 </details>
@@ -124,64 +155,90 @@ List all available `BotType`s.
 7: BikerHulk
 8: Bodyguard
 9: Bodyguard2
-10: ClownBodyguard
-11: ClownBoxer
-12: ClownCowboy
-13: ClownGangster
-14: Cowboy
-15: Demolitionist
-16: Elf
-17: Hacker
-18: Jo
-19: Fritzliebe
-20: Funnyman
+10: Cyborg
+11: LabAssistant
+12: Scientist
+13: ClownBodyguard
+14: ClownBoxer
+15: ClownCowboy
+16: ClownGangster
+17: Cowboy
+18: Elf
+19: Engineer
+20: Farmer
 21: Gangster
 22: GangsterHulk
-23: Incinerator
-24: Kingpin
-25: Kriegb
-26: MarauderBiker
-27: MarauderCrazy
-28: MarauderNaked
-29: MarauderRifleman
-30: MarauderRobber
-31: MarauderTough
-32: Meatgrinder
-33: Mecha
-34: MetroCop
-35: MetroCop2
-36: Mutant
-37: NaziLabAssistant
-38: NaziMuscleSoldier
-39: NaziScientist
-40: NaziSoldier
-41: SSOfficer
-42: Ninja
-43: Police
-44: PoliceSWAT
-45: Santa
-46: Sniper
-47: Soldier
-48: Soldier2
-49: Teddybear
-50: Babybear
-51: Thug
-52: ThugHulk
-53: Zombie
-54: ZombieAgent
-55: ZombieBruiser
-56: ZombieChild
-57: ZombieFat
-58: ZombieFighter
-59: ZombieFlamer
-60: ZombieGangster
-61: ZombieNinja
-62: ZombiePolice
-63: ZombiePrussian
-64: BaronVonHauptstein
-65: ZombieSoldier
-66: ZombieThug
-67: ZombieWorker
+23: Gardener
+24: Hunter
+25: Lumberjack
+26: MetroCop
+27: Mutant
+28: NaziLabAssistant
+29: NaziMuscleSoldier
+30: NaziScientist
+31: NaziSoldier
+32: Police
+33: PoliceSWAT
+34: SurvivorBiker
+35: SurvivorCrazy
+36: SurvivorNaked
+37: SurvivorRifleman
+38: SurvivorRobber
+39: SurvivorTough
+40: Sniper
+41: Soldier
+42: Soldier2
+43: Spacer
+44: SpaceSniper
+45: Stripper
+46: Thug
+47: ThugHulk
+48: Punk
+49: PunkHulk
+50: Zombie
+51: ZombieAgent
+52: ZombieBruiser
+53: ZombieChild
+54: ZombieFat
+55: ZombieFighter
+56: ZombieFlamer
+57: ZombieGangster
+58: ZombieNinja
+59: ZombiePolice
+60: ZombiePrussian
+61: ZombieSoldier
+62: ZombieThug
+63: ZombieWorker
+64: Amos
+65: Balista
+66: Balloonatic
+67: Bobby
+68: Boffin
+69: Cindy
+70: Demolitionist
+71: Jo
+72: Fritzliebe
+73: Funnyman
+74: Hacker
+75: Handler
+76: Incinerator
+77: Kingpin
+78: Kriegbar
+79: MetroCop2
+80: Meatgrinder
+81: Mecha
+82: MirrorMan
+83: Ninja
+84: PoliceChief
+85: Raze
+86: Reznor
+87: Santa
+88: Sheriff
+89: Smoker
+90: SSOfficer
+91: Teddybear
+92: Babybear
+93: BaronVonHauptstein
 ```
 
 </details>

@@ -53,7 +53,7 @@ namespace BotExtended
                     break;
 
                 case "s":
-                case "setting":
+                case "settings":
                     ShowCurrentSettings();
                     break;
 

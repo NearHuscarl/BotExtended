@@ -4,7 +4,7 @@ from typing import List
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 FILE_PATH = os.path.normpath(
-    os.path.join(SCRIPT_DIRECTORY, '../src/BotExtended/Group/BotGroup.cs'))
+    os.path.join(SCRIPT_DIRECTORY, '../src/BotExtended/Factions/BotFaction.cs'))
 
 
 def main():
