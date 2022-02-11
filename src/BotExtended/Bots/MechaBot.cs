@@ -138,10 +138,12 @@ namespace BotExtended.Bots
                 {
                     Game.PlayEffect(EffectName.Electric, position);
                     Game.PlaySound("ElectricSparks", position);
+                    chargedPlayers.Add(player.UniqueID);
+
                     var direction = RandomHelper.Direction(angles[0], angles[1], true);
                     player.SetLinearVelocity(direction * 15f);
-                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall);
-                    chargedPlayers.Add(player.UniqueID);
+                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
+                        .ContinueWith((r) => ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall));
                 }
             }
 

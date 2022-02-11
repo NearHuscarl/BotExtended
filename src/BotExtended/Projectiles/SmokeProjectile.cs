@@ -122,7 +122,7 @@ namespace BotExtended.Projectiles
 
                 foreach (var player in Game.GetPlayers())
                 {
-                    if (!player.IsDead && !m_playersAffected.ContainsKey(player.UniqueID) && IsInside(player)
+                    if (player != null && !player.IsDead && !m_playersAffected.ContainsKey(player.UniqueID) && IsInside(player)
                         && !AllPlayersAffected.Contains(player.UniqueID))
                     {
                         m_playersAffected.Add(player.UniqueID, new Info()

@@ -379,9 +379,15 @@ namespace BotExtended.Library
             }
         }
 
-        public static void ExecuteSingleCommand(IPlayer player, PlayerCommandType commandType, uint delay = 10,
-            PlayerCommandFaceDirection facingDirection = PlayerCommandFaceDirection.None)
+        public static System.Threading.Tasks.Task<bool> ExecuteSingleCommand(
+            IPlayer player,
+            PlayerCommandType commandType,
+            uint delay = 10,
+            PlayerCommandFaceDirection facingDirection = PlayerCommandFaceDirection.None
+            )
         {
+            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+
             player.SetInputEnabled(false);
             // some commands like Stagger not working without this line
             player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, facingDirection));
@@ -394,8 +400,11 @@ namespace BotExtended.Library
                 {
                     player.ClearCommandQueue();
                     player.SetInputEnabled(true);
+                    promise.TrySetResult(true);
                 }, delay);
             }, 2);
+
+            return promise.Task;
         }
 
         public static Vector2 GetFarAwayPosition()
