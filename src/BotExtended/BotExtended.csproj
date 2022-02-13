@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SFD.GameScriptInterface">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\AssassinBot.cs" />
     <Compile Include="Bots\BalistaBot.cs" />
     <Compile Include="Bots\BalloonaticBot.cs" />
     <Compile Include="Bots\BoffinBot.cs" />

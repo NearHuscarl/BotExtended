@@ -27,6 +27,11 @@ namespace BotExtended.Bots
 
             switch (botType)
             {
+                case BotType.AssassinMelee:
+                case BotType.AssassinRange:
+                    bot = new AssassinBot(args);
+                    break;
+
                 case BotType.Balista:
                     bot = new BalistaBot(args);
                     break;

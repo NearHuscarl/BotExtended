@@ -16,6 +16,11 @@ under development and maybe full of bugs :bug:
 
 - Download [this file](src/BotExtended/BotExtended.txt)
 - Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
+- Run `setup_script.py`
+
+```bash
+python ./setup_script.py 'F:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
+```
 
 ## Development
 

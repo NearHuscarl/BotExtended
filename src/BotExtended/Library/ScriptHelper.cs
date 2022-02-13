@@ -388,6 +388,9 @@ namespace BotExtended.Library
         {
             var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
 
+            if (player == null)
+                promise.TrySetResult(false);
+
             player.SetInputEnabled(false);
             // some commands like Stagger not working without this line
             player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, facingDirection));

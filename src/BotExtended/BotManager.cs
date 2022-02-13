@@ -138,7 +138,13 @@ namespace BotExtended
                 ? CurrentFaction.Spawn(team)
                 : CurrentFaction.Spawn(botCount, team);
 
-            foreach (var bot in bots) TriggerOnSpawn(bot);
+            ScriptHelper.Timeout(() =>
+            {
+                // wait for the next frame. Since the IPlayer instance is created in this frame,
+                // The game doesn't register that IPlayer yet. As a consequence, IGame.GetPlayers()
+                // returns missing players.
+                foreach (var bot in bots) TriggerOnSpawn(bot);
+            }, 0);
         }
 
         public static void SetPlayer(Bot bot, IPlayer player)
