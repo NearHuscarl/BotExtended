@@ -18,5 +18,9 @@ namespace BotExtended.Factions
         {
             Factions.Add(new Faction(subFactions, Faction));
         }
+        public void AddFaction(SubFaction subFaction)
+        {
+            AddFaction(new List<SubFaction> { subFaction });
+        }
     }
 }

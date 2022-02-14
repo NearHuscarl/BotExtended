@@ -414,7 +414,7 @@ namespace BotExtended.Library
         {
             var randX = RandomHelper.Between(0, 20);
             var randy = RandomHelper.Between(0, 20);
-            return Game.GetCameraMaxArea().BottomLeft + new Vector2(-10 - randX, -10 - randy);
+            return Game.GetCameraMaxArea().TopLeft + new Vector2(10 + randX, 10 + randy);
         }
 
         // TODO: remove this if gurt added IObject.DealDamage()

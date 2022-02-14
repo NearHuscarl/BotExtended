@@ -46,6 +46,7 @@
         // Tier1: The Teahouse Job, Heavy Hostility
         GangsterHulk,
         Gardener,
+        Hitman,
         Hunter,
         Lumberjack,
 

@@ -36,6 +36,7 @@
         Boss_Funnyman,
         Boss_Jo,
         Boss_Hacker,
+        Boss_Hitman,
         Boss_Incinerator,
         Boss_Kingpin,
         Boss_MadScientist,

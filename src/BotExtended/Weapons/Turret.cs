@@ -40,6 +40,7 @@ namespace BotExtended.Weapons
     //        x - rotationPointPos.X, y - rotationPointPos.Y, comp.CustomID));
     //}
 
+    // TODO: use custom texture to simplify code logic
     class Turret : Weapon
     {
         public int UniqueID { get { return m_tip.UniqueID; } }

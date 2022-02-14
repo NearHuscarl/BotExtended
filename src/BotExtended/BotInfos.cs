@@ -618,6 +618,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Hitman
+                case BotType.Hitman:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.All;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.Fast,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Incinerator
                 case BotType.Incinerator:
                 {

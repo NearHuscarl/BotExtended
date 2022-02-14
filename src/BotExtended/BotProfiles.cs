@@ -328,6 +328,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Hitman
+                case BotType.Hitman:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyk2jjo1L7Z2Aee2m7Z2U7ZY10eZY
+                    profiles.Add(new IProfile() { Name = "Hitman", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGreen"), ChestOver = new IProfileClothingItem("SuitJacketBlack", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingLightGray", "ClothingLightRed"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("SmallBelt", "ClothingGray", "ClothingGray"), Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkGray"), Feet = new IProfileClothingItem("Shoes", "ClothingDarkGray"), });
+                    // https://profile-editor.vercel.app?p=M1Fyk2jjo1KjZY2neZ2TjZY0X7ZY
+                    profiles.Add(new IProfile() { Name = "Hitman", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGreen"), ChestOver = new IProfileClothingItem("SuitJacket", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingLightGray", "ClothingLightRed"), Hands = new IProfileClothingItem("Gloves", "ClothingDarkGray"), Legs = new IProfileClothingItem("Pants", "ClothingLightGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Gangster
                 case BotType.Gangster:
                 {

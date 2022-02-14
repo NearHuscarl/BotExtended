@@ -68,6 +68,10 @@ namespace BotExtended.Bots
                     bot = new HackerBot(args);
                     break;
 
+                case BotType.Hitman:
+                    bot = new HitmanBot(args);
+                    break;
+
                 case BotType.Hunter:
                     bot = new HunterBot(args);
                     break;

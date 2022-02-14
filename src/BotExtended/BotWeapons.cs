@@ -588,6 +588,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Hitman
+                case BotType.Hitman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.ASSAULT,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.DARK_SHOTGUN,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.SILENCEDPISTOL,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Incinerator
                 case BotType.Incinerator:
                 {

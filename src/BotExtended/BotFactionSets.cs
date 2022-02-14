@@ -46,14 +46,8 @@ namespace BotExtended
                 #region Assassin
                 case BotFaction.Assassin:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.AssassinMelee, 1f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.AssassinRange, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.AssassinMelee, 1f));
+                    factionSet.AddFaction(new SubFaction(BotType.AssassinRange, 1f));
                     break;
                 }
                 #endregion
@@ -61,10 +55,7 @@ namespace BotExtended
                 #region Agent
                 case BotFaction.Agent:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Agent, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Agent, 1f));
                     break;
                 }
                 #endregion
@@ -72,10 +63,7 @@ namespace BotExtended
                 #region Bandido
                 case BotFaction.Bandido:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Bandido, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Bandido, 1f));
                     break;
                 }
                 #endregion
@@ -130,10 +118,7 @@ namespace BotExtended
                 #region Cowboy
                 case BotFaction.Cowboy:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Cowboy, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Cowboy, 1f));
                     break;
                 }
                 #endregion
@@ -141,10 +126,7 @@ namespace BotExtended
                 #region Engineer
                 case BotFaction.Engineer:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Engineer, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Engineer, 1f));
                     break;
                 }
                 #endregion
@@ -305,10 +287,7 @@ namespace BotExtended
                 #region Robot
                 case BotFaction.Robot:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Cyborg, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Cyborg, 1f));
                     break;
                 }
                 #endregion
@@ -316,10 +295,7 @@ namespace BotExtended
                 #region Sniper
                 case BotFaction.Sniper:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Sniper, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.Sniper, 1f));
                     break;
                 }
                 #endregion
@@ -351,10 +327,7 @@ namespace BotExtended
                 #region SpaceSniper
                 case BotFaction.SpaceSniper:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.SpaceSniper, 1f),
-                    });
+                    factionSet.AddFaction(new SubFaction(BotType.SpaceSniper, 1f));
                     break;
                 }
                 #endregion
@@ -415,18 +388,15 @@ namespace BotExtended
                 #region Survivor
                 case BotFaction.Survivor:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new SubFaction(new BotType[]
                     {
-                        new SubFaction(new BotType[]
-                        {
-                            BotType.SurvivorBiker,
-                            BotType.SurvivorCrazy,
-                            BotType.SurvivorNaked,
-                            BotType.SurvivorRifleman,
-                            BotType.SurvivorRobber,
-                            BotType.SurvivorTough,
-                        }, 1f),
-                    });
+                        BotType.SurvivorBiker,
+                        BotType.SurvivorCrazy,
+                        BotType.SurvivorNaked,
+                        BotType.SurvivorRifleman,
+                        BotType.SurvivorRobber,
+                        BotType.SurvivorTough,
+                    }, 1f));
                     break;
                 }
                 #endregion
@@ -533,6 +503,32 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss_Standalone
+
+                case BotFaction.Boss_Demolitionist:
+                    factionSet.AddFaction(new SubFaction(BotType.Demolitionist));
+                    break;
+                case BotFaction.Boss_Hitman:
+                    factionSet.AddFaction(new SubFaction(BotType.Hitman));
+                    break;
+                case BotFaction.Boss_Incinerator:
+                    factionSet.AddFaction(new SubFaction(BotType.Incinerator));
+                    break;
+                case BotFaction.Boss_Meatgrinder:
+                    factionSet.AddFaction(new SubFaction(BotType.Meatgrinder));
+                    break;
+                case BotFaction.Boss_Mecha:
+                    factionSet.AddFaction(new SubFaction(BotType.Mecha));
+                    break;
+                case BotFaction.Boss_MirrorMan:
+                    factionSet.AddFaction(new SubFaction(BotType.MirrorMan));
+                    break;
+                case BotFaction.Boss_Ninja:
+                    factionSet.AddFaction(new SubFaction(BotType.Ninja));
+                    break;
+
+                #endregion
+
                 #region Boss_Balista
                 case BotFaction.Boss_Balista:
                 {
@@ -599,17 +595,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Boss_Demolitionist
-                case BotFaction.Boss_Demolitionist:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Demolitionist),
-                    });
-                    break;
-                }
-                #endregion
-
                 #region Boss_Funnyman
                 case BotFaction.Boss_Funnyman:
                 {
@@ -657,17 +642,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Boss_Incinerator
-                case BotFaction.Boss_Incinerator:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Incinerator),
-                    });
-                    break;
-                }
-                #endregion
-
                 #region Boss_Kingpin
                 case BotFaction.Boss_Kingpin:
                 {
@@ -698,28 +672,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Boss_Meatgrinder
-                case BotFaction.Boss_Meatgrinder:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Meatgrinder),
-                    });
-                    break;
-                }
-                #endregion
-
-                #region Boss_Mecha
-                case BotFaction.Boss_Mecha:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Mecha),
-                    });
-                    break;
-                }
-                #endregion
-
                 #region Boss_MetroCop
                 case BotFaction.Boss_MetroCop:
                 {
@@ -733,28 +685,6 @@ namespace BotExtended
                         new SubFaction(BotType.MetroCop2),
                         new SubFaction(BotType.MetroCop, 0.7f),
                         new SubFaction(BotType.Agent2, 0.3f),
-                    });
-                    break;
-                }
-                #endregion
-
-                #region Boss_MirrorMan
-                case BotFaction.Boss_MirrorMan:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.MirrorMan),
-                    });
-                    break;
-                }
-                #endregion
-
-                #region Boss_Ninja
-                case BotFaction.Boss_Ninja:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Ninja),
                     });
                     break;
                 }
