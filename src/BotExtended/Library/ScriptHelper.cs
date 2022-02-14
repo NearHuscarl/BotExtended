@@ -397,12 +397,15 @@ namespace BotExtended.Library
 
             Timeout(() =>
             {
-                player.AddCommand(new PlayerCommand(commandType, facingDirection));
+                if (player != null) player.AddCommand(new PlayerCommand(commandType, facingDirection));
                 if (delay == 0) return;
                 Timeout(() =>
                 {
-                    player.ClearCommandQueue();
-                    player.SetInputEnabled(true);
+                    if (player != null)
+                    {
+                        player.ClearCommandQueue();
+                        player.SetInputEnabled(true);
+                    }
                     promise.TrySetResult(true);
                 }, delay);
             }, 2);

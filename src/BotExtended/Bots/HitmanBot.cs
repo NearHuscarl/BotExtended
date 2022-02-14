@@ -53,14 +53,10 @@ namespace BotExtended.Bots
         {
             base.OnUpdate(elapsed);
 
-            _checkTime += elapsed;
-
-            if (_isCooldown) _cooldownTime += elapsed;
-            if (_cooldownTime >= CooldownTime) _isCooldown = false;
-
+            if (_isCooldown && ScriptHelper.IsElapsed(_cooldownTime, CooldownTime)) _isCooldown = false;
             if (IsHiding || _isCooldown) return;
 
-            if (_checkTime >= 60)
+            if (ScriptHelper.IsElapsed(_checkTime, 60))
             {
                 foreach (var portal in Game.GetObjects<IObjectPortal>())
                 {
@@ -68,7 +64,7 @@ namespace BotExtended.Bots
                         Hide();
                 }
 
-                _checkTime = 0;
+                _checkTime = Game.TotalElapsedGameTime;
             }
         }
 
@@ -110,7 +106,7 @@ namespace BotExtended.Bots
             Player.SetWorldPosition(portalToShow.GetWorldPosition());
             IsHiding = false;
             _isCooldown = true;
-            _cooldownTime = 0;
+            _cooldownTime = Game.TotalElapsedGameTime;
         }
     }
 }

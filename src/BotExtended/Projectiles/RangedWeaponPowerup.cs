@@ -8,6 +8,7 @@
         DoubleTrouble,
         Fatigue,
         Helium,
+        Hunting,
         Homing,
         Gauss,
         Gravity,

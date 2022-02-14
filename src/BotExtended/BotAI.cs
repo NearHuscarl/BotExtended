@@ -33,6 +33,7 @@
         Kingpin,
         Meatgrinder,
         Ninja,
+        Hunter,
         Sniper,
         Soldier,
 

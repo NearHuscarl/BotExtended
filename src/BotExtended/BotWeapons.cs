@@ -577,12 +577,14 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.CARBINE,
+                        PrimaryPowerup = RangedWeaponPowerup.Hunting,
                         //PrimaryPowerup = TODO: add Bleeding powerup
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.Hunting,
                     });
                     break;
                 }

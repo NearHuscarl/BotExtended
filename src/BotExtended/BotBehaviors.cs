@@ -194,6 +194,7 @@ namespace BotExtended
                 #endregion
 
                 #region Sniper == BotAI.RangeExpert + Defensive
+                case BotAI.Hunter:
                 case BotAI.Sniper:
                 {
                     botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.RangedA);
@@ -202,6 +203,8 @@ namespace BotExtended
                     botBehaviorSet.RangedWeaponAimShootDelayMin = 600f;
                     botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 2000f;
                     botBehaviorSet.RangedWeaponPrecisionAccuracy = 0.95f;
+                    if (botAI == BotAI.Hunter)
+                        botBehaviorSet.RangedWeaponPrecisionAccuracy = 0.35f;
 
                     botBehaviorSet = VeryDefensive(botBehaviorSet);
                     botBehaviorSet = VeryInoffensive(botBehaviorSet);

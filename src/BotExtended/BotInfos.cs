@@ -273,6 +273,11 @@ namespace BotExtended
                         botInfo.Modifiers.ProjectileDamageDealtModifier = DamageDealt.Normal;
                         botInfo.Modifiers.ProjectileCritChanceDealtModifier = DamageDealt.Normal;
                     }
+                    if (botType == BotType.Hunter)
+                    {
+                        botInfo.SearchItems = SearchItems.Health;
+                        botInfo.AIType = BotAI.Hunter;
+                    }
                     break;
                 }
                 #endregion
