@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BotExtended.Projectiles;
 using SFDGameScriptInterface;
 
@@ -751,7 +751,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.SHOCK_BATON,
                         Primary = WeaponItem.DARK_SHOTGUN,
-                        PrimaryPowerup = RangedWeaponPowerup.Lightning,
+                        PrimaryPowerup = RangedWeaponPowerup.Grapeshot,
                         UseLazer = true,
                     });
                     break;

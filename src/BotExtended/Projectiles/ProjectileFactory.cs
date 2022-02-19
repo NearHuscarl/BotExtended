@@ -1,4 +1,4 @@
-using SFDGameScriptInterface;
+﻿using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,8 @@ namespace BotExtended.Projectiles
                     return new DoubleTroubleProjectile(projectile);
                 case RangedWeaponPowerup.Fatigue:
                     return new FatigueProjectile(projectile);
+                case RangedWeaponPowerup.Grapeshot:
+                    return new GrapeshotProjectile(projectile);
                 case RangedWeaponPowerup.Helium:
                     return new HeliumProjectile(projectile);
                 case RangedWeaponPowerup.Hunting:

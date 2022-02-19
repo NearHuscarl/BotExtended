@@ -62,7 +62,8 @@ namespace BotExtended.Projectiles
             }
         }
 
-        protected virtual void UpdateHovering(float elapsed) { }
+        protected float HoverTime { get; private set; }
+        protected virtual void UpdateHovering(float elapsed) { HoverTime += elapsed; }
 
         protected void Hover()
         {
@@ -72,6 +73,10 @@ namespace BotExtended.Projectiles
             HoverPosition = Instance.Position;
             Instance.Velocity = new Vector2(0, 100);
             Instance.Direction = Vector2.Zero;
+            
+            if (!IsSlowProjectile(Instance)) Instance.FlagForRemoval();
+
+            HoverTime = 0f;
             OnHover();
         }
 

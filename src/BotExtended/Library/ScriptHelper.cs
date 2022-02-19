@@ -380,11 +380,11 @@ namespace BotExtended.Library
         }
 
         // TODO: how to fall properly?
-        public static void Fall(IPlayer player)
+        public async static void Fall(IPlayer player)
         {
             try
             {
-                ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
+                await ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
                     .ContinueWith((r) => ExecuteSingleCommand(player, PlayerCommandType.Fall));
             }
             catch (Exception ex)

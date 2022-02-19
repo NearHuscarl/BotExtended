@@ -27,7 +27,6 @@ namespace BotExtended.Projectiles
         public const float EventHorizon = 50;
         public const float DestroyRadius = 25;
 
-        private float m_activeTime = 0f;
         private IObject m_blackhole;
         private List<IObject> m_blackholes = new List<IObject>();
 
@@ -130,8 +129,6 @@ namespace BotExtended.Projectiles
             //m_revoluteJoint.SetMotorEnabled(true);
             m_revoluteJoint.SetMotorSpeed(3000);
             m_revoluteJoint.SetMaxMotorTorque(50000);
-
-            m_activeTime = Game.TotalElapsedGameTime;
         }
 
         private Range GetPositionToCenter(IObject o)
@@ -162,7 +159,7 @@ namespace BotExtended.Projectiles
             base.UpdateHovering(elapsed);
             DrawDebugging();
 
-            if (ScriptHelper.IsElapsed(m_activeTime, ActiveTime))
+            if (HoverTime >= ActiveTime)
             {
                 Destroy(); return;
             }
