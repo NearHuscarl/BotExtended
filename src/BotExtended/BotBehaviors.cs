@@ -213,6 +213,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Spacer - Slow shooter
+                case BotAI.Spacer:
+                case BotAI.SpacerExpert:
+                {
+                    if (botAI == BotAI.SpacerExpert)
+                        botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.BotA);
+                    else
+                        botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.RangedA);
+                    botBehaviorSet.RangedWeaponMode = BotBehaviorRangedWeaponMode.ManualAim;
+                    botBehaviorSet.RangedWeaponAccuracy = 0.85f;
+                    botBehaviorSet.RangedWeaponAimShootDelayMin = 1000f;
+                    botBehaviorSet.RangedWeaponAimShootDelayMax = 3000f;
+                    botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 2000f;
+                    botBehaviorSet.RangedWeaponPrecisionAccuracy = 0.95f;
+                    botBehaviorSet.RangedWeaponPrecisionAimShootDelayMin = 1500f;
+                    break;
+                }
+                #endregion
+
                 #region Grunt
                 case BotAI.Grunt:
                 {

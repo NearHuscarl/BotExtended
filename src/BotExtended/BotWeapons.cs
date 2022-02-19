@@ -36,6 +36,7 @@ namespace BotExtended
                         Primary = WeaponItem.DARK_SHOTGUN,
                         PrimaryPowerup = RangedWeaponPowerup.Gauss,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Gauss,
                     });
                     break;
                 }
@@ -1161,24 +1162,21 @@ namespace BotExtended
                     });
                     weapons.Add(new WeaponSet()
                     {
-                        Primary = WeaponItem.SMG,
+                        Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.Gauss,
                         UseLazer = true,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Gauss,
                         UseLazer = true,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Gauss,
                         UseLazer = true,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Secondary = WeaponItem.FLAREGUN,
-                        UseLazer = true,
-                        Throwable = WeaponItem.MINES,
                     });
                     break;
                 }

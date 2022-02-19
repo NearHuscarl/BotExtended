@@ -35,7 +35,6 @@ namespace BotExtended.Projectiles
             if (DistanceJoint != null)
                 InvisibleBlock.SetWorldPosition(Instance.Position);
 
-            if (Target != null) Game.DrawArea(Target.GetAABB());
             if (Target == null && ScriptHelper.IsElapsed(_updateDelay, 35))
             {
                 _updateDelay = Game.TotalElapsedGameTime;
@@ -47,7 +46,8 @@ namespace BotExtended.Projectiles
         {
             foreach (var player in Game.GetPlayers())
             {
-                if (player.IsDead || player.UniqueID == InitialOwnerPlayerID || ScriptHelper.SameTeam(Game.GetPlayer(InitialOwnerPlayerID), player))
+                if (player == null || player.IsDead || player.UniqueID == InitialOwnerPlayerID
+                    || ScriptHelper.SameTeam(Game.GetPlayer(InitialOwnerPlayerID), player))
                     continue;
 
                 var distanceToPlayer = Vector2.Distance(Instance.Position, player.GetWorldPosition());
@@ -67,15 +67,10 @@ namespace BotExtended.Projectiles
                     var cb = Events.UpdateCallback.Start((e) =>
                     {
                         if (player != null && player.IsInMidAir && !player.IsFalling)
-                        {
-                            ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
-                                .ContinueWith((r) => ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall));
-                        }
+                            ScriptHelper.Fall(player);
                     });
 
-                    // TODO: how to fall properly?
-                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
-                        .ContinueWith((r) => ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall));
+                    ScriptHelper.Fall(player);
                     ScriptHelper.Timeout(() =>
                     {
                         cb.Stop();

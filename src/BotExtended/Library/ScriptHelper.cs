@@ -379,6 +379,26 @@ namespace BotExtended.Library
             }
         }
 
+        // TODO: how to fall properly?
+        public static void Fall(IPlayer player)
+        {
+            try
+            {
+                ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
+                    .ContinueWith((r) => ExecuteSingleCommand(player, PlayerCommandType.Fall));
+            }
+            catch (Exception ex)
+            {
+                if (Game.IsEditorTest)
+                {
+                    Game.ShowChatMessage(ex.Message);
+                    Game.ShowChatMessage(ex.StackTrace);
+                }
+                Game.WriteToConsole(ex.Message);
+                Game.WriteToConsole(ex.StackTrace);
+            }
+        }
+
         public static System.Threading.Tasks.Task<bool> ExecuteSingleCommand(
             IPlayer player,
             PlayerCommandType commandType,
@@ -389,7 +409,10 @@ namespace BotExtended.Library
             var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
 
             if (player == null)
+            {
                 promise.TrySetResult(false);
+                return promise.Task;
+            }
 
             player.SetInputEnabled(false);
             // some commands like Stagger not working without this line

@@ -28,6 +28,8 @@
         Cowboy,
         // Trigger-happy hard
         Sheriff,
+        Spacer,
+        SpacerExpert,
 
         Babybear,
         Kingpin,

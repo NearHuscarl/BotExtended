@@ -142,8 +142,7 @@ namespace BotExtended.Bots
 
                     var direction = RandomHelper.Direction(angles[0], angles[1], true);
                     player.SetLinearVelocity(direction * 15f);
-                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
-                        .ContinueWith((r) => ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall));
+                    ScriptHelper.Fall(player);
                 }
             }
 

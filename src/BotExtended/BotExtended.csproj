@@ -87,6 +87,7 @@
     <Compile Include="Projectiles\HeliumProjectile.cs" />
     <Compile Include="Projectiles\HomingProjectile.cs" />
     <Compile Include="Projectiles\HoveringProjectile.cs" />
+    <Compile Include="Projectiles\HuntingProjectile.cs" />
     <Compile Include="Projectiles\LightningProjectile.cs" />
     <Compile Include="Projectiles\Projectile.cs" />
     <Compile Include="Projectiles\ProjectileBase.cs" />

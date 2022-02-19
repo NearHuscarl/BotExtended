@@ -49,8 +49,7 @@ namespace BotExtended.Projectiles
 
             var range = 300;
 
-            if (projectile.ProjectileItem == ProjectileItem.SNIPER
-                || projectile.ProjectileItem == ProjectileItem.MAGNUM)
+            if (!Projectile.IsShotgun(projectile))
                 range *= 2;
 
             var start = projectile.Position;
@@ -63,8 +62,11 @@ namespace BotExtended.Projectiles
                 ClosestHitOnly = maxHitCount == 1,
             }).Where(r => r.HitObject != null);
 
-            if (results.Count() == 0)
-                Game.PlayEffect(EffectName.Electric, end);
+            end = results.Count() == 0 ? end : results.First().Position;
+
+            var distance = Vector2.Distance(start, end);
+            for (var i = 0f; i <= distance; i+=1.5f)
+                Game.PlayEffect(EffectName.ItemGleam, start + projectile.Direction * i);
 
             var hitCount = 0;
             foreach (var result in results)

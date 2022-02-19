@@ -57,15 +57,7 @@ namespace BotExtended.Projectiles
 
         protected virtual void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius) { }
 
-        public bool IsShotgunShell
-        {
-            get
-            {
-                return Instance.ProjectileItem == ProjectileItem.SHOTGUN
-                    || Instance.ProjectileItem == ProjectileItem.DARK_SHOTGUN
-                    || Instance.ProjectileItem == ProjectileItem.SAWED_OFF;
-            }
-        }
+        public bool IsShotgunShell { get { return IsShotgun(Instance); } }
 
         public bool IsExplosiveProjectile
         {
@@ -75,6 +67,13 @@ namespace BotExtended.Projectiles
                 return Instance.ProjectileItem == ProjectileItem.BAZOOKA
                     || Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER;
             }
+        }
+
+        public static bool IsShotgun(IProjectile projectile)
+        {
+            return projectile.ProjectileItem == ProjectileItem.SHOTGUN
+                || projectile.ProjectileItem == ProjectileItem.DARK_SHOTGUN
+                || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
         }
 
         public static bool IsSlowProjectile(IProjectile projectile)
