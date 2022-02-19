@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BotExtended.Projectiles;
 using SFDGameScriptInterface;
 
@@ -457,8 +457,8 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
-                        Primary = WeaponItem.MP50,
-                        PrimaryPowerup = RangedWeaponPowerup.Telsa,
+                        Primary = WeaponItem.CARBINE,
+                        PrimaryPowerup = RangedWeaponPowerup.Lightning,
                     });
                     break;
                 }

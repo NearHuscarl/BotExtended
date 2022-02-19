@@ -11,6 +11,7 @@
         Hunting,
         Homing,
         Gauss,
+        Grapeshot,
         Gravity,
         GravityDE,
         Lightning,
@@ -21,6 +22,5 @@
         StickyBomb,
         SuicideDove,
         Tearing,
-        Telsa,
     }
 }
