@@ -17,6 +17,7 @@ namespace BotExtended.Projectiles
             public IObjectPullJoint PullJoint;
             public float OriginalMass;
             public bool UnScrewed = false;
+            public bool BlockedByWall = false;
         }
 
         private static List<Vector2> BlackholeLocations = new List<Vector2>();
@@ -28,10 +29,9 @@ namespace BotExtended.Projectiles
         public const float DestroyRadius = 25;
 
         private IObject m_blackhole;
-        private List<IObject> m_blackholes = new List<IObject>();
+        private IObjectRevoluteJoint m_blackholeRotor;
 
         private IObjectTargetObjectJoint m_magnetJoint;
-        private IObjectRevoluteJoint m_revoluteJoint;
         private Dictionary<int, PulledObjectInfo> m_pulledObjects = new Dictionary<int, PulledObjectInfo>();
         private enum Range { Center, EventHorizon, Level2, Level1, Outside, }
 
@@ -102,33 +102,20 @@ namespace BotExtended.Projectiles
                 ScriptHelper.Timeout(() => Game.RunCommand("/settime 1"), 2000);
             }
 
-            m_blackhole = Game.CreateObject("Shadow00A");
+            m_blackhole = Game.CreateObject("Blackhole00A", HoverPosition);
             m_blackhole.SetBodyType(BodyType.Dynamic);
             m_blackhole.SetCollisionFilter(noCollision);
-            m_blackhole.SetWorldPosition(HoverPosition);
+
+            m_blackholeRotor = (IObjectRevoluteJoint)Game.CreateObject("RevoluteJoint", HoverPosition);
+            m_blackholeRotor.SetTargetObjectA(m_blackhole);
+            m_blackholeRotor.SetMotorEnabled(true);
+            m_blackholeRotor.SetMotorSpeed(20);
+            m_blackholeRotor.SetMaxMotorTorque(20);
 
             ScriptHelper.RunIn(() => Game.DrawCircle(HoverPosition, .5f, Color.Green), 10000);
 
-            for (var i = 1; i < 40; i++)
-            {
-                var egg = Game.CreateObject("Shadow00A");
-                egg.SetAngle(MathHelper.TwoPI * i / 39);
-                egg.SetBodyType(BodyType.Static);
-                egg.SetCollisionFilter(noCollision);
-                egg.SetWorldPosition(HoverPosition);
-                m_blackholes.Add(egg);
-            }
-
-            m_magnetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint");
-            m_magnetJoint.SetWorldPosition(HoverPosition);
+            m_magnetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint", HoverPosition);
             m_magnetJoint.SetTargetObject(m_blackhole);
-
-            m_revoluteJoint = (IObjectRevoluteJoint)Game.CreateObject("RevoluteJoint");
-            m_revoluteJoint.SetWorldPosition(HoverPosition);
-            m_revoluteJoint.SetTargetObjectA(m_blackhole);
-            //m_revoluteJoint.SetMotorEnabled(true);
-            m_revoluteJoint.SetMotorSpeed(3000);
-            m_revoluteJoint.SetMaxMotorTorque(50000);
         }
 
         private Range GetPositionToCenter(IObject o)
@@ -222,16 +209,29 @@ namespace BotExtended.Projectiles
             var objectsInArea = Game.GetObjectsByArea(filterArea, PhysicsLayer.Active)
                 .Where(o => (ScriptHelper.IsDynamicObject(o) || ScriptHelper.IsPlayer(o)));
 
-            if (m_pulledObjects.Count < 10) // lag :(
+            var objectInSuckRadius = objectsInArea
+                .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, SuckRadius)).ToList();
+
+            // closest objects to HoverPosition first
+            objectInSuckRadius
+                .Sort((a, b) => (int)Vector2.Distance(a.GetWorldPosition(), HoverPosition) - (int)Vector2.Distance(b.GetWorldPosition(), HoverPosition));
+
+            foreach (var o in objectInSuckRadius)
             {
-                var objectInSuckRadius = objectsInArea
-                    .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, SuckRadius));
-                foreach (var o in objectInSuckRadius)
+                if (m_pulledObjects.Count >= 20) break; // lag :(
+                if (!m_pulledObjects.ContainsKey(o.UniqueID))
                 {
-                    if (!m_pulledObjects.ContainsKey(o.UniqueID))
+                    var objsBlockedByWall = m_pulledObjects.Values.Where(x => x.BlockedByWall).Count();
+                    var isBlockedByWall = Game.RayCast(HoverPosition, o.GetWorldPosition(), new RayCastInput()
                     {
-                        Pull(o);
-                    }
+                        BlockExplosions = RayCastFilterMode.True,
+                        ClosestHitOnly = true,
+                    }).Where(x => x.HitObject != null).Any();
+
+                    if (isBlockedByWall && objsBlockedByWall <= 10)
+                        Pull(o, isBlockedByWall);
+                    if (!isBlockedByWall && m_pulledObjects.Count - objsBlockedByWall <= 10)
+                        Pull(o, isBlockedByWall);
                 }
             }
 
@@ -240,7 +240,8 @@ namespace BotExtended.Projectiles
 
             foreach (var o in objectsInDestroyedRadius)
             {
-                if (m_pulledObjects.ContainsKey(o.UniqueID))
+                PulledObjectInfo info;
+                if (m_pulledObjects.TryGetValue(o.UniqueID, out info))
                 {
                     var smallObject = o.GetAABB().Width * o.GetAABB().Height <= 100;
 
@@ -253,8 +254,7 @@ namespace BotExtended.Projectiles
 
         private void UpdatePulledObjects()
         {
-            var removeList = new List<int>();
-            foreach (var kv in m_pulledObjects)
+            foreach (var kv in m_pulledObjects.ToList())
             {
                 var objectInfo = kv.Value;
                 var o = objectInfo.Object;
@@ -262,11 +262,17 @@ namespace BotExtended.Projectiles
 
                 objectInfo.PullJoint.SetForce(GetPullForce(o));
 
-                if (o.IsRemoved || pos == Range.Outside)
+                // TODO: fix this bug where the lamp doesn't get removed at 0 health
+                // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&p=24809#p24809
+                if (o.GetHealth() == 0 && o.Name == "Lamp00")
+                    o.SetHealth(1);
+
+                if (pos == Range.Outside || o.IsRemoved)
                 {
-                    removeList.Add(kv.Key);
+                    m_pulledObjects.Remove(kv.Key);
                     StopPulling(objectInfo);
                 }
+                
 
                 if (ScriptHelper.IsPlayer(o))
                 {
@@ -315,7 +321,6 @@ namespace BotExtended.Projectiles
                     }
                 }
             }
-            foreach (var i in removeList) m_pulledObjects.Remove(i);
         }
 
         private void DrawDebugging()
@@ -350,18 +355,17 @@ namespace BotExtended.Projectiles
                 ? PlayerCommandFaceDirection.Right : PlayerCommandFaceDirection.Left;
         }
 
-        private void Pull(IObject o)
+        private void Pull(IObject o, bool isBlockedByWall)
         {
             var player = ScriptHelper.CastPlayer(o);
 
             if (player != null)
                 ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 20, GetStaggerDirection(player));
 
-            if (o.GetBodyType() == BodyType.Static) o.SetBodyType(BodyType.Dynamic);
-
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
             var originalMass = o.GetMass();
 
+            if (o.GetBodyType() == BodyType.Static) o.SetBodyType(BodyType.Dynamic);
             o.SetMass(.004f);
 
             pullJoint.SetWorldPosition(o.GetWorldPosition());
@@ -377,6 +381,7 @@ namespace BotExtended.Projectiles
                 Object = o,
                 OriginalMass = originalMass,
                 PullJoint = pullJoint,
+                BlockedByWall = isBlockedByWall,
             });
         }
 
@@ -386,7 +391,7 @@ namespace BotExtended.Projectiles
             BlackholeLocations.Remove(HoverPosition);
 
             if (m_blackhole != null) m_blackhole.Remove();
-            foreach (var o in m_blackholes) o.Remove();
+            if (m_blackholeRotor != null) m_blackholeRotor.Remove();
             if (m_magnetJoint != null) m_magnetJoint.Remove();
 
             foreach (var objectInfo in m_pulledObjects.Values)

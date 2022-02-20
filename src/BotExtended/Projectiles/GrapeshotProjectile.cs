@@ -40,11 +40,15 @@ namespace BotExtended.Projectiles
         protected override void OnHover()
         {
             base.OnHover();
+            
+            Game.PlayEffect(EffectName.Smack, HoverPosition);
+            
             if (Instance.ProjectileItem != ProjectileItem.GRENADE_LAUNCHER)
                 Instance.FlagForRemoval();
         }
 
-        private float _effectTime = 0;
+        private float _effectElapsed = 0;
+        private float _effectTime = 150;
         protected override void UpdateHovering(float elapsed)
         {
             base.UpdateHovering(elapsed);
@@ -55,10 +59,11 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                if (ScriptHelper.IsElapsed(_effectTime, 500))
+                if (ScriptHelper.IsElapsed(_effectElapsed, _effectTime))
                 {
                     Game.PlayEffect(EffectName.Electric, HoverPosition);
-                    _effectTime = Game.TotalElapsedGameTime;
+                    _effectElapsed = Game.TotalElapsedGameTime;
+                    _effectTime = RandomHelper.Between(100, 300);
                 }
             }
         }

@@ -1,0 +1,4 @@
+// *** BOT EXTENDED ***
+tile(Target00) { type=Static; mainLayer=1; drawCategory=OBJ; colorPalette=Neon; fixture(){ collisionGroup=none; } }
+tile(Blackhole00A) { type=Static; mainLayer=1; drawCategory=OBJ; fixture(){ collisionGroup=none; } }
+// *** BOT EXTENDED ***
