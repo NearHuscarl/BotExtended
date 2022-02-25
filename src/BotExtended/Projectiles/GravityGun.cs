@@ -11,8 +11,6 @@ namespace BotExtended.Projectiles
 {
     class GravityGun : RangeWpn
     {
-        private static readonly Vector2 FarAwayPosition = ScriptHelper.GetFarAwayPosition();
-
         public GravityGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup)
         {
             if (powerup == RangedWeaponPowerup.GravityDE)
@@ -21,14 +19,6 @@ namespace BotExtended.Projectiles
                 IsSupercharged = false;
             else
                 throw new Exception("Unknown powerup for gravity gun: " + powerup);
-
-            m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall");
-            m_invisibleMagnet.SetBodyType(BodyType.Static);
-            m_invisibleMagnet.SetCollisionFilter(Constants.NoCollision);
-            m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
-
-            m_magnetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint");
-            m_magnetJoint.SetTargetObject(m_invisibleMagnet);
 
             m_pullJoint = CreatePullJointObject();
         }
@@ -54,7 +44,6 @@ namespace BotExtended.Projectiles
         private IObjectDistanceJoint m_distanceJoint;
         private IObjectTargetObjectJoint m_targetedObjectJoint;
 
-        private IObject m_releasedObject;
         public IObject TargetedObject { get; private set; }
 
         public bool IsTargetedObjectStabilized { get; private set; }
@@ -70,10 +59,9 @@ namespace BotExtended.Projectiles
                 offset = length / 2f;
             }
 
-            Vector2 position, direction;
-            Owner.GetWeaponMuzzleInfo(out position, out direction);
+            var muzzleInfo = GetMuzleInfo();
 
-            return position + direction * (6 + offset);
+            return muzzleInfo.Position + muzzleInfo.Direction * (6 + offset);
         }
 
         private Vector2[] GetScanLine()
@@ -88,51 +76,42 @@ namespace BotExtended.Projectiles
         {
             base.Update(elapsed);
 
-            if (Owner.IsManualAiming)
+            if (!Owner.IsManualAiming) return;
+
+            var holdPosition = GetHoldPosition(true);
+            m_invisibleMagnet.SetWorldPosition(holdPosition);
+            // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
+            m_magnetJoint.SetWorldPosition(holdPosition);
+
+            if (TargetedObject != null)
+                TryStabilizeTargetedObject(holdPosition);
+
+            if (Game.IsEditorTest)
             {
-                var holdPosition = GetHoldPosition(true);
-                m_invisibleMagnet.SetWorldPosition(holdPosition);
-                // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
-                m_magnetJoint.SetWorldPosition(holdPosition);
+                var scanLine = GetScanLine();
+                
+                Game.DrawLine(scanLine[0], scanLine[1]);
+                Game.DrawCircle(holdPosition, .5f, Color.Red);
+
+                Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
+                //Game.DrawCircle(m_magnetJoint.GetWorldPosition(), 5, Color.Magenta);
+                //Game.DrawCircle(m_invisibleMagnet.GetWorldPosition(), 6, Color.Red);
 
                 if (TargetedObject != null)
-                {
-                    TryStabilizeTargetedObject(holdPosition);
-                }
+                    Game.DrawArea(TargetedObject.GetAABB(), Color.Blue);
 
-                if (Game.IsEditorTest)
-                {
-                    var scanLine = GetScanLine();
+                //if (m_distanceJointObject != null)
+                //    Game.DrawArea(m_distanceJointObject.GetAABB(), Color.Green);
 
-                    Game.DrawLine(scanLine[0], scanLine[1]);
-                    Game.DrawCircle(holdPosition, .5f, Color.Red);
-
-                    //Game.DrawCircle(position, .5f, Color.Blue);
-                    //Game.DrawLine(position, position + direction * 6, Color.Yellow);
-                    //Game.DrawArea(m_pullJoint.GetAABB(), Color.Cyan);
-                    //Game.DrawArea(m_magnetJoint.GetAABB(), Color.Magenta);
-
-                    if (TargetedObject != null)
-                        Game.DrawArea(TargetedObject.GetAABB(), Color.Blue);
-
-                    //if (m_distanceJointObject != null)
-                    //    Game.DrawArea(m_distanceJointObject.GetAABB(), Color.Green);
-
-                    var to = m_pullJoint.GetTargetObject();
-                    if (to != null)
-                        Game.DrawArea(to.GetAABB(), Color.Yellow);
-                }
+                var to = m_pullJoint.GetTargetObject();
+                if (to != null)
+                    Game.DrawArea(ScriptHelper.GrowFromCenter(to.GetAABB().Center, 30), Color.Yellow);
             }
-            else
-            {
-                if (IsTargetedObjectStabilized || TargetedObject != null)
-                {
-                    StopStabilizingTargetedObject();
+        }
 
-                    m_invisibleMagnet.SetWorldPosition(FarAwayPosition);
-                    m_magnetJoint.SetWorldPosition(FarAwayPosition);
-                }
-            }
+        protected override void OnStopManualAim()
+        {
+            StopStabilizingTargetedObject();
         }
 
         private void TryStabilizeTargetedObject(Vector2 holdPosition)
@@ -156,14 +135,8 @@ namespace BotExtended.Projectiles
                 {
                     targetedObjectFound = true;
 
-                    if (stabilizedZone.Intersects(targetHitbox))
-                    {
-                        if (!IsTargetedObjectStabilized)
-                        {
-                            StabilizeTargetedObject();
-                            IsTargetedObjectStabilized = true;
-                        }
-                    }
+                    if (stabilizedZone.Intersects(targetHitbox) && !IsTargetedObjectStabilized)
+                        StabilizeTargetedObject();
                     break;
                 }
             }
@@ -187,9 +160,16 @@ namespace BotExtended.Projectiles
         {
             if (m_distanceJointObject != null)
             {
+                // Markers to make target object hovered
                 m_distanceJointObject.Remove();
                 m_distanceJoint.Remove();
                 m_targetedObjectJoint.Remove();
+            }
+            // Markers to pull the target object
+            if (m_magnetJoint != null)
+            {
+                m_magnetJoint.Remove();
+                m_invisibleMagnet.Remove();
             }
 
             var player = ScriptHelper.CastPlayer(TargetedObject);
@@ -306,6 +286,15 @@ namespace BotExtended.Projectiles
 
         private IObjectPullJoint CreatePullJointObject()
         {
+            var holdPosition = GetHoldPosition(true);
+
+            m_invisibleMagnet = Game.CreateObject("InvisibleBlockSmall", holdPosition);
+            m_invisibleMagnet.SetBodyType(BodyType.Static);
+            m_invisibleMagnet.SetCollisionFilter(Constants.NoCollision);
+
+            m_magnetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint", holdPosition);
+            m_magnetJoint.SetTargetObject(m_invisibleMagnet);
+
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
 
             if (TargetedObject != null)
@@ -360,8 +349,6 @@ namespace BotExtended.Projectiles
                     if (TargetedObject.GetBodyType() == BodyType.Static)
                         TargetedObject.SetBodyType(BodyType.Dynamic);
 
-                    // m_targetObjectJoint.Position is fucked up if key input event fires. idk why
-                    m_magnetJoint.SetWorldPosition(GetHoldPosition(true));
                     m_pullJoint.Remove();
                     m_pullJoint = CreatePullJointObject();
 
@@ -387,7 +374,6 @@ namespace BotExtended.Projectiles
             StopStabilizingTargetedObject();
         }
 
-        private bool m_stopPlayingReleaseEffect = false;
         private void Release()
         {
             if (TargetedObject == null)

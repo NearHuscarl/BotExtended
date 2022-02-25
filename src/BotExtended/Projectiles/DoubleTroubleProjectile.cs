@@ -40,12 +40,11 @@ namespace BotExtended.Projectiles
                     {
                         var spawnPosition = r.Position + secondProjDirection * 1f;
                         var projectileItem = Instance.ProjectileItem;
-                        var powerup = ScriptHelper.GetPowerup(Instance);
 
                         // TODO: wait for gurt to fix it
                         ScriptHelper.Timeout(() =>
                         {
-                            Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, powerup);
+                            Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, ProjectilePowerup.Bouncing);
                         }, 0);
 
                         if (false && Game.IsEditorTest)

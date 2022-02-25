@@ -27,7 +27,6 @@ namespace BotExtended.Bots
                 Game.CreateDialogue("You underestimate the gravity of the situation", DialogueColor, Player, duration: 3500, showInChat: false);
                 m_currentPowerup = RangedWeaponPowerup.GravityDE;
                 ResetWeapon();
-                Player.SetStrengthBoostTime(1000 * 60 * 1);
 
                 var mod = Player.GetModifiers();
                 mod.MeleeForceModifier = MeleeForce.Strong;

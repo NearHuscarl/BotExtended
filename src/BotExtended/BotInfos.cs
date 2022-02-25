@@ -482,6 +482,7 @@ namespace BotExtended
                         MaxHealth = Health.Strong,
                         CurrentHealth = Health.Strong,
                         SizeModifier = Size.AboveNormal,
+                        ProjectileDamageTakenModifier = DamageTaken.Resistant,
                         ProjectileDamageDealtModifier = DamageDealt.FairlyHigh,
                         RunSpeedModifier = Speed.AboveNormal,
                         SprintSpeedModifier = Speed.AboveNormal,

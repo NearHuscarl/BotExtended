@@ -265,14 +265,16 @@ namespace BotExtended.Projectiles
                 // TODO: fix this bug where the lamp doesn't get removed at 0 health
                 // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&p=24809#p24809
                 if (o.GetHealth() == 0 && o.Name == "Lamp00")
-                    o.SetHealth(1);
+                {
+                    o.Destroy();
+                    o.Remove();
+                }
 
                 if (pos == Range.Outside || o.IsRemoved)
                 {
                     m_pulledObjects.Remove(kv.Key);
                     StopPulling(objectInfo);
                 }
-                
 
                 if (ScriptHelper.IsPlayer(o))
                 {
