@@ -1015,6 +1015,19 @@ namespace BotExtended
                     break;
                 }
                 #endregion
+                
+                #region Rambo
+                case BotType.Rambo:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.M60,
+                        PrimaryPowerup = RangedWeaponPowerup.Minigun,
+                    });
+                    break;
+                }
+                #endregion
 
                 #region Reznor
                 case BotType.Reznor:

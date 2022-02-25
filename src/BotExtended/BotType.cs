@@ -66,6 +66,8 @@
         // Tier3: Police Station Escape!
         Police,
         PoliceSWAT,
+        
+        Rambo,
 
         // zombie infected survivors, turn into zombie after dying
         SurvivorBiker,

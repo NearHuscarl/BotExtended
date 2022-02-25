@@ -695,6 +695,15 @@ namespace BotExtended
                     break;
                 }
                 #endregion
+                
+                #region Rambo
+                case BotType.Rambo:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyk2weZ0tdd2Aee0qeZ027ZYY18oZ
+                    profiles.Add(new IProfile() { Name = "Rambo", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGreen"), Head = new IProfileClothingItem("Headband", "ClothingLightRed"), ChestOver = new IProfileClothingItem("AmmoBelt", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingGray"), Waist = new IProfileClothingItem("SmallBelt", "ClothingGray", "ClothingGray"), Legs = new IProfileClothingItem("CamoPants", "ClothingDarkYellow", "ClothingDarkYellow"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), });
+                    break;
+                }
+                #endregion
 
                 #region Raze
                 case BotType.Raze:

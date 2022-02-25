@@ -689,6 +689,14 @@ namespace BotExtended
                     break;
                 }
                 #endregion
+                
+                #region Rambo
+                case BotFaction.Rambo:
+                {
+                    factionSet.AddFaction(new SubFaction(BotType.Rambo));
+                    break;
+                }
+                #endregion
 
                 #region Boss_Santa
                 case BotFaction.Boss_Santa:

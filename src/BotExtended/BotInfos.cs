@@ -882,6 +882,26 @@ namespace BotExtended
                     break;
                 }
                 #endregion
+                
+                #region Boss Rambo
+                case BotType.Rambo:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ExplosionDamageTakenModifier = DamageTaken.VeryResistant,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
 
                 #region Boss Raze
                 case BotType.Raze:

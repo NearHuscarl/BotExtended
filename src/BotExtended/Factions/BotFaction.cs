@@ -17,6 +17,7 @@
         Nazi,
         Police,
         PoliceSWAT,
+        Rambo,
         Robot,
         Sniper,
         Soldier,
