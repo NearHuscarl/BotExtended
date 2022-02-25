@@ -45,6 +45,8 @@ namespace BotExtended.Projectiles
                     return new SuicideDoveProjectile(projectile);
                 case RangedWeaponPowerup.Tearing:
                     return new TearingBullet(projectile);
+                case RangedWeaponPowerup.Welding:
+                    return new WeldingBullet(projectile);
                 default:
                     return null;
             }

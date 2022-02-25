@@ -76,11 +76,20 @@ namespace BotExtended.Projectiles
                 || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
         }
 
+        // Remember to update the IsSlowProjectileWpn() method below
         public static bool IsSlowProjectile(IProjectile projectile)
         {
             return projectile.ProjectileItem == ProjectileItem.BOW
+                || projectile.ProjectileItem == ProjectileItem.BAZOOKA
                 || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
                 || projectile.ProjectileItem == ProjectileItem.FLAREGUN;
+        }
+        public static bool IsSlowProjectileWpn(WeaponItem weaponItem)
+        {
+            return weaponItem == WeaponItem.BOW
+                || weaponItem == WeaponItem.BAZOOKA
+                || weaponItem == WeaponItem.GRENADE_LAUNCHER
+                || weaponItem == WeaponItem.FLAREGUN;
         }
 
         public int ProjectilesPerShell

@@ -130,6 +130,7 @@
     <Compile Include="BotType.cs" />
     <Compile Include="BotWeapons.cs" />
     <Compile Include="InfectedCorpse.cs" />
+    <Compile Include="Projectiles\WeldingProjectile.cs" />
     <Compile Include="Projectiles\Wpn.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Command.cs" />

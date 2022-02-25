@@ -13,6 +13,11 @@ namespace BotExtended.Projectiles
     {
         public float ChargeModifier { get; private set; }
 
+        public override bool IsValidPowerup()
+        {
+            return !Projectile.IsSlowProjectileWpn(Name);
+        }
+
         public GaussGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Gauss)
         {
         }
@@ -43,9 +48,6 @@ namespace BotExtended.Projectiles
         public override void OnProjectileCreated(IProjectile projectile)
         {
             base.OnProjectileCreated(projectile);
-
-            if (Projectile.IsSlowProjectile(projectile))
-                return;
 
             var range = 300;
 

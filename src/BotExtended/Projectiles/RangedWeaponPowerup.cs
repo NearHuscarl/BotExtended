@@ -14,6 +14,7 @@
         Grapeshot,
         Gravity,
         GravityDE,
+        Minigun,
         Lightning,
         Present,
         Smoke,
@@ -22,5 +23,6 @@
         StickyBomb,
         SuicideDove,
         Tearing,
+        Welding,
     }
 }

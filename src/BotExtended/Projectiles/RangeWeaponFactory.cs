@@ -15,6 +15,8 @@ namespace BotExtended.Projectiles
                 case RangedWeaponPowerup.Gravity:
                 case RangedWeaponPowerup.GravityDE:
                     return new GravityGun(owner, name, powerup);
+                case RangedWeaponPowerup.Minigun:
+                    return new MiniGun(owner, name);
                 default:
                     return new RangeWpn(owner, name, powerup);
             }

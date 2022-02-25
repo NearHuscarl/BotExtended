@@ -1,5 +1,6 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
+using System;
 
 namespace BotExtended.Projectiles
 {
@@ -7,11 +8,14 @@ namespace BotExtended.Projectiles
     {
         public RangedWeaponPowerup Powerup { get; protected set; }
 
+        virtual public bool IsValidPowerup() { return true; }
+
         public RangeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, RangedWeaponPowerup.None) { }
         public RangeWpn(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
             : base(owner, name)
         {
             Powerup = powerup;
+            if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
         public void Add(WeaponItem name, RangedWeaponPowerup powerup)
