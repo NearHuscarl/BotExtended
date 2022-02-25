@@ -392,8 +392,6 @@ namespace BotExtended.Bots
 
             Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
 
-            // TODO: check if gurt fixed grenade diarm bug
-            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=3991
             var weapon = Player.Disarm(Player.CurrentWeaponDrawn, velocity, false);
             if (destroyWeapon)
                 weapon.SetHealth(0);

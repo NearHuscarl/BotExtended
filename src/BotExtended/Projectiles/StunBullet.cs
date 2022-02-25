@@ -8,7 +8,7 @@ namespace BotExtended.Projectiles
 {
     class StunBullet : Projectile
     {
-        private static readonly uint StunnedTime = 3000;
+        private static readonly uint StunnedTime = 1500;
         private static readonly float EMPBlastRadius = 15f;
 
         public StunBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Stun) { }
@@ -55,13 +55,6 @@ namespace BotExtended.Projectiles
         {
             Game.PlayEffect(EffectName.Electric, position);
             Game.PlaySound("ElectricSparks", position);
-
-            var sparkFireChance = isStunningPlayer ? .3f : .7f;
-            if (RandomHelper.Percentage(sparkFireChance))
-            {
-                Game.SpawnFireNode(position, Vector2.Zero);
-                Game.PlayEffect(EffectName.FireTrail, position);
-            }
         }
 
         private void StunBot(Bot bot) { StunBot(bot, bot.Position); }

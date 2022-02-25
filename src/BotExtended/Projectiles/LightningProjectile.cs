@@ -72,13 +72,15 @@ namespace BotExtended.Projectiles
         private List<Info> m_pendingUpdate = new List<Info>();
         private void Electrocute(IObject obj, int depth = 1)
         {
-            if (depth >= 3 || _electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved) return;
+            if (depth > 3 || _electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved) return;
 
             var position = obj.GetWorldPosition();
             if (!ScriptHelper.IsIndestructible(obj))
             {
                 ScriptHelper.DealDamage(obj, LightningDamage);
                 Game.PlayEffect(EffectName.Electric, position);
+
+                if (ScriptHelper.IsPlayer(obj) && obj.GetHealth() == 0) obj.SetMaxFire();
                 if (RandomHelper.Percentage(.02f))
                 {
                     Game.SpawnFireNode(position, Vector2.Zero);
