@@ -39,7 +39,6 @@ namespace BotExtended.Projectiles
         {
             switch (Name)
             {
-                // From SFD 1.3.4 Source code (Cooldown property in Wpn___ file)
                 case WeaponItem.M60: return "M60";
                 case WeaponItem.MACHINE_PISTOL: return "MachinePistol";
                 case WeaponItem.ASSAULT: return "AssaultRifle";

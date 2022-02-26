@@ -63,13 +63,8 @@ namespace BotExtended.Projectiles
             if (!CanBeStunned(bot)) return;
 
             PlayStunEffects(hitPosition, true);
-            Game.PlayEffect(EffectName.CustomFloatText, hitPosition, "stunned");
 
-            bot.Stun(StunnedTime, (e) =>
-            {
-                var position = RandomHelper.WithinArea(bot.Player.GetAABB());
-                Game.PlayEffect(EffectName.Electric, position);
-            }, 400);
+            bot.Stun(StunnedTime);
         }
 
         private void ElectrocuteRange(Vector2 position)

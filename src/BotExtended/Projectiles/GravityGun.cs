@@ -23,7 +23,7 @@ namespace BotExtended.Projectiles
             m_pullJoint = CreatePullJointObject();
         }
 
-        public static readonly float Range = 160;
+        public override float MaxRange { get { return 160; } }
 
         public bool IsSupercharged { get; private set; }
         public Area GetStabilizedZone()
@@ -67,7 +67,7 @@ namespace BotExtended.Projectiles
         private Vector2[] GetScanLine()
         {
             var holdPosition = GetHoldPosition(false);
-            var end = holdPosition + Owner.AimVector * Range;
+            var end = holdPosition + Owner.AimVector * MaxRange;
 
             return new Vector2[] { holdPosition, end };
         }

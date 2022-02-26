@@ -17,11 +17,13 @@
         Minigun,
         Lightning,
         Present,
+        Riding,
         Smoke,
         Stun,
         Spinner,
         StickyBomb,
         SuicideDove,
+        Taser,
         Tearing,
         Welding,
     }

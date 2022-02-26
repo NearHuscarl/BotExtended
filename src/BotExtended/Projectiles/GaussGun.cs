@@ -13,6 +13,7 @@ namespace BotExtended.Projectiles
     {
         public float ChargeModifier { get; private set; }
 
+        public override float MaxRange { get { return Projectile.IsShotgunWpn(Name) ? 150 : 300; } }
         public override bool IsValidPowerup()
         {
             return !Projectile.IsSlowProjectileWpn(Name);
@@ -49,13 +50,8 @@ namespace BotExtended.Projectiles
         {
             base.OnProjectileCreated(projectile);
 
-            var range = 300;
-
-            if (!Projectile.IsShotgun(projectile))
-                range *= 2;
-
             var start = projectile.Position;
-            var end = start + projectile.Direction * range;
+            var end = start + projectile.Direction * MaxRange;
             var maxHitCount = (int)(ChargeModifier / 1000 + 1);
             var results = Game.RayCast(start, end, new RayCastInput()
             {

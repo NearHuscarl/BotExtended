@@ -82,6 +82,7 @@
     <Compile Include="Projectiles\CustomProjectile.cs" />
     <Compile Include="Projectiles\DoubleTroubleProjectile.cs" />
     <Compile Include="Projectiles\FatigueProjectile.cs" />
+    <Compile Include="Projectiles\MiniGun.cs" />
     <Compile Include="Projectiles\GaussGun.cs" />
     <Compile Include="Projectiles\GrapeshotProjectile.cs" />
     <Compile Include="Projectiles\GravityGun.cs" />
@@ -98,11 +99,13 @@
     <Compile Include="Projectiles\MeleeWeaponPowerup.cs" />
     <Compile Include="Projectiles\MeleeWpn.cs" />
     <Compile Include="Projectiles\PlayerWeapon.cs" />
+    <Compile Include="Projectiles\RidingProjectile.cs" />
     <Compile Include="Projectiles\SmokeProjectile.cs" />
     <Compile Include="Projectiles\SpinnerBullet.cs" />
     <Compile Include="Projectiles\StickyBombProjectile.cs" />
     <Compile Include="Projectiles\StunBullet.cs" />
     <Compile Include="Projectiles\SuicideDoveProjectile.cs" />
+    <Compile Include="Projectiles\TaserGun.cs" />
     <Compile Include="Projectiles\TearingBullet.cs" />
     <Compile Include="Projectiles\ThrowWpn.cs" />
     <Compile Include="Projectiles\ProjectileManager.cs" />

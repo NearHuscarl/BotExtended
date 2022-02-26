@@ -237,12 +237,6 @@ namespace BotExtended
                         new SubFaction(BotType.Police, 0.7f),
                         new SubFaction(BotType.PoliceSWAT, 0.3f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(mainBoss),
-                        new SubFaction(BotType.PoliceSWAT, 0.8f),
-                        new SubFaction(BotType.Police, 0.2f),
-                    });
                     break;
                 }
                 #endregion
@@ -254,6 +248,12 @@ namespace BotExtended
                     {
                         new SubFaction(mainBoss),
                         new SubFaction(BotType.PoliceSWAT, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
+                        new SubFaction(mainBoss),
+                        new SubFaction(BotType.PoliceSWAT, 0.8f),
+                        new SubFaction(BotType.Police, 0.2f),
                     });
                     break;
                 }

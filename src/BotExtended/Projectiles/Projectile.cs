@@ -75,6 +75,12 @@ namespace BotExtended.Projectiles
                 || projectile.ProjectileItem == ProjectileItem.DARK_SHOTGUN
                 || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
         }
+        public static bool IsShotgunWpn(WeaponItem weaponItem)
+        {
+            return weaponItem == WeaponItem.SHOTGUN
+                || weaponItem == WeaponItem.DARK_SHOTGUN
+                || weaponItem == WeaponItem.SAWED_OFF;
+        }
 
         // Remember to update the IsSlowProjectileWpn() method below
         public static bool IsSlowProjectile(IProjectile projectile)

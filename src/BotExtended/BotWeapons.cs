@@ -895,6 +895,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.BATON,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Taser,
                     });
                     weapons.Add(new WeaponSet()
                     {
@@ -905,6 +906,7 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.BATON,
                         Secondary = WeaponItem.REVOLVER,
+                        SecondaryPowerup = RangedWeaponPowerup.Taser,
                     });
                     break;
                 }

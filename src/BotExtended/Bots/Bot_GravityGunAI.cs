@@ -98,7 +98,7 @@ namespace BotExtended.Bots
                 if (m_targetEnemy != null)
                     Game.DrawArea(m_targetEnemy.GetAABB(), Color.Green);
                 Game.DrawArea(DangerArea, Color.Red);
-                Game.DrawCircle(gun.GetHoldPosition(false), GravityGun.Range);
+                Game.DrawCircle(gun.GetHoldPosition(false), gun.MaxRange);
                 Game.DrawArea(GetMimimumRange(), Color.Cyan);
             }
 
@@ -172,7 +172,7 @@ namespace BotExtended.Bots
                     var holdPosition = gun.GetHoldPosition(false);
 
                     if (NearestObject.IsRemoved ||
-                        !ScriptHelper.IntersectCircle(NearestObject.GetAABB(), holdPosition, GravityGun.Range,
+                        !ScriptHelper.IntersectCircle(NearestObject.GetAABB(), holdPosition, gun.MaxRange,
                         rangeLimit[0], rangeLimit[1]))
                     {
                         Stop("NearestObject not in range");
@@ -362,7 +362,7 @@ namespace BotExtended.Bots
         {
             var holdPosition = gun.GetHoldPosition(false);
             var filterArea = ScriptHelper.GrowFromCenter(
-                holdPosition + Vector2.UnitX * Player.FacingDirection * GravityGun.Range / 2, GravityGun.Range);
+                holdPosition + Vector2.UnitX * Player.FacingDirection * gun.MaxRange / 2, gun.MaxRange);
             IObject nearestObject = null;
 
             foreach (var obj in Game.GetObjectsByArea(filterArea))
@@ -372,7 +372,7 @@ namespace BotExtended.Bots
 
                 if (ScriptHelper.IsDynamicObject(obj)
                     && !GravityGun.Blacklist.Contains(obj.Name)
-                    && ScriptHelper.IntersectCircle(obj.GetAABB(), holdPosition, GravityGun.Range, rangeLimit[0], rangeLimit[1])
+                    && ScriptHelper.IntersectCircle(obj.GetAABB(), holdPosition, gun.MaxRange, rangeLimit[0], rangeLimit[1])
                     && !GetMimimumRange().Intersects(obj.GetAABB())
                     && (nearestObject == null || Rank(nearestObject, obj) == 1))
                 {
@@ -458,8 +458,8 @@ namespace BotExtended.Bots
                 MaskBits = (ushort)(gun.IsSupercharged ? CategoryBits.Dynamic + CategoryBits.Player : CategoryBits.Dynamic),
                 FilterOnMaskBits = true,
             };
-            var results = Game.RayCast(holdPosition, holdPosition + Player.AimVector * GravityGun.Range, rcInput);
-            Game.DrawLine(holdPosition, holdPosition + Player.AimVector * GravityGun.Range);
+            var results = Game.RayCast(holdPosition, holdPosition + Player.AimVector * gun.MaxRange, rcInput);
+            Game.DrawLine(holdPosition, holdPosition + Player.AimVector * gun.MaxRange);
 
             foreach (var result in results)
             {
@@ -502,7 +502,7 @@ namespace BotExtended.Bots
                 MaskBits = CategoryBits.Player,
                 FilterOnMaskBits = true,
             };
-            var results = Game.RayCast(Bot.Position, Bot.Position + Player.AimVector * GravityGun.Range * 4, rcInput);
+            var results = Game.RayCast(Bot.Position, Bot.Position + Player.AimVector * gun.MaxRange * 4, rcInput);
             foreach (var result in results)
             {
                 if (result.ObjectID == player.UniqueID)
@@ -521,8 +521,8 @@ namespace BotExtended.Bots
                 {
                     m_checkEnemyTime = Game.TotalElapsedGameTime;
                     var rangeLimit = GetRangeLimit();
-
-                    m_searchedEnemies = RayCastHelper.GetFirstPlayerInRange(Player, GravityGun.Range * 4, rangeLimit[0], rangeLimit[1],
+                    var gravityGunRange = 160; // TODO: hardcoded number
+                    m_searchedEnemies = RayCastHelper.GetFirstPlayerInRange(Player, gravityGunRange * 4, rangeLimit[0], rangeLimit[1],
                         true, Player.GetTeam(), Player);
                 }
                 return m_searchedEnemies;

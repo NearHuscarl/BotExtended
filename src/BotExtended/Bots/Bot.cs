@@ -399,13 +399,20 @@ namespace BotExtended.Bots
 
         public bool IsStunned { get; private set; }
         private Events.UpdateCallback m_effect;
-        public void Stun(uint stunnedTime, Action<float> effect, uint effectTime = 0)
+        public System.Threading.Tasks.Task<bool> Stun(uint stunnedTime)
         {
+            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+
             IsStunned = true;
             Player.SetInputEnabled(false);
             Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
+            Game.PlayEffect(EffectName.CustomFloatText, Player.GetWorldPosition(), "stunned");
 
-            m_effect = Events.UpdateCallback.Start(effect, effectTime);
+            m_effect = Events.UpdateCallback.Start((e) =>
+            {
+                var position = RandomHelper.WithinArea(Player.GetAABB());
+                Game.PlayEffect(EffectName.Electric, position);
+            }, 400);
 
             ScriptHelper.Timeout(() =>
             {
@@ -414,7 +421,10 @@ namespace BotExtended.Bots
                 IsStunned = false;
                 Events.UpdateCallback.Stop(m_effect);
                 m_effect = null;
+                promise.TrySetResult(true);
             }, stunnedTime);
+
+            return promise.Task;
         }
 
         // set modifiers without changing current health and energy

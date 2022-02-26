@@ -8,6 +8,7 @@ namespace BotExtended.Projectiles
     {
         public Vector2 Position;
         public Vector2 Direction;
+        public bool IsSussess = false;
     }
 
     class RangeWpn : Wpn
@@ -15,6 +16,7 @@ namespace BotExtended.Projectiles
         public RangedWeaponPowerup Powerup { get; protected set; }
 
         virtual public bool IsValidPowerup() { return true; }
+        virtual public float MaxRange { get { return float.MaxValue; } }
 
         public RangeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, RangedWeaponPowerup.None) { }
         public RangeWpn(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
@@ -58,12 +60,14 @@ namespace BotExtended.Projectiles
         public MuzzleInfo GetMuzleInfo()
         {
             Vector2 position, direction;
-            if (Owner.GetWeaponMuzzleInfo(out position, out direction)) return new MuzzleInfo
+            var result = Owner.GetWeaponMuzzleInfo(out position, out direction);
+
+            return new MuzzleInfo
             {
                 Position = position,
-                Direction = direction
+                Direction = direction,
+                IsSussess = result,
             };
-            return null;
         }
     }
 }
