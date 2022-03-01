@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\FarmerBot.cs" />
+    <Compile Include="Weapons\Chicken.cs" />
     <Compile Include="Bots\HitmanBot.cs" />
     <Compile Include="Bots\AssassinBot.cs" />
     <Compile Include="Bots\BalistaBot.cs" />

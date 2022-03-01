@@ -49,7 +49,11 @@ namespace BotExtended.Weapons
         public PlayerTeam Team { get; private set; }
 
         private Dictionary<string, IObject> m_components = new Dictionary<string, IObject>();
-        public override IEnumerable<IObject> Components { get { return m_components.Values; } }
+        public override IEnumerable<IObject> Components
+        {
+            get { return m_components.Values; }
+            set { }
+        }
         public IPlayer Target { get; private set; }
 
         public override bool IsDestroyed { get; protected set; }

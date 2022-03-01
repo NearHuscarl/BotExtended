@@ -196,6 +196,8 @@ namespace BotExtended
                         botInfo.Modifiers.SizeModifier = Size.Normal;
                     if (botType == BotType.Gardener)
                         botInfo.SpawnLine = "It's almost harvesting season";
+                    if (botType == BotType.Farmer)
+                        botInfo.SpawnLine = "Look at all those chickens";
                     if (botType == BotType.Hunter)
                         botInfo.SpawnLine = "You can run, but you cant hide";
                     break;

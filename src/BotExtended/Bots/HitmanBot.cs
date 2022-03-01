@@ -19,11 +19,12 @@ namespace BotExtended.Bots
 
         public HitmanBot(BotArgs args) : base(args) { }
 
+        private Events.ProjectileHitCallback _projectileHitCb;
         public override void OnSpawn()
         {
             base.OnSpawn();
 
-            Events.ProjectileHitCallback.Start((projectile, args) =>
+            _projectileHitCb = Events.ProjectileHitCallback.Start((projectile, args) =>
             {
                 if (!args.IsPlayer || projectile.InitialOwnerPlayerID != Player.UniqueID) return;
 
@@ -107,6 +108,12 @@ namespace BotExtended.Bots
             IsHiding = false;
             _isCooldown = true;
             _cooldownTime = Game.TotalElapsedGameTime;
+        }
+
+        public override void OnDeath(PlayerDeathArgs args)
+        {
+            base.OnDeath(args);
+            _projectileHitCb.Stop();
         }
     }
 }

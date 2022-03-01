@@ -28,8 +28,8 @@ namespace BotExtended
             AIType = BotAI.None;
             SearchItems = player.GetBotBehaviorSet().SearchItems;
             Modifiers = player.GetModifiers();
-            SpawnLineChance = 0f;
-            DeathLineChance = 0f;
+            SpawnLineChance = .1f;
+            DeathLineChance = .1f;
         }
 
         private float equipWeaponChance;

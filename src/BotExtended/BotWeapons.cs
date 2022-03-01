@@ -289,6 +289,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.REVOLVER,
+                        SecondaryPowerup = RangedWeaponPowerup.Blast,
                     });
                     break;
                 }
@@ -300,6 +301,12 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.TOMMYGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Blast,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Blast,
                     });
                     break;
                 }
@@ -441,12 +448,10 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SAWED_OFF,
-                        PrimaryPowerup = RangedWeaponPowerup.Blast,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SHOTGUN,
-                        PrimaryPowerup = RangedWeaponPowerup.Blast,
                     });
                     break;
                 }

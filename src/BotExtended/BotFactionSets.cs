@@ -137,6 +137,10 @@ namespace BotExtended
                     var nonFarmer = new BotType[] { BotType.Gardener, BotType.Lumberjack, BotType.Hunter, };
                     factionSet.AddFaction(new List<SubFaction>()
                     {
+                        new SubFaction(BotType.Farmer, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>()
+                    {
                         new SubFaction(mainBoss),
                         new SubFaction(BotType.Farmer, 0.5f),
                         new SubFaction(nonFarmer, .5f),

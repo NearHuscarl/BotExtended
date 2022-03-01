@@ -1,4 +1,5 @@
-﻿using BotExtended.Library;
+﻿using BotExtended.Bots;
+using BotExtended.Library;
 using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ namespace BotExtended.Weapons
         public static void SpawnTurret(IPlayer owner, Vector2 position, TurretDirection direction)
         {
             m_weapons.Add(new Turret(position, direction, owner));
+        }
+        public static void SpawnChicken(FarmerBot bot)
+        {
+            m_weapons.Add(new Chicken(bot));
         }
 
         public static IEnumerable<T> GetWeapons<T>() where T : Weapon
@@ -83,13 +88,14 @@ namespace BotExtended.Weapons
         {
             foreach (var o in objects)
             {
+                // improve performance
                 if (string.IsNullOrEmpty(o.CustomID)) continue;
 
-                foreach (var weapon in m_weapons)
+                foreach (var weapon in m_weapons.ToList())
                 {
                     foreach (var component in weapon.Components.ToList())
                     {
-                        if (o.CustomID == component.CustomID)
+                        if (o.UniqueID == component.UniqueID)
                         {
                             weapon.OnComponentTerminated(o);
                         }
