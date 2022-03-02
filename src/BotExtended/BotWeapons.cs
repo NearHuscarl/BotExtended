@@ -18,10 +18,39 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Poison,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Poison,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BATON,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.SHOCK_BATON,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MAGNUM,
+                        SecondaryPowerup = RangedWeaponPowerup.Poison,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BATON,
+                        Secondary = WeaponItem.UZI,
+                        SecondaryPowerup = RangedWeaponPowerup.Poison,
+                        UseLazer = true,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.DARK_SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Poison,
                         UseLazer = true,
                     });
                     break;
@@ -37,42 +66,6 @@ namespace BotExtended
                         PrimaryPowerup = RangedWeaponPowerup.Gauss,
                         Secondary = WeaponItem.PISTOL,
                         SecondaryPowerup = RangedWeaponPowerup.Gauss,
-                    });
-                    break;
-                }
-                #endregion
-
-                #region Agent2
-                case BotType.Agent2:
-                {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.BATON,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.SHOCK_BATON,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Secondary = WeaponItem.MAGNUM,
-                        UseLazer = true,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.BATON,
-                        Secondary = WeaponItem.UZI,
-                        UseLazer = true,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Secondary = WeaponItem.REVOLVER,
-                        UseLazer = true,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Primary = WeaponItem.DARK_SHOTGUN,
-                        UseLazer = true,
                     });
                     break;
                 }
@@ -633,14 +626,7 @@ namespace BotExtended
                 #region Kingpin
                 case BotType.Kingpin:
                 {
-                    weapons.Add(new WeaponSet()
-                    {
-                        Primary = WeaponItem.TOMMYGUN,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Secondary = WeaponItem.MAGNUM,
-                    });
+                    weapons.Add(new WeaponSet());
                     break;
                 }
                 #endregion

@@ -15,7 +15,7 @@ namespace BotExtended
                     Block = (ushort)1,
                     Kick = (ushort)1,
                     Jump = (ushort)1,
-                    Wait = (ushort)20, // Hulk's original is 50
+                    Wait = (ushort)10, // Hulk's original is 50
                     Grab = (ushort)6
                 };
             }
@@ -328,7 +328,16 @@ namespace BotExtended
                 case BotAI.Kingpin:
                 {
                     botBehaviorSet = GetBehaviorSet(BotAI.Hard);
-                    botBehaviorSet.SetMeleeActionsAll(HulkMeleeActions);
+                    botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions()
+                    {
+                        Attack = (ushort)16,
+                        AttackCombo = (ushort)24,
+                        Block = (ushort)1,
+                        Kick = (ushort)1,
+                        Jump = (ushort)1,
+                        Wait = (ushort)10, // Hulk's original is 50
+                        Grab = (ushort)8
+                    });
                     break;
                 }
                 #endregion

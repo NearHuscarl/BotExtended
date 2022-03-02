@@ -11,7 +11,6 @@
         // Tier1: Subway Shakedown
         Agent, // Smart agent, weak weapon
                // Tier2: Piston Posse, Tower Trouble
-        Agent2, // Dumb agent, strong weapon
 
         // Tier1: High Moon Holdout
         Bandido,

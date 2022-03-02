@@ -13,13 +13,26 @@ namespace BotExtended.Bots
         private List<Bot> m_bodyguards = new List<Bot>();
         private const int BodyguardCount = 2;
 
-        public KingpinBot(BotArgs args, Controller<KingpinBot> controller) : base(args)
+        public KingpinBot(BotArgs a, Controller<KingpinBot> controller) : base(a)
         {
             if (controller != null)
             {
                 m_controller = controller;
                 m_controller.Actor = this;
             }
+
+            Events.PlayerMeleeActionCallback.Start((player, args) =>
+            {
+                if (player.UniqueID != Player.UniqueID) return;
+
+                foreach (var arg in args)
+                {
+                    var enemy = Game.GetPlayer(arg.ObjectID);
+                    if (enemy == null) continue;
+                    if (enemy.IsInMidAir && !enemy.IsDead && !Player.IsKicking)
+                        enemy.SetLinearVelocity(Vector2.UnitY * 10);
+                }
+            });
         }
 
         private float m_crushEnemyTime = 0f;
@@ -29,12 +42,6 @@ namespace BotExtended.Bots
             base.OnUpdate(elapsed);
 
             if (Player.IsDead) return;
-
-            if (Game.IsEditorTest)
-            {
-                foreach (var bodyguard in m_bodyguards) Game.DrawArea(bodyguard.Player.GetAABB(), Color.Blue);
-                LogDebug(m_bodyguards.Count);
-            }
 
             if (m_controller != null)
                 m_controller.OnUpdate(elapsed);
@@ -58,6 +65,7 @@ namespace BotExtended.Bots
                     Game.PlayEffect(EffectName.MeleeHitBlunt, enemy.GetWorldPosition());
                     m_crushEnemyTime = Game.TotalElapsedGameTime;
                 }
+                if (enemy.GetHealth() == 0) enemy.Gib();
             }
         }
 
@@ -66,6 +74,16 @@ namespace BotExtended.Bots
             base.OnDeath(args);
 
             foreach (var bodyguard in m_bodyguards) bodyguard.Player.SetGuardTarget(null);
+        }
+
+        public override void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg)
+        {
+            base.OnMeleeDamage(attacker, arg);
+            // TODO: move this ability to other bot
+            // Immune to melee attack but will be pushed back a bit
+            var pos = Player.GetWorldPosition();
+            var direction = Math.Sign(pos.X - arg.HitPosition.X);
+            Player.SetLinearVelocity(new Vector2(direction * 5, 0));
         }
 
         private void SearchBodyguards()
@@ -77,11 +95,6 @@ namespace BotExtended.Bots
 
             foreach (var bodyguard in bodyguards)
             {
-                var modifiers = bodyguard.Player.GetModifiers();
-                modifiers.RunSpeedModifier += .1f;
-                modifiers.SprintSpeedModifier += .1f;
-                bodyguard.SetModifiers(modifiers, true);
-
                 var bs = bodyguard.Player.GetBotBehaviorSet();
                 bs.GuardRange = 30f;
                 bs.ChaseRange = 32f;

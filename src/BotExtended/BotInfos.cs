@@ -156,7 +156,6 @@ namespace BotExtended
                 #endregion
 
                 #region Grunt with weapon
-                case BotType.Agent2:
                 case BotType.Bandido:
                 case BotType.Bodyguard:
                 case BotType.Bodyguard2:
@@ -427,7 +426,7 @@ namespace BotExtended
                         ImpactDamageTakenModifier = DamageTaken.FairlyResistant,
                         RunSpeedModifier = Speed.BelowNormal,
                         SprintSpeedModifier = Speed.BelowNormal,
-                        MeleeForceModifier = MeleeForce.Strong,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
                         SizeModifier = Size.Big,
                     };
                     break;
@@ -686,7 +685,9 @@ namespace BotExtended
                     {
                         MaxHealth = Health.Strong,
                         CurrentHealth = Health.Strong,
-                        SizeModifier = Size.AboveNormal,
+                        SizeModifier = Size.Big,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        MeleeStunImmunity = 1,
                     };
                     botInfo.IsBoss = true;
                     break;

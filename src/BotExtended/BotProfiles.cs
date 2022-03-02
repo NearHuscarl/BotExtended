@@ -13,7 +13,6 @@ namespace BotExtended
             {
                 #region Agent
                 case BotType.Agent:
-                case BotType.Agent2:
                 {
                     // https://profile-editor.vercel.app?p=M1Fyj2jj71L7ZY2n5Z2U7Z01ZjYY
                     profiles.Add(new IProfile() { Name = "Agent", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), ChestOver = new IProfileClothingItem("SuitJacketBlack", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingLightGray", "ClothingDarkGray"), Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkBrown"), Accesory = new IProfileClothingItem("AgentSunglasses", "", "ClothingLightGray"), });
