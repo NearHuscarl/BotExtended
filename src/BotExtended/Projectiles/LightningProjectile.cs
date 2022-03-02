@@ -77,7 +77,7 @@ namespace BotExtended.Projectiles
             var position = obj.GetWorldPosition();
             if (!ScriptHelper.IsIndestructible(obj))
             {
-                ScriptHelper.DealDamage(obj, LightningDamage);
+                obj.DealDamage(LightningDamage);
                 Game.PlayEffect(EffectName.Electric, position);
 
                 if (ScriptHelper.IsPlayer(obj) && obj.GetHealth() == 0) obj.SetMaxFire();

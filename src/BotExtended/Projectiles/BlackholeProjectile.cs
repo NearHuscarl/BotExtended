@@ -245,7 +245,7 @@ namespace BotExtended.Projectiles
                 {
                     var smallObject = o.GetAABB().Width * o.GetAABB().Height <= 100;
 
-                    ScriptHelper.DealDamage(o, 1f);
+                    o.DealDamage(1f);
                     if (smallObject || o.GetHealth() == 0)
                         o.Destroy();
                 }

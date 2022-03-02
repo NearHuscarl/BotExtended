@@ -103,7 +103,7 @@ namespace BotExtended.Projectiles
 
             foreach (var o in objectsInRadius)
             {
-                if (ScriptHelper.IsIndestructible(o)) ScriptHelper.DealDamage(o, 1f);
+                if (ScriptHelper.IsIndestructible(o)) o.DealDamage(1f);
             }
         }
 
