@@ -1,0 +1,28 @@
+{
+  "name": "botextended",
+  "version": "1.0.0",
+  "description": "This script adds a wide variety of bots to spice up combat experience. It is currently\r under development and maybe full of bugs :bug:",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nearhuscarl/botextended.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nearhuscarl/botextended/issues"
+  },
+  "homepage": "https://github.com/nearhuscarl/botextended#readme",
+  "devDependencies": {
+    "chalk": "^5.0.0",
+    "husky": "^7.0.4"
+  }
+}

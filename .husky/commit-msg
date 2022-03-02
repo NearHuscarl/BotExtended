@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+commitMessage=`cat $1`
+node './.husky/commit-msg.js' "$commitMessage"
