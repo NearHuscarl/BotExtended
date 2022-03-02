@@ -398,6 +398,24 @@ namespace BotExtended.Library
                 Game.WriteToConsole(ex.StackTrace);
             }
         }
+        public async static void KneelFall(IPlayer player)
+        {
+            try
+            {
+                await ExecuteSingleCommand(player, PlayerCommandType.DeathKneel)
+                    .ContinueWith((r) => ExecuteSingleCommand(player, PlayerCommandType.Fall));
+            }
+            catch (Exception ex)
+            {
+                if (Game.IsEditorTest)
+                {
+                    Game.ShowChatMessage(ex.Message);
+                    Game.ShowChatMessage(ex.StackTrace);
+                }
+                Game.WriteToConsole(ex.Message);
+                Game.WriteToConsole(ex.StackTrace);
+            }
+        }
 
         public static System.Threading.Tasks.Task<bool> ExecuteSingleCommand(
             IPlayer player,

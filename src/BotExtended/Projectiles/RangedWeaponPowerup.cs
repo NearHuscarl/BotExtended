@@ -16,6 +16,7 @@
         GravityDE,
         Minigun,
         Lightning,
+        Poison,
         Present,
         Riding,
         Smoke,
