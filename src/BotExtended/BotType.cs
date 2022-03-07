@@ -14,6 +14,8 @@
 
         // Tier1: High Moon Holdout
         Bandido,
+        BazookaJane,
+
         // Tier1: Police Station Punchout, Warehouse Wreckage
         // Tier2: Bar Brawl
         // Tier3: Meatgrinder Begins
@@ -85,6 +87,7 @@
         Spacer, // thug on space
         SpaceSniper,
         Stripper,
+        SuicideDwarf,
 
         // Tier1: Storage Showdown, Rooftops Rumble, Police Station Punchout, Alley Ambush, Warehouse Wreckage, Heavy Hostility
         Thug,

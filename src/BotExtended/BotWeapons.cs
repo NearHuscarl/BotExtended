@@ -145,6 +145,21 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region BazookaJane
+                case BotType.BazookaJane:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.BAZOOKA,
+                        PrimaryPowerup = RangedWeaponPowerup.SuicideFighter,
+                        Secondary = WeaponItem.PISTOL,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Biker
                 case BotType.Biker:
                 {
@@ -1124,6 +1139,11 @@ namespace BotExtended
                 #region Soldier
                 case BotType.Soldier:
                 {
+                    weapons.Add(new WeaponSet());
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                    });
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SHOTGUN,
@@ -1230,6 +1250,14 @@ namespace BotExtended
                         Primary = WeaponItem.SAWED_OFF,
                         PrimaryPowerup = RangedWeaponPowerup.Tearing,
                     });
+                    break;
+                }
+                #endregion
+                
+                #region SuicideDwarf
+                case BotType.SuicideDwarf:
+                {
+                    weapons.Add(WeaponSet.Empty);
                     break;
                 }
                 #endregion

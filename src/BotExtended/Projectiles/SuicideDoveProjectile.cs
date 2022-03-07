@@ -17,37 +17,26 @@ namespace BotExtended.Projectiles
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
+            _isElapsedUpdate = ScriptHelper.WithIsElapsed(105);
             return CreateCustomProjectile(projectile, "Dove00", projectile.Velocity / 20);
         }
 
-        private bool m_exploded = false;
-        private float m_updateDelay = 0f;
+        private Func<bool> _isElapsedUpdate;
         protected override void Update(float elapsed)
         {
             base.Update(elapsed);
 
-            if (ScriptHelper.IsElapsed(m_updateDelay, 105))
-            {
-                m_updateDelay = Game.TotalElapsedGameTime;
-
-                if (TotalDistanceTraveled > 20)
-                {
-                    SearchTarget();
-                }
-            }
+            if (_isElapsedUpdate() && TotalDistanceTraveled > 20)
+                SearchTarget();
 
             Guide();
 
             if (Target != null)
             {
-                Game.DrawArea(Instance.GetAABB(), Color.Green);
-                Game.DrawArea(Target.GetAABB(), Color.Green);
+                Game.DrawLine(Instance.GetWorldPosition(), Target.GetWorldPosition());
 
                 if (Instance.GetAABB().Intersects(Target.GetAABB()))
-                {
-                    m_exploded = true;
-                    Game.TriggerExplosion(Instance.GetWorldPosition());
-                }
+                    Instance.Destroy(); // trigger explosion
             }
         }
 
@@ -90,11 +79,10 @@ namespace BotExtended.Projectiles
             }
         }
 
-        public override void OnProjectileHit()
+        public override void OnProjectileTerminated()
         {
-            base.OnProjectileHit();
-            if (!m_exploded)
-                Game.TriggerExplosion(Instance.GetWorldPosition());
+            base.OnProjectileTerminated();
+            Game.TriggerExplosion(Instance.GetWorldPosition());
         }
     }
 }

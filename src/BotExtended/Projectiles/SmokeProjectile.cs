@@ -29,7 +29,7 @@ namespace BotExtended.Projectiles
 
         protected override bool OnProjectileCreated()
         {
-            if (IsSlowProjectile(Instance))
+            if (IsSlowProjectile(Instance.ProjectileItem))
             {
                 var position = Instance.Position;
                 var direction = Instance.Direction;

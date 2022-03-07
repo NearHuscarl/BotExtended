@@ -309,6 +309,20 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region SuicideDwarf
+                case BotType.SuicideDwarf:
+                {
+                    botInfo.AIType = BotAI.Easy;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.ExtremelyWeak,
+                        CurrentHealth = Health.ExtremelyWeak,
+                        SizeModifier = Size.ExtremelySmall,
+                    };
+                    break;
+                }
+                #endregion
+
                 #region Zombie
                 case BotType.Zombie:
                 case BotType.ZombieAgent:
@@ -470,6 +484,24 @@ namespace BotExtended
                         ImpactDamageTakenModifier = DamageTaken.VeryResistant,
                         SizeModifier = Size.VeryBig,
                         InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss BazookaJane
+                case BotType.BazookaJane:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Melee | SearchItems.Powerups | SearchItems.Secondary;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        SizeModifier = Size.AboveNormal,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
                     };
                     botInfo.IsBoss = true;
                     break;

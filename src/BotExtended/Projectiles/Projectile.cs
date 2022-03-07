@@ -57,7 +57,7 @@ namespace BotExtended.Projectiles
 
         protected virtual void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius) { }
 
-        public bool IsShotgunShell { get { return IsShotgun(Instance); } }
+        public bool IsShotgunShell { get { return IsShotgun(Instance.ProjectileItem); } }
 
         public bool IsExplosiveProjectile
         {
@@ -69,33 +69,19 @@ namespace BotExtended.Projectiles
             }
         }
 
-        public static bool IsShotgun(IProjectile projectile)
+        public static bool IsShotgun(ProjectileItem projectile)
         {
-            return projectile.ProjectileItem == ProjectileItem.SHOTGUN
-                || projectile.ProjectileItem == ProjectileItem.DARK_SHOTGUN
-                || projectile.ProjectileItem == ProjectileItem.SAWED_OFF;
-        }
-        public static bool IsShotgunWpn(WeaponItem weaponItem)
-        {
-            return weaponItem == WeaponItem.SHOTGUN
-                || weaponItem == WeaponItem.DARK_SHOTGUN
-                || weaponItem == WeaponItem.SAWED_OFF;
+            return projectile == ProjectileItem.SHOTGUN
+                || projectile == ProjectileItem.DARK_SHOTGUN
+                || projectile == ProjectileItem.SAWED_OFF;
         }
 
-        // Remember to update the IsSlowProjectileWpn() method below
-        public static bool IsSlowProjectile(IProjectile projectile)
+        public static bool IsSlowProjectile(ProjectileItem projectile)
         {
-            return projectile.ProjectileItem == ProjectileItem.BOW
-                || projectile.ProjectileItem == ProjectileItem.BAZOOKA
-                || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
-                || projectile.ProjectileItem == ProjectileItem.FLAREGUN;
-        }
-        public static bool IsSlowProjectileWpn(WeaponItem weaponItem)
-        {
-            return weaponItem == WeaponItem.BOW
-                || weaponItem == WeaponItem.BAZOOKA
-                || weaponItem == WeaponItem.GRENADE_LAUNCHER
-                || weaponItem == WeaponItem.FLAREGUN;
+            return projectile == ProjectileItem.BOW
+                || projectile == ProjectileItem.BAZOOKA
+                || projectile == ProjectileItem.GRENADE_LAUNCHER
+                || projectile == ProjectileItem.FLAREGUN;
         }
 
         public int ProjectilesPerShell

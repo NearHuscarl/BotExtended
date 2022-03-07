@@ -24,6 +24,7 @@
         Spinner,
         StickyBomb,
         SuicideDove,
+        SuicideFighter,
         Taser,
         Tearing,
         Welding,

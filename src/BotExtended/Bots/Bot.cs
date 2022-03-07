@@ -427,6 +427,14 @@ namespace BotExtended.Bots
             return promise.Task;
         }
 
+        public void SetHealth(int health, bool permanent = false)
+        {
+            var modifiers = Player.GetModifiers();
+            modifiers.MaxHealth = health;
+            modifiers.CurrentHealth = health;
+            Player.SetModifiers(modifiers);
+            if (permanent) Info.Modifiers = modifiers;
+        }
         // set modifiers without changing current health and energy
         public void SetModifiers(PlayerModifiers modifiers, bool permanent = false)
         {

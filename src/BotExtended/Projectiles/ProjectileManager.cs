@@ -35,7 +35,7 @@ namespace BotExtended.Projectiles
         }
 
         private static Dictionary<int, List<WeaponInfo>> m_queuedPowerups = new Dictionary<int, List<WeaponInfo>>();
-        private static Dictionary<int, ProjectileBase> m_customProjectiles = new Dictionary<int, ProjectileBase>();
+        private static Dictionary<int, CustomProjectile> m_customProjectiles = new Dictionary<int, CustomProjectile>();
         private static Dictionary<int, ProjectileBase> m_projectiles = new Dictionary<int, ProjectileBase>();
         private static Dictionary<int, Weapon> m_weapons = new Dictionary<int, Weapon>();
         private static Dictionary<int, PlayerWeapon> m_owners = new Dictionary<int, PlayerWeapon>();
@@ -330,7 +330,7 @@ namespace BotExtended.Projectiles
                     if (proj != null && proj.Powerup != RangedWeaponPowerup.None)
                     {
                         if (proj.IsCustomProjectile)
-                            m_customProjectiles.Add(proj.ID, proj);
+                            m_customProjectiles.Add(proj.ID, (CustomProjectile)proj);
                         else
                             m_projectiles.Add(proj.ID, proj);
                     }
@@ -386,8 +386,7 @@ namespace BotExtended.Projectiles
                 {
                     var proj = m_customProjectiles[obj.UniqueID];
 
-                    // TODO: wrong place to call this
-                    proj.OnProjectileHit();
+                    proj.OnProjectileTerminated();
                     m_customProjectiles.Remove(obj.UniqueID);
                 }
 

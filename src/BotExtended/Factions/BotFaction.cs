@@ -34,6 +34,7 @@
         Boss_Amos,
         Boss_Balista,
         Boss_Balloonatic,
+        Boss_BazookaJane,
         Boss_Bobby,
         Boss_Boffin,
         Boss_Cindy,

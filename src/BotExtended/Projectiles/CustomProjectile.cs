@@ -47,6 +47,7 @@ namespace BotExtended.Projectiles
         }
 
         protected virtual IObject OnProjectileCreated(IProjectile projectile) { return null; }
+        public virtual void OnProjectileTerminated() { }
 
         protected override void Update(float elapsed)
         {

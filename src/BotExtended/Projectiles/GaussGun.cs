@@ -13,10 +13,10 @@ namespace BotExtended.Projectiles
     {
         public float ChargeModifier { get; private set; }
 
-        public override float MaxRange { get { return Projectile.IsShotgunWpn(Name) ? 150 : 300; } }
+        public override float MaxRange { get { return Projectile.IsShotgun(Mapper.GetProjectile(Name)) ? 150 : 300; } }
         public override bool IsValidPowerup()
         {
-            return !Projectile.IsSlowProjectileWpn(Name);
+            return !Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
         }
 
         public GaussGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Gauss)

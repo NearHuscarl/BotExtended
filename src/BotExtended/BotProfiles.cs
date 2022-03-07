@@ -81,6 +81,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region BazookaJane
+                case BotType.BazookaJane:
+                {
+                    // https://profile-editor.vercel.app?p=F1Gyj37tZ1MdZ2ddZ2neZ31ejY10eZ1adZ
+                    profiles.Add(new IProfile() { Name = "Bazooka Jane", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("Helmet2", "ClothingDarkYellow"), ChestOver = new IProfileClothingItem("Suspenders_fem", "ClothingGray", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("TShirt_fem", "ClothingRed"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("SatchelBelt_fem", "ClothingDarkYellow"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkYellow"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Balista
                 case BotType.Balista:
                 {
@@ -844,6 +853,15 @@ namespace BotExtended
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingGreen"), ChestUnder = new IProfileClothingItem("TornShirt_fem", "ClothingGreen"), });
                     // https://profile-editor.vercel.app?p=F1GzsYYY217Z2tsjYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingPurple"), ChestOver = new IProfileClothingItem("ShoulderHolster_fem", "ClothingPurple", "ClothingLightGray"), Feet = new IProfileClothingItem("RidingBootsBlack", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+                
+                #region SuicideDwarf
+                case BotType.SuicideDwarf:
+                {
+                    // https://profile-editor.vercel.app?p=M38wp3ddZ3bdZ2cdZ0qeZYYY19dZ
+                    profiles.Add(new IProfile() { Name = "Dwarf", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin1", "ClothingLightYellow"), Head = new IProfileClothingItem("Helmet", "ClothingDarkYellow"), ChestUnder = new IProfileClothingItem("TornShirt", "ClothingDarkYellow"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingDarkYellow"), Legs = new IProfileClothingItem("TornPants", "ClothingDarkYellow"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), });
                     break;
                 }
                 #endregion

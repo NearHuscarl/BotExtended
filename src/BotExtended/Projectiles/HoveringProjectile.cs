@@ -74,7 +74,7 @@ namespace BotExtended.Projectiles
             Instance.Velocity = new Vector2(0, 100);
             Instance.Direction = Vector2.Zero;
             
-            if (!IsSlowProjectile(Instance)) Instance.FlagForRemoval();
+            if (!IsSlowProjectile(Instance.ProjectileItem)) Instance.FlagForRemoval();
 
             HoverTime = 0f;
             OnHover();

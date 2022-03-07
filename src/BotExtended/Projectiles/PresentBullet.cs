@@ -82,7 +82,7 @@ namespace BotExtended.Projectiles
             }
         }
 
-        public override void OnProjectileHit()
+        public override void OnProjectileTerminated()
         {
             var position = Instance.GetWorldPosition();
 
