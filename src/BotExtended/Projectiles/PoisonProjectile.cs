@@ -74,6 +74,7 @@ namespace BotExtended.Projectiles
                 return;
             }
 
+            Game.PlayEffect(EffectName.CustomFloatText, player.GetWorldPosition(), "poisoned");
             _poisonedPlayers.Add(new PoisonPlayer
             {
                 Player = player,

@@ -19,7 +19,11 @@ namespace BotExtended.Projectiles
                 UpdateDelay = 0;
             else
                 UpdateDelay = 4;
+
+            _isElapsedEffect = ScriptHelper.WithIsElapsed(100, 300);
         }
+
+        private Func<bool> _isElapsedEffect;
 
         private static List<IProjectile> _bouncyProjectiles = new List<IProjectile>();
         static GrapeshotProjectile()
@@ -47,8 +51,6 @@ namespace BotExtended.Projectiles
                 Instance.FlagForRemoval();
         }
 
-        private float _effectElapsed = 0;
-        private float _effectTime = 150;
         protected override void UpdateHovering(float elapsed)
         {
             base.UpdateHovering(elapsed);
@@ -59,12 +61,7 @@ namespace BotExtended.Projectiles
             }
             else
             {
-                if (ScriptHelper.IsElapsed(_effectElapsed, _effectTime))
-                {
-                    Game.PlayEffect(EffectName.Electric, HoverPosition);
-                    _effectElapsed = Game.TotalElapsedGameTime;
-                    _effectTime = RandomHelper.Between(100, 300);
-                }
+                if (_isElapsedEffect()) Game.PlayEffect(EffectName.Electric, HoverPosition);
             }
         }
 

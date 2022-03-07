@@ -35,19 +35,6 @@ namespace BotExtended.Projectiles
                 default: return 100;
             }
         }
-        public string GetSoundID()
-        {
-            switch (Name)
-            {
-                case WeaponItem.M60: return "M60";
-                case WeaponItem.MACHINE_PISTOL: return "MachinePistol";
-                case WeaponItem.ASSAULT: return "AssaultRifle";
-                case WeaponItem.UZI: return "UZI";
-                case WeaponItem.MP50: return "MP50";
-                case WeaponItem.TOMMYGUN: return "TommyGun";
-                default: return "Pistol";
-            }
-        }
 
         public MiniGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Minigun) { }
 
@@ -64,17 +51,17 @@ namespace BotExtended.Projectiles
 
         private void Fire()
         {
-            Vector2 position, direction;
-            Owner.GetWeaponMuzzleInfo(out position, out direction);
+            var muzzle = GetMuzleInfo();
+            if (!muzzle.IsSussess) return;
 
             var accuracyDeflection = 0.13f / 2;
-            var angle = ScriptHelper.GetAngle(direction);
+            var angle = ScriptHelper.GetAngle(muzzle.Direction);
             var finalDirection = RandomHelper.Direction(angle - accuracyDeflection, angle + accuracyDeflection, true);
-            var projectile = Game.SpawnProjectile(ProjectileItem, position, finalDirection, ProjectilePowerup);
+            var projectile = Game.SpawnProjectile(ProjectileItem, muzzle.Position, finalDirection, ProjectilePowerup);
 
             projectile.DamageDealtModifier = DamageModifier;
-            Game.PlaySound(GetSoundID(), position);
-            if (_exraShots == 0 && RandomHelper.Percentage(.4f)) Game.PlayEffect(EffectName.Dig, position);
+            Game.PlaySound(ScriptHelper.GetSoundID(Name), muzzle.Position);
+            if (_exraShots == 0 && RandomHelper.Percentage(.4f)) Game.PlayEffect(EffectName.Dig, muzzle.Position);
             _exraShots++;
 
             var pos = Owner.GetWorldPosition();

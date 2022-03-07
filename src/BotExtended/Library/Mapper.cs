@@ -93,6 +93,61 @@ namespace BotExtended.Library
             }
         }
 
+        public static ProjectileItem GetProjectile(WeaponItem weaponItem)
+        {
+            switch (weaponItem)
+            {
+                case WeaponItem.ASSAULT:
+                    return ProjectileItem.ASSAULT;
+                case WeaponItem.BAZOOKA:
+                    return ProjectileItem.BAZOOKA;
+                case WeaponItem.BOW:
+                    return ProjectileItem.BOW;
+                case WeaponItem.CARBINE:
+                    return ProjectileItem.CARBINE;
+                case WeaponItem.DARK_SHOTGUN:
+                    return ProjectileItem.DARK_SHOTGUN;
+                case WeaponItem.GRENADE_LAUNCHER:
+                    return ProjectileItem.GRENADE_LAUNCHER;
+                case WeaponItem.M60:
+                    return ProjectileItem.M60;
+                case WeaponItem.MP50:
+                    return ProjectileItem.MP50;
+                case WeaponItem.SAWED_OFF:
+                    return ProjectileItem.SAWED_OFF;
+                case WeaponItem.SHOTGUN:
+                    return ProjectileItem.SHOTGUN;
+                case WeaponItem.SMG:
+                    return ProjectileItem.SMG;
+                case WeaponItem.SNIPER:
+                    return ProjectileItem.SNIPER;
+                case WeaponItem.TOMMYGUN:
+                    return ProjectileItem.TOMMYGUN;
+
+                case WeaponItem.FLAREGUN:
+                    return ProjectileItem.FLAREGUN;
+                case WeaponItem.MACHINE_PISTOL:
+                    return ProjectileItem.MACHINE_PISTOL;
+                case WeaponItem.MAGNUM:
+                    return ProjectileItem.MAGNUM;
+                case WeaponItem.PISTOL:
+                    return ProjectileItem.PISTOL;
+                case WeaponItem.PISTOL45:
+                    return ProjectileItem.PISTOL45;
+                case WeaponItem.REVOLVER:
+                    return ProjectileItem.REVOLVER;
+                case WeaponItem.SILENCEDPISTOL:
+                    return ProjectileItem.SILENCEDPISTOL;
+                case WeaponItem.SILENCEDUZI:
+                    return ProjectileItem.SILENCEDUZI;
+                case WeaponItem.UZI:
+                    return ProjectileItem.UZI;
+
+                default:
+                    return ProjectileItem.NONE;
+            }
+        }
+
         public static WeaponItem GetWeaponItem(ProjectileItem projectileItem)
         {
             if (projectileItem == ProjectileItem.FLAKCANNON)

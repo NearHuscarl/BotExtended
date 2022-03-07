@@ -39,6 +39,10 @@ namespace BotExtended.Bots
                     bot = new BalloonaticBot(args);
                     break;
 
+                case BotType.Bandido:
+                    bot = new BandidoBot(args);
+                    break;
+
                 case BotType.Boffin:
                     bot = new BoffinBot(args);
                     break;

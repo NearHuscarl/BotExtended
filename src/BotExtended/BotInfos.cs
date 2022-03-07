@@ -188,7 +188,10 @@ namespace BotExtended
                     botInfo.DeathLineChance = .01f;
 
                     if (botType == BotType.Bandido)
+                    {
                         botInfo.AIType = BotAI.Cowboy;
+                        botInfo.Modifiers.InfiniteAmmo = 1;
+                    }
                     if (botType == BotType.Cyborg)
                         botInfo.ImmuneToInfect = true;
                     if (botType == BotType.Engineer)

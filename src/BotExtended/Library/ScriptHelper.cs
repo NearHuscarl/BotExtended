@@ -73,6 +73,23 @@ namespace BotExtended.Library
             return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;
         }
 
+        public static Func<bool> WithIsElapsed(float minTime, float maxTime = 0)
+        {
+            var interval = maxTime == 0 ? minTime : RandomHelper.Between(minTime, maxTime);
+            var timeStarted = 0f;
+
+            return () =>
+            {
+                if (IsElapsed(timeStarted, interval))
+                {
+                    timeStarted = Game.TotalElapsedGameTime;
+                    interval = maxTime == 0 ? minTime : RandomHelper.Between(minTime, maxTime);
+                    return true;
+                }
+                return false;
+            };
+        }
+
         public static bool SpawnerHasPlayer(IObject spawner, IPlayer[] players)
         {
             // Player position y: -20 || +9
@@ -459,6 +476,39 @@ namespace BotExtended.Library
             var randX = RandomHelper.Between(0, 20);
             var randy = RandomHelper.Between(0, 20);
             return Game.GetCameraMaxArea().TopLeft + new Vector2(10 + randX, 10 + randy);
+        }
+
+        public static string GetSoundID(WeaponItem weaponItem)
+        {
+            switch (weaponItem)
+            {
+                // TODO: gun only for now
+                // Superfighters Deluxe\Content\Data\Sounds\Sounds.sfds
+                case WeaponItem.PISTOL45: return "Pistol45";
+                case WeaponItem.ASSAULT: return "AssaultRifle";
+                case WeaponItem.BAZOOKA: return "Bazooka";
+                case WeaponItem.BOW: return "BowShoot";
+                case WeaponItem.CARBINE: return "Carbine";
+                case WeaponItem.FLAMETHROWER: return "Flamethrower";
+                case WeaponItem.FLAREGUN: return "Flaregun";
+                case WeaponItem.GRENADE_LAUNCHER: return "GLauncher";
+                case WeaponItem.M60: return "M60";
+                case WeaponItem.MACHINE_PISTOL: return "MachinePistol";
+                case WeaponItem.MAGNUM: return "Magnum";
+                case WeaponItem.MP50: return "MP50";
+                case WeaponItem.PISTOL: return "Pistol";
+                case WeaponItem.SHOTGUN: return "Shotgun";
+                case WeaponItem.REVOLVER: return "Revolver";
+                case WeaponItem.DARK_SHOTGUN: return "RiotShotgun";
+                case WeaponItem.SAWED_OFF: return "SawedOff";
+                case WeaponItem.SILENCEDPISTOL: return "SilencedPistol";
+                case WeaponItem.SILENCEDUZI: return "SilencedUzi";
+                case WeaponItem.SNIPER: return "Sniper";
+                case WeaponItem.SUB_MACHINEGUN: return "SMG";
+                case WeaponItem.TOMMYGUN: return "TommyGun";
+                case WeaponItem.UZI: return "UZI";
+                default: return "Pistol";
+            }
         }
     }
 }

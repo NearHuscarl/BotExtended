@@ -54,7 +54,6 @@ namespace BotExtended
                 #region Bandido
                 case BotFaction.Bandido:
                 {
-                    // TODO: add bandido boss
                     factionSet.AddFaction(new SubFaction(BotType.Bandido, 1f));
                     break;
                 }
