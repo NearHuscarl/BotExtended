@@ -57,6 +57,7 @@
 
         // Tier2: Plant 47 Panic
         Mutant,
+        Nadja,
 
         NaziLabAssistant,
         NaziMuscleSoldier,

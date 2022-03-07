@@ -780,6 +780,20 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Nadja
+                case BotType.Nadja:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Secondary = WeaponItem.PISTOL,
+                        Powerup = WeaponItem.SLOWMO_10,
+                        Throwable = WeaponItem.MINES,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region NaziLabAssistant
                 case BotType.NaziLabAssistant:
                 {

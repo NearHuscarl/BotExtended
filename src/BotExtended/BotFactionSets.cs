@@ -403,10 +403,12 @@ namespace BotExtended
                 #endregion
 
                 #region Soldier
+                case BotFaction.Boss_Nadja:
                 case BotFaction.Boss_BazookaJane:
                 case BotFaction.Soldier:
                 {
                     if (botFaction == BotFaction.Boss_BazookaJane) bosses.Add(new SubFaction(BotType.BazookaJane));
+                    if (botFaction == BotFaction.Boss_Nadja) bosses.Add(new SubFaction(BotType.Nadja));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Soldier, 1f),

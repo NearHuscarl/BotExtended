@@ -26,15 +26,6 @@ namespace BotExtended.Weapons
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
         }
 
-        public static void SpawnTurret(IPlayer owner, Vector2 position, TurretDirection direction)
-        {
-            m_weapons.Add(new Turret(position, direction, owner));
-        }
-        public static void SpawnChicken(FarmerBot bot)
-        {
-            m_weapons.Add(new Chicken(bot));
-        }
-
         public static IEnumerable<T> GetWeapons<T>() where T : Weapon
         {
             foreach (var weapon in m_weapons)
@@ -42,6 +33,11 @@ namespace BotExtended.Weapons
                 var w = weapon as T;
                 if (w != null) yield return w;
             }
+        }
+
+        public static void SpawnWeapon(BeWeapon weapon, object arg)
+        {
+            m_weapons.Add(WeaponFactory.Create(weapon, arg));
         }
 
         private static float m_lastUpdateTime = 0f;

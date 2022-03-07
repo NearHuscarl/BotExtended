@@ -18,14 +18,12 @@ namespace BotExtended.Bots
 
             var chickens = Game.IsEditorTest ? 6 : 6;
             for (var i = 0; i < chickens; i++)
-            {
-                WeaponManager.SpawnChicken(this);
-            }
+                WeaponManager.SpawnWeapon(BeWeapon.Chicken, this);
         }
 
         public void OnChickenDead()
         {
-            WeaponManager.SpawnChicken(this);
+            WeaponManager.SpawnWeapon(BeWeapon.Chicken, this);
         }
     }
 }

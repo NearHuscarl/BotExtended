@@ -51,6 +51,7 @@
         Boss_Mecha,
         Boss_MetroCop,
         Boss_MirrorMan,
+        Boss_Nadja,
         Boss_Ninja,
         Boss_Rambo,
         Boss_Raze,

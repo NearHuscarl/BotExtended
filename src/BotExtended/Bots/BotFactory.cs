@@ -104,6 +104,10 @@ namespace BotExtended.Bots
                     bot = new MirrorManBot(args);
                     break;
 
+                case BotType.Nadja:
+                    bot = new NadjaBot(args);
+                    break;
+
                 case BotType.PoliceChief:
                     bot = new PoliceChiefBot(args);
                     break;

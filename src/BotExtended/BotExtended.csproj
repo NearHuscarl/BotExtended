@@ -48,10 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\NadjaBot.cs" />
     <Compile Include="Bots\BandidoBot.cs" />
     <Compile Include="Bots\FarmerBot.cs" />
     <Compile Include="Projectiles\PoisonProjectile.cs" />
     <Compile Include="Projectiles\SuicideFighterProjectile.cs" />
+    <Compile Include="Weapons\BeWeapon.cs" />
+    <Compile Include="Weapons\WeaponFactory.cs" />
+    <Compile Include="Weapons\TripWire.cs" />
     <Compile Include="Weapons\Chicken.cs" />
     <Compile Include="Bots\HitmanBot.cs" />
     <Compile Include="Bots\AssassinBot.cs" />

@@ -545,6 +545,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Nadja
+                case BotType.Nadja:
+                {
+                    // https://profile-editor.vercel.app?p=F1Gyk1Ad70udd2ddZ2neZYY10eZ0k7o
+                    profiles.Add(new IProfile() { Name = "Nadja", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin3", "ClothingLightGreen"), Head = new IProfileClothingItem("Beret", "ClothingDarkGray", "ClothingLightRed"), ChestUnder = new IProfileClothingItem("MilitaryShirt_fem", "ClothingDarkYellow", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("SatchelBelt_fem", "ClothingDarkYellow"), Legs = new IProfileClothingItem("CamoPants_fem", "ClothingDarkYellow", "ClothingDarkYellow"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), });
+                    break;
+                }
+                #endregion
+
                 #region NaziLabAssistant
                 case BotType.NaziLabAssistant:
                 {

@@ -268,7 +268,12 @@ namespace BotExtended.Bots
 
                 if (m_buildProgress >= MaxProgress)
                 {
-                    WeaponManager.SpawnTurret(Player, m_placeholder.Position, m_placeholder.Direction);
+                    WeaponManager.SpawnWeapon(BeWeapon.Turret, new TurretArg
+                    {
+                        Owner = Player,
+                        Position = m_placeholder.Position,
+                        Direction = m_placeholder.Direction,
+                    });
 
                     if (m_controller != null)
                         m_controller.OnBuildCompleted();

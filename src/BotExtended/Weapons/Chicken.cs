@@ -12,19 +12,16 @@ namespace BotExtended.Weapons
 {
     public class Chicken : Weapon
     {
-        public IObject Instance { get; private set; }
-        public PlayerTeam Team { get; private set; }
         public FarmerBot FarmerBot { get; private set; }
-        public IPlayer Owner { get; private set; }
         public IPlayer Target { get; private set; }
         public Vector2 TargetPosition { get { return Target == null ? Owner.GetWorldPosition() : Target.GetWorldPosition(); } }
 
         private static readonly float MaxDistanceFromOwner = 35f;
+        public override IEnumerable<IObject> Components { get; set; }
 
-        public Chicken(FarmerBot bot)
+        public Chicken(FarmerBot bot) : base(bot.Player)
         {
             FarmerBot = bot;
-            Owner = bot.Player;
             Instance = Game.CreateObject("Chicken00", Owner.GetWorldPosition());
             Instance.CustomID = "Chicken";
             Instance.SetTargetAIData(new ObjectAITargetData
@@ -87,10 +84,6 @@ namespace BotExtended.Weapons
                 _findTime = Game.TotalElapsedGameTime;
             }
         }
-
-        public override Vector2 Position { get { return Instance.GetWorldPosition(); } }
-
-        public override IEnumerable<IObject> Components { get; set; }
 
         public bool IsOnGround { get { return Math.Abs(Instance.GetLinearVelocity().Y) <= 0.1; } }
 

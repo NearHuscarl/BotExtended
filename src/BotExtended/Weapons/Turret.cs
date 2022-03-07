@@ -40,14 +40,20 @@ namespace BotExtended.Weapons
     //        x - rotationPointPos.X, y - rotationPointPos.Y, comp.CustomID));
     //}
 
+    struct TurretArg
+    {
+        public Vector2 Position;
+        public TurretDirection Direction;
+        public IPlayer Owner;
+    }
+
     // TODO: use custom texture to simplify code logic
     class Turret : Weapon
     {
+        // TODO: add recoil
         public int UniqueID { get { return m_tip.UniqueID; } }
-        public IPlayer Owner { get; private set; }
 
-        public PlayerTeam Team { get; private set; }
-
+        // TODO: change to IList<> and get rid of abstract in base class to simplify things
         private Dictionary<string, IObject> m_components = new Dictionary<string, IObject>();
         public override IEnumerable<IObject> Components
         {
@@ -188,18 +194,17 @@ namespace BotExtended.Weapons
             }
         }
 
-        public Turret(Vector2 worldPosition, TurretDirection direction, IPlayer owner = null)
+        public Turret(TurretArg arg) : base(arg.Owner)
         {
-            Direction = (direction == TurretDirection.Left) ? -1 : 1;
-            Owner = owner;
-            Team = owner.GetTeam();
+            Direction = (arg.Direction == TurretDirection.Left) ? -1 : 1;
+            Owner = arg.Owner;
             IsDestroyed = false;
 
             var ux = Vector2.UnitX * -Direction;
             var uy = Vector2.UnitY;
 
             // worldPosition works best when get from TurretPlaceholder.Position
-            RotationCenter = worldPosition;
+            RotationCenter = arg.Position;
             var legLeft1Position = RotationCenter - ux * 4 + uy * 1;
             var legLeft2Position = RotationCenter - ux * 7 - uy * 5;
             var legRight1Position = RotationCenter + ux * 0 - uy * 5;
@@ -219,7 +224,7 @@ namespace BotExtended.Weapons
 
             // Object creation order is important. It will determine the z-layer the object will be located to
             var teamIndicator = Game.CreateObject("BgBottle00D", teamIndicatorPosition, -Direction * MathHelper.PIOver2);
-            teamIndicator.SetColor1(GetColor(owner.GetTeam()));
+            teamIndicator.SetColor1(GetColor(Owner.GetTeam()));
 
             var legMiddle1 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle1Position, -Direction * 0.41f);
             var legMiddle2 = (IObjectActivateTrigger)Game.CreateObject("Lever01", legMiddle2Position, -Direction * 0.41f);
