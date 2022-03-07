@@ -16,6 +16,7 @@ namespace BotExtended.Factions
 
         public void AddFaction(List<SubFaction> subFactions)
         {
+            if (subFactions.Count == 0) return;
             Factions.Add(new Faction(subFactions, Faction));
         }
         public void AddFaction(SubFaction subFaction)
