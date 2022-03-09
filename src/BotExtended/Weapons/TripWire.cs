@@ -35,13 +35,17 @@ namespace BotExtended.Weapons
                     {
                         if (ScriptHelper.IsElapsed(trappedTime, 2000))
                         {
-                            if (!ScriptHelper.SameTeam(p, Owner) || RandomHelper.Percentage(.25f))
+                            if (!ScriptHelper.SameTeam(p, Owner) || RandomHelper.Percentage(.15f))
                                 TriggerTrap(p);
                             _trappedTimes[p.UniqueID] = Game.TotalElapsedGameTime;
                         }
                     }
                     else
+                    {
+                        if (!ScriptHelper.SameTeam(p, Owner))
+                            TriggerTrap(p);
                         _trappedTimes.Add(p.UniqueID, Game.TotalElapsedGameTime);
+                    }
                 }
             }
         }
@@ -49,6 +53,7 @@ namespace BotExtended.Weapons
         private bool _hasGrenade = true;
         private void TriggerTrap(IPlayer player)
         {
+            if (player.IsDead || player.GetLinearVelocity() == Vector2.Zero) return;
             ScriptHelper.Fall(player);
             var vec = player.GetLinearVelocity();
             // move up a bit to remove the friction of the ground and make the enemy 'fly away'
