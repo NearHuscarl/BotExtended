@@ -9,6 +9,9 @@ namespace BotExtended
         internal const int BOT_COUNT_MIN = 1;
         internal const int BOT_COUNT_MAX = 10;
 
+        internal const float MAX_WALK_SPEED = 2.5f;
+        internal const float MAX_SPRINT_SPEED = 3.5f;
+
         internal const int BOT_SPAWN_COUNT_MIN = 1;
         internal const int BOT_SPAWN_COUNT_MAX = 15;
         internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();

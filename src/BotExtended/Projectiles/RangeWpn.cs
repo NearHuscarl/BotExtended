@@ -1,6 +1,7 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
 using System;
+using static BotExtended.Library.SFD;
 
 namespace BotExtended.Projectiles
 {
@@ -23,6 +24,7 @@ namespace BotExtended.Projectiles
             : base(owner, name)
         {
             Powerup = powerup;
+            _isElapsedCheckRange = ScriptHelper.WithIsElapsed(95);
             if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
@@ -40,6 +42,7 @@ namespace BotExtended.Projectiles
         }
 
         private bool _oldManualAiming = false;
+        private Func<bool> _isElapsedCheckRange;
         public virtual void Update(float elapsed)
         {
             if (!_oldManualAiming && Owner.IsManualAiming)
@@ -47,6 +50,33 @@ namespace BotExtended.Projectiles
             if (_oldManualAiming && !Owner.IsManualAiming)
                 OnStopManualAim();
             _oldManualAiming = Owner.IsManualAiming;
+
+            // don't shoot if the enemy is too far away because some guns have limited range
+            if (_isElapsedCheckRange())
+            {
+                foreach (var player in Game.GetPlayers())
+                {
+                    if (!ScriptHelper.SameTeam(player, Owner))
+                    {
+                        var ownerBot = BotManager.GetBot(Owner);
+                        var bs = Owner.GetBotBehaviorSet();
+
+                        if (ScriptHelper.IntersectCircle(player.GetAABB(), Owner.GetWorldPosition(), MaxRange))
+                        {
+                            if (!bs.RangedWeaponUsage)
+                            {
+                                bs.RangedWeaponUsage = true;
+                                ownerBot.SetBotBehaviorSet(bs);
+                            }
+                        }
+                        else if (bs.RangedWeaponUsage)
+                        {
+                            bs.RangedWeaponUsage = false;
+                            ownerBot.SetBotBehaviorSet(bs);
+                        }
+                    }
+                }
+            }
         }
 
         protected virtual void OnStartManualAim() { }

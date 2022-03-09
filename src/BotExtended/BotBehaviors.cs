@@ -328,6 +328,7 @@ namespace BotExtended
                 case BotAI.Kingpin:
                 {
                     botBehaviorSet = GetBehaviorSet(BotAI.Hard);
+                    botBehaviorSet.OffensiveSprintLevel = 0.8f;
                     botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions()
                     {
                         Attack = (ushort)16,

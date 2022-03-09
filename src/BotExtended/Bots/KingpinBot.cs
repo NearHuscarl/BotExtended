@@ -10,8 +10,6 @@ namespace BotExtended.Bots
     public class KingpinBot : Bot
     {
         private Controller<KingpinBot> m_controller;
-        private List<Bot> m_bodyguards = new List<Bot>();
-        private const int BodyguardCount = 2;
 
         public KingpinBot(BotArgs a, Controller<KingpinBot> controller) : base(a)
         {
@@ -36,23 +34,28 @@ namespace BotExtended.Bots
         }
 
         private float m_crushEnemyTime = 0f;
-        private float m_searchBodyguardTime = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
             if (Player.IsDead) return;
 
-            if (m_controller != null)
-                m_controller.OnUpdate(elapsed);
+            if (m_controller != null) m_controller.OnUpdate(elapsed);
 
-            if (m_bodyguards.Count < BodyguardCount && ScriptHelper.IsElapsed(m_searchBodyguardTime, 975))
+            // push objects away while sprinting
+            var vec = Player.GetLinearVelocity();
+            if (Math.Abs(vec.X) > Constants.MAX_WALK_SPEED)
             {
-                m_searchBodyguardTime = Game.TotalElapsedGameTime;
-                SearchBodyguards();
-            }
+                var results = Game.RayCast(Position, Position + Player.AimVector * 8, new RayCastInput()
+                {
+                    FilterOnMaskBits = true,
+                    MaskBits = CategoryBits.DynamicG1,
+                    ClosestHitOnly = true,
+                }).Where(r => r.HitObject != null);
 
-            foreach (var bodyguard in m_bodyguards.ToList()) if (bodyguard.Player.IsDead) m_bodyguards.Remove(bodyguard);
+                if (results.Count() > 0)
+                    results.First().HitObject.SetLinearVelocity(new Vector2(Player.AimVector.X * 8, 3));
+            }
 
             // crush enemy while grabbing
             if (Player.IsHoldingPlayerInGrab && ScriptHelper.IsElapsed(m_crushEnemyTime, 120))
@@ -69,13 +72,6 @@ namespace BotExtended.Bots
             }
         }
 
-        public override void OnDeath(PlayerDeathArgs args)
-        {
-            base.OnDeath(args);
-
-            foreach (var bodyguard in m_bodyguards) bodyguard.Player.SetGuardTarget(null);
-        }
-
         public override void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg)
         {
             base.OnMeleeDamage(attacker, arg);
@@ -84,25 +80,6 @@ namespace BotExtended.Bots
             var pos = Player.GetWorldPosition();
             var direction = Math.Sign(pos.X - arg.HitPosition.X);
             Player.SetLinearVelocity(new Vector2(direction * 5, 0));
-        }
-
-        private void SearchBodyguards()
-        {
-            Func<Bot, bool> isBodyguard = (Bot b) => b.Type == BotType.Bodyguard || b.Type == BotType.Bodyguard2 || b.Type == BotType.GangsterHulk;
-            var bodyguards = BotManager.GetBots()
-                .Where(b => !b.Player.IsDead && isBodyguard(b))
-                .Take(BodyguardCount);
-
-            foreach (var bodyguard in bodyguards)
-            {
-                var bs = bodyguard.Player.GetBotBehaviorSet();
-                bs.GuardRange = 30f;
-                bs.ChaseRange = 32f;
-                bodyguard.SetBotBehaviorSet(bs, true);
-                bodyguard.Player.SetGuardTarget(Player);
-
-                m_bodyguards.Add(bodyguard);
-            }
         }
     }
 }

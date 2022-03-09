@@ -720,6 +720,7 @@ namespace BotExtended
                     {
                         MaxHealth = Health.Strong,
                         CurrentHealth = Health.Strong,
+                        EnergyConsumptionModifier = .1f,
                         SizeModifier = Size.Big,
                         MeleeForceModifier = MeleeForce.Strong,
                         MeleeStunImmunity = 1,

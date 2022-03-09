@@ -14,8 +14,7 @@ namespace BotExtended.Projectiles
     {
         public TaserGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Taser) { }
 
-        // TODO: fix issue with bot shooting at long range
-        public override float MaxRange { get { return 150; } }
+        public override float MaxRange { get { return 100; } }
         public override bool IsValidPowerup()
         {
             return Name == WeaponItem.PISTOL
@@ -35,7 +34,7 @@ namespace BotExtended.Projectiles
         {
             base.Update(elapsed);
 
-            if (Owner.IsIdle && !_isIdle) RemoveObjects();
+            if (Owner.IsIdle && !_isIdle || Owner.IsRolling) RemoveObjects();
             _isIdle = Owner.IsIdle;
 
             var muzzleInfo = GetMuzleInfo();
