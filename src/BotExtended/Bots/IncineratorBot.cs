@@ -4,26 +4,18 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
-    public class IncineratorBot : Bot
+    public class IncineratorBot : PyromaniacBot
     {
-        public IncineratorBot(BotArgs args) : base(args) { }
-
-        public override void OnSpawn()
+        public IncineratorBot(BotArgs args) : base(args)
         {
-            base.OnSpawn();
-
-            // TODO: move to BotBehavior
-            var behavior = Player.GetBotBehaviorSet();
-            behavior.SearchForItems = false;
-            behavior.RangedWeaponPrecisionInterpolateTime = 0f;
-            Player.SetBotBehaviorSet(behavior);
+            BoostOnBurnLevel = 2;
         }
 
         public override void OnDeath(PlayerDeathArgs args)
         {
             base.OnDeath(args);
 
-            if (Player.CurrentPrimaryWeapon.WeaponItem == WeaponItem.FLAMETHROWER)
+            if (Player.CurrentPrimaryWeapon.WeaponItem == WeaponItem.GRENADE_LAUNCHER)
             {
                 Game.SpawnFireNodes(Position, 20, 5f, FireNodeType.Flamethrower);
                 Game.TriggerFireplosion(Position, 60f);

@@ -681,11 +681,28 @@ namespace BotExtended
                 case BotType.Incinerator:
                 {
                     botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.ExtremelyStrong,
                         CurrentHealth = Health.ExtremelyStrong,
                         FireDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Pyromaniac
+                case BotType.Pyromaniac:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.Strong,
+                        FireDamageTakenModifier = DamageTaken.VeryResistant,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;

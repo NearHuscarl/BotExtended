@@ -29,8 +29,12 @@ namespace BotExtended.Projectiles
                     return new HuntingProjectile(projectile);
                 case RangedWeaponPowerup.Homing:
                     return new HomingProjectile(projectile);
+                case RangedWeaponPowerup.InfiniteBouncing:
+                    return new InfiniteBouncingProjectile(projectile);
                 case RangedWeaponPowerup.Lightning:
                     return new LightningProjectile(projectile);
+                case RangedWeaponPowerup.Molotov:
+                    return new MolotovProjectile(projectile);
                 case RangedWeaponPowerup.Poison:
                     return new PoisonProjectile(projectile);
                 case RangedWeaponPowerup.Present:

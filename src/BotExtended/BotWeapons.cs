@@ -629,10 +629,9 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.AXE,
-                        Primary = WeaponItem.FLAMETHROWER,
-                        Secondary = WeaponItem.FLAREGUN,
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Molotov,
                         Throwable = WeaponItem.MOLOTOVS,
-                        Powerup = WeaponItem.SLOWMO_10,
                     });
                     break;
                 }
@@ -1018,6 +1017,24 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Pyromaniac
+                case BotType.Pyromaniac:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.FLAMETHROWER,
+                        Throwable = WeaponItem.MOLOTOVS,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.FLAREGUN,
+                        SecondaryPowerup = RangedWeaponPowerup.InfiniteBouncing,
+                        Throwable = WeaponItem.MOLOTOVS,
                     });
                     break;
                 }

@@ -18,6 +18,7 @@
         Police,
         Police_Cindy,
         PoliceSWAT,
+        Pyromaniac,
         Robot,
         Sniper,
         Soldier,

@@ -112,6 +112,10 @@ namespace BotExtended.Bots
                     bot = new PoliceChiefBot(args);
                     break;
 
+                case BotType.Pyromaniac:
+                    bot = new PyromaniacBot(args);
+                    break;
+
                 case BotType.Sheriff:
                     bot = new SheriffBot(args);
                     break;

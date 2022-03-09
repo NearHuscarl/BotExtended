@@ -134,7 +134,10 @@
         Funnyman,
         Hacker,
         Handler,
+
         Incinerator,
+        Pyromaniac,
+
         // Tier1: The Teahouse Job, Rooftop Retribution
         // Tier3: Unearthed
         Kingpin,

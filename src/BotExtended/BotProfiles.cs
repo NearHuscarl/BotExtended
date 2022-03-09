@@ -712,7 +712,18 @@ namespace BotExtended
                     break;
                 }
                 #endregion
-                
+
+                #region Pyromaniac
+                case BotType.Pyromaniac:
+                {
+                    // https://profile-editor.vercel.app?p=M38yo32oZ1L7ZY0p7Z13ZZ0Seo25cZY
+                    profiles.Add(new IProfile() { Name = "Pyromaniac", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightRed"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("Sweater", "ClothingLightRed"), Hands = new IProfileClothingItem("SafetyGlovesBlack", "ClothingDarkRed"), Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), Accesory = new IProfileClothingItem("GasMask", "ClothingGray", "ClothingLightRed"), });
+                    // https://profile-editor.vercel.app?p=F39yoY1M7ZY0qeZ057Z0Seo26cZY
+                    profiles.Add(new IProfile() { Name = "Pyromaniac", Gender = Gender.Female, Skin = new IProfileClothingItem("Tattoos_fem", "Skin3", "ClothingLightRed"), ChestOver = new IProfileClothingItem("AmmoBelt_fem", "ClothingDarkGray"), Hands = new IProfileClothingItem("SafetyGlovesBlack_fem", "ClothingDarkRed"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("GasMask", "ClothingGray", "ClothingLightRed"), });
+                    break;
+                }
+                #endregion
+
                 #region Rambo
                 case BotType.Rambo:
                 {

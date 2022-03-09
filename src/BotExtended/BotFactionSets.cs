@@ -321,6 +321,31 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Pyromaniac
+                case BotFaction.Boss_Incinerator:
+                case BotFaction.Pyromaniac:
+                {
+                    if (botFaction == BotFaction.Pyromaniac)
+                    {
+                        factionSet.AddFaction(new List<SubFaction>()
+                        {
+                            new SubFaction(BotType.Pyromaniac),
+                            new SubFaction(BotType.Pyromaniac),
+                            new SubFaction(BotType.Pyromaniac),
+                        });
+                        break;
+                    }
+
+                    if (botFaction == BotFaction.Boss_Incinerator) bosses.Add(new SubFaction(BotType.Incinerator));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Pyromaniac),
+                        new SubFaction(BotType.Pyromaniac),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Robot
                 case BotFaction.Robot:
                 {
@@ -551,9 +576,6 @@ namespace BotExtended
                     break;
                 case BotFaction.Boss_Hitman:
                     factionSet.AddFaction(new SubFaction(BotType.Hitman));
-                    break;
-                case BotFaction.Boss_Incinerator:
-                    factionSet.AddFaction(new SubFaction(BotType.Incinerator));
                     break;
                 case BotFaction.Boss_Meatgrinder:
                     factionSet.AddFaction(new SubFaction(BotType.Meatgrinder));
