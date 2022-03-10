@@ -8,59 +8,6 @@ namespace BotExtended.Projectiles
 {
     class PresentBullet : CustomProjectile
     {
-        private static readonly List<string> m_presents = new List<string>()
-        {
-            "XmasPresent00",
-            "WpnPistol",
-            "WpnPistol45",
-            "WpnSilencedPistol",
-            "WpnMachinePistol",
-            "WpnMagnum",
-            "WpnRevolver",
-            "WpnPumpShotgun",
-            "WpnDarkShotgun",
-            "WpnTommygun",
-            "WpnSMG",
-            "WpnM60",
-            "WpnPipeWrench",
-            "WpnChain",
-            "WpnWhip",
-            "WpnHammer",
-            "WpnKatana",
-            "WpnMachete",
-            "WpnChainsaw",
-            "WpnKnife",
-            "WpnSawedoff",
-            "WpnBat",
-            "WpnBaton",
-            "WpnShockBaton",
-            "WpnLeadPipe",
-            "WpnUzi",
-            "WpnSilencedUzi",
-            "WpnBazooka",
-            "WpnAxe",
-            "WpnAssaultRifle",
-            "WpnMP50",
-            "WpnSniperRifle",
-            "WpnCarbine",
-            "WpnFlamethrower",
-            "ItemPills",
-            "ItemMedkit",
-            "ItemSlomo5",
-            "ItemSlomo10",
-            "ItemStrengthBoost",
-            "ItemSpeedBoost",
-            "ItemLaserSight",
-            "ItemBouncingAmmo",
-            "ItemFireAmmo",
-            "WpnGrenades",
-            "WpnMolotovs",
-            "WpnMines",
-            "WpnShuriken",
-            "WpnBow",
-            "WpnFlareGun",
-            "WpnGrenadeLauncher",
-        };
         private static readonly List<string> m_oofs = new List<string>()
         {
             "WpnGrenadesThrown",
@@ -109,7 +56,7 @@ namespace BotExtended.Projectiles
             }
             if (5 <= rndNum && rndNum < 30)
             {
-                Game.CreateObject(RandomHelper.GetItem(m_presents), position);
+                Game.CreateObject(RandomHelper.GetItem(Constants.WeaponNames), position);
             }
         }
     }

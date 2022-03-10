@@ -302,6 +302,26 @@ namespace BotExtended.Bots
             }
         }
 
+        protected Area DangerArea
+        {
+            get
+            {
+                return new Area(Position - Vector2.UnitX * 30 - Vector2.UnitY * 5, Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
+            }
+        }
+        public bool AreEnemiesNearby()
+        {
+            foreach (var bot in BotManager.GetBots())
+            {
+                if (!ScriptHelper.SameTeam(Player, bot.Player) && !bot.Player.IsDead)
+                {
+                    if (DangerArea.Intersects(bot.Player.GetAABB()))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public virtual void OnSpawn() { SaySpawnLine(); }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
@@ -425,6 +445,18 @@ namespace BotExtended.Bots
             }, stunnedTime);
 
             return promise.Task;
+        }
+
+        public void UseRangeWeapon(bool value, bool shealthRangeWpn = false)
+        {
+            var bs = Player.GetBotBehaviorSet();
+            if (bs.RangedWeaponUsage == value) return;
+            
+            bs.RangedWeaponUsage = value;
+            Player.SetBotBehaviorSet(bs);
+
+            if (shealthRangeWpn)
+                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Sheath);
         }
 
         public void SetHealth(int health, bool permanent = false)

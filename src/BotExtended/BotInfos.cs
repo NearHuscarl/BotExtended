@@ -151,6 +151,12 @@ namespace BotExtended
                         MeleeDamageDealtModifier = DamageDealt.BelowNormal,
                         SizeModifier = Size.BelowNormal,
                     };
+
+                    if (botType == BotType.Thug)
+                    {
+                        botInfo.SearchItems = SearchItems.Primary | SearchItems.Secondary | SearchItems.Melee;
+                        botInfo.SearchRange = WpnSearchRange.Nearby;
+                    }
                     break;
                 }
                 #endregion

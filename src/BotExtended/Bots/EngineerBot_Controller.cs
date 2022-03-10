@@ -161,15 +161,7 @@ namespace BotExtended.Bots
             //     if (bot.IsBuilding) return false;
             // }
 
-            // Don't build turret when enemies are nearby
-            foreach (var bot in BotManager.GetBots())
-            {
-                if (!ScriptHelper.SameTeam(Player, bot.Player))
-                {
-                    if (DangerArea.Intersects(bot.Player.GetAABB()))
-                        return false;
-                }
-            }
+            if (Actor.AreEnemiesNearby()) return false;
 
             foreach (var turret in WeaponManager.GetWeapons<Turret>())
             {

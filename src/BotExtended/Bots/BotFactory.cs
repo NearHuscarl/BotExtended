@@ -141,6 +141,11 @@ namespace BotExtended.Bots
                     bot = new TeddybearBot(args);
                     break;
 
+                case BotType.Thug:
+                case BotType.ThugHulk:
+                    bot = new ThugBot(args);
+                    break;
+
                 case BotType.Babybear:
                     bot = new BabybearBot(args);
                     break;

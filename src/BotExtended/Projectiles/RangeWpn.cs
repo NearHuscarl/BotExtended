@@ -52,28 +52,14 @@ namespace BotExtended.Projectiles
             _oldManualAiming = Owner.IsManualAiming;
 
             // don't shoot if the enemy is too far away because some guns have limited range
-            if (_isElapsedCheckRange())
+            if (Powerup != RangedWeaponPowerup.None && _isElapsedCheckRange())
             {
                 foreach (var player in Game.GetPlayers())
                 {
                     if (!ScriptHelper.SameTeam(player, Owner))
                     {
-                        var ownerBot = BotManager.GetBot(Owner);
-                        var bs = Owner.GetBotBehaviorSet();
-
-                        if (ScriptHelper.IntersectCircle(player.GetAABB(), Owner.GetWorldPosition(), MaxRange))
-                        {
-                            if (!bs.RangedWeaponUsage)
-                            {
-                                bs.RangedWeaponUsage = true;
-                                ownerBot.SetBotBehaviorSet(bs);
-                            }
-                        }
-                        else if (bs.RangedWeaponUsage)
-                        {
-                            bs.RangedWeaponUsage = false;
-                            ownerBot.SetBotBehaviorSet(bs);
-                        }
+                        var inRange = ScriptHelper.IntersectCircle(player.GetAABB(), Owner.GetWorldPosition(), MaxRange);
+                        BotManager.GetBot(Owner).UseRangeWeapon(inRange);
                     }
                 }
             }
