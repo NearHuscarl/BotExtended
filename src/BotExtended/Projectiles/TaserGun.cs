@@ -29,16 +29,15 @@ namespace BotExtended.Projectiles
         private IObjectWeldJoint _weldJoint;
         private IPlayer _targetPlayer;
 
-        private bool _isIdle = false;
         public override void Update(float elapsed)
         {
             base.Update(elapsed);
 
-            if (Owner.IsIdle && !_isIdle || Owner.IsRolling) RemoveObjects();
-            _isIdle = Owner.IsIdle;
-
             var muzzleInfo = GetMuzleInfo();
+
+            if (!Owner.IsHipFiring && !Owner.IsManualAiming || !muzzleInfo.IsSussess) RemoveObjects();
             if (!muzzleInfo.IsSussess) return;
+            
             if (_tail != null) _tail.SetWorldPosition(muzzleInfo.Position);
 
             if (_targetPlayer == null && _head != null)
