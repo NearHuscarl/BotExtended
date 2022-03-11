@@ -14,6 +14,8 @@ namespace BotExtended.Weapons
         {
             switch (weapon)
             {
+                case BeWeapon.Camp:
+                    return new Camp((GangsterBot)arg);
                 case BeWeapon.Chicken:
                     return new Chicken((FarmerBot)arg);
                 case BeWeapon.Tripwire:

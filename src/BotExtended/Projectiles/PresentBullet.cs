@@ -51,13 +51,9 @@ namespace BotExtended.Projectiles
                 BotManager.TriggerOnSpawn(bot);
             }
             if (1 <= rndNum && rndNum < 5)
-            {
                 Game.CreateObject(RandomHelper.GetItem(m_oofs), position);
-            }
             if (5 <= rndNum && rndNum < 30)
-            {
                 Game.CreateObject(RandomHelper.GetItem(Constants.WeaponNames), position);
-            }
         }
     }
 }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\GangsterBot.cs" />
     <Compile Include="Bots\ThugBot.cs" />
     <Compile Include="Bots\PyromaniacBot.cs" />
     <Compile Include="Bots\NadjaBot.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Projectiles\MolotovProjectile.cs" />
     <Compile Include="Projectiles\SuicideFighterProjectile.cs" />
     <Compile Include="Weapons\BeWeapon.cs" />
+    <Compile Include="Weapons\Camp.cs" />
     <Compile Include="Weapons\WeaponFactory.cs" />
     <Compile Include="Weapons\TripWire.cs" />
     <Compile Include="Weapons\Chicken.cs" />

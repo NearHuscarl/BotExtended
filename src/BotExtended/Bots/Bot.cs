@@ -417,6 +417,23 @@ namespace BotExtended.Bots
                 weapon.SetHealth(0);
         }
 
+        public IObject GetGroundObject()
+        {
+            var boundingBox = Player.GetAABB();
+            var start = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
+            var end = start + new Vector2(0, -1);
+            var results = Game.RayCast(start, end, new RayCastInput()
+            {
+                FilterOnMaskBits = true,
+                MaskBits = CategoryBits.StaticGround,
+                ClosestHitOnly = true,
+                IncludeOverlap = true,
+            }).Where(r => r.HitObject != null);
+            
+            if (results.Any()) return results.First().HitObject;
+            return null;
+        }
+
         public bool IsStunned { get; private set; }
         private Events.UpdateCallback m_effect;
         public System.Threading.Tasks.Task<bool> Stun(uint stunnedTime)

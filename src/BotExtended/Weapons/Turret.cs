@@ -177,7 +177,7 @@ namespace BotExtended.Weapons
             Firing,
         }
 
-        private string GetColor(PlayerTeam team)
+        public static string GetColor(PlayerTeam team)
         {
             switch (team)
             {

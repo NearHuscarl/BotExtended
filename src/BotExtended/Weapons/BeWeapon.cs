@@ -8,6 +8,7 @@ namespace BotExtended.Weapons
 {
     public enum BeWeapon
     {
+        Camp,
         Chicken,
         Tripwire,
         Turret,

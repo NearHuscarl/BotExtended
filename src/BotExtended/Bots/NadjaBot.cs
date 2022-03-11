@@ -29,8 +29,11 @@ namespace BotExtended.Bots
 
             if (ScriptHelper.IsElapsed(_placeTrapTime, 9000) && Player.IsOnGround)
             {
-                WeaponManager.SpawnWeapon(BeWeapon.Tripwire, Player);
                 _placeTrapTime = Game.TotalElapsedGameTime;
+                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.StartCrouch, 1000).ContinueWith((r) =>
+                {
+                    WeaponManager.SpawnWeapon(BeWeapon.Tripwire, Player);
+                });
             }
         }
     }

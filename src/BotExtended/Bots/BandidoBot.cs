@@ -51,6 +51,10 @@ namespace BotExtended.Bots
             {
                 if (!Player.IsOnGround) return;
 
+                var groundObj = GetGroundObject();
+                if (groundObj == null || groundObj.GetCollisionFilter().CategoryBits != CategoryBits.StaticGround)
+                    return;
+
                 if (_lastRangeWpn != WeaponItem.NONE && RandomHelper.Percentage(FireAmmoOnDeathChance))
                 {
                     _firePosition = new Vector2(Position.X, Position.Y - 2);
@@ -60,7 +64,7 @@ namespace BotExtended.Bots
                     _fireAmmoFromCorpse = true;
                 }
                 cb.Stop();
-            }, 200);
+            }, 270);
         }
     }
 }

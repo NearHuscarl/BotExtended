@@ -18,6 +18,10 @@ namespace BotExtended.Library
         {
             return (float)Rnd.NextDouble() * (max - min) + min;
         }
+        public static int BetweenInt(int min, int max)
+        {
+            return Rnd.Next(min, max);
+        }
 
         public static T GetItem<T>(List<T> list)
         {
