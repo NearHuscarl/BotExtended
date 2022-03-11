@@ -35,9 +35,11 @@ namespace BotExtended.Weapons
             }
         }
 
-        public static void SpawnWeapon(BeWeapon weapon, object arg)
+        public static Weapon SpawnWeapon(BeWeapon weapon, object arg)
         {
-            m_weapons.Add(WeaponFactory.Create(weapon, arg));
+            var wpn = WeaponFactory.Create(weapon, arg);
+            m_weapons.Add(wpn);
+            return wpn;
         }
 
         private static float m_lastUpdateTime = 0f;

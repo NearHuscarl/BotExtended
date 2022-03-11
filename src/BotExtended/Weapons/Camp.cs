@@ -49,10 +49,10 @@ namespace BotExtended.Weapons
         private Func<bool> _isElapsedCheckMember;
         public override void Update(float elapsed)
         {
-            Game.DrawText(Members.Count.ToString(), Position);
-            Game.DrawArea(Area, Color.Green);
-            Members.ForEach(m => Game.DrawText(m.Player.UniqueId.ToString(), m.Position, Color.Green));
-            AttackMembers.ForEach(m => Game.DrawText(m.Player.UniqueId.ToString(), m.Position, Color.Red));
+            //Game.DrawText(Members.Count.ToString(), Position);
+            //Game.DrawArea(Area, Color.Green);
+            //Members.ForEach(m => Game.DrawText(m.Player.UniqueId.ToString(), m.Position, Color.Green));
+            //AttackMembers.ForEach(m => Game.DrawText(m.Player.UniqueId.ToString(), m.Position, Color.Red));
 
             if (ScriptHelper.IsElapsed(_spawnGangsterTime, 12000))
             {

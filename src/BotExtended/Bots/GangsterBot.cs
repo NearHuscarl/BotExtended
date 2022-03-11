@@ -49,7 +49,7 @@ namespace BotExtended.Bots
 
             if (!Player.IsOnGround) return false;
 
-            var ground = GetGroundObject();
+            var ground = ScriptHelper.GetGroundObject(Player);
             if (ground == null || ground.GetCollisionFilter().CategoryBits != CategoryBits.StaticGround) return false;
             
             return true;

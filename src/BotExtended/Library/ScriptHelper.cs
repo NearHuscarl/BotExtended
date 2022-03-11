@@ -369,6 +369,23 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.StaticGround;
         }
 
+        public static IObject GetGroundObject(IObject aboveObject)
+        {
+            var boundingBox = aboveObject.GetAABB();
+            var start = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
+            var end = start + new Vector2(0, -1);
+            var results = Game.RayCast(start, end, new RayCastInput()
+            {
+                FilterOnMaskBits = true,
+                MaskBits = CategoryBits.StaticGround,
+                ClosestHitOnly = true,
+                IncludeOverlap = true,
+            }).Where(r => r.HitObject != null);
+
+            if (results.Any()) return results.First().HitObject;
+            return null;
+        }
+
         public static void Unscrew(IObject o)
         {
             var hitbox = o.GetAABB();

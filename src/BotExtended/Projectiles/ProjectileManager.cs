@@ -71,27 +71,29 @@ namespace BotExtended.Projectiles
             {
                 var weapon = item.Value;
                 if (weapon.WeaponInfo.HasPowerup)
-                {
                     PlayMoreShinyEffect(weapon, elapsed);
+            }
+
+            foreach (var projectileID in m_projectiles.Keys.ToList())
+            {
+                var projectile = m_projectiles[projectileID];
+                projectile.OnUpdate(elapsed);
+                if (projectile.IsRemoved)
+                {
+                    projectile.OnRemove();
+                    m_projectiles.Remove(projectileID); // Projectile.ID was already reset to 0 at this point
                 }
             }
 
-            var removeList = new List<int>();
-            foreach (var kv in m_projectiles)
+            foreach (var projectileID in m_customProjectiles.Keys.ToList())
             {
-                var projectile = kv.Value;
+                var projectile = m_customProjectiles[projectileID];
                 projectile.OnUpdate(elapsed);
                 if (projectile.IsRemoved)
-                    removeList.Add(kv.Key); // Projectile.ID was already reset to 0 at this point
-            }
-            // Projectiles dont have OnProjectileTerminated like how IObjects have OnObjectTerminated
-            // So when the projectiles go outside of the map and dont hit anything, it will be removed here
-            foreach (var r in removeList)
-                m_projectiles.Remove(r);
-
-            foreach (var projectile in m_customProjectiles.Values)
-            {
-                projectile.OnUpdate(elapsed);
+                {
+                    projectile.OnRemove();
+                    m_customProjectiles.Remove(projectileID);
+                }
             }
 
             foreach (var o in m_owners)
@@ -385,9 +387,7 @@ namespace BotExtended.Projectiles
                 if (m_customProjectiles.ContainsKey(obj.UniqueID))
                 {
                     var proj = m_customProjectiles[obj.UniqueID];
-
                     proj.OnProjectileTerminated();
-                    m_customProjectiles.Remove(obj.UniqueID);
                 }
 
                 var uniqueID = obj.UniqueID;

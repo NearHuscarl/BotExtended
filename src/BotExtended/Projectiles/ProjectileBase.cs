@@ -40,6 +40,7 @@ namespace BotExtended.Projectiles
 
         public virtual void OnProjectileHit() { }
         public virtual void OnProjectileHit(ProjectileHitArgs args) { }
+        public virtual void OnRemove() { }
 
         public bool SameTeam(IPlayer player)
         {
