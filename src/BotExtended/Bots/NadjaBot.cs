@@ -10,6 +10,8 @@ namespace BotExtended.Bots
 {
     public class NadjaBot : Bot
     {
+        private static List<TripWire> Traps = new List<TripWire>();
+
         public NadjaBot(BotArgs args) : base(args)
         {
             _isElaspedPlaceTrap = ScriptHelper.WithIsElapsed(9000);
@@ -17,24 +19,21 @@ namespace BotExtended.Bots
 
         private Func<bool> _isElaspedPlaceTrap;
 
-        public override void OnSpawn()
-        {
-            base.OnSpawn();
-        }
-
-        private float _placeTrapTime = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
-            if (ScriptHelper.IsElapsed(_placeTrapTime, 9000) && Player.IsOnGround)
+            if (Player.IsDead) return;
+
+            if (_isElaspedPlaceTrap() && CanPlaceTrap())
             {
-                _placeTrapTime = Game.TotalElapsedGameTime;
                 ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.StartCrouch, 1000).ContinueWith((r) =>
                 {
-                    WeaponManager.SpawnWeapon(BeWeapon.Tripwire, Player);
+                    Traps.Add((TripWire)WeaponManager.SpawnWeapon(BeWeapon.Tripwire, Player));
                 });
             }
         }
+
+        private bool CanPlaceTrap() { return Player.IsOnGround && Traps.Count < 100 && !Traps.Any(x => Vector2.Distance(x.Position, Position) < 10); }
     }
 }
