@@ -959,23 +959,27 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.KNIFE,
                         Secondary = WeaponItem.PISTOL45,
+                        SecondaryPowerup = RangedWeaponPowerup.Termite,
                         Throwable = WeaponItem.C4,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Termite,
                         Throwable = WeaponItem.GRENADES,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.Termite,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.SMG,
+                        PrimaryPowerup = RangedWeaponPowerup.Termite,
                     });
                     break;
                 }
@@ -1049,6 +1053,7 @@ namespace BotExtended
                         Primary = WeaponItem.GRENADE_LAUNCHER,
                         PrimaryPowerup = RangedWeaponPowerup.StickyBomb,
                         Secondary = WeaponItem.PISTOL45,
+                        SecondaryPowerup = RangedWeaponPowerup.Termite,
                         Throwable = WeaponItem.C4,
                     });
                     break;

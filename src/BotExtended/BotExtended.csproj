@@ -54,6 +54,7 @@
     <Compile Include="Bots\NadjaBot.cs" />
     <Compile Include="Bots\BandidoBot.cs" />
     <Compile Include="Bots\FarmerBot.cs" />
+    <Compile Include="Projectiles\TermiteProjectile.cs" />
     <Compile Include="Projectiles\InfiniteBouncingProjectile.cs" />
     <Compile Include="Projectiles\PoisonProjectile.cs" />
     <Compile Include="Projectiles\MolotovProjectile.cs" />

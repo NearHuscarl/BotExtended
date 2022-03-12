@@ -29,6 +29,7 @@
         SuicideFighter,
         Taser,
         Tearing,
+        Termite,
         Welding,
     }
 }

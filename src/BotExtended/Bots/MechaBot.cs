@@ -8,7 +8,7 @@ namespace BotExtended.Bots
 {
     public class MechaBot : RobotBot
     {
-        private static readonly List<string> DebrisList = new List<string> {
+        public static readonly List<string> DebrisList = new List<string> {
             "MetalDebris00A",
             "MetalDebris00B",
             "MetalDebris00C",

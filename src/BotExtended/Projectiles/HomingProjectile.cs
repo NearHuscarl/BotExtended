@@ -36,12 +36,11 @@ namespace BotExtended.Projectiles
         {
             if (Target == null) return;
 
-            var projectileAngle = ScriptHelper.GetAngle(Instance.Direction);
-            var targetAngle = ScriptHelper.GetAngle(Target.GetWorldPosition() - Instance.Position);
-            var steerAngle = Math.Sign(MathExtension.DiffAngle(targetAngle, projectileAngle))
+            var targetDir = Target.GetWorldPosition() - Instance.Position;
+            var steerAngle = Math.Sign(MathExtension.AngleBetween(Instance.Direction, targetDir))
                 * MathExtension.OneDeg * elapsed * 2/3;
 
-            Instance.Direction = ScriptHelper.GetDirection(projectileAngle + steerAngle);
+            Instance.Direction = ScriptHelper.GetDirection(ScriptHelper.GetAngle(Instance.Direction) + steerAngle);
         }
 
         private void SearchTarget()

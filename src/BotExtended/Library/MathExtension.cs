@@ -37,22 +37,14 @@ namespace BotExtended.Library
         {
             return Math.Abs(Math.Abs(a) - Math.Abs(b));
         }
-        public static float DiffAngle(float a, float b)
+
+        // https://stackoverflow.com/a/28123501/9449426
+        public static float AngleBetween(Vector2 vector1, Vector2 vector2)
         {
-            a = NormalizeAngle(a);
-            b = NormalizeAngle(b);
+            double sin = vector1.X * vector2.Y - vector2.X * vector1.Y;
+            double cos = vector1.X * vector2.X + vector1.Y * vector2.Y;
 
-            var da = a - b;
-            var db = a - b + MathHelper.PI * 2;
-            var dc = a - b - MathHelper.PI * 2;
-
-            var r = da;
-            if (Math.Abs(r) > Math.Abs(db))
-                r = db;
-            if (Math.Abs(r) > Math.Abs(dc))
-                r = dc;
-
-            return r;
+            return (float)Math.Atan2(sin, cos);
         }
 
         public static float FlipAngleX(float angle)

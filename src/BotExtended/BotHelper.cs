@@ -187,6 +187,7 @@ namespace BotExtended
             {
                 // TODO: Melee powerup
                 case WeaponItemType.Melee:
+                    player.GiveWeaponItem(weaponItem);
                     break;
                 case WeaponItemType.Rifle:
                 case WeaponItemType.Handgun:
@@ -195,6 +196,9 @@ namespace BotExtended
                     ProjectileManager.SetPowerup(player, weaponItem, powerup);
                     break;
                 }
+                default:
+                    player.GiveWeaponItem(weaponItem);
+                    break;
             }
         }
     }
