@@ -167,10 +167,9 @@ namespace BotExtended.Bots
             {
                 if (turret.Broken) continue;
 
-                var area = new Area(
+                var area = ScriptHelper.Area(
                     turret.Position + Vector2.UnitX * 32 * turret.Direction + Vector2.UnitY * 7,
                     turret.Position - Vector2.UnitX * 20 * turret.Direction - Vector2.UnitY * 14);
-                area.Normalize();
                 Game.DrawArea(area);
                 //ScriptHelper.LogDebug(area, area.Intersects(player.GetAABB()));
                 if (area.Intersects(Player.GetAABB()))

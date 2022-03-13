@@ -105,6 +105,10 @@ namespace BotExtended.Bots
                     bot = new MechaBot(args, player.IsBot ? new MechaBot_Controller() : null);
                     break;
 
+                case BotType.MetroCop:
+                    bot = new MetroCopBot(args);
+                    break;
+
                 case BotType.MirrorMan:
                     bot = new MirrorManBot(args);
                     break;

@@ -18,6 +18,8 @@ namespace BotExtended.Weapons
                     return new Camp((GangsterBot)arg);
                 case BeWeapon.Chicken:
                     return new Chicken((FarmerBot)arg);
+                case BeWeapon.LaserSweeper:
+                    return new LaserSweeper((MetroCopBot)arg);
                 case BeWeapon.Tripwire:
                     return new TripWire((IPlayer)arg);
                 case BeWeapon.Turret:

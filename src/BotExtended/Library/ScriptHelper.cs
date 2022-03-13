@@ -297,6 +297,11 @@ namespace BotExtended.Library
                 center.Y - toBottom,
                 center.X + toRight);
         }
+        public static Area Area(Vector2 min, Vector2 max)
+        {
+            var area = new Area(min, max); area.Normalize(); return area;
+        }
+
 
         public static System.Reflection.MethodBase GetMethodInfo(int skipFrames)
         {

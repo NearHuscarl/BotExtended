@@ -101,7 +101,6 @@ namespace BotExtended.Bots
                 .Any();
         }
 
-        private static int removeme = 0;
         private void TryToFlee()
         {
             m_targetLocation = null;
