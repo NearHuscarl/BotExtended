@@ -1,0 +1,3 @@
+// *** BOT EXTENDED ***
+tile(Laser00){ type=Static; sizeable=H; material.blockExplosions=false; isCloud=true;fixture(){ collisionGroup=none; }}
+// *** BOT EXTENDED ***
