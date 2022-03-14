@@ -46,8 +46,6 @@ namespace BotExtended.Weapons
         private Func<bool> _isElapsedUpdateFiring;
         public override void Update(float elapsed)
         {
-            Game.DrawCircle(EyePosition, 2, Color.Red);
-
             switch (_state)
             {
                 case State.Normal:
@@ -132,11 +130,17 @@ namespace BotExtended.Weapons
                 MaskBits = CategoryBits.StaticGround + CategoryBits.Player + CategoryBits.DynamicG1 + CategoryBits.DynamicG2,
             }).Where(r => r.HitObject != null);
 
-            var groundResult = results.First(x =>
+            var groundResult = results.FirstOrDefault(x =>
             {
                 var cf = x.HitObject.GetCollisionFilter();
                 return cf.CategoryBits == CategoryBits.StaticGround && cf.AbsorbProjectile;
             });
+            // laser shoot to the void
+            if (groundResult.HitObject == null)
+            {
+                _laser.SetEndPosition(nextAngle, 1500);
+                return;
+            }
             var distance = Vector2.Distance(_laser.StartPosition, groundResult.Position);
             _laser.SetEndPosition(nextAngle, distance);
 
