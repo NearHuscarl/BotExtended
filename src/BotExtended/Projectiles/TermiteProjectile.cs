@@ -27,28 +27,30 @@ namespace BotExtended.Projectiles
             var hitObject = Game.GetObject(args.HitObjectID);
             if (hitObject.GetCollisionFilter().CategoryBits != CategoryBits.DynamicG1 || hitObject.Name.Contains("Debris")) return;
 
-            if (!hitObject.Destructable && RandomHelper.Percentage(.6f))
+            if (!hitObject.Destructable && RandomHelper.Percentage(.06f))
                 hitObject.Destroy();
 
-            // x4 damage for objects
+            // x4.5 damage for objects
             hitObject.DealDamage(args.Damage * 3.5f);
 
             if (!hitObject.DestructionInitiated) return;
 
+            var isShotgunShell = IsShotgun(Instance.ProjectileItem);
             var oBox = hitObject.GetAABB();
             var pBox = Game.GetPlayer(InitialOwnerPlayerID).GetAABB();
             ScriptHelper.Timeout(() =>
             {
                 var originalDebrises = Game.GetObjectsByArea(oBox).Where(x => x.GetLinearVelocity().Length() <= 30 && x.Name.Contains("Debris")).ToList();
                 var debrises = new List<IObject>();
-                var debrisCount = RandomHelper.BetweenInt(4, 6);
+                var debrisCount = isShotgunShell ? 2 : RandomHelper.BetweenInt(4, 6);
 
                 if (originalDebrises.Count == 0)
                 {
                     for (var i = 0; i < debrisCount; i++)
                         debrises.Add(Game.CreateObject(RandomHelper.GetItem(MechaBot.DebrisList), oBox.Center));
                 }
-                for (var i = 0; i < debrisCount - debrises.Count; i++)
+                var debrisCount2 = debrises.Count;
+                for (var i = 0; i < debrisCount - debrisCount2; i++)
                     debrises.Add(Game.CreateObject(RandomHelper.GetItem(originalDebrises).Name, oBox.Center));
                 originalDebrises.ForEach(o => o.Remove());
 
@@ -58,6 +60,7 @@ namespace BotExtended.Projectiles
                     var dirToOwner = pBox.Center - o.GetWorldPosition();
 
                     o.SetLinearVelocity(dir * RandomHelper.Between(30, 40));
+                    o.SetAngularVelocity(RandomHelper.Between(-40, 40));
 
                     // Avoid hitting and disarming the one who fired
                     if (Math.Abs(MathExtension.ToDegree(MathExtension.AngleBetween(dir, dirToOwner))) > 30)

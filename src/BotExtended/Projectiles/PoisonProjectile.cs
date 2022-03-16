@@ -64,7 +64,7 @@ namespace BotExtended.Projectiles
             base.OnProjectileHit(args);
 
             var player = Game.GetPlayer(args.HitObjectID);
-            if (player == null) return;
+            if (player == null || player.IsDead) return;
             
             // prolong poison time instead of stacking damage
             var item = _poisonedPlayers.FirstOrDefault(i => i.Player.UniqueID == player.UniqueID);
