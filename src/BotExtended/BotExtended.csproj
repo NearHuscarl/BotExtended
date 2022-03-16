@@ -64,6 +64,8 @@
     <Compile Include="Weapons\BeWeapon.cs" />
     <Compile Include="Weapons\LaserSweeper.cs" />
     <Compile Include="Weapons\Camp.cs" />
+    <Compile Include="Weapons\FireTrap.cs" />
+    <Compile Include="Weapons\Trap.cs" />
     <Compile Include="Weapons\WeaponFactory.cs" />
     <Compile Include="Weapons\TripWire.cs" />
     <Compile Include="Weapons\Chicken.cs" />

@@ -82,30 +82,14 @@ namespace BotExtended.Projectiles
             var muzzleInfo = GetMuzleInfo();
             if (!muzzleInfo.IsSussess) return;
 
-            var startPosition = projectile.Position;
             var velocity = projectile.Direction * 24;
-            var farPos = ScriptHelper.GetFarAwayPosition();
+            _head = Game.CreateObject("ItemDebrisFlamethrower01", projectile.Position);
+            _head.SetLinearVelocity(velocity);
+            var result = ScriptHelper.CreateRope(projectile.Position, _head, MaxRange, LineVisual.DJSteelWire);
 
-            // Setting up the rope length
-            _distanceJoint = (IObjectDistanceJoint)Game.CreateObject("DistanceJoint", farPos);
-            _tail = Game.CreateObject("InvisibleBlockNoCollision", farPos);
-            _head = Game.CreateObject("ItemDebrisFlamethrower01", farPos + projectile.Direction * MaxRange);
-            _targetObject = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint", farPos + projectile.Direction * MaxRange);
-
-            ScriptHelper.Timeout(() =>
-            {
-                _tail.SetWorldPosition(startPosition);
-                _distanceJoint.SetWorldPosition(Vector2.Zero);
-                _distanceJoint.SetLineVisual(LineVisual.DJSteelWire);
-                _head.SetWorldPosition(startPosition);
-                _head.SetLinearVelocity(velocity);
-                _targetObject.SetWorldPosition(startPosition);
-            }, 0);
-            
-            _distanceJoint.SetTargetObject(_tail);
-            _distanceJoint.SetLengthType(DistanceJointLengthType.Elastic);
-            _distanceJoint.SetTargetObjectJoint(_targetObject);
-            _targetObject.SetTargetObject(_head);
+            _tail = result.DistanceJointObject;
+            _targetObject = result.TargetObjectJoint;
+            _distanceJoint = result.DistanceJoint;
         }
 
         private void RemoveObjects()

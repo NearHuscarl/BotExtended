@@ -418,6 +418,48 @@ namespace BotExtended.Library
             }
         }
 
+        public struct RopeResult
+        {
+            public IObjectDistanceJoint DistanceJoint;
+            public IObject DistanceJointObject;
+            public IObjectTargetObjectJoint TargetObjectJoint;
+            public System.Threading.Tasks.Task<bool> Task;
+        }
+        public static RopeResult CreateRope(Vector2 position, IObject attachedObject, float maxLength, LineVisual visual = LineVisual.None)
+        {
+            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+            var oPos = attachedObject.GetWorldPosition();
+            var farPos = GetFarAwayPosition();
+            // Setting up the rope length
+            var distanceJoint = (IObjectDistanceJoint)Game.CreateObject("DistanceJoint", farPos);
+            var distanceJointObject = Game.CreateObject("InvisibleBlockNoCollision", farPos);
+            var targetJoint = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint", farPos + Vector2.UnitY * maxLength);
+            attachedObject.SetWorldPosition(farPos + Vector2.UnitY * maxLength);
+
+            Timeout(() =>
+            {
+                distanceJoint.SetWorldPosition(position);
+                distanceJointObject.SetWorldPosition(position);
+                distanceJoint.SetLineVisual(visual);
+                targetJoint.SetWorldPosition(oPos);
+                attachedObject.SetWorldPosition(oPos);
+                promise.TrySetResult(true);
+            }, 0);
+
+            distanceJoint.SetTargetObject(distanceJointObject);
+            distanceJoint.SetLengthType(DistanceJointLengthType.Elastic);
+            distanceJoint.SetTargetObjectJoint(targetJoint);
+            targetJoint.SetTargetObject(attachedObject);
+
+            return new RopeResult
+            {
+                DistanceJoint = distanceJoint,
+                DistanceJointObject = distanceJointObject,
+                TargetObjectJoint = targetJoint,
+                Task = promise.Task,
+            };
+        }
+
         // TODO: how to fall properly?
         public async static void Fall(IPlayer player)
         {

@@ -8,10 +8,6 @@ node_modules
 /.vscode
 /.jshintrc
 
-# Packed/Unpacked files
-packed/**
-unpacked/**
-
 # Excluding our md files
 !packed/*.md
 !unpacked/*.md

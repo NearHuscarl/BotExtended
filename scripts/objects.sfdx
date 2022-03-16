@@ -1,5 +1,7 @@
 // *** BOT EXTENDED ***
 tile(Target00) { type=Static; mainLayer=1; drawCategory=OBJ; colorPalette=Neon; fixture(){ collisionGroup=none; } }
+tile(Tripwire00) { type=Static; mainLayer=1; drawCategory=SLD; fixture(){ collisionGroup=none; } }
+tile(FireTrap00) { type=Static; mainLayer=1; drawCategory=SLD; fixture(){ collisionGroup=none; } }
 tile(Blackhole00A) { type=Static; mainLayer=1; drawCategory=OBJ; fixture(){ collisionGroup=none; } }
 tile(Chicken00){ life=1; gibpressure.total=400kg; gibpressure.spike=1600kg; material=flesh; material.hit.melee.effect=HIT_S; material.resistance.impact.threshold=5.0; objectStrength=10; material.destroyEffect=BulletHitPaper; material.blockExplosions=false; material.flammable=false; material.friction=0.0; doTakeDamage.fire=true;
     animation(Chicken00){ width=16; frameTime=150; }

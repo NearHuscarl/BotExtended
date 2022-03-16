@@ -10,14 +10,11 @@ namespace BotExtended.Bots
 {
     public class NadjaBot : Bot
     {
-        private static List<TripWire> Traps = new List<TripWire>();
+        private static List<Weapon> Traps = new List<Weapon>();
 
-        public NadjaBot(BotArgs args) : base(args)
-        {
-            _isElaspedPlaceTrap = ScriptHelper.WithIsElapsed(9000);
-        }
+        public NadjaBot(BotArgs args) : base(args) { }
 
-        private Func<bool> _isElaspedPlaceTrap;
+        private float _placeTrapTime = 0f;
 
         protected override void OnUpdate(float elapsed)
         {
@@ -25,15 +22,16 @@ namespace BotExtended.Bots
 
             if (Player.IsDead) return;
 
-            if (_isElaspedPlaceTrap() && CanPlaceTrap())
+            if (ScriptHelper.IsElapsed(_placeTrapTime, 9000) && CanPlaceTrap())
             {
+                _placeTrapTime = Game.TotalElapsedGameTime;
                 ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.StartCrouch, 1000).ContinueWith((r) =>
                 {
-                    Traps.Add((TripWire)WeaponManager.SpawnWeapon(BeWeapon.Tripwire, Player));
+                    Traps.Add(WeaponManager.SpawnWeapon(RandomHelper.GetItem(BeWeapon.Tripwire, BeWeapon.Tripwire), Player));
                 });
             }
         }
 
-        private bool CanPlaceTrap() { return Player.IsOnGround && Traps.Count < 100 && !Traps.Any(x => Vector2.Distance(x.Position, Position) < 10); }
+        private bool CanPlaceTrap() { return Player.IsOnGround && !Traps.Any(x => Vector2.Distance(x.Position, Position) < 10); }
     }
 }

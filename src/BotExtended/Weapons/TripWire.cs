@@ -10,59 +10,54 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Weapons
 {
-    public class TripWire : Weapon
+    public class TripWire : Trap
     {
-        public override IEnumerable<IObject> Components { get; set; }
         private Dictionary<int, float> _trappedTimes = new Dictionary<int, float>();
 
-        public TripWire(IPlayer owner) : base(owner)
-        {
-            var pos = Owner.GetWorldPosition();
-            Instance = Game.CreateObject("Pulley00", new Vector2(pos.X, pos.Y + 5));
-            Instance.SetBodyType(BodyType.Static);
-            Instance.CustomID = "Tripwire";
-            Components = new List<IObject>() { Instance };
-        }
+        public TripWire(IPlayer owner) : base(owner, "Tripwire00", Vector2.Zero) { }
 
-        public override void Update(float elapsed)
+        protected override bool OnTrigger(IPlayer player)
         {
-            foreach (var p in Game.GetPlayers())
+            base.OnTrigger(player);
+            
+            var trappedTime = -1f;
+            if (_trappedTimes.TryGetValue(player.UniqueID, out trappedTime))
             {
-                if (Instance.GetAABB().Intersects(p.GetAABB()))
+                if (ScriptHelper.IsElapsed(trappedTime, 2000))
                 {
-                    var trappedTime = -1f;
-                    if (_trappedTimes.TryGetValue(p.UniqueID, out trappedTime))
-                    {
-                        if (ScriptHelper.IsElapsed(trappedTime, 2000))
-                        {
-                            if (!ScriptHelper.SameTeam(p, Owner) || RandomHelper.Percentage(.15f))
-                                TriggerTrap(p);
-                            _trappedTimes[p.UniqueID] = Game.TotalElapsedGameTime;
-                        }
-                    }
-                    else
-                    {
-                        if (!ScriptHelper.SameTeam(p, Owner))
-                            TriggerTrap(p);
-                        _trappedTimes.Add(p.UniqueID, Game.TotalElapsedGameTime);
-                    }
+                    TriggerTrap(player);
+                    _trappedTimes[player.UniqueID] = Game.TotalElapsedGameTime;
                 }
             }
+            else
+            {
+                TriggerTrap(player);
+                _trappedTimes.Add(player.UniqueID, Game.TotalElapsedGameTime);
+            }
+            return false;
         }
 
         private bool _hasGrenade = true;
+        private int _tripCount = 0;
         private void TriggerTrap(IPlayer player)
         {
-            if (player.IsDead || player.GetLinearVelocity() == Vector2.Zero) return;
+            _tripCount++;
+
             ScriptHelper.Fall(player);
             var vec = player.GetLinearVelocity();
             // move up a bit to remove the friction of the ground and make the enemy 'fly away'
-            player.SetLinearVelocity(new Vector2(vec.X, vec.Y + 5));
+            player.SetLinearVelocity(new Vector2(vec.X, vec.Y + 3));
 
             if (_hasGrenade)
             {
                 Game.CreateObject("WpnGrenadesThrown", player.GetWorldPosition());
                 _hasGrenade = false;
+            }
+
+            if (_tripCount >= 3)
+            {
+                Instance.Remove();
+                IsDestroyed = true;
             }
         }
     }
