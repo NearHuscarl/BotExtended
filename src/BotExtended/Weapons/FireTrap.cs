@@ -30,9 +30,12 @@ namespace BotExtended.Weapons
 
             ScriptHelper.Timeout(() =>
             {
-                distanceJoint.Remove();
-                targetJoint.Remove();
-                distanceJointObject.Remove();
+                if (!player.IsDead)
+                {
+                    distanceJoint.Remove();
+                    targetJoint.Remove();
+                    distanceJointObject.Remove();
+                }
                 Instance.Remove();
                 IsDestroyed = true;
             }, TrapTime);

@@ -22,6 +22,8 @@ namespace BotExtended.Weapons
                     return new FireTrap((IPlayer)arg);
                 case BeWeapon.LaserSweeper:
                     return new LaserSweeper((MetroCopBot)arg);
+                case BeWeapon.ShotgunTrap:
+                    return new ShotgunTrap((IPlayer)arg);
                 case BeWeapon.Tripwire:
                     return new TripWire((IPlayer)arg);
                 case BeWeapon.Turret:

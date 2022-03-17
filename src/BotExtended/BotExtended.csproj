@@ -62,6 +62,7 @@
     <Compile Include="Projectiles\SuicideFighterProjectile.cs" />
     <Compile Include="RopeObject.cs" />
     <Compile Include="Weapons\BeWeapon.cs" />
+    <Compile Include="Weapons\ShotgunTrap.cs" />
     <Compile Include="Weapons\LaserSweeper.cs" />
     <Compile Include="Weapons\Camp.cs" />
     <Compile Include="Weapons\FireTrap.cs" />

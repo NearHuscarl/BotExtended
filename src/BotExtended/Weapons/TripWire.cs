@@ -12,34 +12,14 @@ namespace BotExtended.Weapons
 {
     public class TripWire : Trap
     {
-        private Dictionary<int, float> _trappedTimes = new Dictionary<int, float>();
-
-        public TripWire(IPlayer owner) : base(owner, "Tripwire00", Vector2.Zero) { }
-
-        protected override bool OnTrigger(IPlayer player)
+        public TripWire(IPlayer owner) : base(owner, "Tripwire00", Vector2.Zero)
         {
-            base.OnTrigger(player);
-            
-            var trappedTime = -1f;
-            if (_trappedTimes.TryGetValue(player.UniqueID, out trappedTime))
-            {
-                if (ScriptHelper.IsElapsed(trappedTime, 2000))
-                {
-                    TriggerTrap(player);
-                    _trappedTimes[player.UniqueID] = Game.TotalElapsedGameTime;
-                }
-            }
-            else
-            {
-                TriggerTrap(player);
-                _trappedTimes.Add(player.UniqueID, Game.TotalElapsedGameTime);
-            }
-            return false;
+            Instance.SetBodyType(BodyType.Static);
         }
 
         private bool _hasGrenade = true;
         private int _tripCount = 0;
-        private void TriggerTrap(IPlayer player)
+        protected override bool OnTrigger(IPlayer player)
         {
             _tripCount++;
 
@@ -50,7 +30,8 @@ namespace BotExtended.Weapons
 
             if (_hasGrenade)
             {
-                Game.CreateObject("WpnGrenadesThrown", player.GetWorldPosition());
+                var grenade = (IObjectGrenadeThrown)Game.CreateObject("WpnGrenadesThrown", player.GetWorldPosition());
+                grenade.SetExplosionTimer(900);
                 _hasGrenade = false;
             }
 
@@ -59,6 +40,8 @@ namespace BotExtended.Weapons
                 Instance.Remove();
                 IsDestroyed = true;
             }
+
+            return false;
         }
     }
 }

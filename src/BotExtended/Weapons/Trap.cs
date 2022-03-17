@@ -12,6 +12,7 @@ namespace BotExtended.Weapons
 {
     public class Trap : Weapon
     {
+        private Dictionary<int, float> _trappedTimes = new Dictionary<int, float>();
         public override IEnumerable<IObject> Components { get; set; }
         public bool IsTriggered { get; private set; }
         private bool _ownerLeft = false;
@@ -19,11 +20,11 @@ namespace BotExtended.Weapons
         {
             var pos = Owner.GetWorldPosition();
             Instance = Game.CreateObject(name, pos + offset);
-            Instance.SetBodyType(BodyType.Static);
             Instance.CustomID = name;
             Components = new List<IObject>() { Instance };
             IsTriggered = false;
             FriendlyTrigger = 0.15f;
+            Cooldown = 2000;
         }
 
         public override void Update(float elapsed)
@@ -39,17 +40,34 @@ namespace BotExtended.Weapons
                     if (p.IsDead || p.GetLinearVelocity() == Vector2.Zero) continue;
                     if (p.UniqueID == Owner.UniqueID && !_ownerLeft) continue;
 
-                    if (Instance.GetAABB().Intersects(p.GetAABB()))
+                    if (ShouldTrigger(p))
                     {
                         if (!ScriptHelper.SameTeam(p, Owner) || RandomHelper.Percentage(Game.IsEditorTest ? 1 : FriendlyTrigger))
-                            IsTriggered = OnTrigger(p);
+                        {
+                            var trappedTime = -1f;
+                            if (_trappedTimes.TryGetValue(p.UniqueID, out trappedTime))
+                            {
+                                if (ScriptHelper.IsElapsed(trappedTime, Cooldown))
+                                {
+                                    IsTriggered = OnTrigger(p);
+                                    _trappedTimes[p.UniqueID] = Game.TotalElapsedGameTime;
+                                }
+                            }
+                            else
+                            {
+                                IsTriggered = OnTrigger(p);
+                                _trappedTimes.Add(p.UniqueID, Game.TotalElapsedGameTime);
+                            }
+                        }
                     }
                 }
             }
         }
 
         public float FriendlyTrigger { get; protected set; }
+        public float Cooldown { get; protected set; }
         protected virtual void OnUpdateAfterTrigger() { }
+        protected virtual bool ShouldTrigger(IPlayer player) { return Instance.GetAABB().Intersects(player.GetAABB()); }
         protected virtual bool OnTrigger(IPlayer player) { return true; }
     }
 }

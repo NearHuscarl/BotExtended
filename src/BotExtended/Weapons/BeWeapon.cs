@@ -12,6 +12,7 @@ namespace BotExtended.Weapons
         Chicken,
         FireTrap,
         LaserSweeper,
+        ShotgunTrap,
         Tripwire,
         Turret,
     }
