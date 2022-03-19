@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.779
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotExtended", "BotExtended\BotExtended.csproj", "{AE9E68C2-4206-4EC0-8531-9E4842A95EE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotExtended.Script", "BotExtended.Script\BotExtended.Script.csproj", "{14BB508C-FE7B-47EE-9864-1659A1E0C19A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectName", "EffectName\EffectName.csproj", "{D2B7A6A2-8691-4DD3-99A0-541415651F53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{14BB508C-FE7B-47EE-9864-1659A1E0C19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14BB508C-FE7B-47EE-9864-1659A1E0C19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14BB508C-FE7B-47EE-9864-1659A1E0C19A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

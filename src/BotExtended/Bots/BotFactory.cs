@@ -98,6 +98,10 @@ namespace BotExtended.Bots
                     bot = new IncineratorBot(args);
                     break;
 
+                case BotType.Jo:
+                    bot = new JoBot(args);
+                    break;
+
                 case BotType.Kingpin:
                     bot = new KingpinBot(args, player.IsBot ? new KingpinBot_Controller() : null);
                     break;

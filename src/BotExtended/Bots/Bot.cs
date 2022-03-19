@@ -9,6 +9,8 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
+    public enum MeleeAction { None, One, Two, Three }
+
     public class Bot
     {
         public static readonly Bot None;
@@ -109,6 +111,7 @@ namespace BotExtended.Bots
             UpdateWeaponStatus();
             UpdateCustomWeaponAI(elapsed);
             UpdateInfectedEffect(elapsed);
+            UpdateMeleeAttackPhrases();
 
             if (IsStunned && !Player.IsDeathKneeling)
                 Player.AddCommand(new PlayerCommand(PlayerCommandType.DeathKneelInfinite));
@@ -300,6 +303,27 @@ namespace BotExtended.Bots
                     m_bloodEffectElapsed = 0;
                 }
             }
+        }
+
+        private bool _lastIdle = false;
+        private int _lastSwing = 0;
+        public MeleeAction CurrentMeleeAction { get; private set; }
+        private void UpdateMeleeAttackPhrases()
+        {
+            if (Player.IsDead) return;
+
+            if (Player.Statistics.TotalMeleeAttackSwings != _lastSwing)
+            {
+                if (CurrentMeleeAction == MeleeAction.None) CurrentMeleeAction = MeleeAction.One;
+                else if (CurrentMeleeAction == MeleeAction.One) CurrentMeleeAction = MeleeAction.Two;
+                else if (CurrentMeleeAction == MeleeAction.Two) CurrentMeleeAction = MeleeAction.Three;
+                else if (CurrentMeleeAction == MeleeAction.Three) CurrentMeleeAction = MeleeAction.One;
+            }
+            if (Player.IsIdle && !_lastIdle)
+                CurrentMeleeAction = MeleeAction.None;
+
+            _lastIdle = Player.IsIdle;
+            _lastSwing = Player.Statistics.TotalMeleeAttackSwings;
         }
 
         protected Area DangerArea
