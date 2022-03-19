@@ -18,19 +18,6 @@ namespace BotExtended.Bots
                 m_controller = controller;
                 m_controller.Actor = this;
             }
-
-            Events.PlayerMeleeActionCallback.Start((player, args) =>
-            {
-                if (player.UniqueID != Player.UniqueID) return;
-
-                foreach (var arg in args)
-                {
-                    var enemy = Game.GetPlayer(arg.ObjectID);
-                    if (enemy == null) continue;
-                    if (enemy.IsInMidAir && !enemy.IsDead && !Player.IsKicking)
-                        enemy.SetLinearVelocity(Vector2.UnitY * 10);
-                }
-            });
         }
 
         private float m_crushEnemyTime = 0f;
@@ -80,6 +67,19 @@ namespace BotExtended.Bots
             var pos = Player.GetWorldPosition();
             var direction = Math.Sign(pos.X - arg.HitPosition.X);
             Player.SetLinearVelocity(new Vector2(direction * 5, 0));
+        }
+
+        public override void OnMeleeAction(PlayerMeleeHitArg[] args)
+        {
+            base.OnMeleeAction(args);
+
+            foreach (var arg in args)
+            {
+                var enemy = Game.GetPlayer(arg.ObjectID);
+                if (enemy == null) continue;
+                if (enemy.IsInMidAir && !enemy.IsDead && !Player.IsKicking)
+                    enemy.SetLinearVelocity(Vector2.UnitY * 10);
+            }
         }
     }
 }
