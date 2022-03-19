@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using BotExtended.Library;
 using System.Linq;
 using BotExtended.Factions;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 
 namespace BotExtended
 {

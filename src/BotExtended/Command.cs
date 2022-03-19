@@ -6,7 +6,7 @@ using System.Linq;
 using static BotExtended.GameScript;
 using static BotExtended.Library.SFD;
 using BotExtended.Library;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 
 namespace BotExtended
 {

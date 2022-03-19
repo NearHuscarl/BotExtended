@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BotExtended.Library;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 using SFDGameScriptInterface;
 using static BotExtended.Library.SFD;
 

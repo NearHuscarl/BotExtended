@@ -1,5 +1,5 @@
 ﻿using BotExtended.Library;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using BotExtended.Library;
 using System.Collections.Generic;
 using BotExtended.Factions;
 using System;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 using System.Linq;
 using static BotExtended.Library.SFD;
 

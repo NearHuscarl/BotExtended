@@ -1,4 +1,4 @@
-﻿using BotExtended.Projectiles;
+﻿using BotExtended.Powerups;
 using SFDGameScriptInterface;
 using static BotExtended.Library.SFD;
 

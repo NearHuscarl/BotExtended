@@ -1,5 +1,5 @@
 ﻿using BotExtended.Library;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 using SFDGameScriptInterface;
 using System.Linq;
 using static BotExtended.GameScript;

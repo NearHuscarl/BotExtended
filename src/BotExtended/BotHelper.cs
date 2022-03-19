@@ -1,7 +1,7 @@
 ﻿using BotExtended.Bots;
 using BotExtended.Factions;
 using BotExtended.Library;
-using BotExtended.Projectiles;
+using BotExtended.Powerups;
 using SFDGameScriptInterface;
 using System.Collections.Generic;
 using System.Linq;

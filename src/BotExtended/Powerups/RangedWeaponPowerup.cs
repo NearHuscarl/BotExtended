@@ -1,0 +1,36 @@
+﻿namespace BotExtended.Powerups
+{
+    public enum RangedWeaponPowerup
+    {
+        None,
+        Blackhole,
+        Blast,
+        Delay,
+        DoubleTrouble,
+        Fatigue,
+        Helium,
+        Hunting,
+        Homing,
+        Gauss,
+        Grapeshot,
+        Gravity,
+        GravityDE,
+        InfiniteBouncing,
+        Minigun,
+        Molotov,
+        Lightning,
+        Poison,
+        Present,
+        Riding,
+        Smoke,
+        Stun,
+        Spinner,
+        StickyBomb,
+        SuicideDove,
+        SuicideFighter,
+        Taser,
+        Tearing,
+        Termite,
+        Welding,
+    }
+}
