@@ -413,6 +413,7 @@ namespace BotExtended.Bots
             Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
 
             var weapon = Player.Disarm(Player.CurrentWeaponDrawn, velocity, false);
+            weapon.SetAngularVelocity(RandomHelper.Between(-10, 10));
             if (destroyWeapon)
                 weapon.SetHealth(0);
         }

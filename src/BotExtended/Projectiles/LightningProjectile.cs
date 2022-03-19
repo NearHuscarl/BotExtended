@@ -11,18 +11,21 @@ namespace BotExtended.Projectiles
 {
     class LightningProjectile : Projectile
     {
-        public const float ElectrocuteRadius = 20f;
+        public const float ElectrocuteRadius = 35f;
         public float LightningDamage { get; private set; }
+
+        public override bool IsRemoved { get; protected set; }
 
         public LightningProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Lightning)
         {
             LightningDamage = 7f;
 
             var start = projectile.Position + projectile.Direction * 10;
-            var end = start + projectile.Direction * 600;
+            var end = start + projectile.Direction * 800;
             var results = Game.RayCast(start, end, new RayCastInput()
             {
                 ProjectileHit = RayCastFilterMode.True,
+                AbsorbProjectile = RayCastFilterMode.True,
                 IncludeOverlap = false,
                 ClosestHitOnly = true,
             }).Where(r => r.HitObject != null);
@@ -30,13 +33,7 @@ namespace BotExtended.Projectiles
             end = results.Count() == 0 ? end : results.First().Position;
             var distance = Vector2.Distance(start, end);
 
-            for (var i = 0; i <= distance; i += 16)
-            {
-                var position = start + projectile.Direction * i;
-                var perpendicular = Vector2.Normalize(new Vector2(position.Y, -position.X));
-
-                Game.PlayEffect(EffectName.Electric, position + perpendicular * RandomHelper.Between(-7, 7));
-            }
+            DrawElectricTrace(start, end);
 
             foreach (var result in results)
             {
@@ -72,7 +69,12 @@ namespace BotExtended.Projectiles
         private List<Info> m_pendingUpdate = new List<Info>();
         private void Electrocute(IObject obj, int depth = 1)
         {
-            if (depth > 3 || _electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved) return;
+            //Game.WriteToConsole(depth, obj.Name);
+            if (depth > 3 || _electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved)
+            {
+                IsRemoved = true;
+                return;
+            }
 
             var position = obj.GetWorldPosition();
             if (!ScriptHelper.IsIndestructible(obj))
@@ -91,65 +93,36 @@ namespace BotExtended.Projectiles
 
             foreach (var p in GetPlayersInRange(obj))
             {
+                DrawElectricTrace(position, p.GetWorldPosition());
                 m_pendingUpdate.Add(new Info()
                 {
                     HitTime = m_pendingUpdate.Any() ? m_pendingUpdate.Last().HitTime + 23 : Game.TotalElapsedGameTime,
-                    Action = () =>
-                    {
-                        if (p == null || p.IsRemoved || _electrocutedObjects.Contains(p.UniqueID)) return;
-                        var results = Game.RayCast(position, p.GetWorldPosition(), new RayCastInput()
-                        {
-                            IncludeOverlap = true,
-                            FilterOnMaskBits = true,
-                            MaskBits = CategoryBits.Player + CategoryBits.StaticGround,
-                        }).Where(r => r.HitObject != null);
-
-                        foreach (var result in results)
-                        {
-                            if (!result.IsPlayer && result.HitObject.GetCollisionFilter().AbsorbProjectile)
-                            {
-                                _electrocutedObjects.Add(result.ObjectID);
-                                break;
-                            }
-
-                            if (IsConductive(result.HitObject))
-                                Electrocute(result.HitObject, ++depth);
-
-                            if (Game.IsEditorTest)
-                            {
-                                ScriptHelper.RunIn(() =>
-                                {
-                                    Game.DrawLine(position, p.GetWorldPosition());
-                                    Game.DrawArea(result.HitObject.GetAABB(), Color.Cyan);
-                                }, 800);
-                            }
-                        }
-                    },
+                    Action = () => Electrocute(p, ++depth),
                 });
             }
         }
 
         private IEnumerable<IPlayer> GetPlayersInRange(IObject electrocutedObject)
         {
-            if (ScriptHelper.IsPlayer(electrocutedObject))
-            {
-                var position = electrocutedObject.GetWorldPosition();
-                var filterArea = ScriptHelper.GrowFromCenter(position, ElectrocuteRadius * 2);
-                return Game.GetObjectsByArea<IPlayer>(filterArea)
-                    .Where(o => !_electrocutedObjects.Contains(o.UniqueID)
-                    && ScriptHelper.IntersectCircle(o.GetAABB(), position, ElectrocuteRadius));
-            }
-            else
-            {
-                return Game.GetObjectsByArea<IPlayer>(electrocutedObject.GetAABB());
-            }
+            var position = electrocutedObject.GetWorldPosition();
+            var filterArea = ScriptHelper.GrowFromCenter(position, ElectrocuteRadius * 2);
+            return Game.GetObjectsByArea<IPlayer>(filterArea)
+                .Where(o => !_electrocutedObjects.Contains(o.UniqueID)
+                && ScriptHelper.IntersectCircle(o.GetAABB(), position, ElectrocuteRadius));
         }
 
-        private bool IsConductive(IObject o)
+        private void DrawElectricTrace(Vector2 p1, Vector2 p2)
         {
-            return o.CanBurn
-                || o.Name.StartsWith("Metal")
-                || o.Name.StartsWith("Wood");
+            var distance = Vector2.Distance(p1, p2);
+            var direction = Vector2.Normalize(p2 - p1);
+
+            for (var i = 0; i <= distance; i += 16)
+            {
+                var position = p1 + direction * i;
+                var perpendicular = Vector2.Normalize(new Vector2(position.Y, -position.X));
+
+                Game.PlayEffect(EffectName.Electric, position + perpendicular * RandomHelper.Between(-5, 5));
+            }
         }
     }
 }
