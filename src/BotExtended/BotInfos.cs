@@ -142,7 +142,7 @@ namespace BotExtended
                 case BotType.Punk:
                 {
                     botInfo.AIType = BotAI.Grunt;
-                    botInfo.EquipWeaponChance = 0.5f;
+                    botInfo.EquipWeaponChance = 0.6f;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.BelowNormal,

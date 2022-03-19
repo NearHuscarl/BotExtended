@@ -324,6 +324,7 @@ namespace BotExtended.Bots
 
         public virtual void OnSpawn() { SaySpawnLine(); }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
+        public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             UpdateInfectedStatus(attacker, args);
@@ -460,10 +461,11 @@ namespace BotExtended.Bots
                 ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Sheath);
         }
 
-        public void SetHealth(int health, bool permanent = false)
+        public void SetHealth(float health, bool permanent = false)
         {
             var modifiers = Player.GetModifiers();
-            modifiers.MaxHealth = health;
+            if (health > modifiers.MaxHealth)
+                modifiers.MaxHealth = (int)health;
             modifiers.CurrentHealth = health;
             Player.SetModifiers(modifiers);
             if (permanent) Info.Modifiers = modifiers;

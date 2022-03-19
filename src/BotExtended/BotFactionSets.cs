@@ -70,13 +70,8 @@ namespace BotExtended
                     });
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
-                        new SubFaction(BotType.Biker, 0.5f),
-                        new SubFaction(BotType.Thug, 0.5f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>(bosses)
-                    {
-                        new SubFaction(BotType.Biker, 0.6f),
-                        new SubFaction(BotType.BikerHulk, 0.4f),
+                        new SubFaction(BotType.Biker, 0.7f),
+                        new SubFaction(BotType.BikerHulk, 0.3f),
                     });
                     break;
                 }

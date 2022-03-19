@@ -39,7 +39,8 @@ namespace BotExtended.Bots
         {
             base.OnUpdate(elapsed);
             if (Faction != BotFaction.Thug) return;
-
+            if (Game.IsEditorTest && Player.GetForcedBotTarget() != null)
+                Game.DrawLine(Position, Player.GetForcedBotTarget().GetWorldPosition());
             if (!Player.IsDead && _isElapsedCheckTarget())
             {
                 var target = Player.GetForcedBotTarget();

@@ -211,6 +211,8 @@ namespace BotExtended
         private static void OnPlayerMeleeAction(IPlayer attacker, PlayerMeleeHitArg[] args)
         {
             if (attacker == null) return;
+            
+            GetBot(attacker).OnMeleeAction(args);
 
             foreach (var arg in args)
             {
@@ -220,9 +222,7 @@ namespace BotExtended
                 var bot = GetBot(maybePlayer);
 
                 if (bot != Bot.None)
-                {
                     bot.OnMeleeDamage(attacker, arg);
-                }
             }
         }
 
