@@ -5,6 +5,7 @@
         None,
         Blackhole,
         Blast,
+        Delay,
         DoubleTrouble,
         Fatigue,
         Helium,

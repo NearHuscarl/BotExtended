@@ -10,6 +10,8 @@ namespace BotExtended.Projectiles
             var type = Mapper.GetWeaponItemType(name);
             switch (powerup)
             {
+                case RangedWeaponPowerup.Delay:
+                    return new DelayGun(owner, name);
                 case RangedWeaponPowerup.Gauss:
                     return new GaussGun(owner, name);
                 case RangedWeaponPowerup.Gravity:

@@ -152,6 +152,9 @@ namespace BotExtended.Library
         {
             if (projectileItem == ProjectileItem.FLAKCANNON)
                 return WeaponItem.NONE;
+            // Game bug: https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=4333
+            if (projectileItem == ProjectileItem.SUB_MACHINEGUN)
+                return WeaponItem.TOMMYGUN;
             return SharpHelper.StringToEnum<WeaponItem>(SharpHelper.EnumToString<ProjectileItem>(projectileItem));
         }
     }
