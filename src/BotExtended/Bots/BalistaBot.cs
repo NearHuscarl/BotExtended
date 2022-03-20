@@ -26,16 +26,16 @@ namespace BotExtended.Bots
 
             if (Player.IsDead) return;
             if (IsUsingPowerupWpn && Player.CurrentPrimaryWeapon.TotalAmmo == 0)
-                ProjectileManager.SetPowerup(Player, WeaponItem.ASSAULT, RangedWeaponPowerup.None);
+                PowerupManager.SetPowerup(Player, WeaponItem.ASSAULT, RangedWeaponPowerup.None);
             else if (!IsUsingPowerupWpn && (m_rifleReloadTime >= 1 || Player.CurrentPrimaryWeapon.TotalAmmo == 0))
-                ProjectileManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Spinner);
+                PowerupManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Spinner);
         }
 
         private bool IsUsingPowerupWpn
         {
             get
             {
-                var playerWpn = ProjectileManager.GetOrCreatePlayerWeapon(Player);
+                var playerWpn = PowerupManager.GetOrCreatePlayerWeapon(Player);
                 return playerWpn.Primary.Name == WeaponItem.GRENADE_LAUNCHER
                     && playerWpn.Primary.Powerup == RangedWeaponPowerup.Spinner;
             }
@@ -70,7 +70,7 @@ namespace BotExtended.Bots
             else
             {
                 // always drops powerup weapon as a reward for players
-                var powerupWpn = ProjectileManager.CreateWeapon("WpnGrenadeLauncher", RangedWeaponPowerup.Spinner);
+                var powerupWpn = PowerupManager.CreateWeapon("WpnGrenadeLauncher", RangedWeaponPowerup.Spinner);
 
                 powerupWpn.SetWorldPosition(weaponObject.GetWorldPosition());
                 powerupWpn.SetLinearVelocity(weaponObject.GetLinearVelocity());

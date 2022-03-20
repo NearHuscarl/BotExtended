@@ -12,6 +12,8 @@ namespace BotExtended
             Secondary = WeaponItem.NONE;
             Throwable = WeaponItem.NONE;
             Powerup = WeaponItem.NONE;
+            MeleeHandPowerup = MeleeWeaponPowerup.None;
+            MeleePowerup = MeleeWeaponPowerup.None;
             PrimaryPowerup = RangedWeaponPowerup.None;
             SecondaryPowerup = RangedWeaponPowerup.None;
             UseLazer = false;
@@ -29,6 +31,8 @@ namespace BotExtended
         public WeaponItem Secondary { get; set; }
         public WeaponItem Throwable { get; set; }
         public WeaponItem Powerup { get; set; }
+        public MeleeWeaponPowerup MeleeHandPowerup { get; set; }
+        public MeleeWeaponPowerup MeleePowerup { get; set; }
         public RangedWeaponPowerup PrimaryPowerup { get; set; }
         public RangedWeaponPowerup SecondaryPowerup { get; set; }
         public bool UseLazer { get; set; }
@@ -41,6 +45,8 @@ namespace BotExtended
                   && Secondary == WeaponItem.NONE
                   && Throwable == WeaponItem.NONE
                   && Powerup == WeaponItem.NONE
+                  && MeleeHandPowerup == MeleeWeaponPowerup.None
+                  && MeleePowerup == MeleeWeaponPowerup.None
                   && PrimaryPowerup == RangedWeaponPowerup.None
                   && SecondaryPowerup == RangedWeaponPowerup.None
                   && UseLazer == false;

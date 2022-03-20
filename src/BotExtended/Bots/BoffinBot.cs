@@ -51,7 +51,7 @@ namespace BotExtended.Bots
         private void ResetWeapon()
         {
             var weaponSet = GetWeapons(Type).First();
-            ProjectileManager.SetPowerup(Player, weaponSet.Primary, m_currentPowerup);
+            PowerupManager.SetPowerup(Player, weaponSet.Primary, m_currentPowerup);
         }
     }
 }

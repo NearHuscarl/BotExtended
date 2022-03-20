@@ -116,9 +116,11 @@ namespace BotExtended
         {
             if (player == null || weaponSet.IsEmpty) return;
 
-            player.GiveWeaponItem(weaponSet.Melee);
-            ProjectileManager.SetPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
-            ProjectileManager.SetPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
+            PowerupManager.SetPowerup(player, WeaponItem.NONE, weaponSet.MeleeHandPowerup);
+            PowerupManager.SetPowerup(player, weaponSet.Melee, weaponSet.MeleePowerup);
+            PowerupManager.SetPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
+            PowerupManager.SetPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
+            // TODO: thrown weapon
             player.GiveWeaponItem(weaponSet.Throwable);
             player.GiveWeaponItem(weaponSet.Powerup);
 
@@ -127,19 +129,19 @@ namespace BotExtended
 
         public static WeaponSet GetWeaponSet(IPlayer player)
         {
-            var meleeWpn = player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE ?
-                player.CurrentMeleeMakeshiftWeapon.WeaponItem :
-                player.CurrentMeleeWeapon.WeaponItem;
-            var playerWpn = ProjectileManager.GetOrCreatePlayerWeapon(player);
+            var bot = BotManager.GetBot(player);
+            var playerWpn = PowerupManager.GetOrCreatePlayerWeapon(player);
 
             return new WeaponSet()
             {
-                Melee = meleeWpn,
-                // TODO: add melee powerup weapon here
+                Melee = bot.CurrentMeleeWeapon,
+                MeleePowerup = playerWpn != null ? playerWpn.Melee.Powerup : MeleeWeaponPowerup.None,
+                MeleeHandPowerup = playerWpn.MeleeHand.Powerup,
                 Primary = player.CurrentPrimaryWeapon.WeaponItem,
                 PrimaryPowerup = playerWpn != null ? playerWpn.Primary.Powerup : RangedWeaponPowerup.None,
                 Secondary = player.CurrentSecondaryWeapon.WeaponItem,
                 SecondaryPowerup = playerWpn != null ? playerWpn.Secondary.Powerup : RangedWeaponPowerup.None,
+                // TODO: add thrown powerup weapon here
                 Throwable = player.CurrentThrownItem.WeaponItem,
                 Powerup = player.CurrentPowerupItem.WeaponItem,
                 // TODO: wait for gurt to add this: https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=4000
@@ -185,15 +187,24 @@ namespace BotExtended
 
             switch (type)
             {
-                // TODO: Melee powerup
+                // TODO: thrown powerup
+                case WeaponItemType.NONE: // bare hand
                 case WeaponItemType.Melee:
-                    player.GiveWeaponItem(weaponItem);
+                {
+                    var powerup = SharpHelper.StringToEnum<MeleeWeaponPowerup>(powerupStr);
+                    if (powerup == MeleeWeaponPowerup.None)
+                    {
+                        player.GiveWeaponItem(weaponItem);
+                        break;
+                    }
+                    PowerupManager.SetPowerup(player, weaponItem, powerup);
                     break;
+                }
                 case WeaponItemType.Rifle:
                 case WeaponItemType.Handgun:
                 {
                     var powerup = SharpHelper.StringToEnum<RangedWeaponPowerup>(powerupStr);
-                    ProjectileManager.SetPowerup(player, weaponItem, powerup);
+                    PowerupManager.SetPowerup(player, weaponItem, powerup);
                     break;
                 }
                 default:

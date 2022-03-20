@@ -1,9 +1,11 @@
 ﻿using BotExtended.Library;
+using BotExtended.Powerups.MeleeWeapons;
+using BotExtended.Powerups.RangeWeapons;
 using SFDGameScriptInterface;
 
 namespace BotExtended.Powerups
 {
-    static class RangeWeaponFactory
+    static class PowerupWeaponFactory
     {
         public static RangeWpn Create(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
         {
@@ -23,6 +25,16 @@ namespace BotExtended.Powerups
                     return new TaserGun(owner, name);
                 default:
                     return new RangeWpn(owner, name, powerup);
+            }
+        }
+        public static MeleeWpn Create(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup)
+        {
+            switch (powerup)
+            {
+                case MeleeWeaponPowerup.Hurling:
+                    return new HurlingPowerup(owner, name);
+                default:
+                    return new MeleeWpn(owner, name, powerup);
             }
         }
     }

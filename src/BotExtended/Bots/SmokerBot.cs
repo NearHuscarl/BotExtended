@@ -24,7 +24,7 @@ namespace BotExtended.Bots
 
             if (arg.WeaponItemType == WeaponItemType.Rifle)
             {
-                ProjectileManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Smoke);
+                PowerupManager.SetPowerup(Player, WeaponItem.GRENADE_LAUNCHER, RangedWeaponPowerup.Smoke);
             }
         }
     }

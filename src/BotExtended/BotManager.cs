@@ -26,7 +26,7 @@ namespace BotExtended
 
         public static void Initialize()
         {
-            ProjectileManager.Initialize();
+            PowerupManager.Initialize();
             WeaponManager.Initialize();
 
             m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();

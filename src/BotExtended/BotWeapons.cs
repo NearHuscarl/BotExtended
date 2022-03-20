@@ -495,6 +495,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.BOTTLE,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Hurling,
                         Powerup = WeaponItem.SLOWMO_10,
                     });
                     break;

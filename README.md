@@ -416,10 +416,16 @@ Usage: `/<botextended|be> [setweapon|sw] <player> <WeaponItem> <Powerup>`
 
 Give specific player a powerup weapon.
 
-Give player near an electroshock magnum which can stun players on critical hit.
+Give player 'your_name' an electroshock magnum which can stun players on critical hit.
 
 ```
-/be setweapon near magnum stun
+/be setweapon your_name magnum stun
+```
+
+Give player 'near' hurl powerup. None weapon means barehand.
+
+```
+/be setweapon near none hurl
 ```
 
 Same command as above but use indexes to shorten the command.

@@ -27,10 +27,10 @@ namespace BotExtended.Bots
                     var weaponItem = player.CurrentPrimaryWeapon.WeaponItem;
 
                     if (player.CurrentPrimaryWeapon.WeaponItem != WeaponItem.NONE)
-                        ProjectileManager.SetPowerup(player, weaponItem, RangedWeaponPowerup.Fatigue);
+                        PowerupManager.SetPowerup(player, weaponItem, RangedWeaponPowerup.Fatigue);
                     weaponItem = player.CurrentSecondaryWeapon.WeaponItem;
                     if (player.CurrentSecondaryWeapon.WeaponItem != WeaponItem.NONE)
-                        ProjectileManager.SetPowerup(player, weaponItem, RangedWeaponPowerup.Fatigue);
+                        PowerupManager.SetPowerup(player, weaponItem, RangedWeaponPowerup.Fatigue);
                 }
             }
         }

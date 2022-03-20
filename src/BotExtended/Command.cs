@@ -619,7 +619,7 @@ namespace BotExtended
                 else
                     powerupArg = powerup.ToString();
             }
-            if (type == WeaponItemType.Melee)
+            if (type == WeaponItemType.Melee || type == WeaponItemType.NONE)
             {
                 MeleeWeaponPowerup powerup;
                 if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
@@ -632,7 +632,7 @@ namespace BotExtended
                     powerupArg = powerup.ToString();
             }
 
-            if (weaponItemArg == "NONE")
+            if (weaponItemArg == "NONE" && powerupArg == "None")
                 ScriptHelper.PrintMessage("Player " + player.Name + "'s weapon will be reset next round");
             UpdatePlayerSettings(player, (old) => old.Update(type, weaponItemArg, powerupArg));
             BotHelper.SetWeapon(player, weaponItemArg, powerupArg);

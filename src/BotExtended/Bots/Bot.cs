@@ -6,6 +6,7 @@ using System;
 using BotExtended.Powerups;
 using System.Linq;
 using static BotExtended.Library.SFD;
+using BotExtended.Powerups.RangeWeapons;
 
 namespace BotExtended.Bots
 {
@@ -167,6 +168,12 @@ namespace BotExtended.Bots
             set { SetCurrentAmmo(CurrentWeaponIndex, value); }
         }
 
+        public WeaponItem CurrentMeleeWeapon
+        {
+            get { return Player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE ?
+                    Player.CurrentMeleeMakeshiftWeapon.WeaponItem : Player.CurrentMeleeWeapon.WeaponItem; }
+        }
+
         private WeaponItem GetCurrentWeapon(int index)
         {
             switch (index)
@@ -243,7 +250,7 @@ namespace BotExtended.Bots
 
         private GravityGun GetGravityGun()
         {
-            var playerWeapon = ProjectileManager.GetOrCreatePlayerWeapon(Player);
+            var playerWeapon = PowerupManager.GetOrCreatePlayerWeapon(Player);
             if (playerWeapon == null) return null;
 
             if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity

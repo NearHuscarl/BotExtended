@@ -1,16 +1,20 @@
-﻿using BotExtended.Library;
+﻿using BotExtended.Bots;
+using BotExtended.Library;
 using SFDGameScriptInterface;
+using System;
 
 namespace BotExtended.Powerups
 {
-    // Placeholder for now
     class MeleeWpn : Wpn
     {
         public MeleeWeaponPowerup Powerup { get; protected set; }
 
-        public MeleeWpn(IPlayer owner) : base(owner)
+        public MeleeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, MeleeWeaponPowerup.None) { }
+        public MeleeWpn(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup)
+            : base(owner, name)
         {
-            Powerup = MeleeWeaponPowerup.None;
+            Powerup = powerup;
+            if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
         public void Add(WeaponItem name, MeleeWeaponPowerup powerup)
@@ -25,5 +29,8 @@ namespace BotExtended.Powerups
             base.Remove();
             Powerup = MeleeWeaponPowerup.None;
         }
+
+        public MeleeAction CurrentMeleeAction { get { return BotManager.GetBot(Owner).CurrentMeleeAction; } }
+        public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
     }
 }

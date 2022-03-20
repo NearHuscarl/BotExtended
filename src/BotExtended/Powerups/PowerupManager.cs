@@ -7,7 +7,7 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups
 {
-    class ProjectileManager
+    class PowerupManager
     {
         public class PowerupInfo
         {
@@ -49,6 +49,7 @@ namespace BotExtended.Powerups
             Events.PlayerKeyInputCallback.Start(OnPlayerKeyInput);
             Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
             Events.ProjectileHitCallback.Start(OnProjectileHit);
+            Events.PlayerMeleeActionCallback.Start(OnMeleeAction);
             Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
 
             //Events.UpdateCallback.Start((e) =>
@@ -103,6 +104,11 @@ namespace BotExtended.Powerups
 
                 if (currentRangeWpn != null)
                     currentRangeWpn.Update(elapsed);
+
+                var currentMeleeWpn = playerWpn.CurrentMeleeWeapon;
+
+                if (currentMeleeWpn != null)
+                    currentMeleeWpn.Update(elapsed);
             }
 
             m_lastUpdateTime = Game.TotalElapsedGameTime;
@@ -184,16 +190,40 @@ namespace BotExtended.Powerups
             return null;
         }
 
+        private static WeaponInfo CreateWeaponInfo(WeaponItem weaponItem)
+        {
+            return new WeaponInfo { Weapon = weaponItem };
+        }
+        private static WeaponInfo CreateWeaponInfo(WeaponItem weaponItem, RangedWeaponPowerup powerup)
+        {
+            return new WeaponInfo { Weapon = weaponItem, RangedPowerup = powerup };
+        }
+        private static WeaponInfo CreateWeaponInfo(WeaponItem weaponItem, MeleeWeaponPowerup powerup)
+        {
+            return new WeaponInfo { Weapon = weaponItem, MeleePowerup = powerup };
+        }
+
+        internal static void SetPowerup(IPlayer player, WeaponItem weaponItem, MeleeWeaponPowerup powerup)
+        {
+            if (!m_queuedPowerups.ContainsKey(player.UniqueID))
+                m_queuedPowerups[player.UniqueID] = new List<WeaponInfo>();
+
+            // Barehand: OnPlayerPickupWeapon is never invoked in this case so we need to assign hand weapon here.
+            if (weaponItem == WeaponItem.NONE)
+            {
+                GetOrCreatePlayerWeapon(player).MeleeHand = PowerupWeaponFactory.Create(player, weaponItem, powerup);
+                return;
+            }
+            m_queuedPowerups[player.UniqueID].Add(CreateWeaponInfo(weaponItem, powerup));
+            player.GiveWeaponItem(weaponItem);
+        }
+
         internal static void SetPowerup(IPlayer player, WeaponItem weaponItem, RangedWeaponPowerup powerup)
         {
             if (!m_queuedPowerups.ContainsKey(player.UniqueID))
                 m_queuedPowerups[player.UniqueID] = new List<WeaponInfo>();
 
-            m_queuedPowerups[player.UniqueID].Add(new WeaponInfo
-            {
-                Weapon = weaponItem,
-                RangedPowerup = powerup,
-            });
+            m_queuedPowerups[player.UniqueID].Add(CreateWeaponInfo(weaponItem, powerup));
             player.GiveWeaponItem(weaponItem);
         }
 
@@ -241,22 +271,23 @@ namespace BotExtended.Powerups
                 case WeaponItemType.Melee:
                     newWeaponInfo.MeleePowerup = oldPlayerWpn.Melee.Powerup;
                     m_owners[player.UniqueID].Melee.Remove();
-                    // TODO: add null object
+                    m_owners[player.UniqueID].Melee = PowerupWeaponFactory.Create(player, WeaponItem.NONE, MeleeWeaponPowerup.None);
                     break;
                 case WeaponItemType.Rifle:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Primary.Powerup;
                     m_owners[player.UniqueID].Primary.Remove();
-                    m_owners[player.UniqueID].Primary = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
+                    m_owners[player.UniqueID].Primary = PowerupWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
                 case WeaponItemType.Handgun:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Secondary.Powerup;
                     m_owners[player.UniqueID].Secondary.Remove();
-                    m_owners[player.UniqueID].Secondary = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
+                    m_owners[player.UniqueID].Secondary = PowerupWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
                 case WeaponItemType.Thrown:
                     newWeaponInfo.RangedPowerup = oldPlayerWpn.Throwable.Powerup;
                     m_owners[player.UniqueID].Throwable.Remove();
-                    m_owners[player.UniqueID].Throwable = RangeWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
+                    // TODO: create null object for thrown weapon
+                    m_owners[player.UniqueID].Throwable = PowerupWeaponFactory.Create(player, WeaponItem.NONE, RangedWeaponPowerup.None);
                     break;
             }
 
@@ -276,19 +307,31 @@ namespace BotExtended.Powerups
             if (arg.SourceObjectID != 0 && !m_weapons.ContainsKey(arg.SourceObjectID))
                 return;
 
-            var weaponInfo = arg.SourceObjectID == 0 ?
-                (PowerupInfo)m_queuedPowerups[player.UniqueID].Where(wi => wi.Weapon == arg.WeaponItem).FirstOrDefault() :
-                (PowerupInfo)m_weapons[arg.SourceObjectID].WeaponInfo;
+            var weaponInfo = (PowerupInfo)null;
+
+            // get weapon via commands
+            if (arg.SourceObjectID == 0)
+            {
+                // get weapon via BE command or from LocalStorage (e.g. /be sw near m60 minigun)
+                weaponInfo = m_queuedPowerups[player.UniqueID].Where(wi => wi.Weapon == arg.WeaponItem).FirstOrDefault();
+                // get weapon via vanilla command (e.g. /give 0 m60)
+                //if (weaponInfo == null)
+                //    weaponInfo = CreateWeaponInfo(arg.WeaponItem);
+            }
+            else
+                weaponInfo = m_weapons[arg.SourceObjectID].WeaponInfo;
+
             if (weaponInfo == null) return;
 
             var createRangedWeapon = new Func<RangeWpn>(
-                () => RangeWeaponFactory.Create(player, arg.WeaponItem, weaponInfo.RangedPowerup));
+                () => PowerupWeaponFactory.Create(player, arg.WeaponItem, weaponInfo.RangedPowerup));
+            var createMeleeWeapon = new Func<MeleeWpn>(
+                () => PowerupWeaponFactory.Create(player, arg.WeaponItem, weaponInfo.MeleePowerup));
 
             switch (arg.WeaponItemType)
             {
                 case WeaponItemType.Melee:
-                    // TODO: create power melee weapon with factory if implement one
-                    m_owners[player.UniqueID].Melee.Add(arg.WeaponItem, weaponInfo.MeleePowerup);
+                    m_owners[player.UniqueID].Melee = createMeleeWeapon();
                     break;
                 case WeaponItemType.Rifle:
                     m_owners[player.UniqueID].Primary = createRangedWeapon();
@@ -296,6 +339,7 @@ namespace BotExtended.Powerups
                 case WeaponItemType.Handgun:
                     m_owners[player.UniqueID].Secondary = createRangedWeapon();
                     break;
+                // TODO: create thrown weapon with factory if implement one
                 case WeaponItemType.Thrown:
                     m_owners[player.UniqueID].Throwable = createRangedWeapon();
                     break;
@@ -371,13 +415,37 @@ namespace BotExtended.Powerups
                     var currentRangeWpn = playerWpn.CurrentRangeWeapon;
                     if (currentRangeWpn != null)
                     {
-                        playerWpn.CurrentRangeWeapon.OnProjectileHit(projectile, args);
+                        currentRangeWpn.OnProjectileHit(projectile, args);
                     }
                 }
 
                 // NOTE: the reason I dont remove projectile when RemoveFlag = true is because some projectiles
                 // like Spinner have longer lifecycle than the original projectile itself
             }
+        }
+
+        private static void OnMeleeAction(IPlayer owner, PlayerMeleeHitArg[] args)
+        {
+            var playerWpn = GetOrCreatePlayerWeapon(owner);
+            var powerup = playerWpn.MeleeHand.Powerup;
+            var weaponItem = BotManager.GetBot(owner).CurrentMeleeWeapon;
+            var currentMeleeWpn = playerWpn.MeleeHand;
+
+            // barehand powerup is always available and is only overridden when another melee weapon has powerup
+            if (weaponItem == playerWpn.Melee.Name && weaponItem != WeaponItem.NONE && powerup != MeleeWeaponPowerup.None)
+            {
+                currentMeleeWpn = playerWpn.Melee;
+                powerup = playerWpn.Melee.Powerup;
+            }
+
+            if (currentMeleeWpn == null || powerup == MeleeWeaponPowerup.None) return;
+
+            // OnMeleeAction is invoked a bit early, before MeleeAction is updated
+            // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&p=24824&sid=80ecb190dfe9c7febc1f3ede990a83c6#p24824
+            ScriptHelper.Timeout(() =>
+            {
+                foreach (var arg in args) currentMeleeWpn.OnMeleeAction(args);
+            }, 0);
         }
 
         private static void OnObjectTerminated(IObject[] objs)

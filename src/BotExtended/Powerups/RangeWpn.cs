@@ -16,7 +16,6 @@ namespace BotExtended.Powerups
     {
         public RangedWeaponPowerup Powerup { get; protected set; }
 
-        virtual public bool IsValidPowerup() { return true; }
         virtual public float MaxRange { get { return float.MaxValue; } }
 
         public RangeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, RangedWeaponPowerup.None) { }
@@ -43,7 +42,7 @@ namespace BotExtended.Powerups
 
         private bool _oldManualAiming = false;
         private Func<bool> _isElapsedCheckRange;
-        public virtual void Update(float elapsed)
+        public override void Update(float elapsed)
         {
             if (!_oldManualAiming && Owner.IsManualAiming)
                 OnStartManualAim();
@@ -67,8 +66,6 @@ namespace BotExtended.Powerups
 
         protected virtual void OnStartManualAim() { }
         protected virtual void OnStopManualAim() { }
-
-        public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos) { }
 
         public virtual void OnProjectileCreated(IProjectile projectile) { }
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args) { }

@@ -76,9 +76,12 @@ namespace BotExtended
             switch (type)
             {
                 case WeaponItemType.NONE:
-                    Weapons = EmptyWeapon;
-                    break;
                 case WeaponItemType.Melee:
+                    if (powerup.ToLowerInvariant() == "none")
+                    {
+                        Weapons = EmptyWeapon;
+                        break;
+                    }
                     Weapons[0][0] = weaponItem;
                     Weapons[0][1] = powerup;
                     break;

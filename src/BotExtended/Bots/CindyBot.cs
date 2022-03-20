@@ -12,9 +12,9 @@ namespace BotExtended.Bots
             base.OnPickedupWeapon(arg);
 
             if (arg.WeaponItemType == WeaponItemType.Handgun
-                && ProjectileManager.GetOrCreatePlayerWeapon(Player).Secondary.Powerup != RangedWeaponPowerup.Stun)
+                && PowerupManager.GetOrCreatePlayerWeapon(Player).Secondary.Powerup != RangedWeaponPowerup.Stun)
             {
-                ProjectileManager.SetPowerup(Player, arg.WeaponItem, RangedWeaponPowerup.Stun);
+                PowerupManager.SetPowerup(Player, arg.WeaponItem, RangedWeaponPowerup.Stun);
             }
         }
     }

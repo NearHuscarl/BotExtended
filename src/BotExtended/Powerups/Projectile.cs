@@ -15,7 +15,7 @@ namespace BotExtended.Powerups
             protected set
             {
                 if (Instance != null && value != null)
-                    ProjectileManager.UpdateProjectile(Instance, value);
+                    PowerupManager.UpdateProjectile(Instance, value);
                 _instance = value;
             }
         }

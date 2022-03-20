@@ -1,7 +1,8 @@
 ﻿namespace BotExtended.Powerups
 {
-    enum MeleeWeaponPowerup
+    public enum MeleeWeaponPowerup
     {
         None,
+        Hurling,
     }
 }

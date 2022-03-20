@@ -1,5 +1,6 @@
 ﻿using BotExtended.Library;
 using BotExtended.Powerups;
+using BotExtended.Powerups.RangeWeapons;
 using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
