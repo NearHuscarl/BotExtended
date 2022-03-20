@@ -33,6 +33,8 @@ namespace BotExtended.Powerups
             {
                 case MeleeWeaponPowerup.Hurling:
                     return new HurlingPowerup(owner, name);
+                case MeleeWeaponPowerup.Pushback:
+                    return new PushbackPowerup(owner, name);
                 default:
                     return new MeleeWpn(owner, name, powerup);
             }

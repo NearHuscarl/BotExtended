@@ -158,7 +158,16 @@ namespace BotExtended
                     break;
                 }
                 #endregion
-
+                
+                #region Chairman
+                case BotType.Chairman:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyk2woZ2ooZ0igj0qgZY0x2ZY0a2j
+                    profiles.Add(new IProfile() { Name = "Chairman", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGreen"), Head = new IProfileClothingItem("AviatorHat", "ClothingBrown", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingLightRed"), Waist = new IProfileClothingItem("Belt", "ClothingLightBlue", "ClothingLightGray"), Legs = new IProfileClothingItem("Shorts", "ClothingLightRed"), Feet = new IProfileClothingItem("BootsBlack", "ClothingLightBlue"), Accesory = new IProfileClothingItem("Cigar", "ClothingBrown"), });
+                    break;
+                }
+                #endregion
+                
                 #region Cindy
                 case BotType.Cindy:
                 {

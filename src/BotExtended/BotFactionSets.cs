@@ -391,29 +391,31 @@ namespace BotExtended
                 #endregion
 
                 #region Stripper
+                case BotFaction.Boss_Chairman:
                 case BotFaction.Stripper:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
+                    if (botFaction == BotFaction.Boss_Chairman) bosses.Add(new SubFaction(BotType.Chairman));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),
                         new SubFaction(BotType.Bodyguard, .5f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),
                         new SubFaction(BotType.BikerHulk, .5f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),
                         new SubFaction(BotType.GangsterHulk, .5f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),
                         new SubFaction(BotType.PunkHulk, .5f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),
                         new SubFaction(BotType.ThugHulk, .5f),

@@ -38,6 +38,7 @@
         Boss_BazookaJane,
         Boss_Bobby,
         Boss_Boffin,
+        Boss_Chairman,
         Boss_Cindy,
         Boss_PoliceChief,
         Boss_Funnyman,

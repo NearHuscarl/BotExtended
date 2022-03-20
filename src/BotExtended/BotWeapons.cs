@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BotExtended.Powerups;
 using SFDGameScriptInterface;
 
@@ -235,6 +235,20 @@ namespace BotExtended
                     {
                         Primary = WeaponItem.GRENADE_LAUNCHER,
                         PrimaryPowerup = RangedWeaponPowerup.Gravity,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Chairman
+                case BotType.Chairman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.CHAIR,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Pushback,
+                        Throwable = WeaponItem.C4,
                         Powerup = WeaponItem.SLOWMO_10,
                     });
                     break;
@@ -480,7 +494,6 @@ namespace BotExtended
                 #region Funnyman
                 case BotType.Funnyman:
                 {
-                    weapons.Add(WeaponSet.Empty);
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.TOMMYGUN,

@@ -551,6 +551,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Chairman
+                case BotType.Chairman:
+                {
+                    botInfo.AIType = BotAI.MeleeExpert;
+                    botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeForceModifier = MeleeForce.Strong,
+                        SizeModifier = Size.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Cindy
                 case BotType.Cindy:
                 {
