@@ -31,8 +31,12 @@ namespace BotExtended
         // boolean value (1|0) for fields like InfiniteAmmo, CanBurn, MeleeStunImmunity...
         internal const int TOGGLE_ON = 1;
         internal const int TOGGLE_OFF = 0;
+        internal static readonly WeaponItemType[] WeaponItemTypes = new WeaponItemType[]
+        {
+            WeaponItemType.Melee, WeaponItemType.Rifle, WeaponItemType.Handgun, WeaponItemType.Thrown, WeaponItemType.Powerup, WeaponItemType.InstantPickup,
+        };
 
-        internal static string[] WeaponNames = new string[]
+    internal static string[] WeaponNames = new string[]
         {
             "WpnPistol",
             "WpnPistol45",
@@ -102,6 +106,18 @@ namespace BotExtended
                 };
             }
         }
+    }
+
+    public enum ClothingType
+    {
+        Accesory,
+        ChestOver,
+        ChestUnder,
+        Feet,
+        Hands,
+        Head,
+        Legs,
+        Waist,
     }
 
     /// <summary>

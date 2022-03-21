@@ -168,6 +168,7 @@ namespace BotExtended.Bots
             set { SetCurrentAmmo(CurrentWeaponIndex, value); }
         }
 
+        // TODO: remove
         public WeaponItem CurrentMeleeWeapon
         {
             get { return Player.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE ?
@@ -297,6 +298,22 @@ namespace BotExtended.Bots
             }
         }
 
+        public void Decorate(IPlayer existingPlayer)
+        {
+            existingPlayer.SetProfile(Player.GetProfile());
+
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPrimaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentSecondaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentThrownItem.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPowerupItem.WeaponItem);
+
+            existingPlayer.SetTeam(Player.GetTeam());
+            existingPlayer.SetModifiers(Player.GetModifiers());
+            existingPlayer.SetHitEffect(Player.GetHitEffect());
+        }
+
         private float m_bloodEffectElapsed = 0;
         private void UpdateInfectedEffect(float elapsed)
         {
@@ -377,13 +394,13 @@ namespace BotExtended.Bots
                 {
                     var destroyWeapon = RandomHelper.Percentage(cowboyBot.DestroyWeaponWhenCritDisarmChance);
                     if (RandomHelper.Percentage(cowboyBot.CritDisarmChance))
-                        Disarm(projectile.Direction, destroyWeapon);
+                        Disarm(projectile.Direction, destroyWeapon: destroyWeapon);
                 }
                 else
                 {
                     var destroyWeapon = RandomHelper.Percentage(cowboyBot.DestroyWeaponWhenDisarmChance);
                     if (RandomHelper.Percentage(cowboyBot.DisarmChance))
-                        Disarm(projectile.Direction, destroyWeapon);
+                        Disarm(projectile.Direction, destroyWeapon: destroyWeapon);
                 }
             }
             if (bot.Type == BotType.Hunter && !Player.IsRemoved)
@@ -431,23 +448,34 @@ namespace BotExtended.Bots
             }
         }
 
-        public void Disarm(Vector2 projDirection, bool destroyWeapon = false)
+        public void Disarm(Vector2 projDirection, WeaponItemType type = WeaponItemType.NONE, bool destroyWeapon = false)
         {
-            if (Player.CurrentWeaponDrawn == WeaponItemType.NONE) return;
+            type = type == WeaponItemType.NONE ? Player.CurrentWeaponDrawn : type;
+            if (type == WeaponItemType.NONE) return;
 
             var velocity =
-                    Vector2.UnitX * RandomHelper.Between(.25f, 2.5f) * Math.Sign(projDirection.X) +
-                    Vector2.UnitY * RandomHelper.Between(.25f, 2.5f);
+                Vector2.UnitX * RandomHelper.Between(.25f, 2.5f) * Math.Sign(projDirection.X) +
+                Vector2.UnitY * RandomHelper.Between(.25f, 2.5f);
 
             if (Math.Sign(projDirection.X) == Math.Sign(Player.GetLinearVelocity().X))
                 velocity += Vector2.UnitX * (Player.GetLinearVelocity().X / 2);
 
             Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
 
-            var weapon = Player.Disarm(Player.CurrentWeaponDrawn, velocity, false);
+            var weapon = Player.Disarm(type, velocity, false);
+            if (weapon == null) return;
+
             weapon.SetAngularVelocity(RandomHelper.Between(-10, 10));
             if (destroyWeapon)
                 weapon.SetHealth(0);
+        }
+
+        public void DisarmAll()
+        {
+            foreach (var weaponItemType in Constants.WeaponItemTypes)
+            {
+                Disarm(Vector2.Zero, weaponItemType);
+            }
         }
 
         public bool IsStunned { get; private set; }

@@ -47,7 +47,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 {
                     var enemy = BotManager.GetBot(arg.ObjectID);
 
-                    foreach (var weapon in new WeaponItemType[] { WeaponItemType.Melee, WeaponItemType.Handgun, WeaponItemType.Thrown, WeaponItemType.Powerup })
+                    foreach (var weapon in Constants.WeaponItemTypes)
                     {
                         var weaponObj = enemy.Player.Disarm(weapon);
                         if (weaponObj != null)

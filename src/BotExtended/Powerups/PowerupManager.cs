@@ -428,11 +428,11 @@ namespace BotExtended.Powerups
         {
             var playerWpn = GetOrCreatePlayerWeapon(owner);
             var powerup = playerWpn.MeleeHand.Powerup;
-            var weaponItem = BotManager.GetBot(owner).CurrentMeleeWeapon;
+            var weaponItem = BotManager.GetBot(owner).CurrentWeapon;
             var currentMeleeWpn = playerWpn.MeleeHand;
 
             // barehand powerup is always available and is only overridden when another melee weapon has powerup
-            if (weaponItem == playerWpn.Melee.Name && weaponItem != WeaponItem.NONE && powerup != MeleeWeaponPowerup.None)
+            if (weaponItem == playerWpn.Melee.Name && weaponItem != WeaponItem.NONE && playerWpn.Melee.Powerup != MeleeWeaponPowerup.None)
             {
                 currentMeleeWpn = playerWpn.Melee;
                 powerup = playerWpn.Melee.Powerup;

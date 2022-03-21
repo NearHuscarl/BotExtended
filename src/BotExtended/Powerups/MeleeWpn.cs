@@ -32,5 +32,13 @@ namespace BotExtended.Powerups
 
         public MeleeAction CurrentMeleeAction { get { return BotManager.GetBot(Owner).CurrentMeleeAction; } }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
+
+        public static bool IsSharpWeapon(WeaponItem weaponItem)
+        {
+            return weaponItem == WeaponItem.AXE
+                || weaponItem == WeaponItem.KATANA
+                || weaponItem == WeaponItem.KNIFE
+                || weaponItem == WeaponItem.MACHETE;
+        }
     }
 }

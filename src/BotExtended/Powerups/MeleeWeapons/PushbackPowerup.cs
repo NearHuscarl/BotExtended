@@ -31,6 +31,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             enemy.Player.DealDamage(arg.HitDamage); // damage x2
             enemy.Player.SetLinearVelocity(new Vector2(25 * dir, 2));
             Game.PlayEffect(EffectName.CameraShaker, enemy.Position, 4f, 300f, false);
+            ScriptHelper.Fall(enemyPlayer);
 
             var cb1 = (Events.UpdateCallback)null;
             var cb2 = (Events.PlayerDamageCallback)null;
@@ -42,14 +43,11 @@ namespace BotExtended.Powerups.MeleeWeapons
                     Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
                     Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
                 }
-                if (enemyPlayer.IsOnGround)
-                {
-                    cb1.Stop(); cb2.Stop(); return;
-                }
+                if (enemyPlayer.IsOnGround) cb1.Stop();
             }, 30, 2000);
             cb2 = Events.PlayerDamageCallback.Start((IPlayer player, PlayerDamageArgs dArgs) =>
             {
-                if (player.UniqueID != Owner.UniqueID) return;
+                if (player.UniqueID == Owner.UniqueID) return;
                 if (player.IsRemoved || dArgs.DamageType == PlayerDamageEventType.Explosion)
                 {
                     cb1.Stop(); cb2.Stop(); return;
