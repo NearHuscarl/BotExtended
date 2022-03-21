@@ -114,6 +114,11 @@ namespace BotExtended.Bots
                     bot = new MetroCopBot(args);
                     break;
 
+                case BotType.Mutant:
+                case BotType.BigMutant:
+                    bot = new MutantBot(args);
+                    break;
+
                 case BotType.MirrorMan:
                     bot = new MirrorManBot(args);
                     break;

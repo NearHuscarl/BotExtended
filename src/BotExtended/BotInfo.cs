@@ -39,6 +39,7 @@ namespace BotExtended
             set { equipWeaponChance = MathHelper.Clamp(value, 0, 1); }
         }
 
+        public string Name { get; set; }
         public BotAI AIType { get; set; }
         public SearchItems SearchItems { get; set; }
         public HashSet<WeaponItem> SpecificSearchItems { get; set; }

@@ -885,6 +885,36 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss BigMutant
+                case BotType.Mutant:
+                {
+                    botInfo.AIType = BotAI.Grunt;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ImpactDamageTakenModifier = DamageTaken.ExtremelyVulnerable,
+                        SizeModifier = Size.Big,
+                    };
+                    break;
+                }
+                case BotType.BigMutant:
+                {
+                    botInfo.AIType = BotAI.MeleeHard;
+                    botInfo.Name = "Big Mutant";
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.UltraStrong,
+                        CurrentHealth = Health.UltraStrong,
+                        ImpactDamageTakenModifier = DamageTaken.ExtremelyVulnerable,
+                        SizeModifier = Size.VeryBig,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Nadja
                 case BotType.Nadja:
                 {

@@ -793,6 +793,18 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region BigMutant
+                case BotType.BigMutant:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.AXE,
+                        MeleePowerup = MeleeWeaponPowerup.Splitting,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Nadja
                 case BotType.Nadja:
                 {

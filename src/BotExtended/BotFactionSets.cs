@@ -225,6 +225,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Mutant
+                case BotFaction.Boss_BigMutant:
+                case BotFaction.Mutant:
+                {
+                    if (botFaction == BotFaction.Boss_BigMutant) bosses.Add(new SubFaction(BotType.BigMutant));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Mutant, 1f),
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Nazi
                 case BotFaction.Boss_MadScientist:
                 case BotFaction.Nazi:

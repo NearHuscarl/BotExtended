@@ -532,6 +532,7 @@ namespace BotExtended
                 #endregion
 
                 #region Mutant
+                case BotType.BigMutant:
                 case BotType.Mutant:
                 {
                     // https://profile-editor.vercel.app?p=M3sZZ2x3Z2p6Z0EgZ0q6ZY1WiZ0P3ZY

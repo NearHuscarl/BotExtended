@@ -19,8 +19,6 @@ namespace BotExtended.Powerups.MeleeWeapons
 
         public SplittingPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Splitting) { }
 
-        private static readonly ClothingType[] LowerBodyClothingTypes = new ClothingType[] { ClothingType.Feet, ClothingType.Legs, ClothingType.Waist, };
-
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {
             base.OnMeleeAction(args);
@@ -40,23 +38,16 @@ namespace BotExtended.Powerups.MeleeWeapons
             var twin2 = BotManager.SpawnBot(twin1.Type, faction: twin1.Faction, team: twin1.Player.GetTeam(), ignoreFullSpawner: true);
 
             twin2.Player.SetWorldPosition(twin1.Position);
-            twin1.Decorate(twin2.Player);
+            twin1.Decorate(twin2.Player, equipWeapon: false);
             
             mod.SizeModifier = Size.Tiny;
             mod.MaxHealth /= 2;
             twin1.SetModifiers(mod, true);
             twin2.SetModifiers(mod, true);
 
-            var profile1 = ScriptHelper.StripUnderwear(twin1.Player.GetProfile());
-            var profile2 = ScriptHelper.StripUnderwear(twin1.Player.GetProfile());
-            var stripeableClothingTypes = ScriptHelper.StrippeableClothingTypes(profile1);
-            var lowerBodyClothingTypes = stripeableClothingTypes.Where(x => LowerBodyClothingTypes.Any(xx => xx == x)).ToList();
-            var upperBodyClothingTypes = stripeableClothingTypes.Where(x => LowerBodyClothingTypes.All(xx => xx != x)).ToList();
-
-            lowerBodyClothingTypes.ForEach(x => ScriptHelper.Strip(profile1, x));
-            upperBodyClothingTypes.ForEach(x => ScriptHelper.Strip(profile2, x));
-            twin1.Player.SetProfile(profile1);
-            twin2.Player.SetProfile(profile2);
+            var profiles = MutantBot.SplitProfile(twin1.Player);
+            twin1.Player.SetProfile(profiles[0]);
+            twin2.Player.SetProfile(profiles[1]);
 
             twin1.Player.SetLinearVelocity(RandomVelocity(Owner));
             twin2.Player.SetLinearVelocity(RandomVelocity(Owner));
