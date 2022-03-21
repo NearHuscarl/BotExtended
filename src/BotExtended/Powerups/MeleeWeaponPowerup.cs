@@ -3,6 +3,7 @@
     public enum MeleeWeaponPowerup
     {
         None,
+        Breaking,
         Hurling,
         Pushback,
         Splitting,

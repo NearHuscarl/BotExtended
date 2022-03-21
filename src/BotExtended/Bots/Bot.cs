@@ -298,19 +298,16 @@ namespace BotExtended.Bots
             }
         }
 
-        public void Decorate(IPlayer existingPlayer, bool equipWeapon = true)
+        public void Decorate(IPlayer existingPlayer)
         {
             existingPlayer.SetProfile(Player.GetProfile());
 
-            if (equipWeapon)
-            {
-                existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
-                existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
-                existingPlayer.GiveWeaponItem(Player.CurrentPrimaryWeapon.WeaponItem);
-                existingPlayer.GiveWeaponItem(Player.CurrentSecondaryWeapon.WeaponItem);
-                existingPlayer.GiveWeaponItem(Player.CurrentThrownItem.WeaponItem);
-                existingPlayer.GiveWeaponItem(Player.CurrentPowerupItem.WeaponItem);
-            }
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPrimaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentSecondaryWeapon.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentThrownItem.WeaponItem);
+            existingPlayer.GiveWeaponItem(Player.CurrentPowerupItem.WeaponItem);
 
             existingPlayer.SetTeam(Player.GetTeam());
             existingPlayer.SetModifiers(Player.GetModifiers());

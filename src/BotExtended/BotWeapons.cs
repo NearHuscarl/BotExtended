@@ -182,7 +182,10 @@ namespace BotExtended
                 #region BikerHulk
                 case BotType.BikerHulk:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
+                    });
                     break;
                 }
                 #endregion
@@ -565,7 +568,10 @@ namespace BotExtended
                 #region GangsterHulk
                 case BotType.GangsterHulk:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
+                    });
                     break;
                 }
                 #endregion
@@ -1043,10 +1049,14 @@ namespace BotExtended
                 #region PunkHulk
                 case BotType.PunkHulk:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
+                    });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
                     });
                     break;
                 }
@@ -1425,14 +1435,19 @@ namespace BotExtended
                 #region ThugHulk
                 case BotType.ThugHulk:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
+                    });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.PIPE,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
                     });
                     break;
                 }

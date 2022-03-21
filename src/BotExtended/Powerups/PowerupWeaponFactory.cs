@@ -41,6 +41,8 @@ namespace BotExtended.Powerups
             {
                 switch (powerup)
                 {
+                    case MeleeWeaponPowerup.Breaking:
+                        return new BreakingPowerup(owner, name);
                     case MeleeWeaponPowerup.Hurling:
                         return new HurlingPowerup(owner, name);
                     case MeleeWeaponPowerup.Pushback:

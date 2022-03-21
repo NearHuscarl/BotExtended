@@ -35,10 +35,10 @@ namespace BotExtended.Powerups.MeleeWeapons
             if (mod.SizeModifier <= Size.Tiny) return;
 
             twin1.DisarmAll();
-            var twin2 = BotManager.SpawnBot(twin1.Type, faction: twin1.Faction, team: twin1.Player.GetTeam(), ignoreFullSpawner: true);
+            var twin2 = BotManager.SpawnBot(twin1.Type, faction: twin1.Faction, team: twin1.Player.GetTeam(), ignoreFullSpawner: true, equipWeapon: false);
 
             twin2.Player.SetWorldPosition(twin1.Position);
-            twin1.Decorate(twin2.Player, equipWeapon: false);
+            twin1.Decorate(twin2.Player);
             
             mod.SizeModifier = Size.Tiny;
             mod.MaxHealth /= 2;

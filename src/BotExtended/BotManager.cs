@@ -351,6 +351,7 @@ namespace BotExtended
             IPlayer player = null,
             PlayerTeam team = BotTeam,
             bool ignoreFullSpawner = false,
+            bool equipWeapon = true,
             bool triggerOnSpawn = true)
         {
             if (player == null) player = SpawnPlayer(ignoreFullSpawner);
@@ -362,7 +363,7 @@ namespace BotExtended
             var info = bot.Info;
             var weaponSet = WeaponSet.Empty;
 
-            if (RandomHelper.Percentage(info.EquipWeaponChance))
+            if (equipWeapon && RandomHelper.Percentage(info.EquipWeaponChance))
             {
                 weaponSet = RandomHelper.GetItem(GetWeapons(botType));
             }
