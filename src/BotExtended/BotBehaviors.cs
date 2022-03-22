@@ -398,11 +398,9 @@ namespace BotExtended
                 #region ZombieFighter
                 case BotAI.ZombieFighter:
                 {
-                    botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.MeleeB);
+                    botBehaviorSet = GetBehaviorSet(BotAI.MeleeHard);
                     botBehaviorSet.AttackDeadEnemies = true;
                     botBehaviorSet.SearchForItems = false;
-                    botBehaviorSet.MeleeWeaponUsage = false;
-                    botBehaviorSet.RangedWeaponUsage = false;
                     botBehaviorSet.PowerupUsage = false;
                     botBehaviorSet.ChokePointValue = 32f;
                     botBehaviorSet.ChokePointPlayerCountThreshold = 5;

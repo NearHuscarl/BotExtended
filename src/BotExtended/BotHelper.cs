@@ -117,7 +117,7 @@ namespace BotExtended
             if (player == null || weaponSet.IsEmpty) return;
 
             PowerupManager.SetPowerup(player, weaponSet.Melee, weaponSet.MeleePowerup);
-            PowerupManager.SetPowerup(player, WeaponItem.NONE, weaponSet.MeleeHandPowerup);
+            PowerupManager.SetPowerup(player, WeaponItem.NONE, weaponSet.MeleeHandPowerup); // order is important
             PowerupManager.SetPowerup(player, weaponSet.Primary, weaponSet.PrimaryPowerup);
             PowerupManager.SetPowerup(player, weaponSet.Secondary, weaponSet.SecondaryPowerup);
             // TODO: thrown weapon

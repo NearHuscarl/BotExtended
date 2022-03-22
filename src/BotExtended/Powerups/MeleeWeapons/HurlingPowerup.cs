@@ -46,6 +46,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (arg.IsPlayer)
                 {
                     var enemy = BotManager.GetBot(arg.ObjectID);
+                    if (enemy.Info.IsBoss) continue;
 
                     foreach (var weapon in Constants.WeaponItemTypes)
                     {

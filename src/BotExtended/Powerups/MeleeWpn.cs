@@ -19,7 +19,7 @@ namespace BotExtended.Powerups
 
         public override bool IsValidPowerup()
         {
-            return Name != WeaponItem.CHAINSAW;
+            return Name != WeaponItem.CHAINSAW || Powerup == MeleeWeaponPowerup.None;
         }
 
         public void Add(WeaponItem name, MeleeWeaponPowerup powerup)

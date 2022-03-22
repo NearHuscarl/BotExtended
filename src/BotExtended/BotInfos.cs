@@ -1144,6 +1144,8 @@ namespace BotExtended
                         RunSpeedModifier = Speed.AboveNormal,
                         SprintSpeedModifier = Speed.AboveNormal,
                         SizeModifier = Size.Big,
+                        MeleeStunImmunity = Constants.TOGGLE_ON,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
                     botInfo.ZombieStatus = ZombieStatus.Zombie;
