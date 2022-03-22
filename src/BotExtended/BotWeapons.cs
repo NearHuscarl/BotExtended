@@ -703,6 +703,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.AXE,
+                        MeleePowerup = MeleeWeaponPowerup.Gib,
                         Powerup = WeaponItem.STRENGTHBOOST,
                     });
                     break;

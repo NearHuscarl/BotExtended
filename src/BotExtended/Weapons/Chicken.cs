@@ -74,7 +74,10 @@ namespace BotExtended.Weapons
                 var minDistance = float.MaxValue;
                 foreach (var player in Game.GetObjectsByArea<IPlayer>(searchArea))
                 {
-                    if (player.IsDead || ScriptHelper.SameTeam(player, Owner)) continue;
+                    if (player.IsDead || ScriptHelper.SameTeam(player, Team)) continue;
+
+                    if (Owner.IsDead)
+                        Game.WriteToConsole(Owner.GetTeam());
                     var distance = Vector2.Distance(Position, player.GetWorldPosition());
                     if (distance < minDistance)
                     {

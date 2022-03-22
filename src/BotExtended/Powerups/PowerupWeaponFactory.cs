@@ -1,4 +1,4 @@
-using BotExtended.Library;
+﻿using BotExtended.Library;
 using BotExtended.Powerups.MeleeWeapons;
 using BotExtended.Powerups.RangeWeapons;
 using SFDGameScriptInterface;
@@ -47,6 +47,10 @@ namespace BotExtended.Powerups
                         return new EarthquakePowerup(owner, name);
                     case MeleeWeaponPowerup.Hurling:
                         return new HurlingPowerup(owner, name);
+                    case MeleeWeaponPowerup.Gib:
+                        return new GibPowerup(owner, name);
+                    case MeleeWeaponPowerup.GroundBreaker:
+                        return new GroundBreakerPowerup(owner, name);
                     case MeleeWeaponPowerup.Pushback:
                         return new PushbackPowerup(owner, name);
                     case MeleeWeaponPowerup.Splitting:

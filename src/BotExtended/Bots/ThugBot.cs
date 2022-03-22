@@ -28,7 +28,8 @@ namespace BotExtended.Bots
 
                 if (obj.GetHealth() == 0 && IsLootable(obj))
                 {
-                    ((ThugBot)hitter).Loot(null);
+                    var thugBot = hitter as ThugBot;
+                    if (thugBot != null) thugBot.Loot(null);
                     Game.CreateObject(RandomHelper.GetItem(Constants.WeaponNames), obj.GetWorldPosition());
                 }
             });

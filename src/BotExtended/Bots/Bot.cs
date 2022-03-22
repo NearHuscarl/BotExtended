@@ -449,7 +449,7 @@ namespace BotExtended.Bots
             }
         }
 
-        public void Disarm(Vector2 projDirection, WeaponItemType type = WeaponItemType.NONE, bool destroyWeapon = false)
+        public void Disarm(Vector2 projDirection, WeaponItemType type = WeaponItemType.NONE, bool destroyWeapon = false, bool playEffect = true)
         {
             type = type == WeaponItemType.NONE ? Player.CurrentWeaponDrawn : type;
             if (type == WeaponItemType.NONE) return;
@@ -461,7 +461,8 @@ namespace BotExtended.Bots
             if (Math.Sign(projDirection.X) == Math.Sign(Player.GetLinearVelocity().X))
                 velocity += Vector2.UnitX * (Player.GetLinearVelocity().X / 2);
 
-            Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
+            if (playEffect)
+                Game.PlayEffect(EffectName.CustomFloatText, Position + Vector2.UnitY * 15, "Disarmed");
 
             var weapon = Player.Disarm(type, velocity, false);
             if (weapon == null) return;
@@ -475,7 +476,7 @@ namespace BotExtended.Bots
         {
             foreach (var weaponItemType in Constants.WeaponItemTypes)
             {
-                Disarm(Vector2.Zero, weaponItemType);
+                Disarm(Vector2.Zero, weaponItemType, playEffect: false);
             }
         }
 

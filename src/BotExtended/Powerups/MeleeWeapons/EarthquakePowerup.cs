@@ -14,16 +14,7 @@ namespace BotExtended.Powerups.MeleeWeapons
     {
         public override bool IsValidPowerup()
         {
-            // weapons that have the beat-the-ground animation on third attack
-            return Name == WeaponItem.MACHETE
-                || Name == WeaponItem.AXE
-                || Name == WeaponItem.BAT
-                || Name == WeaponItem.BATON
-                || Name == WeaponItem.SHOCK_BATON
-                || Name == WeaponItem.PIPE
-                || Name == WeaponItem.HAMMER
-                || Name == WeaponItem.LEAD_PIPE
-                || Name == WeaponItem.KATANA;
+            return IsHitTheFloorWeapon(Name);
         }
 
         public EarthquakePowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Earthquake) { }
@@ -35,21 +26,35 @@ namespace BotExtended.Powerups.MeleeWeapons
             if (Owner.IsDead || meleeAction != MeleeAction.Three) return;
 
             var position = Owner.GetWorldPosition();
-            var width = 140;
-            var area = ScriptHelper.GrowFromCenter(position, width, 50);
+            var area = ScriptHelper.GrowFromCenter(position, 140, 50);
+
+            CreateEarthquake(area, Owner);
+        }
+
+        public static void CreateEarthquake(Area area, IPlayer owner = null)
+        {
+            var width = area.Width;
+            var center = area.Center;
             var objects = Game.GetObjectsByArea(area);
 
-            Game.PlayEffect(EffectName.CameraShaker, position, 6f, 200f, false);
-            Game.PlaySound("Break", position, 150);
+            Game.PlayEffect(EffectName.CameraShaker, center, 6f, 200f, false);
+            Game.PlaySound("Break", center, 150);
 
             foreach (var o in objects)
             {
-                if (o.UniqueID == Owner.UniqueID) continue;
+                if (owner != null && o.UniqueID == owner.UniqueID) continue;
+
+                // stupid lamps can't be removed once destroyed
+                if (o.Name == "Lamp00")
+                {
+                    o.Remove();
+                    continue;
+                }
                 if (ScriptHelper.IsDynamicObject(o) || ScriptHelper.IsPlayer(o))
                 {
                     if (ScriptHelper.IsPlayer(o)) ScriptHelper.Fall((IPlayer)o);
 
-                    var distance = Vector2.Distance(position, o.GetWorldPosition());
+                    var distance = Vector2.Distance(center, o.GetWorldPosition());
                     var upVec = MathHelper.Lerp(12, 3, distance / (width / 2));
                     o.SetLinearVelocity(new Vector2(RandomHelper.Between(-2, 2), upVec));
                     o.SetAngularVelocity(RandomHelper.Between(-6, 6));

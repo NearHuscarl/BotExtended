@@ -97,7 +97,8 @@ namespace BotExtended.Powerups
                 }
             }
 
-            foreach (var o in m_owners)
+            // need to create a new list before iterating since Update() can trigger a kill which leads to the collection being modified
+            foreach (var o in m_owners.ToList())
             {
                 var playerWpn = o.Value;
                 var currentRangeWpn = playerWpn.CurrentRangeWeapon;

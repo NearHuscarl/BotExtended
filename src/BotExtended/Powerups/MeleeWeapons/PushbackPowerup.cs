@@ -45,13 +45,13 @@ namespace BotExtended.Powerups.MeleeWeapons
                 }
                 if (enemyPlayer.IsOnGround) cb1.Stop();
             }, 30, 2000);
-            cb2 = Events.PlayerDamageCallback.Start((IPlayer player, PlayerDamageArgs dArgs) =>
+            cb2 = Events.PlayerDamageCallback.Start((player, dArgs) =>
             {
-                if (player.UniqueID == Owner.UniqueID) return;
-                if (player.IsRemoved || dArgs.DamageType == PlayerDamageEventType.Explosion)
+                if (enemyPlayer.IsRemoved || dArgs.DamageType == PlayerDamageEventType.Explosion)
                 {
                     cb1.Stop(); cb2.Stop(); return;
                 }
+                if (player.UniqueID != enemyPlayer.UniqueID) return;
                 if (dArgs.DamageType == PlayerDamageEventType.Fall)
                 {
                     var pBox = player.GetAABB();

@@ -1,4 +1,4 @@
-namespace BotExtended.Powerups
+﻿namespace BotExtended.Powerups
 {
     public enum MeleeWeaponPowerup
     {
@@ -6,6 +6,8 @@ namespace BotExtended.Powerups
         Breaking,
         Earthquake,
         Hurling,
+        Gib,
+        GroundBreaker,
         Pushback,
         Splitting,
     }

@@ -1,3 +1,4 @@
 // *** BOT EXTENDED ***
-tile(Laser00){ type=Static; sizeable=H; material.blockExplosions=false; isCloud=true;fixture(){ collisionGroup=none; }}
+tile(Laser00){ type=Static; sizeable=H; material.blockExplosions=false; isCloud=true; fixture(){ collisionGroup=none; }}
+tile(Line00){ type=Static; sizeable=H; colorPalette=BG; drawCategory=SLD; isCloud=true; fixture(){ collisionGroup=none; }}
 // *** BOT EXTENDED ***

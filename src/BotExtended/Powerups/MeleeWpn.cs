@@ -60,5 +60,19 @@ namespace BotExtended.Powerups
                 || weaponItem == WeaponItem.KNIFE
                 || weaponItem == WeaponItem.MACHETE;
         }
+
+        public static bool IsHitTheFloorWeapon(WeaponItem weaponItem)
+        {
+            // weapons that have the beat-the-ground animation on third attack
+            return weaponItem == WeaponItem.MACHETE
+                || weaponItem == WeaponItem.AXE
+                || weaponItem == WeaponItem.BAT
+                || weaponItem == WeaponItem.BATON
+                || weaponItem == WeaponItem.SHOCK_BATON
+                || weaponItem == WeaponItem.PIPE
+                || weaponItem == WeaponItem.HAMMER
+                || weaponItem == WeaponItem.LEAD_PIPE
+                || weaponItem == WeaponItem.KATANA;
+        }
     }
 }

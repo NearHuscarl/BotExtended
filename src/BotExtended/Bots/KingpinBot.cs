@@ -68,18 +68,5 @@ namespace BotExtended.Bots
             var direction = Math.Sign(pos.X - arg.HitPosition.X);
             Player.SetLinearVelocity(new Vector2(direction * 5, 0));
         }
-
-        public override void OnMeleeAction(PlayerMeleeHitArg[] args)
-        {
-            base.OnMeleeAction(args);
-
-            foreach (var arg in args)
-            {
-                var enemy = Game.GetPlayer(arg.ObjectID);
-                if (enemy == null) continue;
-                if (enemy.IsInMidAir && !enemy.IsDead && !Player.IsKicking)
-                    enemy.SetLinearVelocity(Vector2.UnitY * 10);
-            }
-        }
     }
 }

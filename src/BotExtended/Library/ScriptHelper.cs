@@ -263,6 +263,12 @@ namespace BotExtended.Library
                 || player1.GetTeam() == PlayerTeam.Independent && player1.UniqueID == player2.UniqueID;
         }
 
+        public static bool SameTeam(IPlayer player, PlayerTeam team)
+        {
+            if (team == PlayerTeam.Independent || player.GetTeam() == PlayerTeam.Independent) return false;
+            return player.GetTeam() == team;
+        }
+
         public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
 
         public static Dictionary<string, IUser> GetActiveUsersByAccountID()
