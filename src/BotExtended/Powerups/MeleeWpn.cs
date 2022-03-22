@@ -30,6 +30,21 @@ namespace BotExtended.Powerups
             Powerup = MeleeWeaponPowerup.None;
         }
 
+        private MeleeAction _lastMeleeAction;
+        public override void Update(float elapsed)
+        {
+            base.Update(elapsed);
+
+            if (Powerup == MeleeWeaponPowerup.None) return;
+
+            if (_lastMeleeAction != CurrentMeleeAction)
+            {
+                OnMeleeActionChanged(CurrentMeleeAction);
+                _lastMeleeAction = CurrentMeleeAction;
+            }
+        }
+
+        protected virtual void OnMeleeActionChanged(MeleeAction meleeAction) { }
         public MeleeAction CurrentMeleeAction { get { return BotManager.GetBot(Owner).CurrentMeleeAction; } }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
 
