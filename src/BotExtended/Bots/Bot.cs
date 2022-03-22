@@ -42,6 +42,7 @@ namespace BotExtended.Bots
             InfectTeam = player != null ? player.GetTeam() : BotManager.BotTeam;
             UpdateDelay = 0;
             BotBehaviorSet = player != null ? player.GetBotBehaviorSet() : null;
+            Info = new BotInfo(player);
         }
         public Bot(IPlayer player, BotType type, BotFaction faction) : this(player)
         {

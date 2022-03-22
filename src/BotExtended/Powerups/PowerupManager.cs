@@ -269,6 +269,13 @@ namespace BotExtended.Powerups
             switch (weaponObject.WeaponItemType)
             {
                 case WeaponItemType.Melee:
+                    if (Mapper.IsMakeshiftWeapon(weaponObject.WeaponItem))
+                    {
+                        newWeaponInfo.MeleePowerup = oldPlayerWpn.MeleeMakeshift.Powerup;
+                        m_owners[player.UniqueID].MeleeMakeshift.Remove();
+                        m_owners[player.UniqueID].MeleeMakeshift = PowerupWeaponFactory.Create(player, WeaponItem.NONE, MeleeWeaponPowerup.None);
+                        break;
+                    }
                     newWeaponInfo.MeleePowerup = oldPlayerWpn.Melee.Powerup;
                     m_owners[player.UniqueID].Melee.Remove();
                     m_owners[player.UniqueID].Melee = PowerupWeaponFactory.Create(player, WeaponItem.NONE, MeleeWeaponPowerup.None);
@@ -331,6 +338,11 @@ namespace BotExtended.Powerups
             switch (arg.WeaponItemType)
             {
                 case WeaponItemType.Melee:
+                    if (Mapper.IsMakeshiftWeapon(arg.WeaponItem))
+                    {
+                        m_owners[player.UniqueID].MeleeMakeshift = createMeleeWeapon();
+                        break;
+                    }
                     m_owners[player.UniqueID].Melee = createMeleeWeapon();
                     break;
                 case WeaponItemType.Rifle:

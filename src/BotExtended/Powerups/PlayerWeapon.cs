@@ -6,6 +6,7 @@ namespace BotExtended.Powerups
     {
         public IPlayer Owner { get; private set; }
         public MeleeWpn MeleeHand;
+        public MeleeWpn MeleeMakeshift;
         public MeleeWpn Melee;
         public RangeWpn Primary { get; set; }
         public RangeWpn Secondary { get; set; }
@@ -20,6 +21,8 @@ namespace BotExtended.Powerups
                 switch (Owner.CurrentWeaponDrawn)
                 {
                     case WeaponItemType.Melee:
+                        if (Owner.CurrentMeleeMakeshiftWeapon.WeaponItem != WeaponItem.NONE)
+                            return MeleeMakeshift;
                         return Melee;
                     case WeaponItemType.NONE:
                         return MeleeHand;
@@ -52,6 +55,7 @@ namespace BotExtended.Powerups
             return new PlayerWeapon()
             {
                 Owner = owner,
+                MeleeMakeshift = new MeleeWpn(owner),
                 MeleeHand = new MeleeWpn(owner),
                 Melee = new MeleeWpn(owner),
                 Primary = new RangeWpn(owner),

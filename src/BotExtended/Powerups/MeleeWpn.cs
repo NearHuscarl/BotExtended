@@ -17,6 +17,11 @@ namespace BotExtended.Powerups
             if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
+        public override bool IsValidPowerup()
+        {
+            return Name != WeaponItem.CHAINSAW;
+        }
+
         public void Add(WeaponItem name, MeleeWeaponPowerup powerup)
         {
             Name = name;

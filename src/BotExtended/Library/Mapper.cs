@@ -93,6 +93,22 @@ namespace BotExtended.Library
             }
         }
 
+        public static bool IsMakeshiftWeapon(WeaponItem weaponItem)
+        {
+            return weaponItem == WeaponItem.BOTTLE
+                || weaponItem == WeaponItem.BROKEN_BOTTLE
+                || weaponItem == WeaponItem.CUESTICK
+                || weaponItem == WeaponItem.CUESTICK_SHAFT
+                || weaponItem == WeaponItem.CHAIR
+                || weaponItem == WeaponItem.CHAIR_LEG
+                || weaponItem == WeaponItem.FLAGPOLE
+                || weaponItem == WeaponItem.PILLOW
+                || weaponItem == WeaponItem.SUITCASE
+                || weaponItem == WeaponItem.TEAPOT
+                || weaponItem == WeaponItem.TRASH_BAG
+                || weaponItem == WeaponItem.TRASHCAN_LID;
+        }
+
         public static ProjectileItem GetProjectile(WeaponItem weaponItem)
         {
             switch (weaponItem)
