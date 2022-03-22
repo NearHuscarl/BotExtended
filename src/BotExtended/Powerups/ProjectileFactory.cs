@@ -55,7 +55,7 @@ namespace BotExtended.Powerups
                 case RangedWeaponPowerup.SuicideFighter:
                     return new SuicideFighterProjectile(projectile);
                 case RangedWeaponPowerup.Tearing:
-                    return new TearingBullet(projectile);
+                    return new TearingProjectile(projectile);
                 case RangedWeaponPowerup.Termite:
                     return new TermiteProjectile(projectile);
                 case RangedWeaponPowerup.Welding:
