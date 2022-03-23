@@ -764,7 +764,6 @@ namespace BotExtended
                         EnergyConsumptionModifier = .1f,
                         SizeModifier = Size.Big,
                         MeleeForceModifier = MeleeForce.Strong,
-                        MeleeStunImmunity = 1,
                     };
                     botInfo.IsBoss = true;
                     break;

@@ -7,7 +7,7 @@
         Earthquake,
         Hurling,
         Gib,
-        GroundBreaker,
+        GroundSlam,
         Pushback,
         Splitting,
     }

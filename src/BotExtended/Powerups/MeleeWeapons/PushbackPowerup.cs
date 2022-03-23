@@ -29,7 +29,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             var oldHealth = enemy.Player.GetHealth();
 
             enemy.Player.DealDamage(arg.HitDamage); // damage x2
-            enemy.Player.SetLinearVelocity(new Vector2(25 * dir, 2));
+            enemy.Player.SetLinearVelocity(new Vector2(25 * dir, 4));
             Game.PlayEffect(EffectName.CameraShaker, enemy.Position, 4f, 300f, false);
             ScriptHelper.Fall(enemyPlayer);
 

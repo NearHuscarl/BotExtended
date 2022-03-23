@@ -660,7 +660,10 @@ namespace BotExtended
                 #region Kingpin
                 case BotType.Kingpin:
                 {
-                    weapons.Add(new WeaponSet());
+                    weapons.Add(new WeaponSet
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.GroundSlam,
+                    });
                     break;
                 }
                 #endregion

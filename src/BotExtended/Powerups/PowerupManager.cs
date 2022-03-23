@@ -106,7 +106,7 @@ namespace BotExtended.Powerups
                 if (currentRangeWpn != null)
                     currentRangeWpn.Update(elapsed);
 
-                var currentMeleeWpn = playerWpn.CurrentMeleeWeapon;
+                var currentMeleeWpn = GetMeleeWpn(Game.GetPlayer(o.Key));
 
                 if (currentMeleeWpn != null)
                     currentMeleeWpn.Update(elapsed);
@@ -437,27 +437,32 @@ namespace BotExtended.Powerups
             }
         }
 
-        private static void OnMeleeAction(IPlayer owner, PlayerMeleeHitArg[] args)
+        private static MeleeWpn GetMeleeWpn(IPlayer player)
         {
-            var playerWpn = GetOrCreatePlayerWeapon(owner);
-            var powerup = playerWpn.MeleeHand.Powerup;
-            var weaponItem = BotManager.GetBot(owner).CurrentWeapon;
-            var currentMeleeWpn = playerWpn.MeleeHand;
+            if (player == null) return null;
+
+            var playerWpn = GetOrCreatePlayerWeapon(player);
+            var weaponItem = BotManager.GetBot(player).CurrentWeapon;
 
             // barehand powerup is always available and is only overridden when another melee weapon has powerup
             if (weaponItem == playerWpn.Melee.Name && weaponItem != WeaponItem.NONE && playerWpn.Melee.Powerup != MeleeWeaponPowerup.None)
             {
-                currentMeleeWpn = playerWpn.Melee;
-                powerup = playerWpn.Melee.Powerup;
+                return playerWpn.Melee;
             }
+            return playerWpn.MeleeHand;
+        }
 
-            if (currentMeleeWpn == null || powerup == MeleeWeaponPowerup.None) return;
+        private static void OnMeleeAction(IPlayer owner, PlayerMeleeHitArg[] args)
+        {
+            var meleeWpn = GetMeleeWpn(owner);
+
+            if (meleeWpn == null || meleeWpn.Powerup == MeleeWeaponPowerup.None) return;
 
             // OnMeleeAction is invoked a bit early, before MeleeAction is updated
             // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&p=24824&sid=80ecb190dfe9c7febc1f3ede990a83c6#p24824
             ScriptHelper.Timeout(() =>
             {
-                foreach (var arg in args) currentMeleeWpn.OnMeleeAction(args);
+                foreach (var arg in args) meleeWpn.OnMeleeAction(args);
             }, 0);
         }
 

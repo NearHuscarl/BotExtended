@@ -10,7 +10,7 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups.MeleeWeapons
 {
-    class GroundBreakerPowerup : MeleeWpn
+    class GroundSlamPowerup : MeleeWpn
     {
         enum GroundBreakerState { Normal, PunchingUp, Launching, Jumping, PunchingDown, WaitDown, }
 
@@ -19,7 +19,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             return Name == WeaponItem.NONE;
         }
 
-        public GroundBreakerPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.GroundBreaker) { }
+        public GroundSlamPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.GroundSlam) { }
 
         private GroundBreakerState _state = GroundBreakerState.Normal;
 
@@ -66,6 +66,8 @@ namespace BotExtended.Powerups.MeleeWeapons
         public override void Update(float elapsed)
         {
             base.Update(elapsed);
+
+            Game.DrawText(_state.ToString(), Owner.GetWorldPosition());
 
             if (Owner.IsDead && _state != GroundBreakerState.Normal)
             {

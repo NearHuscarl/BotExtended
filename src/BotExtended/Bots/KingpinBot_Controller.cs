@@ -9,6 +9,7 @@ namespace BotExtended.Bots
 {
     class KingpinBot_Controller : Controller<KingpinBot>
     {
+        private bool _isHoldingPlayerInGrab = false;
         public override void OnUpdate(float elapsed)
         {
             if (Player.IsHoldingPlayerInGrab && Player.IsInputEnabled)
@@ -22,11 +23,15 @@ namespace BotExtended.Bots
                 if (grabbedPlayer == null || grabbedPlayer.IsDead)
                     Player.SetInputEnabled(true);
             }
-            else
+
+            if (_isHoldingPlayerInGrab != Player.IsHoldingPlayerInGrab)
             {
-                if (!Player.IsInputEnabled)
-                    Player.SetInputEnabled(true);
+                if (!Player.IsHoldingPlayerInGrab)
+                    if (!Player.IsInputEnabled)
+                        Player.SetInputEnabled(true);
             }
+
+            _isHoldingPlayerInGrab = Player.IsHoldingPlayerInGrab;
         }
     }
 }

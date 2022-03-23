@@ -30,7 +30,8 @@ namespace BotExtended.Bots
             {
                 var proj = Mapper.GetProjectile(_lastRangeWpn);
                 Game.SpawnProjectile(proj, _firePosition, RandomHelper.Direction(15, 180 - 15));
-                Game.PlaySound(ScriptHelper.GetSoundID(_lastRangeWpn), _firePosition);
+                // the carbine is so fucking loud my ears are bleeding
+                Game.PlaySound("Pistol", _firePosition);
                 _ammoLeft--;
             }
         }

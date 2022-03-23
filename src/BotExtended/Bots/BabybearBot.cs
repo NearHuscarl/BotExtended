@@ -58,7 +58,8 @@ namespace BotExtended.Bots
                     break;
                 }
             }
-            Player.SetGuardTarget(m_mommy.Player);
+            if (m_mommy != null)
+                Player.SetGuardTarget(m_mommy.Player);
         }
 
         public override void OnDamage(IPlayer attacker, PlayerDamageArgs args)
