@@ -46,7 +46,6 @@ namespace BotExtended.Bots
             var lootObject = Player.GetForcedBotTarget();
             if (Game.IsEditorTest)
             {
-                Game.DrawText(Player.GetBotBehaviorSet().RangedWeaponUsage + " " + Player.IsInputEnabled, Position);
                 if (lootObject != null) Game.DrawLine(Position, lootObject.GetWorldPosition());
             }
 

@@ -33,11 +33,10 @@ namespace BotExtended.Powerups.MeleeWeapons
             {
                 if (!arg.IsPlayer) continue;
              
-                var enemy = BotManager.GetBot(arg.ObjectID);
-                if (enemy.Info.IsBoss || ScriptHelper.SameTeam(enemy.Player, Owner)) continue;
-                if (enemy.Player.GetHealth() > 15) continue;
+                var enemy = Game.GetPlayer(arg.ObjectID);
+                if (ScriptHelper.SameTeam(enemy, Owner) || enemy.GetHealth() > 15) continue;
 
-                _target = enemy.Player;
+                _target = enemy;
                 ChangeState(State.PunchingUp);
                 _target.SetLinearVelocity(Vector2.UnitY * 11);
                 _target.SetInputEnabled(false);
@@ -52,6 +51,8 @@ namespace BotExtended.Powerups.MeleeWeapons
                 mod.MeleeStunImmunity = 1;
                 Owner.SetModifiers(mod);
                 Owner.SetInputEnabled(false);
+
+                break;
             }
         }
 

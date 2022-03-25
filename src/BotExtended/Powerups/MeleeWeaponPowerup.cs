@@ -10,6 +10,7 @@
         Gib,
         GroundBreaker,
         GroundSlam,
+        Megaton,
         Pushback,
         Splitting,
     }

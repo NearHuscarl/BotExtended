@@ -75,13 +75,17 @@ namespace BotExtended.Library
             });
         }
 
-        public static void RunUntil(Action callback, Func<bool> stopCondition)
+        public static void RunUntil(Action callback, Func<bool> stopCondition, Action cleanup = null)
         {
             var cb = (Events.UpdateCallback)null;
             cb = Events.UpdateCallback.Start(e =>
             {
                 callback.Invoke();
-                if (stopCondition()) cb.Stop();
+                if (stopCondition())
+                {
+                    if (cleanup != null) cleanup();
+                    cb.Stop();
+                }
             });
         }
 
