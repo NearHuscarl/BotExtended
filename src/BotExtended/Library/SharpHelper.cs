@@ -92,5 +92,12 @@ namespace BotExtended.Library
 
             return false;
         }
+
+        public static System.Threading.Tasks.Task<T> FromResult<T>(T value)
+        {
+            var tcs = new System.Threading.Tasks.TaskCompletionSource<T>();
+            tcs.SetResult(value);
+            return tcs.Task;
+        }
     }
 }

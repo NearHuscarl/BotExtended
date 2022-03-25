@@ -86,7 +86,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                     var pos = nextPos;
                     Events.UpdateCallback.Start((e) => Game.PlayEffect(EffectName.PlayerBurned, pos), 200, 10);
                 }
-            }, () => Vector2.Distance(hitPosition, nextPos) < 350 && !shouldStop);
+            }, () => Vector2.Distance(hitPosition, nextPos) > 350 || shouldStop);
         }
     }
 }

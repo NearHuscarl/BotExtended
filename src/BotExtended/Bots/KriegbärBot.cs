@@ -9,8 +9,8 @@ namespace BotExtended.Bots
 {
     public class KriegbärBot : Bot
     {
-        public const float ThrowRadius = 140f;
         private Controller<KriegbärBot> m_controller;
+        public IPlayer ThrowTarget { get; private set; }
 
         public KriegbärBot(BotArgs args, Controller<KriegbärBot> controller) : base(args)
         {
@@ -32,11 +32,12 @@ namespace BotExtended.Bots
 
             if (Player.HoldingPlayerInGrabID != 0 && m_oldHoldingPlayerInGrabID == 0)
             {
+                OnEnemyGrabbed(Game.GetPlayer(Player.HoldingPlayerInGrabID));
                 m_oldHoldingPlayerInGrabID = Player.HoldingPlayerInGrabID;
             }
             if (Player.HoldingPlayerInGrabID == 0 && m_oldHoldingPlayerInGrabID != 0)
             {
-                OnPlayerGetThrownFromGrab(Game.GetPlayer(m_oldHoldingPlayerInGrabID));
+                OnEnemyGetThrownFromGrab(Game.GetPlayer(m_oldHoldingPlayerInGrabID));
                 m_oldHoldingPlayerInGrabID = Player.HoldingPlayerInGrabID;
                 IsThrowingFromGrab = false;
             }
@@ -58,87 +59,98 @@ namespace BotExtended.Bots
 
         public IEnumerable<IPlayer> GetThrowTargets(int thrownPlayerID = 0)
         {
-            var throwAngleLimits = new float[] { MathExtension.ToRadians(0), MathExtension.ToRadians(75) };
-            if (Player.FacingDirection < 0)
-                throwAngleLimits = ScriptHelper.Flip(throwAngleLimits, FlipDirection.Horizontal);
-
-            var i = 0;
             return Game.GetPlayers()
-                .Where(p =>
-                {
-                    var result = p.UniqueID != thrownPlayerID && p.UniqueID != Player.UniqueID
-                        && !p.IsDead
-                        && !ScriptHelper.SameTeam(p, Player)
-                        && ScriptHelper.IntersectCircle(p.GetAABB(), Position, ThrowRadius, throwAngleLimits[0], throwAngleLimits[1]);
-
-                    if (false && Game.IsEditorTest && result && i++ == 0)
-                    {
-                        ScriptHelper.RunIn(() =>
-                        {
-                            Game.DrawArea(p.GetAABB(), Color.Red);
-                            Game.DrawCircle(Position, ThrowRadius, Color.Cyan);
-                            Game.DrawLine(Position, Position + ScriptHelper.GetDirection(throwAngleLimits[0]) * ThrowRadius);
-                            Game.DrawLine(Position, Position + ScriptHelper.GetDirection(throwAngleLimits[1]) * ThrowRadius);
-                        }, 2000);
-                    }
-
-                    return result;
-                });
+                .Where(p => p.UniqueID != thrownPlayerID && p.UniqueID != Player.UniqueID && !p.IsDead && !ScriptHelper.SameTeam(p, Player));
         }
 
-        private void OnPlayerGetThrownFromGrab(IPlayer thrownPlayer)
+        private void OnEnemyGrabbed(IPlayer grabbedPlayer)
         {
-            if (!Player.IsBot && !IsThrowingFromGrab) return;
+            var mod = Player.GetModifiers();
+            mod.MeleeStunImmunity = 1;
+            Player.SetModifiers(mod);
 
-            var grabPosition = thrownPlayer.GetWorldPosition();
-            var targets = GetThrowTargets(thrownPlayer.UniqueID);
+            var targets = GetThrowTargets(grabbedPlayer.UniqueID);
+            var grabPosition = grabbedPlayer.GetWorldPosition();
 
             foreach (var target in targets)
             {
-                var results = Game.RayCast(grabPosition, target.GetWorldPosition(), new RayCastInput()
+                var end = target.GetWorldPosition();
+                if (Vector2.Distance(grabPosition, end) > 450) continue;
+                var results = Game.RayCast(grabPosition, end, new RayCastInput()
                 {
                     FilterOnMaskBits = true,
-                    AbsorbProjectile = RayCastFilterMode.True,
                     MaskBits = CategoryBits.Player + CategoryBits.StaticGround,
-                    ClosestHitOnly = true,
-                }).Where(r => r.HitObject != null && r.ObjectID != thrownPlayer.UniqueID);
+                }).Where(r => r.HitObject != null && r.ObjectID != grabbedPlayer.UniqueID && r.ObjectID != Player.UniqueID);
 
-                if (results.Any())
+                if (!results.Any()) continue;
+                var result = results.FirstOrDefault();
+                if (!result.IsPlayer) continue;
+
+                ThrowTarget = Game.GetPlayer(result.ObjectID);
+
+                if (ThrowTarget.GetWorldPosition().X < Position.X && Player.GetFaceDirection() != -1)
                 {
-                    var result = results.Single();
-
-                    if (result.IsPlayer)
-                    {
-                        var hitObject = result.HitObject;
-                        var throwDirection = Vector2.Normalize(hitObject.GetWorldPosition() - grabPosition);
-                        var throwTime = Game.TotalElapsedGameTime;
-
-                        Game.DrawArea(hitObject.GetAABB(), Color.Cyan);
-                        Game.DrawLine(grabPosition, grabPosition + throwDirection * 30, Color.Cyan);
-                        thrownPlayer.SetLinearVelocity(throwDirection * 20 + Vector2.UnitY * 4);
-                        thrownPlayer.TrackAsMissile(true);
-
-                        Events.PlayerDamageCallback damageCB = null;
-                        damageCB = Events.PlayerDamageCallback.Start((IPlayer player, PlayerDamageArgs args) =>
-                        {
-                            if (thrownPlayer.IsRemoved
-                            || !thrownPlayer.IsMissile && player.UniqueID != thrownPlayer.UniqueID
-                            || ScriptHelper.IsElapsed(throwTime, 2000))
-                            {
-                                damageCB.Stop();
-                            }
-                            if (thrownPlayer.GetAABB().Intersects(player.GetAABB()) && args.DamageType == PlayerDamageEventType.Fall)
-                            {
-                                var velocity = player.GetLinearVelocity() * 1.75f;
-                                velocity.Y = Math.Max(4f, velocity.Y + 4f); // bounce up a little to counter the friction
-                                velocity = MathExtension.ClampMagnitude(velocity, 20);
-                                player.SetLinearVelocity(velocity);
-                            }
-                        });
-                    }
-                    return;
+                    ScriptHelper.Command(Player, PlayerCommandType.Walk, FaceDirection.Left);
                 }
+                else if (ThrowTarget.GetWorldPosition().X > Position.X && Player.GetFaceDirection() != 1)
+                {
+                    ScriptHelper.Command(Player, PlayerCommandType.Walk, FaceDirection.Right);
+                }
+
+                if (Game.IsEditorTest)
+                {
+                    var p = ThrowTarget;
+                    ScriptHelper.RunIn(() => Game.DrawArea(p.GetAABB(), Color.Green), 3000);
+                }
+                break;
             }
+        }
+
+        private void OnEnemyGetThrownFromGrab(IPlayer thrownPlayer)
+        {
+            if (!Player.IsBot && !IsThrowingFromGrab || ThrowTarget == null) return;
+
+            var grabPosition = thrownPlayer.GetWorldPosition();
+            var throwDirection = Vector2.Normalize(ThrowTarget.GetWorldPosition() - grabPosition) + Vector2.UnitY * .05f;
+            var mod = thrownPlayer.GetModifiers();
+
+            mod.ImpactDamageTakenModifier = .01f;
+            thrownPlayer.SetModifiers(mod);
+            thrownPlayer.TrackAsMissile(true);
+            ResetModifiers();
+
+            var cb = (Events.PlayerDamageCallback)null;
+            var stop = false;
+            var mass = thrownPlayer.GetMass();
+
+            thrownPlayer.SetMass(0); // avoid gravity
+            Action Stop = () =>
+            {
+                if (stop) return;
+                cb.Stop(); stop = true; thrownPlayer.SetMass(mass); BotManager.GetBot(thrownPlayer).ResetModifiers();
+            };
+
+            ScriptHelper.Timeout(() => Stop(), 1500); // safeguard
+            ScriptHelper.RunUntil(() => thrownPlayer.SetLinearVelocity(throwDirection * 25), () => thrownPlayer.IsOnGround || stop);
+
+            cb = Events.PlayerDamageCallback.Start((player, args) =>
+            {
+                if (thrownPlayer.IsRemoved) Stop();
+                if (args.DamageType == PlayerDamageEventType.Fall)
+                {
+                    if (player.UniqueID == thrownPlayer.UniqueID) Stop();
+                    if (thrownPlayer.GetAABB().Intersects(player.GetAABB()))
+                    {
+                        var velocity = player.GetLinearVelocity() * 1.75f;
+                        velocity.Y = Math.Max(4f, velocity.Y + 4f); // bounce up a little to counter the friction
+                        velocity = MathExtension.ClampMagnitude(velocity, 20);
+                        player.SetLinearVelocity(velocity);
+                        Stop();
+                    }
+                }
+            });
+
+            ThrowTarget = null;
         }
     }
 }

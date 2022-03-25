@@ -75,14 +75,27 @@ namespace BotExtended.Library
             });
         }
 
-        public static void RunUntil(Action callback, Func<bool> canRun)
+        public static void RunUntil(Action callback, Func<bool> stopCondition)
         {
             var cb = (Events.UpdateCallback)null;
             cb = Events.UpdateCallback.Start(e =>
             {
                 callback.Invoke();
-                if (!canRun()) cb.Stop();
+                if (stopCondition()) cb.Stop();
             });
+        }
+
+        public static void RunIf(Action callback, Func<bool> If, uint interval = 0, ushort count = 10000)
+        {
+            var cb = (Events.UpdateCallback)null;
+            cb = Events.UpdateCallback.Start(e =>
+            {
+                if (If())
+                {
+                    callback.Invoke();
+                    cb.Stop();
+                }
+            }, interval, count);
         }
 
         public static bool IsElapsed(float timeStarted, float timeToElapse)
@@ -599,6 +612,92 @@ namespace BotExtended.Library
             }, 2);
 
             return promise.Task;
+        }
+
+        // a better command method
+        public static System.Threading.Tasks.Task<bool> Command(IPlayer player, PlayerCommandType commandType, FaceDirection direction = FaceDirection.None)
+        {
+            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+            var facingDirection = PlayerCommandFaceDirection.None;
+
+            if (player == null || player.IsDead)
+            {
+                promise.TrySetResult(false);
+                return promise.Task;
+            }
+
+            if (direction == FaceDirection.None)
+                facingDirection = player.GetFaceDirection() == -1 ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
+            else
+                facingDirection = direction == FaceDirection.Left ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
+
+            if (player.IsInputEnabled) player.SetInputEnabled(false);
+
+            RunIf(() =>
+            {
+                player.AddCommand(new PlayerCommand(commandType, facingDirection));
+                
+                RunIf(() =>
+                {
+                    player.SetInputEnabled(true);
+                    promise.TrySetResult(true);
+                }, If: () => player.IsDead || player.CurrentCommandIndex == player.PerformedCommandCount, interval: 32);
+            }, If: () => !player.IsDead && player.CurrentCommandIndex == player.PerformedCommandCount, interval: 32);
+
+            return promise.Task;
+        }
+
+        public static System.Threading.Tasks.Task<bool> Command(IPlayer player, PlayerCommand[] playerCommands)
+        {
+            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+
+            if (player == null || player.IsDead)
+            {
+                promise.TrySetResult(false);
+                return promise.Task;
+            }
+
+            if (player.IsInputEnabled) player.SetInputEnabled(false);
+
+            var HasQueuedCommands = WithHasQueuedCommands(player);
+
+            RunIf(() =>
+            {
+                foreach (var command in playerCommands) player.AddCommand(command);
+
+                RunIf(() =>
+                {
+                    player.SetInputEnabled(true);
+                    promise.TrySetResult(true);
+                }, If: () => player.IsDead || !HasQueuedCommands());
+            }, If: () => !player.IsDead && !HasQueuedCommands());
+
+            return promise.Task;
+        }
+
+        public static Func<bool> WithHasQueuedCommands(IPlayer player)
+        {
+            var exhaustCommandTime = 0f;
+            var waitTime = 32;
+
+            return new Func<bool>(() =>
+            {
+                // don't return true inside this check, there is a frame between multiple commands where CurrentCommandIndex == PerformedCommandCount.
+                // We need to wait for a little bit before we are sure that all commands are executed
+                if (player.CurrentCommandIndex == player.PerformedCommandCount)
+                {
+                    if (exhaustCommandTime == 0) exhaustCommandTime = Game.TotalElapsedGameTime;
+                }
+                else
+                    exhaustCommandTime = 0f;
+
+                if (exhaustCommandTime != 0f && IsElapsed(exhaustCommandTime, waitTime))
+                {
+                    exhaustCommandTime = 0f;
+                    return false;
+                }
+                return true;
+            });
         }
 
         public static Vector2 GetFarAwayPosition()

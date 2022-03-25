@@ -24,6 +24,10 @@ namespace BotExtended
 
         public BotInfo(IPlayer player) : this()
         {
+            // Fix wrong initial value. https://www.mythologicinteractiveforums.com/viewtopic.php?f=18&t=4337
+            if (player != null)
+                player.ClearCommandQueue();
+
             EquipWeaponChance = 0f;
             AIType = BotAI.None;
             SearchItems = player == null ? SearchItems.None : player.GetBotBehaviorSet().SearchItems;

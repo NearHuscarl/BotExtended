@@ -5,6 +5,7 @@ using BotExtended.Library;
 using System.Linq;
 using BotExtended.Factions;
 using BotExtended.Powerups;
+using BotExtended.Weapons;
 
 namespace BotExtended
 {
@@ -29,6 +30,8 @@ namespace BotExtended
 
             //System.Diagnostics.Debugger.Break();
 
+            PowerupManager.Initialize();
+            WeaponManager.Initialize();
             BotManager.Initialize();
 
             if (Game.IsEditorTest)

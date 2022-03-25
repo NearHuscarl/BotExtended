@@ -22,7 +22,6 @@ namespace BotExtended.Bots
             if (Player.HoldingPlayerInGrabID != 0 && m_oldHoldingPlayerInGrabID == 0)
             {
                 m_oldHoldingPlayerInGrabID = Player.HoldingPlayerInGrabID;
-                OnGrabbingPlayer();
             }
             if (Player.HoldingPlayerInGrabID == 0 && m_oldHoldingPlayerInGrabID != 0)
             {
@@ -41,8 +40,11 @@ namespace BotExtended.Bots
 
                             if (corpseNearby != null)
                             {
-                                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.StartCrouch, 0);
-                                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Grab, 750);
+                                ScriptHelper.Command(Player, new PlayerCommand[]
+                                {
+                                    new PlayerCommand(PlayerCommandType.StartCrouch),
+                                    new PlayerCommand(PlayerCommandType.Grab),
+                                });
                                 m_state = State.Cooldown;
                                 m_cooldownTime = Game.TotalElapsedGameTime;
                             }
@@ -82,17 +84,6 @@ namespace BotExtended.Bots
             Game.DrawArea(area, Color.Green);
             return Game.GetPlayers().Where(p => p.IsDead && p.IsLayingOnGround
                 && area.Intersects(p.GetAABB()) && Vector2.Distance(center, p.GetAABB().Center) > 10);
-        }
-
-        private void OnGrabbingPlayer()
-        {
-            var targets = Actor.GetThrowTargets(Player.HoldingPlayerInGrabID);
-
-            if (!targets.Any())
-            {
-                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.FaceAt, 10,
-                    (PlayerCommandFaceDirection)(Player.FacingDirection * -1));
-            }
         }
     }
 }

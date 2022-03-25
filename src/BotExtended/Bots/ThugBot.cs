@@ -13,6 +13,7 @@ namespace BotExtended.Bots
         public ThugBot(BotArgs args) : base(args)
         {
             _isElapsedCheckTarget = ScriptHelper.WithIsElapsed(500, 900);
+            _isElapsedCheckWpn = ScriptHelper.WithIsElapsed(200);
         }
 
         static ThugBot()
@@ -36,25 +37,37 @@ namespace BotExtended.Bots
         }
 
         private Func<bool> _isElapsedCheckTarget;
+        private Func<bool> _isElapsedCheckWpn;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
             if (Faction != BotFaction.Thug) return;
-            if (Game.IsEditorTest && Player.GetForcedBotTarget() != null)
-                Game.DrawLine(Position, Player.GetForcedBotTarget().GetWorldPosition());
+
+            var lootObject = Player.GetForcedBotTarget();
+            if (Game.IsEditorTest)
+            {
+                Game.DrawText(Player.GetBotBehaviorSet().RangedWeaponUsage + " " + Player.IsInputEnabled, Position);
+                if (lootObject != null) Game.DrawLine(Position, lootObject.GetWorldPosition());
+            }
+
+            var isUsingRangedWpn = Player.CurrentWeaponDrawn == WeaponItemType.Rifle || Player.CurrentWeaponDrawn == WeaponItemType.Handgun;
+            if (isUsingRangedWpn && lootObject != null && _isElapsedCheckWpn())
+            {
+                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Sheath);
+            }
+
             if (!Player.IsDead && _isElapsedCheckTarget())
             {
-                var target = Player.GetForcedBotTarget();
                 var enemiesNearby = AreEnemiesNearby();
 
-                if (!enemiesNearby && target == null)
+                if (!enemiesNearby && lootObject == null)
                 {
                     var playerBox = Player.GetAABB();
                     var searchRange = ScriptHelper.GrowFromCenter(playerBox.Center, playerBox.Width + 6, playerBox.Height);
                     var newTarget = Game.GetObjectsByArea(searchRange).FirstOrDefault(IsLootable);
                     if (newTarget != null) Loot(newTarget);
                 }
-                else if (enemiesNearby || Vector2.Distance(Position, target.GetWorldPosition()) > 30)
+                else if (enemiesNearby || Vector2.Distance(Position, lootObject.GetWorldPosition()) > 30)
                     Loot(null);
             }
         }

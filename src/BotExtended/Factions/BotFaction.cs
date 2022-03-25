@@ -52,6 +52,7 @@
         Boss_Fireman,
         Boss_Kingpin,
         Boss_MadScientist,
+        Boss_Kriegbar,
         Boss_Meatgrinder,
         Boss_Mecha,
         Boss_MetroCop,

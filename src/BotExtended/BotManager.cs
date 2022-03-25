@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using static BotExtended.GameScript;
 using static BotExtended.Library.SFD;
-using BotExtended.Powerups;
-using BotExtended.Weapons;
 
 namespace BotExtended
 {
@@ -26,9 +24,6 @@ namespace BotExtended
 
         public static void Initialize()
         {
-            PowerupManager.Initialize();
-            WeaponManager.Initialize();
-
             m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();
 
             Events.PlayerWeaponAddedActionCallback.Start(OnPlayerPickedupWeapon);

@@ -36,7 +36,7 @@ namespace BotExtended
             WeaponItemType.Melee, WeaponItemType.Rifle, WeaponItemType.Handgun, WeaponItemType.Thrown, WeaponItemType.Powerup, WeaponItemType.InstantPickup,
         };
 
-    internal static string[] WeaponNames = new string[]
+        internal static string[] WeaponNames = new string[]
         {
             "WpnPistol",
             "WpnPistol45",
@@ -107,6 +107,9 @@ namespace BotExtended
             }
         }
     }
+
+    // PlayerCommandFaceDirection is too long
+    public enum FaceDirection { None, Left, Right, }
 
     public enum ClothingType
     {
