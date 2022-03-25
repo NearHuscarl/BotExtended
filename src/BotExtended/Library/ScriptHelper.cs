@@ -65,7 +65,24 @@ namespace BotExtended.Library
 
         public static void RunIn(Action callback, int ms)
         {
-            Events.UpdateCallback.Start(e => callback.Invoke(), 0, (ushort)(60 * ms / 1000));
+            var timeStarted = Game.TotalElapsedGameTime;
+            var cb = (Events.UpdateCallback)null;
+
+            cb = Events.UpdateCallback.Start(e =>
+            {
+                callback.Invoke();
+                if (IsElapsed(timeStarted, ms)) cb.Stop();
+            });
+        }
+
+        public static void RunUntil(Action callback, Func<bool> canRun)
+        {
+            var cb = (Events.UpdateCallback)null;
+            cb = Events.UpdateCallback.Start(e =>
+            {
+                callback.Invoke();
+                if (!canRun()) cb.Stop();
+            });
         }
 
         public static bool IsElapsed(float timeStarted, float timeToElapse)
@@ -422,6 +439,49 @@ namespace BotExtended.Library
                 if (to.UniqueID == o.UniqueID)
                     j.SetTargetObjectA(null);
             }
+        }
+
+        public static IObject[] SplitTileObject(IObject o, Vector2 position)
+        {
+            var xTiles = o.GetSizeFactor().X;
+            var yTiles = o.GetSizeFactor().Y;
+
+            if (xTiles == 1) return new IObject[] { }; // not a tile object
+
+            var tileSize = 8;
+            var leftPos = o.GetAABB().Left;
+            var effectArea = GrowFromCenter(position, 8, 2);
+            var oLeft = (IObject)null;
+            var oRight = (IObject)null;
+
+            Unscrew(o);
+
+            for (var i = 0; i < 4; i++)
+                Game.PlayEffect(EffectName.BulletHitDefault, RandomHelper.WithinArea(effectArea));
+
+            for (var i = 0; i < xTiles; i++)
+            {
+                if (leftPos + tileSize * i >= position.X)
+                {
+                    oLeft = Game.CreateObject(o.Name, o.GetWorldPosition());
+                    oRight = Game.CreateObject(o.Name, o.GetWorldPosition() + Vector2.UnitX * tileSize * i);
+
+                    oLeft.SetAngle(o.GetAngle());
+                    oLeft.SetLinearVelocity(Vector2.UnitY * -20);
+                    oLeft.SetSizeFactor(new Point(i - 1, yTiles));
+                    oLeft.SetBodyType(BodyType.Dynamic);
+                    oRight.SetAngle(o.GetAngle());
+                    oRight.SetLinearVelocity(Vector2.UnitY * -20);
+                    oRight.SetSizeFactor(new Point(xTiles - i, yTiles));
+                    oRight.SetBodyType(BodyType.Dynamic);
+                    break;
+                }
+            }
+
+            var results = new IObject[] { oLeft, oRight }.Where(x => x != null).ToArray();
+            if (results.Length == 2)
+                o.Remove();
+            return results;
         }
 
         public struct RopeResult

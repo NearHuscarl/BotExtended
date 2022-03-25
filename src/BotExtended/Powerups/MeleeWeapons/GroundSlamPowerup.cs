@@ -12,7 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class GroundSlamPowerup : MeleeWpn
     {
-        enum GroundBreakerState { Normal, PunchingUp, Launching, Jumping, PunchingDown, WaitDown, }
+        enum State { Normal, PunchingUp, Launching, Jumping, PunchingDown, WaitDown, }
 
         public override bool IsValidPowerup()
         {
@@ -21,13 +21,13 @@ namespace BotExtended.Powerups.MeleeWeapons
 
         public GroundSlamPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.GroundSlam) { }
 
-        private GroundBreakerState _state = GroundBreakerState.Normal;
+        private State _state = State.Normal;
 
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {
             base.OnMeleeAction(args);
 
-            if (Owner.IsDead || args.Length == 0 || CurrentMeleeAction != MeleeAction.Three || _state != GroundBreakerState.Normal) return;
+            if (Owner.IsDead || args.Length == 0 || CurrentMeleeAction != MeleeAction.Three || _state != State.Normal) return;
 
             foreach (var arg in args)
             {
@@ -38,7 +38,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (enemy.Player.GetHealth() > 15) continue;
 
                 _target = enemy.Player;
-                ChangeState(GroundBreakerState.PunchingUp);
+                ChangeState(State.PunchingUp);
                 _target.SetLinearVelocity(Vector2.UnitY * 11);
                 _target.SetInputEnabled(false);
                 _target.SetNametagVisible(false);
@@ -69,14 +69,14 @@ namespace BotExtended.Powerups.MeleeWeapons
 
             Game.DrawText(_state.ToString(), Owner.GetWorldPosition());
 
-            if (Owner.IsDead && _state != GroundBreakerState.Normal)
+            if (Owner.IsDead && _state != State.Normal)
             {
-                ChangeState(GroundBreakerState.Normal); return;
+                ChangeState(State.Normal); return;
             }
 
             switch (_state)
             {
-                case GroundBreakerState.PunchingUp:
+                case State.PunchingUp:
                     var pos = _target.GetWorldPosition();
                     if (pos.X != _targetInitialPosition.X)
                     {
@@ -89,10 +89,10 @@ namespace BotExtended.Powerups.MeleeWeapons
                         Owner.AddCommand(new PlayerCommand(PlayerCommandType.StartCrouch, 0, 200));
                         Game.RunCommand("/settime .4");
                         ScriptHelper.Timeout(() => _executeLaunch = true, 220);
-                        ChangeState(GroundBreakerState.Launching);
+                        ChangeState(State.Launching);
                     }
                     break;
-                case GroundBreakerState.Launching:
+                case State.Launching:
                     _target.SetLinearVelocity(Vector2.Zero);
                     _target.SetWorldPosition(_targetHoverPosition);
                     if (_executeLaunch)
@@ -100,10 +100,10 @@ namespace BotExtended.Powerups.MeleeWeapons
                         _executeLaunch = false;
                         Owner.SetLinearVelocity(Vector2.UnitY * 12.5f);
                         Owner.AddCommand(new PlayerCommand(PlayerCommandType.Jump));
-                        ChangeState(GroundBreakerState.Jumping);
+                        ChangeState(State.Jumping);
                     }
                     break;
-                case GroundBreakerState.Jumping:
+                case State.Jumping:
                     _target.SetLinearVelocity(Vector2.Zero);
                     _target.SetWorldPosition(_targetHoverPosition);
                     Owner.SetLinearVelocity(Vector2.UnitY * 10);
@@ -113,11 +113,11 @@ namespace BotExtended.Powerups.MeleeWeapons
                         Owner.ClearCommandQueue(); // without this line AttackOnce doesn't work
                         Owner.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                         Game.RunCommand("/settime .1");
-                        ChangeState(GroundBreakerState.PunchingDown);
+                        ChangeState(State.PunchingDown);
                         ScriptHelper.Timeout(() => _executeAttack = true, FullJumpAttackMeleeTime + 30);
                     }
                     break;
-                case GroundBreakerState.PunchingDown:
+                case State.PunchingDown:
                 {
                     Owner.SetLinearVelocity(Vector2.Zero);
                     Owner.SetWorldPosition(_ownerHoverPosition);
@@ -125,12 +125,12 @@ namespace BotExtended.Powerups.MeleeWeapons
                     {
                         Game.RunCommand("/settime 1");
                         Owner.AddCommand(new PlayerCommand(PlayerCommandType.WaitLand));
-                        ChangeState(GroundBreakerState.WaitDown);
+                        ChangeState(State.WaitDown);
                         _target.SetLinearVelocity(-Vector2.UnitY * 40);
                         _executeAttack = false;
 
                         var cb = (Events.PlayerDamageCallback)null;
-                        Action Finish = () => { cb.Stop(); ChangeState(GroundBreakerState.Normal); };
+                        Action Finish = () => { cb.Stop(); ChangeState(State.Normal); };
                         cb = Events.PlayerDamageCallback.Start((player, args) =>
                         {
                             if (_target.IsRemoved || args.DamageType == PlayerDamageEventType.Explosion)
@@ -147,16 +147,16 @@ namespace BotExtended.Powerups.MeleeWeapons
                     }
                     break;
                 }
-                case GroundBreakerState.WaitDown:
+                case State.WaitDown:
                     if (_target.IsRemoved)
                     {
-                        ChangeState(GroundBreakerState.Normal);
+                        ChangeState(State.Normal);
                     }
                     // if you hit static or indestructible objects, the damage callback is not invoked
                     if (_target.GetLinearVelocity().Y >= 0)
                     {
                         BreakObjects();
-                        ChangeState(GroundBreakerState.Normal);
+                        ChangeState(State.Normal);
                     }
                     Owner.SetLinearVelocity(Vector2.Zero);
                     Owner.SetWorldPosition(_ownerHoverPosition);
@@ -181,7 +181,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                     hitObject.SetBodyType(BodyType.Dynamic);
                     hitObject.SetLinearVelocity(Vector2.UnitY * 12);
                     Game.PlaySound("Explosion", pos);
-                    SplitTileObject(hitObject, pos);
+                    ScriptHelper.SplitTileObject(hitObject, pos);
                     EarthquakePowerup.CreateEarthquake(ScriptHelper.GrowFromCenter(pos, 100, 50));
                     return true;
                 }
@@ -189,46 +189,9 @@ namespace BotExtended.Powerups.MeleeWeapons
             return false;
         }
 
-        private void SplitTileObject(IObject o, Vector2 position)
+        private void ChangeState(State state)
         {
-            var xTiles = o.GetSizeFactor().X;
-            var yTiles = o.GetSizeFactor().Y;
-
-            if (xTiles == 1) return; // not a tile object
-
-            var tileSize = 8;
-            var leftPos = o.GetAABB().Left;
-
-            ScriptHelper.Unscrew(o);
-            var effectArea = ScriptHelper.GrowFromCenter(position, 8, 2);
-
-            for (var i = 0; i < 4; i++)
-                Game.PlayEffect(EffectName.BulletHitDefault, RandomHelper.WithinArea(effectArea));
-
-            for (var i = 0; i < xTiles; i++)
-            {
-                if (leftPos + tileSize * i >= position.X)
-                {
-                    var oLeft = Game.CreateObject(o.Name, o.GetWorldPosition());
-                    var oRight = Game.CreateObject(o.Name, o.GetWorldPosition() + Vector2.UnitX * tileSize * i);
-
-                    oLeft.SetAngle(o.GetAngle());
-                    oLeft.SetLinearVelocity(Vector2.UnitY * -20);
-                    oLeft.SetSizeFactor(new Point(i - 1, yTiles));
-                    oLeft.SetBodyType(BodyType.Dynamic);
-                    oRight.SetAngle(o.GetAngle());
-                    oRight.SetLinearVelocity(Vector2.UnitY * -20);
-                    oRight.SetSizeFactor(new Point(xTiles - i, yTiles));
-                    oRight.SetBodyType(BodyType.Dynamic);
-                    break;
-                }
-            }
-            o.Remove();
-        }
-
-        private void ChangeState(GroundBreakerState state)
-        {
-            if (state == GroundBreakerState.Normal)
+            if (state == State.Normal)
             {
                 _target.SetInputEnabled(true);
                 Owner.SetInputEnabled(true);

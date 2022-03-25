@@ -45,10 +45,14 @@ namespace BotExtended.Powerups
                         return new BreakingPowerup(owner, name);
                     case MeleeWeaponPowerup.Earthquake:
                         return new EarthquakePowerup(owner, name);
+                    case MeleeWeaponPowerup.FireTrail:
+                        return new FireTrailPowerup(owner, name);
                     case MeleeWeaponPowerup.Hurling:
                         return new HurlingPowerup(owner, name);
                     case MeleeWeaponPowerup.Gib:
                         return new GibPowerup(owner, name);
+                    case MeleeWeaponPowerup.GroundBreaker:
+                        return new GroundBreakerPowerup(owner, name);
                     case MeleeWeaponPowerup.GroundSlam:
                         return new GroundSlamPowerup(owner, name);
                     case MeleeWeaponPowerup.Pushback:

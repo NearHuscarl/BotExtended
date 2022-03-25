@@ -44,12 +44,13 @@ namespace BotExtended.Powerups
 
             if (_lastMeleeAction != CurrentMeleeAction)
             {
-                OnMeleeActionChanged(CurrentMeleeAction);
+                var hitPosition = Owner.GetWorldPosition() + Vector2.UnitX * Owner.GetFaceDirection() * 12;
+                OnMeleeActionChanged(CurrentMeleeAction, hitPosition);
                 _lastMeleeAction = CurrentMeleeAction;
             }
         }
 
-        protected virtual void OnMeleeActionChanged(MeleeAction meleeAction) { }
+        protected virtual void OnMeleeActionChanged(MeleeAction meleeAction, Vector2 hitPosition) { }
         public MeleeAction CurrentMeleeAction { get { return BotManager.GetBot(Owner).CurrentMeleeAction; } }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
 

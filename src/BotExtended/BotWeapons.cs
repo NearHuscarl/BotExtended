@@ -482,6 +482,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Fireman
+                case BotType.Fireman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.AXE,
+                        MeleePowerup = MeleeWeaponPowerup.FireTrail,
+                        Throwable = WeaponItem.MOLOTOVS,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {

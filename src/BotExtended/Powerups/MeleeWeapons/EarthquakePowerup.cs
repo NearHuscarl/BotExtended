@@ -19,15 +19,13 @@ namespace BotExtended.Powerups.MeleeWeapons
 
         public EarthquakePowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Earthquake) { }
 
-        protected override void OnMeleeActionChanged(MeleeAction meleeAction)
+        protected override void OnMeleeActionChanged(MeleeAction meleeAction, Vector2 hitPosition)
         {
-            base.OnMeleeActionChanged(meleeAction);
+            base.OnMeleeActionChanged(meleeAction, hitPosition);
 
             if (Owner.IsDead || meleeAction != MeleeAction.Three) return;
 
-            var position = Owner.GetWorldPosition();
-            var area = ScriptHelper.GrowFromCenter(position, 140, 50);
-
+            var area = ScriptHelper.GrowFromCenter(hitPosition, 140, 50);
             CreateEarthquake(area, Owner);
         }
 

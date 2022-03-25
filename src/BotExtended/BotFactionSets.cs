@@ -331,6 +331,7 @@ namespace BotExtended
 
                 #region Pyromaniac
                 case BotFaction.Boss_Incinerator:
+                case BotFaction.Boss_Fireman:
                 case BotFaction.Pyromaniac:
                 {
                     if (botFaction == BotFaction.Pyromaniac)
@@ -345,6 +346,7 @@ namespace BotExtended
                     }
 
                     if (botFaction == BotFaction.Boss_Incinerator) bosses.Add(new SubFaction(BotType.Incinerator));
+                    if (botFaction == BotFaction.Boss_Fireman) bosses.Add(new SubFaction(BotType.Fireman));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Pyromaniac),

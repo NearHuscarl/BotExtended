@@ -42,6 +42,7 @@
         Elf,
         Engineer,
         Farmer,
+        Fireman,
         // Tier1: Heavy Hostility
         // Tier2: Trainyard Takedown, Alley Bombardment
         // Tier3: Meatgrinder Begins

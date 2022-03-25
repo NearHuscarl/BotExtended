@@ -49,6 +49,7 @@
         Boss_Handler,
         Boss_Hitman,
         Boss_Incinerator,
+        Boss_Fireman,
         Boss_Kingpin,
         Boss_MadScientist,
         Boss_Meatgrinder,

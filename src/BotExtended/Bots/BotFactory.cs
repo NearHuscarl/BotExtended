@@ -98,6 +98,11 @@ namespace BotExtended.Bots
                     bot = new IncineratorBot(args);
                     break;
 
+                case BotType.Fireman:
+                case BotType.Pyromaniac:
+                    bot = new PyromaniacBot(args);
+                    break;
+
                 case BotType.Kingpin:
                     bot = new KingpinBot(args, player.IsBot ? new KingpinBot_Controller() : null);
                     break;
@@ -129,10 +134,6 @@ namespace BotExtended.Bots
 
                 case BotType.PoliceChief:
                     bot = new PoliceChiefBot(args);
-                    break;
-
-                case BotType.Pyromaniac:
-                    bot = new PyromaniacBot(args);
                     break;
 
                 case BotType.Sheriff:

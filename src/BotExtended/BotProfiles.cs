@@ -307,6 +307,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Fireman
+                case BotType.Fireman:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyo1Q7Z1K7Z2Avv2ndZ1xev2XZp10eZ1Opv
+                    profiles.Add(new IProfile() { Name = "Fireman", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightRed"), Head = new IProfileClothingItem("PithHelmet", "ClothingLightYellow", "ClothingYellow"), ChestOver = new IProfileClothingItem("MilitaryJacket", "ClothingGray", "ClothingYellow"), ChestUnder = new IProfileClothingItem("PoliceShirt", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("SmallBelt", "ClothingYellow", "ClothingYellow"), Legs = new IProfileClothingItem("Pants", "ClothingDarkGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkYellow"), Accesory = new IProfileClothingItem("SunGlasses", "", "ClothingLightYellow"), });
+                    break;
+                }
+                #endregion
+
                 #region Fritzliebe
                 case BotType.Fritzliebe:
                 {

@@ -724,9 +724,27 @@ namespace BotExtended
                     botInfo.AIType = BotAI.Hard;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
-                        MaxHealth = Health.ExtremelyStrong,
+                        MaxHealth = Health.Strong,
                         CurrentHealth = Health.Strong,
                         FireDamageTakenModifier = DamageTaken.VeryResistant,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Fireman
+                case BotType.Fireman:
+                {
+                    botInfo.AIType = BotAI.AssassinMelee;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        FireDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        MeleeDamageTakenModifier = DamageTaken.Resistant,
+                        RunSpeedModifier = Speed.Fast,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
