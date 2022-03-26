@@ -33,6 +33,8 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
+            if (!IsEquipping) return;
+
             var muzzleInfo = GetMuzleInfo();
 
             if (!Owner.IsHipFiring && !Owner.IsManualAiming || !muzzleInfo.IsSussess) RemoveObjects();

@@ -18,6 +18,7 @@ namespace BotExtended.Bots
         static Bot()
         {
             var nonePlayer = Game.CreatePlayer(Vector2.Zero);
+            nonePlayer.Remove();
             None = new Bot(nonePlayer);
         }
 

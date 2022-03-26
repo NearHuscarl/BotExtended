@@ -76,7 +76,7 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
-            if (!Owner.IsManualAiming) return;
+            if (!Owner.IsManualAiming || !IsEquipping) return;
 
             var holdPosition = GetHoldPosition(true);
             m_invisibleMagnet.SetWorldPosition(holdPosition);

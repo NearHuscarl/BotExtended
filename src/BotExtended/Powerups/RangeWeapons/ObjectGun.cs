@@ -12,7 +12,6 @@ namespace BotExtended.Powerups.RangeWeapons
     class ObjectGun : RangeWpn
     {
         private string _loadedObject;
-        private IObject _targetObject;
         private IObject _bullet;
 
         public override bool IsValidPowerup()
@@ -30,27 +29,18 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
-            Game.DrawText(_loadedObject + " " + Owner.GetBotBehaviorSet().RangedWeaponUsage, Owner.GetWorldPosition());
+            //Game.DrawText(_loadedObject + " " + Owner.GetBotBehaviorSet().RangedWeaponUsage, Owner.GetWorldPosition());
 
             var bot = BotManager.GetBot(Owner);
             if (Owner.IsDead) return;
 
             if (_loadedObject == null)
             {
-                if (_targetObject == null)
-                {
-                    _targetObject = Game.GetObjectsByArea(ScriptHelper.Grow(Owner.GetAABB(), 50)).FirstOrDefault(IsBullet);
-                    if (_targetObject != null)
-                        ScriptHelper.Command(Owner, PlayerCommandType.StartMoveToPosition, targetObjectID: _targetObject.UniqueID);
-                }
-
                 foreach (var o in Game.GetObjectsByArea(ScriptHelper.Grow(Owner.GetAABB(), 1, 1)))
                 {
                     if (!IsBullet(o)) continue;
                     
                     _loadedObject = o.Name;
-                    Game.WriteToConsole(_loadedObject);
-                    _targetObject = null;
                     bot.UseRangeWeapon(true);
                     o.Remove();
                     break;
@@ -77,10 +67,7 @@ namespace BotExtended.Powerups.RangeWeapons
                 ScriptHelper.Timeout(() => _bullet = null, 2500);
                 _loadedObject = null;
             }
-            catch
-            {
-
-            }
+            catch { }
         }
     }
 }

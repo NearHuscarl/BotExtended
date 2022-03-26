@@ -42,7 +42,7 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
-            if (_fireTime == -1) return;
+            if (_fireTime == -1 || !IsEquipping) return;
 
             var cooldown = GetCooldownTime();
             if (_exraShots == 0 && Game.TotalElapsedGameTime >= _fireTime + cooldown / 3) Fire();

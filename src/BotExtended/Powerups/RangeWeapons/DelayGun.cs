@@ -25,10 +25,9 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
-            if (!_isReloading && Owner.IsReloading) _projectiles.Clear();
+            if (!_isReloading && Owner.IsReloading || !IsEquipping && _projectiles.Count > 0) _projectiles.Clear();
             _isReloading = Owner.IsReloading;
 
-            Game.DrawText(_projectiles.Count.ToString(), Owner.GetWorldPosition());
             foreach (var p in _projectiles.ToList())
             {
                 p.Position -= p.Velocity * .01499f;

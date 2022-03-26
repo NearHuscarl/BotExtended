@@ -26,6 +26,8 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
+            if (!IsEquipping) return;
+
             if (Owner.IsManualAiming && !m_prevManualAiming)
             {
                 m_prevManualAiming = true;

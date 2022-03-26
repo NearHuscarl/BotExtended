@@ -55,7 +55,7 @@ namespace BotExtended.Powerups
             _oldManualAiming = Owner.IsManualAiming;
 
             // don't shoot if the enemy is too far away because some guns have limited range
-            if (!DisableRangeCheck && Powerup != RangedWeaponPowerup.None && _isElapsedCheckRange())
+            if (IsEquipping && !DisableRangeCheck && Powerup != RangedWeaponPowerup.None && _isElapsedCheckRange())
             {
                 foreach (var player in Game.GetPlayers())
                 {
