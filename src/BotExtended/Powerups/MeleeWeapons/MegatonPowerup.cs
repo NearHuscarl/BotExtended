@@ -38,7 +38,6 @@ namespace BotExtended.Powerups.MeleeWeapons
             mod.ImpactDamageTakenModifier = 0.0001f;
             enemy.Kill();
             enemy.SetModifiers(mod);
-            enemy.SetInputEnabled(false);
             enemy.SetNametagVisible(false);
             enemy.SetStatusBarsVisible(false);
 

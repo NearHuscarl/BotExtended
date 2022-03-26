@@ -131,11 +131,11 @@ namespace BotExtended.Bots
             };
 
             ScriptHelper.Timeout(() => Stop(), 1500); // safeguard
-            ScriptHelper.RunUntil(() => thrownPlayer.SetLinearVelocity(throwDirection * 25), () => thrownPlayer.IsOnGround || stop);
+            ScriptHelper.RunUntil(() => thrownPlayer.SetLinearVelocity(throwDirection * 25),
+                () => thrownPlayer.IsOnGround || thrownPlayer.IsRemoved || stop, Stop);
 
             cb = Events.PlayerDamageCallback.Start((player, args) =>
             {
-                if (thrownPlayer.IsRemoved) Stop();
                 if (args.DamageType == PlayerDamageEventType.Fall)
                 {
                     if (player.UniqueID == thrownPlayer.UniqueID) Stop();

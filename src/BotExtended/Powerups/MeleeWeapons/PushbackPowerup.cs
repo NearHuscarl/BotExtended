@@ -33,24 +33,18 @@ namespace BotExtended.Powerups.MeleeWeapons
             Game.PlayEffect(EffectName.CameraShaker, enemy.Position, 4f, 300f, false);
             ScriptHelper.Fall(enemyPlayer);
 
-            var cb1 = (Events.UpdateCallback)null;
-            var cb2 = (Events.PlayerDamageCallback)null;
-            cb1 = Events.UpdateCallback.Start((e) =>
+            var cb = (Events.PlayerDamageCallback)null;
+            var hitByObject = false;
+
+            ScriptHelper.RunUntil(() =>
             {
-                if (!enemyPlayer.IsRemoved)
-                {
-                    var pBox = enemyPlayer.GetAABB();
-                    Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
-                    Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
-                }
-                if (enemyPlayer.IsOnGround) cb1.Stop();
-            }, 30, 2000);
-            cb2 = Events.PlayerDamageCallback.Start((player, dArgs) =>
+                var pBox = enemyPlayer.GetAABB();
+                Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
+                Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
+            }, () => enemyPlayer.IsRemoved || enemyPlayer.IsOnGround || hitByObject, () => cb.Stop());
+
+            cb = Events.PlayerDamageCallback.Start((player, dArgs) =>
             {
-                if (enemyPlayer.IsRemoved || dArgs.DamageType == PlayerDamageEventType.Explosion)
-                {
-                    cb1.Stop(); cb2.Stop(); return;
-                }
                 if (player.UniqueID != enemyPlayer.UniqueID) return;
                 if (dArgs.DamageType == PlayerDamageEventType.Fall)
                 {
@@ -69,7 +63,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                             ScriptHelper.RunIn(() => Game.DrawArea(hitObject.GetAABB(), Color.Blue), 3000);
                         }
                     }
-                    cb1.Stop(); cb2.Stop();
+                    hitByObject = true;
                 }
             });
         }
