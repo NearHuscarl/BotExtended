@@ -15,7 +15,11 @@ namespace BotExtended.Bots
     public class Bot
     {
         public static readonly Bot None;
-        static Bot() { None = new Bot(); }
+        static Bot()
+        {
+            var nonePlayer = Game.CreatePlayer(Vector2.Zero);
+            None = new Bot(nonePlayer);
+        }
 
         public static Color DialogueColor
         {
@@ -33,11 +37,8 @@ namespace BotExtended.Bots
             set { Player.SetWorldPosition(value); }
         }
 
-        private Bot_GravityGunAI m_botGravityGunAI;
-
         private Bot(IPlayer player = null)
         {
-            m_botGravityGunAI = new Bot_GravityGunAI(this);
             Player = player;
             InfectTeam = player != null ? player.GetTeam() : BotManager.BotTeam;
             UpdateDelay = 0;
@@ -111,7 +112,6 @@ namespace BotExtended.Bots
                 m_lastUpdateElapsed = 0;
             }
             UpdateWeaponStatus();
-            UpdateCustomWeaponAI(elapsed);
             UpdateInfectedEffect(elapsed);
             UpdateMeleeAttackPhrases();
 
@@ -130,12 +130,7 @@ namespace BotExtended.Bots
         protected virtual void OnUpdate(float elapsed) { }
 
         public virtual void OnPickedupWeapon(PlayerWeaponAddedArg arg) { }
-        public virtual void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
-        {
-            var gun = GetGravityGun();
-            if (gun != null)
-                m_botGravityGunAI.OnDroppedWeapon(arg);
-        }
+        public virtual void OnDroppedWeapon(PlayerWeaponRemovedArg arg) { }
 
         private int CurrentWeaponIndex
         {
@@ -263,40 +258,6 @@ namespace BotExtended.Bots
                 return (GravityGun)playerWeapon.Secondary;
 
             return null;
-        }
-
-        private void UpdateCustomWeaponAI(float elapsed)
-        {
-            if (!Player.IsBot || IsStunned || (Game.StartupSequenceEnabled && Game.TotalElapsedRealTime <= 3000)) return;
-
-            // TODO: Avoid disabling input because it's error-prone
-            // Equip the weapon and ammo manually and remove the IObjectWeaponItem
-            // if gurt adds this https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3986
-            //foreach (var nearbyWeapon in m_nearbyWeapons)
-            //{
-            //    Game.DrawArea(nearbyWeapon.GetAABB(), Color.Grey);
-            //    if (Info.SpecificSearchItems.Contains(nearbyWeapon.WeaponItem)
-            //        && !Player.IsStaggering && !Player.IsStunned && Player.IsOnGround)
-            //    {
-            //        Player.SetInputEnabled(false);
-            //        Player.AddCommand(new PlayerCommand(PlayerCommandType.Activate, nearbyWeapon.UniqueID));
-            //        ScriptHelper.Timeout(() =>
-            //        {
-            //            Player.ClearCommandQueue();
-            //            Player.SetInputEnabled(true);
-            //        }, 10);
-            //        break;
-            //    }
-            //}
-
-            var botBehaviorSet = Player.GetBotBehaviorSet();
-
-            if (botBehaviorSet.RangedWeaponMode != BotBehaviorRangedWeaponMode.HipFire)
-            {
-                var gun = GetGravityGun();
-                if (gun != null)
-                    m_botGravityGunAI.Update(elapsed, gun);
-            }
         }
 
         public void Decorate(IPlayer existingPlayer)

@@ -9,49 +9,22 @@ namespace BotExtended.Bots
 {
     class BoffinBot : Bot
     {
-        RangedWeaponPowerup m_currentPowerup;
-
+        private float _initialSize = 0f;
         public BoffinBot(BotArgs args) : base(args)
         {
-            m_currentPowerup = GetWeapons(Type).First().PrimaryPowerup;
+            _initialSize = Player.GetModifiers().SizeModifier;
         }
 
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
-            if (Player.GetHealth() <= 80 && m_currentPowerup != RangedWeaponPowerup.GravityDE)
+            var mod = Player.GetModifiers();
+            if (mod.SizeModifier < _initialSize)
             {
-                Game.PlayEffect(EffectName.Electric, Position);
-                Game.PlaySound("ElectricSparks", Position);
-                Game.CreateDialogue("You underestimate the gravity of the situation", DialogueColor, Player, duration: 3500, showInChat: false);
-                m_currentPowerup = RangedWeaponPowerup.GravityDE;
-                ResetWeapon();
-
-                var mod = Player.GetModifiers();
-                mod.MeleeForceModifier = MeleeForce.Strong;
-                SetModifiers(mod);
+                mod.SizeModifier = _initialSize;
+                Player.SetModifiers(mod);
             }
-        }
-
-        public override void OnDroppedWeapon(PlayerWeaponRemovedArg arg)
-        {
-            base.OnDroppedWeapon(arg);
-
-            if (arg.WeaponItemType == WeaponItemType.Rifle && !Player.IsDead)
-            {
-                if (arg.TargetObjectID != 0)
-                {
-                    Game.GetObject(arg.TargetObjectID).Remove();
-                }
-                ResetWeapon();
-            }
-        }
-
-        private void ResetWeapon()
-        {
-            var weaponSet = GetWeapons(Type).First();
-            PowerupManager.SetPowerup(Player, weaponSet.Primary, m_currentPowerup);
         }
     }
 }

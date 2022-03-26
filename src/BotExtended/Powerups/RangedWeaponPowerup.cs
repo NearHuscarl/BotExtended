@@ -22,6 +22,7 @@
         Poison,
         Present,
         Riding,
+        Shrinking,
         Smoke,
         Stun,
         Spinner,

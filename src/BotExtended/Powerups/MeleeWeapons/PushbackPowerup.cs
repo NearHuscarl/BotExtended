@@ -25,6 +25,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             
             var dir = Owner.GetFaceDirection();
             var enemy = BotManager.GetBot(arg.ObjectID);
+            if (enemy.Player.IsRemoved) return;
             var enemyPlayer = enemy.Player;
             var oldHealth = enemy.Player.GetHealth();
 

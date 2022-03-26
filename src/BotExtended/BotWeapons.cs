@@ -237,7 +237,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.GRENADE_LAUNCHER,
-                        PrimaryPowerup = RangedWeaponPowerup.Gravity,
+                        PrimaryPowerup = RangedWeaponPowerup.Shrinking,
                         Powerup = WeaponItem.SLOWMO_10,
                     });
                     break;

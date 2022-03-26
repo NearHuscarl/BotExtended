@@ -14,6 +14,7 @@ namespace BotExtended.Powerups.RangeWeapons
         protected Vector2 HoverPosition;
         protected float ExplodeRange = 60;
         protected float ExplodeRange2 = 10;
+        protected float MinDistanceBeforeHover = 100;
 
         private enum Direction
         {
@@ -109,13 +110,13 @@ namespace BotExtended.Powerups.RangeWeapons
                 headingDirection == Direction.Top ? ExplodeRange : ExplodeRange2,
                 headingDirection == Direction.Right ? ExplodeRange : ExplodeRange2,
                 headingDirection == Direction.Bottom ? ExplodeRange : ExplodeRange2);
-            var os = Game.GetObjectsByArea(explodeRange, PhysicsLayer.Active);
+            var os = Game.GetObjectsByArea(explodeRange);
 
             foreach (var o in os)
             {
                 var collisionFilter = o.GetCollisionFilter();
                 if ((collisionFilter.BlockExplosions || collisionFilter.CategoryBits == CategoryBits.Player)
-                    && Instance.TotalDistanceTraveled >= 100)
+                    && Instance.TotalDistanceTraveled >= MinDistanceBeforeHover)
                 {
                     if (Game.IsEditorTest)
                     {

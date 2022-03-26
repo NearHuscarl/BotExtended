@@ -196,7 +196,7 @@ namespace BotExtended
                     }
                     bot.Update(elapsed);
                 }
-                else
+                else if (!player.IsRemoved)
                     Wrap(player); // Normal players that are not extended bots
             }
 

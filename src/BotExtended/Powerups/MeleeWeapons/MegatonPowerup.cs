@@ -25,7 +25,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (!arg.IsPlayer) continue;
 
                 var enemy = Game.GetPlayer(arg.ObjectID);
-                if (ScriptHelper.SameTeam(enemy, Owner) || enemy.GetHealth() > 25) continue;
+                if (enemy.IsRemoved || ScriptHelper.SameTeam(enemy, Owner) || enemy.GetHealth() > 25) continue;
 
                 Kill(enemy);
                 break;

@@ -139,7 +139,7 @@ namespace BotExtended.Bots
                 if (args.DamageType == PlayerDamageEventType.Fall)
                 {
                     if (player.UniqueID == thrownPlayer.UniqueID) Stop();
-                    if (thrownPlayer.GetAABB().Intersects(player.GetAABB()))
+                    if (player.UniqueID != Player.UniqueID && thrownPlayer.GetAABB().Intersects(player.GetAABB()))
                     {
                         var velocity = player.GetLinearVelocity() * 1.75f;
                         velocity.Y = Math.Max(4f, velocity.Y + 4f); // bounce up a little to counter the friction
