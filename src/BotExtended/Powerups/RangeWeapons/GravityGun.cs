@@ -246,7 +246,7 @@ namespace BotExtended.Powerups.RangeWeapons
             projectile.FlagForRemoval();
 
             // Cannot use ia 1 because we only want this particular gun to have indefinite ammo
-            if (BotManager.GetBot(Owner).CurrentAmmo == 0)
+            if (BotManager.GetBot(Owner).CurrentTotalAmmo == 0)
             {
                 if (Type == WeaponItemType.Rifle)
                     Owner.SetCurrentPrimaryWeaponAmmo(Owner.CurrentPrimaryWeapon.MaxTotalAmmo - 1);

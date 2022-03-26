@@ -22,6 +22,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Agent79
+                case BotType.Agent79:
+                {
+                    // https://profile-editor.vercel.app?p=M38yg367Z2H7Z0ieg0qeZ13ZZ01Zl10eZ0QeZ
+                    profiles.Add(new IProfile() { Name = "Agent79", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightBlue"), Head = new IProfileClothingItem("Flatcap", "ClothingGray"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightBlue"), Legs = new IProfileClothingItem("StripedPants", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("AgentSunglasses", "", "ClothingLightOrange"), });
+                    break;
+                }
+                #endregion
+
                 #region Amos
                 case BotType.Amos:
                 {

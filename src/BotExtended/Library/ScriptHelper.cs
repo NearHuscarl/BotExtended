@@ -320,6 +320,11 @@ namespace BotExtended.Library
             return usersByAccountID;
         }
 
+        public static Area Grow(Area area, float width = 0, float height = 0)
+        {
+            return GrowFromCenter(area.Center, area.Width + width, area.Height + height);
+        }
+
         public static Area GrowFromCenter(Vector2 center, float width, float height = 0)
         {
             if (height == 0) height = width;
@@ -619,7 +624,9 @@ namespace BotExtended.Library
         }
 
         // a better command method
-        public static System.Threading.Tasks.Task<bool> Command(IPlayer player, PlayerCommandType commandType, FaceDirection direction = FaceDirection.None)
+        public static System.Threading.Tasks.Task<bool> Command(IPlayer player, PlayerCommandType commandType,
+            FaceDirection direction = FaceDirection.None,
+            int targetObjectID = 0)
         {
             var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
             var facingDirection = PlayerCommandFaceDirection.None;
@@ -639,8 +646,11 @@ namespace BotExtended.Library
 
             RunIf(() =>
             {
-                player.AddCommand(new PlayerCommand(commandType, facingDirection));
-                
+                if (targetObjectID != 0)
+                    player.AddCommand(new PlayerCommand(commandType, targetObjectID, facingDirection));
+                else
+                    player.AddCommand(new PlayerCommand(commandType, facingDirection));
+
                 RunIf(() =>
                 {
                     player.SetInputEnabled(true);

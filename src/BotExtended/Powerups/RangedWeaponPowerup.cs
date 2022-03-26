@@ -19,6 +19,7 @@
         Minigun,
         Molotov,
         Lightning,
+        Object,
         Poison,
         Present,
         Riding,

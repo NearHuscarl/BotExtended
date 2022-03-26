@@ -81,26 +81,6 @@ namespace BotExtended.Bots
                 Game.CreateDialogue(deathLine, DialogueColor, Player, duration: 3000f);
         }
 
-        private List<WeaponItem> m_prevWeapons = new List<WeaponItem>()
-        {
-            WeaponItem.NONE,
-            WeaponItem.NONE,
-            WeaponItem.NONE,
-            WeaponItem.NONE,
-            WeaponItem.NONE,
-            WeaponItem.NONE,
-        };
-
-        private List<float> m_prevAmmo = new List<float>()
-        {
-            0, // makeshift
-            0, // melee 'ammo' is durability of melee weapon
-            0, // primary
-            0, // secondary
-            0, // throwable
-            0, // powerup - should always be 0
-        };
-
         private float m_lastUpdateElapsed = 0f;
         public void Update(float elapsed)
         {
@@ -111,7 +91,6 @@ namespace BotExtended.Bots
                 OnUpdate(m_lastUpdateElapsed);
                 m_lastUpdateElapsed = 0;
             }
-            UpdateWeaponStatus();
             UpdateInfectedEffect(elapsed);
             UpdateMeleeAttackPhrases();
 
@@ -161,7 +140,11 @@ namespace BotExtended.Bots
         public float CurrentAmmo
         {
             get { return GetCurrentAmmo(CurrentWeaponIndex); }
-            set { SetCurrentAmmo(CurrentWeaponIndex, value); }
+        }
+        public float CurrentTotalAmmo
+        {
+            get { return GetCurrentTotalAmmo(CurrentWeaponIndex); }
+            set { SetCurrentTotalAmmo(CurrentWeaponIndex, value); }
         }
 
         // TODO: remove
@@ -199,6 +182,23 @@ namespace BotExtended.Bots
                 case 1:
                     return Player.CurrentMeleeWeapon.Durability;
                 case 2:
+                    return Player.CurrentPrimaryWeapon.CurrentAmmo;
+                case 3:
+                    return Player.CurrentSecondaryWeapon.CurrentAmmo;
+                case 4:
+                    return Player.CurrentThrownItem.CurrentAmmo;
+            }
+            return 0;
+        }
+        public float GetCurrentTotalAmmo(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return Player.CurrentMeleeMakeshiftWeapon.MaxValue;
+                case 1:
+                    return Player.CurrentMeleeWeapon.MaxValue;
+                case 2:
                     return Player.CurrentPrimaryWeapon.TotalAmmo;
                 case 3:
                     return Player.CurrentSecondaryWeapon.TotalAmmo;
@@ -207,7 +207,7 @@ namespace BotExtended.Bots
             }
             return 0;
         }
-        public void SetCurrentAmmo(int currentWeaponIndex, float value)
+        public void SetCurrentTotalAmmo(int currentWeaponIndex, float value)
         {
             switch (currentWeaponIndex)
             {
@@ -227,37 +227,6 @@ namespace BotExtended.Bots
                     Player.SetCurrentThrownItemAmmo((int)value);
                     break;
             }
-        }
-
-        private void UpdateWeaponStatus()
-        {
-            for (var i = 0; i < m_prevWeapons.Count; i++)
-            {
-                if (GetCurrentWeapon(i) != m_prevWeapons[i])
-                {
-                    m_prevWeapons[i] = GetCurrentWeapon(i);
-                }
-            }
-
-            for (var i = 0; i < m_prevAmmo.Count; i++)
-            {
-                m_prevAmmo[i] = GetCurrentAmmo(i);
-            }
-        }
-
-        private GravityGun GetGravityGun()
-        {
-            var playerWeapon = PowerupManager.GetOrCreatePlayerWeapon(Player);
-            if (playerWeapon == null) return null;
-
-            if (playerWeapon.Primary.Powerup == RangedWeaponPowerup.Gravity
-                || playerWeapon.Primary.Powerup == RangedWeaponPowerup.GravityDE)
-                return (GravityGun)playerWeapon.Primary;
-            if (playerWeapon.Secondary.Powerup == RangedWeaponPowerup.Gravity
-                || playerWeapon.Secondary.Powerup == RangedWeaponPowerup.GravityDE)
-                return (GravityGun)playerWeapon.Secondary;
-
-            return null;
         }
 
         public void Decorate(IPlayer existingPlayer)

@@ -435,6 +435,22 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Agent79
+                case BotType.Agent79:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Amos
                 case BotType.Amos:
                 {

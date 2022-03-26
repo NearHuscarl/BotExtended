@@ -24,6 +24,8 @@ namespace BotExtended.Powerups
                         return new GravityGun(owner, name, powerup);
                     case RangedWeaponPowerup.Minigun:
                         return new MiniGun(owner, name);
+                    case RangedWeaponPowerup.Object:
+                        return new ObjectGun(owner, name);
                     case RangedWeaponPowerup.Taser:
                         return new TaserGun(owner, name);
                     default:

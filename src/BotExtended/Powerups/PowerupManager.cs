@@ -101,10 +101,9 @@ namespace BotExtended.Powerups
             foreach (var o in m_owners.ToList())
             {
                 var playerWpn = o.Value;
-                var currentRangeWpn = playerWpn.CurrentRangeWeapon;
 
-                if (currentRangeWpn != null)
-                    currentRangeWpn.Update(elapsed);
+                playerWpn.Primary.Update(elapsed);
+                playerWpn.Secondary.Update(elapsed);
 
                 var currentMeleeWpn = GetMeleeWpn(Game.GetPlayer(o.Key));
 

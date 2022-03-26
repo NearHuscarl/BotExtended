@@ -57,6 +57,22 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Agent79
+                case BotType.Agent79:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.BAZOOKA,
+                        PrimaryPowerup = RangedWeaponPowerup.Object,
+                        Secondary = WeaponItem.PISTOL,
+                        Throwable = WeaponItem.C4,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Amos
                 case BotType.Amos:
                 {

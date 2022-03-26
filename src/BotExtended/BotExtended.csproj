@@ -67,6 +67,7 @@
     <Compile Include="Powerups\MeleeWeapons\SplittingPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
+    <Compile Include="Powerups\RangeWeapons\ObjectGun.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrinkingProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\DelayGun.cs" />
     <Compile Include="Powerups\RangeWeapons\TermiteProjectile.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Bots\BalistaBot.cs" />
     <Compile Include="Bots\BalloonaticBot.cs" />
     <Compile Include="Bots\BoffinBot.cs" />
-    <Compile Include="Bots\Bot_GravityGunAI.cs" />
     <Compile Include="Bots\CindyBot.cs" />
     <Compile Include="Bots\CowboyBot.cs" />
     <Compile Include="Bots\CyborgBot.cs" />

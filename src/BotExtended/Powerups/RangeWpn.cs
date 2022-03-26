@@ -17,11 +17,13 @@ namespace BotExtended.Powerups
         public RangedWeaponPowerup Powerup { get; protected set; }
 
         virtual public float MaxRange { get { return float.MaxValue; } }
+        public bool DisableRangeCheck { get; protected set; }
 
         public RangeWpn(IPlayer owner) : this(owner, WeaponItem.NONE, RangedWeaponPowerup.None) { }
         public RangeWpn(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup)
             : base(owner, name)
         {
+            DisableRangeCheck = false;
             Powerup = powerup;
             _isElapsedCheckRange = ScriptHelper.WithIsElapsed(95);
             if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
@@ -40,6 +42,8 @@ namespace BotExtended.Powerups
             Powerup = RangedWeaponPowerup.None;
         }
 
+        public bool IsEquipping { get { return Owner.CurrentWeaponDrawn == Mapper.GetWeaponItemType(Name); } }
+
         private bool _oldManualAiming = false;
         private Func<bool> _isElapsedCheckRange;
         public override void Update(float elapsed)
@@ -51,7 +55,7 @@ namespace BotExtended.Powerups
             _oldManualAiming = Owner.IsManualAiming;
 
             // don't shoot if the enemy is too far away because some guns have limited range
-            if (Powerup != RangedWeaponPowerup.None && _isElapsedCheckRange())
+            if (!DisableRangeCheck && Powerup != RangedWeaponPowerup.None && _isElapsedCheckRange())
             {
                 foreach (var player in Game.GetPlayers())
                 {

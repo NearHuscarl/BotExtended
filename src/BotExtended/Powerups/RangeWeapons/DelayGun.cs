@@ -11,12 +11,10 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class DelayGun : RangeWpn
     {
-        public float ChargeModifier { get; private set; }
         public List<IProjectile> _projectiles = new List<IProjectile>();
 
         public override bool IsValidPowerup()
         {
-            Game.WriteToConsole(Name, Projectile.IsSlowProjectile(Mapper.GetProjectile(Name)));
             return !Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
         }
 
