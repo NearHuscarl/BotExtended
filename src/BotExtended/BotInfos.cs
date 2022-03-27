@@ -157,6 +157,11 @@ namespace BotExtended
                         botInfo.SearchItems = SearchItems.Primary | SearchItems.Secondary | SearchItems.Melee;
                         botInfo.SearchRange = WpnSearchRange.Nearby;
                     }
+                    if (botType == BotType.Punk)
+                    {
+                        botInfo.EquipWeaponChance = 1;
+                        botInfo.Modifiers.InfiniteAmmo = Constants.TOGGLE_ON;
+                    }
                     break;
                 }
                 #endregion

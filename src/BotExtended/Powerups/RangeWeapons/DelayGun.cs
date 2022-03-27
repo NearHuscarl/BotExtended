@@ -20,13 +20,13 @@ namespace BotExtended.Powerups.RangeWeapons
 
         public DelayGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Delay) { }
 
-        private bool _isReloading = false;
+        private bool _isManualAiming = false;
         public override void Update(float elapsed)
         {
             base.Update(elapsed);
 
-            if (!_isReloading && Owner.IsReloading || !IsEquipping && _projectiles.Count > 0) _projectiles.Clear();
-            _isReloading = Owner.IsReloading;
+            if (_isManualAiming && !Owner.IsManualAiming || !IsEquipping && _projectiles.Count > 0) _projectiles.Clear();
+            _isManualAiming = Owner.IsManualAiming;
 
             foreach (var p in _projectiles.ToList())
             {
