@@ -27,7 +27,6 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             Events.UpdateCallback.Start((e) =>
             {
-                Game.DrawText(_poisonedPlayers.Count.ToString(), Vector2.Zero);
                 foreach (var item in _poisonedPlayers.ToList())
                 {
                     var player = item.Player;
@@ -46,9 +45,10 @@ namespace BotExtended.Powerups.RangeWeapons
 
                     if (ScriptHelper.IsElapsed(item.LastStaggerTime, item.StaggerTime))
                     {
-                        ScriptHelper.KneelFall(player);
+                        if (RandomHelper.Boolean()) ScriptHelper.Fall2(player);
+                        else ScriptHelper.KneelFall2(player);
                         item.LastStaggerTime = Game.TotalElapsedGameTime;
-                        item.StaggerTime = RandomHelper.Between(1000, 3000);
+                        item.StaggerTime = RandomHelper.Between(2000, 4000);
                     }
                 }
             });

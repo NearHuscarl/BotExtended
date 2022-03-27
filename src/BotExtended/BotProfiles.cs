@@ -689,6 +689,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region President
+                case BotType.President:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fxj2jjo1L4ZY2n7Z2U4ZY0P4Z0QvZ
+                    profiles.Add(new IProfile() { Name = "Donald Trump", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin2", "ClothingLightGray"), Head = new IProfileClothingItem("Flatcap", "ClothingYellow"), ChestOver = new IProfileClothingItem("SuitJacketBlack", "ClothingDarkBlue"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingLightGray", "ClothingLightRed"), Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingDarkBlue"), Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkBlue"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Punk
                 case BotType.Punk:
                 {

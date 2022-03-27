@@ -1050,6 +1050,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region President
+                case BotType.President:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.FLAGPOLE,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Punk
                 case BotType.Punk:
                 {

@@ -1006,6 +1006,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss President
+                case BotType.President:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        EnergyRechargeModifier = EnergyRecharge.Slow,
+                        ImpactDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        SizeModifier = Size.Chonky,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Teddybear
                 case BotType.Teddybear:
                 {

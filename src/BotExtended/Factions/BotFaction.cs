@@ -60,6 +60,7 @@
         Boss_MirrorMan,
         Boss_Nadja,
         Boss_Ninja,
+        Boss_President,
         Boss_Rambo,
         Boss_Raze,
         Boss_Reznor,

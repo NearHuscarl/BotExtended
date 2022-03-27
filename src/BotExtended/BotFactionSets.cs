@@ -45,9 +45,11 @@ namespace BotExtended
 
                 #region Agent
                 case BotFaction.Boss_Agent79:
+                case BotFaction.Boss_President:
                 case BotFaction.Agent:
                 {
                     if (botFaction == BotFaction.Boss_Agent79) bosses.Add(new SubFaction(BotType.Agent79));
+                    if (botFaction == BotFaction.Boss_President) bosses.Add(new SubFaction(BotType.President));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Agent, 1f),

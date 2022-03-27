@@ -73,7 +73,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 dir == -1 ? iLeft.GetAABB().TopLeft : iRight.GetAABB().TopRight + Vector2.UnitY * 20,
                 dir == -1 ? iLeft.GetAABB().BottomLeft + Vector2.UnitX * 60 : iRight.GetAABB().BottomRight - Vector2.UnitX * 60
                 );
-            EarthquakePowerup.CreateEarthquake(eqArea);
+            ScriptHelper.CreateEarthquake(eqArea);
 
             oLifted.SetMass(.01f);
             var force = Math.Min((float)Math.Pow(oLifted.GetSizeFactor().X, 3) * .06f, 300);

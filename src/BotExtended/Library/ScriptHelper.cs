@@ -419,7 +419,7 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.StaticGround;
         }
 
-        public static IObject GetGroundObject(IObject aboveObject)
+        public static IObject GetGroundObject(IObject aboveObject, ushort categoryBits = CategoryBits.StaticGround)
         {
             var boundingBox = aboveObject.GetAABB();
             var start = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
@@ -427,7 +427,7 @@ namespace BotExtended.Library
             var results = Game.RayCast(start, end, new RayCastInput()
             {
                 FilterOnMaskBits = true,
-                MaskBits = CategoryBits.StaticGround,
+                MaskBits = categoryBits,
                 ClosestHitOnly = true,
                 IncludeOverlap = true,
             }).Where(r => r.HitObject != null);
@@ -567,23 +567,17 @@ namespace BotExtended.Library
                 Game.WriteToConsole(ex.StackTrace);
             }
         }
-        public async static void KneelFall(IPlayer player)
+        public static void Fall2(IPlayer player)
         {
-            try
+            Command(player, PlayerCommandType.Fall);
+        }
+        public static void KneelFall2(IPlayer player)
+        {
+            Command(player, new PlayerCommand[]
             {
-                await ExecuteSingleCommand(player, PlayerCommandType.DeathKneel)
-                    .ContinueWith((r) => ExecuteSingleCommand(player, PlayerCommandType.Fall));
-            }
-            catch (Exception ex)
-            {
-                if (Game.IsEditorTest)
-                {
-                    Game.ShowChatMessage(ex.Message);
-                    Game.ShowChatMessage(ex.StackTrace);
-                }
-                Game.WriteToConsole(ex.Message);
-                Game.WriteToConsole(ex.StackTrace);
-            }
+                new PlayerCommand(PlayerCommandType.DeathKneel, 0, 800),
+                new PlayerCommand(PlayerCommandType.Fall),
+            });
         }
 
         public static System.Threading.Tasks.Task<bool> ExecuteSingleCommand(
@@ -712,6 +706,43 @@ namespace BotExtended.Library
                 }
                 return true;
             });
+        }
+
+        public static void CreateEarthquake(Area area, IPlayer owner = null, float minForce = 3, float maxForce = 12)
+        {
+            var width = area.Width;
+            var center = area.Center;
+            var objects = Game.GetObjectsByArea(area);
+
+            Game.PlayEffect(EffectName.CameraShaker, center, 6f, 200f, false);
+            Game.PlaySound("Break", center, 150);
+
+            var groundObj = (IObject)null;
+            if (owner != null)
+                groundObj = GetGroundObject(owner, CategoryBits.DynamicG1);
+
+            foreach (var o in objects)
+            {
+                if (owner != null && o.UniqueID == owner.UniqueID) continue;
+
+                // stupid lamps can't be removed once destroyed
+                if (o.Name == "Lamp00")
+                {
+                    o.Remove();
+                    continue;
+                }
+                if (groundObj != null && groundObj.UniqueID == o.UniqueID) continue;
+                if (IsDynamicObject(o) || IsPlayer(o))
+                {
+                    if (IsPlayer(o)) Fall((IPlayer)o);
+
+                    var distance = Vector2.Distance(center, o.GetWorldPosition());
+                    var upVec = MathHelper.Lerp(maxForce, minForce, distance / (width / 2));
+                    o.SetLinearVelocity(new Vector2(RandomHelper.Between(-2, 2), upVec));
+                    o.SetAngularVelocity(RandomHelper.Between(-6, 6));
+                    o.DealDamage(1f);
+                }
+            }
         }
 
         public static Vector2 GetFarAwayPosition()

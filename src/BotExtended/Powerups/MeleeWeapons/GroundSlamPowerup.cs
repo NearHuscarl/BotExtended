@@ -183,7 +183,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                     hitObject.SetLinearVelocity(Vector2.UnitY * 12);
                     Game.PlaySound("Explosion", pos);
                     ScriptHelper.SplitTileObject(hitObject, pos);
-                    EarthquakePowerup.CreateEarthquake(ScriptHelper.GrowFromCenter(pos, 100, 50));
+                    ScriptHelper.CreateEarthquake(ScriptHelper.GrowFromCenter(pos, 100, 50));
                     return true;
                 }
             }

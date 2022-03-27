@@ -74,6 +74,7 @@
         Police,
         PoliceSWAT,
         
+        President,
         Rambo,
 
         // zombie infected survivors, turn into zombie after dying
