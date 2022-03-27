@@ -59,7 +59,7 @@ namespace BotExtended.Bots
             }
             if (Player.IsInMidAir && !Player.IsFalling && linearVec.Y <= 0 && _linearVelocity.Y > 0)
             {
-                if (RandomHelper.Boolean() || Game.IsEditorTest)
+                if (RandomHelper.Boolean())
                 {
                     ScriptHelper.Fall2(Player);
                 }

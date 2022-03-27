@@ -12,6 +12,7 @@
         GroundSlam,
         Megaton,
         Pushback,
+        Serious,
         Splitting,
     }
 }

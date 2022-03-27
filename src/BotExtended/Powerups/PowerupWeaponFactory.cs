@@ -61,6 +61,8 @@ namespace BotExtended.Powerups
                         return new MegatonPowerup(owner, name);
                     case MeleeWeaponPowerup.Pushback:
                         return new PushbackPowerup(owner, name);
+                    case MeleeWeaponPowerup.Serious:
+                        return new SeriousPowerup(owner, name);
                     case MeleeWeaponPowerup.Splitting:
                         return new SplittingPowerup(owner, name);
                     default:
