@@ -657,12 +657,13 @@ namespace BotExtended
                 case BotType.Funnyman:
                 {
                     botInfo.AIType = BotAI.Expert;
-                    botInfo.SearchItems = SearchItems.Primary | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups;
                     botInfo.SearchRange = WpnSearchRange.InSight;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Strong,
                         CurrentHealth = Health.Strong,
+                        MeleeDamageTakenModifier = DamageTaken.Resistant,
                         SizeModifier = Size.AboveNormal,
                     };
                     botInfo.IsBoss = true;

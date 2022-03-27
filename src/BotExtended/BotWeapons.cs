@@ -528,7 +528,12 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Megaton,
                         Primary = WeaponItem.TOMMYGUN,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Megaton,
                     });
                     break;
                 }

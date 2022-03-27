@@ -73,10 +73,6 @@ namespace BotExtended.Bots
                     bot = new FarmerBot(args);
                     break;
 
-                case BotType.Funnyman:
-                    bot = new FunnymanBot(args, player.IsBot ? new FunnymanBot_Controller() : null);
-                    break;
-
                 case BotType.Gangster:
                 case BotType.GangsterHulk:
                     bot = new GangsterBot(args);
