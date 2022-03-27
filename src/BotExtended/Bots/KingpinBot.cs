@@ -9,14 +9,14 @@ namespace BotExtended.Bots
 {
     public class KingpinBot : Bot
     {
-        private Controller<KingpinBot> m_controller;
+        private Controller<Bot> _controller;
 
-        public KingpinBot(BotArgs a, Controller<KingpinBot> controller) : base(a)
+        public KingpinBot(BotArgs a, Controller<Bot> controller) : base(a)
         {
             if (controller != null)
             {
-                m_controller = controller;
-                m_controller.Actor = this;
+                _controller = controller;
+                _controller.Actor = this;
             }
         }
 
@@ -27,7 +27,7 @@ namespace BotExtended.Bots
 
             if (Player.IsDead) return;
 
-            if (m_controller != null) m_controller.OnUpdate(elapsed);
+            if (_controller != null) _controller.OnUpdate(elapsed);
 
             // push objects away while sprinting
             var vec = Player.GetLinearVelocity();
@@ -54,8 +54,8 @@ namespace BotExtended.Bots
                     enemy.DealDamage(1.5f);
                     Game.PlayEffect(EffectName.MeleeHitBlunt, enemy.GetWorldPosition());
                     m_crushEnemyTime = Game.TotalElapsedGameTime;
+                    if (enemy.GetHealth() == 0) enemy.Gib();
                 }
-                if (enemy.GetHealth() == 0) enemy.Gib();
             }
         }
 

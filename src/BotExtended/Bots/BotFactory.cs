@@ -100,7 +100,7 @@ namespace BotExtended.Bots
                     break;
 
                 case BotType.Kingpin:
-                    bot = new KingpinBot(args, player.IsBot ? new KingpinBot_Controller() : null);
+                    bot = new KingpinBot(args, player.IsBot ? new InfiniteGrab_Controller() : null);
                     break;
 
                 case BotType.Kriegbar:
@@ -168,6 +168,10 @@ namespace BotExtended.Bots
 
                 case BotType.Babybear:
                     bot = new BabybearBot(args);
+                    break;
+
+                case BotType.ZombieEater:
+                    bot = new ZombieEaterBot(args, player.IsBot ? new InfiniteGrab_Controller() : null);
                     break;
 
                 case BotType.ZombieFat:

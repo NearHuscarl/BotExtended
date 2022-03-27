@@ -119,6 +119,7 @@
 
         // Tier3: Unearthed
         ZombiePrussian,
+        ZombieEater,
 
         ZombieSoldier,
         ZombieThug,
@@ -164,6 +165,5 @@
         SSOfficer,
         Teddybear,
         Babybear,
-        BaronVonHauptstein,
     }
 }

@@ -1541,26 +1541,7 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
-                        Melee = WeaponItem.AXE,
-                        MeleePowerup = MeleeWeaponPowerup.Earthquake,
-                        Powerup = WeaponItem.SLOWMO_10,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.LEAD_PIPE,
-                        MeleePowerup = MeleeWeaponPowerup.Earthquake,
-                        Powerup = WeaponItem.SLOWMO_10,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.BATON,
-                        MeleePowerup = MeleeWeaponPowerup.Earthquake,
-                        Powerup = WeaponItem.SLOWMO_10,
-                    });
-                    weapons.Add(new WeaponSet()
-                    {
-                        Melee = WeaponItem.BAT,
-                        MeleePowerup = MeleeWeaponPowerup.Earthquake,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Serious,
                         Powerup = WeaponItem.SLOWMO_10,
                     });
                     break;
@@ -1636,8 +1617,8 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region BaronVonHauptstein
-                case BotType.BaronVonHauptstein:
+                #region ZombieEater
+                case BotType.ZombieEater:
                 {
                     weapons.Add(new WeaponSet()
                     {

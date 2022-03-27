@@ -21,24 +21,26 @@ namespace BotExtended.Bots
             }
         }
 
-        private int m_oldHoldingPlayerInGrabID = 0;
+        private int _holdingPlayerInGrabID = 0;
         private bool IsThrowingFromGrab = false;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
+            if (Player.IsDead) return;
+
             if (m_controller != null)
                 m_controller.OnUpdate(elapsed);
 
-            if (Player.HoldingPlayerInGrabID != 0 && m_oldHoldingPlayerInGrabID == 0)
+            if (_holdingPlayerInGrabID == 0 && Player.HoldingPlayerInGrabID != 0)
             {
                 OnEnemyGrabbed(Game.GetPlayer(Player.HoldingPlayerInGrabID));
-                m_oldHoldingPlayerInGrabID = Player.HoldingPlayerInGrabID;
+                _holdingPlayerInGrabID = Player.HoldingPlayerInGrabID;
             }
-            if (Player.HoldingPlayerInGrabID == 0 && m_oldHoldingPlayerInGrabID != 0)
+            if (_holdingPlayerInGrabID != 0 && Player.HoldingPlayerInGrabID == 0)
             {
-                OnEnemyGetThrownFromGrab(Game.GetPlayer(m_oldHoldingPlayerInGrabID));
-                m_oldHoldingPlayerInGrabID = Player.HoldingPlayerInGrabID;
+                OnEnemyGetThrownFromGrab(Game.GetPlayer(_holdingPlayerInGrabID));
+                _holdingPlayerInGrabID = Player.HoldingPlayerInGrabID;
                 IsThrowingFromGrab = false;
             }
         }

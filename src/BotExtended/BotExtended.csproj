@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\ZombieEaterBot.cs" />
     <Compile Include="Bots\PresidentBot.cs" />
     <Compile Include="Bots\MutantBot.cs" />
     <Compile Include="Bots\BikerBot.cs" />
@@ -97,11 +98,9 @@
     <Compile Include="Bots\CyborgBot.cs" />
     <Compile Include="Bots\EngineerBot.cs" />
     <Compile Include="Bots\EngineerBot_Controller.cs" />
-    <Compile Include="Bots\FunnymanBot.cs" />
-    <Compile Include="Bots\FunnymanBot_Controller.cs" />
     <Compile Include="Bots\Controller.cs" />
     <Compile Include="Bots\HunterBot.cs" />
-    <Compile Include="Bots\KingpinBot_Controller.cs" />
+    <Compile Include="Bots\InfiniteGrab_Controller.cs" />
     <Compile Include="Bots\KriegbarBot_Controller.cs" />
     <Compile Include="Bots\MechaBot_Controller.cs" />
     <Compile Include="Bots\PoliceChiefBot.cs" />

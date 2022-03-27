@@ -91,7 +91,6 @@ namespace BotExtended.Powerups.MeleeWeapons
             var isElapsedPlayEffect = ScriptHelper.WithIsElapsed(75);
             ScriptHelper.RunUntil(() =>
             {
-                Game.DrawText(thrownObjects.Count + "", Owner.GetWorldPosition());
                 if (!isElapsedPlayEffect()) return;
                 
                 foreach (var o in thrownObjects.ToList())

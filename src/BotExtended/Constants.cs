@@ -36,7 +36,16 @@ namespace BotExtended
             WeaponItemType.Melee, WeaponItemType.Rifle, WeaponItemType.Handgun, WeaponItemType.Thrown, WeaponItemType.Powerup, WeaponItemType.InstantPickup,
         };
 
-        internal static string[] WeaponNames = new string[]
+        internal static readonly string[] Giblets = new string[]
+        {
+            "Giblet00",
+            "Giblet01",
+            "Giblet02",
+            "Giblet03",
+            "Giblet04",
+        };
+
+        internal static readonly string[] WeaponNames = new string[]
         {
             "WpnPistol",
             "WpnPistol45",

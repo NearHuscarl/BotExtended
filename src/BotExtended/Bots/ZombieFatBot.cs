@@ -1,6 +1,5 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
-using System.Collections.Generic;
 using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
@@ -8,14 +7,6 @@ namespace BotExtended.Bots
     public class ZombieFatBot : Bot
     {
         private static readonly int InfectRadius = 30;
-        private static readonly List<string> Giblets = new List<string>()
-        {
-            "Giblet00",
-            "Giblet01",
-            "Giblet02",
-            "Giblet03",
-            "Giblet04",
-        };
 
         public ZombieFatBot(BotArgs args) : base(args) { }
 
@@ -42,7 +33,7 @@ namespace BotExtended.Bots
 
             for (var i = 0; i < 5; i++)
             {
-                Game.CreateObject(RandomHelper.GetItem(Giblets), RandomHelper.WithinArea(hitbox),
+                Game.CreateObject(RandomHelper.GetItem(Constants.Giblets), RandomHelper.WithinArea(hitbox),
                     RandomHelper.Between(0, MathHelper.TwoPI));
                 Game.PlayEffect(EffectName.Gib, RandomHelper.WithinArea(hitbox));
             }

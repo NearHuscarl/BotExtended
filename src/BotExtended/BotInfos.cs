@@ -1191,6 +1191,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss ZombieEater
+                case BotType.ZombieEater:
+                {
+                    botInfo.AIType = BotAI.ZombieFighter;
+                    botInfo.Name = "Gluttonous Zombie";
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        RunSpeedModifier = Speed.VeryFast,
+                        SprintSpeedModifier = Speed.VeryFast,
+                        SizeModifier = Size.Small,
+                    };
+                    botInfo.IsBoss = true;
+                    botInfo.ZombieStatus = ZombieStatus.Zombie;
+                    break;
+                }
+                #endregion
+
                 #region Boss ZombieFighter
                 case BotType.ZombieFighter:
                 {

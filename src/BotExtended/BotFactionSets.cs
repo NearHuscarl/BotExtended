@@ -692,16 +692,17 @@ namespace BotExtended
                 #endregion
 
                 #region Boss_Zombie
-                case BotFaction.Boss_Zombie:
+                case BotFaction.Boss_ZombieEater:
+                case BotFaction.Boss_ZombieFighter:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
+                    if (botFaction == BotFaction.Boss_ZombieEater) bosses.Add(new SubFaction(BotType.ZombieEater));
+                    if (botFaction == BotFaction.Boss_ZombieFighter) bosses.Add(new SubFaction(BotType.ZombieFighter));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
-                        new SubFaction(BotType.ZombieFighter),
                         new SubFaction(CommonZombieTypes, 1f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
-                        new SubFaction(BotType.ZombieFighter),
                         new SubFaction(CommonZombieTypes, 0.7f),
                         new SubFaction(MutatedZombieTypes, 0.3f),
                     });

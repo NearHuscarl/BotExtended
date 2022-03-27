@@ -7,28 +7,25 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
-    class KingpinBot_Controller : Controller<KingpinBot>
+    public class InfiniteGrab_Controller : Controller<Bot>
     {
         private bool _isHoldingPlayerInGrab = false;
         public override void OnUpdate(float elapsed)
         {
-            if (Player.IsHoldingPlayerInGrab && Player.IsInputEnabled)
-            {
-                Player.SetInputEnabled(false);
-            }
-
             if (Player.IsHoldingPlayerInGrab)
             {
+                if (Player.IsInputEnabled)
+                    Player.SetInputEnabled(false);
+
                 var grabbedPlayer = Game.GetPlayer(Player.HoldingPlayerInGrabID);
-                if (grabbedPlayer == null || grabbedPlayer.IsDead)
+                if (grabbedPlayer.IsRemoved)
                     Player.SetInputEnabled(true);
             }
 
-            if (_isHoldingPlayerInGrab != Player.IsHoldingPlayerInGrab)
+            if (_isHoldingPlayerInGrab && !Player.IsHoldingPlayerInGrab)
             {
-                if (!Player.IsHoldingPlayerInGrab)
-                    if (!Player.IsInputEnabled)
-                        Player.SetInputEnabled(true);
+                if (!Player.IsInputEnabled)
+                    Player.SetInputEnabled(true);
             }
 
             _isHoldingPlayerInGrab = Player.IsHoldingPlayerInGrab;

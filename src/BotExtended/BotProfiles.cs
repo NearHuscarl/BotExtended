@@ -1154,20 +1154,12 @@ namespace BotExtended
 
                 #region ZombiePrussian
                 case BotType.ZombiePrussian:
+                case BotType.ZombieEater:
                 {
                     // https://profile-editor.vercel.app?p=M3sZZ1k3j3b6ZY0q6ZYYY2G3Z
                     profiles.Add(new IProfile() { Name = "Zombie Prussian", Gender = Gender.Male, Skin = new IProfileClothingItem("Zombie", ""), Head = new IProfileClothingItem("SpikedHelmet", "ClothingCyan"), ChestUnder = new IProfileClothingItem("LeatherJacketBlack", "ClothingCyan", "ClothingLightGray"), Legs = new IProfileClothingItem("TornPants", "ClothingDarkCyan"), Feet = new IProfileClothingItem("BootsBlack", "ClothingDarkCyan"), });
                     // https://profile-editor.vercel.app?p=M3sZZ3d6Z3b6ZY0q6ZY0S3kY2G3Z
                     profiles.Add(new IProfile() { Name = "Zombie Prussian", Gender = Gender.Male, Skin = new IProfileClothingItem("Zombie", ""), Head = new IProfileClothingItem("SpikedHelmet", "ClothingCyan"), ChestUnder = new IProfileClothingItem("TornShirt", "ClothingDarkCyan"), Legs = new IProfileClothingItem("TornPants", "ClothingDarkCyan"), Feet = new IProfileClothingItem("BootsBlack", "ClothingDarkCyan"), Accesory = new IProfileClothingItem("GasMask", "ClothingCyan", "ClothingLightGreen"), });
-                    break;
-                }
-                #endregion
-
-                #region BaronVonHauptstein
-                case BotType.BaronVonHauptstein:
-                {
-                    // https://profile-editor.vercel.app?p=M3sZZ3d6Z3b6ZY0q6ZY0S3kY2G3Z
-                    profiles.Add(new IProfile() { Name = "Baron von Hauptstein", Gender = Gender.Male, Skin = new IProfileClothingItem("Zombie", ""), Head = new IProfileClothingItem("SpikedHelmet", "ClothingCyan"), ChestUnder = new IProfileClothingItem("TornShirt", "ClothingDarkCyan"), Legs = new IProfileClothingItem("TornPants", "ClothingDarkCyan"), Feet = new IProfileClothingItem("BootsBlack", "ClothingDarkCyan"), Accesory = new IProfileClothingItem("GasMask", "ClothingCyan", "ClothingLightGreen"), });
                     break;
                 }
                 #endregion

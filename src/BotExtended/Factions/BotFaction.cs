@@ -68,6 +68,7 @@
         Boss_Sheriff,
         Boss_Smoker,
         Boss_Teddybear,
-        Boss_Zombie,
+        Boss_ZombieFighter,
+        Boss_ZombieEater,
     }
 }
