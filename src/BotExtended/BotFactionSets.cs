@@ -308,9 +308,11 @@ namespace BotExtended
 
                 #region Punk
                 case BotFaction.Boss_Balista:
+                case BotFaction.Boss_Beast:
                 case BotFaction.Punk:
                 {
                     if (botFaction == BotFaction.Boss_Balista) bosses.Add(new SubFaction(BotType.Balista));
+                    if (botFaction == BotFaction.Boss_Beast) bosses.Add(new SubFaction(BotType.Beast));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Punk, 1f),

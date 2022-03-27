@@ -176,6 +176,20 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Beast
+                case BotType.Beast:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.MACHETE,
+                        MeleePowerup = MeleeWeaponPowerup.Earthquake,
+                        Throwable = WeaponItem.C4,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Biker
                 case BotType.Biker:
                 {

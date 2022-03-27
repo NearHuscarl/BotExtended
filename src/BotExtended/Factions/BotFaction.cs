@@ -38,6 +38,7 @@
         Boss_Balista,
         Boss_Balloonatic,
         Boss_BazookaJane,
+        Boss_Beast,
         Boss_BigMutant,
         Boss_Bobby,
         Boss_Boffin,

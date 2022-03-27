@@ -26,7 +26,7 @@ namespace BotExtended
                 case BotType.Agent79:
                 {
                     // https://profile-editor.vercel.app?p=M38yg367Z2H7Z0ieg0qeZ13ZZ01Zl10eZ0QeZ
-                    profiles.Add(new IProfile() { Name = "Agent79", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightBlue"), Head = new IProfileClothingItem("Flatcap", "ClothingGray"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightBlue"), Legs = new IProfileClothingItem("StripedPants", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("AgentSunglasses", "", "ClothingLightOrange"), });
+                    profiles.Add(new IProfile() { Name = "Agent 79", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightBlue"), Head = new IProfileClothingItem("Flatcap", "ClothingGray"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightBlue"), Legs = new IProfileClothingItem("StripedPants", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("AgentSunglasses", "", "ClothingLightOrange"), });
                     break;
                 }
                 #endregion
@@ -104,6 +104,15 @@ namespace BotExtended
                 {
                     // https://profile-editor.vercel.app?p=F1Gwj2zpZ1M6Z2B2j0q1Z1ydo2XZj0O7Z004Z
                     profiles.Add(new IProfile() { Name = "Balista", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin1", "ClothingLightGray"), Head = new IProfileClothingItem("Afro", "ClothingDarkBlue"), ChestOver = new IProfileClothingItem("MilitaryJacket_fem", "ClothingDarkYellow", "ClothingLightRed"), ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingLightYellow"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray"), Waist = new IProfileClothingItem("SmallBelt_fem", "ClothingBrown", "ClothingLightGray"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkCyan"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("SunGlasses", "", "ClothingLightGray"), });
+                    break;
+                }
+                #endregion
+
+                #region Beast
+                case BotType.Beast:
+                {
+                    // https://profile-editor.vercel.app?p=M1FwjY1K1Z2A6j0qsZ3j4411ZZ0PsZY
+                    profiles.Add(new IProfile() { Name = "The Beast", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin1", "ClothingLightGray"), ChestOver = new IProfileClothingItem("Vest", "ClothingDarkBlue", "ClothingDarkBlue"), Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingPurple"), Waist = new IProfileClothingItem("SmallBelt", "ClothingDarkCyan", "ClothingLightGray"), Legs = new IProfileClothingItem("Pants", "ClothingBlue"), Feet = new IProfileClothingItem("BootsBlack", "ClothingPurple"), Accesory = new IProfileClothingItem("GoalieMask", ""), });
                     break;
                 }
                 #endregion

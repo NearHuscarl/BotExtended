@@ -535,6 +535,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Beast
+                case BotType.Beast:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.ExtremelyStrong,
+                        CurrentHealth = Health.ExtremelyStrong,
+                        EnergyConsumptionModifier = 0,
+                        SizeModifier = Size.ExtremelyBig,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Bobby
                 case BotType.Bobby:
                 {
@@ -583,6 +601,8 @@ namespace BotExtended
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
                         MeleeForceModifier = MeleeForce.Strong,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
                         SizeModifier = Size.AboveNormal,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };

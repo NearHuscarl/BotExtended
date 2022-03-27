@@ -11,11 +11,9 @@
         // Tier1: Subway Shakedown
         Agent, // Smart agent, weak weapon
                // Tier2: Piston Posse, Tower Trouble
-        Agent79,
 
         // Tier1: High Moon Holdout
         Bandido,
-        BazookaJane,
 
         // Tier1: Police Station Punchout, Warehouse Wreckage
         // Tier2: Bar Brawl
@@ -26,7 +24,6 @@
         Bodyguard,
         Bodyguard2, // heavy bodyguard
 
-        Chairman,
         Cyborg, // grunt robot
 
         LabAssistant,
@@ -43,7 +40,6 @@
         Elf,
         Engineer,
         Farmer,
-        Fireman,
         // Tier1: Heavy Hostility
         // Tier2: Trainyard Takedown, Alley Bombardment
         // Tier3: Meatgrinder Begins
@@ -51,7 +47,6 @@
         // Tier1: The Teahouse Job, Heavy Hostility
         GangsterHulk,
         Gardener,
-        Hitman,
         Hunter,
         Lumberjack,
 
@@ -61,8 +56,6 @@
 
         // Tier2: Plant 47 Panic
         Mutant,
-        BigMutant,
-        Nadja,
 
         NaziLabAssistant,
         NaziMuscleSoldier,
@@ -73,9 +66,6 @@
         // Tier3: Police Station Escape!
         Police,
         PoliceSWAT,
-        
-        President,
-        Rambo,
 
         // zombie infected survivors, turn into zombie after dying
         SurvivorBiker,
@@ -110,7 +100,6 @@
         ZombieBruiser,
         ZombieChild,
         ZombieFat,
-        ZombieFighter,
         ZombieFlamer,
         // Tier1: Chemical Crisis
         ZombieGangster,
@@ -119,28 +108,34 @@
 
         // Tier3: Unearthed
         ZombiePrussian,
-        ZombieEater,
 
         ZombieSoldier,
         ZombieThug,
         ZombieWorker,
 
         // ---BOSS---
+        Agent79,
         Amos,
         Balista,
         Balloonatic,
+        BazookaJane,
+        Beast,
+        BigMutant,
         Bobby,
         Boffin,
+        Chairman,
         Cindy,
         // Tier1: The Teahouse Job
         // Tier2: Alley Bombardment, Rocket Rider
         // Tier3: Rocket Rider 2
         Demolitionist,
         Jo,
+        Fireman,
         Fritzliebe,
         Funnyman,
         Hacker,
         Handler,
+        Hitman,
 
         Incinerator,
         Pyromaniac,
@@ -154,8 +149,11 @@
         Meatgrinder,
         Mecha,
         MirrorMan,
+        Nadja,
         Ninja,
         PoliceChief,
+        President,
+        Rambo,
         Raze,
         Reznor,
         // Tier3: Holiday Hullabaloo
@@ -165,5 +163,7 @@
         SSOfficer,
         Teddybear,
         Babybear,
+        ZombieEater,
+        ZombieFighter,
     }
 }
