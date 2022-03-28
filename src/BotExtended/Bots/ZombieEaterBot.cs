@@ -45,12 +45,22 @@ namespace BotExtended.Bots
             // because you cannot grab your own teammate
             if (ScriptHelper.SameTeam(foodNearby, Player))
             {
+                foodNearby.SetInputEnabled(false);
                 foodNearby.SetTeam(PlayerTeam.Independent);
-                ScriptHelper.Timeout(() =>
+                foodNearby.SetNametagVisible(false);
+
+                // don't let teammate hit and drop the food
+                ScriptHelper.RunIf(() => foodNearby.SetTeam(Player.GetTeam()), () => !Player.IsRemoved && Player.HoldingPlayerInGrabID != 0 || Player.IsInputEnabled);
+                ScriptHelper.RunIf(() =>
                 {
                     // grab failed
-                    if (Player.HoldingPlayerInGrabID != foodNearby.UniqueID) foodNearby.SetTeam(Player.GetTeam());
-                }, 1200);
+                    if (!foodNearby.IsDead)
+                    {
+                        foodNearby.SetTeam(Player.GetTeam());
+                        foodNearby.SetNametagVisible(true);
+                        foodNearby.SetInputEnabled(true);
+                    }
+                }, () => Player.IsRemoved || Player.IsInputEnabled);
             }
 
             _grabTimeout = Game.TotalElapsedGameTime;
@@ -68,14 +78,14 @@ namespace BotExtended.Bots
             if (Player.FacingDirection > 0)
             {
                 area.Left += area.Width;
-                area.Right += area.Width + 10;
+                area.Right += area.Width + 15;
             }
             if (Player.FacingDirection < 0)
             {
                 area.Right -= area.Width;
-                area.Left -= area.Width - 10;
+                area.Left -= (area.Width + 15);
             }
-            return Game.GetPlayers().Where(p => area.Intersects(p.GetAABB()) && Vector2.Distance(center, p.GetAABB().Center) > 10);
+            return Game.GetPlayers().Where(p => area.Intersects(p.GetAABB()));
         }
 
         private int _holdingPlayerInGrabID = 0;
@@ -86,10 +96,6 @@ namespace BotExtended.Bots
             if (_holdingPlayerInGrabID == 0 && Player.HoldingPlayerInGrabID != 0)
             {
                 OnEnemyGrabbed(Player.HoldingPlayerInGrabID);
-            }
-            if (_holdingPlayerInGrabID != 0 && Player.HoldingPlayerInGrabID == 0)
-            {
-                OnEnemyGetThrownFromGrab(Player.HoldingPlayerInGrabID);
             }
             if (Player.IsHoldingPlayerInGrab && _isElapsedEat())
             {
@@ -105,44 +111,54 @@ namespace BotExtended.Bots
 
                     if (_lostGiblets == Constants.Giblets.Length)
                     {
-                        enemy.Gib();
-                        _lostGiblets = 0;
+                        ConsumeFood(enemy);
+                        return;
                     }
                 }
+            }
+            if (_holdingPlayerInGrabID != 0 && Player.HoldingPlayerInGrabID == 0)
+            {
+                OnEnemyDroppedFromGrab();
             }
 
             _holdingPlayerInGrabID = Player.HoldingPlayerInGrabID;
         }
 
-        private int _meleeImmunity = -1;
+        private PlayerModifiers _newModifiers;
         private void OnEnemyGrabbed(int playerID)
         {
             var grabbedBot = BotManager.GetBot(playerID);
             var mod = grabbedBot.Player.GetModifiers();
-            var sizeDiff = mod.SizeModifier - Size.Tiny;
+            var sizeDiff = Math.Min(mod.SizeModifier - Size.Tiny, 0.25f);
 
-            mod.SizeModifier = Size.Tiny;
-            grabbedBot.SetModifiers(mod, true);
+            _newModifiers = Player.GetModifiers();
+            _newModifiers.SizeModifier += sizeDiff;
+            _newModifiers.MeleeDamageTakenModifier -= 0.05f;
+            _newModifiers.MeleeDamageDealtModifier += 0.05f;
+            _newModifiers.MeleeForceModifier = Math.Min(_newModifiers.MeleeForceModifier + 0.15f, MeleeForce.UltraStrong);
+            _newModifiers.RunSpeedModifier -= 0.1f;
+            _newModifiers.SprintSpeedModifier -= 0.1f;
 
-            mod = Player.GetModifiers();
-            _meleeImmunity = mod.MeleeStunImmunity;
-            if (mod.SizeModifier == Size.Chonky) Player.SetStrengthBoostTime(10000);
-            mod.MeleeStunImmunity = Constants.TOGGLE_ON;
-            mod.SizeModifier += sizeDiff;
-            mod.MaxHealth += 20;
-            mod.CurrentHealth += 20;
-            mod.MeleeDamageTakenModifier -= 0.05f;
-            mod.MeleeDamageDealtModifier += 0.05f;
-            mod.RunSpeedModifier -= 0.1f;
-            mod.SprintSpeedModifier -= 0.1f;
-            SetModifiers(mod, true);
+            var mod2 = Player.GetModifiers();
+            mod2.MeleeStunImmunity = Constants.TOGGLE_ON;
+            SetModifiers(mod2);
         }
 
-        private void OnEnemyGetThrownFromGrab(int playerID)
+        private void OnEnemyDroppedFromGrab()
         {
-            var mod = Player.GetModifiers();
-            mod.MeleeStunImmunity = _meleeImmunity;
-            SetModifiers(mod, true);
+            _lostGiblets = 0;
+            ResetModifiers();
+            _grabTimeout = Game.TotalElapsedGameTime;
+        }
+
+        private void ConsumeFood(IPlayer food)
+        {
+            food.Gib();
+            _lostGiblets = 0;
+            if (Player.GetModifiers().SizeModifier == Size.Chonky) Player.SetStrengthBoostTime(10000);
+            SetHealth(Player.GetHealth() + 20, true);
+            SetModifiers(_newModifiers, true);
+            _grabTimeout = Game.TotalElapsedGameTime;
         }
     }
 }

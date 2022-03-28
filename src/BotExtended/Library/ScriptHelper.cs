@@ -63,7 +63,7 @@ namespace BotExtended.Library
             Events.UpdateCallback.Start(e => callback.Invoke(), interval, 1);
         }
 
-        public static void RunIn(Action callback, int ms)
+        public static Events.UpdateCallback RunIn(Action callback, int ms, Action onTimeout = null, uint interval = 0)
         {
             var timeStarted = Game.TotalElapsedGameTime;
             var cb = (Events.UpdateCallback)null;
@@ -71,8 +71,14 @@ namespace BotExtended.Library
             cb = Events.UpdateCallback.Start(e =>
             {
                 callback.Invoke();
-                if (IsElapsed(timeStarted, ms)) cb.Stop();
-            });
+                if (IsElapsed(timeStarted, ms))
+                {
+                    if (onTimeout != null) onTimeout();
+                    cb.Stop();
+                }
+            }, interval);
+
+            return cb;
         }
 
         public static void RunUntil(Action callback, Func<bool> stopCondition, Action cleanup = null)
@@ -89,17 +95,17 @@ namespace BotExtended.Library
             });
         }
 
-        public static void RunIf(Action callback, Func<bool> If, uint interval = 0, ushort count = 10000)
+        public static void RunIf(Action callback, Func<bool> If, int timeout = 10000, Action onTimeout = null, uint interval = 0)
         {
             var cb = (Events.UpdateCallback)null;
-            cb = Events.UpdateCallback.Start(e =>
+            cb = RunIn(() =>
             {
                 if (If())
                 {
                     callback.Invoke();
                     cb.Stop();
                 }
-            }, interval, count);
+            }, timeout, onTimeout, interval);
         }
 
         public static bool IsElapsed(float timeStarted, float timeToElapse)
@@ -668,6 +674,11 @@ namespace BotExtended.Library
             if (player.IsInputEnabled) player.SetInputEnabled(false);
 
             var HasQueuedCommands = WithHasQueuedCommands(player);
+            Action OnTimeout = () =>
+            {
+                player.SetInputEnabled(true);
+                promise.TrySetResult(false);
+            };
 
             RunIf(() =>
             {
@@ -677,8 +688,8 @@ namespace BotExtended.Library
                 {
                     player.SetInputEnabled(true);
                     promise.TrySetResult(true);
-                }, If: () => player.IsDead || !HasQueuedCommands());
-            }, If: () => !player.IsDead && !HasQueuedCommands());
+                }, If: () => player.IsDead || !HasQueuedCommands(), timeout: 2000, onTimeout: OnTimeout);
+            }, If: () => !player.IsDead && !HasQueuedCommands(), timeout: 2000, onTimeout: OnTimeout);
 
             return promise.Task;
         }
