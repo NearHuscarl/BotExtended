@@ -50,7 +50,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (dArgs.DamageType == PlayerDamageEventType.Fall)
                 {
                     var pBox = player.GetAABB();
-                    var hitObjects = Game.GetObjectsByArea(ScriptHelper.GrowFromCenter(pBox.Center, pBox.Width + 1, pBox.Height));
+                    var hitObjects = Game.GetObjectsByArea(ScriptHelper.Grow(pBox, 1));
                     
                     player.SetHealth(Math.Min(oldHealth, player.GetHealth() + dArgs.Damage)); // undo impact damage
                     foreach (var hitObject in hitObjects)

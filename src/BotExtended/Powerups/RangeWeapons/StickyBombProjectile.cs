@@ -118,13 +118,13 @@ namespace BotExtended.Powerups.RangeWeapons
                 || TotalDistanceTraveled >= 15 && currentVec.Length() <= 1)
             {
                 TargetedObject = Game.GetObjectsByArea(Instance.GetAABB())
-                    .Where(o => o.UniqueID != Instance.UniqueID && ScriptHelper.IsInteractiveObject(o))
+                    .Where(o => o.UniqueID != Instance.UniqueID && ScriptHelper.IsActiveObject(o))
                     .FirstOrDefault();
 
                 if (TargetedObject != null)
                 {
                     m_timeElasped = Game.TotalElapsedGameTime;
-                    TargetedPlayer = ScriptHelper.CastPlayer(TargetedObject);
+                    TargetedPlayer = ScriptHelper.AsPlayer(TargetedObject);
 
                     if (TargetedPlayer != null)
                     {

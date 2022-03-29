@@ -83,8 +83,7 @@ namespace BotExtended.Powerups.RangeWeapons
             // m_invisibleMagnet is a static object so the corresponding TargetObjectJoint need to be moved manually too
             m_magnetJoint.SetWorldPosition(holdPosition);
 
-            if (TargetedObject != null)
-                TryStabilizeTargetedObject(holdPosition);
+            TryStabilizeTargetedObject(holdPosition);
 
             if (Game.IsEditorTest)
             {
@@ -116,6 +115,8 @@ namespace BotExtended.Powerups.RangeWeapons
 
         private void TryStabilizeTargetedObject(Vector2 holdPosition)
         {
+            if (TargetedObject == null) return;
+
             var results = RayCastTargetedObject(false);
             var stabilizedZone = GetStabilizedZone(holdPosition);
 
@@ -147,12 +148,8 @@ namespace BotExtended.Powerups.RangeWeapons
             }
             else
             {
-                var player = ScriptHelper.CastPlayer(TargetedObject);
-                if (player != null && !player.IsStaggering)
-                {
-                    // Not sure why StaggerInfinite is not infinite!
-                    player.AddCommand(new PlayerCommand(PlayerCommandType.StaggerInfinite));
-                }
+                var player = ScriptHelper.AsPlayer(TargetedObject);
+                if (player != null && !player.IsFalling) Command(player, PlayerCommandType.Fall);
             }
         }
 
@@ -172,12 +169,9 @@ namespace BotExtended.Powerups.RangeWeapons
                 m_invisibleMagnet.Remove();
             }
 
-            var player = ScriptHelper.CastPlayer(TargetedObject);
+            var player = ScriptHelper.AsPlayer(TargetedObject);
             if (player != null)
-            {
-                player.AddCommand(new PlayerCommand(PlayerCommandType.StopStagger));
                 player.SetInputEnabled(true);
-            }
 
             m_pullJoint.SetTargetObject(null);
 
@@ -311,14 +305,11 @@ namespace BotExtended.Powerups.RangeWeapons
             return pullJoint;
         }
 
-        private void MakePlayer(IPlayer player, PlayerCommandType CommandType)
+        private void Command(IPlayer player, PlayerCommandType CommandType)
         {
-            var faceDirection = player.GetWorldPosition().X > GetHoldPosition(false).X
-                ? PlayerCommandFaceDirection.Right : PlayerCommandFaceDirection.Left;
+            if (player == null) return;
             player.SetInputEnabled(false);
-            // some command like Stagger not working without this line
-            player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, faceDirection));
-            ScriptHelper.Timeout(() => player.AddCommand(new PlayerCommand(CommandType)), 2);
+            player.AddCommand(new PlayerCommand(CommandType));
         }
 
         private CollisionFilter m_oldCollisionFilter;
@@ -338,8 +329,7 @@ namespace BotExtended.Powerups.RangeWeapons
                     // if is player, make them staggering
                     if (result.IsPlayer)
                     {
-                        var player = (IPlayer)TargetedObject;
-                        MakePlayer(player, PlayerCommandType.StaggerInfinite);
+                        Command(ScriptHelper.AsPlayer(TargetedObject), PlayerCommandType.StaggerInfinite);
                     }
 
                     // destroy Joints so hanging stuff can be pulled
@@ -383,7 +373,7 @@ namespace BotExtended.Powerups.RangeWeapons
                 {
                     var result = results.First();
                     TargetedObject = result.HitObject;
-                    if (result.IsPlayer) MakePlayer((IPlayer)result.HitObject, PlayerCommandType.Fall);
+                    if (result.IsPlayer) ScriptHelper.Fall2(ScriptHelper.AsPlayer(result.HitObject));
                 }
             }
 
@@ -392,22 +382,6 @@ namespace BotExtended.Powerups.RangeWeapons
                 var velocity = Owner.AimVector * 40;
 
                 TargetedObject.SetLinearVelocity(velocity);
-
-                // PS: I dont like the effects, uncomment if you want to see it
-                //m_releasedObject = m_targetedObject;
-                //m_stopPlayingReleaseEffect = true;
-                //ScriptHelper.RunIn(() =>
-                //{
-                //    if (m_releasedObject.IsRemoved) return;
-
-                //    Game.PlayEffect(EffectName.BulletSlowmoTrace, m_releasedObject.GetWorldPosition());
-                //    for (var i = 0; i < 1; i++)
-                //    {
-                //        var effectPosition = ScriptHelerp.WithinArea(m_releasedObject.GetAABB());
-                //        Game.PlayEffect(EffectName.ItemGleam, effectPosition);
-                //    }
-                //}, 1);
-
                 StopStabilizingTargetedObject();
             }
         }

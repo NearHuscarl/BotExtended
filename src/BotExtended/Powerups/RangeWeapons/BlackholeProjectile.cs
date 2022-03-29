@@ -206,8 +206,8 @@ namespace BotExtended.Powerups.RangeWeapons
         private void UpdateObjectsStatus()
         {
             var filterArea = ScriptHelper.GrowFromCenter(HoverPosition, SuckRadius * 2);
-            var objectsInArea = Game.GetObjectsByArea(filterArea, PhysicsLayer.Active)
-                .Where(o => (ScriptHelper.IsDynamicObject(o) || ScriptHelper.IsPlayer(o)));
+            var objectsInArea = Game.GetObjectsByArea(filterArea)
+                .Where(ScriptHelper.IsInteractiveObject);
 
             var objectInSuckRadius = objectsInArea
                 .Where((p) => ScriptHelper.IntersectCircle(p.GetAABB(), HoverPosition, SuckRadius)).ToList();
@@ -359,7 +359,7 @@ namespace BotExtended.Powerups.RangeWeapons
 
         private void Pull(IObject o, bool isBlockedByWall)
         {
-            var player = ScriptHelper.CastPlayer(o);
+            var player = ScriptHelper.AsPlayer(o);
 
             if (player != null)
                 ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 20, GetStaggerDirection(player));

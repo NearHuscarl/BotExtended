@@ -130,24 +130,6 @@ namespace BotExtended.Library
             };
         }
 
-        public static bool SpawnerHasPlayer(IObject spawner, IPlayer[] players)
-        {
-            // Player position y: -20 || +9
-            // => -21 -> +10
-            // Player position x: unchange
-            foreach (var player in players)
-            {
-                var playerPosition = player.GetWorldPosition();
-                var spawnerPosition = spawner.GetWorldPosition();
-
-                if (spawnerPosition.Y - 21 <= playerPosition.Y && playerPosition.Y <= spawnerPosition.Y + 10
-                    && spawnerPosition.X == playerPosition.X)
-                    return true;
-            }
-
-            return false;
-        }
-
         public static void MakeInvincible(IPlayer player)
         {
             if (player != null)
@@ -353,7 +335,6 @@ namespace BotExtended.Library
             var area = new Area(min, max); area.Normalize(); return area;
         }
 
-
         public static System.Reflection.MethodBase GetMethodInfo(int skipFrames)
         {
             return new System.Diagnostics.StackFrame(skipFrames).GetMethod();
@@ -393,14 +374,14 @@ namespace BotExtended.Library
             return users.Count() == i;
         }
 
-        // Never use is keyword to check if IObject is IPlayer. it's extremely slow
+        // Never use is keyword to check if IObject is IPlayer. it's slow
         public static bool IsPlayer(IObject obj)
         {
             if (obj == null) return false;
             return obj.GetCollisionFilter().CategoryBits == CategoryBits.Player;
         }
         // A faster cast player (dont use as/is)
-        public static IPlayer CastPlayer(IObject obj)
+        public static IPlayer AsPlayer(IObject obj)
         {
             if (obj == null) return null;
             return Game.GetPlayer(obj.UniqueID);
@@ -415,6 +396,15 @@ namespace BotExtended.Library
         }
 
         public static bool IsInteractiveObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic
+                || cf.CategoryBits == CategoryBits.Player;
+        }
+
+        public static bool IsActiveObject(IObject obj)
         {
             var cf = obj.GetCollisionFilter();
             return cf.CategoryBits == CategoryBits.DynamicG1
@@ -737,9 +727,9 @@ namespace BotExtended.Library
                 if (owner != null && o.UniqueID == owner.UniqueID) continue;
 
                 if (groundObj != null && groundObj.UniqueID == o.UniqueID) continue;
-                if (IsDynamicObject(o) || IsPlayer(o))
+                if (IsInteractiveObject(o))
                 {
-                    if (IsPlayer(o)) Fall((IPlayer)o);
+                    Fall(AsPlayer(o));
 
                     var distance = Vector2.Distance(center, o.GetWorldPosition());
                     var upVec = MathHelper.Lerp(maxForce, minForce, distance / (width / 2));

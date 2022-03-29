@@ -28,10 +28,11 @@ namespace BotExtended.Powerups.MeleeWeapons
             var velocity = ScriptHelper.GetDirection(dir == 1 ? MathExtension.PIOver4 : MathExtension.PI - MathExtension.PIOver4) * 5;
 
             var pos = Owner.GetWorldPosition();
-            var area = ScriptHelper.Area(pos, pos + Vector2.UnitX * dir * 110 + Vector2.UnitY * 60);
-            var objects = Game.GetObjectsByArea(area);
+            var area = ScriptHelper.Area(pos, pos + new Vector2(dir * 110, 60));
+            var objects = Game.GetObjectsByArea(area)
+                .Where(x => x.UniqueID != Owner.UniqueID && !x.Name.Contains("Debris") && ScriptHelper.IsInteractiveObject(x)).ToList();
 
-            if (objects.Length == 0) return;
+            if (objects.Count <= 1) return;
 
             Game.RunCommand("/settime 0.1");
             ScriptHelper.Timeout(() => Game.RunCommand("/settime 1"), 800);
@@ -39,15 +40,13 @@ namespace BotExtended.Powerups.MeleeWeapons
             var thrownObjects = new List<IObject>();
             foreach (var o in objects)
             {
-                if (o.UniqueID == Owner.UniqueID || o.Name.Contains("Debris")) continue;
-
                 if (ScriptHelper.IsDynamicObject(o))
                     o.Destroy();
-                
-                if (ScriptHelper.IsPlayer(o))
+
+                var player = ScriptHelper.AsPlayer(o);
+                if (player != null)
                 {
                     var direction = dir == -1 ? RandomHelper.Direction(100, 170) : RandomHelper.Direction(10, 80);
-                    var player = (IPlayer)o;
                     var profile = player.GetProfile();
                     var stripeableClothingTypes = ScriptHelper.StrippeableClothingTypes(profile);
 

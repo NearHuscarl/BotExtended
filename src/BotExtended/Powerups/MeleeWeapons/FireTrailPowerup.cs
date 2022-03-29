@@ -64,7 +64,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 
                     foreach (var result in rcResults)
                     {
-                        if (ScriptHelper.IsDynamicObject(result.HitObject) || ScriptHelper.IsPlayer(result.HitObject))
+                        if (ScriptHelper.IsInteractiveObject(result.HitObject))
                         {
                             result.HitObject.DealDamage(1);
                             result.HitObject.SetMaxFire();
@@ -74,7 +74,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                         {
                             ScriptHelper.Timeout(() =>
                             {
-                                ScriptHelper.Fall((IPlayer)result.HitObject);
+                                ScriptHelper.Fall(ScriptHelper.AsPlayer(result.HitObject));
                                 result.HitObject.SetLinearVelocity(Vector2.UnitY * 6);
                             }, 150);
                         }

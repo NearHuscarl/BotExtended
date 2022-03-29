@@ -61,8 +61,7 @@ namespace BotExtended.Bots
 
                 if (!enemiesNearby && lootObject == null)
                 {
-                    var playerBox = Player.GetAABB();
-                    var searchRange = ScriptHelper.GrowFromCenter(playerBox.Center, playerBox.Width + 6, playerBox.Height);
+                    var searchRange = ScriptHelper.Grow(Player.GetAABB(), 6);
                     var newTarget = Game.GetObjectsByArea(searchRange).FirstOrDefault(IsLootable);
                     if (newTarget != null) Loot(newTarget);
                 }

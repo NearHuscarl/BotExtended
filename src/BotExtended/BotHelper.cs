@@ -63,7 +63,8 @@ namespace BotExtended
 
             foreach (var spawner in spawners)
             {
-                if (!ScriptHelper.SpawnerHasPlayer(spawner, players))
+                var spawnerHasPlayer = players.Any(x => x.GetAABB().Intersects(spawner.GetAABB()));
+                if (!spawnerHasPlayer)
                 {
                     emptySpawners.Add(new PlayerSpawner
                     {

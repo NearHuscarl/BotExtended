@@ -17,7 +17,7 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             if (!Projectile.IsSlowProjectile(projectile.ProjectileItem)) return null;
             
-            var molotov = CreateCustomProjectile(projectile, "WpnMolotovsThrown", projectile.Velocity / 18);
+            var molotov = CreateCustomProjectile(projectile, "WpnMolotovsThrown", projectile.Velocity / 20);
             var facingDirection = Game.GetPlayer(InitialOwnerPlayerID).FacingDirection;
             molotov.SetAngularVelocity(-facingDirection * 20f);
             

@@ -168,7 +168,7 @@ namespace BotExtended.Powerups.MeleeWeapons
         private bool BreakObjects()
         {
             var pBox = _target.GetAABB();
-            var hitObjects = Game.GetObjectsByArea(ScriptHelper.GrowFromCenter(pBox.Center, pBox.Width + 3, pBox.Height + 3));
+            var hitObjects = Game.GetObjectsByArea(ScriptHelper.Grow(pBox, 3, 3));
             var pos = _target.GetWorldPosition();
 
             Game.PlayEffect(EffectName.CameraShaker, pBox.Center, 9f, 400f, false);
