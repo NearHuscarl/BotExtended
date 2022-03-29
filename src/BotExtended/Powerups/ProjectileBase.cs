@@ -8,6 +8,7 @@ namespace BotExtended.Powerups
     {
         public abstract int ID { get; }
         public PlayerTeam Team { get; private set; }
+        public float CreatedTime { get; private set; }
         // Don't reference Instance.InitialOwnerPlayerID. Instance can be updated and makes
         // Instance.InitialOwnerPlayerID become obsolete, since there is no way to copy InitialOwnerPlayerID
         // value to the new Instance
@@ -25,6 +26,7 @@ namespace BotExtended.Powerups
             // in case the original player is not available when the projectile hits
             Team = Game.GetPlayer(projectile.InitialOwnerPlayerID).GetTeam();
             InitialOwnerPlayerID = projectile.InitialOwnerPlayerID;
+            CreatedTime = Game.TotalElapsedGameTime;
         }
 
         private float m_updateTime = 0f;

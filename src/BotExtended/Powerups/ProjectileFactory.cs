@@ -48,6 +48,8 @@ namespace BotExtended.Powerups
                     return new SmokeProjectile(projectile);
                 case RangedWeaponPowerup.Spinner:
                     return new SpinnerBullet(projectile);
+                case RangedWeaponPowerup.Steak:
+                    return new SteakProjectile(projectile);
                 case RangedWeaponPowerup.StickyBomb:
                     return new StickyBombProjectile(projectile);
                 case RangedWeaponPowerup.Stun:

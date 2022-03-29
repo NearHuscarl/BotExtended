@@ -932,49 +932,28 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region SurvivorBiker
-                case BotType.SurvivorBiker:
+                #region Survivalist
+                case BotType.Survivalist:
+                {
+                    // https://profile-editor.vercel.app?p=M3oxd3hdZ0tdd2cqZ0p9ZYY0OhZ0Gde
+                    profiles.Add(new IProfile() { Name = "The Survivalist", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin2", "ClothingDarkYellow"), Head = new IProfileClothingItem("CowboyHat", "ClothingDarkYellow", "ClothingGray"), ChestUnder = new IProfileClothingItem("UnbuttonedShirt", "ClothingDarkYellow"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingLightBrown"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingOrange"), Legs = new IProfileClothingItem("CamoPants", "ClothingDarkYellow", "ClothingDarkYellow"), Feet = new IProfileClothingItem("Boots", "ClothingDarkOrange"), });
+                    break;
+                }
+                #endregion
+
+                #region Survivor
+                case BotType.Survivor:
                 {
                     // https://profile-editor.vercel.app?p=M3oAo15jo1KeZY0p7Z1e7eYY1Co7
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("MotorcycleHelmet", "ClothingLightRed", "ClothingDarkGray"), ChestOver = new IProfileClothingItem("JacketBlack", "ClothingDarkGray", "ClothingGray"), ChestUnder = new IProfileClothingItem("HawaiiShirt", "ClothingLightGray", "ClothingLightRed"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), });
-                    break;
-                }
-                #endregion
-                #region SurvivorCrazy
-                case BotType.SurvivorCrazy:
-                {
                     // https://profile-editor.vercel.app?p=M3oAoY3beZ2c2ZYY2CoZY0v1Z
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("Cap", "ClothingBlue"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingBrown"), Legs = new IProfileClothingItem("TornPants", "ClothingGray"), Accesory = new IProfileClothingItem("SmallMoustache", "ClothingLightRed"), });
-                    break;
-                }
-                #endregion
-                #region SurvivorNaked
-                case BotType.SurvivorNaked:
-                {
                     // https://profile-editor.vercel.app?p=M3oAoY1KeZY2DeeY0HZZY0v7Z
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("Cap", "ClothingDarkGray"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("Sneakers", "ClothingGray", "ClothingGray"), Accesory = new IProfileClothingItem("DogTag", ""), });
-                    break;
-                }
-                #endregion
-                #region SurvivorRifleman
-                case BotType.SurvivorRifleman:
-                {
                     // https://profile-editor.vercel.app?p=M38Ao364Z1K4Z2c2Z0p7ZYYY0v7Z
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("Cap", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkBlue"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingBrown"), Legs = new IProfileClothingItem("Pants", "ClothingDarkBlue"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), });
-                    break;
-                }
-                #endregion
-                #region SurvivorRobber
-                case BotType.SurvivorRobber:
-                {
                     // https://profile-editor.vercel.app?p=M3oAo36eZ1KeZY0peZ1e7eYYY
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), ChestOver = new IProfileClothingItem("JacketBlack", "ClothingDarkGray", "ClothingGray"), ChestUnder = new IProfileClothingItem("TShirt", "ClothingGray"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("Boots", "ClothingGray"), });
-                    break;
-                }
-                #endregion
-                #region SurvivorTough
-                case BotType.SurvivorTough:
-                {
                     // https://profile-editor.vercel.app?p=M3oAo1o251KeZY0p7Z1h7ZYY1aeZ
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("Helmet2", "ClothingGray"), ChestOver = new IProfileClothingItem("KevlarVest", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("LumberjackShirt2", "ClothingBrown", "ClothingDarkBrown"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), });
                     break;

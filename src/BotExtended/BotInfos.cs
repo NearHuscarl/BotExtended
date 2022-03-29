@@ -218,15 +218,9 @@ namespace BotExtended
                 #endregion
 
                 #region Survivor
-                case BotType.SurvivorBiker:
-                case BotType.SurvivorCrazy:
-                case BotType.SurvivorNaked:
-                case BotType.SurvivorRifleman:
-                case BotType.SurvivorRobber:
-                case BotType.SurvivorTough:
+                case BotType.Survivor:
                 {
-                    botInfo.AIType = BotAI.Grunt;
-                    botInfo.EquipWeaponChance = 1f;
+                    botInfo.AIType = BotAI.Normal;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Weak,
@@ -236,29 +230,6 @@ namespace BotExtended
                         SizeModifier = Size.BelowNormal,
                     };
                     botInfo.ZombieStatus = ZombieStatus.Infected;
-
-                    switch (botType)
-                    {
-                        case BotType.SurvivorCrazy:
-                            botInfo.Modifiers.CurrentHealth = Health.VeryWeak;
-                            botInfo.Modifiers.MeleeDamageDealtModifier = DamageDealt.High;
-                            botInfo.Modifiers.RunSpeedModifier = Speed.Fast;
-                            botInfo.Modifiers.SprintSpeedModifier = Speed.Fast;
-                            break;
-                        case BotType.SurvivorNaked:
-                            botInfo.Modifiers.RunSpeedModifier = Speed.AboveNormal;
-                            botInfo.Modifiers.SprintSpeedModifier = Speed.AboveNormal;
-                            break;
-                        case BotType.SurvivorTough:
-                            botInfo.Modifiers.MeleeDamageTakenModifier = DamageTaken.SlightlyResistant;
-                            botInfo.Modifiers.ProjectileDamageTakenModifier = DamageTaken.SlightlyResistant;
-                            botInfo.Modifiers.MeleeForceModifier = MeleeForce.Strong;
-                            botInfo.Modifiers.SizeModifier = Size.Big;
-                            botInfo.Modifiers.RunSpeedModifier = Speed.Slow;
-                            botInfo.Modifiers.SprintSpeedModifier = Speed.Slow;
-                            break;
-                    }
-
                     break;
                 }
                 #endregion
@@ -1206,6 +1177,24 @@ namespace BotExtended
                         ProjectileDamageDealtModifier = DamageDealt.BelowNormal,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Survivalist
+                case BotType.Survivalist:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Melee | SearchItems.Makeshift | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ProjectileDamageDealtModifier = DamageDealt.VeryHigh,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.SpecificSearchItems.Add(WeaponItem.GRENADE_LAUNCHER);
                     botInfo.IsBoss = true;
                     break;
                 }

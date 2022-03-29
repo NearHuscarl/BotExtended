@@ -144,12 +144,7 @@ namespace BotExtended.Bots
                     bot = new SmokerBot(args);
                     break;
 
-                case BotType.SurvivorBiker:
-                case BotType.SurvivorCrazy:
-                case BotType.SurvivorNaked:
-                case BotType.SurvivorRifleman:
-                case BotType.SurvivorRobber:
-                case BotType.SurvivorTough:
+                case BotType.Survivor:
                     bot = new SurvivorBot(args);
                     break;
 

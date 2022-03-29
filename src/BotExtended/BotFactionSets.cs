@@ -7,7 +7,7 @@ namespace BotExtended
 {
     public partial class GameScript : GameScriptInterface
     {
-        private static BotType[] CommonZombieTypes = new BotType[]
+        public static BotType[] CommonZombieTypes = new BotType[]
         {
             BotType.Zombie,
             BotType.ZombieAgent,
@@ -19,7 +19,7 @@ namespace BotExtended
             BotType.ZombieThug,
             BotType.ZombieWorker,
         };
-        private static BotType[] MutatedZombieTypes = new BotType[]
+        public static BotType[] MutatedZombieTypes = new BotType[]
         {
             BotType.ZombieBruiser,
             BotType.ZombieChild,
@@ -474,15 +474,10 @@ namespace BotExtended
                 #region Survivor
                 case BotFaction.Survivor:
                 {
-                    factionSet.AddFaction(new SubFaction(new BotType[]
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
-                        BotType.SurvivorBiker,
-                        BotType.SurvivorCrazy,
-                        BotType.SurvivorNaked,
-                        BotType.SurvivorRifleman,
-                        BotType.SurvivorRobber,
-                        BotType.SurvivorTough,
-                    }, 1f));
+                        new SubFaction(BotType.Survivor, 1f),
+                    });
                     break;
                 }
                 #endregion
@@ -610,6 +605,9 @@ namespace BotExtended
                     break;
                 case BotFaction.Boss_Rambo:
                     factionSet.AddFaction(new SubFaction(BotType.Rambo));
+                    break;
+                case BotFaction.Boss_Survivalist:
+                    factionSet.AddFaction(new SubFaction(BotType.Survivalist));
                     break;
 
                 #endregion

@@ -68,12 +68,7 @@
         PoliceSWAT,
 
         // zombie infected survivors, turn into zombie after dying
-        SurvivorBiker,
-        SurvivorCrazy,
-        SurvivorNaked,
-        SurvivorRifleman,
-        SurvivorRobber,
-        SurvivorTough,
+        Survivor,
 
         // Tier3: Facility Ambush
         Sniper,
@@ -161,6 +156,7 @@
         Sheriff,
         Smoker,
         SSOfficer,
+        Survivalist,
         Teddybear,
         Babybear,
         ZombieEater,

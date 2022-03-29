@@ -27,6 +27,7 @@
         Smoke,
         Stun,
         Spinner,
+        Steak,
         StickyBomb,
         SuicideDove,
         SuicideFighter,

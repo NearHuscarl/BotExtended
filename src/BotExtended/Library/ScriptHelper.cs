@@ -736,12 +736,6 @@ namespace BotExtended.Library
             {
                 if (owner != null && o.UniqueID == owner.UniqueID) continue;
 
-                // stupid lamps can't be removed once destroyed
-                if (o.Name == "Lamp00")
-                {
-                    o.Remove();
-                    continue;
-                }
                 if (groundObj != null && groundObj.UniqueID == o.UniqueID) continue;
                 if (IsDynamicObject(o) || IsPlayer(o))
                 {
@@ -754,6 +748,28 @@ namespace BotExtended.Library
                     o.DealDamage(1f);
                 }
             }
+        }
+
+        public static void Destroy(IObject o, bool remove = true)
+        {
+            // stupid lamp spawns another object Lamp00_D while I want to remove it completely
+            if (o.Name == "Lamp00")
+            {
+                if (remove) { o.Remove(); return; }
+                else
+                {
+                    var cf = o.GetCollisionFilter();
+                    var box = o.GetAABB();
+                    o.Destroy();
+                    Timeout(() =>
+                    {
+                        var od = Game.GetObjectsByArea(box).FirstOrDefault(x => x.Name == "Lamp00_D");
+                        od.SetCollisionFilter(cf);
+                    }, 0);
+                }
+            }
+            else
+                o.Destroy();
         }
 
         public static Vector2 GetFarAwayPosition()

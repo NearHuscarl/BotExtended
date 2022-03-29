@@ -68,6 +68,7 @@
         Boss_Santa,
         Boss_Sheriff,
         Boss_Smoker,
+        Boss_Survivalist,
         Boss_Teddybear,
         Boss_ZombieFighter,
         Boss_ZombieEater,

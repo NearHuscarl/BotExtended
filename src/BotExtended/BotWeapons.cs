@@ -1400,49 +1400,42 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Survivalist
+                case BotType.Survivalist:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.KNIFE,
+                        Primary = WeaponItem.FLAREGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Steak,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Survivor
-                case BotType.SurvivorBiker:
+                case BotType.Survivor:
                 {
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SMG,
                     });
-                    break;
-                }
-                case BotType.SurvivorCrazy:
-                {
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                     });
-                    break;
-                }
-                case BotType.SurvivorNaked:
-                {
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.MACHETE,
                     });
-                    break;
-                }
-                case BotType.SurvivorRifleman:
-                {
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SAWED_OFF,
                     });
-                    break;
-                }
-                case BotType.SurvivorRobber:
-                {
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.REVOLVER,
                     });
-                    break;
-                }
-                case BotType.SurvivorTough:
-                {
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,

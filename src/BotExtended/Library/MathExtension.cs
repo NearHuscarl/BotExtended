@@ -38,6 +38,11 @@ namespace BotExtended.Library
             return Math.Abs(Math.Abs(a) - Math.Abs(b));
         }
 
+        public static bool InRange(float value, float min, float max)
+        {
+            return min <= value && value <= max;
+        }
+
         // https://stackoverflow.com/a/28123501/9449426
         public static float AngleBetween(Vector2 vector1, Vector2 vector2)
         {
