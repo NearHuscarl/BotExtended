@@ -325,6 +325,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Firebug
+                case BotType.Firebug:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fxj2xtZ2pcZ0EjZ0q1Z303j0S3p253Z18qZ
+                    profiles.Add(new IProfile() { Name = "Firebug", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin2", "ClothingLightGray"), Head = new IProfileClothingItem("Headband", "ClothingOrange"), ChestOver = new IProfileClothingItem("Suspenders", "ClothingCyan", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("SleevelessShirtBlack", "ClothingRed"), Hands = new IProfileClothingItem("SafetyGlovesBlack", "ClothingCyan"), Waist = new IProfileClothingItem("CombatBelt", "ClothingLightGray"), Legs = new IProfileClothingItem("ShortsBlack", "ClothingDarkRed"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("GasMask", "ClothingCyan", "ClothingLightYellow"), });
+                    break;
+                }
+                #endregion
+
                 #region Fireman
                 case BotType.Fireman:
                 {

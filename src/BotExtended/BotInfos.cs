@@ -748,6 +748,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Firebug
+                case BotType.Firebug:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Melee | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        FireDamageTakenModifier = DamageTaken.Unbeatable,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Fireman
                 case BotType.Fireman:
                 {
@@ -1194,7 +1212,6 @@ namespace BotExtended
                         ProjectileDamageDealtModifier = DamageDealt.VeryHigh,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };
-                    botInfo.SpecificSearchItems.Add(WeaponItem.GRENADE_LAUNCHER);
                     botInfo.IsBoss = true;
                     break;
                 }

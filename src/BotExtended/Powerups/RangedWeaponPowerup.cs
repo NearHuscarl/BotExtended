@@ -8,6 +8,7 @@
         Delay,
         DoubleTrouble,
         Fatigue,
+        Fire,
         Helium,
         Hunting,
         Homing,

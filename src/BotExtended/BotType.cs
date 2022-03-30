@@ -126,6 +126,7 @@
         Demolitionist,
         Jo,
         Fireman,
+        Firebug,
         Fritzliebe,
         Funnyman,
         Hacker,

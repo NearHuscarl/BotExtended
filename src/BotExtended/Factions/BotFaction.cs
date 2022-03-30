@@ -51,6 +51,7 @@
         Boss_Handler,
         Boss_Hitman,
         Boss_Incinerator,
+        Boss_Firebug,
         Boss_Fireman,
         Boss_Kingpin,
         Boss_MadScientist,

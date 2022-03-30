@@ -512,6 +512,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Firebug
+                case BotType.Firebug:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.PIPE,
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Fire,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Fireman
                 case BotType.Fireman:
                 {

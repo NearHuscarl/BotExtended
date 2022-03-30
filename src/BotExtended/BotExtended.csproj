@@ -70,6 +70,7 @@
     <Compile Include="Powerups\MeleeWeapons\SplittingPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
+    <Compile Include="Powerups\RangeWeapons\FireProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\ObjectGun.cs" />
     <Compile Include="Powerups\RangeWeapons\SteakProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrinkingProjectile.cs" />
