@@ -5,6 +5,13 @@ tile(Tripwire00) { mainLayer=1; material=metal; kickable=false; projectileHit=fa
 tile(FireTrap00) { mainLayer=1; material=metal; kickable=false; projectileHit=false; drawCategory=FG; fixture(){ mass=100kg; collisionGroup=dynamics_g2; } }
 tile(ShotgunTrap00) { mainLayer=1; material=metal; kickable=false; projectileHit=false; drawCategory=SLD; fixture(){ mass=100kg; collisionGroup=dynamics_g2; } }
 
+tile(BazookaRocket) { material=metal; punchable=false; kickable=false; projectileHit=false;
+    material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BowArrow) { material=metal; punchable=false; kickable=false; projectileHit=false;
+    material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BulletCommonSlowmo) { material=metal; punchable=false; kickable=false; projectileHit=false;
+    material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+
 tile(Blackhole00A) { type=Static; mainLayer=1; drawCategory=OBJ; fixture(){ collisionGroup=none; } }
 tile(Chicken00){ life=1; gibpressure.total=400kg; gibpressure.spike=1600kg; material=flesh; material.hit.melee.effect=HIT_S; material.resistance.impact.threshold=5.0; objectStrength=10; material.destroyEffect=BulletHitPaper; material.blockExplosions=false; material.flammable=false; material.friction=0.0; doTakeDamage.fire=true;
     animation(Chicken00){ width=16; frameTime=150; }
