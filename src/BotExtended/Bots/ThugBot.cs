@@ -52,7 +52,7 @@ namespace BotExtended.Bots
             var isUsingRangedWpn = Player.CurrentWeaponDrawn == WeaponItemType.Rifle || Player.CurrentWeaponDrawn == WeaponItemType.Handgun;
             if (isUsingRangedWpn && lootObject != null && _isElapsedCheckWpn())
             {
-                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Sheath);
+                ScriptHelper.Command(Player, PlayerCommandType.Sheath);
             }
 
             if (!Player.IsDead && _isElapsedCheckTarget())

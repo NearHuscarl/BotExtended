@@ -20,15 +20,10 @@ namespace BotExtended.Powerups.RangeWeapons
 
         private IObject GetObject(ProjectileHitArgs args)
         {
-            if (args.IsPlayer)
+            var player = Game.GetPlayer(args.HitObjectID);
+            if (player != null)
             {
-                var player = Game.GetPlayer(args.HitObjectID);
-
-                if (!player.IsFalling)
-                {
-                    ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall, 30);
-                }
-
+                if (!player.IsFalling) ScriptHelper.Fall(player);
                 return player;
             }
             else
@@ -52,20 +47,20 @@ namespace BotExtended.Powerups.RangeWeapons
 
             var position = Instance.Position;
             var pushDirection = Instance.Direction;
-            var upDirection = RandomHelper.Direction(angles[0], angles[1], true);
+            var blastDirection = RandomHelper.Direction(angles[0], angles[1], true);
             var modifiers = GetForceModifier();
             var velocity = hitObject.GetLinearVelocity();
 
             if (args.IsPlayer)
             {
-                velocity += Instance.Direction * 4 + upDirection * 14 * modifiers;
+                velocity += Instance.Direction * 4 + blastDirection * 14 * modifiers;
                 hitObject.SetLinearVelocity(MathExtension.ClampMagnitude(velocity, 15));
             }
             else
             {
                 var mass = hitObject.GetMass();
                 var magnitude = MathHelper.Clamp(1f / mass / 7f, 3, 30) * modifiers;
-                velocity += Instance.Direction * magnitude + upDirection * magnitude / 10;
+                velocity += Instance.Direction * magnitude + blastDirection * magnitude / 10;
                 hitObject.SetLinearVelocity(velocity);
                 //ScriptHelper.LogDebug(hitObject.Name, mass, magnitude);
             }

@@ -70,11 +70,12 @@ namespace BotExtended.Powerups.MeleeWeapons
                             result.HitObject.SetMaxFire();
                             Game.SpawnFireNode(result.Position, RandomHelper.Direction(15, 180 - 15) * 3, FireNodeType.Flamethrower);
                         }
-                        if (ScriptHelper.IsPlayer(result.HitObject))
+                        var player = ScriptHelper.AsPlayer(result.HitObject);
+                        if (player != null)
                         {
                             ScriptHelper.Timeout(() =>
                             {
-                                ScriptHelper.Fall(ScriptHelper.AsPlayer(result.HitObject));
+                                ScriptHelper.Fall(player);
                                 result.HitObject.SetLinearVelocity(Vector2.UnitY * 6);
                             }, 150);
                         }

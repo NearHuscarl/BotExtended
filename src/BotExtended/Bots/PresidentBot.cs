@@ -61,7 +61,7 @@ namespace BotExtended.Bots
             {
                 if (RandomHelper.Boolean())
                 {
-                    ScriptHelper.Fall2(Player);
+                    ScriptHelper.Fall(Player);
                 }
             }
             if (!_isFalling && Player.IsFalling)

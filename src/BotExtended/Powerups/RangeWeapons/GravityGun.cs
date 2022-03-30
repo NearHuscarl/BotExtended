@@ -373,7 +373,7 @@ namespace BotExtended.Powerups.RangeWeapons
                 {
                     var result = results.First();
                     TargetedObject = result.HitObject;
-                    if (result.IsPlayer) ScriptHelper.Fall2(ScriptHelper.AsPlayer(result.HitObject));
+                    if (result.IsPlayer) ScriptHelper.Fall(ScriptHelper.AsPlayer(result.HitObject));
                 }
             }
 

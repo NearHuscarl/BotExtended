@@ -37,7 +37,7 @@ namespace BotExtended.Bots
                 if (_isElapsedCheckPlaceTrap() && CanPlaceTrap())
                 {
                     _placeTrapTime = Game.TotalElapsedGameTime;
-                    ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.StartCrouch, 1000).ContinueWith((r) => PlaceTrap());
+                    ScriptHelper.Command(Player, PlayerCommandType.StartCrouch, delayTime: 1000).ContinueWith(r => PlaceTrap());
                 }
             }
         }

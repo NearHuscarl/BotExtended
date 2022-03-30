@@ -46,7 +46,7 @@ namespace BotExtended.Powerups.RangeWeapons
                 {
                     ExplodeRange = 50;
                     ExplodeRange2 = .5f;
-                    ActiveTime = Game.IsEditorTest ? 30000 : 4000;
+                    ActiveTime = Game.IsEditorTest ? 10000 : 4000;
                 }
                 else
                 {
@@ -276,21 +276,19 @@ namespace BotExtended.Powerups.RangeWeapons
                     StopPulling(objectInfo);
                 }
 
-                if (ScriptHelper.IsPlayer(o))
+                var player = ScriptHelper.AsPlayer(o);
+                if (player != null)
                 {
-                    var player = Game.GetPlayer(o.UniqueID);
-
                     if (pos <= Range.EventHorizon)
                     {
                         Game.DrawArea(player.GetAABB(), Color.Red);
-                        if (!player.IsFalling)
-                            ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Fall, 0);
+                        if (!player.IsFalling) ScriptHelper.Fall(player);
                     }
                     else if (pos == Range.Level2)
                     {
                         Game.DrawArea(player.GetAABB(), Color.Yellow);
                         if (!player.IsStaggering)
-                            ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 0, GetStaggerDirection(player));
+                            ScriptHelper.Command(player, PlayerCommandType.Stagger, GetStaggerDirection(player));
                     }
 
                     if (pos <= Range.Level1)
@@ -351,10 +349,9 @@ namespace BotExtended.Powerups.RangeWeapons
                 (float)Math.Pow(Vector2.Distance(o.GetWorldPosition(), HoverPosition) / SuckRadius, 1.5);
         }
 
-        private PlayerCommandFaceDirection GetStaggerDirection(IPlayer player)
+        private FaceDirection GetStaggerDirection(IPlayer player)
         {
-            return player.GetWorldPosition().X > HoverPosition.X
-                ? PlayerCommandFaceDirection.Right : PlayerCommandFaceDirection.Left;
+            return player.GetWorldPosition().X > HoverPosition.X ? FaceDirection.Right : FaceDirection.Left;
         }
 
         private void Pull(IObject o, bool isBlockedByWall)
@@ -362,7 +359,7 @@ namespace BotExtended.Powerups.RangeWeapons
             var player = ScriptHelper.AsPlayer(o);
 
             if (player != null)
-                ScriptHelper.ExecuteSingleCommand(player, PlayerCommandType.Stagger, 20, GetStaggerDirection(player));
+                ScriptHelper.Command(player, PlayerCommandType.Stagger, GetStaggerDirection(player), 20);
 
             var pullJoint = (IObjectPullJoint)Game.CreateObject("PullJoint");
             var originalMass = o.GetMass();
@@ -407,11 +404,10 @@ namespace BotExtended.Powerups.RangeWeapons
             objectInfo.Object.SetMass(objectInfo.OriginalMass);
             objectInfo.PullJoint.Remove();
 
-            if (ScriptHelper.IsPlayer(objectInfo.Object))
+            var player = ScriptHelper.AsPlayer(objectInfo.Object);
+            if (player != null)
             {
-                var player = Game.GetPlayer(objectInfo.Object.UniqueID);
-                if (player != null)
-                    player.SetInputEnabled(true);
+                player.SetInputEnabled(true);
             }
         }
     }

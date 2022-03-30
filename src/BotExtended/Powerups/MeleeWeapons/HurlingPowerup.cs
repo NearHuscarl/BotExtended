@@ -38,7 +38,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (p.UniqueID == Owner.UniqueID) continue;
                 Game.PlayEffect(EffectName.Smack, p.GetWorldPosition());
                 p.SetLinearVelocity(new Vector2(5 * dir, RandomHelper.Between(4, 9)));
-                ScriptHelper.ExecuteSingleCommand(p, PlayerCommandType.Stagger);
+                ScriptHelper.Command(p, PlayerCommandType.Stagger);
             }
 
             foreach (var arg in args)

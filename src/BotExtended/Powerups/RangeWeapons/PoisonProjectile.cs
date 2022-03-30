@@ -45,8 +45,8 @@ namespace BotExtended.Powerups.RangeWeapons
 
                     if (ScriptHelper.IsElapsed(item.LastStaggerTime, item.StaggerTime))
                     {
-                        if (RandomHelper.Boolean()) ScriptHelper.Fall2(player);
-                        else ScriptHelper.KneelFall2(player);
+                        if (RandomHelper.Boolean()) ScriptHelper.Fall(player);
+                        else ScriptHelper.KneelFall(player);
                         item.LastStaggerTime = Game.TotalElapsedGameTime;
                         item.StaggerTime = RandomHelper.Between(2000, 4000);
                     }

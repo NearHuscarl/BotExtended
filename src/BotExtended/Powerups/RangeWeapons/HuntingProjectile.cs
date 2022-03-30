@@ -64,18 +64,10 @@ namespace BotExtended.Powerups.RangeWeapons
                     DistanceJoint.SetLengthType(DistanceJointLengthType.Elastic);
                     TargetJoint.SetTargetObject(player);
 
-                    var cb = Events.UpdateCallback.Start((e) =>
+                    ScriptHelper.RunIn(() =>
                     {
-                        if (player != null && player.IsInMidAir && !player.IsFalling)
-                            ScriptHelper.Fall(player);
-                    });
-
-                    ScriptHelper.Fall(player);
-                    ScriptHelper.Timeout(() =>
-                    {
-                        cb.Stop();
-                        CleanUp();
-                    }, (uint)(Game.IsEditorTest ? 5000 : 5000));
+                        if (player != null && player.IsInMidAir && !player.IsFalling) ScriptHelper.Fall(player);
+                    }, 5000, CleanUp);
                 }
             }
         }

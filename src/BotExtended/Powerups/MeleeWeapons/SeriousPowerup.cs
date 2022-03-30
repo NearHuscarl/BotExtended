@@ -53,7 +53,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                     thrownObjects.Add(player);
                     player.SetLinearVelocity(direction * RandomHelper.Between(10, 25));
                     BotManager.GetBot(player).DisarmAll();
-                    ScriptHelper.Fall2(player);
+                    ScriptHelper.Fall(player);
 
                     if (!stripeableClothingTypes.Any() && !ScriptHelper.HaveUnderwear(profile)) continue;
 

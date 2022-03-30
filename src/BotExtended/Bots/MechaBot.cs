@@ -122,6 +122,7 @@ namespace BotExtended.Bots
 
         private HashSet<int> chargedPlayers = new HashSet<int>();
         private HashSet<int> chargedObjects = new HashSet<int>();
+        // TODO: remove friction while charging
         private void UpdateSuperCharging(float elapsed)
         {
             foreach (var player in Game.GetPlayers())
@@ -305,6 +306,7 @@ namespace BotExtended.Bots
                 doubleBody.SetFaceDirection(Player.GetFaceDirection());
 
                 BotManager.SetPlayer(this, doubleBody);
+                IsRemoved = false; // SetPlayer will set it to true
                 Player.Remove();
                 Player = doubleBody;
 

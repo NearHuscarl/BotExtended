@@ -136,7 +136,7 @@ namespace BotExtended.Weapons
         public override void OnComponentTerminated(IObject component)
         {
             base.OnComponentTerminated(component);
-            if (!FarmerBot.Player.IsDead) FarmerBot.OnChickenDead();
+            if (!FarmerBot.IsRemoved && !FarmerBot.Player.IsDead) FarmerBot.BreedChicken();
             IsDestroyed = true;
         }
     }

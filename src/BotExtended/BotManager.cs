@@ -18,7 +18,7 @@ namespace BotExtended
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
         // Player corpses waiting to be transformed into zombies
-        private static Dictionary<int, InfectedCorpse> m_infectedCorpses = new Dictionary<int, InfectedCorpse>();
+        private static Dictionary<int, InfectedCorpse> _infectedCorpses = new Dictionary<int, InfectedCorpse>();
         private static List<PlayerSpawner> m_playerSpawners;
         private static Dictionary<int, Bot> m_bots = new Dictionary<int, Bot>();
 
@@ -145,7 +145,7 @@ namespace BotExtended
         public static void SetPlayer(Bot bot, IPlayer player)
         {
             var oldPlayer = bot.Player;
-            m_bots.Remove(oldPlayer.UniqueID);
+            Remove(oldPlayer.UniqueID);
             m_bots[player.UniqueID] = bot;
         }
 
@@ -173,13 +173,13 @@ namespace BotExtended
             var elapsed = Game.TotalElapsedGameTime - m_lastUpdateTime;
 
             // Turning corpses killed by zombie into another one after some time
-            foreach (var corpse in m_infectedCorpses.Values.ToList())
+            foreach (var corpse in _infectedCorpses.Values.ToList())
             {
                 corpse.Update();
 
                 if (corpse.IsZombie || !corpse.CanTurnIntoZombie)
                 {
-                    m_infectedCorpses.Remove(corpse.UniqueID);
+                    _infectedCorpses.Remove(corpse.UniqueID);
                 }
             }
 
@@ -189,8 +189,7 @@ namespace BotExtended
 
                 if (bot != Bot.None)
                 {
-                    if (bot.Player.IsDead && bot.IsInfectedByZombie
-                        && !m_infectedCorpses.ContainsKey(bot.Player.UniqueID))
+                    if (bot.Player.IsDead && bot.IsInfectedByZombie && !_infectedCorpses.ContainsKey(bot.Player.UniqueID))
                     {
                         AddInfectedCorpse(bot);
                     }
@@ -243,6 +242,14 @@ namespace BotExtended
             }
         }
 
+        private static void Remove(int playerID)
+        {
+            var bot = GetBot(playerID);
+            if (bot == Bot.None) return;
+            bot.IsRemoved = true;
+            m_bots.Remove(playerID);
+        }
+
         private static void OnPlayerDeath(IPlayer player, PlayerDeathArgs args)
         {
             if (player == null) return;
@@ -254,7 +261,7 @@ namespace BotExtended
 
             if (args.Removed)
             {
-                m_bots.Remove(bot.Player.UniqueID);
+                Remove(bot.Player.UniqueID);
             }
             if (args.Killed)
             {
@@ -267,7 +274,7 @@ namespace BotExtended
             if (bot.Info.ZombieStatus == ZombieStatus.Infected)
             {
                 var player = bot.Player;
-                m_infectedCorpses.Add(player.UniqueID, new InfectedCorpse(player, bot.Type, bot.Faction));
+                _infectedCorpses.Add(player.UniqueID, new InfectedCorpse(player, bot.Type, bot.Faction));
             }
         }
 
@@ -293,10 +300,10 @@ namespace BotExtended
             bot.OnPlayerKeyInput(keyInfos);
         }
 
-        public static Bot GetBot(int UniqueID)
+        public static Bot GetBot(int uniqueID)
         {
             Bot bot;
-            if (m_bots.TryGetValue(UniqueID, out bot)) return bot;
+            if (m_bots.TryGetValue(uniqueID, out bot)) return bot;
             return Bot.None;
         }
 
@@ -378,6 +385,7 @@ namespace BotExtended
             player.SetModifiers(info.Modifiers);
             player.SetBotBehaviorActive(true);
 
+            Remove(player.UniqueID);
             m_bots[player.UniqueID] = bot; // This may be updated if using setplayer command
 
             if (triggerOnSpawn)

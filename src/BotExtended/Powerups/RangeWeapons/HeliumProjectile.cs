@@ -38,10 +38,9 @@ namespace BotExtended.Powerups.RangeWeapons
 
             private List<KeyValuePair<float, float>> m_deflateTimes = new List<KeyValuePair<float, float>>();
             private float m_updateDelay = 0f;
-            private bool m_oldIsFalling = false;
+            private bool _isFalling = false;
             private Vector2 m_oldLinearVelocity = Vector2.Zero;
-            private float m_fallingTime = 0f;
-            public void Update(float elapsed)
+            public void Update()
             {
                 if (ScriptHelper.IsElapsed(m_updateDelay, 250))
                 {
@@ -51,7 +50,7 @@ namespace BotExtended.Powerups.RangeWeapons
                     MagnetJoint.SetWorldPosition(magnetPosition);
                     PullJoint.SetForce(InflatedModifier);
                     if (!Player.IsFalling && RandomHelper.Percentage(InflatedModifier))
-                        ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Fall);
+                        ScriptHelper.Fall(Player);
 
                     if (m_deflateTimes.Any())
                     {
@@ -66,11 +65,8 @@ namespace BotExtended.Powerups.RangeWeapons
 
                 var velocity = Player.GetLinearVelocity();
 
-                if (Player.IsFalling && !m_oldIsFalling)
+                if (!_isFalling && Player.IsFalling)
                 {
-                    m_oldIsFalling = true;
-                    m_fallingTime = Game.TotalElapsedGameTime;
-
                     var velocityDiff = MathExtension.Diff(velocity.Length(), m_oldLinearVelocity.Length());
 
                     //ScriptHelper.RunIn(() => Game.DrawText(velocityDiff.ToString(),
@@ -78,9 +74,8 @@ namespace BotExtended.Powerups.RangeWeapons
                     if (velocityDiff >= 4)
                         Player.SetLinearVelocity(velocity + Vector2.Normalize(velocity) * InflatedModifier * 70);
                 }
-                if (!Player.IsFalling && m_oldIsFalling)
-                    m_oldIsFalling = false;
 
+                _isFalling = Player.IsFalling;
                 m_oldLinearVelocity = velocity;
             }
 
@@ -166,13 +161,11 @@ namespace BotExtended.Powerups.RangeWeapons
                         Game.DrawText(ScriptHelper.ToDisplayString(info.InflatedModifier, info.Player.GetModifiers().SizeModifier),
                             info.Player.GetWorldPosition());
                 }
-                foreach (var info in HeliumInfos.Values) info.Update(e);
+                foreach (var info in HeliumInfos.Values) info.Update();
             });
         }
 
-        public HeliumProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Helium)
-        {
-        }
+        public HeliumProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Helium) { }
 
         protected override bool OnProjectileCreated()
         {

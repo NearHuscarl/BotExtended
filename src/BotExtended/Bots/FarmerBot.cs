@@ -21,7 +21,7 @@ namespace BotExtended.Bots
                 WeaponManager.SpawnWeapon(BeWeapon.Chicken, this);
         }
 
-        public void OnChickenDead()
+        public void BreedChicken()
         {
             WeaponManager.SpawnWeapon(BeWeapon.Chicken, this);
         }

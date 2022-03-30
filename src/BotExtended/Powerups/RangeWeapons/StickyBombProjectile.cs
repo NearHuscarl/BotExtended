@@ -18,9 +18,7 @@ namespace BotExtended.Powerups.RangeWeapons
         private Vector2 m_relPlayerPosition;
         public IObjectWeldJoint m_weldJoint;
 
-        public StickyBombProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.StickyBomb)
-        {
-        }
+        public StickyBombProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.StickyBomb) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
@@ -103,7 +101,7 @@ namespace BotExtended.Powerups.RangeWeapons
 
             foreach (var o in objectsInRadius)
             {
-                if (ScriptHelper.IsIndestructible(o)) o.DealDamage(1f);
+                if (!o.Destructable) ScriptHelper.SplitTileObject(o, center);
             }
         }
 

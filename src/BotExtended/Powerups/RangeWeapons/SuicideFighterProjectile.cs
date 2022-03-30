@@ -35,10 +35,14 @@ namespace BotExtended.Powerups.RangeWeapons
                 triggerOnSpawn: false);
             var fighter = bot.Player;
             var length = Math.Max(fighter.GetAABB().Width, fighter.GetAABB().Height);
+            var position = projectile.Position + projectile.Direction * (length + 1);
+            var dir = Math.Sign(position.X - Game.GetPlayer(InitialOwnerPlayerID).GetWorldPosition().X);
 
             fighter.SetNametagVisible(false);
-            fighter.SetWorldPosition(projectile.Position + projectile.Direction * (length + 1));
+            fighter.SetStatusBarsVisible(false);
+            fighter.SetWorldPosition(position);
             fighter.SetLinearVelocity(projectile.Velocity / 20);
+            fighter.SetFaceDirection(dir);
 
             ScriptHelper.Fall(fighter);
             _bombers.Add(fighter.UniqueID);
@@ -46,16 +50,11 @@ namespace BotExtended.Powerups.RangeWeapons
 
             // player is invincible while being a projectile
             bot.SetHealth(5000);
-            Events.UpdateCallback cb = null;
-            cb = Events.UpdateCallback.Start((e) =>
+            ScriptHelper.RunIf(() =>
             {
-                if (fighter.IsDead || fighter.IsRemoved || fighter.IsIdle && fighter.IsOnGround)
-                {
-                    bot.ResetModifiers();
-                    cb.Stop();
-                }
+                bot.ResetModifiers();
                 // must include interval time or the player modifiers will be reset immediately
-            }, 20);
+            }, () => fighter.IsDead || fighter.IsRemoved || fighter.IsIdle && fighter.IsOnGround, interval: 25);
 
             return fighter;
         }

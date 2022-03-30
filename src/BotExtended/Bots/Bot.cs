@@ -32,6 +32,10 @@ namespace BotExtended.Bots
         public BotFaction Faction { get; set; }
         public BotInfo Info { get; set; }
         public int UpdateDelay { get; set; }
+        // IsRemoved from BotManager database, NOT from SFD Gameworld
+        // You should use Bot.IsRemoved and Bot.Player.IsDead together because hte IPlayer in Bot.Player can be swapped via command.
+        // Bot.IsRemoved doesn't necessarily mean Bos.Player.IsDead
+        public bool IsRemoved { get; set; }
         public Vector2 Position
         {
             get { return Player.GetWorldPosition(); }
@@ -50,7 +54,6 @@ namespace BotExtended.Bots
         {
             Type = type;
             Faction = faction;
-            Info = new BotInfo(player);
             UpdateDelay = 100;
         }
         public Bot(BotArgs args) : this(args.Player)
@@ -450,8 +453,10 @@ namespace BotExtended.Bots
             Player.SetBotBehaviorSet(bs);
 
             if (shealthRangeWpn)
-                ScriptHelper.ExecuteSingleCommand(Player, PlayerCommandType.Sheath);
+                ScriptHelper.Command(Player, PlayerCommandType.Sheath);
         }
+
+        public float Distance(Vector2 position) { return Vector2.Distance(Player.GetWorldPosition(), position); }
 
         public void SetHealth(float health, bool permanent = false)
         {

@@ -544,30 +544,8 @@ namespace BotExtended.Library
             };
         }
 
-        // TODO: how to fall properly?
-        public async static void Fall(IPlayer player)
-        {
-            try
-            {
-                await ExecuteSingleCommand(player, PlayerCommandType.StaggerInfinite)
-                    .ContinueWith((r) => ExecuteSingleCommand(player, PlayerCommandType.Fall));
-            }
-            catch (Exception ex)
-            {
-                if (Game.IsEditorTest)
-                {
-                    Game.ShowChatMessage(ex.Message);
-                    Game.ShowChatMessage(ex.StackTrace);
-                }
-                Game.WriteToConsole(ex.Message);
-                Game.WriteToConsole(ex.StackTrace);
-            }
-        }
-        public static void Fall2(IPlayer player)
-        {
-            Command(player, PlayerCommandType.Fall);
-        }
-        public static void KneelFall2(IPlayer player)
+        public static void Fall(IPlayer player) { Command(player, PlayerCommandType.Fall); }
+        public static void KneelFall(IPlayer player)
         {
             Command(player, new PlayerCommand[]
             {
@@ -576,50 +554,34 @@ namespace BotExtended.Library
             });
         }
 
-        public static System.Threading.Tasks.Task<bool> ExecuteSingleCommand(
-            IPlayer player,
-            PlayerCommandType commandType,
-            uint delay = 10,
-            PlayerCommandFaceDirection facingDirection = PlayerCommandFaceDirection.None
-            )
+        private static readonly HashSet<PlayerCommandType> CommandWithoutWorkingDirection = new HashSet<PlayerCommandType>
         {
-            var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
+            PlayerCommandType.Stagger, PlayerCommandType.StaggerInfinite,
+        };
+        public static PlayerCommandFaceDirection GetCommandDirection(IPlayer player, PlayerCommandType commandType, FaceDirection direction)
+        {
+            var result = PlayerCommandFaceDirection.None;
+            if (direction == FaceDirection.None)
+                result = player.GetFaceDirection() == -1 ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
+            else
+                result = direction == FaceDirection.Left ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
 
-            if (player == null)
+            if (CommandWithoutWorkingDirection.Contains(commandType))
             {
-                promise.TrySetResult(false);
-                return promise.Task;
+                if (direction == FaceDirection.Left) player.SetFaceDirection(-1);
+                if (direction == FaceDirection.Right) player.SetFaceDirection(1);
             }
-
-            player.SetInputEnabled(false);
-            // some commands like Stagger not working without this line
-            player.AddCommand(new PlayerCommand(PlayerCommandType.FaceAt, facingDirection));
-
-            Timeout(() =>
-            {
-                if (player != null) player.AddCommand(new PlayerCommand(commandType, facingDirection));
-                if (delay == 0) return;
-                Timeout(() =>
-                {
-                    if (player != null)
-                    {
-                        player.ClearCommandQueue();
-                        player.SetInputEnabled(true);
-                    }
-                    promise.TrySetResult(true);
-                }, delay);
-            }, 2);
-
-            return promise.Task;
+            
+            return result;
         }
 
         // a better command method
         public static System.Threading.Tasks.Task<bool> Command(IPlayer player, PlayerCommandType commandType,
             FaceDirection direction = FaceDirection.None,
+            int delayTime = 0,
             int targetObjectID = 0)
         {
             var promise = new System.Threading.Tasks.TaskCompletionSource<bool>();
-            var facingDirection = PlayerCommandFaceDirection.None;
 
             if (player == null || player.IsDead)
             {
@@ -627,19 +589,15 @@ namespace BotExtended.Library
                 return promise.Task;
             }
 
-            if (direction == FaceDirection.None)
-                facingDirection = player.GetFaceDirection() == -1 ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
-            else
-                facingDirection = direction == FaceDirection.Left ? PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right;
-
+            var commandDir = GetCommandDirection(player, commandType, direction);
             if (player.IsInputEnabled) player.SetInputEnabled(false);
 
             RunIf(() =>
             {
                 if (targetObjectID != 0)
-                    player.AddCommand(new PlayerCommand(commandType, targetObjectID, facingDirection));
+                    player.AddCommand(new PlayerCommand(commandType, targetObjectID, commandDir, delayTime));
                 else
-                    player.AddCommand(new PlayerCommand(commandType, facingDirection));
+                    player.AddCommand(new PlayerCommand(commandType, commandDir, delayTime));
 
                 RunIf(() =>
                 {
