@@ -17,6 +17,8 @@ namespace BotExtended.Powerups.RangeWeapons
                 UpdateDelay = 0;
             else
                 UpdateDelay = 4;
+
+            _isElapsedFire = ScriptHelper.WithIsElapsed(30);
         }
 
         protected override void OnHover()
@@ -26,11 +28,11 @@ namespace BotExtended.Powerups.RangeWeapons
                 Instance.FlagForRemoval();
         }
 
-        private float m_fireTime = 0f;
+        private Func<bool> _isElapsedFire;
         private float m_fireAngle = 0f;
         protected override void UpdateHovering(float elapsed)
         {
-            if (ScriptHelper.IsElapsed(m_fireTime, 30))
+            if (_isElapsedFire())
             {
                 var totalBullets = 20;
                 var angleInBetween = 360 / totalBullets;
@@ -43,7 +45,6 @@ namespace BotExtended.Powerups.RangeWeapons
                 if (m_fireAngle == 360 - angleInBetween)
                     Destroy();
 
-                m_fireTime = Game.TotalElapsedGameTime;
                 m_fireAngle += angleInBetween;
             }
         }

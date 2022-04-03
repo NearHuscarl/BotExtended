@@ -15,16 +15,18 @@ namespace BotExtended.Bots
     public class Bot
     {
         public static readonly Bot None;
+        public static readonly string NoneCustomID = "BeNonePlayer";
         static Bot()
         {
             var nonePlayer = Game.CreatePlayer(Vector2.Zero);
             nonePlayer.Remove();
+            nonePlayer.CustomID = NoneCustomID;
             None = new Bot(nonePlayer);
         }
 
-        public static Color DialogueColor
+        public Color DialogueColor
         {
-            get { return new Color(128, 32, 32); }
+            get { return ScriptHelper.GetTeamColor(Player == null ? PlayerTeam.Independent: Player.GetTeam()); }
         }
         public BotBehaviorSet BotBehaviorSet { get; private set; }
         public IPlayer Player { get; set; }
@@ -71,7 +73,7 @@ namespace BotExtended.Bots
             var spawnLineChance = Info.SpawnLineChance;
 
             if (!string.IsNullOrWhiteSpace(spawnLine) && RandomHelper.Percentage(spawnLineChance))
-                Game.CreateDialogue(spawnLine, DialogueColor, Player, duration: 3000f);
+                SayLine(spawnLine);
         }
 
         public void SayDeathLine()
@@ -82,7 +84,7 @@ namespace BotExtended.Bots
             var deathLineChance = Info.DeathLineChance;
 
             if (!string.IsNullOrWhiteSpace(deathLine) && RandomHelper.Percentage(deathLineChance))
-                Game.CreateDialogue(deathLine, DialogueColor, Player, duration: 3000f);
+                SayLine(deathLine);
         }
 
         private float m_lastUpdateElapsed = 0f;
@@ -108,6 +110,16 @@ namespace BotExtended.Bots
             {
                 Game.DrawText(ScriptHelper.ToDisplayString(messages), Position);
             }
+        }
+
+        public void SayLine(string line, Color? color = null, float duration = 0)
+        {
+            var dialogueColor = color == null ? DialogueColor : (Color)color;
+            // reading speed: 3 words per second
+            duration = duration > 0 ? duration : Math.Max(line.Split(' ').Length * 1000 / 3, 1000);
+            if (Game.TotalElapsedGameTime < 1000 && Game.StartupSequenceEnabled)
+                duration += 1000;
+            Game.CreateDialogue(line, dialogueColor, Player, duration: duration);
         }
 
         protected virtual void OnUpdate(float elapsed) { }

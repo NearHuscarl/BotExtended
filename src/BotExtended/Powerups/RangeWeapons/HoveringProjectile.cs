@@ -16,14 +16,6 @@ namespace BotExtended.Powerups.RangeWeapons
         protected float ExplodeRange2 = 10;
         protected float MinDistanceBeforeHover = 100;
 
-        private enum Direction
-        {
-            Left,
-            Top,
-            Right,
-            Bottom,
-        }
-
         protected enum State
         {
             Normal,
@@ -89,22 +81,9 @@ namespace BotExtended.Powerups.RangeWeapons
             Instance.FlagForRemoval();
         }
 
-        private Direction GetHeadingDirection(float angle)
-        {
-            angle = MathExtension.NormalizeAngle(angle);
-
-            if (angle >= 0 && angle < MathHelper.PIOver4 || angle >= MathExtension.PI_3Over2 && angle <= MathExtension.PIOver2)
-                return Direction.Right;
-            if (angle >= MathHelper.PIOver4 && angle < MathHelper.PIOver2 + MathHelper.PIOver4)
-                return Direction.Top;
-            if (angle >= MathHelper.PIOver2 + MathHelper.PIOver4 && angle < MathHelper.PI + MathHelper.PIOver4)
-                return Direction.Left;
-            return Direction.Bottom;
-        }
-
         private bool CanHover()
         {
-            var headingDirection = GetHeadingDirection(ScriptHelper.GetAngle(Instance.Direction));
+            var headingDirection = ScriptHelper.GetDir(ScriptHelper.GetAngle(Instance.Direction));
             var explodeRange = ScriptHelper.GrowFromCenter(Instance.Position,
                 headingDirection == Direction.Left ? ExplodeRange : ExplodeRange2,
                 headingDirection == Direction.Top ? ExplodeRange : ExplodeRange2,

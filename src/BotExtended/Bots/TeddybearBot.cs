@@ -57,11 +57,11 @@ namespace BotExtended.Bots
             if (hasAlreadyEnraged)
             {
                 m_enrageTime *= 2;
-                Game.CreateDialogue("GRRRRRRRROOAAR!", ScriptHelper.Red, Player);
+                SayLine("GRRRRRRRROOAAR!", BeColors.Red);
             }
             else
             {
-                Game.CreateDialogue("GRRRRRR", ScriptHelper.Orange, Player);
+                SayLine("GRRRRRR", BeColors.Orange);
                 Events.PlayerDeathCallback cb = null;
                 cb = Events.PlayerDeathCallback.Start((player) =>
                 {
@@ -73,7 +73,7 @@ namespace BotExtended.Bots
                 });
             }
 
-            Game.CreateDialogue(RandomHelper.GetItem(PlayerEnrageReactions), offender);
+            BotManager.GetBot(offender).SayLine(RandomHelper.GetItem(PlayerEnrageReactions));
 
             var enrageModifiers = Player.GetModifiers();
             enrageModifiers.MeleeStunImmunity = Constants.TOGGLE_ON;

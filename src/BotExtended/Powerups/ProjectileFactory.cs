@@ -18,6 +18,10 @@ namespace BotExtended.Powerups
                     return new BlackholeProjectile(projectile);
                 case RangedWeaponPowerup.Blast:
                     return new BlastBullet(projectile);
+                case RangedWeaponPowerup.Bow:
+                    return new Bow(projectile);
+                case RangedWeaponPowerup.Dormant:
+                    return new DormantProjectile(projectile);
                 case RangedWeaponPowerup.DoubleTrouble:
                     return new DoubleTroubleProjectile(projectile);
                 case RangedWeaponPowerup.Fatigue:

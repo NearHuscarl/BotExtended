@@ -108,14 +108,14 @@ namespace BotExtended
                     break;
 
                 default:
-                    ScriptHelper.PrintMessage("Invalid command: " + command, ScriptHelper.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid command: " + command, BeColors.ERROR_COLOR);
                     break;
             }
         }
 
         private static void PrintHelp()
         {
-            ScriptHelper.PrintMessage("--BotExtended help--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended help--", BeColors.ERROR_COLOR);
             ScriptHelper.PrintMessage("/<botextended|be> [help|h|?]: Print this help");
             ScriptHelper.PrintMessage("/<botextended|be> [version|v]: Print the current version");
             ScriptHelper.PrintMessage("/<botextended|be> [listfaction|lf]: List all bot factions");
@@ -202,7 +202,7 @@ namespace BotExtended
 
         private static void PrintVersion()
         {
-            ScriptHelper.PrintMessage("--BotExtended version--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended version--", BeColors.ERROR_COLOR);
             ScriptHelper.PrintMessage("v" + Constants.CURRENT_VERSION);
         }
 
@@ -218,21 +218,21 @@ namespace BotExtended
 
         private static void ListBotFaction()
         {
-            ScriptHelper.PrintMessage("--BotExtended list faction--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended list faction--", BeColors.ERROR_COLOR);
 
             foreach (var factionName in GetFactionNames())
             {
-                ScriptHelper.PrintMessage(factionName, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage(factionName, BeColors.WARNING_COLOR);
             }
         }
 
         private static void ListBotType()
         {
-            ScriptHelper.PrintMessage("--BotExtended list bot type--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended list bot type--", BeColors.ERROR_COLOR);
 
             foreach (var botType in SharpHelper.EnumToList<BotType>())
             {
-                ScriptHelper.PrintMessage((int)botType + ": " + SharpHelper.EnumToString(botType), ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage((int)botType + ": " + SharpHelper.EnumToString(botType), BeColors.WARNING_COLOR);
             }
         }
 
@@ -241,23 +241,23 @@ namespace BotExtended
             var query = arguments.FirstOrDefault();
             if (query == null) return;
 
-            ScriptHelper.PrintMessage("--BotExtended find results--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended find results--", BeColors.ERROR_COLOR);
 
             foreach (var factionName in GetFactionNames())
             {
                 var name = factionName.ToLowerInvariant();
                 if (name.Contains(query))
-                    ScriptHelper.PrintMessage(factionName, ScriptHelper.WARNING_COLOR);
+                    ScriptHelper.PrintMessage(factionName, BeColors.WARNING_COLOR);
             }
         }
 
         private static void ShowCurrentSettings()
         {
-            ScriptHelper.PrintMessage("--BotExtended settings--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended settings--", BeColors.ERROR_COLOR);
 
             var settings = Settings.Get();
 
-            ScriptHelper.PrintMessage("-Player settings", ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Player settings", BeColors.WARNING_COLOR);
 
             var activeUsers = ScriptHelper.GetActiveUsersByAccountID();
 
@@ -281,7 +281,7 @@ namespace BotExtended
                 }
             }
 
-            ScriptHelper.PrintMessage("-Factions", ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Factions", BeColors.WARNING_COLOR);
 
             // TODO: show except for all faction minus a small amount of others
             foreach (var team in new PlayerTeam[] { PlayerTeam.Team1, PlayerTeam.Team2, PlayerTeam.Team3, PlayerTeam.Team4, })
@@ -289,8 +289,8 @@ namespace BotExtended
                 var factions = settings.BotFactions[team];
                 var currentFaction = settings.CurrentFaction[team];
 
-                ScriptHelper.PrintMessage(" -" + team, ScriptHelper.WARNING_COLOR);
-                ScriptHelper.PrintMessage("  -Factions: ", ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage(" -" + team, BeColors.WARNING_COLOR);
+                ScriptHelper.PrintMessage("  -Factions: ", BeColors.WARNING_COLOR);
 
                 if (factions.Count == SharpHelper.EnumToArray<BotFaction>().Count() - 1 /* minus BotFaction.None */)
                 {
@@ -305,15 +305,15 @@ namespace BotExtended
                     }
                 }
 
-                ScriptHelper.PrintMessage("  -Current faction: " + currentFaction, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("  -Current faction: " + currentFaction, BeColors.WARNING_COLOR);
             }
 
             var rotationInterval = settings.FactionRotationEnabled ? settings.FactionRotationInterval.ToString() : "Disabled";
             var roundsUntilRotation = settings.FactionRotationEnabled ? settings.RoundsUntilFactionRotation.ToString() : "N/a";
 
-            ScriptHelper.PrintMessage("-Faction rotation interval: " + rotationInterval, ScriptHelper.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, ScriptHelper.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Faction rotation interval: " + rotationInterval, BeColors.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, BeColors.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Max bot count: " + settings.BotCount, BeColors.WARNING_COLOR);
         }
 
         public static void CreateNewBot(IEnumerable<string> arguments)
@@ -330,8 +330,8 @@ namespace BotExtended
             }
             else
             {
-                ScriptHelper.PrintMessage("--BotExtended spawn bot--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid query: " + botTypeStr, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended spawn bot--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid query: " + botTypeStr, BeColors.WARNING_COLOR);
                 return;
             }
 
@@ -374,7 +374,7 @@ namespace BotExtended
                     count = (int)MathHelper.Clamp(count, Constants.BOT_COUNT_MIN, Constants.BOT_COUNT_MAX);
                 else
                 {
-                    ScriptHelper.PrintMessage("[Botextended] Invalid query: " + countStr, ScriptHelper.WARNING_COLOR);
+                    ScriptHelper.PrintMessage("[Botextended] Invalid query: " + countStr, BeColors.WARNING_COLOR);
                     return;
                 }
             }
@@ -394,8 +394,8 @@ namespace BotExtended
 
             if (arguments.Count() == 0)
             {
-                ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid command: Argument is empty", ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setfaction--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid command: Argument is empty", BeColors.WARNING_COLOR);
                 return;
             }
 
@@ -423,8 +423,8 @@ namespace BotExtended
                 {
                     if (arg == "none")
                     {
-                        ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
-                        ScriptHelper.PrintMessage("Invalid argument: Cannot mix None with other options", ScriptHelper.WARNING_COLOR);
+                        ScriptHelper.PrintMessage("--BotExtended setfaction--", BeColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: Cannot mix None with other options", BeColors.WARNING_COLOR);
                         return;
                     }
 
@@ -434,8 +434,8 @@ namespace BotExtended
                     }
                     else
                     {
-                        ScriptHelper.PrintMessage("--BotExtended setfaction--", ScriptHelper.ERROR_COLOR);
-                        ScriptHelper.PrintMessage("Invalid argument: " + arg, ScriptHelper.WARNING_COLOR);
+                        ScriptHelper.PrintMessage("--BotExtended setfaction--", BeColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: " + arg, BeColors.WARNING_COLOR);
                         return;
                     }
                 }
@@ -464,7 +464,7 @@ namespace BotExtended
                 ScriptHelper.PrintMessage("[Botextended] Update successfully");
             }
             else
-                ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("[Botextended] Invalid query: " + firstArg, BeColors.WARNING_COLOR);
         }
 
         private static void SkipCurrentFaction()
@@ -535,8 +535,8 @@ namespace BotExtended
         {
             if (arguments.Count() < 2)
             {
-                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), BeColors.WARNING_COLOR);
                 return;
             }
 
@@ -544,8 +544,8 @@ namespace BotExtended
             IPlayer player;
             if (!TryParsePlayer(playerArg, out player))
             {
-                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("There is no player " + playerArg, BeColors.WARNING_COLOR);
                 return;
             }
             else
@@ -555,8 +555,8 @@ namespace BotExtended
             BotType botType;
             if (!SharpHelper.TryParseEnum(botTypeArg, out botType))
             {
-                ScriptHelper.PrintMessage("--BotExtended setplayer--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid BotType: " + botTypeArg, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setplayer--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid BotType: " + botTypeArg, BeColors.WARNING_COLOR);
                 return;
             }
 
@@ -575,8 +575,8 @@ namespace BotExtended
 
             if (arguments.Count() < 3)
             {
-                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid arguments: " + string.Join(" ", arguments), BeColors.WARNING_COLOR);
                 return;
             }
 
@@ -584,8 +584,8 @@ namespace BotExtended
             IPlayer player;
             if (!TryParsePlayer(playerArg, out player))
             {
-                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("There is no player " + playerArg, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("There is no player " + playerArg, BeColors.WARNING_COLOR);
                 return;
             }
             else
@@ -595,8 +595,8 @@ namespace BotExtended
             WeaponItem weaponItem;
             if (!SharpHelper.TryParseEnum(weaponItemArg, out weaponItem))
             {
-                ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid WeaponItem: " + weaponItemArg, ScriptHelper.WARNING_COLOR);
+                ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid WeaponItem: " + weaponItemArg, BeColors.WARNING_COLOR);
                 return;
             }
             else
@@ -612,8 +612,8 @@ namespace BotExtended
                 RangedWeaponPowerup powerup;
                 if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
                 {
-                    ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
-                    ScriptHelper.PrintMessage("Invalid range powerup: " + powerupArg, ScriptHelper.WARNING_COLOR);
+                    ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid range powerup: " + powerupArg, BeColors.WARNING_COLOR);
                     return;
                 }
                 else
@@ -624,8 +624,8 @@ namespace BotExtended
                 MeleeWeaponPowerup powerup;
                 if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
                 {
-                    ScriptHelper.PrintMessage("--BotExtended setweapon--", ScriptHelper.ERROR_COLOR);
-                    ScriptHelper.PrintMessage("Invalid melee powerup: " + powerupArg, ScriptHelper.WARNING_COLOR);
+                    ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid melee powerup: " + powerupArg, BeColors.WARNING_COLOR);
                     return;
                 }
                 else
@@ -646,10 +646,10 @@ namespace BotExtended
 
         private static void PrintStatistics()
         {
-            ScriptHelper.PrintMessage("--BotExtended statistics--", ScriptHelper.ERROR_COLOR);
+            ScriptHelper.PrintMessage("--BotExtended statistics--", BeColors.ERROR_COLOR);
 
             var botFactions = BotHelper.GetAvailableBotFactions();
-            ScriptHelper.PrintMessage("[WinCount] [TotalMatch] [SurvivalRate]", ScriptHelper.WARNING_COLOR);
+            ScriptHelper.PrintMessage("[WinCount] [TotalMatch] [SurvivalRate]", BeColors.WARNING_COLOR);
             foreach (var botFaction in botFactions)
             {
                 var factionSet = GetFactionSet(botFaction);

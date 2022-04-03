@@ -195,8 +195,10 @@ namespace BotExtended
                     }
                     bot.Update(elapsed);
                 }
-                else if (!player.IsRemoved)
+                else if (!player.IsRemoved && player.CustomID != Bot.NoneCustomID)
+                {
                     Wrap(player); // Normal players that are not extended bots
+                }
             }
 
             m_lastUpdateTime = Game.TotalElapsedGameTime;

@@ -15,7 +15,7 @@ namespace BotExtended.Bots
             public IObject TargetIndicator;
             public IObjectWeldJoint WeldJoint;
         }
-        public AssassinBot(BotArgs args) : base(args) { }
+        public AssassinBot(BotArgs args) : base(args) { _team = args.Player.GetTeam(); }
 
         private static Dictionary<PlayerTeam, AssassinInfo> AssassinInfos = new Dictionary<PlayerTeam, AssassinInfo>
         {
@@ -25,79 +25,73 @@ namespace BotExtended.Bots
             { PlayerTeam.Team4, new AssassinInfo() },
         };
 
-        private AssassinInfo AssInfo { get { return AssassinInfos[Player.GetTeam()]; } }
-        public IPlayer Target
-        {
-            get
-            {
-                if (Player.GetTeam() == PlayerTeam.Independent) return null;
-                return AssInfo.Target;
-            }
-            set
-            {
-                if (Player.GetTeam() == PlayerTeam.Independent) return;
-                AssInfo.Target = value;
-            }
-        }
+        private PlayerTeam _team;
 
         public override void OnSpawn()
         {
             base.OnSpawn();
-            FindTarget();
+            FindTarget(_team);
         }
 
-        private void FindTarget()
+        private static void FindTarget(PlayerTeam team)
         {
-            if (Player.GetTeam() == PlayerTeam.Independent || Target != null) return;
+            if (team == PlayerTeam.Independent) return;
 
-            var potentialTargets = Game.GetPlayers().Where(p => !ScriptHelper.SameTeam(p, Player) && !p.IsDead).ToList();
+            var assInfo = AssassinInfos[team];
+            if (assInfo.Target != null) return;
+
+            var potentialTargets = Game.GetPlayers().Where(p => !ScriptHelper.SameTeam(p, team) && !p.IsDead).ToList();
+            var teammates = GetTeammates(team).ToList();
+
             if (potentialTargets.Count > 0)
             {
-                Target = RandomHelper.GetItem(potentialTargets);
-                Game.CreateDialogue("Target: " + Target.Name, DialogueColor, Player, duration: 3000f);
-                
-                var targetPos = Target.GetWorldPosition();
+                assInfo.Target = RandomHelper.GetItem(potentialTargets);
+                var assassin = RandomHelper.GetItem(teammates);
+                assassin.SayLine("Target: " + assInfo.Target.Name);
+
+                var targetPos = assInfo.Target.GetWorldPosition();
                 targetPos.Y += 35;
                 var teamColor = new Dictionary<PlayerTeam, string> { { PlayerTeam.Team1, "Blue" }, { PlayerTeam.Team2, "Red" }, { PlayerTeam.Team3, "Green" }, { PlayerTeam.Team4, "Yellow" }, };
                 
-                if (AssInfo.TargetIndicator == null)
+                if (assInfo.TargetIndicator == null)
                 {
-                    AssInfo.TargetIndicator = Game.CreateObject("Target00");
+                    assInfo.TargetIndicator = Game.CreateObject("Target00");
                 }
                 else
                 {
-                    AssInfo.WeldJoint.Remove();
+                    assInfo.WeldJoint.Remove();
                 }
-                AssInfo.WeldJoint = ScriptHelper.Weld(Target, AssInfo.TargetIndicator);
-                AssInfo.TargetIndicator.SetWorldPosition(targetPos);
-                AssInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
-                AssInfo.TargetIndicator.SetColor1("Neon" + teamColor[Player.GetTeam()]);
+                assInfo.TargetIndicator.SetWorldPosition(targetPos);
+                assInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
+                assInfo.TargetIndicator.SetColor1("Neon" + teamColor[team]);
+                assInfo.WeldJoint = ScriptHelper.Weld(assInfo.Target, assInfo.TargetIndicator);
 
-                Events.PlayerDeathCallback cb = null;
+                var cb = (Events.PlayerDeathCallback)null;
                 cb = Events.PlayerDeathCallback.Start((player) =>
                 {
-                    if (GetTeammates().All(x => x.Player.IsDead))
+                    if (GetTeammates(team).All(x => x.Player.IsDead))
                     {
-                        if (AssInfo.WeldJoint != null)
+                        if (assInfo.WeldJoint != null)
                         {
-                            AssInfo.WeldJoint.Remove();
-                            AssInfo.TargetIndicator.Remove();
+                            assInfo.WeldJoint.Remove();
+                            assInfo.TargetIndicator.Remove();
                         }
+                        cb.Stop();
                         return;
                     }
-                    if (Target == null || player.UniqueID == Target.UniqueID)
+                    if (assInfo.Target == null || player.UniqueID == assInfo.Target.UniqueID)
                     {
-                        Target = null;
-                        FindTarget();
+                        assInfo.Target = null;
+                        FindTarget(team);
                         cb.Stop();
                     }
                 });
-            }
 
-            foreach (var bot in GetTeammates())
-                bot.Player.SetForcedBotTarget(Target);
+                foreach (var bot in teammates)
+                    bot.Player.SetForcedBotTarget(assInfo.Target);
+            }
         }
 
-        private IEnumerable<Bot> GetTeammates() { return BotManager.GetBots<AssassinBot>().Where(x => ScriptHelper.SameTeam(x.Player, Player)); }
+        private static IEnumerable<Bot> GetTeammates(PlayerTeam team) { return BotManager.GetBots<AssassinBot>().Where(x => ScriptHelper.SameTeam(x.Player, team)); }
     }
 }

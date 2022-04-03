@@ -149,7 +149,7 @@ namespace BotExtended.Powerups.RangeWeapons
             else
             {
                 var player = ScriptHelper.AsPlayer(TargetedObject);
-                if (player != null && !player.IsFalling) Command(player, PlayerCommandType.Fall);
+                if (player != null && !player.IsFalling) ScriptHelper.Fall(player);
             }
         }
 

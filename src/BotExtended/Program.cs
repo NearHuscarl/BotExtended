@@ -6,6 +6,7 @@ using System.Linq;
 using BotExtended.Factions;
 using BotExtended.Powerups;
 using BotExtended.Weapons;
+using BotExtended.Bots;
 
 namespace BotExtended
 {
@@ -17,6 +18,19 @@ namespace BotExtended
         public GameScript() : base(null) { }
 
         public void OnStartup()
+        {
+            // invoke the static contructor to create the null instance IPlayer
+            var bot = Bot.None;
+        }
+
+        public void AfterStartup()
+        {
+            // Initialize in AfterStartup instead of in OnStartup because we need to wait until the null IPlayer instance is removed from the world.
+            // otherwise, IPlayer.IsRemoved is not updated yet after calling Remove() and Game.GetPlayers() still returns the null IPlayer
+            Initialize();
+        }
+
+        private void Initialize()
         {
             // How to create a bot
             // 1. Define bot type in BotType.cs

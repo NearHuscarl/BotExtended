@@ -70,11 +70,13 @@
     <Compile Include="Powerups\MeleeWeapons\SplittingPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
+    <Compile Include="Powerups\RangeWeapons\Bow.cs" />
     <Compile Include="Powerups\RangeWeapons\FireProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\ObjectGun.cs" />
     <Compile Include="Powerups\RangeWeapons\SteakProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrinkingProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\DelayGun.cs" />
+    <Compile Include="Powerups\RangeWeapons\DormantProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\TermiteProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\InfiniteBouncingProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\PoisonProjectile.cs" />

@@ -61,9 +61,7 @@ namespace BotExtended.Powerups.RangeWeapons
 
             _targetPlayer = bot.Player;
             _targetPlayer.SetValidBotEliminateTarget(false);
-            _weldJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-            _weldJoint.SetWorldPosition(_head.GetWorldPosition());
-            _weldJoint.SetTargetObjects(new List<IObject>() { _head, _targetPlayer });
+            _weldJoint = ScriptHelper.Weld(_head, _targetPlayer);
 
             bot.Stun(6000).ContinueWith((r) =>
             {

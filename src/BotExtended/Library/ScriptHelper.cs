@@ -6,18 +6,19 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Library
 {
+    public enum Direction
+    {
+        Left,
+        Top,
+        Right,
+        Bottom,
+    }
+
     public static class ScriptHelper
     {
-        public static readonly Color Red = new Color(128, 32, 32);
-        public static readonly Color Orange = new Color(255, 128, 24);
-
-        public static readonly Color MESSAGE_COLOR = new Color(24, 238, 200);
-        public static readonly Color ERROR_COLOR = new Color(244, 77, 77);
-        public static readonly Color WARNING_COLOR = new Color(249, 191, 11);
-
         public static void PrintMessage(string message, Color? color = null)
         {
-            Game.ShowChatMessage(message, color ?? MESSAGE_COLOR);
+            Game.ShowChatMessage(message, color ?? BeColors.MESSAGE_COLOR);
         }
 
         // TODO: remove once gurt fixes
@@ -86,12 +87,13 @@ namespace BotExtended.Library
             var cb = (Events.UpdateCallback)null;
             cb = Events.UpdateCallback.Start(e =>
             {
-                callback.Invoke();
                 if (stopCondition())
                 {
                     if (cleanup != null) cleanup();
                     cb.Stop();
+                    return;
                 }
+                callback.Invoke();
             });
         }
 
@@ -162,6 +164,19 @@ namespace BotExtended.Library
                 minAngle = maxAngle;
                 maxAngle = oldMinAngle + MathHelper.TwoPI;
             }
+        }
+
+        public static Direction GetDir(float angle)
+        {
+            angle = MathExtension.NormalizeAngle(angle);
+
+            if (angle >= 0 && angle < MathHelper.PIOver4 || angle >= MathExtension.PI_3Over2 && angle <= MathExtension.PI * 2)
+                return Direction.Right;
+            if (angle >= MathHelper.PIOver4 && angle < MathHelper.PIOver2 + MathHelper.PIOver4)
+                return Direction.Top;
+            if (angle >= MathHelper.PIOver2 + MathHelper.PIOver4 && angle < MathHelper.PI + MathHelper.PIOver4)
+                return Direction.Left;
+            return Direction.Bottom;
         }
 
         public static bool IntersectCircle(Vector2 position, Vector2 center, float radius,
@@ -291,6 +306,18 @@ namespace BotExtended.Library
             return player.GetTeam() == team;
         }
 
+        public static Color GetTeamColor(PlayerTeam team)
+        {
+            switch (team)
+            {
+                case PlayerTeam.Team1: return BeColors.Team1;
+                case PlayerTeam.Team2: return BeColors.Team2;
+                case PlayerTeam.Team3: return BeColors.Team3;
+                case PlayerTeam.Team4: return BeColors.Team4;
+                default: return Color.White;
+            }
+        }
+
         public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
 
         public static Dictionary<string, IUser> GetActiveUsersByAccountID()
@@ -395,6 +422,8 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.Dynamic;
         }
 
+        public static bool IsDynamicG2(IObject obj) { return obj.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2; }
+
         public static bool IsInteractiveObject(IObject obj)
         {
             var cf = obj.GetCollisionFilter();
@@ -457,6 +486,72 @@ namespace BotExtended.Library
                 if (to.UniqueID == o.UniqueID)
                     j.SetTargetObjectA(null);
             }
+        }
+
+        public static IObjectWeldJoint Weld(params IObject[] weldedObjects)
+        {
+            weldedObjects = weldedObjects.Where(x => x != null).ToArray();
+            if (weldedObjects.Length < 2)
+                throw new Exception("weldedObjects is less than 2");
+
+            var weldJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint", weldedObjects.First().GetWorldPosition());
+            weldJoint.SetTargetObjects(weldedObjects);
+            return weldJoint;
+        }
+
+        public static void WeldPlayer(IPlayer player, IObject weldedObject)
+        {
+            var weldJoint = Weld(player, weldedObject);
+            var relPos = player.GetAABB().Center - weldedObject.GetWorldPosition();
+            var hitDir = player.GetFaceDirection();
+
+            RunUntil(() =>
+            {
+                if (player.IsOnGround)
+                {
+                    var dir = player.GetFaceDirection() != hitDir ? -1 : 1;
+                    var pBox = player.GetAABB();
+                    var aBox = weldedObject.GetAABB();
+                    var center = pBox.Center;
+
+                    weldedObject.SetFaceDirection(dir);
+                    if (weldJoint != null)
+                    {
+                        weldedObject.SetBodyType(BodyType.Static);
+                        weldJoint.Remove();
+                        weldJoint = null;
+                    }
+
+                    var pos = center - Vector2.UnitY * relPos.Y - Vector2.UnitX * relPos.X * dir;
+                    pos.Y = MathHelper.Clamp(pos.Y, pBox.Bottom + aBox.Height, pBox.Top - aBox.Height);
+                    pos.X = MathHelper.Clamp(pos.X, pBox.Left + aBox.Width, pBox.Right - aBox.Width);
+
+                    if (player.IsCrouching)
+                    {
+                        var crouchOffset = -Vector2.UnitY * 5;
+                        pos += crouchOffset;
+                        pos.Y = MathHelper.Clamp(pos.Y, pBox.Bottom + aBox.Height, pBox.Top - aBox.Height);
+                        pos.X = MathHelper.Clamp(pos.X, pBox.Left + aBox.Width, pBox.Right - aBox.Width);
+                        weldedObject.SetWorldPosition(pos);
+                    }
+                    else if (player.IsRolling)
+                    {
+                        weldedObject.SetWorldPosition(pBox.Center);
+                    }
+                    else
+                    {
+                        weldedObject.SetWorldPosition(pos);
+                    }
+                }
+                else if (player.IsInMidAir) // cannot track position accurately when player is in mid air
+                {
+                    if (weldJoint == null)
+                    {
+                        weldedObject.SetBodyType(BodyType.Dynamic);
+                        weldJoint = Weld(weldedObject, player);
+                    }
+                }
+            }, () => player.IsRemoved || weldedObject.IsRemoved);
         }
 
         public static IObject[] SplitTileObject(IObject o, Vector2 position)

@@ -11,12 +11,10 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class StickyBombProjectile : CustomProjectile
     {
-        private float m_timeElasped = 0f;
+        private float _hitTime = 0f;
         public IObject TargetedObject { get; private set; }
-        public IPlayer TargetedPlayer { get; private set; }
 
-        private Vector2 m_relPlayerPosition;
-        public IObjectWeldJoint m_weldJoint;
+        public IObjectWeldJoint _weldJoint;
 
         public StickyBombProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.StickyBomb) { }
 
@@ -46,48 +44,13 @@ namespace BotExtended.Powerups.RangeWeapons
             if (TargetedObject == null)
                 CheckIfCollide();
 
-            if (TargetedObject != null) Game.DrawArea(TargetedObject.GetAABB(), Color.Red);
-            if (TargetedPlayer != null)
-            {
-                if (TargetedPlayer.IsOnGround)
-                {
-                    if (m_weldJoint != null)
-                    {
-                        Instance.SetBodyType(BodyType.Static);
-                        m_weldJoint.Remove();
-                        m_weldJoint = null;
-                    }
+            if (TargetedObject != null)
+                Game.DrawArea(TargetedObject.GetAABB(), Color.Red);
 
-                    if (TargetedPlayer.IsCrouching)
-                    {
-                        Instance.SetWorldPosition(TargetedPlayer.GetWorldPosition() - m_relPlayerPosition - Vector2.UnitY * 5);
-                    }
-                    else if (TargetedPlayer.IsRolling)
-                    {
-                        Instance.SetWorldPosition(TargetedPlayer.GetAABB().Center);
-                    }
-                    else
-                    {
-                        Instance.SetWorldPosition(TargetedPlayer.GetWorldPosition() - m_relPlayerPosition);
-                    }
-                }
-                else if (TargetedPlayer.IsInMidAir) // cannot track position accurately when player is in mid air
-                {
-                    if (m_weldJoint == null)
-                    {
-                        Instance.SetBodyType(BodyType.Dynamic);
-                        m_weldJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-                        m_weldJoint.SetWorldPosition(Instance.GetWorldPosition());
-                        m_weldJoint.SetTargetObjects(new List<IObject>() { Instance, TargetedPlayer });
-                    }
-                }
-            }
-
-            if (m_timeElasped != 0 && ScriptHelper.IsElapsed(m_timeElasped, 2000))
+            if (_hitTime != 0 && ScriptHelper.IsElapsed(_hitTime, 2000))
             {
-                if (m_weldJoint != null) m_weldJoint.Remove();
+                if (_weldJoint != null) _weldJoint.Remove();
                 DealExplosionDamage();
-                Instance.Destroy();
             }
         }
 
@@ -97,12 +60,15 @@ namespace BotExtended.Powerups.RangeWeapons
             var filterArea = ScriptHelper.GrowFromCenter(center, Constants.ExplosionRadius * 2);
             var objectsInRadius = Game.GetObjectsByArea(filterArea)
                 .Where(o => filterArea.Contains(o.GetAABB())
+                && ScriptHelper.IsActiveObject(o)
                 && ScriptHelper.IntersectCircle(o.GetAABB(), center, Constants.ExplosionRadius));
 
             foreach (var o in objectsInRadius)
             {
-                if (!o.Destructable) ScriptHelper.SplitTileObject(o, center);
+                if (!o.Destructable && o.GetBodyType() == BodyType.Static) o.SetBodyType(BodyType.Dynamic);
             }
+
+            Instance.Destroy();
         }
 
         private Vector2 m_lastVelocity;
@@ -121,20 +87,13 @@ namespace BotExtended.Powerups.RangeWeapons
 
                 if (TargetedObject != null)
                 {
-                    m_timeElasped = Game.TotalElapsedGameTime;
-                    TargetedPlayer = ScriptHelper.AsPlayer(TargetedObject);
+                    _hitTime = Game.TotalElapsedGameTime;
+                    var player = ScriptHelper.AsPlayer(TargetedObject);
 
-                    if (TargetedPlayer != null)
-                    {
-                        Instance.SetBodyType(BodyType.Static);
-                        m_relPlayerPosition = TargetedPlayer.GetWorldPosition() - Instance.GetWorldPosition();
-                    }
+                    if (player != null)
+                        ScriptHelper.WeldPlayer(player, Instance);
                     else
-                    {
-                        m_weldJoint = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-                        m_weldJoint.SetWorldPosition(Instance.GetWorldPosition());
-                        m_weldJoint.SetTargetObjects(new List<IObject>() { Instance, TargetedObject });
-                    }
+                        _weldJoint = ScriptHelper.Weld(Instance, TargetedObject);
                 }
             }
 

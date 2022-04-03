@@ -50,13 +50,11 @@ namespace BotExtended.Powerups.MeleeWeapons
 
             var iLeft = Game.CreateObject("InvisibleBlockNoCollision", oLeft.GetAABB().TopLeft);
             var iRight = Game.CreateObject("InvisibleBlockNoCollision", oRight.GetAABB().TopRight);
-            var weldLeft = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
-            var weldRight = (IObjectWeldJoint)Game.CreateObject("WeldJoint");
+            var weldLeft = ScriptHelper.Weld(oLeft, iLeft);
+            var weldRight = ScriptHelper.Weld(oRight, iRight);
 
             iLeft.SetBodyType(BodyType.Dynamic);
             iRight.SetBodyType(BodyType.Dynamic);
-            weldLeft.SetTargetObjects(new IObject[] { oLeft, iLeft });
-            weldRight.SetTargetObjects(new IObject[] { oRight, iRight });
 
             var distanceJoint = (IObjectDistanceJoint)Game.CreateObject("DistanceJoint", oLeft.GetAABB().TopRight);
             var distanceTarget = (IObjectTargetObjectJoint)Game.CreateObject("TargetObjectJoint", oRight.GetAABB().TopLeft);

@@ -31,13 +31,14 @@ namespace BotExtended.Powerups
         {
             return CreateCustomProjectile(projectile, objectID, projectile.Velocity / 50 + Vector2.UnitY * 3);
         }
-        protected static IObject CreateCustomProjectile(IProjectile projectile, string objectID, Vector2 velocity)
+        protected static IObject CreateCustomProjectile(IProjectile projectile, string objectID, Vector2 velocity, float angularVelocity = 0)
         {
             var customBullet = Game.CreateObject(objectID);
             var length = Math.Max(customBullet.GetAABB().Width, customBullet.GetAABB().Height);
 
             customBullet.SetWorldPosition(projectile.Position + projectile.Direction * (length + 1));
             customBullet.SetLinearVelocity(velocity);
+            customBullet.SetAngularVelocity(angularVelocity);
             customBullet.SetFaceDirection(Math.Sign(projectile.Direction.X));
             customBullet.TrackAsMissile(true);
 

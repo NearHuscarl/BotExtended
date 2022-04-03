@@ -89,12 +89,14 @@ namespace BotExtended.Powerups
             foreach (var projectileID in m_customProjectiles.Keys.ToList())
             {
                 var projectile = m_customProjectiles[projectileID];
-                projectile.OnUpdate(elapsed);
+                
                 if (projectile.IsRemoved)
                 {
                     projectile.OnRemove();
                     m_customProjectiles.Remove(projectileID);
                 }
+                else
+                    projectile.OnUpdate(elapsed);
             }
 
             // need to create a new list before iterating since Update() can trigger a kill which leads to the collection being modified
@@ -427,6 +429,7 @@ namespace BotExtended.Powerups
                     var currentRangeWpn = playerWpn.CurrentRangeWeapon;
                     if (currentRangeWpn != null)
                     {
+                        // TODO: this line doesn't work
                         currentRangeWpn.OnProjectileHit(projectile, args);
                     }
                 }

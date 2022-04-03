@@ -117,6 +117,21 @@ namespace BotExtended
         }
     }
 
+    public struct BeColors
+    {
+        public static readonly Color Team1 = new Color(64, 64, 128);
+        public static readonly Color Team2 = new Color(128, 40, 40);
+        public static readonly Color Team3 = new Color(0, 112, 0);
+        public static readonly Color Team4 = new Color(112, 112, 0);
+
+        public static readonly Color Red = new Color(128, 32, 32);
+        public static readonly Color Orange = new Color(255, 128, 24);
+
+        public static readonly Color MESSAGE_COLOR = new Color(24, 238, 200);
+        public static readonly Color ERROR_COLOR = new Color(244, 77, 77);
+        public static readonly Color WARNING_COLOR = new Color(249, 191, 11);
+    }
+
     // PlayerCommandFaceDirection is too long
     public enum FaceDirection { None, Left, Right, }
 
