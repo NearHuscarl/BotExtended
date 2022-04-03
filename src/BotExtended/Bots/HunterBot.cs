@@ -11,56 +11,26 @@ namespace BotExtended.Bots
 {
     public class HunterBot : Bot
     {
-        private IPlayer m_target;
+        public HunterBot(BotArgs args) : base(args)
+        {
+            _isElapsedCheckTarget = ScriptHelper.WithIsElapsed(1000);
+        }
 
-        public HunterBot(BotArgs args) : base(args) { }
-
-        private float m_updateDelay = 0f;
+        private Func<bool> _isElapsedCheckTarget;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
             if (Player.IsDead) return;
-            if (m_target != null) Game.DrawArea(m_target.GetAABB(), Color.Magenta);
 
-            if (ScriptHelper.IsElapsed(m_updateDelay, 1000))
+            if (_isElapsedCheckTarget())
             {
-                if (m_target == null || m_target.IsDead)
-                    SearchJuicyBenny();
-            }
-            TryKeepDistance();
-        }
-
-        private float m_oldDistance = 0f;
-        private void TryKeepDistance()
-        {
-            if (m_target == null || m_target.IsDead) return;
-
-            var distanceToTarget = Vector2.Distance(Position, m_target.GetWorldPosition());
-            if (distanceToTarget < 35 && m_oldDistance >= 35)
-            {
-                ScriptHelper.Timeout(() =>
+                var target = Player.GetForcedBotTarget();
+                if (target == null || (ScriptHelper.IsPlayer(target) && ScriptHelper.AsPlayer(target).IsDead))
                 {
-                    m_target = null;
-                    Player.SetGuardTarget(null);
-                }, 4000);
-            }
-            m_oldDistance = distanceToTarget;
-        }
-
-        private void SearchJuicyBenny()
-        {
-            foreach (var p in Game.GetPlayers())
-            {
-                if (p.IsRemoved || p.IsDead) continue;
-                var skinName = p.GetProfile().Skin.Name;
-                var isBear = skinName == "FrankenbearSkin" || skinName == "BearSkin";
-
-                if (isBear && !ScriptHelper.SameTeam(p, Player))
-                {
-                    m_target = p;
-                    Player.SetGuardTarget(m_target);
-                    break;
+                    target = Game.GetPlayers().Where(p => !p.IsDead && !ScriptHelper.SameTeam(p, Player) && ScriptHelper.IsBear(p)).FirstOrDefault();
+                    if (target != null)
+                        Player.SetForcedBotTarget(target);
                 }
             }
         }

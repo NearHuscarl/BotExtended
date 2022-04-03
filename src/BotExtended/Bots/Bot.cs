@@ -350,11 +350,9 @@ namespace BotExtended.Bots
                         Disarm(projectile.Direction, destroyWeapon: destroyWeapon);
                 }
             }
-            if (bot.Type == BotType.Hunter && !Player.IsRemoved)
+            if (bot.Type == BotType.Hunter && !Player.IsRemoved && ScriptHelper.IsBear(Player))
             {
-                var skinName = Player.GetProfile().Skin.Name;
-                if (skinName == "FrankenbearSkin" || skinName == "BearSkin")
-                    Player.DealDamage(projectile.GetProperties().PlayerDamage * 2);
+                Player.DealDamage(projectile.GetProperties().PlayerDamage);
             }
         }
         public virtual void OnDeath(PlayerDeathArgs args)

@@ -822,6 +822,12 @@ namespace BotExtended.Library
             return Game.GetCameraMaxArea().TopLeft + new Vector2(10 + randX, 10 + randy);
         }
 
+        public static bool IsBear(IPlayer player)
+        {
+            var skinName = player.GetProfile().Skin.Name;
+            return skinName == "FrankenbearSkin" || skinName == "BearSkin";
+        }
+
         public static bool HaveUnderwear(IProfile profile)
         {
             var skin = profile.Skin;

@@ -211,8 +211,6 @@ namespace BotExtended
                         botInfo.SpawnLine = "It's almost harvesting season";
                     if (botType == BotType.Farmer)
                         botInfo.SpawnLine = "Look at all those chickens";
-                    if (botType == BotType.Hunter)
-                        botInfo.SpawnLine = "You can run, but you cant hide";
                     break;
                 }
                 #endregion
@@ -263,6 +261,8 @@ namespace BotExtended
                     {
                         botInfo.SearchItems = SearchItems.Health;
                         botInfo.AIType = BotAI.Hunter;
+                        botInfo.Modifiers.InfiniteAmmo = Constants.TOGGLE_ON;
+                        botInfo.SpawnLine = "You can run, but you cant hide";
                     }
                     break;
                 }

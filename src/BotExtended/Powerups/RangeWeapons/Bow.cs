@@ -52,7 +52,7 @@ namespace BotExtended.Powerups.RangeWeapons
             if (bot != Bot.None && !bot.Player.IsDead)
             {
                 var mod = bot.Player.GetModifiers();
-                mod.EnergyConsumptionModifier -= mod.EnergyConsumptionModifier * 0.2f;
+                mod.EnergyConsumptionModifier += mod.EnergyConsumptionModifier * 0.2f;
                 bot.SetModifiers(mod, true);
             }
         }

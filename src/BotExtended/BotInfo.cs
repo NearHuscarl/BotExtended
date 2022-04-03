@@ -14,8 +14,8 @@ namespace BotExtended
             IsBoss = false;
             SpawnLine = "";
             DeathLine = "";
-            SpawnLineChance = 1f;
-            DeathLineChance = 1f;
+            SpawnLineChance = .1f;
+            DeathLineChance = .1f;
             ZombieStatus = ZombieStatus.Human;
             ImmuneToInfect = false;
             SearchRange = WpnSearchRange.Infinite;
@@ -32,8 +32,6 @@ namespace BotExtended
             AIType = BotAI.None;
             SearchItems = player == null ? SearchItems.None : player.GetBotBehaviorSet().SearchItems;
             Modifiers = player == null ? new PlayerModifiers() : player.GetModifiers();
-            SpawnLineChance = .1f;
-            DeathLineChance = .1f;
         }
 
         private float equipWeaponChance;
