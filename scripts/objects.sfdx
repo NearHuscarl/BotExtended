@@ -9,6 +9,10 @@ tile(BazookaRocket) { material=metal; punchable=false; kickable=false; projectil
     material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
 tile(BowArrow) { material=metal; punchable=false; kickable=false; projectileHit=false;
     material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BowArrowDebris1) { life=1; material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BowArrowDebris2) { life=1; material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BowArrowDebris3) { life=1; material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
+tile(BowArrowDebris4) { life=1; material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
 tile(BulletCommonSlowmo) { material=metal; punchable=false; kickable=false; projectileHit=false;
     material.blockExplosions=false; drawCategory=SLD; fixture(){ collisionGroup=dynamics_g2; blockFire=false; } }
 
