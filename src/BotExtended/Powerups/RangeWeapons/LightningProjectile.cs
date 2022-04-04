@@ -21,7 +21,7 @@ namespace BotExtended.Powerups.RangeWeapons
             LightningDamage = 7f;
 
             var start = projectile.Position + projectile.Direction * 10;
-            var end = start + projectile.Direction * 800;
+            var end = start + projectile.Direction * ScriptHelper.GetDistanceToEdge(start, projectile.Direction);
             var results = Game.RayCast(start, end, new RayCastInput()
             {
                 ProjectileHit = RayCastFilterMode.True,

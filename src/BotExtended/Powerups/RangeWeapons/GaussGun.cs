@@ -13,7 +13,7 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         public float ChargeModifier { get; private set; }
 
-        public override float MaxRange { get { return Projectile.IsShotgun(Mapper.GetProjectile(Name)) ? 150 : 300; } }
+        public override float MaxRange { get { return Projectile.IsShotgun(Mapper.GetProjectile(Name)) ? 300 : float.MaxValue; } }
         public override bool IsValidPowerup()
         {
             return !Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
@@ -51,7 +51,7 @@ namespace BotExtended.Powerups.RangeWeapons
             base.OnProjectileCreated(projectile);
 
             var start = projectile.Position;
-            var end = start + projectile.Direction * MaxRange;
+            var end = start + projectile.Direction * Math.Min(MaxRange, ScriptHelper.GetDistanceToEdge(start, projectile.Direction));
             var maxHitCount = Game.IsEditorTest ? 5000 : (int)(ChargeModifier / 1000 + 1);
             var results = Game.RayCast(start, end, new RayCastInput()
             {

@@ -68,7 +68,7 @@ namespace BotExtended.Powerups.MeleeWeapons
         {
             base.Update(elapsed);
 
-            Game.DrawText(_state.ToString(), Owner.GetWorldPosition());
+            //Game.DrawText(_state.ToString(), Owner.GetWorldPosition());
 
             if (Owner.IsDead && _state != State.Normal)
             {

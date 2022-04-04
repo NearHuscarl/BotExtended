@@ -41,55 +41,53 @@ namespace BotExtended.Bots
             if (assInfo.Target != null) return;
 
             var potentialTargets = Game.GetPlayers().Where(p => !ScriptHelper.SameTeam(p, team) && !p.IsDead).ToList();
+            if (potentialTargets.Count == 0) return;
+
+            assInfo.Target = RandomHelper.GetItem(potentialTargets);
             var teammates = GetTeammates(team).ToList();
+            var assassin = RandomHelper.GetItem(teammates);
+            assassin.SayLine("Target: " + assInfo.Target.Name);
 
-            if (potentialTargets.Count > 0)
+            var targetPos = assInfo.Target.GetWorldPosition();
+            targetPos.Y += 35;
+            var teamColor = new Dictionary<PlayerTeam, string> { { PlayerTeam.Team1, "Blue" }, { PlayerTeam.Team2, "Red" }, { PlayerTeam.Team3, "Green" }, { PlayerTeam.Team4, "Yellow" }, };
+
+            if (assInfo.TargetIndicator == null)
             {
-                assInfo.Target = RandomHelper.GetItem(potentialTargets);
-                var assassin = RandomHelper.GetItem(teammates);
-                assassin.SayLine("Target: " + assInfo.Target.Name);
-
-                var targetPos = assInfo.Target.GetWorldPosition();
-                targetPos.Y += 35;
-                var teamColor = new Dictionary<PlayerTeam, string> { { PlayerTeam.Team1, "Blue" }, { PlayerTeam.Team2, "Red" }, { PlayerTeam.Team3, "Green" }, { PlayerTeam.Team4, "Yellow" }, };
-                
-                if (assInfo.TargetIndicator == null)
-                {
-                    assInfo.TargetIndicator = Game.CreateObject("Target00");
-                }
-                else
-                {
-                    assInfo.WeldJoint.Remove();
-                }
-                assInfo.TargetIndicator.SetWorldPosition(targetPos);
-                assInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
-                assInfo.TargetIndicator.SetColor1("Neon" + teamColor[team]);
-                assInfo.WeldJoint = ScriptHelper.Weld(assInfo.Target, assInfo.TargetIndicator);
-
-                var cb = (Events.PlayerDeathCallback)null;
-                cb = Events.PlayerDeathCallback.Start((player) =>
-                {
-                    if (GetTeammates(team).All(x => x.Player.IsDead))
-                    {
-                        if (assInfo.WeldJoint != null)
-                        {
-                            assInfo.WeldJoint.Remove();
-                            assInfo.TargetIndicator.Remove();
-                        }
-                        cb.Stop();
-                        return;
-                    }
-                    if (assInfo.Target == null || player.UniqueID == assInfo.Target.UniqueID)
-                    {
-                        assInfo.Target = null;
-                        FindTarget(team);
-                        cb.Stop();
-                    }
-                });
-
-                foreach (var bot in teammates)
-                    bot.Player.SetForcedBotTarget(assInfo.Target);
+                assInfo.TargetIndicator = Game.CreateObject("Target00");
             }
+            else
+            {
+                assInfo.WeldJoint.Remove();
+            }
+            assInfo.TargetIndicator.SetWorldPosition(targetPos);
+            assInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
+            assInfo.TargetIndicator.SetColor1("Neon" + teamColor[team]);
+            assInfo.WeldJoint = ScriptHelper.Weld(assInfo.Target, assInfo.TargetIndicator);
+
+            var cb = (Events.PlayerDeathCallback)null;
+            cb = Events.PlayerDeathCallback.Start((player) =>
+            {
+                if (GetTeammates(team).All(x => x.Player.IsDead))
+                {
+                    if (assInfo.WeldJoint != null)
+                    {
+                        assInfo.WeldJoint.Remove();
+                        assInfo.TargetIndicator.Remove();
+                    }
+                    cb.Stop();
+                    return;
+                }
+                if (assInfo.Target == null || player.UniqueID == assInfo.Target.UniqueID)
+                {
+                    assInfo.Target = null;
+                    FindTarget(team);
+                    cb.Stop();
+                }
+            });
+
+            foreach (var bot in teammates)
+                bot.Player.SetForcedBotTarget(assInfo.Target);
         }
 
         private static IEnumerable<Bot> GetTeammates(PlayerTeam team) { return BotManager.GetBots<AssassinBot>().Where(x => ScriptHelper.SameTeam(x.Player, team)); }

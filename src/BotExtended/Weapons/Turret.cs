@@ -342,6 +342,7 @@ namespace BotExtended.Weapons
             m_alterCollisionTile.AddTargetObject(obj);
         }
 
+        // TODO: set turret body to dynamic and a very large mass
         public static IObject GetGround(Vector2 position)
         {
             var start = position - Vector2.UnitY * 13;

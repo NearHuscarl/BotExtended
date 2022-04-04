@@ -179,6 +179,44 @@ namespace BotExtended.Library
             return Direction.Bottom;
         }
 
+        // Camera.cs#GetDistanceToEdge()
+        public static float GetDistanceToEdge(Vector2 position, Vector2 direction)
+        {
+            var result = -1f;
+            var camera = Game.GetCameraArea();
+            if (direction.X != 0.0)
+            {
+                if (position.X < camera.Right)
+                {
+                    var num2 = (camera.Right - position.X) / direction.X;
+                    if (num2 > 0.0 && (result == -1.0 || num2 < result))
+                        result = num2;
+                }
+                if (position.X > camera.Left)
+                {
+                    var num2 = (camera.Left - position.X) / direction.X;
+                    if (num2 > 0.0 && (result == -1.0 || num2 < result))
+                        result = num2;
+                }
+            }
+            if (direction.Y != 0.0)
+            {
+                if (position.Y < camera.Top)
+                {
+                    var num2 = (camera.Top - position.Y) / direction.Y;
+                    if (num2 > 0.0 && (result == -1.0 || num2 < result))
+                        result = num2;
+                }
+                if (position.Y > camera.Bottom)
+                {
+                    var num2 = (camera.Bottom - position.Y) / direction.Y;
+                    if (num2 > 0.0 && (result == -1.0 || num2 < result))
+                        result = num2;
+                }
+            }
+            return result;
+        }
+
         public static bool IntersectCircle(Vector2 position, Vector2 center, float radius,
             float minAngle = 0, float maxAngle = 0, bool smallSector = true)
         {

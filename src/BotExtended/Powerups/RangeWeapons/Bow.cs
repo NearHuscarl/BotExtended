@@ -42,6 +42,9 @@ namespace BotExtended.Powerups.RangeWeapons
             var player = ScriptHelper.AsPlayer(hitObject);
             if (player == null)
             {
+                var cf = arrow.GetCollisionFilter();
+                cf.CategoryBits = CategoryBits.DynamicG1;
+                arrow.SetCollisionFilter(cf);
                 ScriptHelper.Weld(hitObject, arrow);
                 return;
             }

@@ -123,11 +123,12 @@ namespace BotExtended.Weapons
                 return;
             }
             var start = _laser.StartPosition;
-            var end = start + ScriptHelper.GetDirection(nextAngle) * 1000;
+            var nextDir = ScriptHelper.GetDirection(nextAngle);
+            var end = start + nextDir * ScriptHelper.GetDistanceToEdge(start, nextDir);
             var results = Game.RayCast(start, end, new RayCastInput()
             {
                 FilterOnMaskBits = true,
-                MaskBits = CategoryBits.StaticGround + CategoryBits.Player + CategoryBits.DynamicG1 + CategoryBits.DynamicG2,
+                MaskBits = CategoryBits.StaticGround + CategoryBits.Player + CategoryBits.Dynamic,
             }).Where(r => r.HitObject != null);
 
             var groundResult = results.FirstOrDefault(x =>
