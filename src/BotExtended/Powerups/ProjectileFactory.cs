@@ -22,6 +22,8 @@ namespace BotExtended.Powerups
                     return new Bow(projectile);
                 case RangedWeaponPowerup.Dormant:
                     return new DormantProjectile(projectile);
+                case RangedWeaponPowerup.DoublePenetration:
+                    return new DoublePenetrationProjectile(projectile);
                 case RangedWeaponPowerup.DoubleTrouble:
                     return new DoubleTroubleProjectile(projectile);
                 case RangedWeaponPowerup.Fatigue:
@@ -42,6 +44,8 @@ namespace BotExtended.Powerups
                     return new LightningProjectile(projectile);
                 case RangedWeaponPowerup.Molotov:
                     return new MolotovProjectile(projectile);
+                case RangedWeaponPowerup.Penetration:
+                    return new PenetrationProjectile(projectile);
                 case RangedWeaponPowerup.Poison:
                     return new PoisonProjectile(projectile);
                 case RangedWeaponPowerup.Present:

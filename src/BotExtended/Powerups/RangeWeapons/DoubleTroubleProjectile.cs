@@ -11,57 +11,45 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class DoubleTroubleProjectile : Projectile
     {
-        public DoubleTroubleProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.DoubleTrouble)
-        {
-        }
+        public DoubleTroubleProjectile(IProjectile projectile) : this(projectile, RangedWeaponPowerup.DoubleTrouble) { }
+        public DoubleTroubleProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public override bool IsRemoved { get { return true; } }
 
         protected override bool OnProjectileCreated()
         {
             var owner = Game.GetPlayer(InitialOwnerPlayerID);
-            Vector2 position, direction;
-
-            if (owner.GetWeaponMuzzleInfo(out position, out direction))
-            {
-                var secondProjDirection = Vector2.Negate(Instance.Direction);
-                var start = position;
-                var end = position + secondProjDirection * 20;
-                var results = Game.RayCast(end, start, new RayCastInput()
-                {
-                    FilterOnMaskBits = true,
-                    MaskBits = CategoryBits.Player,
-                    IncludeOverlap = true,
-                });
-
-                foreach (var r in results)
-                {
-                    if (r.HitObject.UniqueID == owner.UniqueID)
-                    {
-                        var spawnPosition = r.Position + secondProjDirection * 1f;
-                        var projectileItem = Instance.ProjectileItem;
-
-                        // TODO: wait for gurt to fix it
-                        ScriptHelper.Timeout(() =>
-                        {
-                            Game.SpawnProjectile(projectileItem, spawnPosition, secondProjDirection, ProjectilePowerup.Bouncing);
-                        }, 0);
-
-                        if (false && Game.IsEditorTest)
-                        {
-                            ScriptHelper.RunIn(() =>
-                            {
-                                Game.DrawLine(start, end);
-                                Game.DrawArea(owner.GetAABB(), Color.Red);
-                                Game.DrawCircle(spawnPosition, .5f, Color.Green);
-                            }, 1500);
-                        }
-                        break;
-                    }
-                }
-            }
+            SpawnOppositeProjectile(owner, Instance);
 
             return true;
+        }
+
+        public static IProjectile SpawnOppositeProjectile(IPlayer owner, IProjectile projectile)
+        {
+            Vector2 position, direction;
+
+            if (!owner.GetWeaponMuzzleInfo(out position, out direction))
+                return null;
+
+            var oppositeDir = Vector2.Negate(projectile.Direction);
+            var oBox = owner.GetAABB();
+            var offset = Vector2.Distance(oBox.Center, position) / 2f;
+            var start = position + oppositeDir * offset;
+            var end = start + oppositeDir * (oBox.Height + 3);
+            var result = Game.RayCast(end, start, new RayCastInput()
+            {
+                FilterOnMaskBits = true,
+                MaskBits = CategoryBits.Player,
+                ClosestHitOnly = true,
+                IncludeOverlap = true,
+            }).FirstOrDefault(r => r.HitObject.UniqueID == owner.UniqueID);
+
+            if (result.HitObject == null) return null;
+
+            var spawnPosition = result.Position + oppositeDir * 3;
+            var projectileItem = projectile.ProjectileItem;
+
+            return Game.SpawnProjectile(projectileItem, spawnPosition, oppositeDir, ProjectilePowerup.Bouncing);
         }
     }
 }
