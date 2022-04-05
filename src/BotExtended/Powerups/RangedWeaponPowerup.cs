@@ -28,6 +28,7 @@
         Poison,
         Present,
         Riding,
+        Shotgun,
         Shrinking,
         Smoke,
         Stun,

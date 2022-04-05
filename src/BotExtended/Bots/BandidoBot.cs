@@ -19,7 +19,7 @@ namespace BotExtended.Bots
         private Vector2 _firePosition;
         private Func<bool> _isElapsedAmmoFire;
         private WeaponItem _lastRangeWpn = WeaponItem.NONE;
-        public static readonly float FireAmmoOnDeathChance = Game.IsEditorTest ? 1 : .65f;
+        public static readonly float FireAmmoOnDeathChance = Game.IsEditorTest ? .5f : .65f;
 
         protected override void OnUpdate(float elapsed)
         {
@@ -58,8 +58,9 @@ namespace BotExtended.Bots
 
                 if (_lastRangeWpn != WeaponItem.NONE && RandomHelper.Percentage(FireAmmoOnDeathChance))
                 {
-                    _firePosition = new Vector2(Position.X, Position.Y - 2);
-                    Game.CreateObject("AmmoStash00", _firePosition);
+                    _firePosition = new Vector2(Position.X, Position.Y - 4);
+                    var ammoStash = Game.CreateObject("AmmoStash00", _firePosition);
+                    ScriptHelper.Weld(groundObj, ammoStash);
                     // fire above corpse so it doesn't get gibbed
                     _firePosition.Y += 9;
                     _fireAmmoFromCorpse = true;

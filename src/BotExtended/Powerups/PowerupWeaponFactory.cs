@@ -1,4 +1,4 @@
-using BotExtended.Library;
+﻿using BotExtended.Library;
 using BotExtended.Powerups.MeleeWeapons;
 using BotExtended.Powerups.RangeWeapons;
 using SFDGameScriptInterface;
@@ -26,6 +26,8 @@ namespace BotExtended.Powerups
                         return new MiniGun(owner, name);
                     case RangedWeaponPowerup.Object:
                         return new ObjectGun(owner, name);
+                    case RangedWeaponPowerup.Shotgun:
+                        return new Shotgun(owner, name);
                     case RangedWeaponPowerup.Taser:
                         return new TaserGun(owner, name);
                     default:

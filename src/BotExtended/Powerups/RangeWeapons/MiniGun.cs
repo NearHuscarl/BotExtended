@@ -64,6 +64,7 @@ namespace BotExtended.Powerups.RangeWeapons
             if (_exraShots == 0 && RandomHelper.Percentage(.4f)) Game.PlayEffect(EffectName.Dig, muzzle.Position);
             _exraShots++;
 
+            // recoil
             var pos = Owner.GetWorldPosition();
             pos.X -= Owner.GetFaceDirection() * .2f;
             Owner.SetWorldPosition(pos);

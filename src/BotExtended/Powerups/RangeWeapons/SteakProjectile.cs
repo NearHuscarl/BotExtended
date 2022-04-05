@@ -54,6 +54,7 @@ namespace BotExtended.Powerups.RangeWeapons
                     if (z.Player.IsDead) continue;
                     if (z.Player.GetAABB().Intersects(ScriptHelper.Grow(Instance.GetAABB(), 5, 5)))
                     {
+                        Game.PlaySound("GetHealthSmall", z.Position);
                         Instance.Destroy();
                         z.ResetModifiers();
                         z.ResetBotBehaviorSet();
