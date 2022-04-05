@@ -58,7 +58,7 @@
         Mutant,
 
         NaziLabAssistant,
-        NaziMuscleSoldier,
+        NaziHulk,
         NaziScientist,
         NaziSoldier,
 
@@ -149,6 +149,7 @@
         Ninja,
         PoliceChief,
         President,
+        Quillhogg,
         Rambo,
         Raze,
         Reznor,

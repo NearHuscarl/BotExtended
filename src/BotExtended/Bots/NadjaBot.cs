@@ -37,12 +37,17 @@ namespace BotExtended.Bots
                 if (_isElapsedCheckPlaceTrap() && CanPlaceTrap())
                 {
                     _placeTrapTime = Game.TotalElapsedGameTime;
-                    ScriptHelper.Command(Player, PlayerCommandType.StartCrouch, delayTime: 1000).ContinueWith(r => PlaceTrap());
+                    ScriptHelper.Command(Player, new PlayerCommand[]
+                    {
+                        new PlayerCommand(PlayerCommandType.StartCrouch, Position, delayTime: 1000),
+                        new PlayerCommand(PlayerCommandType.StopCrouch),
+                    });
+                    ScriptHelper.Timeout(PlaceTrap, 950);
                 }
             }
         }
 
-        public void PlaceTrap() { Traps.Add(WeaponManager.SpawnWeapon(RandomHelper.GetItem(TrapNames), Player)); }
+        public void PlaceTrap() { if (!Player.IsDead && Player.IsCrouching) Traps.Add(WeaponManager.SpawnWeapon(RandomHelper.GetItem(TrapNames), Player)); }
 
         public bool CanPlaceTrap()
         {

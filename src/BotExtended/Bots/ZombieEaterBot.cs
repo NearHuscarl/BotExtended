@@ -68,6 +68,7 @@ namespace BotExtended.Bots
             {
                 new PlayerCommand(PlayerCommandType.StartCrouch),
                 new PlayerCommand(PlayerCommandType.Grab),
+                new PlayerCommand(PlayerCommandType.StopCrouch),
             });
         }
 
@@ -103,10 +104,12 @@ namespace BotExtended.Bots
 
                 if (enemy != null)
                 {
+                    var position = enemy.GetWorldPosition();
                     _lostGiblets++;
                     enemy.DealDamage(0.001f); // play effect
-                    Game.PlayEffect(EffectName.MeleeHitBlunt, enemy.GetWorldPosition());
-                    var giblet = Game.CreateObject(RandomHelper.GetItem(Constants.Giblets), enemy.GetWorldPosition());
+                    Game.PlayEffect(EffectName.MeleeHitBlunt, position);
+                    Game.PlaySound("ImpactFlesh", position);
+                    var giblet = Game.CreateObject(RandomHelper.GetItem(Constants.Giblets), position);
                     giblet.SetLinearVelocity(RandomHelper.Direction(20, 180 - 20) * RandomHelper.Between(5, 15));
 
                     if (_lostGiblets == Constants.Giblets.Length)

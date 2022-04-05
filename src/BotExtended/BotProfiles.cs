@@ -610,7 +610,7 @@ namespace BotExtended
                 #endregion
 
                 #region NaziMuscleSoldier
-                case BotType.NaziMuscleSoldier:
+                case BotType.NaziHulk:
                 {
                     // https://profile-editor.vercel.app?p=M1Fzj1zhj1KhZ0iej0q1ZY08tZYY
                     profiles.Add(new IProfile() { Name = "Nazi Muscle Soldier", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin4", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingLightBrown", "ClothingLightGray"), Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightGray"), Legs = new IProfileClothingItem("Pants", "ClothingLightBrown"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("Armband", "ClothingRed"), });
@@ -775,6 +775,15 @@ namespace BotExtended
                     profiles.Add(new IProfile() { Name = "Pyromaniac", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightRed"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("Sweater", "ClothingLightRed"), Hands = new IProfileClothingItem("SafetyGlovesBlack", "ClothingDarkRed"), Legs = new IProfileClothingItem("PantsBlack", "ClothingDarkGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), Accesory = new IProfileClothingItem("GasMask", "ClothingGray", "ClothingLightRed"), });
                     // https://profile-editor.vercel.app?p=F39yoY1M7ZY0qeZ057Z0Seo26cZY
                     profiles.Add(new IProfile() { Name = "Pyromaniac", Gender = Gender.Female, Skin = new IProfileClothingItem("Tattoos_fem", "Skin3", "ClothingLightRed"), ChestOver = new IProfileClothingItem("AmmoBelt_fem", "ClothingDarkGray"), Hands = new IProfileClothingItem("SafetyGlovesBlack_fem", "ClothingDarkRed"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("GasMask", "ClothingGray", "ClothingLightRed"), });
+                    break;
+                }
+                #endregion
+
+                #region Quillhogg
+                case BotType.Quillhogg:
+                {
+                    // https://profile-editor.vercel.app?p=M38xp2wtZ1KgZ2cqZ0q1Z02cZ3n7n0O7Z0kdo
+                    profiles.Add(new IProfile() { Name = "Quillhogg", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingLightYellow"), Head = new IProfileClothingItem("Beret", "ClothingDarkYellow", "ClothingLightRed"), ChestOver = new IProfileClothingItem("AmmoBelt", "ClothingDarkRed"), ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingRed"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingOrange"), Legs = new IProfileClothingItem("Pants", "ClothingLightBlue"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("Vizor", "ClothingDarkGray", "ClothingLightPurple"), });
                     break;
                 }
                 #endregion

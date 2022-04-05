@@ -78,6 +78,7 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Slide,
                         Primary = WeaponItem.DARK_SHOTGUN,
                         PrimaryPowerup = RangedWeaponPowerup.Gauss,
                         Secondary = WeaponItem.PISTOL,
@@ -895,12 +896,13 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region NaziMuscleSoldier
-                case BotType.NaziMuscleSoldier:
+                #region NaziHulk
+                case BotType.NaziHulk:
                 {
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        MeleeHandPowerup = MeleeWeaponPowerup.Breaking,
                     });
                     break;
                 }
@@ -1148,6 +1150,19 @@ namespace BotExtended
                         Secondary = WeaponItem.FLAREGUN,
                         SecondaryPowerup = RangedWeaponPowerup.InfiniteBouncing,
                         Throwable = WeaponItem.MOLOTOVS,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Quillhogg
+                case BotType.Quillhogg:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Dormant,
+                        Throwable = WeaponItem.GRENADES,
                     });
                     break;
                 }

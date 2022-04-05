@@ -116,7 +116,7 @@ namespace BotExtended
                 case BotType.ThugHulk:
                 case BotType.PunkHulk:
                 case BotType.Lumberjack:
-                case BotType.NaziMuscleSoldier:
+                case BotType.NaziHulk:
                 {
                     botInfo.AIType = BotAI.Hulk;
                     botInfo.Modifiers = new PlayerModifiers(true)
@@ -1034,6 +1034,24 @@ namespace BotExtended
                         ImpactDamageTakenModifier = DamageTaken.ExtremelyResistant,
                         SizeModifier = Size.Chonky,
                         InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Quillhogg
+                case BotType.Quillhogg:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Powerups | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
                     };
                     botInfo.IsBoss = true;
                     break;

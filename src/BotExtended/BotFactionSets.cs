@@ -247,12 +247,10 @@ namespace BotExtended
 
                 #region Nazi
                 case BotFaction.Boss_MadScientist:
-                case BotFaction.Boss_Kriegbar:
                 case BotFaction.Nazi:
                 {
                     if (botFaction == BotFaction.Boss_MadScientist) bosses.Add(new SubFaction(BotType.Fritzliebe));
-                    if (botFaction == BotFaction.Boss_Kriegbar) bosses.Add(new SubFaction(BotType.Kriegbar));
-                    factionSet.AddFaction(new List<SubFaction>(bosses));
+                    // TODO: add SSOfficer
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.NaziSoldier, 1f),
@@ -260,7 +258,7 @@ namespace BotExtended
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.NaziSoldier, 0.6f),
-                        new SubFaction(BotType.NaziMuscleSoldier, 0.4f),
+                        new SubFaction(BotType.NaziHulk, 0.4f),
                     });
                     break;
                 }
@@ -309,10 +307,12 @@ namespace BotExtended
                 #region Punk
                 case BotFaction.Boss_Balista:
                 case BotFaction.Boss_Firebug:
+                case BotFaction.Boss_Quillhogg:
                 case BotFaction.Punk:
                 {
                     if (botFaction == BotFaction.Boss_Balista) bosses.Add(new SubFaction(BotType.Balista));
                     if (botFaction == BotFaction.Boss_Firebug) bosses.Add(new SubFaction(BotType.Firebug));
+                    if (botFaction == BotFaction.Boss_Quillhogg) bosses.Add(new SubFaction(BotType.Quillhogg));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Punk, 1f),
@@ -366,7 +366,33 @@ namespace BotExtended
                 #region Robot
                 case BotFaction.Robot:
                 {
+                    // TODO: add custom profiles
                     factionSet.AddFaction(new SubFaction(BotType.Cyborg, 1f));
+                    break;
+                }
+                #endregion
+
+                #region Scientist
+                case BotFaction.Boss_Boffin:
+                case BotFaction.Boss_Kriegbar:
+                case BotFaction.Scientist:
+                {
+                    if (botFaction == BotFaction.Boss_Boffin) bosses.Add(new SubFaction(BotType.Boffin));
+                    if (botFaction == BotFaction.Boss_Kriegbar) bosses.Add(new SubFaction(BotType.Kriegbar));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Scientist, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.LabAssistant, .5f),
+                        new SubFaction(BotType.Scientist, .5f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Scientist, .75f),
+                        new SubFaction(BotType.LabAssistant, .25f),
+                    });
                     break;
                 }
                 #endregion
@@ -612,30 +638,6 @@ namespace BotExtended
                     factionSet.AddFaction(new SubFaction(BotType.Survivalist));
                     break;
 
-                #endregion
-
-                #region Boss_Boffin
-                case BotFaction.Boss_Boffin:
-                {
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Boffin),
-                        new SubFaction(BotType.Scientist, 1f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Boffin),
-                        new SubFaction(BotType.LabAssistant, .5f),
-                        new SubFaction(BotType.Scientist, .5f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(BotType.Boffin),
-                        new SubFaction(BotType.Scientist, .75f),
-                        new SubFaction(BotType.LabAssistant, .25f),
-                    });
-                    break;
-                }
                 #endregion
 
                 #region Boss_Hacker
