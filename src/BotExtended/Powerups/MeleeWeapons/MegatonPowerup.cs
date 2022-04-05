@@ -42,6 +42,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             enemy.SetStatusBarsVisible(false);
 
             var deflectCount = 0;
+            // TODO: explosive sound effect
 
             enemy.SetLinearVelocity(new Vector2(25 * Owner.GetFaceDirection(), 25));
             Game.RunCommand("/settime 0.1");

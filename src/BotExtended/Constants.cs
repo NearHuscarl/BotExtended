@@ -8,6 +8,7 @@ namespace BotExtended
     {
         internal const int BOT_COUNT_MIN = 1;
         internal const int BOT_COUNT_MAX = 10;
+        internal const float CORPSE_MAX_HEALTH = 150;
 
         internal const float MAX_WALK_SPEED = 2.5f;
         internal const float MAX_SPRINT_SPEED = 3.5f;

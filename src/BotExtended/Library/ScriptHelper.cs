@@ -115,13 +115,32 @@ namespace BotExtended.Library
             return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;
         }
 
-        public static Func<bool> WithIsElapsed(float minTime, float maxTime = 0)
+        public static Func<bool> WithIsElapsed(float minTime, float maxTime = 0, bool isElapsedFirstTime = true)
         {
             var interval = maxTime == 0 ? minTime : RandomHelper.Between(minTime, maxTime);
             var timeStarted = 0f;
+            if (isElapsedFirstTime)
+            {
+                return () =>
+                {
+                    if (IsElapsed(timeStarted, interval))
+                    {
+                        timeStarted = Game.TotalElapsedGameTime;
+                        interval = maxTime == 0 ? minTime : RandomHelper.Between(minTime, maxTime);
+                        return true;
+                    }
+                    return false;
+                };
+            }
 
+            var firstTime = true;
             return () =>
             {
+                if (firstTime)
+                {
+                    timeStarted = Game.TotalElapsedGameTime;
+                    firstTime = false;
+                }
                 if (IsElapsed(timeStarted, interval))
                 {
                     timeStarted = Game.TotalElapsedGameTime;
@@ -460,7 +479,8 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.Dynamic;
         }
 
-        public static bool IsDynamicG2(IObject obj) { return obj.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2; }
+        public static bool IsStaticGround(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.StaticGround; }
+        public static bool IsDynamicG2(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2; }
 
         public static bool IsInteractiveObject(IObject obj)
         {

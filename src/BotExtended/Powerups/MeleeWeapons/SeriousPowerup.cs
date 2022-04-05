@@ -25,8 +25,6 @@ namespace BotExtended.Powerups.MeleeWeapons
             _cooldownTime = Game.TotalElapsedGameTime;
 
             var dir = Owner.GetFaceDirection();
-            var velocity = ScriptHelper.GetDirection(dir == 1 ? MathExtension.PIOver4 : MathExtension.PI - MathExtension.PIOver4) * 5;
-
             var pos = Owner.GetWorldPosition();
             var area = ScriptHelper.Area(pos, pos + new Vector2(dir * 110, 60));
             var objects = Game.GetObjectsByArea(area)

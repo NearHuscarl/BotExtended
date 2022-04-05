@@ -21,7 +21,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             if (Owner.IsDead || args.Length == 0 || CurrentMeleeAction != MeleeAction.Three) return;
 
             var arg = args.FirstOrDefault(x => x.IsPlayer);
-            if (arg.ObjectID == 0) return;
+            if (arg.HitObject == null) return;
             
             var dir = Owner.GetFaceDirection();
             var enemy = BotManager.GetBot(arg.ObjectID);

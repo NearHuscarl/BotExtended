@@ -29,31 +29,25 @@ namespace BotExtended.Powerups.MeleeWeapons
 
             if (Owner.IsDead || args.Length == 0 || CurrentMeleeAction != MeleeAction.Three || _state != State.Normal) return;
 
-            foreach (var arg in args)
-            {
-                if (!arg.IsPlayer) continue;
-             
-                var enemy = Game.GetPlayer(arg.ObjectID);
-                if (ScriptHelper.SameTeam(enemy, Owner) || enemy.GetHealth() > 15) continue;
+            var arg = args.FirstOrDefault(x => x.IsPlayer && !ScriptHelper.SameTeam(Game.GetPlayer(x.ObjectID), Owner) && x.HitObject.GetHealth() < 15);
+            if (arg.HitObject == null) return;
 
-                _target = enemy;
-                ChangeState(State.PunchingUp);
-                _target.SetLinearVelocity(Vector2.UnitY * 11);
-                _target.SetInputEnabled(false);
-                _target.SetNametagVisible(false);
-                _target.SetStatusBarsVisible(false);
-                _target.SetHealth(0);
-                _targetInitialPosition = _target.GetWorldPosition();
-                var tMod = _target.GetModifiers();
-                tMod.ImpactDamageTakenModifier = .0001f; // can never be gibbed when slammed, but still allow to register damage
-                _target.SetModifiers(tMod);
-                var mod = Owner.GetModifiers();
-                mod.MeleeStunImmunity = 1;
-                Owner.SetModifiers(mod);
-                Owner.SetInputEnabled(false);
-
-                break;
-            }
+            _target = Game.GetPlayer(arg.ObjectID);
+            _target.SetLinearVelocity(Vector2.UnitY * 11);
+            _target.SetInputEnabled(false);
+            _target.SetNametagVisible(false);
+            _target.SetStatusBarsVisible(false);
+            _target.Kill();
+            _target.SetCorpseHealth(Constants.CORPSE_MAX_HEALTH);
+            _targetInitialPosition = _target.GetWorldPosition();
+            var tMod = _target.GetModifiers();
+            tMod.ImpactDamageTakenModifier = .0001f; // can never be gibbed when slammed, but still allow to register damage
+            _target.SetModifiers(tMod);
+            var mod = Owner.GetModifiers();
+            mod.MeleeStunImmunity = 1;
+            Owner.SetModifiers(mod);
+            Owner.SetInputEnabled(false);
+            ChangeState(State.PunchingUp);
         }
 
         private IPlayer _target;
@@ -139,7 +133,6 @@ namespace BotExtended.Powerups.MeleeWeapons
                                 Finish(); return;
                             }
                             if (player.UniqueID != _target.UniqueID) return;
-                            if (_target.GetCorpseHealth() <= 100) _target.SetCorpseHealth(1000);
                             if (args.DamageType == PlayerDamageEventType.Fall)
                             {
                                 if (BreakObjects()) Finish();
@@ -196,6 +189,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             {
                 _target.SetInputEnabled(true);
                 Owner.SetInputEnabled(true);
+                BotManager.GetBot(_target).ResetModifiers();
                 BotManager.GetBot(Owner).ResetModifiers();
                 Game.RunCommand("/settime 1");
             }

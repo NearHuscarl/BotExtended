@@ -26,7 +26,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             if (Owner.IsDead || args.Length == 0 || CurrentMeleeAction != MeleeAction.Three) return;
 
             var arg = args.FirstOrDefault(x => x.IsPlayer);
-            if (arg.ObjectID == 0) return;
+            if (arg.HitObject == null) return;
             
             var twin1 = BotManager.GetBot(arg.ObjectID);
             if (twin1.Player.IsDead) return;

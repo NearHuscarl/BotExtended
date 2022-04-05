@@ -20,7 +20,7 @@ namespace BotExtended
         // Player corpses waiting to be transformed into zombies
         private static Dictionary<int, InfectedCorpse> _infectedCorpses = new Dictionary<int, InfectedCorpse>();
         private static List<PlayerSpawner> m_playerSpawners;
-        private static Dictionary<int, Bot> m_bots = new Dictionary<int, Bot>();
+        private static Dictionary<int, Bot> _bots = new Dictionary<int, Bot>();
 
         public static void Initialize()
         {
@@ -146,7 +146,8 @@ namespace BotExtended
         {
             var oldPlayer = bot.Player;
             Remove(oldPlayer.UniqueID);
-            m_bots[player.UniqueID] = bot;
+            bot.IsRemoved = false; // Remove() will set it to true
+            _bots[player.UniqueID] = bot;
         }
 
         public static void TriggerOnSpawn(Bot bot) { bot.OnSpawn(); }
@@ -249,7 +250,7 @@ namespace BotExtended
             var bot = GetBot(playerID);
             if (bot == Bot.None) return;
             bot.IsRemoved = true;
-            m_bots.Remove(playerID);
+            _bots.Remove(playerID);
         }
 
         private static void OnPlayerDeath(IPlayer player, PlayerDeathArgs args)
@@ -305,7 +306,7 @@ namespace BotExtended
         public static Bot GetBot(int uniqueID)
         {
             Bot bot;
-            if (m_bots.TryGetValue(uniqueID, out bot)) return bot;
+            if (_bots.TryGetValue(uniqueID, out bot)) return bot;
             return Bot.None;
         }
 
@@ -343,7 +344,7 @@ namespace BotExtended
         private static Bot Wrap(IPlayer player)
         {
             var bot = new Bot(player, BotType.None, BotFaction.None);
-            m_bots.Add(player.UniqueID, bot);
+            _bots.Add(player.UniqueID, bot);
             TriggerOnSpawn(bot);
 
             return bot;
@@ -388,7 +389,7 @@ namespace BotExtended
             player.SetBotBehaviorActive(true);
 
             Remove(player.UniqueID);
-            m_bots[player.UniqueID] = bot; // This may be updated if using setplayer command
+            _bots[player.UniqueID] = bot; // This may be updated if using setplayer command
 
             if (triggerOnSpawn)
                 TriggerOnSpawn(bot);
@@ -438,7 +439,7 @@ namespace BotExtended
         public static IEnumerable<Bot> GetBots() { return GetBots<Bot>(); }
         public static IEnumerable<T> GetBots<T>() where T : Bot
         {
-            foreach (var bot in m_bots.Values)
+            foreach (var bot in _bots.Values)
             {
                 var b = bot as T;
                 if (b != null) yield return b;

@@ -296,17 +296,16 @@ namespace BotExtended.Bots
                 var doubleBody = Game.CreatePlayer(Position);
 
                 Decorate(doubleBody);
-                var newMod = doubleBody.GetModifiers();
-                newMod.CurrentHealth = newMod.MaxHealth;
+                var mod = doubleBody.GetModifiers();
+                mod.CurrentHealth = mod.MaxHealth;
 
-                doubleBody.SetModifiers(newMod);
+                doubleBody.SetModifiers(mod);
                 doubleBody.SetValidBotEliminateTarget(false);
                 doubleBody.SetStatusBarsVisible(false);
                 doubleBody.SetNametagVisible(false);
                 doubleBody.SetFaceDirection(Player.GetFaceDirection());
 
                 BotManager.SetPlayer(this, doubleBody);
-                IsRemoved = false; // SetPlayer will set it to true
                 Player.Remove();
                 Player = doubleBody;
 

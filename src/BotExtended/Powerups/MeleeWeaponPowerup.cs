@@ -13,6 +13,7 @@
         Megaton,
         Pushback,
         Serious,
+        Slide,
         Splitting,
     }
 }

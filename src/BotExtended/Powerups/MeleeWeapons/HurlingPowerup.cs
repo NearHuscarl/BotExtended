@@ -43,20 +43,19 @@ namespace BotExtended.Powerups.MeleeWeapons
 
             foreach (var arg in args)
             {
-                if (arg.IsPlayer)
-                {
-                    var enemy = BotManager.GetBot(arg.ObjectID);
-                    if (enemy.Info.IsBoss) continue;
+                if (!arg.IsPlayer) continue;
 
-                    foreach (var weapon in Constants.WeaponItemTypes)
+                var enemy = BotManager.GetBot(arg.ObjectID);
+                if (enemy.Info.IsBoss) continue;
+
+                foreach (var weapon in Constants.WeaponItemTypes)
+                {
+                    var weaponObj = enemy.Player.Disarm(weapon);
+                    if (weaponObj != null)
                     {
-                        var weaponObj = enemy.Player.Disarm(weapon);
-                        if (weaponObj != null)
-                        {
-                            Owner.GiveWeaponItem(weaponObj.RangedWeapon.WeaponItem);
-                            weaponObj.Remove();
-                            break;
-                        }
+                        Owner.GiveWeaponItem(weaponObj.RangedWeapon.WeaponItem);
+                        weaponObj.Remove();
+                        break;
                     }
                 }
             }

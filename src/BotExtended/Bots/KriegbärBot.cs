@@ -69,7 +69,7 @@ namespace BotExtended.Bots
         {
             var mod = Player.GetModifiers();
             mod.MeleeStunImmunity = 1;
-            Player.SetModifiers(mod);
+            SetModifiers(mod);
 
             var targets = GetThrowTargets(grabbedPlayer.UniqueID);
             var grabPosition = grabbedPlayer.GetWorldPosition();
