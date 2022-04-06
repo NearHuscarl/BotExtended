@@ -19,7 +19,7 @@ under development and maybe full of bugs :bug:
 - Run `setup_script.py`
 
 ```bash
-python ./setup_script.py 'F:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
+python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
 ```
 
 ## Development
