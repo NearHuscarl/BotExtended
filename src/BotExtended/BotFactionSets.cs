@@ -475,10 +475,12 @@ namespace BotExtended
                 #region Soldier
                 case BotFaction.Boss_Nadja:
                 case BotFaction.Boss_BazookaJane:
+                case BotFaction.Boss_HeavySoldier:
                 case BotFaction.Soldier:
                 {
                     if (botFaction == BotFaction.Boss_BazookaJane) bosses.Add(new SubFaction(BotType.BazookaJane));
                     if (botFaction == BotFaction.Boss_Nadja) bosses.Add(new SubFaction(BotType.Nadja));
+                    if (botFaction == BotFaction.Boss_HeavySoldier) bosses.Add(new SubFaction(BotType.HeavySoldier));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Soldier, 1f),
@@ -487,11 +489,6 @@ namespace BotExtended
                     {
                         new SubFaction(BotType.Soldier, 0.7f),
                         new SubFaction(BotType.Sniper, 0.3f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>(bosses)
-                    {
-                        new SubFaction(BotType.Soldier, 0.9f),
-                        new SubFaction(BotType.Soldier2, 0.1f),
                     });
                     break;
                 }

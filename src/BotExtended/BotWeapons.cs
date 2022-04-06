@@ -1299,36 +1299,43 @@ namespace BotExtended
                 #region Soldier
                 case BotType.Soldier:
                 {
-                    weapons.Add(new WeaponSet());
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Penetration,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SHOTGUN,
+                        PrimaryPowerup = RangedWeaponPowerup.Penetration,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Penetration,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.Penetration,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Penetration,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.SMG,
+                        PrimaryPowerup = RangedWeaponPowerup.Penetration,
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.Penetration,
                     });
                     break;
                 }
                 #endregion
 
-                #region Soldier2
-                case BotType.Soldier2:
+                #region HeavySoldier
+                case BotType.HeavySoldier:
                 {
                     weapons.Add(new WeaponSet()
                     {
-                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        Primary = WeaponItem.M60,
+                        PrimaryPowerup = RangedWeaponPowerup.DoublePenetration,
                         Secondary = WeaponItem.PISTOL,
                     });
                     break;

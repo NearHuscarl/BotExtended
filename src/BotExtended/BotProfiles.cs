@@ -381,6 +381,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region HeavySoldier
+                case BotType.HeavySoldier:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyj1zdt0ted2cdZ0qeZ1heZ0TeiY1adZ
+                    profiles.Add(new IProfile() { Name = "Heavy Soldier", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("Helmet2", "ClothingDarkYellow"), ChestOver = new IProfileClothingItem("KevlarVest", "ClothingGray"), ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingDarkYellow", "ClothingRed"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingDarkYellow"), Legs = new IProfileClothingItem("CamoPants", "ClothingGray", "ClothingDarkYellow"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("GasMask2", "ClothingGray", "ClothingLightCyan"), });
+                    break;
+                }
+                #endregion
+
                 #region Hitman
                 case BotType.Hitman:
                 {
@@ -866,7 +875,6 @@ namespace BotExtended
 
                 #region Soldier
                 case BotType.Soldier:
-                case BotType.Soldier2:
                 {
                     // https://profile-editor.vercel.app?p=M38zp1zdg0tdd2cdZ0qeZYYY19dZ
                     profiles.Add(new IProfile() { Name = "Soldier", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin4", "ClothingLightYellow"), Head = new IProfileClothingItem("Helmet", "ClothingDarkYellow"), ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingDarkYellow", "ClothingLightBlue"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingDarkYellow"), Legs = new IProfileClothingItem("CamoPants", "ClothingDarkYellow", "ClothingDarkYellow"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), });

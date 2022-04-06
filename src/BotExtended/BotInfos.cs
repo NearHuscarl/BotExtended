@@ -14,16 +14,6 @@ namespace BotExtended
                 case BotType.Agent:
                 case BotType.Soldier:
                 {
-                    if (botType == BotType.Agent)
-                    {
-                        botInfo.SearchItems = SearchItems.Secondary;
-                        botInfo.AIType = BotAI.Hard;
-                    }
-                    if (botType == BotType.Soldier || botType == BotType.Soldier2)
-                    {
-                        botInfo.SearchItems = SearchItems.Primary;
-                        botInfo.AIType = BotAI.Soldier;
-                    }
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.BelowNormal,
@@ -32,6 +22,18 @@ namespace BotExtended
                         MeleeDamageDealtModifier = DamageDealt.BelowNormal,
                         SizeModifier = Size.BelowNormal,
                     };
+                    if (botType == BotType.Agent)
+                    {
+                        botInfo.SearchItems = SearchItems.Secondary;
+                        botInfo.AIType = BotAI.Hard;
+                    }
+                    if (botType == BotType.Soldier)
+                    {
+                        botInfo.SearchItems = SearchItems.Primary;
+                        botInfo.AIType = BotAI.Soldier;
+                        // nerf because heavy weapons + penetration powerup + advanced AI
+                        botInfo.Modifiers.ProjectileDamageDealtModifier = DamageDealt.BelowNormal;
+                    }
                     break;
                 }
                 #endregion
@@ -692,6 +694,25 @@ namespace BotExtended
                         RunSpeedModifier = Speed.AboveNormal,
                         SprintSpeedModifier = Speed.AboveNormal,
                         InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss HeavySoldier
+                case BotType.HeavySoldier:
+                {
+                    botInfo.AIType = BotAI.Soldier;
+                    botInfo.SearchItems = SearchItems.Primary;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.AboveNormal,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Slow,
                     };
                     botInfo.IsBoss = true;
                     break;

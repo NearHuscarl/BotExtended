@@ -74,7 +74,6 @@
         Sniper,
         // Tier2: Facility Foray
         Soldier,
-        Soldier2,
 
         Spacer, // thug on space
         SpaceSniper,
@@ -131,6 +130,7 @@
         Funnyman,
         Hacker,
         Handler,
+        HeavySoldier,
         Hitman,
 
         Incinerator,
