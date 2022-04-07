@@ -609,6 +609,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Napoleon
+                case BotType.Napoleon:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyj1k1j2p1Z0EgZ0q1ZY0x2ZY2G1Z
+                    profiles.Add(new IProfile() { Name = "Napoleon VII", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("SpikedHelmet", "ClothingBlue"), ChestUnder = new IProfileClothingItem("LeatherJacketBlack", "ClothingBlue", "ClothingLightGray"), Waist = new IProfileClothingItem("CombatBelt", "ClothingLightBlue"), Legs = new IProfileClothingItem("ShortsBlack", "ClothingBlue"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("Cigar", "ClothingBrown"), });
+                    break;
+                }
+                #endregion
+
                 #region NaziLabAssistant
                 case BotType.NaziLabAssistant:
                 {

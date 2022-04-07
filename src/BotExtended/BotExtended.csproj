@@ -71,6 +71,7 @@
     <Compile Include="Powerups\MeleeWeapons\SplittingPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
+    <Compile Include="Powerups\RangeWeapons\ShrapnelProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\Shotgun.cs" />
     <Compile Include="Powerups\RangeWeapons\DoublePenetrationProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\PenetrationProjectile.cs" />

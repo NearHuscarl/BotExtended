@@ -249,6 +249,7 @@ namespace BotExtended
     public static class Speed
     {
         internal const float Hacker = 2f;
+        internal const float UltraFast = 1.75f;
         internal const float ExtremelyFast = 1.5f;
         internal const float VeryFast = 1.35f;
         internal const float Fast = 1.2f;

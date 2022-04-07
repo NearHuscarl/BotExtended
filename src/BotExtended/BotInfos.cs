@@ -574,7 +574,7 @@ namespace BotExtended
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
                         MeleeForceModifier = MeleeForce.Strong,
-                        RunSpeedModifier = Speed.Fast,
+                        RunSpeedModifier = Speed.Hacker,
                         SprintSpeedModifier = Speed.Fast,
                         SizeModifier = Size.AboveNormal,
                         InfiniteAmmo = Constants.TOGGLE_ON,
@@ -1002,6 +1002,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Napoleon
+                case BotType.Napoleon:
+                {
+                    botInfo.AIType = BotAI.Soldier;
+                    botInfo.SearchItems = SearchItems.Primary;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        EnergyConsumptionModifier = 0,
+                        ProjectileDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        SizeModifier = Size.Tiny,
+                        RunSpeedModifier = Speed.VeryFast,
+                        SprintSpeedModifier = Speed.VeryFast,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Ninja
                 case BotType.Ninja:
                 {
@@ -1012,8 +1033,8 @@ namespace BotExtended
                         MaxHealth = Health.VeryStrong,
                         CurrentHealth = Health.VeryStrong,
                         MeleeDamageDealtModifier = DamageDealt.FairlyHigh,
-                        RunSpeedModifier = Speed.ExtremelyFast,
-                        SprintSpeedModifier = Speed.ExtremelyFast,
+                        RunSpeedModifier = Speed.UltraFast,
+                        SprintSpeedModifier = Speed.UltraFast,
                         SizeModifier = Size.Small,
                         EnergyRechargeModifier = EnergyRecharge.Quick,
                         InfiniteAmmo = Constants.TOGGLE_ON,

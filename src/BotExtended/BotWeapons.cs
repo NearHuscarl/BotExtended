@@ -885,6 +885,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Napoleon
+                case BotType.Napoleon:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Shrapnel,
+                        Secondary = WeaponItem.UZI,
+                        SecondaryPowerup = RangedWeaponPowerup.Minigun,
+                        Melee = WeaponItem.BATON,
+                        Throwable = WeaponItem.GRENADES,
+                        Powerup = WeaponItem.SLOWMO_10,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region NaziLabAssistant
                 case BotType.NaziLabAssistant:
                 {

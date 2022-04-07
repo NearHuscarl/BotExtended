@@ -29,6 +29,7 @@
         Present,
         Riding,
         Shotgun,
+        Shrapnel,
         Shrinking,
         Smoke,
         Stun,

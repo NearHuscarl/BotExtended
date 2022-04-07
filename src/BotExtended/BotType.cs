@@ -146,6 +146,7 @@
         Mecha,
         MirrorMan,
         Nadja,
+        Napoleon,
         Ninja,
         PoliceChief,
         President,

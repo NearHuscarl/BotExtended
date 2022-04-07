@@ -634,6 +634,9 @@ namespace BotExtended
                 case BotFaction.Boss_Survivalist:
                     factionSet.AddFaction(new SubFaction(BotType.Survivalist));
                     break;
+                case BotFaction.Boss_Napoleon:
+                    factionSet.AddFaction(new SubFaction(BotType.Napoleon));
+                    break;
 
                 #endregion
 

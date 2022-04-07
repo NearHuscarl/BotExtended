@@ -189,7 +189,7 @@ namespace BotExtended.Library
         {
             angle = MathExtension.NormalizeAngle(angle);
 
-            if (angle >= 0 && angle < MathHelper.PIOver4 || angle >= MathExtension.PI_3Over2 && angle <= MathExtension.PI * 2)
+            if (angle >= 0 && angle < MathHelper.PIOver4 || angle >= MathExtension.TwoPI - MathExtension.PIOver4 && angle <= MathExtension.TwoPI)
                 return Direction.Right;
             if (angle >= MathHelper.PIOver4 && angle < MathHelper.PIOver2 + MathHelper.PIOver4)
                 return Direction.Top;

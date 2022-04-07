@@ -62,6 +62,7 @@
         Boss_MetroCop,
         Boss_MirrorMan,
         Boss_Nadja,
+        Boss_Napoleon,
         Boss_Ninja,
         Boss_President,
         Boss_Quillhogg,
