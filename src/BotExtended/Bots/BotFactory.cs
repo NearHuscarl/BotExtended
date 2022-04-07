@@ -161,6 +161,10 @@ namespace BotExtended.Bots
                     bot = new ThugBot(args);
                     break;
 
+                case BotType.Translucent:
+                    bot = new TranslucentBot(args);
+                    break;
+
                 case BotType.Babybear:
                     bot = new BabybearBot(args);
                     break;

@@ -161,6 +161,7 @@
         SSOfficer,
         Survivalist,
         Teddybear,
+        Translucent,
         Babybear,
         ZombieEater,
         ZombieFighter,

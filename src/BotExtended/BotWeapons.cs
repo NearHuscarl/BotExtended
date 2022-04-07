@@ -1558,6 +1558,14 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Translucent
+                case BotType.Translucent:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    break;
+                }
+                #endregion
+
                 #region Zombies
                 case BotType.Zombie:
                 case BotType.ZombieBruiser:

@@ -1061,6 +1061,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Translucent
+                case BotType.Translucent:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyj2geZ1KeZY2n2Z30tc1WtZ10eZY
+                    profiles.Add(new IProfile() { Name = "Translucent", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), ChestOver = new IProfileClothingItem("Suspenders", "ClothingRed", "ClothingDarkRed"), ChestUnder = new IProfileClothingItem("Shirt", "ClothingGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingBrown"), Accesory = new IProfileClothingItem("RestraintMask", "ClothingRed"), });
+                    break;
+                }
+                #endregion
+
                 #region Zombie
                 case BotType.Zombie:
                 {

@@ -51,9 +51,13 @@ def update_map_object_files(source, dest):
 def main():
     objects_path = path.join(SFD_PATH, 'Content\Data\Images\Objects\BotExtended')
     tiles_path = path.join(SFD_PATH, 'Content\Data\Images\Tiles\BotExtended')
+    items_path = path.join(SFD_PATH, 'Content\Data\Items')
 
     Path(objects_path).mkdir(parents=True, exist_ok=True)
     Path(tiles_path).mkdir(parents=True, exist_ok=True)
+
+    print('copy custom items')
+    shutil.copytree(path.join(SCRIPT_DIRECTORY, 'items'), items_path, dirs_exist_ok=True)
 
     print('packing textures')
     pack_textures()

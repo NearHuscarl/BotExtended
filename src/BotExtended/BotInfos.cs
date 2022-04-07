@@ -1277,6 +1277,22 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Translucent
+                case BotType.Translucent:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        SizeModifier = Size.AboveNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss ZombieEater
                 case BotType.ZombieEater:
                 {
