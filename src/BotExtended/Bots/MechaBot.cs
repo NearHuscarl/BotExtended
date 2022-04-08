@@ -95,13 +95,13 @@ namespace BotExtended.Bots
         {
             if (m_lastChargeEnergy < EnergyToCharge && m_superchargeEnergy >= EnergyToCharge)
             {
-                var profile = Player.GetProfile();
+                var profile = GetProfile();
                 profile.Skin.Color2 = "ClothingLightGreen";
                 Player.SetProfile(profile);
             }
             if (m_lastChargeEnergy > m_superchargeEnergy)
             {
-                var profile = Player.GetProfile();
+                var profile = GetProfile();
                 profile.Skin.Color2 = "ClothingLightRed";
                 Player.SetProfile(profile);
             }

@@ -44,13 +44,14 @@ namespace BotExtended.Powerups.MeleeWeapons
                 var player = ScriptHelper.AsPlayer(o);
                 if (player != null)
                 {
+                    var bot = BotManager.GetBot(player);
                     var direction = dir == -1 ? RandomHelper.Direction(100, 170) : RandomHelper.Direction(10, 80);
-                    var profile = player.GetProfile();
+                    var profile = bot.GetProfile();
                     var stripeableClothingTypes = ScriptHelper.StrippeableClothingTypes(profile);
 
                     thrownObjects.Add(player);
                     player.SetLinearVelocity(direction * RandomHelper.Between(10, 25));
-                    BotManager.GetBot(player).DisarmAll();
+                    bot.DisarmAll();
                     ScriptHelper.Fall(player);
 
                     if (!stripeableClothingTypes.Any() && !ScriptHelper.HaveUnderwear(profile)) continue;

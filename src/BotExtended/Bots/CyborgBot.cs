@@ -44,7 +44,7 @@ namespace BotExtended.Bots
 
         private void ChangeStatusColor(string color)
         {
-            var profile = Player.GetProfile();
+            var profile = GetProfile();
             profile.Accesory.Color2 = color;
             Player.SetProfile(profile);
             m_healthColor = color;

@@ -880,6 +880,9 @@ namespace BotExtended.Library
             return Game.GetCameraMaxArea().TopLeft + new Vector2(10 + randX, 10 + randy);
         }
 
+        private static readonly IObjectPlayerProfileInfo PlayerProfileInfo = (IObjectPlayerProfileInfo)Game.CreateObject("PlayerProfileInfo");
+        public static IProfile GetEmptyProfile() { return PlayerProfileInfo.GetProfile(); }
+
         public static bool IsBear(IPlayer player)
         {
             var skinName = player.GetProfile().Skin.Name;

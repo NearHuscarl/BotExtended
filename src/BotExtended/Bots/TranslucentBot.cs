@@ -21,8 +21,8 @@ namespace BotExtended.Bots
             base.OnSpawn();
 
             _state = State.Visible;
-            _profile = Player.GetProfile();
-            _emptyProfile = Player.GetProfile();
+            _profile = GetProfile();
+            _emptyProfile = GetProfile();
             foreach (var type in SharpHelper.EnumToArray<ClothingType>())
             {
                 ScriptHelper.Strip(_emptyProfile, type);
@@ -54,6 +54,8 @@ namespace BotExtended.Bots
                 {
                     _intervalChangedTime = Game.TotalElapsedGameTime;
                     _flashInterval /= 2;
+                    if (_flashInterval == 250 || _flashInterval == 125f || _flashInterval == 62.5f || _flashInterval == 31.25f)
+                        Game.PlaySound("Madness", Position, 1);
                 }
             }, () => _flashInterval <= 15 || _forceStopInvisibleTransition, () =>
             {
@@ -72,18 +74,17 @@ namespace BotExtended.Bots
             ScriptHelper.Timeout(BecomeInvisible, 2000);
         }
 
-        private void ToggleInvisible() { if (Player.GetProfile().Skin.Name != "Invisible") SetInvisible(); else SetVisible(); }
+        private void ToggleInvisible() { if (GetProfile().Skin.Name != "Invisible") SetInvisible(); else SetVisible(); }
         private void SetInvisible(bool changeState = false)
         {
-            var p = Player.GetProfile();
-            p.Skin.Name = "Invisible";
             Player.SetProfile(_emptyProfile);
             Player.SetNametagVisible(false);
             Player.SetStatusBarsVisible(false);
             if (changeState)
             {
                 _state = State.Invisible;
-                _totalDamageTakenWhenInvisible = Player.Statistics.TotalDamageTaken;
+                if (Player.Statistics != null)
+                    _totalDamageTakenWhenInvisible = Player.Statistics.TotalDamageTaken;
             }
         }
         private void SetVisible(bool changeState = false)

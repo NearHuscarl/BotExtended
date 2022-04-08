@@ -70,7 +70,7 @@ namespace BotExtended.Bots
 
         private void NotifyCooldownOver()
         {
-            var profile = Player.GetProfile();
+            var profile = GetProfile();
             var originalColor = profile.Head.Color1;
             var flashCount = 20;
 

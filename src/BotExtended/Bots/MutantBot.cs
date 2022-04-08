@@ -49,8 +49,9 @@ namespace BotExtended.Bots
         };
         public static IProfile[] SplitProfile(IPlayer player)
         {
-            var profile1 = ScriptHelper.StripUnderwear(player.GetProfile());
-            var profile2 = ScriptHelper.StripUnderwear(player.GetProfile());
+            var bot = BotManager.GetBot(player);
+            var profile1 = ScriptHelper.StripUnderwear(bot.GetProfile());
+            var profile2 = ScriptHelper.StripUnderwear(bot.GetProfile());
             var stripeableClothingTypes = ScriptHelper.StrippeableClothingTypes(profile1);
             var lowerBodyClothingTypes = stripeableClothingTypes.Where(x => LowerBodyClothingTypes.Any(xx => xx == x)).ToList();
             var upperBodyClothingTypes = stripeableClothingTypes.Where(x => UpperBodyClothingTypes.Any(xx => xx == x)).ToList();

@@ -247,7 +247,7 @@ namespace BotExtended.Bots
 
         public void Decorate(IPlayer existingPlayer)
         {
-            existingPlayer.SetProfile(Player.GetProfile());
+            existingPlayer.SetProfile(GetProfile());
 
             existingPlayer.GiveWeaponItem(Player.CurrentMeleeWeapon.WeaponItem);
             existingPlayer.GiveWeaponItem(Player.CurrentMeleeMakeshiftWeapon.WeaponItem);
@@ -260,6 +260,9 @@ namespace BotExtended.Bots
             existingPlayer.SetModifiers(Player.GetModifiers());
             existingPlayer.SetHitEffect(Player.GetHitEffect());
         }
+
+        // null safety getter. IPlayer.GetProfile() returns null if the Player is removed
+        public IProfile GetProfile() { return Player.GetProfile() ?? ScriptHelper.GetEmptyProfile(); }
 
         private float m_bloodEffectElapsed = 0;
         private void UpdateInfectedEffect(float elapsed)

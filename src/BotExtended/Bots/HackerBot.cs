@@ -13,7 +13,7 @@
 
             base.OnUpdate(elapsed);
 
-            var profile = Player.GetProfile();
+            var profile = GetProfile();
             var currentColor = profile.Head.Color2;
             var newColor = "";
 
