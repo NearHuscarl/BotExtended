@@ -5,6 +5,7 @@
         Debug,
         None, // Normal SF (not extended bot)
 
+        God,
         Hacker,
         Expert,
         Hard,
@@ -17,6 +18,7 @@
         RangeHard, // == BotAI.Expert but with melee weapons disabled
 
         Grunt,
+        GruntMelee,
         Hulk,
         RagingHulk,
 

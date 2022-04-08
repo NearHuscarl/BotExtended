@@ -284,7 +284,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("-Factions", BeColors.WARNING_COLOR);
 
             // TODO: show except for all faction minus a small amount of others
-            foreach (var team in new PlayerTeam[] { PlayerTeam.Team1, PlayerTeam.Team2, PlayerTeam.Team3, PlayerTeam.Team4, })
+            foreach (var team in Constants.Teams)
             {
                 var factions = settings.BotFactions[team];
                 var currentFaction = settings.CurrentFaction[team];

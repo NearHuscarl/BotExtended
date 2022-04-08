@@ -238,6 +238,11 @@ namespace BotExtended
                 attacker = Game.GetPlayer(projectile.OwnerPlayerID);
             }
 
+            if (attacker != null)
+            {
+                var attackerBot = GetBot(attacker);
+                attackerBot.OnDealDamage(player, args);
+            }
             var bot = GetBot(player);
             if (bot != Bot.None)
             {

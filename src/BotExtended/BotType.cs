@@ -114,6 +114,7 @@
         Balloonatic,
         BazookaJane,
         Beast,
+        Berserker,
         BigMutant,
         Bobby,
         Boffin,

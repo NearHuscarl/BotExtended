@@ -36,6 +36,7 @@ namespace BotExtended
         {
             WeaponItemType.Melee, WeaponItemType.Rifle, WeaponItemType.Handgun, WeaponItemType.Thrown, WeaponItemType.Powerup, WeaponItemType.InstantPickup,
         };
+        internal static readonly PlayerTeam[] Teams = new PlayerTeam[] { PlayerTeam.Team1, PlayerTeam.Team2, PlayerTeam.Team3, PlayerTeam.Team4, };
 
         internal static readonly string[] Giblets = new string[]
         {
@@ -231,6 +232,7 @@ namespace BotExtended
     /// <para/>
     /// 
     /// Hacker = 2
+    /// UltraFast = 1.75
     /// ExtremelyFast = 1.5
     /// VeryFast = 1.35
     /// Fast = 1.2

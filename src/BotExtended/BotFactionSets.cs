@@ -233,10 +233,12 @@ namespace BotExtended
                 #endregion
 
                 #region Mutant
+                case BotFaction.Boss_Berserker:
                 case BotFaction.Boss_BigMutant:
                 case BotFaction.Boss_Translucent:
                 case BotFaction.Mutant:
                 {
+                    if (botFaction == BotFaction.Boss_Berserker) bosses.Add(new SubFaction(BotType.Berserker));
                     if (botFaction == BotFaction.Boss_BigMutant) bosses.Add(new SubFaction(BotType.BigMutant));
                     if (botFaction == BotFaction.Boss_Translucent) bosses.Add(new SubFaction(BotType.Translucent));
                     factionSet.AddFaction(new List<SubFaction>(bosses)

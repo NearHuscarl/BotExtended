@@ -117,6 +117,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Berserker
+                case BotType.Berserker:
+                {
+                    // https://profile-editor.vercel.app?p=M3owiY1KeZY2neZY1WeZ0PoZ0geo
+                    profiles.Add(new IProfile() { Name = "Berserker", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin1", "ClothingLightCyan"), Head = new IProfileClothingItem("BaseballCap", "ClothingGray", "ClothingLightRed"), Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingLightRed"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), Accesory = new IProfileClothingItem("RestraintMask", "ClothingGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Biker
                 case BotType.Biker:
                 case BotType.BikerHulk:

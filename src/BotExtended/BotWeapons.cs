@@ -191,6 +191,18 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Berserker
+                case BotType.Berserker:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.AXE,
+                        MeleePowerup = MeleeWeaponPowerup.Gib,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Biker
                 case BotType.Biker:
                 {

@@ -526,6 +526,26 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Berserker
+                case BotType.Berserker:
+                {
+                    botInfo.AIType = BotAI.God;
+                    botInfo.SearchItems = SearchItems.Melee;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        MeleeDamageDealtModifier = DamageDealt.UltraHigh,
+                        MeleeForceModifier = MeleeForce.UltraStrong,
+                        SprintSpeedModifier = Speed.Hacker,
+                        RunSpeedModifier = Speed.Hacker,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Bobby
                 case BotType.Bobby:
                 {

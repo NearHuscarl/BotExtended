@@ -54,7 +54,7 @@ namespace BotExtended.Bots
                 {
                     _intervalChangedTime = Game.TotalElapsedGameTime;
                     _flashInterval /= 2;
-                    if (_flashInterval == 250 || _flashInterval == 125f || _flashInterval == 62.5f || _flashInterval == 31.25f)
+                    if (_flashInterval <= 250 && _flashInterval >= 31.25f)
                         Game.PlaySound("Madness", Position, 1);
                 }
             }, () => _flashInterval <= 15 || _forceStopInvisibleTransition, () =>

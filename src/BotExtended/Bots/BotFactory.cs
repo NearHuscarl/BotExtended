@@ -43,6 +43,10 @@ namespace BotExtended.Bots
                     bot = new BandidoBot(args);
                     break;
 
+                case BotType.Berserker:
+                    bot = new BerserkerBot(args);
+                    break;
+
                 case BotType.Biker:
                 case BotType.BikerHulk:
                     bot = new BikerBot(args);

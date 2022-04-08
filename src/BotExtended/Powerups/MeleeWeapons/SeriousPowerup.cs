@@ -45,9 +45,9 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (player != null)
                 {
                     var bot = BotManager.GetBot(player);
-                    var direction = dir == -1 ? RandomHelper.Direction(100, 170) : RandomHelper.Direction(10, 80);
                     var profile = bot.GetProfile();
                     var stripeableClothingTypes = ScriptHelper.StrippeableClothingTypes(profile);
+                    var direction = dir == -1 ? RandomHelper.Direction(100, 170) : RandomHelper.Direction(10, 80);
 
                     thrownObjects.Add(player);
                     player.SetLinearVelocity(direction * RandomHelper.Between(10, 25));

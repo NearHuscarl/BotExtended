@@ -321,6 +321,7 @@ namespace BotExtended.Bots
         }
 
         public virtual void OnSpawn() { SaySpawnLine(); }
+        public virtual void OnDealDamage(IPlayer victim, PlayerDamageArgs arg) { }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
@@ -473,6 +474,11 @@ namespace BotExtended.Bots
 
         public void SetHealth(float health, bool permanent = false)
         {
+            if (health <= 0)
+            {
+                Player.SetHealth(0);
+                return;
+            }
             var modifiers = Player.GetModifiers();
             if (health > modifiers.MaxHealth)
                 modifiers.MaxHealth = (int)health;

@@ -47,6 +47,41 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region God
+                case BotAI.God:
+                {
+                    botBehaviorSet = new BotBehaviorSet();
+                    botBehaviorSet.OffensiveDiveLevel = 1f;
+                    botBehaviorSet.OffensiveEnrageLevel = 1f;
+                    botBehaviorSet.OffensiveClimbingLevel = 1f;
+                    botBehaviorSet.OffensiveSprintLevel = 1f;
+                    botBehaviorSet.DefensiveBlockLevel = 1f;
+                    botBehaviorSet.DefensiveAvoidProjectilesLevel = 1f;
+                    botBehaviorSet.DefensiveRollFireLevel = 1f;
+                    botBehaviorSet.CounterOutOfRangeMeleeAttacksLevel = 1f;
+                    botBehaviorSet.NavigationRandomPausesLevel = 0f;
+                    botBehaviorSet.SetMeleeActionsToExpert();
+                    botBehaviorSet.SeekCoverWhileShooting = 1f;
+                    botBehaviorSet.RangedWeaponLOSIgnoreTeammates = true;
+                    botBehaviorSet.RangedWeaponAccuracy = 1f;
+                    botBehaviorSet.RangedWeaponAimShootDelayMin = 0f;
+                    botBehaviorSet.RangedWeaponHipFireAimShootDelayMin = 0f;
+                    botBehaviorSet.RangedWeaponBurstTimeMin = 0f;
+                    botBehaviorSet.RangedWeaponBurstTimeMax = 0f;
+                    botBehaviorSet.RangedWeaponBurstPauseMin = 0f;
+                    botBehaviorSet.RangedWeaponBurstPauseMax = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionInterpolateTime = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionAccuracy = 1f;
+                    botBehaviorSet.RangedWeaponPrecisionAimShootDelayMin = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionBurstTimeMin = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionBurstTimeMax = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionBurstPauseMin = 0f;
+                    botBehaviorSet.RangedWeaponPrecisionBurstPauseMax = 0f;
+                    botBehaviorSet.RocketRideProficiency = 1f;
+                    break;
+                }
+                #endregion
+
                 #region Easy
                 case BotAI.Easy:
                 {
@@ -133,6 +168,7 @@ namespace BotExtended
                     botBehaviorSet.MeleeUsage = true;
                     botBehaviorSet.MeleeWeaponUsage = true;
                     botBehaviorSet.MeleeWeaponUseFullRange = true;
+                    botBehaviorSet.OffensiveSprintLevel = 0.2f;
                     break;
                 }
                 #endregion
@@ -147,6 +183,7 @@ namespace BotExtended
                     botBehaviorSet.MeleeUsage = true;
                     botBehaviorSet.MeleeWeaponUsage = true;
                     botBehaviorSet.MeleeWeaponUseFullRange = false;
+                    botBehaviorSet.OffensiveSprintLevel = 0.15f;
                     break;
                 }
                 #endregion
@@ -243,6 +280,14 @@ namespace BotExtended
                     botBehaviorSet.RangedWeaponBurstTimeMax = 800f;
                     botBehaviorSet.RangedWeaponBurstPauseMin = 400f;
                     botBehaviorSet.RangedWeaponBurstPauseMax = 800f;
+                    break;
+                }
+                #endregion
+
+                #region GruntMelee
+                case BotAI.GruntMelee:
+                {
+                    botBehaviorSet = BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.GruntMelee);
                     break;
                 }
                 #endregion
