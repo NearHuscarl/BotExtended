@@ -39,12 +39,22 @@ namespace BotExtended
 
                 case "lf":
                 case "listfaction":
-                    ListBotFaction();
+                    ListBotFactions();
                     break;
 
                 case "lb":
                 case "listbot":
-                    ListBotType();
+                    ListBotTypes();
+                    break;
+
+                case "lrp":
+                case "listrangedpowerup":
+                    ListRangedPowerups();
+                    break;
+
+                case "lmp":
+                case "listmeleepowerup":
+                    ListMeleePowerups();
                     break;
 
                 case "ff":
@@ -120,6 +130,8 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [version|v]: Print the current version");
             ScriptHelper.PrintMessage("/<botextended|be> [listfaction|lf]: List all bot factions");
             ScriptHelper.PrintMessage("/<botextended|be> [listbot|lb]: List all bot types");
+            ScriptHelper.PrintMessage("/<botextended|be> [listrangedpowerup|lrp]: List all ranged powerups");
+            ScriptHelper.PrintMessage("/<botextended|be> [listmeleepowerup|lmp]: List all melee powerups");
             ScriptHelper.PrintMessage("/<botextended|be> [findfaction|ff] <query>: Find all bot factions that match query");
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
@@ -216,7 +228,7 @@ namespace BotExtended
             }
         }
 
-        private static void ListBotFaction()
+        private static void ListBotFactions()
         {
             ScriptHelper.PrintMessage("--BotExtended list faction--", BeColors.ERROR_COLOR);
 
@@ -226,13 +238,33 @@ namespace BotExtended
             }
         }
 
-        private static void ListBotType()
+        private static void ListBotTypes()
         {
             ScriptHelper.PrintMessage("--BotExtended list bot type--", BeColors.ERROR_COLOR);
 
             foreach (var botType in SharpHelper.EnumToList<BotType>())
             {
                 ScriptHelper.PrintMessage((int)botType + ": " + SharpHelper.EnumToString(botType), BeColors.WARNING_COLOR);
+            }
+        }
+
+        private static void ListRangedPowerups()
+        {
+            ScriptHelper.PrintMessage("--BotExtended list ranged powerup--", BeColors.ERROR_COLOR);
+
+            foreach (var powerup in SharpHelper.EnumToList<RangedWeaponPowerup>())
+            {
+                ScriptHelper.PrintMessage((int)powerup + ": " + SharpHelper.EnumToString(powerup), BeColors.WARNING_COLOR);
+            }
+        }
+
+        private static void ListMeleePowerups()
+        {
+            ScriptHelper.PrintMessage("--BotExtended list melee powerup--", BeColors.ERROR_COLOR);
+
+            foreach (var powerup in SharpHelper.EnumToList<MeleeWeaponPowerup>())
+            {
+                ScriptHelper.PrintMessage((int)powerup + ": " + SharpHelper.EnumToString(powerup), BeColors.WARNING_COLOR);
             }
         }
 
