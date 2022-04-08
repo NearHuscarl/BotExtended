@@ -248,6 +248,95 @@ List all available `BotType`s.
 
 </details>
 
+### `listrangedpowerup`
+
+Usage: `/<botextended|be> [listrangedpowerup|lrp]`
+
+List all ranged powerups. See [`setweapon`](#setweapon) command for further detail.
+
+```
+/be lrp
+```
+
+<details>
+    <summary>Result</summary>
+
+```
+0: None
+1: Blackhole
+2: Blast
+3: Bow
+4: Delay
+5: Dormant
+6: DoublePenetration
+7: DoubleTrouble
+8: Fatigue
+9: Fire
+10: Helium
+11: Hunting
+12: Homing
+13: Gauss
+14: Grapeshot
+15: Gravity
+16: GravityDE
+17: InfiniteBouncing
+18: Minigun
+19: Molotov
+20: Lightning
+21: Object
+22: Penetration
+23: Poison
+24: Present
+25: Riding
+26: Shotgun
+27: Shrapnel
+28: Shrinking
+29: Smoke
+30: Stun
+31: Spinner
+32: Steak
+33: StickyBomb
+34: SuicideDove
+35: SuicideFighter
+36: Taser
+37: Tearing
+38: Termite
+39: Welding
+```
+
+</details>
+
+### `listmeleepowerup`
+
+Usage: `/<botextended|be> [listmeleepowerup|lmp]`
+
+List all melee powerups. See [`setweapon`](#setweapon) command for further detail.
+
+```
+/be lrp
+```
+
+<details>
+    <summary>Result</summary>
+
+```
+0: None
+1: Breaking
+2: Earthquake
+3: FireTrail
+4: Hurling
+5: Gib
+6: GroundBreaker
+7: GroundSlam
+8: Megaton
+9: Pushback
+10: Serious
+11: Slide
+12: Splitting
+```
+
+</details>
+
 ### `findfaction`
 
 Usage: `/<botextended|be> [findfaction|ff] <query>`
@@ -416,7 +505,7 @@ Usage: `/<botextended|be> [setweapon|sw] <player> <WeaponItem> <Powerup>`
 
 Give specific player a powerup weapon.
 
-Give player 'your_name' an electroshock magnum which can stun players on critical hit.
+Give player 'your_name' an electroshock magnum.
 
 ```
 /be setweapon your_name magnum stun
