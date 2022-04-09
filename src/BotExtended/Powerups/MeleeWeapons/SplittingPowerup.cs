@@ -12,12 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class SplittingPowerup : MeleeWpn
     {
-        public override bool IsValidPowerup()
-        {
-            return IsSharpWeapon(Name);
-        }
-
-        public SplittingPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Splitting) { }
+        public SplittingPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {

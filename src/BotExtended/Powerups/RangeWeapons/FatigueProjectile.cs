@@ -59,11 +59,9 @@ namespace BotExtended.Powerups.RangeWeapons
         public float FatigueCritChance { get; private set; }
         public float FatigueModifier { get; private set; }
 
-        public FatigueProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Fatigue)
-        {
-        }
+        public FatigueProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             FatigueCritChance = Math.Max(Instance.GetProperties().CritChance, .1f);
             FatigueModifier = 1;
@@ -78,8 +76,6 @@ namespace BotExtended.Powerups.RangeWeapons
                 FatigueModifier /= ProjectilesPerShell;
                 FatigueCritChance /= ProjectilesPerShell;
             }
-
-            return true;
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)

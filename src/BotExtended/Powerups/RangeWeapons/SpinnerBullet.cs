@@ -7,13 +7,9 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class SpinnerBullet : HoveringProjectile
     {
-        public SpinnerBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Spinner)
+        public SpinnerBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
-            if (projectile.ProjectileItem == ProjectileItem.BAZOOKA
-                || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
-                || projectile.ProjectileItem == ProjectileItem.FLAREGUN
-                || projectile.ProjectileItem == ProjectileItem.BOW
-                || projectile.ProjectileItem == ProjectileItem.SNIPER)
+            if (RangedWpns.IsSlowWpns(Mapper.GetWeaponItem(projectile.ProjectileItem)))
                 UpdateDelay = 0;
             else
                 UpdateDelay = 4;

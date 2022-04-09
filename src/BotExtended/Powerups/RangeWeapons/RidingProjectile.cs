@@ -7,18 +7,17 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class RidingProjectile : Projectile
     {
-        public RidingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Riding) { }
+        public RidingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         private Vector2 _direction;
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             Instance.FlagForRemoval();
             Instance = Game.SpawnProjectile(ProjectileItem.BAZOOKA, Instance.Position, Instance.Direction, ProjectilePowerup.Bouncing);
             Instance.Velocity *= 100; // slowest possible
 
             _direction = Instance.Direction;
-            return Instance.ProjectileItem == ProjectileItem.BAZOOKA;
         }
 
         protected override void Update(float elapsed)

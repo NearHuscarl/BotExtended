@@ -13,7 +13,7 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         public IPlayer Target { get; private set; }
 
-        public SuicideDoveProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.SuicideDove) { }
+        public SuicideDoveProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {

@@ -11,17 +11,14 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class DoubleTroubleProjectile : Projectile
     {
-        public DoubleTroubleProjectile(IProjectile projectile) : this(projectile, RangedWeaponPowerup.DoubleTrouble) { }
         public DoubleTroubleProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public override bool IsRemoved { get { return true; } }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             var owner = Game.GetPlayer(InitialOwnerPlayerID);
             SpawnOppositeProjectile(owner, Instance);
-
-            return true;
         }
 
         public static IProjectile SpawnOppositeProjectile(IPlayer owner, IProjectile projectile)

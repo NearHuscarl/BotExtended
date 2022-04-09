@@ -54,7 +54,7 @@ namespace BotExtended.Powerups.RangeWeapons
             });
         }
 
-        public PoisonProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Poison)
+        public PoisonProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             projectile.DamageDealtModifier = 0.1f; // mainly poison damage over time
         }

@@ -11,7 +11,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class Shotgun: RangeWpn
     {
-        public Shotgun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Shotgun) { }
+        public Shotgun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnProjectileCreated(IProjectile projectile)
         {

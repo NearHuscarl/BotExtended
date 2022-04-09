@@ -13,12 +13,7 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         public List<IObject> _slowmoProjectiles = new List<IObject>();
 
-        public override bool IsValidPowerup()
-        {
-            return !Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
-        }
-
-        public DelayGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Delay) { }
+        public DelayGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         private bool _isManualAiming = false;
         private bool _isHipFiring = false;

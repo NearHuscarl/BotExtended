@@ -12,12 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class GroundBreakerPowerup : MeleeWpn
     {
-        public override bool IsValidPowerup()
-        {
-            return IsHitTheFloorWeapon(Name);
-        }
-
-        public GroundBreakerPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.GroundBreaker) { }
+        public GroundBreakerPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         protected override void OnMeleeActionChanged(MeleeAction meleeAction, Vector2 hitPosition)
         {

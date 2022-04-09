@@ -12,7 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class SeriousPowerup : MeleeWpn
     {
-        public SeriousPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Serious) { }
+        public SeriousPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         private float _cooldownTime = 0f;
 

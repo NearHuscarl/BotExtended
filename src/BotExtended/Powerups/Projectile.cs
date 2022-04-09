@@ -31,15 +31,15 @@ namespace BotExtended.Powerups
         {
             Instance = projectile;
 
-            if (!OnProjectileCreated())
-            {
+            if (!IsValidPowerup())
                 Powerup = RangedWeaponPowerup.None;
-            }
-
+            else
+                OnProjectileCreated();
+            
             IsCustomProjectile = false;
         }
 
-        protected virtual bool OnProjectileCreated() { return true; }
+        protected virtual void OnProjectileCreated() { }
 
         public override void OnProjectileHit(ProjectileHitArgs args)
         {
@@ -57,32 +57,8 @@ namespace BotExtended.Powerups
 
         protected virtual void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius) { }
 
-        public bool IsShotgunShell { get { return IsShotgun(Instance.ProjectileItem); } }
-
-        public bool IsExplosiveProjectile
-        {
-            get
-            {
-                // TODO: test Flak Cannon
-                return Instance.ProjectileItem == ProjectileItem.BAZOOKA
-                    || Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER;
-            }
-        }
-
-        public static bool IsShotgun(ProjectileItem projectile)
-        {
-            return projectile == ProjectileItem.SHOTGUN
-                || projectile == ProjectileItem.DARK_SHOTGUN
-                || projectile == ProjectileItem.SAWED_OFF;
-        }
-
-        public static bool IsSlowProjectile(ProjectileItem projectile)
-        {
-            return projectile == ProjectileItem.BOW
-                || projectile == ProjectileItem.BAZOOKA
-                || projectile == ProjectileItem.GRENADE_LAUNCHER
-                || projectile == ProjectileItem.FLAREGUN;
-        }
+        public bool IsShotgunShell { get { return RangedWpns.IsShotgunWpns(Mapper.GetWeaponItem(Instance.ProjectileItem)); } }
+        public bool IsExplosiveProjectile { get { return RangedWpns.IsExplosiveWpns(Mapper.GetWeaponItem(Instance.ProjectileItem)); } }
 
         public int ProjectilesPerShell
         {

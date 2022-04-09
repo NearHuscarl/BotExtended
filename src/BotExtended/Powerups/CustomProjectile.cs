@@ -14,17 +14,25 @@ namespace BotExtended.Powerups
             protected set { }
         }
 
-        private Vector2 m_createPosition;
+        private Vector2 _spawnPosition;
         public float TotalDistanceTraveled { get; private set; }
 
         public CustomProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
-            Instance = OnProjectileCreated(projectile);
-            if (Instance == null) Powerup = RangedWeaponPowerup.None;
-
-            m_createPosition = Instance.GetWorldPosition();
-            TotalDistanceTraveled = 0f;
             IsCustomProjectile = true;
+
+            if (!IsValidPowerup())
+            {
+                Powerup = RangedWeaponPowerup.None;
+            }
+            else
+            {
+                Instance = OnProjectileCreated(projectile);
+                if (Instance == null)
+                    throw new Exception(string.Format("{0}, {1}: OnProjectileCreated() must not return null", projectile, powerup));
+                _spawnPosition = Instance.GetWorldPosition();
+                TotalDistanceTraveled = 0f;
+            }
         }
 
         protected static IObject CreateCustomProjectile(IProjectile projectile, string objectID)
@@ -53,7 +61,7 @@ namespace BotExtended.Powerups
         protected override void Update(float elapsed)
         {
             base.Update(elapsed);
-            TotalDistanceTraveled = Vector2.Distance(Instance.GetWorldPosition(), m_createPosition);
+            TotalDistanceTraveled = Vector2.Distance(Instance.GetWorldPosition(), _spawnPosition);
         }
     }
 }

@@ -16,17 +16,25 @@ namespace BotExtended.Powerups
         public int InitialOwnerPlayerID { get; private set; }
         public abstract bool IsRemoved { get; protected set; }
         public RangedWeaponPowerup Powerup { get; protected set; }
+        public WeaponItem WeaponItem { get; private set; }
         public bool IsCustomProjectile { get; protected set; }
         protected float UpdateDelay { get; set; }
 
         public ProjectileBase(IProjectile projectile, RangedWeaponPowerup powerup)
         {
             Powerup = powerup;
+            WeaponItem = Mapper.GetWeaponItem(projectile.ProjectileItem);
             UpdateDelay = 0f;
             // in case the original player is not available when the projectile hits
-            Team = Game.GetPlayer(projectile.InitialOwnerPlayerID).GetTeam();
+            var owner = Game.GetPlayer(projectile.InitialOwnerPlayerID);
+            Team = owner != null ? owner.GetTeam() : PlayerTeam.Independent;
             InitialOwnerPlayerID = projectile.InitialOwnerPlayerID;
             CreatedTime = Game.TotalElapsedGameTime;
+        }
+
+        protected bool IsValidPowerup()
+        {
+            return PowerupDatabase.IsValidPowerup(Powerup, WeaponItem);
         }
 
         private float m_updateTime = 0f;

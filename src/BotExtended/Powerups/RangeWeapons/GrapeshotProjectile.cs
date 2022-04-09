@@ -9,7 +9,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class GrapeshotProjectile : HoveringProjectile
     {
-        public GrapeshotProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Grapeshot)
+        public GrapeshotProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             if (projectile.ProjectileItem == ProjectileItem.BAZOOKA
                 || projectile.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
@@ -68,8 +68,8 @@ namespace BotExtended.Powerups.RangeWeapons
         protected override void Destroy()
         {
             base.Destroy();
-            if (Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
-                || Instance.ProjectileItem == ProjectileItem.BAZOOKA)
+
+            if (RangedWpns.IsExplosiveWpns(Mapper.GetWeaponItem(Instance.ProjectileItem)))
                 Game.TriggerExplosion(HoverPosition);
 
             Game.PlaySound("Pistol", HoverPosition);

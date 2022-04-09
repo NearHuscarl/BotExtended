@@ -11,16 +11,6 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class MiniGun: RangeWpn
     {
-        public override bool IsValidPowerup()
-        {
-            // Automatic guns only
-            return Name == WeaponItem.M60
-                || Name == WeaponItem.MACHINE_PISTOL
-                || Name == WeaponItem.ASSAULT
-                || Name == WeaponItem.UZI
-                || Name == WeaponItem.MP50
-                || Name == WeaponItem.TOMMYGUN;
-        }
         public int GetCooldownTime()
         {
             switch (Name)
@@ -30,13 +20,15 @@ namespace BotExtended.Powerups.RangeWeapons
                 case WeaponItem.MACHINE_PISTOL: return 105;
                 case WeaponItem.ASSAULT: return 95;
                 case WeaponItem.UZI: return 75;
+                case WeaponItem.SILENCEDUZI: return 75;
                 case WeaponItem.MP50: return 105;
+                case WeaponItem.SMG: return 95;
                 case WeaponItem.TOMMYGUN: return 105;
                 default: return 100;
             }
         }
 
-        public MiniGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Minigun) { }
+        public MiniGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void Update(float elapsed)
         {

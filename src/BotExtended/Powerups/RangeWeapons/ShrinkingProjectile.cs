@@ -8,16 +8,11 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class ShrinkingProjectile : HoveringProjectile
     {
-        public ShrinkingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Shrinking)
+        public ShrinkingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             ExplodeRange = 10;
             ExplodeRange2 = 5;
             MinDistanceBeforeHover = 15;
-        }
-
-        protected override bool OnProjectileCreated()
-        {
-            return IsExplosiveProjectile;
         }
 
         private static readonly float Radius = 60;

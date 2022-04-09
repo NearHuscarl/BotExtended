@@ -7,13 +7,12 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class PenetrationProjectile : Projectile
     {
-        public PenetrationProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Penetration) { }
+        public PenetrationProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             Instance.PowerupBounceActive = true;
             _initialDir = Instance.Direction;
-            return base.OnProjectileCreated();
         }
 
         private Vector2 _initialDir;

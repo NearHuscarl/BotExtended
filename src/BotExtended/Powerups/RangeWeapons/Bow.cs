@@ -12,12 +12,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class Bow : Projectile
     {
-        public Bow(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Bow) { }
-
-        protected override bool OnProjectileCreated()
-        {
-            return Instance.ProjectileItem == ProjectileItem.BOW;
-        }
+        public Bow(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public override void OnProjectileHit(ProjectileHitArgs args)
         {

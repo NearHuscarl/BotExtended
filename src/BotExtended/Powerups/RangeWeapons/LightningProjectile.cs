@@ -16,7 +16,7 @@ namespace BotExtended.Powerups.RangeWeapons
 
         public override bool IsRemoved { get; protected set; }
 
-        public LightningProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Lightning)
+        public LightningProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             LightningDamage = 7f;
 

@@ -12,15 +12,9 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class TaserGun : RangeWpn
     {
-        public TaserGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Taser) { }
+        public TaserGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override float MaxRange { get { return 100; } }
-        public override bool IsValidPowerup()
-        {
-            return Name == WeaponItem.PISTOL
-                || Name == WeaponItem.PISTOL45
-                || Name == WeaponItem.REVOLVER;
-        }
 
         private IObject _head;
         private IObject _tail;

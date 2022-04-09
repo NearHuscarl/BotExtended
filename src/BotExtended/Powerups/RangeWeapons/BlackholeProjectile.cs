@@ -57,12 +57,12 @@ namespace BotExtended.Powerups.RangeWeapons
             }
         }
 
-        public BlackholeProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Blackhole)
+        public BlackholeProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             UpdateDelay = 0;
         }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             if (Instance.ProjectileItem == ProjectileItem.BAZOOKA
                 || Instance.ProjectileItem == ProjectileItem.GRENADE_LAUNCHER
@@ -75,7 +75,6 @@ namespace BotExtended.Powerups.RangeWeapons
             }
             else
                 Size = BlackholeSize.Small;
-            return true;
         }
 
         protected override void OnHover()

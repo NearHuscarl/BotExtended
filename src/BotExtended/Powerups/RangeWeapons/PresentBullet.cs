@@ -15,18 +15,11 @@ namespace BotExtended.Powerups.RangeWeapons
             "WpnMineThrown",
         };
 
-        public PresentBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Present) { }
+        public PresentBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            switch (projectile.ProjectileItem)
-            {
-                case ProjectileItem.BAZOOKA:
-                case ProjectileItem.GRENADE_LAUNCHER:
-                    return null;
-                default:
-                    return CreateCustomProjectile(projectile, "XmasPresent00");
-            }
+            return CreateCustomProjectile(projectile, "XmasPresent00");
         }
 
         public override void OnProjectileTerminated()

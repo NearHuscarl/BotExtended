@@ -29,6 +29,11 @@ namespace BotExtended.Powerups
             if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
+        public sealed override bool IsValidPowerup()
+        {
+            return PowerupDatabase.IsValidPowerup(Powerup, Name);
+        }
+
         public void Add(WeaponItem name, RangedWeaponPowerup powerup)
         {
             Name = name;

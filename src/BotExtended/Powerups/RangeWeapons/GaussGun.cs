@@ -13,13 +13,9 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         public float ChargeModifier { get; private set; }
 
-        public override float MaxRange { get { return Projectile.IsShotgun(Mapper.GetProjectile(Name)) ? 300 : float.MaxValue; } }
-        public override bool IsValidPowerup()
-        {
-            return !Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
-        }
+        public override float MaxRange { get { return RangedWpns.IsShotgunWpns(Name) ? 300 : float.MaxValue; } }
 
-        public GaussGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Gauss) { }
+        public GaussGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         private bool m_prevManualAiming = false;
         public override void Update(float elapsed)

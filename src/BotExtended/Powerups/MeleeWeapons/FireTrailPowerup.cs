@@ -12,12 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class FireTrailPowerup : MeleeWpn
     {
-        public override bool IsValidPowerup()
-        {
-            return IsHitTheFloorWeapon(Name);
-        }
-
-        public FireTrailPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.FireTrail) { }
+        public FireTrailPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         private float _cooldownTime = 0f;
 

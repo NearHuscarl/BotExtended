@@ -14,12 +14,7 @@ namespace BotExtended.Powerups.MeleeWeapons
     {
         enum State { Normal, PunchingUp, Launching, Jumping, PunchingDown, WaitDown, }
 
-        public override bool IsValidPowerup()
-        {
-            return Name == WeaponItem.NONE;
-        }
-
-        public GroundSlamPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.GroundSlam) { }
+        public GroundSlamPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         private State _state = State.Normal;
 

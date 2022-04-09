@@ -165,12 +165,11 @@ namespace BotExtended.Powerups.RangeWeapons
             });
         }
 
-        public HeliumProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Helium) { }
+        public HeliumProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             Instance.DamageDealtModifier *= .25f;
-            return base.OnProjectileCreated();
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)

@@ -12,7 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class GibPowerup : MeleeWpn
     {
-        public GibPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Gib) { }
+        public GibPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {

@@ -12,15 +12,13 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         private static List<Bot> Zombies = new List<Bot>();
 
-        public SteakProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Steak)
+        public SteakProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             _isElapsedCheckFood = ScriptHelper.WithIsElapsed(110);
         }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            if (!Projectile.IsSlowProjectile(projectile.ProjectileItem)) return null;
-
             return CreateCustomProjectile(projectile, RandomHelper.GetItem(Constants.Giblets), projectile.Direction * 20);
         }
 

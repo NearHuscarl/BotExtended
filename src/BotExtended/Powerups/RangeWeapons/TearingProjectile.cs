@@ -12,14 +12,12 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class TearingProjectile : Projectile
     {
-        public TearingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Tearing)
-        {
-        }
+        public TearingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public float TearingChance { get; private set; }
         public float Tearing2Chance { get; private set; }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             if (IsExplosiveProjectile)
             {
@@ -40,8 +38,6 @@ namespace BotExtended.Powerups.RangeWeapons
 
             TearingChance = MathHelper.Clamp(TearingChance * Instance.DamageDealtModifier, 0, 1);
             Tearing2Chance = MathHelper.Clamp(Tearing2Chance * Instance.DamageDealtModifier, 0, 1);
-
-            return base.OnProjectileCreated();
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)

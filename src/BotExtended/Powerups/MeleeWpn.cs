@@ -17,9 +17,9 @@ namespace BotExtended.Powerups
             if (!IsValidPowerup()) throw new Exception("Weapon " + name + " cannot have powerup " + powerup);
         }
 
-        public override bool IsValidPowerup()
+        public sealed override bool IsValidPowerup()
         {
-            return Name != WeaponItem.CHAINSAW || Powerup == MeleeWeaponPowerup.None;
+            return PowerupDatabase.IsValidPowerup(Powerup, Name);
         }
 
         public void Add(WeaponItem name, MeleeWeaponPowerup powerup)
@@ -53,27 +53,5 @@ namespace BotExtended.Powerups
         protected virtual void OnMeleeActionChanged(MeleeAction meleeAction, Vector2 hitPosition) { }
         public MeleeAction CurrentMeleeAction { get { return BotManager.GetBot(Owner).CurrentMeleeAction; } }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
-
-        public static bool IsSharpWeapon(WeaponItem weaponItem)
-        {
-            return weaponItem == WeaponItem.AXE
-                || weaponItem == WeaponItem.KATANA
-                || weaponItem == WeaponItem.KNIFE
-                || weaponItem == WeaponItem.MACHETE;
-        }
-
-        public static bool IsHitTheFloorWeapon(WeaponItem weaponItem)
-        {
-            // weapons that have the beat-the-ground animation on third attack
-            return weaponItem == WeaponItem.MACHETE
-                || weaponItem == WeaponItem.AXE
-                || weaponItem == WeaponItem.BAT
-                || weaponItem == WeaponItem.BATON
-                || weaponItem == WeaponItem.SHOCK_BATON
-                || weaponItem == WeaponItem.PIPE
-                || weaponItem == WeaponItem.HAMMER
-                || weaponItem == WeaponItem.LEAD_PIPE
-                || weaponItem == WeaponItem.KATANA;
-        }
     }
 }

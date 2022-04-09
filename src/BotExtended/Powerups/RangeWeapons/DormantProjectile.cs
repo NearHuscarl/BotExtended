@@ -15,13 +15,10 @@ namespace BotExtended.Powerups.RangeWeapons
         protected float ExplodeRange2 = 10;
         protected float MinDistanceBeforeHover = 100;
 
-        public DormantProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Dormant) { }
+        public DormantProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            if (projectile.ProjectileItem != ProjectileItem.GRENADE_LAUNCHER)
-                return null;
-
             var owner = Game.GetPlayer(InitialOwnerPlayerID);
             return CreateCustomProjectile(projectile, "BazookaRocket", projectile.Velocity / 20, owner.GetFaceDirection() * RandomHelper.Between(-50, -70));
         }

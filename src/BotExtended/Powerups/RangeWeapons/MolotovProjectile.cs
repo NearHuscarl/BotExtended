@@ -11,12 +11,10 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class MolotovProjectile : CustomProjectile
     {
-        public MolotovProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Molotov) { }
+        public MolotovProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            if (!Projectile.IsSlowProjectile(projectile.ProjectileItem)) return null;
-            
             var molotov = CreateCustomProjectile(projectile, "WpnMolotovsThrown", projectile.Velocity / 20);
             var facingDirection = Game.GetPlayer(InitialOwnerPlayerID).FacingDirection;
             molotov.SetAngularVelocity(-facingDirection * 20f);

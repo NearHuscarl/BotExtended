@@ -7,7 +7,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class WeldingBullet : HoveringProjectile
     {
-        public WeldingBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Welding)
+        public WeldingBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             throw new NotImplementedException();
         }

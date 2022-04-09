@@ -11,7 +11,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class SuicideFighterProjectile : CustomProjectile
     {
-        public SuicideFighterProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.SuicideFighter) { }
+        public SuicideFighterProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         private static List<int> _bombers = new List<int>();
         static SuicideFighterProjectile()
@@ -27,8 +27,6 @@ namespace BotExtended.Powerups.RangeWeapons
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            if (!Projectile.IsSlowProjectile(projectile.ProjectileItem)) return null;
-
             var bot = BotManager.SpawnBot(BotType.SuicideDwarf,
                 team: Game.GetPlayer(InitialOwnerPlayerID).GetTeam(),
                 ignoreFullSpawner: true,

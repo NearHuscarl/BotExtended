@@ -198,6 +198,11 @@ namespace BotExtended
                         player.GiveWeaponItem(weaponItem);
                         break;
                     }
+                    else if (weaponItem == WeaponItem.NONE)
+                    {
+                        var text = (powerup + " powerup").ToUpperInvariant();
+                        Game.PlayEffect(EffectName.CustomFloatText, player.GetWorldPosition() + Vector2.UnitY * 30, text);
+                    }
                     PowerupManager.SetPowerup(player, weaponItem, powerup);
                     break;
                 }

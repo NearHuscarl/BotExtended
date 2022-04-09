@@ -14,12 +14,7 @@ namespace BotExtended.Powerups.RangeWeapons
         private string _loadedObject;
         private IObject _bullet;
 
-        public override bool IsValidPowerup()
-        {
-            return Projectile.IsSlowProjectile(Mapper.GetProjectile(Name));
-        }
-
-        public ObjectGun(IPlayer owner, WeaponItem name) : base(owner, name, RangedWeaponPowerup.Object)
+        public ObjectGun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup)
         {
             DisableRangeCheck = true;
             BotManager.GetBot(Owner).UseRangeWeapon(false);

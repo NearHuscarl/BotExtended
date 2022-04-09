@@ -67,7 +67,7 @@ namespace BotExtended.Powerups.RangeWeapons
             Instance.Velocity = new Vector2(0, 100);
             Instance.Direction = Vector2.Zero;
             
-            if (!IsSlowProjectile(Instance.ProjectileItem)) Instance.FlagForRemoval();
+            if (!RangedWpns.IsSlowWpns(WeaponItem)) Instance.FlagForRemoval();
 
             HoverTime = 0f;
             OnHover();

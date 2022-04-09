@@ -15,7 +15,7 @@ namespace BotExtended.Powerups.RangeWeapons
             public IProjectile Projectile;
         }
 
-        public ShrapnelProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Shrapnel) { }
+        public ShrapnelProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public override bool IsRemoved { get { return Instance.IsRemoved && _shrapnels.Count == 0; } }
 
@@ -51,11 +51,10 @@ namespace BotExtended.Powerups.RangeWeapons
             }
         }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             Instance.DamageDealtModifier /= 3;
             Instance.PowerupBounceActive = true;
-            return IsExplosiveProjectile;
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)

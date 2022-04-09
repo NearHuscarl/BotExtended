@@ -12,10 +12,7 @@ namespace BotExtended.Powerups.RangeWeapons
     {
         public IPlayer Target { get; private set; }
 
-        public HomingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Homing)
-        {
-            //if (Game.IsEditorTest) Instance.Velocity /= 20;
-        }
+        public HomingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         private float m_updateDelay = 0f;
         protected override void Update(float elapsed)

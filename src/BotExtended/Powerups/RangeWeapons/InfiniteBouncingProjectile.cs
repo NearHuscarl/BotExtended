@@ -11,7 +11,7 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class InfiniteBouncingProjectile : Projectile
     {
-        public InfiniteBouncingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.InfiniteBouncing)
+        public InfiniteBouncingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             _isElapsedUpdate = ScriptHelper.WithIsElapsed(36);
             Instance.PowerupBounceActive = true;

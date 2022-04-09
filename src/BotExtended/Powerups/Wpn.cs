@@ -9,7 +9,7 @@ namespace BotExtended.Powerups
         public WeaponItemType Type { get; protected set; }
         public IPlayer Owner { get; protected set; }
 
-        virtual public bool IsValidPowerup() { return true; }
+        public virtual bool IsValidPowerup() { return true; }
         public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos) { }
         public virtual void Update(float elapsed) { }
 

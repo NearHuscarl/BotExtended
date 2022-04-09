@@ -11,12 +11,12 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class DoublePenetrationProjectile : DoubleTroubleProjectile
     {
-        public DoublePenetrationProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.DoublePenetration) { }
+        public DoublePenetrationProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public override bool IsRemoved { get { return Instance.IsRemoved && Instance2.IsRemoved; } }
 
         private IProjectile Instance2 { get; set; }
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             var owner = Game.GetPlayer(InitialOwnerPlayerID);
             Instance2 = SpawnOppositeProjectile(owner, Instance) ?? Instance;
@@ -24,7 +24,6 @@ namespace BotExtended.Powerups.RangeWeapons
             Instance2.PowerupBounceActive = true;
             _initialDir1 = Instance.Direction;
             _initialDir2 = Instance2.Direction;
-            return true;
         }
 
         private Vector2 _initialDir1;

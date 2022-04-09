@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BotExtended.Library;
-using SFDGameScriptInterface;
-using static BotExtended.Library.SFD;
+﻿using SFDGameScriptInterface;
 
 namespace BotExtended.Powerups.RangeWeapons
 {
     class FireProjectile : Projectile
     {
-        public FireProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Fire)
+        public FireProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             Instance.PowerupFireActive = true;
             Instance.DamageDealtModifier = 0.01f;

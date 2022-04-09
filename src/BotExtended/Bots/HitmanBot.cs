@@ -54,6 +54,7 @@ namespace BotExtended.Bots
         {
             base.OnUpdate(elapsed);
 
+            if (Player.IsDead) return;
             if (_isCooldown && ScriptHelper.IsElapsed(_cooldownTime, CooldownTime)) _isCooldown = false;
             if (IsHiding || _isCooldown) return;
 
@@ -71,7 +72,6 @@ namespace BotExtended.Bots
 
         private void Hide()
         {
-            Game.WriteToConsole("hide");
             Player.SetInputEnabled(false);
             Player.SetNametagVisible(false);
             Player.SetWorldPosition(FarAwayPosition);
@@ -101,7 +101,6 @@ namespace BotExtended.Bots
 
         private void Show(IObject portalToShow)
         {
-            Game.WriteToConsole("show");
             Player.SetInputEnabled(true);
             Player.SetNametagVisible(true);
             Player.SetWorldPosition(portalToShow.GetWorldPosition());

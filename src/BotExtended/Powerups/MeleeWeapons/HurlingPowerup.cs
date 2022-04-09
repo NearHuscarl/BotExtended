@@ -12,7 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class HurlingPowerup : MeleeWpn
     {
-        public HurlingPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Hurling) { }
+        public HurlingPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {

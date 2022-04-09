@@ -22,7 +22,7 @@ namespace BotExtended.Powerups.RangeWeapons
         private Vector2 m_explodePosition;
         public float CurrentSmokeRadius { get; private set; }
 
-        public SmokeProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Smoke)
+        public SmokeProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             CurrentSmokeRadius = 0f;
             _isElapsedSmokeTrailing = ScriptHelper.WithIsElapsed(40);
@@ -30,9 +30,6 @@ namespace BotExtended.Powerups.RangeWeapons
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {
-            if (!Projectile.IsSlowProjectile(projectile.ProjectileItem))
-                return null;
-
             return CreateCustomProjectile(projectile, "WpnC4Detonator", projectile.Velocity / 20);
         }
 

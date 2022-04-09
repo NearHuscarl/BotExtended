@@ -11,12 +11,12 @@ namespace BotExtended.Powerups.RangeWeapons
         private static readonly uint StunnedTime = 1500;
         private static readonly float EMPBlastRadius = 15f;
 
-        public StunBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Stun) { }
+        public StunBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public float StunChance { get; private set; }
         public float StunRangeChance { get; private set; }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             if (IsExplosiveProjectile)
             {
@@ -34,8 +34,6 @@ namespace BotExtended.Powerups.RangeWeapons
                     StunRangeChance = StunRangeChance / ProjectilesPerShell * 2;
                 }
             }
-
-            return true;
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)

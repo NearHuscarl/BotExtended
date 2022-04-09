@@ -16,7 +16,7 @@ namespace BotExtended.Powerups.RangeWeapons
         private IObject InvisibleBlock { get; set; }
         public IPlayer Target { get; private set; }
      
-        public HuntingProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Hunting)
+        public HuntingProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             Instance.DamageDealtModifier = .5f;
             Instance.Velocity /= 2;

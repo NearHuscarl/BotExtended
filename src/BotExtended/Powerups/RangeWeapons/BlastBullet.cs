@@ -7,15 +7,11 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class BlastBullet : Projectile
     {
-        public BlastBullet(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Blast) { }
+        public BlastBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
-            if (IsExplosiveProjectile)
-                return false;
-
             Instance.DamageDealtModifier = IsShotgunShell ? .35f : .5f;
-            return true;
         }
 
         private IObject GetObject(ProjectileHitArgs args)

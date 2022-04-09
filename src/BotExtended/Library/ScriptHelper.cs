@@ -875,9 +875,9 @@ namespace BotExtended.Library
 
         public static Vector2 GetFarAwayPosition()
         {
-            var randX = RandomHelper.Between(0, 20);
-            var randy = RandomHelper.Between(0, 20);
-            return Game.GetCameraMaxArea().TopLeft + new Vector2(10 + randX, 10 + randy);
+            var randX = RandomHelper.Between(0, 200);
+            var randy = RandomHelper.Between(0, 200);
+            return Game.GetCameraMaxArea().TopLeft + new Vector2(-10 - randX, 10 + randy);
         }
 
         private static readonly IObjectPlayerProfileInfo PlayerProfileInfo = (IObjectPlayerProfileInfo)Game.CreateObject("PlayerProfileInfo");

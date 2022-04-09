@@ -16,7 +16,7 @@ namespace BotExtended.Powerups.RangeWeapons
 
         public IObjectWeldJoint _weldJoint;
 
-        public StickyBombProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.StickyBomb) { }
+        public StickyBombProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
         {

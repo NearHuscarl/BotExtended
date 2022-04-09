@@ -645,11 +645,21 @@ namespace BotExtended
                 if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
                 {
                     ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
-                    ScriptHelper.PrintMessage("Invalid range powerup: " + powerupArg, BeColors.WARNING_COLOR);
+                    ScriptHelper.PrintMessage("There is no such ranged powerup: " + powerupArg, BeColors.WARNING_COLOR);
                     return;
                 }
-                else
-                    powerupArg = powerup.ToString();
+                if (powerup != RangedWeaponPowerup.None)
+                {
+                    if (!PowerupDatabase.IsValidPowerup(powerup, weaponItem))
+                    {
+                        ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage(string.Format("Ranged powerup {0} can only be used with these weapons:", powerupArg), BeColors.WARNING_COLOR);
+                        ScriptHelper.PrintMessage(string.Join(" ", PowerupDatabase.GetValidWpns(powerup)), BeColors.MESSAGE_COLOR);
+                        return;
+                    }
+                }
+
+                powerupArg = powerup.ToString();
             }
             if (type == WeaponItemType.Melee || type == WeaponItemType.NONE)
             {
@@ -657,11 +667,21 @@ namespace BotExtended
                 if (!SharpHelper.TryParseEnum(powerupArg, out powerup))
                 {
                     ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
-                    ScriptHelper.PrintMessage("Invalid melee powerup: " + powerupArg, BeColors.WARNING_COLOR);
+                    ScriptHelper.PrintMessage("There is no such melee powerup: " + powerupArg, BeColors.WARNING_COLOR);
                     return;
                 }
-                else
-                    powerupArg = powerup.ToString();
+                if (powerup != MeleeWeaponPowerup.None)
+                {
+                    if (!PowerupDatabase.IsValidPowerup(powerup, weaponItem))
+                    {
+                        ScriptHelper.PrintMessage("--BotExtended setweapon--", BeColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage(string.Format("Melee powerup {0} can only be used with these weapons:", powerupArg), BeColors.WARNING_COLOR);
+                        ScriptHelper.PrintMessage(string.Join(" ", PowerupDatabase.GetValidWpns(powerup)), BeColors.MESSAGE_COLOR);
+                        return;
+                    }
+                }
+
+                powerupArg = powerup.ToString();
             }
 
             if (weaponItemArg == "NONE" && powerupArg == "None")

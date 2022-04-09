@@ -12,12 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class EarthquakePowerup : MeleeWpn
     {
-        public override bool IsValidPowerup()
-        {
-            return IsHitTheFloorWeapon(Name);
-        }
-
-        public EarthquakePowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Earthquake) { }
+        public EarthquakePowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         protected override void OnMeleeActionChanged(MeleeAction meleeAction, Vector2 hitPosition)
         {

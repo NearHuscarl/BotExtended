@@ -10,12 +10,11 @@ namespace BotExtended.Powerups.RangeWeapons
 {
     class TermiteProjectile : Projectile
     {
-        public TermiteProjectile(IProjectile projectile) : base(projectile, RangedWeaponPowerup.Termite) { }
+        public TermiteProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
-        protected override bool OnProjectileCreated()
+        protected override void OnProjectileCreated()
         {
             Instance.DamageDealtModifier = .2f;
-            return true;
         }
 
         public override void OnProjectileHit(ProjectileHitArgs args)
@@ -35,14 +34,13 @@ namespace BotExtended.Powerups.RangeWeapons
 
             if (!hitObject.DestructionInitiated) return;
 
-            var isShotgunShell = IsShotgun(Instance.ProjectileItem);
             var oBox = hitObject.GetAABB();
             var pBox = Game.GetPlayer(InitialOwnerPlayerID).GetAABB();
             ScriptHelper.Timeout(() =>
             {
                 var originalDebrises = Game.GetObjectsByArea(oBox).Where(x => x.GetLinearVelocity().Length() <= 30 && x.Name.Contains("Debris")).ToList();
                 var debrises = new List<IObject>();
-                var debrisCount = isShotgunShell ? 2 : RandomHelper.BetweenInt(4, 6);
+                var debrisCount = IsShotgunShell ? 2 : RandomHelper.BetweenInt(4, 6);
 
                 if (originalDebrises.Count == 0)
                 {

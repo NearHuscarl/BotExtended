@@ -12,7 +12,7 @@ namespace BotExtended.Powerups.MeleeWeapons
 {
     class MegatonPowerup : MeleeWpn
     {
-        public MegatonPowerup(IPlayer owner, WeaponItem name) : base(owner, name, MeleeWeaponPowerup.Megaton) { }
+        public MegatonPowerup(IPlayer owner, WeaponItem name, MeleeWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnMeleeAction(PlayerMeleeHitArg[] args)
         {
