@@ -15,7 +15,6 @@ namespace BotExtended
 
         internal const int BOT_SPAWN_COUNT_MIN = 1;
         internal const int BOT_SPAWN_COUNT_MAX = 15;
-        internal static readonly bool IS_ME_ALONE = ScriptHelper.IsMeAlone();
 
         internal const int BOSS_FACTION_START_INDEX = 200;
         internal const string CURRENT_VERSION = "5.16.1";
@@ -457,6 +456,10 @@ namespace BotExtended
         /// Example: glass, cup, bottle, weapons on map...
         /// </summary>
         internal const ushort DynamicG2 = 0x0010;
+        /// <summary>
+        /// Objects that are both DynamicG1 and DynamicG2.
+        /// Example: The above of Table is DynamicG1 while the below is DynamicG2 
+        /// </summary>
         internal const ushort Dynamic = DynamicG1 + DynamicG2;
 
         internal const ushort Items = 0x0020;

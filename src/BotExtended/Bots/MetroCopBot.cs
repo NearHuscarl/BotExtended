@@ -21,9 +21,11 @@ namespace BotExtended.Bots
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
-
+            
             if (!Player.IsDead && _isElaspedSpawnSweeper() && Sweepers.Count < 2)
+            {
                 Sweepers.Add((LaserSweeper)WeaponManager.SpawnWeapon(BeWeapon.LaserSweeper, this));
+            }
         }
     }
 }

@@ -39,6 +39,7 @@ namespace BotExtended.Weapons
             _fireLaserTime = Game.TotalElapsedGameTime;
             _isElapsedCheckFireLaser = ScriptHelper.WithIsElapsed(1500);
             _isElapsedUpdateFiring = ScriptHelper.WithIsElapsed(16);
+            _isElapsedSound = ScriptHelper.WithIsElapsed(250);
         }
 
         private float _fireLaserTime;
@@ -107,6 +108,7 @@ namespace BotExtended.Weapons
             _laserSplash = Game.CreateObject("LaserSplash00");
         }
 
+        private Func<bool> _isElapsedSound;
         private RopeObject _laser;
         private IObject _laserSplash;
         private void UpdateFiring()
@@ -122,6 +124,10 @@ namespace BotExtended.Weapons
                 StopFiring();
                 return;
             }
+
+            if (_isElapsedSound())
+                Game.PlaySound("Sawblade", Position);
+
             var start = _laser.StartPosition;
             var nextDir = ScriptHelper.GetDirection(nextAngle);
             var end = start + nextDir * ScriptHelper.GetDistanceToEdge(start, nextDir);
@@ -170,6 +176,7 @@ namespace BotExtended.Weapons
         {
             base.OnComponentTerminated(component);
             if (_state == State.Firing) StopFiring();
+
             MetroCopBot.Sweepers.Remove(this);
             IsDestroyed = true;
         }

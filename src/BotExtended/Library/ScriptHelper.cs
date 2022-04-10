@@ -13,6 +13,13 @@ namespace BotExtended.Library
         Right,
         Bottom,
     }
+    public enum Corner
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+    }
 
     public static class ScriptHelper
     {
@@ -196,6 +203,19 @@ namespace BotExtended.Library
             if (angle >= MathHelper.PIOver2 + MathHelper.PIOver4 && angle < MathHelper.PI + MathHelper.PIOver4)
                 return Direction.Left;
             return Direction.Bottom;
+        }
+
+        public static Corner GetCorner(float angle)
+        {
+            angle = MathExtension.NormalizeAngle(angle);
+
+            if (angle >= 0 && angle < MathHelper.PIOver2)
+                return Corner.TopRight;
+            if (angle >= MathHelper.PIOver2 && angle < MathHelper.PI)
+                return Corner.TopLeft;
+            if (angle >= MathHelper.PI && angle < MathHelper.PI + MathHelper.PIOver2)
+                return Corner.BottomLeft;
+            return Corner.BottomRight;
         }
 
         // Camera.cs#GetDistanceToEdge()
@@ -446,18 +466,6 @@ namespace BotExtended.Library
             return ProjectilePowerup.None;
         }
 
-        public static bool IsMeAlone()
-        {
-            var users = Game.GetActiveUsers().Where(u => !u.IsBot);
-            var i = 0;
-
-            foreach (var u in users)
-            {
-                if (u.AccountName == "NearHuscarl") i++;
-            }
-            return users.Count() == i;
-        }
-
         // Never use is keyword to check if IObject is IPlayer. it's slow
         public static bool IsPlayer(IObject obj)
         {
@@ -480,6 +488,14 @@ namespace BotExtended.Library
         }
 
         public static bool IsStaticGround(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.StaticGround; }
+        public static bool IsHardStaticGround(IObject o) { return IsStaticGround(o) && !IsPlatform(o); }
+        // Open tiles.sfdx and search for 'plat' to see all other properties
+        public static bool IsPlatform(IObject o)
+        {
+            var cf = o.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.StaticGround && !cf.AbsorbProjectile && !cf.BlockExplosions;
+        }
+        public static bool IsDynamicG1(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG1; }
         public static bool IsDynamicG2(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2; }
 
         public static bool IsInteractiveObject(IObject obj)
