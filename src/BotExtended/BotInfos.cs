@@ -883,6 +883,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss LordPinkerton
+                case BotType.LordPinkerton:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.All;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        ImpactDamageTakenModifier = DamageTaken.VeryResistant,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Meatgrinder
                 case BotType.Meatgrinder:
                 {

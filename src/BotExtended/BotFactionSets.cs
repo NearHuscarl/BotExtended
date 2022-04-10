@@ -68,9 +68,11 @@ namespace BotExtended
 
                 #region Biker
                 case BotFaction.Boss_Jo:
+                case BotFaction.Boss_LordPinkerton:
                 case BotFaction.Biker:
                 {
                     if (botFaction == BotFaction.Boss_Jo) bosses.Add(new SubFaction(BotType.Jo));
+                    if (botFaction == BotFaction.Boss_LordPinkerton) bosses.Add(new SubFaction(BotType.LordPinkerton));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Biker, 1f),
@@ -179,12 +181,12 @@ namespace BotExtended
                 #region Gangster
                 case BotFaction.Gangster:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Gangster, 0.8f),
                         new SubFaction(BotType.GangsterHulk, 0.2f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Gangster, 0.7f),
                         new SubFaction(BotType.ThugHulk, 0.3f),

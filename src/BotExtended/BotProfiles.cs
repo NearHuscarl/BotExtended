@@ -534,6 +534,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region LordPinkerton
+                case BotType.LordPinkerton:
+                {
+                    // https://profile-editor.vercel.app?p=M1FAj2O1Z1KgZ2cqZ0q1Z0Aee2N1Z0O7ZY
+                    profiles.Add(new IProfile() { Name = "Lord Pinkerton", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray"), ChestOver = new IProfileClothingItem("Coat", "ClothingGray", "ClothingGray"), ChestUnder = new IProfileClothingItem("StuddedLeatherSuit", "ClothingBlue"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray"), Waist = new IProfileClothingItem("SatchelBelt", "ClothingOrange"), Legs = new IProfileClothingItem("Pants", "ClothingLightBlue"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("StuddedLeatherMask", "ClothingBlue"), });
+                    break;
+                }
+                #endregion
+
                 #region Meatgrinder
                 case BotType.Meatgrinder:
                 {

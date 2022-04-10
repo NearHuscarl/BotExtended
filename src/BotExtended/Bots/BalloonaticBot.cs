@@ -44,6 +44,7 @@ namespace BotExtended.Bots
                 balloonJoint.SetWorldPosition(balloon.GetWorldPosition());
                 balloonJoint.SetTargetObject(balloon);
 
+                // TODO: restraint the balloons
                 distanceJoint.SetTargetObjectJoint(balloonJoint);
                 distanceJoint.SetWorldPosition(Position);
                 distanceJoint.SetTargetObject(Player);

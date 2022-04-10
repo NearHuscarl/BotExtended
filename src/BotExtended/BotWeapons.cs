@@ -781,6 +781,21 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region LordPinkerton
+                case BotType.LordPinkerton:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.BAZOOKA,
+                        PrimaryPowerup = RangedWeaponPowerup.Riding,
+                        Secondary = WeaponItem.SILENCEDUZI,
+                        Throwable = WeaponItem.C4,
+                        Powerup = WeaponItem.STRENGTHBOOST,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Meatgrinder
                 case BotType.Meatgrinder:
                 {

@@ -141,6 +141,7 @@
         // Tier3: Unearthed
         Kingpin,
         Kriegbar,
+        LordPinkerton,
         MetroCop2,
         // Tier3: Meatgrinder Begins
         Meatgrinder,
