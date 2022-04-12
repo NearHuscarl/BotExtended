@@ -67,16 +67,6 @@ namespace BotExtended.Library
                 return MathHelper.TwoPI - angle + MathHelper.PI;
         }
 
-        // https://github.com/microsoft/referencesource/blob/5697c29004a34d80acdaf5742d7e699022c64ecd/System.Numerics/System/Numerics/Vector2.cs#L216
-        public static Vector2 Reflect(Vector2 vector, Vector2 normal)
-        {
-            var dot = vector.X * normal.X + vector.Y * normal.Y;
-
-            return new Vector2(
-                vector.X - 2.0f * dot * normal.X,
-                vector.Y - 2.0f * dot * normal.Y);
-        }
-
         public static Vector2 ClampMagnitude(Vector2 vector, float maxLength)
         {
             var lengthSquare = vector.LengthSquared();

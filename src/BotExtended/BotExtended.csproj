@@ -175,7 +175,7 @@
     <Compile Include="Bots\KingpinBot.cs" />
     <Compile Include="Bots\KriegbärBot.cs" />
     <Compile Include="Bots\MechaBot.cs" />
-    <Compile Include="Bots\MirrorManBot.cs" />
+    <Compile Include="Bots\TankBot.cs" />
     <Compile Include="Bots\TeddybearBot.cs" />
     <Compile Include="Bots\ZombieFatBot.cs" />
     <Compile Include="Bots\ZombieFlamerBot.cs" />

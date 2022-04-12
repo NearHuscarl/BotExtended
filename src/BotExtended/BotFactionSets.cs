@@ -370,10 +370,15 @@ namespace BotExtended
                 #endregion
 
                 #region Robot
+                case BotFaction.Boss_Tank:
                 case BotFaction.Robot:
                 {
+                    if (botFaction == BotFaction.Boss_Tank) bosses.Add(new SubFaction(BotType.Tank));
                     // TODO: add custom profiles
-                    factionSet.AddFaction(new SubFaction(BotType.Cyborg, 1f));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Cyborg, 1f),
+                    });
                     break;
                 }
                 #endregion
@@ -627,9 +632,6 @@ namespace BotExtended
                     break;
                 case BotFaction.Boss_Mecha:
                     factionSet.AddFaction(new SubFaction(BotType.Mecha));
-                    break;
-                case BotFaction.Boss_MirrorMan:
-                    factionSet.AddFaction(new SubFaction(BotType.MirrorMan));
                     break;
                 case BotFaction.Boss_Ninja:
                     factionSet.AddFaction(new SubFaction(BotType.Ninja));

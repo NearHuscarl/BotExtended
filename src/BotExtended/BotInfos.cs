@@ -968,31 +968,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Boss MirrorMan
-                case BotType.MirrorMan:
-                {
-                    botInfo.AIType = BotAI.Expert;
-                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
-                    botInfo.Modifiers = new PlayerModifiers(true)
-                    {
-                        MaxHealth = Health.VeryStrong,
-                        CurrentHealth = Health.VeryStrong,
-                        MaxEnergy = Stamina.VeryHigh,
-                        CurrentEnergy = Stamina.VeryHigh,
-                        RunSpeedModifier = Speed.AboveNormal,
-                        SprintSpeedModifier = Speed.AboveNormal,
-                        ProjectileDamageTakenModifier = DamageTaken.ExtremelyResistant,
-                        ProjectileCritChanceTakenModifier = DamageTaken.ExtremelyResistant,
-                        SizeModifier = Size.Small,
-                    };
-                    botInfo.ImmuneToInfect = true; // robot cannot be infected
-                    botInfo.SpawnLine = "BRING IT ON!!!";
-                    botInfo.SpawnLineChance = .1f;
-                    botInfo.IsBoss = true;
-                    break;
-                }
-                #endregion
-
                 #region Boss BigMutant
                 case BotType.Mutant:
                 {
@@ -1133,6 +1108,29 @@ namespace BotExtended
                         InfiniteAmmo = Constants.TOGGLE_ON,
                         SizeModifier = Size.Big,
                     };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
+                #region Boss Tank
+                case BotType.Tank:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MaxEnergy = Stamina.VeryHigh,
+                        CurrentEnergy = Stamina.VeryHigh,
+                        RunSpeedModifier = Speed.Slow,
+                        SprintSpeedModifier = Speed.Fast,
+                        ProjectileDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        ProjectileCritChanceTakenModifier = DamageTaken.ExtremelyResistant,
+                        SizeModifier = Size.ExtremelyBig,
+                    };
+                    botInfo.ImmuneToInfect = true; // robot cannot be infected
                     botInfo.IsBoss = true;
                     break;
                 }

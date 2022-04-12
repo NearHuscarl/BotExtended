@@ -124,10 +124,6 @@ namespace BotExtended.Bots
                     bot = new MutantBot(args);
                     break;
 
-                case BotType.MirrorMan:
-                    bot = new MirrorManBot(args);
-                    break;
-
                 case BotType.Nadja:
                     bot = new NadjaBot(args);
                     break;
@@ -154,6 +150,10 @@ namespace BotExtended.Bots
 
                 case BotType.Stripper:
                     bot = new StripperBot(args);
+                    break;
+
+                case BotType.Tank:
+                    bot = new TankBot(args);
                     break;
 
                 case BotType.Teddybear:

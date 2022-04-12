@@ -5,9 +5,9 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Bots
 {
-    class MirrorManBot : Bot
+    class TankBot : Bot
     {
-        public MirrorManBot(BotArgs args) : base(args) { }
+        public TankBot(BotArgs args) : base(args) { }
 
         public override void OnSpawn()
         {
@@ -18,8 +18,6 @@ namespace BotExtended.Bots
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
-
-            PlayShinyEffect(elapsed);
 
             var primaryWeapon = Player.CurrentPrimaryWeapon;
             var secondaryWeapon = Player.CurrentSecondaryWeapon;
@@ -34,30 +32,11 @@ namespace BotExtended.Bots
             }
         }
 
-        private List<float> m_effectTimes = new List<float>() { 0, 0 };
-        private void PlayShinyEffect(float elapsed)
-        {
-            for (var i = 0; i < m_effectTimes.Count; i++)
-            {
-                m_effectTimes[i] += elapsed;
-                if (m_effectTimes[i] >= 400)
-                {
-                    if (RandomHelper.Boolean())
-                    {
-                        Game.PlayEffect(EffectName.ItemGleam, RandomHelper.WithinArea(Player.GetAABB()));
-                        m_effectTimes[i] = 0;
-                    }
-                    else
-                        m_effectTimes[i] = RandomHelper.Between(0, 400);
-                }
-            }
-        }
-
         public override void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
         {
             base.OnProjectileHit(projectile, args);
 
-            if (RandomHelper.Between(0, 100) < 90)
+            if (RandomHelper.Percentage(0.9f))
             {
                 DeflectBullet(projectile, args.HitNormal);
             }
@@ -69,14 +48,8 @@ namespace BotExtended.Bots
                 + RandomHelper.Direction(-65, 65);
             var direction = projectile.Direction.X > 0 ? 1 : -1;
             var position = projectile.Position - direction * Vector2.UnitX * 5;
-            var powerup = ProjectilePowerup.None;
 
-            if (projectile.PowerupBounceActive)
-                powerup = ProjectilePowerup.Bouncing;
-            if (projectile.PowerupFireActive)
-                powerup = ProjectilePowerup.Fire;
-
-            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectVec, powerup);
+            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectVec, ScriptHelper.GetPowerup(projectile));
         }
     }
 }

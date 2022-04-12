@@ -38,6 +38,13 @@ namespace BotExtended.Powerups.RangeWeapons
             var rider = GetRocketRider();
             if (rider != null)
             {
+                var bs = rider.GetBotBehaviorSet();
+                if (bs.RocketRideProficiency < 0.7f)
+                {
+                    bs.RocketRideProficiency = 0.7f;
+                    rider.SetBotBehaviorSet(bs);
+                }
+
                 var distanceMovedNextFrame = Instance.Velocity / 55;
                 var end = Instance.Position + distanceMovedNextFrame;
                 var corner = ScriptHelper.GetCorner(ScriptHelper.GetAngle(Instance.Direction));
@@ -74,7 +81,7 @@ namespace BotExtended.Powerups.RangeWeapons
                         if (result.ObjectID == _lastBoundedObjectID && !_isElapsedReflectCooldown())
                             break;
                         
-                        var reflectedVector = MathExtension.Reflect(Instance.Direction, result.Normal);
+                        var reflectedVector = Vector2.Reflect(Instance.Direction, result.Normal);
 
                         _lastBoundedObjectID = result.ObjectID;
                         var angle = ScriptHelper.GetAngle(Instance.Direction);
@@ -87,7 +94,13 @@ namespace BotExtended.Powerups.RangeWeapons
                         Instance.Direction = reflectedVector;
 
                         var hitPlayer = ScriptHelper.AsPlayer(result.HitObject);
-                        if (hitPlayer != null) ScriptHelper.Fall(hitPlayer);
+                        if (hitPlayer != null)
+                        {
+                            if (RandomHelper.Percentage(.03f))
+                                hitPlayer.Gib();
+                            else
+                                ScriptHelper.Fall(hitPlayer);
+                        }
 
                         Game.PlayEffect(EffectName.BulletHit, result.Position);
                         Game.PlaySound("BulletHitDefault", result.Position, 1);

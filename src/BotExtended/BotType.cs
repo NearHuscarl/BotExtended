@@ -146,7 +146,6 @@
         // Tier3: Meatgrinder Begins
         Meatgrinder,
         Mecha,
-        MirrorMan,
         Nadja,
         Napoleon,
         Ninja,
@@ -162,6 +161,7 @@
         Smoker,
         SSOfficer,
         Survivalist,
+        Tank,
         Teddybear,
         Translucent,
         Babybear,

@@ -78,7 +78,6 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
-                        MeleeHandPowerup = MeleeWeaponPowerup.Slide,
                         Primary = WeaponItem.DARK_SHOTGUN,
                         PrimaryPowerup = RangedWeaponPowerup.Gauss,
                         Secondary = WeaponItem.PISTOL,
@@ -406,7 +405,6 @@ namespace BotExtended
                 #region Cyborg
                 case BotType.Cyborg:
                 {
-                    weapons.Add(WeaponSet.Empty);
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.MACHINE_PISTOL,
@@ -866,14 +864,6 @@ namespace BotExtended
                         PrimaryPowerup = RangedWeaponPowerup.Grapeshot,
                         UseLazer = true,
                     });
-                    break;
-                }
-                #endregion
-
-                #region MirrorMan
-                case BotType.MirrorMan:
-                {
-                    weapons.Add(WeaponSet.Empty);
                     break;
                 }
                 #endregion
@@ -1512,6 +1502,17 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Tank
+                case BotType.Tank:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        MeleeHandPowerup = MeleeWeaponPowerup.Slide,
                     });
                     break;
                 }

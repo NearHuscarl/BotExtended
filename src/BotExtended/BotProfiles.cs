@@ -587,13 +587,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region MirrorMan
-                case BotType.MirrorMan:
-                    // https://profile-editor.vercel.app?p=M1Fyj2ggZ1KgZ2a4Z0p4ZY0yjZ244Z1c4Z
-                    profiles.Add(new IProfile() { Name = "MirrorMan", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("Hood", "ClothingDarkBlue"), ChestUnder = new IProfileClothingItem("Shirt", "ClothingLightBlue"), Hands = new IProfileClothingItem("SafetyGloves", "ClothingDarkBlue"), Waist = new IProfileClothingItem("Sash", "ClothingDarkBlue"), Legs = new IProfileClothingItem("Pants", "ClothingLightBlue"), Feet = new IProfileClothingItem("Boots", "ClothingDarkBlue"), Accesory = new IProfileClothingItem("ClownMakeup", "ClothingLightGray"), });
-                    break;
-                #endregion
-
                 #region Mutant
                 case BotType.BigMutant:
                 case BotType.Mutant:
@@ -1011,6 +1004,13 @@ namespace BotExtended
                     profiles.Add(new IProfile() { Name = "Survivor", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin5", "ClothingLightRed"), Head = new IProfileClothingItem("Helmet2", "ClothingGray"), ChestOver = new IProfileClothingItem("KevlarVest", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("LumberjackShirt2", "ClothingBrown", "ClothingDarkBrown"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), });
                     break;
                 }
+                #endregion
+
+                #region Tank
+                case BotType.Tank:
+                    // https://profile-editor.vercel.app?p=M1Fyj2OcZ0t272a7Z0p7Z1I7o0T7o10tZ0s7Z
+                    profiles.Add(new IProfile() { Name = "Tank", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("Buzzcut", "ClothingDarkGray"), ChestOver = new IProfileClothingItem("OfficerJacket", "ClothingDarkGray", "ClothingLightRed"), ChestUnder = new IProfileClothingItem("StuddedLeatherSuit", "ClothingDarkRed"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingRed"), Waist = new IProfileClothingItem("Sash", "ClothingDarkGray"), Legs = new IProfileClothingItem("CamoPants", "ClothingBrown", "ClothingDarkGray"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), Accesory = new IProfileClothingItem("GasMask2", "ClothingDarkGray", "ClothingLightRed"), });
+                    break;
                 #endregion
 
                 #region Bear
