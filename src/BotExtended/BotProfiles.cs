@@ -494,6 +494,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Ion
+                case BotType.Ion:
+                {
+                    // https://profile-editor.vercel.app?p=M3owo2geZ1LtZY2neZY1W7Z0X7Z0M7e
+                    profiles.Add(new IProfile() { Name = "Ion", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin1", "ClothingLightRed"), Head = new IProfileClothingItem("Fedora2", "ClothingDarkGray", "ClothingGray"), ChestUnder = new IProfileClothingItem("Shirt", "ClothingGray"), Hands = new IProfileClothingItem("Gloves", "ClothingDarkGray"), Legs = new IProfileClothingItem("PantsBlack", "ClothingRed"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), Accesory = new IProfileClothingItem("RestraintMask", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Kingpin
                 case BotType.Kingpin:
                 {

@@ -36,7 +36,7 @@ namespace BotExtended.Bots
         {
             base.OnProjectileHit(projectile, args);
 
-            if (RandomHelper.Percentage(0.9f))
+            if (RandomHelper.Percentage(0.95f))
             {
                 DeflectBullet(projectile, args.HitNormal);
             }
@@ -44,12 +44,11 @@ namespace BotExtended.Bots
 
         private void DeflectBullet(IProjectile projectile, Vector2 normal)
         {
-            var reflectVec = Vector2.Reflect(projectile.Direction, normal)
-                + RandomHelper.Direction(-25, 25);
+            var reflectDir = Vector2.Reflect(projectile.Direction, normal) + RandomHelper.Direction(-25, 25);
             var direction = projectile.Direction.X > 0 ? 1 : -1;
             var position = projectile.Position - direction * Vector2.UnitX * 5;
 
-            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectVec, ScriptHelper.GetPowerup(projectile));
+            Game.SpawnProjectile(projectile.ProjectileItem, position, reflectDir, ScriptHelper.GetPowerup(projectile));
         }
     }
 }

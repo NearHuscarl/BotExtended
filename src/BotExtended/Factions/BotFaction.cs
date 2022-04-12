@@ -53,6 +53,7 @@
         Boss_HeavySoldier,
         Boss_Hitman,
         Boss_Incinerator,
+        Boss_Ion,
         Boss_Firebug,
         Boss_Fireman,
         Boss_Kingpin,

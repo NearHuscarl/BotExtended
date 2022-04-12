@@ -5,6 +5,7 @@
         None,
         Blackhole,
         Blast,
+        BouncingLaser,
         Bow,
         Delay,
         Dormant,

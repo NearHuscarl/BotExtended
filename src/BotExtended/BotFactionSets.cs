@@ -370,10 +370,12 @@ namespace BotExtended
                 #endregion
 
                 #region Robot
+                case BotFaction.Boss_Ion:
                 case BotFaction.Boss_Tank:
                 case BotFaction.Robot:
                 {
                     if (botFaction == BotFaction.Boss_Tank) bosses.Add(new SubFaction(BotType.Tank));
+                    if (botFaction == BotFaction.Boss_Ion) bosses.Add(new SubFaction(BotType.Ion));
                     // TODO: add custom profiles
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {

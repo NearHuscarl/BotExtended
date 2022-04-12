@@ -723,6 +723,23 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Ion
+                case BotType.Ion:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.BouncingLaser,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.MAGNUM,
+                        PrimaryPowerup = RangedWeaponPowerup.BouncingLaser,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Kingpin
                 case BotType.Kingpin:
                 {

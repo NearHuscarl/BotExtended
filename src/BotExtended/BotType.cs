@@ -135,6 +135,7 @@
         Hitman,
 
         Incinerator,
+        Ion,
         Pyromaniac,
 
         // Tier1: The Teahouse Job, Rooftop Retribution

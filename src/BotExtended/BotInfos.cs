@@ -773,6 +773,27 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Ion
+                case BotType.Ion:
+                {
+                    botInfo.AIType = BotAI.Cowboy;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        RunSpeedModifier = Speed.VerySlow,
+                        SprintSpeedModifier = Speed.Slow,
+                        ProjectileCritChanceTakenModifier = DamageTaken.Unbeatable,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.ImmuneToInfect = true; // robot cannot be infected
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Pyromaniac
                 case BotType.Pyromaniac:
                 {
