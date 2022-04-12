@@ -45,6 +45,8 @@ namespace BotExtended.Bots
         private void ChangeStatusColor(string color)
         {
             var profile = GetProfile();
+            // TODO: add custom indicator for health level
+            if (profile.Accesory == null) return;
             profile.Accesory.Color2 = color;
             Player.SetProfile(profile);
             m_healthColor = color;

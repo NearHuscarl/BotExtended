@@ -1127,7 +1127,7 @@ namespace BotExtended
                         RunSpeedModifier = Speed.Slow,
                         SprintSpeedModifier = Speed.Fast,
                         ProjectileDamageTakenModifier = DamageTaken.ExtremelyResistant,
-                        ProjectileCritChanceTakenModifier = DamageTaken.ExtremelyResistant,
+                        ProjectileCritChanceTakenModifier = DamageTaken.Unbeatable,
                         SizeModifier = Size.ExtremelyBig,
                     };
                     botInfo.ImmuneToInfect = true; // robot cannot be infected
