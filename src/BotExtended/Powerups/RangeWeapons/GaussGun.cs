@@ -151,7 +151,6 @@ namespace BotExtended.Powerups.RangeWeapons
             for (var i = 0f; i <= distance; i += 1.5f)
                 Game.PlayEffect(EffectName.ItemGleam, start + direction * i);
 
-            Game.WriteToConsole(rcResult.HitObject == null);
             return rcResult;
         }
     }

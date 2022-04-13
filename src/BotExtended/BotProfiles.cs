@@ -961,6 +961,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Spy
+                case BotType.Spy:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fyj2jj42H1ZY2n7Z2J1Z0f4Z0X7ZY
+                    profiles.Add(new IProfile() { Name = "Spy", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin3", "ClothingLightGray"), ChestOver = new IProfileClothingItem("StripedSuitJacket", "ClothingBlue"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingLightGray", "ClothingDarkBlue"), Hands = new IProfileClothingItem("Gloves", "ClothingDarkGray"), Legs = new IProfileClothingItem("StripedPants", "ClothingBlue"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray"), Accesory = new IProfileClothingItem("Balaclava", "ClothingDarkBlue"), });
+                    break;
+                }
+                #endregion
+
                 #region Stripper
                 case BotType.Stripper:
                 {

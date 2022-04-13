@@ -86,6 +86,7 @@ namespace BotExtended.Weapons
                     FilterOnMaskBits = true,
                     MaskBits = CategoryBits.StaticGround,
                     AbsorbProjectile = RayCastFilterMode.True,
+                    BlockExplosions = RayCastFilterMode.True,
                     ClosestHitOnly = true,
                     IncludeOverlap = true,
                 }).Where(r => r.HitObject != null);
@@ -137,11 +138,7 @@ namespace BotExtended.Weapons
                 MaskBits = CategoryBits.StaticGround + CategoryBits.Player + CategoryBits.Dynamic,
             }).Where(r => r.HitObject != null);
 
-            var groundResult = results.FirstOrDefault(x =>
-            {
-                var cf = x.HitObject.GetCollisionFilter();
-                return cf.CategoryBits == CategoryBits.StaticGround && cf.AbsorbProjectile;
-            });
+            var groundResult = results.FirstOrDefault(x => ScriptHelper.IsHardStaticGround(x.HitObject));
             // laser shoot to the void
             if (groundResult.HitObject == null)
             {

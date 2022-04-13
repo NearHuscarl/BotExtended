@@ -1317,6 +1317,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Spy
+                case BotType.Spy:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.AboveNormal,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.AboveNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Survivalist
                 case BotType.Survivalist:
                 {

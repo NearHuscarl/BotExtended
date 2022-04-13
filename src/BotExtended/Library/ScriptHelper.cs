@@ -395,6 +395,30 @@ namespace BotExtended.Library
             }
         }
 
+        public static string GetTeamColorText(PlayerTeam team)
+        {
+            switch (team)
+            {
+                case PlayerTeam.Team1: return "Blue";
+                case PlayerTeam.Team2: return "Red";
+                case PlayerTeam.Team3: return "Green";
+                case PlayerTeam.Team4: return "Yellow";
+                default: return "Gray";
+            }
+        }
+
+        public static Comparison<IPlayer> WithGetClosestPlayer(Vector2 position)
+        {
+            return (p1, p2) =>
+            {
+                var p1DistanceSqr = Vector2.DistanceSquared(p1.GetWorldPosition(), position);
+                var p2DistanceSqr = Vector2.DistanceSquared(p2.GetWorldPosition(), position);
+                if (p1DistanceSqr < p2DistanceSqr)
+                    return -1;
+                return 1;
+            };
+        }
+
         public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
 
         public static Dictionary<string, IUser> GetActiveUsersByAccountID()

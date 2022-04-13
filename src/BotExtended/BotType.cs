@@ -160,6 +160,7 @@
         Santa,
         Sheriff,
         Smoker,
+        Spy,
         SSOfficer,
         Survivalist,
         Tank,

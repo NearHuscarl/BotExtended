@@ -35,10 +35,18 @@ namespace BotExtended
             switch (botFaction)
             {
                 #region Assassin
+                case BotFaction.Boss_Spy:
                 case BotFaction.Assassin:
                 {
-                    factionSet.AddFaction(new SubFaction(BotType.AssassinMelee, 1f));
-                    factionSet.AddFaction(new SubFaction(BotType.AssassinRange, 1f));
+                    if (botFaction == BotFaction.Boss_Spy) bosses.Add(new SubFaction(BotType.Spy));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.AssassinMelee, 1f),
+                    });
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.AssassinRange, 1f),
+                    });
                     break;
                 }
                 #endregion

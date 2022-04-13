@@ -24,7 +24,7 @@ namespace BotExtended.Powerups.RangeWeapons
             if (args.IsPlayer) return;
 
             var hitObject = Game.GetObject(args.HitObjectID);
-            if (hitObject.GetCollisionFilter().CategoryBits != CategoryBits.DynamicG1 || hitObject.Name.Contains("Debris")) return;
+            if (!ScriptHelper.IsDynamicG1(hitObject) || hitObject.Name.Contains("Debris")) return;
 
             if (!hitObject.Destructable && RandomHelper.Percentage(.06f))
                 hitObject.Destroy();

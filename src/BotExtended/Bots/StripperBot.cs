@@ -47,12 +47,7 @@ namespace BotExtended.Bots
                     m_bouncer = bot.Player;
                     m_occupiedBouncerIDs.Add(m_bouncer.UniqueID);
 
-                    var bs = m_bouncer.GetBotBehaviorSet();
-                    bs.GuardRange = 10f;
-                    bs.ChaseRange = 11.5f;
-                    bot.SetBotBehaviorSet(bs, true);
-
-                    m_bouncer.SetGuardTarget(Player);
+                    bot.GoTo(Player, 10f, 11.5f);
                     m_bouncer.SetBotName("Bouncer");
 
                     if (Game.IsEditorTest)

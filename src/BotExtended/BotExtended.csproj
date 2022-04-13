@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\SpyBot.cs" />
     <Compile Include="Bots\BerserkerBot.cs" />
     <Compile Include="Bots\TranslucentBot.cs" />
     <Compile Include="Bots\ZombieEaterBot.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
     <Compile Include="Powerups\PowerupDatabase.cs" />
+    <Compile Include="Powerups\RangeWeapons\BouncingLaser.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrapnelProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\Shotgun.cs" />
     <Compile Include="Powerups\RangeWeapons\DoublePenetrationProjectile.cs" />

@@ -74,6 +74,7 @@
         Boss_Santa,
         Boss_Sheriff,
         Boss_Smoker,
+        Boss_Spy,
         Boss_Survivalist,
         Boss_Tank,
         Boss_Translucent,

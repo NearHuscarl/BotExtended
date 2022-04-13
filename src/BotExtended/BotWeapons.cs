@@ -1445,6 +1445,18 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Spy
+                case BotType.Spy:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.KNIFE,
+                        Secondary = WeaponItem.REVOLVER,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Stripper
                 case BotType.Stripper:
                 {

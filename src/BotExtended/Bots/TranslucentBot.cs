@@ -38,6 +38,7 @@ namespace BotExtended.Bots
         private float _flashInterval = MAX_FLASH_INTERVAL;
         private float _intervalChangedTime = 0;
         private bool _forceStopInvisibleTransition = false;
+        // TODO: make visible only to current user
         private void BecomeInvisible()
         {
             if (_state == State.Invisible || _state == State.ToInvisible) return;

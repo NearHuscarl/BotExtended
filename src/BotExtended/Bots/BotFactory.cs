@@ -144,6 +144,10 @@ namespace BotExtended.Bots
                     bot = new SmokerBot(args);
                     break;
 
+                case BotType.Spy:
+                    bot = new SpyBot(args);
+                    break;
+
                 case BotType.Survivor:
                     bot = new SurvivorBot(args);
                     break;

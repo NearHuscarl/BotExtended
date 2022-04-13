@@ -48,6 +48,7 @@ namespace BotExtended.Weapons
     }
 
     // TODO: use custom texture to simplify code logic
+    // TODO: make enemies target this weapon
     class Turret : Weapon
     {
         // TODO: add recoil
@@ -179,19 +180,8 @@ namespace BotExtended.Weapons
 
         public static string GetColor(PlayerTeam team)
         {
-            switch (team)
-            {
-                case PlayerTeam.Team1:
-                    return "BgBlue";
-                case PlayerTeam.Team2:
-                    return "BgRed";
-                case PlayerTeam.Team3:
-                    return "BgGreen";
-                case PlayerTeam.Team4:
-                    return "BgYellow";
-                default:
-                    return "BgLightGray";
-            }
+            var prefix = team == PlayerTeam.Independent ? "BgLight" : "Bg";
+            return prefix + ScriptHelper.GetTeamColorText(team);
         }
 
         public Turret(TurretArg arg) : base(arg.Owner)
@@ -547,14 +537,7 @@ namespace BotExtended.Weapons
                 .ToList();
 
             // nearest player first
-            players.Sort((p1, p2) =>
-            {
-                var p1Distance = Vector2.Distance(p1.GetWorldPosition(), RotationCenter);
-                var p2Distance = Vector2.Distance(p2.GetWorldPosition(), RotationCenter);
-                if (p1Distance < p2Distance)
-                    return -1;
-                return 1;
-            });
+            players.Sort(ScriptHelper.WithGetClosestPlayer(RotationCenter));
 
             return players;
         }

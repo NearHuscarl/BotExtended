@@ -40,7 +40,7 @@ namespace BotExtended.Bots
             var assInfo = AssassinInfos[team];
             if (assInfo.Target != null) return;
 
-            var potentialTargets = Game.GetPlayers().Where(p => !ScriptHelper.SameTeam(p, team) && !p.IsDead).ToList();
+            var potentialTargets = Game.GetPlayers().Where(p => !ScriptHelper.SameTeam(p, team) && !p.IsDead && BotManager.GetBot(p).Type != BotType.Spy).ToList();
             if (potentialTargets.Count == 0) return;
 
             assInfo.Target = RandomHelper.GetItem(potentialTargets);
@@ -50,7 +50,6 @@ namespace BotExtended.Bots
 
             var targetPos = assInfo.Target.GetWorldPosition();
             targetPos.Y += 35;
-            var teamColor = new Dictionary<PlayerTeam, string> { { PlayerTeam.Team1, "Blue" }, { PlayerTeam.Team2, "Red" }, { PlayerTeam.Team3, "Green" }, { PlayerTeam.Team4, "Yellow" }, };
 
             if (assInfo.TargetIndicator == null)
             {
@@ -62,7 +61,7 @@ namespace BotExtended.Bots
             }
             assInfo.TargetIndicator.SetWorldPosition(targetPos);
             assInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
-            assInfo.TargetIndicator.SetColor1("Neon" + teamColor[team]);
+            assInfo.TargetIndicator.SetColor1("Neon" + ScriptHelper.GetTeamColorText(team));
             assInfo.WeldJoint = ScriptHelper.Weld(assInfo.Target, assInfo.TargetIndicator);
 
             var cb = (Events.PlayerDeathCallback)null;

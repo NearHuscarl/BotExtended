@@ -359,9 +359,54 @@ namespace BotExtended.Bots
                 Player.DealDamage(projectile.GetProperties().PlayerDamage);
             }
         }
+
+        public static Dictionary<PlayerTeam, int> GetAlivePlayers()
+        {
+            var result = new Dictionary<PlayerTeam, int>()
+            {
+                { PlayerTeam.Team1, 0 },
+                { PlayerTeam.Team2, 0 },
+                { PlayerTeam.Team3, 0 },
+                { PlayerTeam.Team4, 0 },
+                { PlayerTeam.Independent, 0 },
+            };
+
+            foreach (var p in Game.GetPlayers())
+            {
+                if (p.GetTeam() != PlayerTeam.Independent && !p.IsDead)
+                    result[p.GetTeam()]++;
+            }
+
+            return result;
+        }
+
+        public static List<PlayerTeam> TeamsLeft()
+        {
+            var results = new List<PlayerTeam>();
+            var alivePlayers = GetAlivePlayers();
+
+            foreach (var kv in alivePlayers)
+            {
+                if (alivePlayers[kv.Key] > 0)
+                    results.Add(kv.Key);
+            }
+            return results;
+        }
         public virtual void OnDeath(PlayerDeathArgs args)
         {
             if (args.Killed) SayDeathLine();
+
+            // delay a bit to make sure the spy state is updated
+            ScriptHelper.Timeout(() =>
+            {
+                // there are spy bots, the game doesn't know how many teams actually are. Check gameover manually
+                if (!Game.AutoVictoryConditionEnabled)
+                {
+                    var spyBots = BotManager.GetBots<SpyBot>().Where(x => !x.Player.IsDead).ToList();
+                    if (spyBots.Count == 0 || !spyBots.Any(x => x.IsDisguising) && TeamsLeft().Count == 1)
+                        Game.SetGameOver();
+                }
+            }, 100);
         }
 
         public virtual void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos) { }
@@ -468,6 +513,15 @@ namespace BotExtended.Bots
 
             if (shealthRangeWpn)
                 ScriptHelper.Command(Player, PlayerCommandType.Sheath);
+        }
+
+        public void GoTo(IObject o, float guardRange = 1f, float chaseRange = 2f)
+        {
+            var bs = Player.GetBotBehaviorSet();
+            bs.GuardRange = guardRange;
+            bs.ChaseRange = chaseRange;
+            SetBotBehaviorSet(bs, true);
+            Player.SetGuardTarget(o);
         }
 
         public float Distance(Vector2 position) { return Vector2.Distance(Player.GetWorldPosition(), position); }
