@@ -28,6 +28,7 @@
         Object,
         Penetration,
         Poison,
+        Precision,
         Present,
         Riding,
         Shotgun,

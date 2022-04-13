@@ -52,6 +52,8 @@ namespace BotExtended.Powerups
                     return new PenetrationProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Poison:
                     return new PoisonProjectile(projectile, powerup);
+                case RangedWeaponPowerup.Precision:
+                    return new PrecisionProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Present:
                     return new PresentBullet(projectile, powerup);
                 case RangedWeaponPowerup.Riding:
@@ -63,7 +65,7 @@ namespace BotExtended.Powerups
                 case RangedWeaponPowerup.Smoke:
                     return new SmokeProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Spinner:
-                    return new SpinnerBullet(projectile, powerup);
+                    return new SpinnerProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Steak:
                     return new SteakProjectile(projectile, powerup);
                 case RangedWeaponPowerup.StickyBomb:

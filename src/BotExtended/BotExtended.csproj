@@ -75,6 +75,7 @@
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
     <Compile Include="Powerups\PowerupDatabase.cs" />
+    <Compile Include="Powerups\RangeWeapons\PrecisionProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\KnockbackProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\BouncingLaser.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrapnelProjectile.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Powerups\PlayerWeapon.cs" />
     <Compile Include="Powerups\RangeWeapons\RidingProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\SmokeProjectile.cs" />
-    <Compile Include="Powerups\RangeWeapons\SpinnerBullet.cs" />
+    <Compile Include="Powerups\RangeWeapons\SpinnerProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\StickyBombProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\StunBullet.cs" />
     <Compile Include="Powerups\RangeWeapons\SuicideDoveProjectile.cs" />

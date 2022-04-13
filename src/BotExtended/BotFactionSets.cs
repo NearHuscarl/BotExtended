@@ -54,10 +54,12 @@ namespace BotExtended
                 #region Agent
                 case BotFaction.Boss_Agent79:
                 case BotFaction.Boss_President:
+                case BotFaction.Boss_Hitman:
                 case BotFaction.Agent:
                 {
                     if (botFaction == BotFaction.Boss_Agent79) bosses.Add(new SubFaction(BotType.Agent79));
                     if (botFaction == BotFaction.Boss_President) bosses.Add(new SubFaction(BotType.President));
+                    if (botFaction == BotFaction.Boss_Hitman) bosses.Add(new SubFaction(BotType.Hitman));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Agent, 1f),
@@ -633,9 +635,6 @@ namespace BotExtended
 
                 case BotFaction.Boss_Demolitionist:
                     factionSet.AddFaction(new SubFaction(BotType.Demolitionist));
-                    break;
-                case BotFaction.Boss_Hitman:
-                    factionSet.AddFaction(new SubFaction(BotType.Hitman));
                     break;
                 case BotFaction.Boss_Meatgrinder:
                     factionSet.AddFaction(new SubFaction(BotType.Meatgrinder));

@@ -5,9 +5,9 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups.RangeWeapons
 {
-    class SpinnerBullet : HoveringProjectile
+    class SpinnerProjectile : HoveringProjectile
     {
-        public SpinnerBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
+        public SpinnerProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             if (RangedWpns.IsSlowWpns(Mapper.GetWeaponItem(projectile.ProjectileItem)))
                 UpdateDelay = 0;

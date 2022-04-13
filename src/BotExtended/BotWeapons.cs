@@ -696,6 +696,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Primary = WeaponItem.ASSAULT,
+                        PrimaryPowerup = RangedWeaponPowerup.Precision,
                     });
                     weapons.Add(new WeaponSet()
                     {
@@ -704,6 +705,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.SILENCEDPISTOL,
+                        PrimaryPowerup = RangedWeaponPowerup.Precision,
                     });
                     break;
                 }
