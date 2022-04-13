@@ -5,9 +5,9 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups.RangeWeapons
 {
-    class BlastBullet : Projectile
+    class BlastProjectile : Projectile
     {
-        public BlastBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
+        public BlastProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         protected override void OnProjectileCreated()
         {

@@ -17,7 +17,7 @@ namespace BotExtended.Powerups
                 case RangedWeaponPowerup.Blackhole:
                     return new BlackholeProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Blast:
-                    return new BlastBullet(projectile, powerup);
+                    return new BlastProjectile(projectile, powerup);
                 case RangedWeaponPowerup.BouncingLaser:
                     return new BouncingLaser(projectile, powerup);
                 case RangedWeaponPowerup.Bow:
@@ -42,6 +42,8 @@ namespace BotExtended.Powerups
                     return new HuntingProjectile(projectile, powerup);
                 case RangedWeaponPowerup.InfiniteBouncing:
                     return new InfiniteBouncingProjectile(projectile, powerup);
+                case RangedWeaponPowerup.Knockback:
+                    return new KnockbackProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Lightning:
                     return new LightningProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Molotov:

@@ -63,7 +63,7 @@ namespace BotExtended.Powerups.RangeWeapons
         }
         private List<Info> _pendingUpdate = new List<Info>();
 
-        private void Electrocute(IObject obj, int depth = 1)
+        private void Electrocute(IObject obj)
         {
             if (_electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved) return;
             if (_electrocutedObjects.Count >= 50)
@@ -101,7 +101,7 @@ namespace BotExtended.Powerups.RangeWeapons
                 _pendingUpdate.Add(new Info()
                 {
                     HitTime = _pendingUpdate.Any() ? _pendingUpdate.Last().HitTime + 33 : Game.TotalElapsedGameTime,
-                    Action = () => Electrocute(p, ++depth),
+                    Action = () => Electrocute(p),
                 });
             }
         }

@@ -75,6 +75,7 @@
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
     <Compile Include="Powerups\PowerupDatabase.cs" />
+    <Compile Include="Powerups\RangeWeapons\KnockbackProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\BouncingLaser.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrapnelProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\Shotgun.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Library\RayCastHelper.cs" />
     <Compile Include="PlayerSettings.cs" />
     <Compile Include="Powerups\RangeWeapons\BlackholeProjectile.cs" />
-    <Compile Include="Powerups\RangeWeapons\BlastBullet.cs" />
+    <Compile Include="Powerups\RangeWeapons\BlastProjectile.cs" />
     <Compile Include="Powerups\CustomProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\DoubleTroubleProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\FatigueProjectile.cs" />

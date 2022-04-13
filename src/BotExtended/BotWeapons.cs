@@ -1147,13 +1147,13 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.BAT,
                         Secondary = WeaponItem.PISTOL,
-                        SecondaryPowerup = RangedWeaponPowerup.Delay,
+                        SecondaryPowerup = RangedWeaponPowerup.Knockback,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Secondary = WeaponItem.UZI,
-                        SecondaryPowerup = RangedWeaponPowerup.Delay,
+                        SecondaryPowerup = RangedWeaponPowerup.Knockback,
                     });
                     weapons.Add(new WeaponSet()
                     {
@@ -1166,7 +1166,7 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL45,
-                        SecondaryPowerup = RangedWeaponPowerup.Delay,
+                        SecondaryPowerup = RangedWeaponPowerup.Knockback,
                     });
                     break;
                 }

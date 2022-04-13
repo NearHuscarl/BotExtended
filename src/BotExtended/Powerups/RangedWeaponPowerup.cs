@@ -21,6 +21,7 @@
         Gravity,
         GravityDE,
         InfiniteBouncing,
+        Knockback,
         Minigun,
         Molotov,
         Lightning,
