@@ -554,8 +554,8 @@ namespace BotExtended
                 {
                     weapons.Add(new WeaponSet()
                     {
-                        Primary = WeaponItem.CARBINE,
-                        PrimaryPowerup = RangedWeaponPowerup.Lightning,
+                        Secondary = WeaponItem.MAGNUM,
+                        SecondaryPowerup = RangedWeaponPowerup.Lightning,
                     });
                     break;
                 }

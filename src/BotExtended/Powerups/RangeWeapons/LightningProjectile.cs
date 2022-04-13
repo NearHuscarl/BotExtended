@@ -18,30 +18,25 @@ namespace BotExtended.Powerups.RangeWeapons
 
         public LightningProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
-            LightningDamage = 7f;
+            LightningDamage = 14f;
 
             var start = projectile.Position + projectile.Direction * 10;
             var end = start + projectile.Direction * ScriptHelper.GetDistanceToEdge(start, projectile.Direction);
-            var results = Game.RayCast(start, end, new RayCastInput()
+            var result = Game.RayCast(start, end, new RayCastInput()
             {
                 ProjectileHit = RayCastFilterMode.True,
                 AbsorbProjectile = RayCastFilterMode.True,
                 IncludeOverlap = false,
                 ClosestHitOnly = true,
-            }).Where(r => r.HitObject != null);
+            }).FirstOrDefault(r => r.HitObject != null);
 
-            end = results.Count() == 0 ? end : results.First().Position;
-            var distance = Vector2.Distance(start, end);
+            if (result.HitObject != null)
+            {
+                end = result.Position;
+                Electrocute(result.HitObject);
+            }
 
             DrawElectricTrace(start, end);
-
-            foreach (var result in results)
-            {
-                if (result.HitObject != null)
-                {
-                    Electrocute(result.HitObject); break;
-                }
-            }
 
             projectile.FlagForRemoval();
         }
@@ -52,12 +47,12 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             base.Update(elapsed);
 
-            if (!m_pendingUpdate.Any()) return;
-            if (Game.TotalElapsedGameTime >= m_pendingUpdate.First().HitTime)
+            if (!_pendingUpdate.Any()) return;
+            if (Game.TotalElapsedGameTime >= _pendingUpdate.First().HitTime)
             {
-                var i = m_pendingUpdate.First();
+                var i = _pendingUpdate.First();
                 i.Action.Invoke();
-                m_pendingUpdate.RemoveAt(0);
+                _pendingUpdate.RemoveAt(0);
             }
         }
 
@@ -66,18 +61,19 @@ namespace BotExtended.Powerups.RangeWeapons
             public Action Action;
             public float HitTime;
         }
-        private List<Info> m_pendingUpdate = new List<Info>();
+        private List<Info> _pendingUpdate = new List<Info>();
+
         private void Electrocute(IObject obj, int depth = 1)
         {
-            //Game.WriteToConsole(depth, obj.Name);
-            if (depth > 3 || _electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved)
+            if (_electrocutedObjects.Contains(obj.UniqueID) || obj.IsRemoved) return;
+            if (_electrocutedObjects.Count >= 50)
             {
                 IsRemoved = true;
                 return;
             }
 
             var position = obj.GetWorldPosition();
-            if (!ScriptHelper.IsIndestructible(obj))
+            if (obj.Destructable)
             {
                 obj.DealDamage(LightningDamage);
                 Game.PlayEffect(EffectName.Electric, position);
@@ -88,18 +84,47 @@ namespace BotExtended.Powerups.RangeWeapons
                     Game.SpawnFireNode(position, Vector2.Zero);
                     Game.PlayEffect(EffectName.FireTrail, position);
                 }
+
+                var hitPlayer = ScriptHelper.AsPlayer(obj);
+                if (hitPlayer != null && !hitPlayer.IsRemoved && !hitPlayer.IsBurnedCorpse)
+                {
+                    SetBurntSkin(hitPlayer);
+                }
+
+                Game.PlaySound("ElectricSparks", position);
+                _electrocutedObjects.Add(obj.UniqueID);
             }
-            _electrocutedObjects.Add(obj.UniqueID);
 
             foreach (var p in GetPlayersInRange(obj))
             {
                 DrawElectricTrace(position, p.GetWorldPosition());
-                m_pendingUpdate.Add(new Info()
+                _pendingUpdate.Add(new Info()
                 {
-                    HitTime = m_pendingUpdate.Any() ? m_pendingUpdate.Last().HitTime + 23 : Game.TotalElapsedGameTime,
+                    HitTime = _pendingUpdate.Any() ? _pendingUpdate.Last().HitTime + 33 : Game.TotalElapsedGameTime,
                     Action = () => Electrocute(p, ++depth),
                 });
             }
+        }
+
+        private void SetBurntSkin(IPlayer hitPlayer)
+        {
+            var bot = BotManager.GetBot(hitPlayer);
+            var profile = bot.GetProfile();
+            var burntProfile = bot.GetProfile();
+
+            if (profile.Skin.Name == "BurntSkin") return;
+
+            burntProfile.Skin.Name = "BurntSkin";
+            burntProfile.Head = null;
+            burntProfile.ChestOver = null;
+            burntProfile.ChestUnder = null;
+            burntProfile.Hands = null;
+            burntProfile.Waist = null;
+            burntProfile.Legs = null;
+            burntProfile.Accesory = null;
+
+            hitPlayer.SetProfile(burntProfile);
+            ScriptHelper.Timeout(() => hitPlayer.SetProfile(profile), 250);
         }
 
         private IEnumerable<IPlayer> GetPlayersInRange(IObject electrocutedObject)

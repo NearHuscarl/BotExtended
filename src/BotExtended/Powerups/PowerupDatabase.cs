@@ -74,7 +74,7 @@ namespace BotExtended.Powerups
             return IsRangedWpns(weaponItem) && !IsExplosiveWpns(weaponItem);
         }
 
-        public static bool IsSmallArms(WeaponItem weaponItem)
+        public static bool IsSmallArm(WeaponItem weaponItem)
         {
             // weapons that shoot bullets
             return IsRangedWpns(weaponItem)
@@ -83,6 +83,13 @@ namespace BotExtended.Powerups
                 && weaponItem != WeaponItem.GRENADE_LAUNCHER
                 && weaponItem != WeaponItem.FLAMETHROWER
                 && weaponItem != WeaponItem.FLAREGUN;
+        }
+        public static bool IsSlowSmallArm(WeaponItem weaponItem)
+        {
+            return weaponItem == WeaponItem.SNIPER
+                || weaponItem == WeaponItem.MAGNUM
+                || weaponItem == WeaponItem.REVOLVER
+                || IsShotgunWpns(weaponItem);
         }
 
         public static bool IsSlowWpns(WeaponItem weaponItem)
@@ -147,7 +154,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.None, IsWpns },
             { RangedWeaponPowerup.Blackhole, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Blast, RangedWpns.IsNonExplosiveWpns },
-            { RangedWeaponPowerup.BouncingLaser, RangedWpns.IsSmallArms },
+            { RangedWeaponPowerup.BouncingLaser, RangedWpns.IsSmallArm },
             { RangedWeaponPowerup.Bow, w => w == WeaponItem.BOW },
             { RangedWeaponPowerup.Dormant, w => w == WeaponItem.GRENADE_LAUNCHER },
             { RangedWeaponPowerup.DoublePenetration, RangedWpns.IsDefaultWpns },
@@ -159,7 +166,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.Homing, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Hunting, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.InfiniteBouncing, RangedWpns.IsDefaultWpns },
-            { RangedWeaponPowerup.Lightning, RangedWpns.IsDefaultWpns },
+            { RangedWeaponPowerup.Lightning, w => RangedWpns.IsSlowSmallArm(w) && !RangedWpns.IsShotgunWpns(w) },
             { RangedWeaponPowerup.Molotov, RangedWpns.IsSlowWpns },
             { RangedWeaponPowerup.Penetration, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Poison, RangedWpns.IsDefaultWpns },
@@ -178,8 +185,8 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.Termite, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Welding, RangedWpns.IsDefaultWpns },
 
-            { RangedWeaponPowerup.Delay, RangedWpns.IsSmallArms },
-            { RangedWeaponPowerup.Gauss, RangedWpns.IsSmallArms },
+            { RangedWeaponPowerup.Delay, RangedWpns.IsSmallArm },
+            { RangedWeaponPowerup.Gauss, RangedWpns.IsSmallArm },
             { RangedWeaponPowerup.Gravity, RangedWpns.IsExplosiveWpns },
             { RangedWeaponPowerup.GravityDE, RangedWpns.IsExplosiveWpns },
             { RangedWeaponPowerup.Minigun, RangedWpns.IsAutomaticWpns },

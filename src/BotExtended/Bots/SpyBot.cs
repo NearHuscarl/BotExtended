@@ -95,8 +95,12 @@ namespace BotExtended.Bots
         private Func<IPlayer, bool> WithFindDeadBody()
         {
             var alivePlayers = GetAlivePlayers();
-            return p => p.IsDead && !p.IsBurnedCorpse &&
-            !p.IsRemoved && !SwappedBodies.Contains(p.UniqueID) && !ScriptHelper.SameTeam(p, Player) && alivePlayers[p.GetTeam()] > 0;
+            return p =>
+            {
+                var hasAliveTeammates = p.GetTeam() != PlayerTeam.Independent && alivePlayers[p.GetTeam()] > 0;
+                var cleanCorpse = p.IsDead && !p.IsBurnedCorpse && !p.IsRemoved;
+                return cleanCorpse && hasAliveTeammates && !SwappedBodies.Contains(p.UniqueID) && !ScriptHelper.SameTeam(p, Player);
+            };
         }
 
         private Func<bool> _isElapsedFindCorpse;
@@ -121,7 +125,8 @@ namespace BotExtended.Bots
             if (!_isElapsedCheckCorpse()) return;
 
             var alivePlayers = GetAlivePlayers();
-            if (_targetCorpse.IsRemoved || alivePlayers[_targetCorpse.GetTeam()] < 1)
+            var corpseTeam = _targetCorpse.GetTeam();
+            if (_targetCorpse.IsRemoved || corpseTeam == PlayerTeam.Independent || alivePlayers[corpseTeam] < 1)
             {
                 SetState(State.Normal);
                 return;
@@ -143,7 +148,6 @@ namespace BotExtended.Bots
             Player.SetProfile(p2);
             Player.SetTeam(corpse.GetTeam());
             Player.SetBotName(corpse.Name);
-            Game.WriteToConsole(corpse.Name);
             SetState(TargetEnemy() ? State.Disguised : State.Normal);
         }
 

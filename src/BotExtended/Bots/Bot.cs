@@ -373,7 +373,7 @@ namespace BotExtended.Bots
 
             foreach (var p in Game.GetPlayers())
             {
-                if (p.GetTeam() != PlayerTeam.Independent && !p.IsDead)
+                if (!p.IsDead)
                     result[p.GetTeam()]++;
             }
 
@@ -403,7 +403,9 @@ namespace BotExtended.Bots
                 if (!Game.AutoVictoryConditionEnabled)
                 {
                     var spyBots = BotManager.GetBots<SpyBot>().Where(x => !x.Player.IsDead).ToList();
-                    if (spyBots.Count == 0 || !spyBots.Any(x => x.IsDisguising) && TeamsLeft().Count == 1)
+                    var isSpyBotsActive = spyBots.Count > 0 && spyBots.Any(x => x.IsDisguising);
+
+                    if (!isSpyBotsActive && TeamsLeft().Count == 1)
                         Game.SetGameOver();
                 }
             }, 100);
