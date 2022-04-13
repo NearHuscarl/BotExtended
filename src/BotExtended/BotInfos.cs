@@ -648,6 +648,28 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Demoman
+                case BotType.Demoman:
+                {
+                    botInfo.AIType = BotAI.Expert;
+                    botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        RunSpeedModifier = Speed.BelowNormal,
+                        SprintSpeedModifier = Speed.BelowNormal,
+                        ExplosionDamageTakenModifier = DamageTaken.ExtremelyResistant,
+                        MeleeDamageDealtModifier = DamageDealt.High,
+                        MeleeForceModifier = MeleeForce.VeryStrong,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Fritzliebe
                 case BotType.Fritzliebe:
                 {

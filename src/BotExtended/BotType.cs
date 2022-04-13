@@ -124,6 +124,7 @@
         // Tier2: Alley Bombardment, Rocket Rider
         // Tier3: Rocket Rider 2
         Demolitionist,
+        Demoman,
         Jo,
         Fireman,
         Firebug,

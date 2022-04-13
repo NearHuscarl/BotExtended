@@ -45,6 +45,7 @@
         Boss_Boffin,
         Boss_Chairman,
         Boss_Cindy,
+        Boss_Demoman,
         Boss_PoliceChief,
         Boss_Funnyman,
         Boss_Jo,

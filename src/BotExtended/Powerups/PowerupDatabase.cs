@@ -168,6 +168,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.InfiniteBouncing, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Knockback, RangedWpns.IsSmallArm },
             { RangedWeaponPowerup.Lightning, w => RangedWpns.IsSlowSmallArm(w) && !RangedWpns.IsShotgunWpns(w) },
+            { RangedWeaponPowerup.Mine, w => w == WeaponItem.GRENADE_LAUNCHER },
             { RangedWeaponPowerup.Molotov, RangedWpns.IsSlowWpns },
             { RangedWeaponPowerup.Penetration, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Poison, RangedWpns.IsDefaultWpns },

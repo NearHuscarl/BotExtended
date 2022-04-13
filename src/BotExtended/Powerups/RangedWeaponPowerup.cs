@@ -25,6 +25,7 @@
         Minigun,
         Molotov,
         Lightning,
+        Mine,
         Object,
         Penetration,
         Poison,

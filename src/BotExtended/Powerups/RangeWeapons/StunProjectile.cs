@@ -6,12 +6,12 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups.RangeWeapons
 {
-    class StunBullet : Projectile
+    class StunProjectile : Projectile
     {
         private static readonly uint StunnedTime = 1500;
         private static readonly float EMPBlastRadius = 15f;
 
-        public StunBullet(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
+        public StunProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup) { }
 
         public float StunChance { get; private set; }
         public float StunRangeChance { get; private set; }

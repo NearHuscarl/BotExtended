@@ -295,6 +295,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Demoman
+                case BotType.Demoman:
+                {
+                    // https://profile-editor.vercel.app?p=M1Fwj2w7Z1KhZY0p7Z13ZZ087ZY3r7Z
+                    profiles.Add(new IProfile() { Name = "Demoman", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin1", "ClothingLightGray"), Head = new IProfileClothingItem("WoolCap", "ClothingDarkGray"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("SleevelessShirt", "ClothingDarkGray"), Legs = new IProfileClothingItem("Pants", "ClothingLightBrown"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), Accesory = new IProfileClothingItem("Armband", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Elf
                 case BotType.Elf:
                 {

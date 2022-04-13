@@ -263,9 +263,11 @@ namespace BotExtended
 
                 #region Nazi
                 case BotFaction.Boss_MadScientist:
+                case BotFaction.Boss_Demoman:
                 case BotFaction.Nazi:
                 {
                     if (botFaction == BotFaction.Boss_MadScientist) bosses.Add(new SubFaction(BotType.Fritzliebe));
+                    if (botFaction == BotFaction.Boss_Demoman) bosses.Add(new SubFaction(BotType.Demoman));
                     // TODO: add SSOfficer
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {

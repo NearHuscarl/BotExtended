@@ -444,6 +444,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Demoman
+                case BotType.Demoman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.GRENADE_LAUNCHER,
+                        PrimaryPowerup = RangedWeaponPowerup.Mine,
+                        Melee = WeaponItem.MACHETE,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Elf
                 case BotType.Elf:
                 {

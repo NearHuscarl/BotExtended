@@ -46,6 +46,8 @@ namespace BotExtended.Powerups
                     return new KnockbackProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Lightning:
                     return new LightningProjectile(projectile, powerup);
+                case RangedWeaponPowerup.Mine:
+                    return new MineProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Molotov:
                     return new MolotovProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Penetration:
@@ -71,7 +73,7 @@ namespace BotExtended.Powerups
                 case RangedWeaponPowerup.StickyBomb:
                     return new StickyBombProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Stun:
-                    return new StunBullet(projectile, powerup);
+                    return new StunProjectile(projectile, powerup);
                 case RangedWeaponPowerup.SuicideDove:
                     return new SuicideDoveProjectile(projectile, powerup);
                 case RangedWeaponPowerup.SuicideFighter:
