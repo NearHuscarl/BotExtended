@@ -172,6 +172,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.Molotov, RangedWpns.IsSlowWpns },
             { RangedWeaponPowerup.Penetration, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Poison, RangedWpns.IsDefaultWpns },
+            { RangedWeaponPowerup.PreciseBouncing, RangedWpns.IsSmallArm },
             { RangedWeaponPowerup.Precision, w => RangedWpns.IsSmallArm(w) && !RangedWpns.IsShotgunWpns(w) },
             { RangedWeaponPowerup.Present, RangedWpns.IsNonExplosiveWpns },
             { RangedWeaponPowerup.Riding, w => w == WeaponItem.BAZOOKA },

@@ -54,6 +54,8 @@ namespace BotExtended.Powerups
                     return new PenetrationProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Poison:
                     return new PoisonProjectile(projectile, powerup);
+                case RangedWeaponPowerup.PreciseBouncing:
+                    return new PreciseBouncingProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Precision:
                     return new PrecisionProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Present:

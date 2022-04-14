@@ -815,10 +815,12 @@ namespace BotExtended
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.PreciseBouncing,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.PreciseBouncing,
                         Powerup = WeaponItem.STRENGTHBOOST,
                     });
                     break;
@@ -1333,7 +1335,21 @@ namespace BotExtended
                 #region Scientist
                 case BotType.Scientist:
                 {
-                    weapons.Add(WeaponSet.Empty);
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.REVOLVER,
+                        SecondaryPowerup = RangedWeaponPowerup.PreciseBouncing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL,
+                        SecondaryPowerup = RangedWeaponPowerup.PreciseBouncing,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.PISTOL45,
+                        SecondaryPowerup = RangedWeaponPowerup.PreciseBouncing,
+                    });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.LEAD_PIPE,
