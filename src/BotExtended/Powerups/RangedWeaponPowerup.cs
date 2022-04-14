@@ -29,6 +29,7 @@
         Object,
         Penetration,
         Poison,
+        PreciseBouncing,
         Precision,
         Present,
         Riding,

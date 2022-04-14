@@ -689,6 +689,19 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Hawkeye
+                case BotType.Hawkeye:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.Penetration,
+                        UseLazer = true,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Hunter
                 case BotType.Hunter:
                 {

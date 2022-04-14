@@ -51,6 +51,7 @@
         Boss_Jo,
         Boss_Hacker,
         Boss_Handler,
+        Boss_Hawkeye,
         Boss_HeavySoldier,
         Boss_Hitman,
         Boss_Huntsman,

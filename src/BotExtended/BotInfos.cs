@@ -742,6 +742,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Hawkeye
+                case BotType.Hawkeye:
+                {
+                    botInfo.AIType = BotAI.RangeExpert;
+                    botInfo.SearchItems = SearchItems.Health | SearchItems.Powerups | SearchItems.Streetsweeper;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.AboveNormal,
+                        CurrentHealth = Health.AboveNormal,
+                        ProjectileCritChanceDealtModifier = DamageDealt.VeryHigh,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.Big,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss HeavySoldier
                 case BotType.HeavySoldier:
                 {

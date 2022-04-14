@@ -399,6 +399,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Hawkeye
+                case BotType.Hawkeye:
+                {
+                    // https://profile-editor.vercel.app?p=M3ozi1z4g0te4031Z2m7Z027Z127l0XeZ0k4p
+                    profiles.Add(new IProfile() { Name = "Hawkeye", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin4", "ClothingLightCyan"), Head = new IProfileClothingItem("Beret", "ClothingDarkBlue", "ClothingLightYellow"), ChestOver = new IProfileClothingItem("AmmoBelt", "ClothingDarkGray"), ChestUnder = new IProfileClothingItem("MilitaryShirt", "ClothingDarkBlue", "ClothingLightBlue"), Hands = new IProfileClothingItem("Gloves", "ClothingGray"), Waist = new IProfileClothingItem("AmmoBeltWaist", "ClothingBlue"), Legs = new IProfileClothingItem("CamoPants", "ClothingGray", "ClothingDarkBlue"), Feet = new IProfileClothingItem("Shoes", "ClothingDarkGray"), Accesory = new IProfileClothingItem("Goggles", "ClothingDarkGray", "ClothingLightOrange"), });
+                    break;
+                }
+                #endregion
+
                 #region HeavySoldier
                 case BotType.HeavySoldier:
                 {

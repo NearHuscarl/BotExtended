@@ -75,6 +75,7 @@
     <Compile Include="Powerups\MeleeWeapons\PushbackPowerup.cs" />
     <Compile Include="Powerups\MeleeWeapons\HurlingPowerup.cs" />
     <Compile Include="Powerups\PowerupDatabase.cs" />
+    <Compile Include="Powerups\RangeWeapons\PreciseBouncingProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\MineProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\TriggerProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\PrecisionProjectile.cs" />

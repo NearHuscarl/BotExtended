@@ -425,9 +425,14 @@ namespace BotExtended
                 #endregion
 
                 #region Sniper
+                case BotFaction.Boss_Hawkeye:
                 case BotFaction.Sniper:
                 {
-                    factionSet.AddFaction(new SubFaction(BotType.Sniper, 1f));
+                    if (botFaction == BotFaction.Boss_Hawkeye) bosses.Add(new SubFaction(BotType.Hawkeye));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
+                    {
+                        new SubFaction(BotType.Sniper, 1f),
+                    });
                     break;
                 }
                 #endregion
