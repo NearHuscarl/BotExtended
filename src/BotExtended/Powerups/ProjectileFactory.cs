@@ -82,6 +82,8 @@ namespace BotExtended.Powerups
                     return new TearingProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Termite:
                     return new TermiteProjectile(projectile, powerup);
+                case RangedWeaponPowerup.Trigger:
+                    return new TriggerProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Welding:
                     return new WeldingBullet(projectile, powerup);
                 default:

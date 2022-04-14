@@ -132,8 +132,10 @@
         Funnyman,
         Hacker,
         Handler,
+        Hawkeye,
         HeavySoldier,
         Hitman,
+        Huntsman,
 
         Incinerator,
         Ion,

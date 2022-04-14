@@ -778,6 +778,24 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Huntsman
+                case BotType.Huntsman:
+                {
+                    botInfo.AIType = BotAI.RangeExpert;
+                    botInfo.SearchItems = SearchItems.Makeshift | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        ProjectileCritChanceDealtModifier = DamageDealt.High,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                        SizeModifier = Size.AboveNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Incinerator
                 case BotType.Incinerator:
                 {

@@ -419,6 +419,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Huntsman
+                case BotType.Huntsman:
+                {
+                    // https://profile-editor.vercel.app?p=M38ye36aZ1KeZY2n2Z3jej1r7Z0O9Z0Ghe
+                    profiles.Add(new IProfile() { Name = "Huntsman", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingGray"), Head = new IProfileClothingItem("CowboyHat", "ClothingLightBrown", "ClothingGray"), ChestOver = new IProfileClothingItem("Vest", "ClothingGray", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkPink"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkOrange"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingBrown"), Accesory = new IProfileClothingItem("Mask", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Gangster
                 case BotType.Gangster:
                 {

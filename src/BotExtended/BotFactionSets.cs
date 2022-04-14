@@ -206,13 +206,15 @@ namespace BotExtended
                 #endregion
 
                 #region Hunter
+                case BotFaction.Boss_Huntsman:
                 case BotFaction.Hunter:
                 {
-                    factionSet.AddFaction(new List<SubFaction>()
+                    if (botFaction == BotFaction.Boss_Huntsman) bosses.Add(new SubFaction(BotType.Huntsman));
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Hunter, 1f),
                     });
-                    factionSet.AddFaction(new List<SubFaction>()
+                    factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Hunter, .7f),
                         new SubFaction(BotType.Farmer, .3f),

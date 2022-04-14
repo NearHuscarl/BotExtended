@@ -603,14 +603,6 @@ namespace BotExtended
                 }
                 #endregion
 
-                #region Hacker
-                case BotType.Hacker:
-                {
-                    weapons.Add(WeaponSet.Empty);
-                    break;
-                }
-                #endregion
-
                 #region Gangster
                 case BotType.Gangster:
                 {
@@ -676,6 +668,14 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Hacker
+                case BotType.Hacker:
+                {
+                    weapons.Add(WeaponSet.Empty);
+                    break;
+                }
+                #endregion
+
                 #region Handler
                 case BotType.Handler:
                 {
@@ -719,6 +719,24 @@ namespace BotExtended
                     {
                         Secondary = WeaponItem.SILENCEDPISTOL,
                         PrimaryPowerup = RangedWeaponPowerup.Precision,
+                    });
+                    break;
+                }
+                #endregion
+
+                #region Huntsman
+                case BotType.Huntsman:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Primary = WeaponItem.SNIPER,
+                        PrimaryPowerup = RangedWeaponPowerup.Trigger,
+                        Secondary = WeaponItem.MACHINE_PISTOL,
+                    });
+                    weapons.Add(new WeaponSet()
+                    {
+                        Secondary = WeaponItem.MAGNUM,
+                        SecondaryPowerup = RangedWeaponPowerup.Trigger,
                     });
                     break;
                 }

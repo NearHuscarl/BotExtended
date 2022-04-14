@@ -45,6 +45,7 @@
         Taser,
         Tearing,
         Termite,
+        Trigger,
         Welding,
     }
 }
