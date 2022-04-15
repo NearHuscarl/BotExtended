@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotExtended.Script", "BotEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectName", "EffectName\EffectName.csproj", "{D2B7A6A2-8691-4DD3-99A0-541415651F53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animations", "Animations\Animations.csproj", "{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2B7A6A2-8691-4DD3-99A0-541415651F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
