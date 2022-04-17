@@ -109,6 +109,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region AssKicker
+                case BotType.AssKicker:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.BATON,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Balista
                 case BotType.Balista:
                 {

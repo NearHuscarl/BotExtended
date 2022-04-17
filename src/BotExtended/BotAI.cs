@@ -25,6 +25,7 @@
         // Jogger + hard melee/shooting
         AssassinMelee,
         AssassinRange,
+        AssKicker,
 
         // Trigger-happy Grunt
         Cowboy,

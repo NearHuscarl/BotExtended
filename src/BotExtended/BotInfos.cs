@@ -450,6 +450,28 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss AssKicker
+                case BotType.AssKicker:
+                {
+                    botInfo.AIType = BotAI.AssKicker;
+                    botInfo.SearchItems = SearchItems.Melee;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        MeleeDamageDealtModifier = DamageDealt.AboveNormal,
+                        RunSpeedModifier = Speed.ExtremelyFast,
+                        SprintSpeedModifier = Speed.ExtremelyFast,
+                        SizeModifier = Size.BelowNormal,
+                        EnergyRechargeModifier = EnergyRecharge.Quick,
+                        MeleeForceModifier = MeleeForce.OnePunch,
+                        InfiniteAmmo = Constants.TOGGLE_ON,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Balista
                 case BotType.Balista:
                 {

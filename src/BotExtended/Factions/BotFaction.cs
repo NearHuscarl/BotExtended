@@ -35,6 +35,7 @@
         Boss_Demolitionist = Constants.BOSS_FACTION_START_INDEX,
         Boss_Agent79,
         Boss_Amos,
+        Boss_AssKicker,
         Boss_Balista,
         Boss_Balloonatic,
         Boss_BazookaJane,

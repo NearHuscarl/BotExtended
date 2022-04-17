@@ -315,6 +315,7 @@ namespace BotExtended
     /// </summary>
     public static class MeleeForce
     {
+        internal const float OnePunch = 5f;
         internal const float UltraStrong = 3f;
         internal const float ExtremelyStrong = 2f;
         internal const float VeryStrong = 1.75f;

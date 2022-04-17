@@ -10,13 +10,13 @@ namespace BotExtended
             {
                 return new BotMeleeActions()
                 {
-                    Attack = (ushort)10,
-                    AttackCombo = (ushort)20,
-                    Block = (ushort)1,
-                    Kick = (ushort)1,
-                    Jump = (ushort)1,
-                    Wait = (ushort)10, // Hulk's original is 50
-                    Grab = (ushort)6
+                    Attack = 10,
+                    AttackCombo = 20,
+                    Block = 1,
+                    Kick = 1,
+                    Jump = 1,
+                    Wait = 10, // Hulk's original is 50
+                    Grab = 6
                 };
             }
         }
@@ -339,6 +339,27 @@ namespace BotExtended
                 {
                     botBehaviorSet = GetBehaviorSet(BotAI.RangeHard);
                     botBehaviorSet = Jogger(botBehaviorSet);
+                    break;
+                }
+                #endregion
+
+                #region AssKicker
+                case BotAI.AssKicker:
+                {
+                    botBehaviorSet = Rage(botBehaviorSet);
+
+                    botBehaviorSet.MeleeUsage = true;
+                    botBehaviorSet.MeleeWeaponUsage = true;
+                    botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions
+                    {
+                        Attack = 1,
+                        AttackCombo = 3,
+                        Block = 5,
+                        Kick = 25,
+                        Jump = 10,
+                        Wait = 3,
+                        Grab = 0,
+                    });
                     break;
                 }
                 #endregion

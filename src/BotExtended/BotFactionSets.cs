@@ -36,9 +36,11 @@ namespace BotExtended
             {
                 #region Assassin
                 case BotFaction.Boss_Spy:
+                case BotFaction.Boss_AssKicker:
                 case BotFaction.Assassin:
                 {
                     if (botFaction == BotFaction.Boss_Spy) bosses.Add(new SubFaction(BotType.Spy));
+                    if (botFaction == BotFaction.Boss_AssKicker) bosses.Add(new SubFaction(BotType.AssKicker));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.AssassinMelee, 1f),

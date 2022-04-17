@@ -956,6 +956,7 @@ namespace BotExtended.Library
                 IsNameTagVisible = player.GetNametagVisible(),
             });
             player.SetWorldPosition(_boxPosition + new Vector2(0, -8));
+            player.SetLinearVelocity(Vector2.Zero);
             player.SetInputEnabled(false);
             player.SetNametagVisible(false);
         }

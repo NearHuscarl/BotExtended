@@ -110,6 +110,7 @@
         // ---BOSS---
         Agent79,
         Amos,
+        AssKicker,
         Balista,
         Balloonatic,
         BazookaJane,

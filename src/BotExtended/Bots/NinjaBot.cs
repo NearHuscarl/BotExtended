@@ -60,7 +60,10 @@ namespace BotExtended.Bots
                         }
                     }
                 }
-            }, 500, () => ScriptHelper.Box(Player), 200);
+            }, 500, () =>
+            {
+                if (!Player.IsDead) ScriptHelper.Box(Player);
+            }, 200);
         }
 
         private Events.ObjectTerminatedCallback _oTerminatedCb;

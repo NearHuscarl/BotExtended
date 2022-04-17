@@ -60,6 +60,15 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region AssKicker
+                case BotType.AssKicker:
+                {
+                    // https://profile-editor.vercel.app?p=F1Gxj2lpZ1NpZY2n7ZYYYY
+                    profiles.Add(new IProfile() { Name = "Ass Kicker", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("Shirt_fem", "ClothingLightYellow"), Legs = new IProfileClothingItem("Pants_fem", "ClothingLightYellow"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray"), });
+                    break;
+                }
+                #endregion
+
                 #region Balloonatic
                 case BotType.Balloonatic:
                 {
