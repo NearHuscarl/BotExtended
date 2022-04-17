@@ -78,12 +78,13 @@ namespace BotExtended.Library
 
             cb = Events.UpdateCallback.Start(e =>
             {
-                callback.Invoke();
                 if (IsElapsed(timeStarted, ms))
                 {
                     if (onTimeout != null) onTimeout();
                     cb.Stop();
                 }
+                else
+                    callback.Invoke();
             }, interval);
 
             return cb;
@@ -467,16 +468,24 @@ namespace BotExtended.Library
         {
             return new System.Diagnostics.StackFrame(skipFrames).GetMethod();
         }
-        public static void Stopwatch(Func<string> action, int reportThreshold = 1)
+
+        private static int _messureTime = 0;
+        private static float _elapsedTotal = 0;
+        public static void Stopwatch(Action action, string name = "", int reportThreshold = 1)
         {
             var stopwatch = new System.Diagnostics.Stopwatch();
 
             stopwatch.Start();
-            var name = action();
+            action();
             stopwatch.Stop();
 
             if (stopwatch.ElapsedMilliseconds >= reportThreshold)
-                LogDebugF("-Perf {2,6} {0}:{1}", stopwatch.ElapsedMilliseconds, GetMethodInfo(1).Name, name);
+            {
+                _elapsedTotal += stopwatch.ElapsedMilliseconds;
+                _messureTime++;
+                var average = _elapsedTotal / _messureTime;
+                LogDebugF("Perf {1,6} {0}: {2} {3} {4}", GetMethodInfo(1).Name, name, stopwatch.ElapsedMilliseconds, _elapsedTotal, average);
+            }
         }
 
         public static ProjectilePowerup GetPowerup(IProjectile projectile)

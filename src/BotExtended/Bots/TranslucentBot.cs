@@ -22,17 +22,11 @@ namespace BotExtended.Bots
 
             _state = State.Visible;
             _profile = GetProfile();
-            _emptyProfile = GetProfile();
-            foreach (var type in SharpHelper.EnumToArray<ClothingType>())
-            {
-                ScriptHelper.Strip(_emptyProfile, type);
-            }
-            _emptyProfile.Skin.Name = "Invisible";
             BecomeInvisible();
         }
 
         private IProfile _profile;
-        private IProfile _emptyProfile;
+        public static readonly IProfile InvisibleProfile = new IProfile { Skin = new IProfileClothingItem("Invisible", null) };
         private float _flashTime;
         private const float MAX_FLASH_INTERVAL = 1000;
         private float _flashInterval = MAX_FLASH_INTERVAL;
@@ -78,7 +72,7 @@ namespace BotExtended.Bots
         private void ToggleInvisible() { if (GetProfile().Skin.Name != "Invisible") SetInvisible(); else SetVisible(); }
         private void SetInvisible(bool changeState = false)
         {
-            Player.SetProfile(_emptyProfile);
+            Player.SetProfile(InvisibleProfile);
             Player.SetNametagVisible(false);
             Player.SetStatusBarsVisible(false);
             if (changeState)

@@ -16,16 +16,17 @@ namespace BotExtended.Powerups.RangeWeapons
         public const float SmokeTime = 22000f;
         public override bool IsRemoved
         {
-            get { return m_explodeTime != 0f && ScriptHelper.IsElapsed(m_explodeTime, SmokeTime); }
+            get { return _explodeTime != 0f && ScriptHelper.IsElapsed(_explodeTime, SmokeTime); }
         }
-        private float m_explodeTime = 0f;
-        private Vector2 m_explodePosition;
+        private float _explodeTime = 0f;
+        private Vector2 _explodePosition;
         public float CurrentSmokeRadius { get; private set; }
 
         public SmokeProjectile(IProjectile projectile, RangedWeaponPowerup powerup) : base(projectile, powerup)
         {
             CurrentSmokeRadius = 0f;
             _isElapsedSmokeTrailing = ScriptHelper.WithIsElapsed(40);
+            _isElapsedSmokeExpand = ScriptHelper.WithIsElapsed(400);
         }
 
         protected override IObject OnProjectileCreated(IProjectile projectile)
@@ -42,18 +43,15 @@ namespace BotExtended.Powerups.RangeWeapons
 
         private static HashSet<int> AllPlayersAffected = new HashSet<int>();
         private Dictionary<int, Info> m_playersAffected = new Dictionary<int, Info>();
-        private float m_smokeEffectDelay = 0f;
-        private float m_smokeEffectBottomDelay = 0f;
         private float m_updateDelay = 0f;
-        private float m_groundPositionY;
-        private float m_smokeRadiusExpandDelay = 0f;
+        private float _groundPositionY;
         private Func<bool> _isElapsedSmokeTrailing;
         protected override void Update(float elapsed)
         {
             base.Update(elapsed);
 
             // update projectile
-            if (m_explodeTime == 0f)
+            if (_explodeTime == 0f)
             {
                 if (_isElapsedSmokeTrailing()) Game.PlayEffect(EffectName.Dig, Instance.GetWorldPosition());
                 if (Instance.GetLinearVelocity().Length() < 3f)
@@ -61,9 +59,9 @@ namespace BotExtended.Powerups.RangeWeapons
                     var groundObject = ScriptHelper.GetGroundObject(Instance);
                     if (groundObject != null)
                     {
-                        m_explodePosition = Instance.GetWorldPosition();
-                        m_explodeTime = Game.TotalElapsedGameTime;
-                        m_groundPositionY = Instance.GetWorldPosition().Y;
+                        _explodePosition = Instance.GetWorldPosition();
+                        _explodeTime = Game.TotalElapsedGameTime;
+                        _groundPositionY = Instance.GetWorldPosition().Y;
                         Instance.Destroy();
                     }
                 }
@@ -71,50 +69,7 @@ namespace BotExtended.Powerups.RangeWeapons
             }
 
             // update smoke effect after contact
-            if (ScriptHelper.IsElapsed(m_smokeRadiusExpandDelay, 400))
-            {
-                m_smokeRadiusExpandDelay = Game.TotalElapsedGameTime;
-                CurrentSmokeRadius = Math.Min(CurrentSmokeRadius + 6, SmokeRadius);
-            }
-
-            Game.DrawCircle(m_explodePosition, CurrentSmokeRadius, Color.Cyan);
-            var playSmokeEffect = false;
-            var playSmokeEffectBottom = false;
-
-            if (ScriptHelper.IsElapsed(m_smokeEffectDelay, 460))
-            {
-                m_smokeEffectDelay = Game.TotalElapsedGameTime;
-                playSmokeEffect = true;
-            }
-            if (ScriptHelper.IsElapsed(m_smokeEffectBottomDelay, 300))
-            {
-                m_smokeEffectBottomDelay = Game.TotalElapsedGameTime;
-                playSmokeEffectBottom = true;
-            }
-
-            var isBottom = false;
-            var startY = Math.Max(m_groundPositionY, m_explodePosition.Y - CurrentSmokeRadius);
-            for (var i = -CurrentSmokeRadius; i < CurrentSmokeRadius; i += 6)
-            {
-                for (var j = -CurrentSmokeRadius; j < CurrentSmokeRadius; j += 6)
-                {
-                    var p = m_explodePosition + new Vector2(i, j);
-                    if (!IsInside(p) || p.Y < startY)
-                    {
-                        isBottom = true;
-                        continue;
-                    }
-                    else
-                        isBottom = isBottom || j == -CurrentSmokeRadius;
-
-                    if (isBottom && playSmokeEffectBottom || playSmokeEffect)
-                    {
-                        Game.PlayEffect(EffectName.Dig, p);
-                        Game.DrawCircle(p, .5f, isBottom ? Color.Green : Color.Red);
-                    }
-                    isBottom = false;
-                }
-            }
+            UpdateSmokeEffect();
 
             // update affected players
             if (ScriptHelper.IsElapsed(m_updateDelay, 150))
@@ -162,6 +117,58 @@ namespace BotExtended.Powerups.RangeWeapons
             }
         }
 
+        private class SmokeInfo
+        {
+            public Vector2 Position;
+            public float LastPlayTime;
+        }
+        private List<SmokeInfo> _smokeInfos = new List<SmokeInfo>();
+        private void ComputeSmokeEffectPositions(float smokeRadius)
+        {
+            _smokeInfos.Clear();
+            var bottomY = Math.Max(_groundPositionY, _explodePosition.Y - smokeRadius);
+
+            for (var i = -smokeRadius; i < smokeRadius; i += 6)
+            {
+                for (var j = -smokeRadius; j < smokeRadius; j += 6)
+                {
+                    var p = _explodePosition + new Vector2(i, j);
+                    if (IsInside(p) && p.Y >= bottomY)
+                    {
+                        _smokeInfos.Add(new SmokeInfo { Position = p, LastPlayTime = 0 });
+                    }
+                }
+            }
+        }
+
+        private Func<bool> _isElapsedSmokeExpand;
+        private float _smokeEffectDelay = 0f;
+        private void UpdateSmokeEffect()
+        {
+            if (CurrentSmokeRadius < SmokeRadius && _isElapsedSmokeExpand())
+            {
+                CurrentSmokeRadius = Math.Min(CurrentSmokeRadius + 6, SmokeRadius);
+                ComputeSmokeEffectPositions(CurrentSmokeRadius);
+            }
+
+            Game.DrawCircle(_explodePosition, CurrentSmokeRadius, Color.Cyan);
+
+            var maxEffectDelay = 300;
+            var smokes = _smokeInfos.Where(x => ScriptHelper.IsElapsed(x.LastPlayTime, maxEffectDelay)).ToList();
+            if (ScriptHelper.IsElapsed(_smokeEffectDelay, maxEffectDelay / _smokeInfos.Count) && smokes.Count > 0)
+            {
+                _smokeEffectDelay = Game.TotalElapsedGameTime;
+
+                // draw 5 smokes at a time to save performance
+                for (var i = 0; i < 5; i++)
+                {
+                    var smoke = RandomHelper.GetItem(smokes);
+                    smoke.LastPlayTime = Game.TotalElapsedGameTime;
+                    Game.PlayEffect(EffectName.Dig, smoke.Position);
+                }
+            }
+        }
+
         public override void OnRemove()
         {
             base.OnRemove();
@@ -182,11 +189,11 @@ namespace BotExtended.Powerups.RangeWeapons
             AllPlayersAffected.Remove(playerID);
         }
 
-        private bool IsInside(Vector2 position) { return ScriptHelper.IntersectCircle(position, m_explodePosition, CurrentSmokeRadius); }
+        private bool IsInside(Vector2 position) { return ScriptHelper.IntersectCircle(position, _explodePosition, CurrentSmokeRadius); }
         private bool IsInside(IPlayer player)
         {
             var hitBox = player.GetAABB();
-            return ScriptHelper.IntersectCircle(hitBox, m_explodePosition, CurrentSmokeRadius) && hitBox.Top >= m_groundPositionY;
+            return ScriptHelper.IntersectCircle(hitBox, _explodePosition, CurrentSmokeRadius) && hitBox.Top >= _groundPositionY;
         }
     }
 }
