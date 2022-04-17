@@ -48,7 +48,6 @@ namespace BotExtended.Powerups
         }
         protected virtual void Update(float elapsed) { }
 
-        public virtual void OnProjectileHit() { }
         public virtual void OnProjectileHit(ProjectileHitArgs args) { }
         public virtual void OnRemove() { }
 

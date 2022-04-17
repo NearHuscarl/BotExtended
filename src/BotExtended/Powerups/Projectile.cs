@@ -57,6 +57,11 @@ namespace BotExtended.Powerups
 
         protected virtual void OnProjectileExploded(IEnumerable<IPlayer> playersInRadius) { }
 
+        public IPlayer GetRocketRider()
+        {
+            return Game.GetPlayers().Where(p => p.IsRocketRiding && p.RocketRidingProjectileInstanceID == ID).FirstOrDefault();
+        }
+
         public bool IsShotgunShell { get { return RangedWpns.IsShotgunWpns(Mapper.GetWeaponItem(Instance.ProjectileItem)); } }
         public bool IsExplosiveProjectile { get { return RangedWpns.IsExplosiveWpns(Mapper.GetWeaponItem(Instance.ProjectileItem)); } }
 

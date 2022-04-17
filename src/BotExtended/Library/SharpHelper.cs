@@ -99,5 +99,17 @@ namespace BotExtended.Library
             tcs.SetResult(value);
             return tcs.Task;
         }
+
+        public static string RemoveSuffix(string str, string suffix)
+        {
+            if (str.EndsWith(suffix))
+            {
+                return str.Substring(0, str.Length - suffix.Length);
+            }
+            else
+            {
+                return str;
+            }
+        }
     }
 }

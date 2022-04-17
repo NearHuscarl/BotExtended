@@ -70,6 +70,7 @@
         Boss_Ninja,
         Boss_President,
         Boss_LordPinkerton,
+        Boss_Queen,
         Boss_Quillhogg,
         Boss_Rambo,
         Boss_Raze,

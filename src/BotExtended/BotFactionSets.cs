@@ -472,9 +472,11 @@ namespace BotExtended
 
                 #region Stripper
                 case BotFaction.Boss_Chairman:
+                case BotFaction.Boss_Queen:
                 case BotFaction.Stripper:
                 {
                     if (botFaction == BotFaction.Boss_Chairman) bosses.Add(new SubFaction(BotType.Chairman));
+                    if (botFaction == BotFaction.Boss_Queen) bosses.Add(new SubFaction(BotType.Queen));
                     factionSet.AddFaction(new List<SubFaction>(bosses)
                     {
                         new SubFaction(BotType.Stripper, .5f),

@@ -1,5 +1,6 @@
 ﻿using BotExtended.Library;
 using SFDGameScriptInterface;
+using System;
 using System.Collections.Generic;
 using static BotExtended.Library.SFD;
 
@@ -7,29 +8,21 @@ namespace BotExtended.Bots
 {
     class StripperBot : Bot
     {
-        private static HashSet<int> m_occupiedBouncerIDs = new HashSet<int>();
-        private IPlayer m_bouncer;
-        private readonly float BouncerCheckTime = 1000f;
-        private float m_bouncerCheckTime = 0f;
+        private IPlayer _bouncer;
+        private Func<bool> _isElapsedCheckBouncer;
+        private static HashSet<int> _occupiedBouncerIDs = new HashSet<int>();
 
         public StripperBot(BotArgs args) : base(args)
         {
-            BouncerCheckTime = RandomHelper.Between(800, 1200);
+            _isElapsedCheckBouncer = ScriptHelper.WithIsElapsed(1000);
         }
 
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
 
-            if (ScriptHelper.IsElapsed(m_bouncerCheckTime, BouncerCheckTime))
-            {
-                m_bouncerCheckTime = Game.TotalElapsedGameTime;
-
-                if (m_bouncer == null)
-                {
-                    FindBouncer();
-                }
-            }
+            if (Player.IsDead) return;
+            if (_isElapsedCheckBouncer() && _bouncer == null) FindBouncer();
         }
 
         private void FindBouncer()
@@ -42,13 +35,16 @@ namespace BotExtended.Bots
                     || bot.Type == BotType.PunkHulk
                     || bot.Type == BotType.ThugHulk;
 
-                if (isBodyguard && ScriptHelper.SameTeam(bot.Player, Player) && !m_occupiedBouncerIDs.Contains(bot.Player.UniqueID))
+                if (isBodyguard && ScriptHelper.SameTeam(bot.Player, Player) && !_occupiedBouncerIDs.Contains(bot.Player.UniqueID))
                 {
-                    m_bouncer = bot.Player;
-                    m_occupiedBouncerIDs.Add(m_bouncer.UniqueID);
+                    var gangsterBot = bot as GangsterBot;
+                    if (gangsterBot != null) gangsterBot.CanSetupCamp = false;
+
+                    _bouncer = bot.Player;
+                    _occupiedBouncerIDs.Add(_bouncer.UniqueID);
 
                     bot.GoTo(Player, 10f, 11.5f);
-                    m_bouncer.SetBotName("Bouncer");
+                    _bouncer.SetBotName("Bouncer");
 
                     if (Game.IsEditorTest)
                     {
@@ -56,8 +52,8 @@ namespace BotExtended.Bots
 
                         ScriptHelper.RunIn(() =>
                         {
-                            Game.DrawArea(m_bouncer.GetAABB(), color);
-                            Game.DrawLine(m_bouncer.GetWorldPosition(), Player.GetWorldPosition(), color);
+                            Game.DrawArea(_bouncer.GetAABB(), color);
+                            Game.DrawLine(_bouncer.GetWorldPosition(), Player.GetWorldPosition(), color);
                             Game.DrawArea(Player.GetAABB(), color);
                         }, 2000);
                     }
@@ -69,10 +65,10 @@ namespace BotExtended.Bots
         public override void OnDeath(PlayerDeathArgs args)
         {
             base.OnDeath(args);
-            if (m_bouncer != null)
+            if (_bouncer != null)
             {
-                m_bouncer.SetGuardTarget(null);
-                m_occupiedBouncerIDs.Remove(m_bouncer.UniqueID);
+                _bouncer.SetGuardTarget(null);
+                _occupiedBouncerIDs.Remove(_bouncer.UniqueID);
             }
         }
     }

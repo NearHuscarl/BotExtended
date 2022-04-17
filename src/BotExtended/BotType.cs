@@ -155,6 +155,7 @@
         Ninja,
         PoliceChief,
         President,
+        Queen,
         Quillhogg,
         Rambo,
         Raze,

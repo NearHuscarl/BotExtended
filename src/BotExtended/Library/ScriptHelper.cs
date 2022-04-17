@@ -1028,6 +1028,11 @@ namespace BotExtended.Library
             return profile;
         }
 
+        public static IProfile GetBurntProfile(Gender gender = Gender.Male)
+        {
+            return new IProfile { Skin = new IProfileClothingItem("BurntSkin", null), Gender = gender, };
+        }
+
         public static string GetSoundID(WeaponItem weaponItem)
         {
             switch (weaponItem)

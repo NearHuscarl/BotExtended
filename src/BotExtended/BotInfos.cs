@@ -1174,6 +1174,26 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Queen
+                case BotType.Queen:
+                {
+                    botInfo.AIType = BotAI.Hard;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Melee | SearchItems.Health;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.Strong,
+                        CurrentHealth = Health.Strong,
+                        MeleeForceModifier = MeleeForce.AboveNormal,
+                        MeleeDamageDealtModifier = DamageDealt.Low,
+                        RunSpeedModifier = Speed.AboveNormal,
+                        SprintSpeedModifier = Speed.Fast,
+                        SizeModifier = Size.BelowNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss Quillhogg
                 case BotType.Quillhogg:
                 {

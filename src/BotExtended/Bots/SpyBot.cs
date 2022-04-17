@@ -183,7 +183,7 @@ namespace BotExtended.Bots
                 var enemy = players.FirstOrDefault(p => !p.IsDead && ScriptHelper.SameTeam(p, Player.GetTeam())
                 && p.UniqueID != Player.UniqueID && p.UniqueID != _targetEnemy.UniqueID);
 
-                if (enemy != null && Distance(enemy.GetWorldPosition()) < 35)
+                if (enemy != null && Distance(enemy) < 35)
                     TargetEnemy(enemy);
             }
         }

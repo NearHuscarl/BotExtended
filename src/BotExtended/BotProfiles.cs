@@ -844,6 +844,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Queen
+                case BotType.Queen:
+                {
+                    // https://profile-editor.vercel.app?p=F1Gyj3ioZ2voZ2Blt1bcZYYY0ael
+                    profiles.Add(new IProfile() { Name = "Mia", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("AviatorHat", "ClothingGray", "ClothingLightOrange"), ChestUnder = new IProfileClothingItem("UnbuttonedShirt_fem", "ClothingLightRed"), Waist = new IProfileClothingItem("SmallBelt_fem", "ClothingLightOrange", "ClothingRed"), Legs = new IProfileClothingItem("Skirt_fem", "ClothingLightRed"), Feet = new IProfileClothingItem("HighHeels", "ClothingDarkRed"), });
+                    // https://profile-editor.vercel.app?p=F1GzjY3clZ2Blq1btZ3lqpYY0kdp
+                    profiles.Add(new IProfile() { Name = "Lia", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin4", "ClothingLightGray"), Head = new IProfileClothingItem("Beret", "ClothingDarkYellow", "ClothingLightYellow"), ChestOver = new IProfileClothingItem("VestBlack_fem", "ClothingOrange", "ClothingLightYellow"), Waist = new IProfileClothingItem("SmallBelt_fem", "ClothingLightOrange", "ClothingOrange"), Legs = new IProfileClothingItem("TornPants_fem", "ClothingLightOrange"), Feet = new IProfileClothingItem("HighHeels", "ClothingRed"), });
+                    break;
+                }
+                #endregion
+
                 #region Quillhogg
                 case BotType.Quillhogg:
                 {
@@ -1002,14 +1013,18 @@ namespace BotExtended
                 {
                     // https://profile-editor.vercel.app?p=F1Gx7YYY202ZYYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingDarkGray"), Feet = new IProfileClothingItem("RidingBoots", "ClothingBrown"), });
+                    profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin2", "ClothingDarkGray"), Feet = new IProfileClothingItem("RidingBoots", "ClothingBrown"), });
                     // https://profile-editor.vercel.app?p=M1FwjYYYYYYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin1", "ClothingLightGray"), });
                     // https://profile-editor.vercel.app?p=F1GzoYYY1boZYYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingLightRed"), Feet = new IProfileClothingItem("HighHeels", "ClothingLightRed"), });
+                    profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin4", "ClothingLightRed"), Feet = new IProfileClothingItem("HighHeels", "ClothingLightRed"), });
                     // https://profile-editor.vercel.app?p=F1Gxf3efZYYYYYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingGreen"), ChestUnder = new IProfileClothingItem("TornShirt_fem", "ClothingGreen"), });
+                    profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin2", "ClothingGreen"), ChestUnder = new IProfileClothingItem("TornShirt_fem", "ClothingGreen"), });
                     // https://profile-editor.vercel.app?p=F1GzsYYY217Z2tsjYYY
                     profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin4", "ClothingPurple"), ChestOver = new IProfileClothingItem("ShoulderHolster_fem", "ClothingPurple", "ClothingLightGray"), Feet = new IProfileClothingItem("RidingBootsBlack", "ClothingDarkGray"), });
+                    profiles.Add(new IProfile() { Name = "Stripper", Gender = Gender.Female, Skin = new IProfileClothingItem("NormalBigTiddies_fem", "Skin4", "ClothingPurple"), ChestOver = new IProfileClothingItem("ShoulderHolster_fem", "ClothingPurple", "ClothingLightGray"), Feet = new IProfileClothingItem("RidingBootsBlack", "ClothingDarkGray"), });
                     break;
                 }
                 #endregion

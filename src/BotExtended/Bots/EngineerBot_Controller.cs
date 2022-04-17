@@ -11,16 +11,6 @@ namespace BotExtended.Bots
     {
         public bool IsBuilding { get { return m_state == EngineerState.Building; } }
 
-        private Area DangerArea
-        {
-            get
-            {
-                return new Area(
-                    Actor.Position - Vector2.UnitX * 30 - Vector2.UnitY * 5,
-                    Actor.Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
-            }
-        }
-
         private Vector2[] ScanLine(float angle)
         {
             var start = Actor.Position + Vector2.UnitY * 9; // same height as turret's tip

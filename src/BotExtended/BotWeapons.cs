@@ -1254,6 +1254,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Queen
+                case BotType.Queen:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.PILLOW,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Quillhogg
                 case BotType.Quillhogg:
                 {

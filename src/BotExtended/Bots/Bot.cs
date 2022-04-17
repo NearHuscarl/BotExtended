@@ -261,6 +261,28 @@ namespace BotExtended.Bots
             existingPlayer.SetHitEffect(Player.GetHitEffect());
         }
 
+        public static IPlayer Clone(IPlayer player)
+        {
+            var clone = Game.CreatePlayer(player.GetWorldPosition());
+
+            clone.SetProfile(player.GetProfile());
+
+            clone.GiveWeaponItem(player.CurrentMeleeWeapon.WeaponItem);
+            clone.GiveWeaponItem(player.CurrentMeleeMakeshiftWeapon.WeaponItem);
+            clone.GiveWeaponItem(player.CurrentPrimaryWeapon.WeaponItem);
+            clone.GiveWeaponItem(player.CurrentSecondaryWeapon.WeaponItem);
+            clone.GiveWeaponItem(player.CurrentThrownItem.WeaponItem);
+            clone.GiveWeaponItem(player.CurrentPowerupItem.WeaponItem);
+
+            clone.SetTeam(player.GetTeam());
+            clone.SetModifiers(player.GetModifiers());
+            clone.SetHitEffect(player.GetHitEffect());
+            clone.SetBotBehaviorSet(player.GetBotBehaviorSet());
+            clone.SetBotName(player.Name);
+
+            return clone;
+        }
+
         // null safety getter. IPlayer.GetProfile() returns null if the Player is removed
         public IProfile GetProfile() { return Player.GetProfile() ?? ScriptHelper.GetEmptyProfile(); }
 
@@ -302,31 +324,28 @@ namespace BotExtended.Bots
 
         protected Area DangerArea
         {
-            get
-            {
-                return new Area(Position - Vector2.UnitX * 30 - Vector2.UnitY * 5, Position + Vector2.UnitX * 30 + Vector2.UnitY * 18);
-            }
+            get { return new Area(Position + new Vector2(-30, -5), Position + new Vector2(30, 18)); }
         }
         public bool AreEnemiesNearby()
         {
-            foreach (var bot in BotManager.GetBots())
-            {
-                if (!ScriptHelper.SameTeam(Player, bot.Player) && !bot.Player.IsDead)
-                {
-                    if (DangerArea.Intersects(bot.Player.GetAABB()))
-                        return true;
-                }
-            }
-            return false;
+            return BotManager.GetBots().Any(x => !x.Player.IsDead && !ScriptHelper.SameTeam(Player, x.Player) && DangerArea.Intersects(x.Player.GetAABB()));
+        }
+        public bool IsHurtRecently { get { return !ScriptHelper.IsElapsed(_lastDamageTime, 2500); } }
+        public bool IsVulnerable()
+        {
+            return IsHurtRecently && AreEnemiesNearby();
         }
 
         public virtual void OnSpawn() { SaySpawnLine(); }
         public virtual void OnDealDamage(IPlayer victim, PlayerDamageArgs arg) { }
         public virtual void OnMeleeDamage(IPlayer attacker, PlayerMeleeHitArg arg) { }
         public virtual void OnMeleeAction(PlayerMeleeHitArg[] args) { }
+
+        private float _lastDamageTime = 0f;
         public virtual void OnDamage(IPlayer attacker, PlayerDamageArgs args)
         {
             UpdateInfectedStatus(attacker, args);
+            _lastDamageTime = Game.TotalElapsedGameTime;
         }
 
         public virtual void OnProjectileHit(IProjectile projectile, ProjectileHitArgs args)
@@ -526,7 +545,8 @@ namespace BotExtended.Bots
             Player.SetGuardTarget(o);
         }
 
-        public float Distance(Vector2 position) { return Vector2.Distance(Player.GetWorldPosition(), position); }
+        public float Distance(Vector2 position) { return Vector2.Distance(Position, position); }
+        public float Distance(IObject o) { return Distance(o.GetWorldPosition()); }
 
         public void SetHealth(float health, bool permanent = false)
         {

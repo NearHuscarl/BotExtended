@@ -13,6 +13,7 @@ namespace BotExtended.Bots
     {
         public GangsterBot(BotArgs args) : base(args)
         {
+            CanSetupCamp = true;
             _isElapsedCheckCamp = ScriptHelper.WithIsElapsed(60, 120);
         }
 
@@ -30,10 +31,14 @@ namespace BotExtended.Bots
             set { Gangs[Player.GetTeam()] = value; }
         }
 
+        public bool CanSetupCamp { get; set; }
+
         private Func<bool> _isElapsedCheckCamp;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
+
+            if (Player.IsDead || !CanSetupCamp) return;
 
             if (Gang == null && Player.GetTeam() != PlayerTeam.Independent && _isElapsedCheckCamp())
                 TryCamping();

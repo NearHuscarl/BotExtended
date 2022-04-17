@@ -20,7 +20,7 @@ namespace BotExtended.Powerups.MeleeWeapons
         {
             base.OnMeleeActionChanged(meleeAction, hitPosition);
 
-            if (Owner.IsDead || meleeAction != MeleeAction.Three || !ScriptHelper.IsElapsed(_cooldownTime, Game.IsEditorTest ? 0 : 12000)) return;
+            if (Owner.IsDead || meleeAction != MeleeAction.Three || !ScriptHelper.IsElapsed(_cooldownTime, Game.IsEditorTest ? 0 : 6000)) return;
 
             _cooldownTime = Game.TotalElapsedGameTime;
 

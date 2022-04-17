@@ -140,10 +140,5 @@ namespace BotExtended.Powerups.RangeWeapons
             || ScriptHelper.IsDynamicG2(r.HitObject) && r.HitObject.Name.Contains("Table")
             ));
         }
-
-        public IPlayer GetRocketRider()
-        {
-            return Game.GetPlayers().Where(p => p.IsRocketRiding && p.RocketRidingProjectileInstanceID == ID).FirstOrDefault();
-        }
     }
 }
