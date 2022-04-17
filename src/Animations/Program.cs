@@ -9,7 +9,7 @@ namespace Animations
         public void OnStartup()
         {
             var colorObj = (IObjectText)Game.GetSingleObjectByCustomID("color");
-            colorObj.SetTextColor(Color.Green);
+            if (colorObj != null) colorObj.SetTextColor(Color.Green);
         }
 
         private Curve _curve = Curves.Linear;

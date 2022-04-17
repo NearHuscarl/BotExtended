@@ -43,6 +43,7 @@
         StickyBomb,
         SuicideDove,
         SuicideFighter,
+        Taco,
         Taser,
         Tearing,
         Termite,

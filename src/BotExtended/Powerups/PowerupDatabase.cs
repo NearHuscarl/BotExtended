@@ -185,6 +185,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.Stun, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.SuicideDove, RangedWpns.IsSlowWpns },
             { RangedWeaponPowerup.SuicideFighter, RangedWpns.IsSlowWpns },
+            { RangedWeaponPowerup.Taco, w => w == WeaponItem.BAZOOKA },
             { RangedWeaponPowerup.Tearing, RangedWpns.IsDefaultWpns },
             { RangedWeaponPowerup.Trigger, RangedWpns.IsSlowSmallArm },
             { RangedWeaponPowerup.Termite, RangedWpns.IsDefaultWpns },

@@ -80,6 +80,8 @@ namespace BotExtended.Powerups
                     return new SuicideDoveProjectile(projectile, powerup);
                 case RangedWeaponPowerup.SuicideFighter:
                     return new SuicideFighterProjectile(projectile, powerup);
+                case RangedWeaponPowerup.Taco:
+                    return new TacoProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Tearing:
                     return new TearingProjectile(projectile, powerup);
                 case RangedWeaponPowerup.Termite:
