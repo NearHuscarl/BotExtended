@@ -9,12 +9,6 @@ namespace BotExtended.Bots
 {
     public class HitmanBot : Bot
     {
-        private static Vector2 FarAwayPosition = ScriptHelper.GetFarAwayPosition();
-        static HitmanBot()
-        {
-            Game.CreateObject("Concrete07B", new Vector2(FarAwayPosition.X, FarAwayPosition.Y - 30));
-        }
-
         public bool IsHiding { get; private set; }
 
         public HitmanBot(BotArgs args) : base(args) { }
@@ -72,9 +66,7 @@ namespace BotExtended.Bots
 
         private void Hide()
         {
-            Player.SetInputEnabled(false);
-            Player.SetNametagVisible(false);
-            Player.SetWorldPosition(FarAwayPosition);
+            ScriptHelper.Box(Player);
             IsHiding = true;
             _hidingTime = RandomHelper.Between(5000, 20000);
 
@@ -101,9 +93,7 @@ namespace BotExtended.Bots
 
         private void Show(IObject portalToShow)
         {
-            Player.SetInputEnabled(true);
-            Player.SetNametagVisible(true);
-            Player.SetWorldPosition(portalToShow.GetWorldPosition());
+            ScriptHelper.Unbox(Player, portalToShow.GetWorldPosition());
             IsHiding = false;
             _isCooldown = true;
             _cooldownTime = Game.TotalElapsedGameTime;

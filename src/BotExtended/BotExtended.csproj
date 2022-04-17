@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\NinjaBot.cs" />
     <Compile Include="Bots\QueenBot.cs" />
     <Compile Include="Bots\SpyBot.cs" />
     <Compile Include="Bots\BerserkerBot.cs" />

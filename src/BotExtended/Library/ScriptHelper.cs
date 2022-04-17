@@ -929,6 +929,47 @@ namespace BotExtended.Library
             return Game.GetCameraMaxArea().TopLeft + new Vector2(-10 - randX, 10 + randy);
         }
 
+        private static Vector2 _boxPosition = Game.GetCameraMaxArea().TopLeft + new Vector2(-50, 50);
+        private static IObject[] _boxes;
+        private class BoxedPlayer { public IPlayer Player; public bool IsNameTagVisible; }
+        private static List<BoxedPlayer> _boxedPlayers = new List<BoxedPlayer>();
+        public static void Box(IPlayer player)
+        {
+            if (_boxes == null)
+            {
+                var elevator = Game.CreateObject("Elevator02C", _boxPosition);
+                var door = Game.CreateObject("BlastDoor01A", _boxPosition + new Vector2(-12, 20));
+
+                elevator.SetAngle(MathExtension.PI_3Over2);
+                elevator.SetBodyType(BodyType.Static);
+
+                door.SetAngle(MathExtension.PIOver2);
+                door.SetBodyType(BodyType.Static);
+                door.SetSizeFactor(new Point(0, 4));
+
+                _boxes = new IObject[] { elevator, door };
+            }
+
+            _boxedPlayers.Add(new BoxedPlayer
+            {
+                Player = player,
+                IsNameTagVisible = player.GetNametagVisible(),
+            });
+            player.SetWorldPosition(_boxPosition + new Vector2(0, -8));
+            player.SetInputEnabled(false);
+            player.SetNametagVisible(false);
+        }
+
+        public static void Unbox(IPlayer player, Vector2 position)
+        {
+            var boxedPlayer = _boxedPlayers.First(x => x.Player.UniqueID == player.UniqueID);
+            _boxedPlayers.Remove(boxedPlayer);
+            
+            player.SetWorldPosition(position);
+            player.SetInputEnabled(true);
+            player.SetNametagVisible(boxedPlayer.IsNameTagVisible);
+        }
+
         private static readonly IObjectPlayerProfileInfo PlayerProfileInfo = (IObjectPlayerProfileInfo)Game.CreateObject("PlayerProfileInfo");
         public static IProfile GetEmptyProfile() { return PlayerProfileInfo.GetProfile(); }
 

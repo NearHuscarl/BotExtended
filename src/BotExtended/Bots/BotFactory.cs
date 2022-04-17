@@ -16,7 +16,7 @@ namespace BotExtended.Bots
     {
         public static Bot Create(IPlayer player, BotType botType, BotFaction faction)
         {
-            Bot bot = null;
+            var bot = (Bot)null;
             var args = new BotArgs
             {
                 Player = player,
@@ -126,6 +126,10 @@ namespace BotExtended.Bots
 
                 case BotType.Nadja:
                     bot = new NadjaBot(args);
+                    break;
+
+                case BotType.Ninja:
+                    bot = new NinjaBot(args);
                     break;
 
                 case BotType.PoliceChief:
