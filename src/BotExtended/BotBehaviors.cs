@@ -348,6 +348,7 @@ namespace BotExtended
                 {
                     botBehaviorSet = Rage(botBehaviorSet);
 
+                    botBehaviorSet.DefensiveRollFireLevel = 0.5f;
                     botBehaviorSet.MeleeUsage = true;
                     botBehaviorSet.MeleeWeaponUsage = true;
                     botBehaviorSet.SetMeleeActionsAll(new BotMeleeActions

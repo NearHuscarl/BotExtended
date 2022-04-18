@@ -655,6 +655,9 @@ namespace BotExtended
                 case BotFaction.Boss_Mecha:
                     factionSet.AddFaction(new SubFaction(BotType.Mecha));
                     break;
+                case BotFaction.Boss_Monk:
+                    factionSet.AddFaction(new SubFaction(BotType.Monk));
+                    break;
                 case BotFaction.Boss_Ninja:
                     factionSet.AddFaction(new SubFaction(BotType.Ninja));
                     break;

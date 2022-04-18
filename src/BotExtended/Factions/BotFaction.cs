@@ -66,6 +66,7 @@
         Boss_Meatgrinder,
         Boss_Mecha,
         Boss_MetroCop,
+        Boss_Monk,
         Boss_Nadja,
         Boss_Napoleon,
         Boss_Ninja,

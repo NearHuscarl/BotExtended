@@ -46,24 +46,26 @@ namespace BotExtended.Bots
             HasBeenHiding = true;
             ScriptHelper.MakeInvincible(Player);
             ScriptHelper.Command(Player, PlayerCommandType.StartCrouch, delayTime: 1000);
-            ScriptHelper.RunIn(() =>
-            {
-                var yBottom = Position.Y - 6;
-                for (var i = -SmokeRadius; i < SmokeRadius; i += 6)
-                {
-                    for (var j = -SmokeRadius; j < SmokeRadius; j += 6)
-                    {
-                        var p = Position + new Vector2(i, j);
-                        if (p.Y > yBottom && ScriptHelper.IntersectCircle(p, Position, SmokeRadius))
-                        {
-                            Game.PlayEffect(EffectName.Dig, p);
-                        }
-                    }
-                }
-            }, 500, () =>
+            ScriptHelper.RunIn(() => PlaySmoke(Position), 500, () =>
             {
                 if (!Player.IsDead) ScriptHelper.Box(Player);
             }, 200);
+        }
+
+        public static void PlaySmoke(Vector2 position)
+        {
+            var yBottom = position.Y - 6;
+            for (var i = -SmokeRadius; i < SmokeRadius; i += 6)
+            {
+                for (var j = -SmokeRadius; j < SmokeRadius; j += 6)
+                {
+                    var p = position + new Vector2(i, j);
+                    if (p.Y > yBottom && ScriptHelper.IntersectCircle(p, position, SmokeRadius))
+                    {
+                        Game.PlayEffect(EffectName.Dig, p);
+                    }
+                }
+            }
         }
 
         private Events.ObjectTerminatedCallback _oTerminatedCb;

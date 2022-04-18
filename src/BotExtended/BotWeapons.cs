@@ -944,6 +944,17 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Monk
+                case BotType.Monk:
+                {
+                    weapons.Add(new WeaponSet()
+                    {
+                        Melee = WeaponItem.CUESTICK,
+                    });
+                    break;
+                }
+                #endregion
+
                 #region Mutant
                 case BotType.Mutant:
                 {

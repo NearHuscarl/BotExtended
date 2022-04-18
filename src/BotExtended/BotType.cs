@@ -151,6 +151,7 @@
         // Tier3: Meatgrinder Begins
         Meatgrinder,
         Mecha,
+        Monk,
         Nadja,
         Napoleon,
         Ninja,

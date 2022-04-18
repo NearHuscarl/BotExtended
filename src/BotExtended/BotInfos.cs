@@ -1069,6 +1069,25 @@ namespace BotExtended
                 }
                 #endregion
 
+                #region Boss Monk
+                case BotType.Monk:
+                {
+                    botInfo.AIType = BotAI.MeleeHard;
+                    botInfo.SearchItems = SearchItems.Melee | SearchItems.Makeshift | SearchItems.Health | SearchItems.Powerups;
+                    botInfo.Modifiers = new PlayerModifiers(true)
+                    {
+                        MaxHealth = Health.VeryStrong,
+                        CurrentHealth = Health.VeryStrong,
+                        MeleeDamageDealtModifier = DamageDealt.High,
+                        RunSpeedModifier = Speed.Fast,
+                        SprintSpeedModifier = Speed.Fast,
+                        SizeModifier = Size.BelowNormal,
+                    };
+                    botInfo.IsBoss = true;
+                    break;
+                }
+                #endregion
+
                 #region Boss BigMutant
                 case BotType.Mutant:
                 {
