@@ -50,7 +50,7 @@ namespace BotExtended.Powerups.MeleeWeapons
                     var direction = dir == -1 ? RandomHelper.Direction(100, 170) : RandomHelper.Direction(10, 80);
 
                     thrownObjects.Add(player);
-                    player.SetLinearVelocity(direction * RandomHelper.Between(10, 25));
+                    player.SetLinearVelocity(direction * RandomHelper.Between(15, 35));
                     bot.DisarmAll();
                     ScriptHelper.Fall(player);
 

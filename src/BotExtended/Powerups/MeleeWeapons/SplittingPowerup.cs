@@ -37,6 +37,7 @@ namespace BotExtended.Powerups.MeleeWeapons
             
             mod.SizeModifier = Size.Tiny;
             mod.MaxHealth /= 2;
+            mod.MeleeDamageDealtModifier /= 2;
             twin1.SetModifiers(mod, true);
             twin2.SetModifiers(mod, true);
 

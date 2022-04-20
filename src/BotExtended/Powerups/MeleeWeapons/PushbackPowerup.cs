@@ -35,14 +35,14 @@ namespace BotExtended.Powerups.MeleeWeapons
             ScriptHelper.Fall(enemyPlayer);
 
             var cb = (Events.PlayerDamageCallback)null;
-            var hitByObject = false;
+            var hitByStaticObject = false;
 
             ScriptHelper.RunUntil(() =>
             {
                 var pBox = enemyPlayer.GetAABB();
                 Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
                 Game.PlayEffect(EffectName.Steam, RandomHelper.WithinArea(pBox));
-            }, () => enemyPlayer.IsRemoved || enemyPlayer.IsOnGround || hitByObject, () => cb.Stop());
+            }, () => enemyPlayer.IsRemoved || enemyPlayer.IsOnGround || hitByStaticObject, () => cb.Stop());
 
             cb = Events.PlayerDamageCallback.Start((player, dArgs) =>
             {
@@ -50,21 +50,26 @@ namespace BotExtended.Powerups.MeleeWeapons
                 if (dArgs.DamageType == PlayerDamageEventType.Fall)
                 {
                     var pBox = player.GetAABB();
-                    var hitObjects = Game.GetObjectsByArea(ScriptHelper.Grow(pBox, 1));
+                    var hitObjects = Game.GetObjectsByArea(ScriptHelper.Grow(pBox, 5));
                     
                     player.SetHealth(Math.Min(oldHealth, player.GetHealth() + dArgs.Damage)); // undo impact damage
                     foreach (var hitObject in hitObjects)
                     {
-                        var cbits = hitObject.GetCollisionFilter().CategoryBits;
-                        if (hitObject.UniqueID == Owner.UniqueID || cbits != CategoryBits.DynamicG1 && cbits != CategoryBits.StaticGround) continue;
-                        if (cbits == CategoryBits.DynamicG1) hitObject.Destroy();
-                        if (cbits == CategoryBits.StaticGround) hitObject.SetBodyType(BodyType.Dynamic);
+                        if (!ScriptHelper.IsStaticGround(hitObject) && !ScriptHelper.IsDynamicG1(hitObject)) continue;
+                        if (hitObject.UniqueID == Owner.UniqueID) continue;
+                        
+                        if (ScriptHelper.IsDynamicG1(hitObject))
+                            hitObject.Destroy();
+                        if (hitObject.GetBodyType() == BodyType.Static)
+                        {
+                            hitObject.SetBodyType(BodyType.Dynamic);
+                            hitByStaticObject = true;
+                        }
                         if (Game.IsEditorTest)
                         {
                             ScriptHelper.RunIn(() => Game.DrawArea(hitObject.GetAABB(), Color.Blue), 3000);
                         }
                     }
-                    hitByObject = true;
                 }
             });
         }

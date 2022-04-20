@@ -381,7 +381,7 @@ namespace BotExtended
 
             var profile = RandomHelper.GetItem(GetProfiles(botType));
             player.SetProfile(profile);
-            if (player.Name == "COM")
+            if (player.Name == "COM" || Game.IsEditorTest)
                 player.SetBotName(info.Name ?? profile.Name);
 
             var behaviorSet = GetBehaviorSet(info.AIType);

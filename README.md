@@ -34,10 +34,11 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 - In BotExtended project, Click Reference > Add Reference > Browse > Select `...\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll`
 - Start coding and press `F8` to save change.
 
-<!-- ## Factions
+## Powerups
 
-### Assassin
+- See the full list of melee weapon powerups [here](./docs/POWERUPS_MELEE.md).
 
+- See the full list of ranged weapon powerups [here](./docs/POWERUPS_RANGED.md).
 
 ## Bots
 

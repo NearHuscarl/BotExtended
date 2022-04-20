@@ -46,10 +46,10 @@ namespace BotExtended.Powerups.MeleeWeapons
                     {
                         FilterOnMaskBits = true,
                         IncludeOverlap = true,
-                        MaskBits = CategoryBits.StaticGround + CategoryBits.DynamicG1 + CategoryBits.DynamicG2 + CategoryBits.Player,
+                        MaskBits = CategoryBits.StaticGround + CategoryBits.Dynamic + CategoryBits.Player,
                     }).Where(r => r.HitObject != null);
 
-                    var groundResult = rcResults.FirstOrDefault(x => x.HitObject.GetCollisionFilter().CategoryBits == CategoryBits.StaticGround);
+                    var groundResult = rcResults.FirstOrDefault(x => ScriptHelper.IsStaticGround(x.HitObject));
 
                     // at the edge or something
                     if (groundResult.HitObject == null || groundResult.Fraction == 0 /* deep in static object */)
