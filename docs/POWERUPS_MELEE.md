@@ -11,7 +11,7 @@
 
 Create a mini earthquake on the third attack. All dynamics objects and players inside the radius are thrown in the air.
 
-<img width='500' src='https://media.giphy.com/media/gVNhR1Ad28Syb0d3Ev/giphy-downsized-large.gif' />
+<img width='500' src='https://media.giphy.com/media/IABLxb2uSkQObixqpD/giphy.gif' />
 
 ## Fire Trail
 
