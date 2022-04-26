@@ -250,13 +250,13 @@ namespace BotExtended
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.SHOTGUN,
-                        PrimaryPowerup = RangedWeaponPowerup.Shotgun,
+                        PrimaryPowerup = RangedWeaponPowerup.Scattershot,
                     });
                     weapons.Add(new WeaponSet()
                     {
                         Melee = WeaponItem.KNIFE,
                         Primary = WeaponItem.SAWED_OFF,
-                        PrimaryPowerup = RangedWeaponPowerup.Shotgun,
+                        PrimaryPowerup = RangedWeaponPowerup.Scattershot,
                     });
                     break;
                 }

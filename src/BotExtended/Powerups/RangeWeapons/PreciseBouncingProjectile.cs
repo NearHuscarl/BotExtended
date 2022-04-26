@@ -36,7 +36,7 @@ namespace BotExtended.Powerups.RangeWeapons
         {
             var potentialTargets = Game.GetPlayers()
                 .Where(p => !p.IsDead && !ScriptHelper.SameTeam(p, Team) && Vector2.Distance(p.GetWorldPosition(), Instance.Position) < 260)
-                .Take(5);
+                .Take(3);
 
             foreach (var player in potentialTargets)
             {

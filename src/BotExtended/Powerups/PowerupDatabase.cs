@@ -197,7 +197,7 @@ namespace BotExtended.Powerups
             { RangedWeaponPowerup.GravityDE, RangedWpns.IsExplosiveWpns },
             { RangedWeaponPowerup.Minigun, RangedWpns.IsAutomaticWpns },
             { RangedWeaponPowerup.Object, RangedWpns.IsSlowWpns },
-            { RangedWeaponPowerup.Shotgun, RangedWpns.IsNonExplosiveWpns },
+            { RangedWeaponPowerup.Scattershot, RangedWpns.IsNonExplosiveWpns },
             { RangedWeaponPowerup.Taser, RangedWpns.IsWeakPistols },
         };
 

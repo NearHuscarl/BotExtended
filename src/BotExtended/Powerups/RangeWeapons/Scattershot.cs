@@ -9,9 +9,9 @@ using static BotExtended.Library.SFD;
 
 namespace BotExtended.Powerups.RangeWeapons
 {
-    class Shotgun: RangeWpn
+    class Scattershot: RangeWpn
     {
-        public Shotgun(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
+        public Scattershot(IPlayer owner, WeaponItem name, RangedWeaponPowerup powerup) : base(owner, name, powerup) { }
 
         public override void OnProjectileCreated(IProjectile projectile)
         {

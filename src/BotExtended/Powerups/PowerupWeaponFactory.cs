@@ -29,8 +29,8 @@ namespace BotExtended.Powerups
                         return new MiniGun(owner, name, powerup);
                     case RangedWeaponPowerup.Object:
                         return new ObjectGun(owner, name, powerup);
-                    case RangedWeaponPowerup.Shotgun:
-                        return new Shotgun(owner, name, powerup);
+                    case RangedWeaponPowerup.Scattershot:
+                        return new Scattershot(owner, name, powerup);
                     case RangedWeaponPowerup.Taser:
                         return new TaserGun(owner, name, powerup);
                     default:

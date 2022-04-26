@@ -33,7 +33,7 @@
         Precision,
         Present,
         Riding,
-        Shotgun,
+        Scattershot,
         Shrapnel,
         Shrinking,
         Smoke,
