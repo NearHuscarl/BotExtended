@@ -87,7 +87,7 @@
     <Compile Include="Powerups\RangeWeapons\KnockbackProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\BouncingLaser.cs" />
     <Compile Include="Powerups\RangeWeapons\ShrapnelProjectile.cs" />
-    <Compile Include="Powerups\RangeWeapons\Shotgun.cs" />
+    <Compile Include="Powerups\RangeWeapons\Scattershot.cs" />
     <Compile Include="Powerups\RangeWeapons\DoublePenetrationProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\PenetrationProjectile.cs" />
     <Compile Include="Powerups\RangeWeapons\Bow.cs" />

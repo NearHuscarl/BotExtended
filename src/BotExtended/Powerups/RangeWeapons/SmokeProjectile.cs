@@ -94,8 +94,8 @@ namespace BotExtended.Powerups.RangeWeapons
 
                         mod.RunSpeedModifier = .6f;
                         mod.SprintSpeedModifier = .6f;
-                        mod.MeleeDamageTakenModifier = .5f;
                         mod.MeleeForceModifier = 2f;
+                        mod.MeleeDamageTakenModifier = .5f;
                         mod.ProjectileDamageTakenModifier = 2f;
                         mod.FireDamageTakenModifier = 2f;
                         mod.ExplosionDamageTakenModifier = 2f;
@@ -103,7 +103,9 @@ namespace BotExtended.Powerups.RangeWeapons
 
                         var bs = player.GetBotBehaviorSet();
                         bs.RangedWeaponAccuracy = 0f;
-                        bs.RangedWeaponPrecisionAccuracy = .1f;
+                        bs.RangedWeaponPrecisionInterpolateTime = 20000f;
+                        bs.RangedWeaponLOSIgnoreTeammates = true;
+                        bs.RangedWeaponPrecisionAccuracy = 0f;
                         bot.SetBotBehaviorSet(bs);
 
                         player.SetNametagVisible(false);

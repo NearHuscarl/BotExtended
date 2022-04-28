@@ -121,10 +121,13 @@ namespace BotExtended.Powerups.RangeWeapons
                 modifiers.EnergyRechargeModifier = 0f;
                 Game.PlayEffect(EffectName.CustomFloatText, bot.Position, "exhausted");
                 FatigueModifier *= 10;
+                
+                if (IsShotgunShell)
+                    FatigueModifier *= ProjectilesPerShell;
             }
 
-            modifiers.RunSpeedModifier -= .05f * FatigueModifier;
-            modifiers.SprintSpeedModifier -= .05f * FatigueModifier;
+            modifiers.RunSpeedModifier -= .1f * FatigueModifier;
+            modifiers.SprintSpeedModifier -= .1f * FatigueModifier;
             modifiers.EnergyConsumptionModifier += .2f * FatigueModifier;
             modifiers.MeleeForceModifier -= .1f * FatigueModifier;
             modifiers.MeleeDamageDealtModifier -= .1f * FatigueModifier;

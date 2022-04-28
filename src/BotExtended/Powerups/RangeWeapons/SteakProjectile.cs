@@ -31,7 +31,10 @@ namespace BotExtended.Powerups.RangeWeapons
             if (Instance.IsRemoved) return;
 
             if (ScriptHelper.IsElapsed(CreatedTime, 10000))
+            {
                 Instance.Destroy();
+                StopChasingFood();
+            }
 
             var vec = Instance.GetLinearVelocity();
             if (!_spawnZombie && vec == Vector2.Zero)
@@ -47,20 +50,35 @@ namespace BotExtended.Powerups.RangeWeapons
             }
             if (vec == Vector2.Zero && _isElapsedCheckFood())
             {
+                var foodGone = false;
                 foreach (var z in Zombies)
                 {
                     if (z.Player.IsDead) continue;
                     if (z.Player.GetAABB().Intersects(ScriptHelper.Grow(Instance.GetAABB(), 5, 5)))
                     {
                         Game.PlaySound("GetHealthSmall", z.Position);
-                        Instance.Destroy();
-                        z.ResetModifiers();
-                        z.ResetBotBehaviorSet();
                         z.SetHealth(z.Player.GetHealth() + 15, true);
+                        Instance.Destroy();
+                        foodGone = true;
                         break;
                     }
                 }
+                if (foodGone) StopChasingFood();
             }
+        }
+
+        private void StopChasingFood()
+        {
+            Zombies.ForEach(z =>
+            {
+                var food = z.Player.GetGuardTarget();
+                if (food != null && food.UniqueID == Instance.UniqueID)
+                {
+                    z.ResetModifiers();
+                    z.ResetBotBehaviorSet();
+                    z.Player.SetGuardTarget(null);
+                }
+            });
         }
 
         private void SpawnZombieNearFood(IPlayer owner)

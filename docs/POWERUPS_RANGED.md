@@ -297,7 +297,7 @@ Shoots a suicide melee fighter that explodes on death. They have 35 health.
 ## Tearing
 
 - Has a chance to rip off the player's clothes.
-- Deal extra damage to the players that have fewer clothing items.
+- Deals extra damage to the players that have fewer clothing items.
 
 <img width='500' src='https://media.giphy.com/media/Rt6qumtPSoUUNCKexC/giphy.gif' />
 

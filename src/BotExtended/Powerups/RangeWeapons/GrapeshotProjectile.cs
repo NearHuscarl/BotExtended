@@ -79,7 +79,7 @@ namespace BotExtended.Powerups.RangeWeapons
             {
                 var projectile = Game.SpawnProjectile(ProjectileItem.PISTOL, HoverPosition, RandomHelper.Direction(0, 360), ProjectilePowerup.Bouncing);
                 projectile.Velocity /= 4;
-                projectile.DamageDealtModifier = .3f;
+                projectile.DamageDealtModifier = .6f;
                 _bouncyProjectiles.Add(projectile);
             }
         }

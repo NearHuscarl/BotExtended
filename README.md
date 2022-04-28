@@ -36,15 +36,226 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 
 ## Powerups
 
-- See the full list of melee weapon powerups [here](./docs/POWERUPS_MELEE.md).
+- See the full list of all melee powerups [here](./docs/POWERUPS_MELEE.md).
 
-- See the full list of ranged weapon powerups [here](./docs/POWERUPS_RANGED.md).
+- See the full list of all ranged powerups [here](./docs/POWERUPS_RANGED.md).
+
+## Factions
+
+- See the full list of all factions [here](./docs/FACTIONS.md).
 
 ## Bots
 
-### AssassinMelee
+### Assassin Melee
 
-### AssassinRange -->
+<img src='./docs/images/Assassin_1.png' />
+<img src='./docs/images/Assassin_2.png' />
+<img src='./docs/images/Assassin_3.png' />
+<img src='./docs/images/Assassin_4.png' />
+<img src='./docs/images/Assassin_5.png' />
+<img src='./docs/images/Assassin_6.png' />
+
+#### **Stats**
+
+|               |                                                              |
+| ------------- | ------------------------------------------------------------ |
+| **Health**    | Below Normal                                                 |
+| **Speed**     | Very Fast                                                    |
+| **AI**        | Jogger + Melee Hard                                          |
+| **Weapons**   | ![katana]                                                    |
+| **Factions**  | [Assassin][fassassin]                                        |
+| **Abilities** | All assassins in a team target one specific enemy at a time. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+|                             |              |
+| --------------------------- | ------------ |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Assassin Range
+
+They are the same as [Assassin Melee](#Assassin-Melee) except for the following stats:
+
+#### **Stats**
+
+|             |                     |
+| ----------- | ------------------- |
+| **AI**      | Jogger + Range Hard |
+| **Weapons** | ![uzi]              |
+
+### Agent
+
+<img src='./docs/images/Agent_1.png' />
+<img src='./docs/images/Agent_2.png' />
+
+#### **Stats**
+
+|                  |                                         |
+| ---------------- | --------------------------------------- |
+| **Health**       | Below Normal                            |
+| **AI**           | Hard                                    |
+| **Search items** | Secondary                               |
+| **Factions**     | [Agent][fagent], [MetroCop][fmetrocop]. |
+
+#### **Weapons**
+
+| Gears                    | Powerup  |
+| ------------------------ | -------- |
+| ![pistol]                | [Poison] |
+| ![pistol] ![Lazer]       | [Poison] |
+| ![baton]                 |          |
+| ![ShockBaton]            |          |
+| ![Magnum] ![Lazer]       | [Poison] |
+| ![baton] ![Uzi] ![Lazer] | [Poison] |
+| ![DarkShotgun] ![Lazer]  | [Poison] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+|                             |              |
+| --------------------------- | ------------ |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Bandido
+
+<img src='./docs/images/Bandido_1.png' />
+<img src='./docs/images/Bandido_2.png' />
+<img src='./docs/images/Bandido_3.png' />
+<img src='./docs/images/Bandido_4.png' />
+<img src='./docs/images/Bandido_5.png' />
+<img src='./docs/images/Bandido_6.png' />
+<img src='./docs/images/Bandido_7.png' />
+
+#### **Stats**
+
+|                   |                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------- |
+| **Health**        | Below Normal                                                                     |
+| **AI**            | Cowboy                                                                           |
+| **Infinite Ammo** | True                                                                             |
+| **Factions**      | [Bandido][fbandido], [Cowboy][fcowboy].                                          |
+| **Abilities**     | Spawns an ammo stash on death that shoots 500 stray bullets in random direction. |
+
+#### **Weapons**
+
+| Gears                           | Powerup |
+| ------------------------------- | ------- |
+| ![machete] ![revolver]          |         |
+| ![knife] ![carbine] ![revolver] |         |
+| ![knife] ![shotgun] ![pistol]   |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+|                             |              |
+| --------------------------- | ------------ |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Biker
+
+<img src='./docs/images/Biker_1.png' />
+<img src='./docs/images/Biker_2.png' />
+<img src='./docs/images/Biker_3.png' />
+<img src='./docs/images/Biker_4.png' />
+<img src='./docs/images/Biker_5.png' />
+<img src='./docs/images/Biker_6.png' />
+<img src='./docs/images/Biker_7.png' />
+<img src='./docs/images/Biker_8.png' />
+<img src='./docs/images/Biker_9.png' />
+<img src='./docs/images/Biker_10.png' />
+<img src='./docs/images/Biker_11.png' />
+<img src='./docs/images/Biker_12.png' />
+
+#### **Stats**
+
+|               |                                                                                                                                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Health**    | Below Normal                                                                                                                                                                                          |
+| **AI**        | Grunt                                                                                                                                                                                                 |
+| **Factions**  | [Biker][fbiker], [Punk][fpunk], [Thug][fthug].                                                                                                                                                        |
+| **Abilities** | <li>Has a gather spot, the gather spot is changed every 42 seconds.</li><li>Gains 4 health after dealing melee damage.</li><li>Has 3% chance of stealing an enemy's weapon after successful hit.</li> |
+
+#### **Weapons**
+
+| Gears       | Powerup |
+| ----------- | ------- |
+| ![leadpipe] |         |
+| ![chain]    |         |
+| ![knife]    |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+|                             |              |
+| --------------------------- | ------------ |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Biker Hulk
+
+Same profiles as [Biker].
+
+#### **Stats**
+
+|               |                                         |
+| ------------- | --------------------------------------- |
+| **Health**    | Strong                                  |
+| **Speed**     | Slow                                    |
+| **AI**        | Hulk                                    |
+| **Factions**  | [Biker][fbiker], [Stripper][fstripper]. |
+| **Abilities** | Same as [Biker].                        |
+
+#### **Weapons**
+
+| Gears   | Powerup    |
+| ------- | ---------- |
+| ![fist] | [Breaking] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+|                             |              |
+| --------------------------- | ------------ |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Ass Kicker
+
+<img src='./docs/images/AssKicker.png' />
+
+### Spy
+
+<img src='./docs/images/Spy.png' />
 
 ## Script Commands
 
@@ -583,3 +794,48 @@ Remove all powerup weapons that in the player's inventory (not apply until the n
 Usage: `/<botextended|be> [clearplsettings|cp]`
 
 Clear all player settings.
+
+<!-- bot type -->
+
+[biker]: #biker
+
+<!-- Factions -->
+
+[fassassin]: ./docs/FACTIONS.md#assassin
+[fagent]: ./docs/FACTIONS.md#agent
+[fbandido]: ./docs/FACTIONS.md#bandido
+[fbiker]: ./docs/FACTIONS.md#biker
+[fcowboy]: ./docs/FACTIONS.md#cowboy
+[fmetrocop]: ./docs/FACTIONS.md#metro-cop
+[fpunk]: ./docs/FACTIONS.md#punk
+[fstripper]: ./docs/FACTIONS.md#stripper
+[fthug]: ./docs/FACTIONS.md#thug
+
+<!-- Melee Powerups -->
+
+[breaking]: ./docs/POWERUPS_MELEE.md#breaking
+
+<!-- Ranged Powerups -->
+
+[poison]: ./docs/POWERUPS_RANGED.md#poison
+
+<!-- weapons -->
+
+[baton]: ./docs/images/weapons/baton.png
+[bazooka]: ./docs/images/weapons/bazooka.png
+[carbine]: ./docs/images/weapons/carbine.png
+[chain]: ./docs/images/weapons/Chain.png
+[darkshotgun]: ./docs/images/weapons/DarkShotgun.png
+[fist]: ./docs/images/weapons/fist.png
+[katana]: ./docs/images/weapons/katana.png
+[knife]: ./docs/images/weapons/Knife.png
+[lazer]: ./docs/images/weapons/Lazer.png
+[leadpipe]: ./docs/images/weapons/LeadPipe.png
+[machete]: ./docs/images/weapons/Machete.png
+[magnum]: ./docs/images/weapons/Magnum.png
+[pistol]: ./docs/images/weapons/Pistol.png
+[pistol45]: ./docs/images/weapons/Pistol45.png
+[revolver]: ./docs/images/weapons/Revolver.png
+[shockbaton]: ./docs/images/weapons/ShockBaton.png
+[shotgun]: ./docs/images/weapons/Shotgun.png
+[uzi]: ./docs/images/weapons/Uzi.png
