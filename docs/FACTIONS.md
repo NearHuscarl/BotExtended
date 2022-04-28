@@ -4,58 +4,99 @@ Bots with bold names are bosses.
 
 ## Assassin
 
-| Name                         | Ratio | Image                                                                                     |
-| ---------------------------- | ----- | ----------------------------------------------------------------------------------------- |
-| **[Ass Kicker]**             |       | ![_AssKicker]                                                                             |
-| **[Spy]**                    |       | ![_spy]                                                                                   |
-| [Assassin] (Melee and Range) | 1     | ![_Assassin_1] ![_Assassin_2] ![_Assassin_3] ![_Assassin_4] ![_Assassin_5] ![_Assassin_6] |
+| Name                         | Ratio | Image          |
+| ---------------------------- | ----- | -------------- |
+| **[Ass Kicker]**             |       | ![_AssKicker]  |
+| **[Spy]**                    |       | ![_spy]        |
+| [Assassin] (Melee and Range) | 1     | ![_Assassin_1] |
 
 ## Agent
 
-| Name    | Ratio | Image                   |
-| ------- | ----- | ----------------------- |
-| [Agent] | 1     | ![_Agent_1] ![_Agent_2] |
+| Name    | Ratio | Image       |
+| ------- | ----- | ----------- |
+| [Agent] | 1     | ![_Agent_1] |
 
 ## Bandido
 
-| Name      | Ratio | Image                                                                                             |
-| --------- | ----- | ------------------------------------------------------------------------------------------------- |
-| [Bandido] | 1     | ![_Bandido_1] ![_Bandido_2] ![_Bandido_3] ![_Bandido_4] ![_Bandido_5] ![_Bandido_6] ![_Bandido_7] |
+| Name      | Ratio | Image         |
+| --------- | ----- | ------------- |
+| [Bandido] | 1     | ![_Bandido_1] |
 
 ## Biker
 
-| Name    | Ratio | Image                                                                                                                                              |
-| ------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Biker] | 1     | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
+| Name    | Ratio | Image                   |
+| ------- | ----- | ----------------------- |
+| [Biker] | 1     | ![_Biker_1] ![_Biker_2] |
 
-| Name         | Ratio | Image                                                                                           |
-| ------------ | ----- | ----------------------------------------------------------------------------------------------- |
-| [Biker]      | 0.7   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] |
-| [Biker Hulk] | 0.3   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4]                                                 |
+| Name         | Ratio | Image                   |
+| ------------ | ----- | ----------------------- |
+| [Biker]      | 0.7   | ![_Biker_1] ![_Biker_2] |
+| [Biker Hulk] | 0.3   | ![_Biker_1]             |
 
 ## Clown
 
-| Name          | Ratio | Image          |
-| ------------- | ----- | -------------- |
-| [Clown Boxer] | 0.25  | ![_ClownBoxer] |
+| Name             | Ratio | Image                           |
+| ---------------- | ----- | ------------------------------- |
+| [Clown Cowboy]   | 0.5   | ![_ClownCowboy] ![_ClownCowboy] |
+| [Clown Gangster] | 0.25  | ![_ClownGangster]               |
+| [Clown Boxer]    | 0.25  | ![_ClownBoxer]                  |
 
-| Name          | Ratio | Image          |
-| ------------- | ----- | -------------- |
-| [Clown Boxer] | 0.7   | ![_ClownBoxer] |
+| Name             | Ratio | Image                                           |
+| ---------------- | ----- | ----------------------------------------------- |
+| [Clown Cowboy]   | 0.6   | ![_ClownCowboy] ![_ClownCowboy] ![_ClownCowboy] |
+| [Clown Gangster] | 0.4   | ![_ClownGangster] ![_ClownGangster]             |
 
-| Name              | Ratio | Image                                                                               |
-| ----------------- | ----- | ----------------------------------------------------------------------------------- |
-| [Clown Bodyguard] | 1     | ![_ClownBodyguard_1] ![_ClownBodyguard_2] ![_ClownBodyguard_3] ![_ClownBodyguard_4] |
+| Name             | Ratio | Image                         |
+| ---------------- | ----- | ----------------------------- |
+| [Clown Boxer]    | 0.7   | ![_ClownBoxer] ![_ClownBoxer] |
+| [Clown Gangster] | 0.3   | ![_ClownGangster]             |
 
-| Name          | Ratio | Image          |
-| ------------- | ----- | -------------- |
-| [Clown Boxer] | 0.3   | ![_ClownBoxer] |
+| Name              | Ratio | Image                |
+| ----------------- | ----- | -------------------- |
+| [Clown Bodyguard] | 1     | ![_ClownBodyguard_1] |
+
+| Name             | Ratio | Image             |
+| ---------------- | ----- | ----------------- |
+| [Clown Boxer]    | 0.333 | ![_ClownBoxer]    |
+| [Clown Cowboy]   | 0.333 | ![_ClownCowboy]   |
+| [Clown Gangster] | 0.333 | ![_ClownGangster] |
 
 ## Cowboy
 
-| Name      | Ratio | Image                                                                                             |
-| --------- | ----- | ------------------------------------------------------------------------------------------------- |
-| [Bandido] | 0.3   | ![_Bandido_1] ![_Bandido_2] ![_Bandido_3] ![_Bandido_4] ![_Bandido_5] ![_Bandido_6] ![_Bandido_7] |
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Cowboy] | 1     | ![_Cowboy_1] |
+
+| Name      | Ratio | Image                     |
+| --------- | ----- | ------------------------- |
+| [Cowboy]  | 0.7   | ![_Cowboy_1] ![_Cowboy_2] |
+| [Bandido] | 0.3   | ![_Bandido_1]             |
+
+## Engineer
+
+| Name       | Ratio | Image          |
+| ---------- | ----- | -------------- |
+| [Engineer] | 1     | ![_Engineer_1] |
+
+## Farmer
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Farmer] | 1     | ![_Farmer_1] |
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Farmer] | 0.5   | ![_Farmer_1] |
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Farmer] | 0.3   | ![_Farmer_1] |
+
+## Hunter
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Farmer] | 0.3   | ![_Farmer_1] |
 
 ## Metro Cop
 
@@ -69,21 +110,21 @@ Bots with bold names are bosses.
 
 ## Punk
 
-| Name    | Ratio | Image                                                                                                                                              |
-| ------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Biker] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
+| Name    | Ratio | Image       |
+| ------- | ----- | ----------- |
+| [Biker] | 0.5   | ![_Biker_1] |
 
 ## Robot
 
-| Name     | Ratio | Image                                                                         |
-| -------- | ----- | ----------------------------------------------------------------------------- |
-| [Cyborg] | 1     | ![_Cyborg_1] ![_Cyborg_2] ![_Cyborg_3] ![_Cyborg_4] ![_Cyborg_5] ![_Cyborg_6] |
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Cyborg] | 1     | ![_Cyborg_1] |
 
 ## Stripper
 
-| Name    | Ratio | Image                                                                                                                                              |
-| ------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Biker] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
+| Name    | Ratio | Image       |
+| ------- | ----- | ----------- |
+| [Biker] | 0.5   | ![_Biker_1] |
 
 | Name        | Ratio | Image         |
 | ----------- | ----- | ------------- |
@@ -91,9 +132,9 @@ Bots with bold names are bosses.
 
 ## Thug
 
-| Name         | Ratio | Image                                                                                                                                              |
-| ------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Biker Hulk] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
+| Name         | Ratio | Image       |
+| ------------ | ----- | ----------- |
+| [Biker Hulk] | 0.5   | ![_Biker_1] |
 
 ## Kingpin
 
@@ -104,6 +145,12 @@ Bots with bold names are bosses.
 | Name          | Ratio | Image         |
 | ------------- | ----- | ------------- |
 | [Bodyguard 2] | 0.45  | ![_Bodyguard] |
+
+## Santa
+
+| Name  | Ratio | Image     |
+| ----- | ----- | --------- |
+| [Elf] | 1     | ![_Elf_1] |
 
 <!-- bot types -->
 
@@ -175,6 +222,26 @@ Bots with bold names are bosses.
 [clown boxer]: ../README.md#clown-boxer
 [_clownboxer]: ./Images/ClownBoxer.png
 
+<!-- Clown Cowboy -->
+
+[clown cowboy]: ../README.md#clown-Cowboy
+[_clowncowboy]: ./Images/ClownCowboy.png
+
+<!-- Clown Gangster -->
+
+[clown gangster]: ../README.md#clown-Gangster
+[_clowngangster]: ./Images/ClownGangster.png
+
+<!-- Cowboy -->
+
+[cowboy]: ../README.md#Cowboy
+[_cowboy_1]: ./Images/Cowboy_1.png
+[_cowboy_2]: ./Images/Cowboy_2.png
+[_cowboy_3]: ./Images/Cowboy_3.png
+[_cowboy_4]: ./Images/Cowboy_4.png
+[_cowboy_5]: ./Images/Cowboy_5.png
+[_cowboy_6]: ./Images/Cowboy_6.png
+
 <!-- Cyborg -->
 
 [cyborg]: ../README.md#cyborg
@@ -184,6 +251,26 @@ Bots with bold names are bosses.
 [_cyborg_4]: ./Images/Cyborg_4.png
 [_cyborg_5]: ./Images/Cyborg_5.png
 [_cyborg_6]: ./Images/Cyborg_6.png
+
+<!-- Elf -->
+
+[elf]: ../README.md#Elf
+[_elf_1]: ./Images/Elf_1.png
+
+<!-- Engineer -->
+
+[engineer]: ../README.md#Engineer
+[_engineer_1]: ./Images/Engineer_1.png
+
+<!-- Farmer -->
+
+[farmer]: ../README.md#Farmer
+[_farmer_1]: ./Images/Farmer_1.png
+
+<!-- Hunter -->
+
+[hunter]: ../README.md#Hunter
+[_hunter_1]: ./Images/Hunter_1.png
 
 <!-- Spy -->
 

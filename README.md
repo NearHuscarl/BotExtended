@@ -184,16 +184,9 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 | **Health**    | Below Normal                                                                                                                                                                                            |
 | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **AI**        | Grunt                                                                                                                                                                                                   |
+| **Weapons**   | ![leadpipe] ![chain] ![knife]                                                                                                                                                                           |
 | **Factions**  | [Biker][fbiker], [Punk][fpunk], [Thug][fthug].                                                                                                                                                          |
 | **Abilities** | <li>Has a gather spot, the gather spot is changed every 42 seconds.</li><li>Gains 4 health after dealing melee damage.</li><li>Has 3% chance of stealing an enemy's weapon after a successful hit.</li> |
-
-#### **Weapons**
-
-| Gears       | Powerup |
-| :---------- | :------ |
-| ![leadpipe] |         |
-| ![chain]    |         |
-| ![knife]    |         |
 
 <details>
   <summary>
@@ -280,6 +273,169 @@ Same as [Bodyguard] except for the following stats:
 | :----------- | :------------------ |
 | **Factions** | [Kingpin][fkingpin] |
 
+### Clown Bodyguard
+
+<div>
+  <img src='./docs/Images/ClownBodyguard_1.png' />
+  <img src='./docs/Images/ClownBodyguard_2.png' />
+  <img src='./docs/Images/ClownBodyguard_3.png' />
+  <img src='./docs/Images/ClownBodyguard_4.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal                     |
+| :----------- | :------------------------------- |
+| **AI**       | Grunt                            |
+| **Weapons**  | ![Katana] ![Knife] ![Axe] ![Bat] |
+| **Factions** | [Clown][fclown]                  |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Clown Boxer
+
+<div>
+  <img src='./docs/Images/ClownBoxer.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Above Normal    |
+| :----------- | :-------------- |
+| **AI**       | Hulk            |
+| **Factions** | [Clown][fclown] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Clown Cowboy
+
+<div>
+  <img src='./docs/Images/ClownCowboy.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Below Normal                                                                                                                                                                   |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**     | Above Normal                                                                                                                                                                   |
+| **AI**        | Cowboy                                                                                                                                                                         |
+| **Factions**  | [Clown][fclown]                                                                                                                                                                |
+| **Abilities** | <li>Has 15% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 1% chance of disarming and destroying the enemy's weapon after a successful shot.</li> |
+
+#### **Weapons**
+
+| Gears       | Powerup |
+| :---------- | :------ |
+| ![Revolver] | [Blast] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Above Normal |
+| **Melee Damage Dealt**      | Fairly Low   |
+| **Size**                    | Small        |
+
+</details>
+
+<!-- GIF: show cowboy disarming -->
+
+### Clown Gangster
+
+<div>
+  <img src='./docs/Images/ClownGangster.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal    |
+| :----------- | :-------------- |
+| **AI**       | Grunt           |
+| **Factions** | [Clown][fclown] |
+
+#### **Weapons**
+
+| Gears       | Powerup |
+| :---------- | :------ |
+| ![TommyGun] | [Blast] |
+| ![Shotgun]  | [Blast] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Cowboy
+
+<div>
+  <img src='./docs/Images/Cowboy_1.png' />
+  <img src='./docs/Images/Cowboy_2.png' />
+  <img src='./docs/Images/Cowboy_3.png' />
+  <img src='./docs/Images/Cowboy_4.png' />
+  <img src='./docs/Images/Cowboy_5.png' />
+  <img src='./docs/Images/Cowboy_6.png' />
+  <img src='./docs/Images/Cowboy_7.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Below Normal                                                                                                                                                                   |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**     | Above Normal                                                                                                                                                                   |
+| **AI**        | Cowboy                                                                                                                                                                         |
+| **Weapons**   | ![Sawedoff] ![Shotgun] ![Revolver] ![Magnum]                                                                                                                                   |
+| **Factions**  | [Cowboy][fcowboy]                                                                                                                                                              |
+| **Abilities** | <li>Has 15% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 1% chance of disarming and destroying the enemy's weapon after a successful shot.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Above Normal |
+| **Melee Damage Dealt**      | Fairly Low   |
+| **Size**                    | Small        |
+
+</details>
+
+<!-- GIF: show cowboy disarming -->
+
 ### Cyborg
 
 <div>
@@ -323,30 +479,20 @@ Same as [Bodyguard] except for the following stats:
 
 <!-- GIF: show near death effect -->
 
-### Clown Bodyguard
+### Elf
 
 <div>
-  <img src='./docs/Images/ClownBodyguard_1.png' />
-  <img src='./docs/Images/ClownBodyguard_2.png' />
-  <img src='./docs/Images/ClownBodyguard_3.png' />
-  <img src='./docs/Images/ClownBodyguard_4.png' />
+  <img src='./docs/Images/Elf_1.png' />
+  <img src='./docs/Images/Elf_2.png' />
 </div>
 
 #### **Stats**
 
-| **Health**   | Below Normal    |
-| :----------- | :-------------- |
-| **AI**       | Grunt           |
-| **Factions** | [Clown][fclown] |
-
-#### **Weapons**
-
-| Gears     | Powerup |
-| :-------- | :------ |
-| ![Katana] |         |
-| ![Knife]  |         |
-| ![Axe]    |         |
-| ![Bat]    |         |
+| **Health**   | Below Normal                                                            |
+| :----------- | :---------------------------------------------------------------------- |
+| **AI**       | Grunt                                                                   |
+| **Weapons**  | ![Knife] ![Chain] ![MP50] ![Shotgun] ![Flamethrower] ![Uzi] ![Flaregun] |
+| **Factions** | [Santa][fsanta]                                                         |
 
 <details>
   <summary>
@@ -361,18 +507,32 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
-### Clown Boxer
+### Engineer
 
 <div>
-  <img src='./docs/Images/ClownBoxer.png' />
+  <img src='./docs/Images/Engineer_1.png' />
+  <img src='./docs/Images/Engineer_2.png' />
+  <img src='./docs/Images/Engineer_3.png' />
+  <img src='./docs/Images/Engineer_4.png' />
 </div>
 
 #### **Stats**
 
-| **Health**   | Above Normal    |
-| :----------- | :-------------- |
-| **AI**       | Hulk            |
-| **Factions** | [Clown][fclown] |
+| **Health**    | Below Normal                                 |
+| :------------ | :------------------------------------------- |
+| **AI**        | Grunt                                        |
+| **Factions**  | [Engineer][fengineer]                        |
+| **Abilities** | Builds an automatic turret every 12 seconds. |
+
+#### **Weapons**
+
+| Gears                  | Powerup |
+| :--------------------- | :------ |
+| ![LeadPipe]            |         |
+| ![Pipe]                |         |
+| ![Hammer]              |         |
+| ![LeadPipe] ![Shotgun] |         |
+| ![Pipe] ![Pistol]      |         |
 
 <details>
   <summary>
@@ -381,12 +541,45 @@ Same as [Bodyguard] except for the following stats:
 
 | Stats                       | Value        |
 | :-------------------------- | :----------- |
-| **Projectile Damage Dealt** | Very Low     |
-| **Melee Damage Dealt**      | Above Normal |
-| **Melee Force**             | Strong       |
-| **Size**                    | Very Big     |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Normal       |
 
 </details>
+
+<!-- GIF: show automatic turret -->
+
+### Farmer
+
+<div>
+  <img src='./docs/Images/Farmer_1.png' />
+  <img src='./docs/Images/Farmer_2.png' />
+  <img src='./docs/Images/Farmer_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Below Normal                                                                                                                                            |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **AI**        | Grunt                                                                                                                                                   |
+| **Weapons**   | ![SawedOff] ![Shotgun]                                                                                                                                  |
+| **Factions**  | [Farmer][ffarmer], [Hunter][fhunter].                                                                                                                   |
+| **Abilities** | Spawns 6 chickens, each has 1 HP and 2 ATK, the chickens guard and attack any enemy nearby. Has 25% chance of making the enemy fall after pecking them. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+<!-- GIF: show chicken -->
 
 ### Ass Kicker
 
@@ -959,12 +1152,16 @@ Clear all player settings.
 [fbiker]: ./docs/FACTIONS.md#biker
 [fcowboy]: ./docs/FACTIONS.md#cowboy
 [fclown]: ./docs/FACTIONS.md#clown
+[fengineer]: ./docs/FACTIONS.md#engineer
+[ffarmer]: ./docs/FACTIONS.md#farmer
+[fhunter]: ./docs/FACTIONS.md#hunter
 [fmetrocop]: ./docs/FACTIONS.md#metro-cop
 [fpunk]: ./docs/FACTIONS.md#punk
 [fstripper]: ./docs/FACTIONS.md#stripper
 [fthug]: ./docs/FACTIONS.md#thug
 [fkingpin]: ./docs/FACTIONS.md#kingpin
 [frobot]: ./docs/FACTIONS.md#robot
+[fsanta]: ./docs/FACTIONS.md#santa
 
 <!-- Melee Powerups -->
 
@@ -974,6 +1171,7 @@ Clear all player settings.
 
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [homing]: ./docs/POWERUPS_RANGED.md#homing
+[blast]: ./docs/POWERUPS_RANGED.md#blast
 
 <!-- weapons -->
 
@@ -984,7 +1182,10 @@ Clear all player settings.
 [carbine]: ./docs/Images/Weapons/Carbine.png
 [chain]: ./docs/Images/Weapons/Chain.png
 [darkshotgun]: ./docs/Images/Weapons/DarkShotgun.png
+[flamethrower]: ./docs/Images/Weapons/Flamethrower.png
+[flaregun]: ./docs/Images/Weapons/FlareGun.png
 [fist]: ./docs/Images/Weapons/Fist.png
+[hammer]: ./docs/Images/Weapons/Hammer.png
 [katana]: ./docs/Images/Weapons/Katana.png
 [knife]: ./docs/Images/Weapons/Knife.png
 [lazer]: ./docs/Images/Weapons/Lazer.png
@@ -992,9 +1193,12 @@ Clear all player settings.
 [machete]: ./docs/Images/Weapons/Machete.png
 [machinepistol]: ./docs/Images/Weapons/MachinePistol.png
 [magnum]: ./docs/Images/Weapons/Magnum.png
+[mp50]: ./docs/Images/Weapons/MP50.png
+[pipe]: ./docs/Images/Weapons/Pipe.png
 [pistol]: ./docs/Images/Weapons/Pistol.png
 [pistol45]: ./docs/Images/Weapons/Pistol45.png
 [revolver]: ./docs/Images/Weapons/Revolver.png
+[sawedoff]: ./docs/Images/Weapons/SawedOff.png
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
 [tommygun]: ./docs/Images/Weapons/TommyGun.png
