@@ -60,7 +60,7 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 #### **Stats**
 
 | **Health**    | Below Normal                                                 |
-| ------------- | ------------------------------------------------------------ |
+| :------------ | :----------------------------------------------------------- |
 | **Speed**     | Very Fast                                                    |
 | **AI**        | Jogger + Melee Hard                                          |
 | **Weapons**   | ![katana]                                                    |
@@ -87,7 +87,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Stats**
 
 | **AI**      | Jogger + Range Hard |
-| ----------- | ------------------- |
+| :---------- | :------------------ |
 | **Weapons** | ![uzi]              |
 
 ### Agent
@@ -100,7 +100,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Stats**
 
 | **Health**       | Below Normal                            |
-| ---------------- | --------------------------------------- |
+| :--------------- | :-------------------------------------- |
 | **AI**           | Hard                                    |
 | **Search items** | Secondary                               |
 | **Factions**     | [Agent][fagent], [MetroCop][fmetrocop]. |
@@ -145,7 +145,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Stats**
 
 | **Health**        | Below Normal                                                                     |
-| ----------------- | -------------------------------------------------------------------------------- |
+| :---------------- | :------------------------------------------------------------------------------- |
 | **AI**            | Cowboy                                                                           |
 | **Infinite Ammo** | True                                                                             |
 | **Factions**      | [Bandido][fbandido], [Cowboy][fcowboy].                                          |
@@ -192,7 +192,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Stats**
 
 | **Health**    | Below Normal                                                                                                                                                                                            |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **AI**        | Grunt                                                                                                                                                                                                   |
 | **Factions**  | [Biker][fbiker], [Punk][fpunk], [Thug][fthug].                                                                                                                                                          |
 | **Abilities** | <li>Has a gather spot, the gather spot is changed every 42 seconds.</li><li>Gains 4 health after dealing melee damage.</li><li>Has 3% chance of stealing an enemy's weapon after a successful hit.</li> |
@@ -225,7 +225,7 @@ Same profiles as [Biker].
 #### **Stats**
 
 | **Health**    | Strong                                  |
-| ------------- | --------------------------------------- |
+| :------------ | :-------------------------------------- |
 | **Speed**     | Slow                                    |
 | **AI**        | Hulk                                    |
 | **Factions**  | [Biker][fbiker], [Stripper][fstripper]. |
