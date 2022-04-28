@@ -93,30 +93,30 @@ Bots with bold names are bosses.
 <!-- bandido -->
 
 [bandido]: ../README.md#bandido
-[_bandido_1]: ./Images/bandido_1.png
-[_bandido_2]: ./Images/bandido_2.png
-[_bandido_3]: ./Images/bandido_3.png
-[_bandido_4]: ./Images/bandido_4.png
-[_bandido_5]: ./Images/bandido_5.png
-[_bandido_6]: ./Images/bandido_6.png
-[_bandido_7]: ./Images/bandido_7.png
+[_bandido_1]: ./Images/Bandido_1.png
+[_bandido_2]: ./Images/Bandido_2.png
+[_bandido_3]: ./Images/Bandido_3.png
+[_bandido_4]: ./Images/Bandido_4.png
+[_bandido_5]: ./Images/Bandido_5.png
+[_bandido_6]: ./Images/Bandido_6.png
+[_bandido_7]: ./Images/Bandido_7.png
 
 <!-- biker -->
 
 [biker]: ../README.md#biker
 [biker hulk]: ../README.md#biker-hulk
-[_biker_1]: ./Images/biker_1.png
-[_biker_2]: ./Images/biker_2.png
-[_biker_3]: ./Images/biker_3.png
-[_biker_4]: ./Images/biker_4.png
-[_biker_5]: ./Images/biker_5.png
-[_biker_6]: ./Images/biker_6.png
-[_biker_7]: ./Images/biker_7.png
-[_biker_8]: ./Images/biker_8.png
-[_biker_9]: ./Images/biker_9.png
-[_biker_10]: ./Images/biker_10.png
-[_biker_11]: ./Images/biker_11.png
-[_biker_12]: ./Images/biker_12.png
+[_biker_1]: ./Images/Biker_1.png
+[_biker_2]: ./Images/Biker_2.png
+[_biker_3]: ./Images/Biker_3.png
+[_biker_4]: ./Images/Biker_4.png
+[_biker_5]: ./Images/Biker_5.png
+[_biker_6]: ./Images/Biker_6.png
+[_biker_7]: ./Images/Biker_7.png
+[_biker_8]: ./Images/Biker_8.png
+[_biker_9]: ./Images/Biker_9.png
+[_biker_10]: ./Images/Biker_10.png
+[_biker_11]: ./Images/Biker_11.png
+[_biker_12]: ./Images/Biker_12.png
 
 <!-- Spy -->
 

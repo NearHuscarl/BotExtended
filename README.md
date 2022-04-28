@@ -48,12 +48,14 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 
 ### Assassin Melee
 
-<img src='./docs/Images/Assassin_1.png' />
-<img src='./docs/Images/Assassin_2.png' />
-<img src='./docs/Images/Assassin_3.png' />
-<img src='./docs/Images/Assassin_4.png' />
-<img src='./docs/Images/Assassin_5.png' />
-<img src='./docs/Images/Assassin_6.png' />
+<div>
+  <img src='./docs/Images/Assassin_1.png' />
+  <img src='./docs/Images/Assassin_2.png' />
+  <img src='./docs/Images/Assassin_3.png' />
+  <img src='./docs/Images/Assassin_4.png' />
+  <img src='./docs/Images/Assassin_5.png' />
+  <img src='./docs/Images/Assassin_6.png' />
+</div>
 
 #### **Stats**
 
@@ -92,8 +94,10 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 
 ### Agent
 
-<img src='./docs/Images/Agent_1.png' />
-<img src='./docs/Images/Agent_2.png' />
+<div>
+  <img src='./docs/Images/Agent_1.png' />
+  <img src='./docs/Images/Agent_2.png' />
+</div>
 
 #### **Stats**
 
@@ -131,13 +135,15 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 
 ### Bandido
 
-<img src='./docs/Images/Bandido_1.png' />
-<img src='./docs/Images/Bandido_2.png' />
-<img src='./docs/Images/Bandido_3.png' />
-<img src='./docs/Images/Bandido_4.png' />
-<img src='./docs/Images/Bandido_5.png' />
-<img src='./docs/Images/Bandido_6.png' />
-<img src='./docs/Images/Bandido_7.png' />
+<div>
+  <img src='./docs/Images/Bandido_1.png' />
+  <img src='./docs/Images/Bandido_2.png' />
+  <img src='./docs/Images/Bandido_3.png' />
+  <img src='./docs/Images/Bandido_4.png' />
+  <img src='./docs/Images/Bandido_5.png' />
+  <img src='./docs/Images/Bandido_6.png' />
+  <img src='./docs/Images/Bandido_7.png' />
+</div>
 
 #### **Stats**
 
@@ -172,18 +178,20 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 
 ### Biker
 
-<img src='./docs/Images/Biker_1.png' />
-<img src='./docs/Images/Biker_2.png' />
-<img src='./docs/Images/Biker_3.png' />
-<img src='./docs/Images/Biker_4.png' />
-<img src='./docs/Images/Biker_5.png' />
-<img src='./docs/Images/Biker_6.png' />
-<img src='./docs/Images/Biker_7.png' />
-<img src='./docs/Images/Biker_8.png' />
-<img src='./docs/Images/Biker_9.png' />
-<img src='./docs/Images/Biker_10.png' />
-<img src='./docs/Images/Biker_11.png' />
-<img src='./docs/Images/Biker_12.png' />
+<div>
+  <img src='./docs/Images/Biker_1.png' />
+  <img src='./docs/Images/Biker_2.png' />
+  <img src='./docs/Images/Biker_3.png' />
+  <img src='./docs/Images/Biker_4.png' />
+  <img src='./docs/Images/Biker_5.png' />
+  <img src='./docs/Images/Biker_6.png' />
+  <img src='./docs/Images/Biker_7.png' />
+  <img src='./docs/Images/Biker_8.png' />
+  <img src='./docs/Images/Biker_9.png' />
+  <img src='./docs/Images/Biker_10.png' />
+  <img src='./docs/Images/Biker_11.png' />
+  <img src='./docs/Images/Biker_12.png' />
+</div>
 
 #### **Stats**
 
@@ -821,21 +829,21 @@ Clear all player settings.
 
 <!-- weapons -->
 
-[baton]: ./docs/Images/weapons/baton.png
-[bazooka]: ./docs/Images/weapons/bazooka.png
-[carbine]: ./docs/Images/weapons/carbine.png
-[chain]: ./docs/Images/weapons/Chain.png
-[darkshotgun]: ./docs/Images/weapons/DarkShotgun.png
-[fist]: ./docs/Images/weapons/fist.png
-[katana]: ./docs/Images/weapons/katana.png
-[knife]: ./docs/Images/weapons/Knife.png
-[lazer]: ./docs/Images/weapons/Lazer.png
-[leadpipe]: ./docs/Images/weapons/LeadPipe.png
-[machete]: ./docs/Images/weapons/Machete.png
-[magnum]: ./docs/Images/weapons/Magnum.png
-[pistol]: ./docs/Images/weapons/Pistol.png
-[pistol45]: ./docs/Images/weapons/Pistol45.png
-[revolver]: ./docs/Images/weapons/Revolver.png
-[shockbaton]: ./docs/Images/weapons/ShockBaton.png
-[shotgun]: ./docs/Images/weapons/Shotgun.png
-[uzi]: ./docs/Images/weapons/Uzi.png
+[baton]: ./docs/Images/Weapons/Baton.png
+[bazooka]: ./docs/Images/Weapons/Bazooka.png
+[carbine]: ./docs/Images/Weapons/Carbine.png
+[chain]: ./docs/Images/Weapons/Chain.png
+[darkshotgun]: ./docs/Images/Weapons/DarkShotgun.png
+[fist]: ./docs/Images/Weapons/Fist.png
+[katana]: ./docs/Images/Weapons/Katana.png
+[knife]: ./docs/Images/Weapons/Knife.png
+[lazer]: ./docs/Images/Weapons/Lazer.png
+[leadpipe]: ./docs/Images/Weapons/LeadPipe.png
+[machete]: ./docs/Images/Weapons/Machete.png
+[magnum]: ./docs/Images/Weapons/Magnum.png
+[pistol]: ./docs/Images/Weapons/Pistol.png
+[pistol45]: ./docs/Images/Weapons/Pistol45.png
+[revolver]: ./docs/Images/Weapons/Revolver.png
+[shockbaton]: ./docs/Images/Weapons/ShockBaton.png
+[shotgun]: ./docs/Images/Weapons/Shotgun.png
+[uzi]: ./docs/Images/Weapons/Uzi.png
