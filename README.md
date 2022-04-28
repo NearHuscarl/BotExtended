@@ -3,8 +3,6 @@
 This script adds a wide variety of bots to spice up combat experience. It is currently
 under development and maybe full of bugs :bug:
 
-[Demo](https://imgur.com/a/iIrAPf9)
-
 <!-- ## Features
 - **Large variety of bots**: 60+ new bots for you to fight. No more having to fight hard and expert bots all the time.
 - **Bot faction:** Bots will be spawned in many different factions: Thug, Police, Soldier, Assassin, Zombie... to keep you engaging every round.
@@ -21,18 +19,6 @@ under development and maybe full of bugs :bug:
 ```bash
 python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
 ```
-
-## Development
-
-- Clone [ScriptLinker](https://github.com/nearhuscarl/scriptlinker) project on my github.
-- Build in DEBUG mode. The global hotkeys doesn't work in RELEASE mode for some reasons but I'm too lazy to fix it now.
-- Open ScriptLinker > Script > New, then enter the _Name_, _Entry Point_ and _Project Directory_. Remind me to add a way to read the script metedata in the future.
-
-![New Script](./docs/NewScript.png)
-
-- Open [this](./src) solution in _Visual Studio_.
-- In BotExtended project, Click Reference > Add Reference > Browse > Select `...\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll`
-- Start coding and press `F8` to save change.
 
 ## Powerups
 
@@ -59,13 +45,13 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 
 #### **Stats**
 
-| **Health**    | Below Normal                                                 |
-| :------------ | :----------------------------------------------------------- |
-| **Speed**     | Very Fast                                                    |
-| **AI**        | Jogger + Melee Hard                                          |
-| **Weapons**   | ![katana]                                                    |
-| **Factions**  | [Assassin][fassassin]                                        |
-| **Abilities** | All assassins in a team target one specific enemy at a time. |
+| **Health**    | Below Normal                                                                                                        |
+| :------------ | :------------------------------------------------------------------------------------------------------------------ |
+| **Speed**     | Very Fast                                                                                                           |
+| **AI**        | Jogger + Melee Hard                                                                                                 |
+| **Weapons**   | ![katana]                                                                                                           |
+| **Factions**  | [Assassin][fassassin]                                                                                               |
+| **Abilities** | All assassins in a team target one specific enemy at a time. The targeted player has an indicator above their head. |
 
 <details>
   <summary>
@@ -73,12 +59,14 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
   </summary>
 
 | Stats                       | Value        |
-| --------------------------- | ------------ |
+| :-------------------------- | :----------- |
 | **Projectile Damage Dealt** | Below Normal |
 | **Melee Damage Dealt**      | Below Normal |
 | **Size**                    | Below Normal |
 
 </details>
+
+<!-- GIF: show assassin gang rape -->
 
 ### Assassin Range
 
@@ -108,7 +96,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Weapons**
 
 | Gears                    | Powerup  |
-| ------------------------ | -------- |
+| :----------------------- | :------- |
 | ![pistol]                | [Poison] |
 | ![pistol] ![Lazer]       | [Poison] |
 | ![baton]                 |          |
@@ -123,7 +111,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   </summary>
 
 | Stats                       | Value        |
-| --------------------------- | ------------ |
+| :-------------------------- | :----------- |
 | **Projectile Damage Dealt** | Below Normal |
 | **Melee Damage Dealt**      | Below Normal |
 | **Size**                    | Below Normal |
@@ -154,7 +142,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Weapons**
 
 | Gears                           | Powerup |
-| ------------------------------- | ------- |
+| :------------------------------ | :------ |
 | ![machete] ![revolver]          |         |
 | ![knife] ![carbine] ![revolver] |         |
 | ![knife] ![shotgun] ![pistol]   |         |
@@ -165,12 +153,14 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   </summary>
 
 | Stats                       | Value        |
-| --------------------------- | ------------ |
+| :-------------------------- | :----------- |
 | **Projectile Damage Dealt** | Below Normal |
 | **Melee Damage Dealt**      | Below Normal |
 | **Size**                    | Below Normal |
 
 </details>
+
+<!-- GIF: show ammo stash and stray bullets -->
 
 ### Biker
 
@@ -200,7 +190,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 #### **Weapons**
 
 | Gears       | Powerup |
-| ----------- | ------- |
+| :---------- | :------ |
 | ![leadpipe] |         |
 | ![chain]    |         |
 | ![knife]    |         |
@@ -211,12 +201,14 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   </summary>
 
 | Stats                       | Value        |
-| --------------------------- | ------------ |
+| :-------------------------- | :----------- |
 | **Projectile Damage Dealt** | Below Normal |
 | **Melee Damage Dealt**      | Below Normal |
 | **Size**                    | Below Normal |
 
 </details>
+
+<!-- GIF: show gather spot -->
 
 ### Biker Hulk
 
@@ -234,7 +226,7 @@ Same profiles as [Biker].
 #### **Weapons**
 
 | Gears   | Powerup    |
-| ------- | ---------- |
+| :------ | :--------- |
 | ![fist] | [Breaking] |
 
 <details>
@@ -243,7 +235,152 @@ Same profiles as [Biker].
   </summary>
 
 | Stats                       | Value        |
-| --------------------------- | ------------ |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Bodyguard
+
+<div>
+  <img src='./docs/Images/Bodyguard.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal                                |
+| :----------- | :------------------------------------------ |
+| **AI**       | Grunt                                       |
+| **Weapons**  | ![pistol]                                   |
+| **Factions** | [Stripper][fstripper], [Kingpin][fkingpin]. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Bodyguard 2
+
+Same as [Bodyguard] except for the following stats:
+
+#### **Stats**
+
+| **Weapons**  | ![tommygun]         |
+| :----------- | :------------------ |
+| **Factions** | [Kingpin][fkingpin] |
+
+### Cyborg
+
+<div>
+  <img src='./docs/Images/Cyborg_1.png' />
+  <img src='./docs/Images/Cyborg_2.png' />
+  <img src='./docs/Images/Cyborg_3.png' />
+  <img src='./docs/Images/Cyborg_4.png' />
+  <img src='./docs/Images/Cyborg_5.png' />
+  <img src='./docs/Images/Cyborg_6.png' />
+</div>
+
+#### **Stats**
+
+| **Health**          | Below Normal    |
+| :------------------ | :-------------- |
+| **AI**              | Grunt           |
+| **Zombie Immunity** | True            |
+| **Factions**        | [Robot][frobot] |
+
+#### **Weapons**
+
+| Gears            | Powerup  |
+| :--------------- | :------- |
+| ![MachinePistol] | [Homing] |
+| ![Pistol]        | [Homing] |
+| ![Pistol45]      | [Homing] |
+| ![DarkShotgun]   | [Homing] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+<!-- GIF: show near death effect -->
+
+### Clown Bodyguard
+
+<div>
+  <img src='./docs/Images/ClownBodyguard_1.png' />
+  <img src='./docs/Images/ClownBodyguard_2.png' />
+  <img src='./docs/Images/ClownBodyguard_3.png' />
+  <img src='./docs/Images/ClownBodyguard_4.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal    |
+| :----------- | :-------------- |
+| **AI**       | Grunt           |
+| **Factions** | [Clown][fclown] |
+
+#### **Weapons**
+
+| Gears     | Powerup |
+| :-------- | :------ |
+| ![Katana] |         |
+| ![Knife]  |         |
+| ![Axe]    |         |
+| ![Bat]    |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Clown Boxer
+
+<div>
+  <img src='./docs/Images/ClownBoxer.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Above Normal    |
+| :----------- | :-------------- |
+| **AI**       | Hulk            |
+| **Factions** | [Clown][fclown] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
 | **Projectile Damage Dealt** | Very Low     |
 | **Melee Damage Dealt**      | Above Normal |
 | **Melee Force**             | Strong       |
@@ -797,9 +934,22 @@ Usage: `/<botextended|be> [clearplsettings|cp]`
 
 Clear all player settings.
 
+## Development
+
+- Clone [ScriptLinker](https://github.com/nearhuscarl/scriptlinker) project on my github.
+- Build in DEBUG mode. The global hotkeys doesn't work in RELEASE mode for some reasons but I'm too lazy to fix it now.
+- Open ScriptLinker > Script > New, then enter the _Name_, _Entry Point_ and _Project Directory_. Remind me to add a way to read the script metedata in the future.
+
+![New Script](./docs/NewScript.png)
+
+- Open [this](./src) solution in _Visual Studio_.
+- In BotExtended project, Click Reference > Add Reference > Browse > Select `...\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll`
+- Start coding and press `F8` to save change.
+
 <!-- bot type -->
 
 [biker]: #biker
+[bodyguard]: #bodyguard
 
 <!-- Factions -->
 
@@ -808,10 +958,13 @@ Clear all player settings.
 [fbandido]: ./docs/FACTIONS.md#bandido
 [fbiker]: ./docs/FACTIONS.md#biker
 [fcowboy]: ./docs/FACTIONS.md#cowboy
+[fclown]: ./docs/FACTIONS.md#clown
 [fmetrocop]: ./docs/FACTIONS.md#metro-cop
 [fpunk]: ./docs/FACTIONS.md#punk
 [fstripper]: ./docs/FACTIONS.md#stripper
 [fthug]: ./docs/FACTIONS.md#thug
+[fkingpin]: ./docs/FACTIONS.md#kingpin
+[frobot]: ./docs/FACTIONS.md#robot
 
 <!-- Melee Powerups -->
 
@@ -820,9 +973,12 @@ Clear all player settings.
 <!-- Ranged Powerups -->
 
 [poison]: ./docs/POWERUPS_RANGED.md#poison
+[homing]: ./docs/POWERUPS_RANGED.md#homing
 
 <!-- weapons -->
 
+[axe]: ./docs/Images/Weapons/Axe.png
+[bat]: ./docs/Images/Weapons/Bat.png
 [baton]: ./docs/Images/Weapons/Baton.png
 [bazooka]: ./docs/Images/Weapons/Bazooka.png
 [carbine]: ./docs/Images/Weapons/Carbine.png
@@ -834,10 +990,12 @@ Clear all player settings.
 [lazer]: ./docs/Images/Weapons/Lazer.png
 [leadpipe]: ./docs/Images/Weapons/LeadPipe.png
 [machete]: ./docs/Images/Weapons/Machete.png
+[machinepistol]: ./docs/Images/Weapons/MachinePistol.png
 [magnum]: ./docs/Images/Weapons/Magnum.png
 [pistol]: ./docs/Images/Weapons/Pistol.png
 [pistol45]: ./docs/Images/Weapons/Pistol45.png
 [revolver]: ./docs/Images/Weapons/Revolver.png
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
+[tommygun]: ./docs/Images/Weapons/TommyGun.png
 [uzi]: ./docs/Images/Weapons/Uzi.png

@@ -33,6 +33,24 @@ Bots with bold names are bosses.
 | [Biker]      | 0.7   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] |
 | [Biker Hulk] | 0.3   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4]                                                 |
 
+## Clown
+
+| Name          | Ratio | Image          |
+| ------------- | ----- | -------------- |
+| [Clown Boxer] | 0.25  | ![_ClownBoxer] |
+
+| Name          | Ratio | Image          |
+| ------------- | ----- | -------------- |
+| [Clown Boxer] | 0.7   | ![_ClownBoxer] |
+
+| Name              | Ratio | Image                                                                               |
+| ----------------- | ----- | ----------------------------------------------------------------------------------- |
+| [Clown Bodyguard] | 1     | ![_ClownBodyguard_1] ![_ClownBodyguard_2] ![_ClownBodyguard_3] ![_ClownBodyguard_4] |
+
+| Name          | Ratio | Image          |
+| ------------- | ----- | -------------- |
+| [Clown Boxer] | 0.3   | ![_ClownBoxer] |
+
 ## Cowboy
 
 | Name      | Ratio | Image                                                                                             |
@@ -55,17 +73,37 @@ Bots with bold names are bosses.
 | ------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Biker] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
 
+## Robot
+
+| Name     | Ratio | Image                                                                         |
+| -------- | ----- | ----------------------------------------------------------------------------- |
+| [Cyborg] | 1     | ![_Cyborg_1] ![_Cyborg_2] ![_Cyborg_3] ![_Cyborg_4] ![_Cyborg_5] ![_Cyborg_6] |
+
 ## Stripper
 
 | Name    | Ratio | Image                                                                                                                                              |
 | ------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Biker] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
 
+| Name        | Ratio | Image         |
+| ----------- | ----- | ------------- |
+| [Bodyguard] | 0.5   | ![_Bodyguard] |
+
 ## Thug
 
 | Name         | Ratio | Image                                                                                                                                              |
 | ------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Biker Hulk] | 0.5   | ![_Biker_1] ![_Biker_2] ![_Biker_3] ![_Biker_4] ![_Biker_5] ![_Biker_6] ![_Biker_7] ![_Biker_8] ![_Biker_9] ![_Biker_10] ![_Biker_11] ![_Biker_12] |
+
+## Kingpin
+
+| Name        | Ratio | Image         |
+| ----------- | ----- | ------------- |
+| [Bodyguard] | 1     | ![_Bodyguard] |
+
+| Name          | Ratio | Image         |
+| ------------- | ----- | ------------- |
+| [Bodyguard 2] | 0.45  | ![_Bodyguard] |
 
 <!-- bot types -->
 
@@ -117,6 +155,35 @@ Bots with bold names are bosses.
 [_biker_10]: ./Images/Biker_10.png
 [_biker_11]: ./Images/Biker_11.png
 [_biker_12]: ./Images/Biker_12.png
+
+<!-- Bodyguard -->
+
+[bodyguard]: ../README.md#bodyguard
+[bodyguard 2]: ../README.md#bodyguard-2
+[_bodyguard]: ./Images/Bodyguard.png
+
+<!-- Clown Bodyguard -->
+
+[clown bodyguard]: ../README.md#clown-bodyguard
+[_clownbodyguard_1]: ./Images/ClownBodyguard_1.png
+[_clownbodyguard_2]: ./Images/ClownBodyguard_2.png
+[_clownbodyguard_3]: ./Images/ClownBodyguard_3.png
+[_clownbodyguard_4]: ./Images/ClownBodyguard_4.png
+
+<!-- Clown Boxer -->
+
+[clown boxer]: ../README.md#clown-boxer
+[_clownboxer]: ./Images/ClownBoxer.png
+
+<!-- Cyborg -->
+
+[cyborg]: ../README.md#cyborg
+[_cyborg_1]: ./Images/Cyborg_1.png
+[_cyborg_2]: ./Images/Cyborg_2.png
+[_cyborg_3]: ./Images/Cyborg_3.png
+[_cyborg_4]: ./Images/Cyborg_4.png
+[_cyborg_5]: ./Images/Cyborg_5.png
+[_cyborg_6]: ./Images/Cyborg_6.png
 
 <!-- Spy -->
 

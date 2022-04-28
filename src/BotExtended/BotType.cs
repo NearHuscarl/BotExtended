@@ -26,9 +26,6 @@
 
         Cyborg, // grunt robot
 
-        LabAssistant,
-        Scientist,
-
         ClownBodyguard,
         ClownBoxer,
         ClownCowboy,
@@ -66,6 +63,9 @@
         // Tier3: Police Station Escape!
         Police,
         PoliceSWAT,
+
+        LabAssistant,
+        Scientist,
 
         // zombie infected survivors, turn into zombie after dying
         Survivor,
