@@ -1,5 +1,8 @@
 # BotExtended
 
+<!-- Shrink 25x15
+Expand 50x30 -->
+
 This script adds a wide variety of bots to spice up combat experience. It is currently
 under development and maybe full of bugs :bug:
 
@@ -12,8 +15,9 @@ under development and maybe full of bugs :bug:
 
 ## Getting Started
 
-- Download [this file](src/BotExtended/BotExtended.txt)
+- Download [this file](src/BotExtended/BotExtended.txt).
 - Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
+- Install Python 3 if you don't have it on your computer.
 - Run `setup_script.py`
 
 ```bash
@@ -581,6 +585,186 @@ Same as [Bodyguard] except for the following stats:
 
 <!-- GIF: show chicken -->
 
+### Gangster
+
+<div>
+  <img src='./docs/Images/Gangster_1.png' />
+  <img src='./docs/Images/Gangster_2.png' />
+  <img src='./docs/Images/Gangster_3.png' />
+  <img src='./docs/Images/Gangster_4.png' />
+  <img src='./docs/Images/Gangster_5.png' />
+  <img src='./docs/Images/Gangster_6.png' />
+  <img src='./docs/Images/Gangster_7.png' />
+  <img src='./docs/Images/Gangster_8.png' />
+  <img src='./docs/Images/Gangster_9.png' />
+  <img src='./docs/Images/Gangster_10.png' />
+  <img src='./docs/Images/Gangster_11.png' />
+  <img src='./docs/Images/Gangster_12.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Below Normal                                                                                                                                                                                                                                                                                                                                                            |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI**        | Grunt                                                                                                                                                                                                                                                                                                                                                                   |
+| **Weapons**   | ![Bat] ![Bottle] ![Uzi] ![Pistol] ![Revolver] ![Shotgun] ![Sawedoff] ![MP50]                                                                                                                                                                                                                                                                                            |
+| **Factions**  | [Gangster][fgangster]                                                                                                                                                                                                                                                                                                                                                   |
+| **Abilities** | <li>Gathers at one spot and setups a camp in each team.</li><li>Camp spawns a new [Gangster] or [Gangster Hulk] every 12 seconds.</li><li>Has 3% chance of spawning a boss ([Kingpin], [Bobby] or [Jo]) intead.</li><li>Gangsters with less than 30 HP flee back to the tent to heal.</li><li>Go out and attack other teams once the tent has 7 members and above.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+<!-- GIF: show camp spawn gangster and start attacking -->
+
+### Gangster Hulk
+
+<div>
+  <img src='./docs/Images/GangsterHulk_1.png' />
+  <img src='./docs/Images/GangsterHulk_2.png' />
+  <img src='./docs/Images/GangsterHulk_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Strong                                                             |
+| :------------ | :----------------------------------------------------------------- |
+| **Speed**     | Slow                                                               |
+| **AI**        | Hulk                                                               |
+| **Factions**  | [Gangster][fgangster], [Stripper][fstripper], [Kingpin][fkingpin]. |
+| **Abilities** | Same as [Gangster].                                                |
+
+#### **Weapons**
+
+| Gears   | Powerup    |
+| :------ | :--------- |
+| ![fist] | [Breaking] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Gardener
+
+<div>
+  <img src='./docs/Images/Gardener_1.png' />
+  <img src='./docs/Images/Gardener_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal       |
+| :----------- | :----------------- |
+| **AI**       | Grunt              |
+| **Weapons**  | ![teapot] ![Knife] |
+| **Factions** | [Farmer][ffarmer]  |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Hunter
+
+<div>
+  <img src='./docs/Images/Hunter_1.png' />
+  <img src='./docs/Images/Hunter_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**        | Weak                                  |
+| :---------------- | :------------------------------------ |
+| **Speed**         | Slow                                  |
+| **AI**            | Hunter                                |
+| **Infinite Ammo** | True                                  |
+| **Search items**  | Health                                |
+| **Factions**      | [Hunter][fhunter], [Farmer][ffarmer]. |
+| **Abilities**     | Prioritize hunting bears over humans. |
+
+#### **Weapons**
+
+| Gears              | Powerup |
+| :----------------- | :------ |
+| ![Knife] ![bowwpn] | [Bow]   |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value        |
+| :------------------------------- | :----------- |
+| **Projectile Damage Dealt**      | Fairly High  |
+| **Projectile Crit Chance Dealt** | Fairly High  |
+| **Melee Damage Dealt**           | Fairly Low   |
+| **Size**                         | Below Normal |
+
+</details>
+
+### Lumberjack
+
+<div>
+  <img src='./docs/Images/Lumberjack_1.png' />
+  <img src='./docs/Images/Lumberjack_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Strong            |
+| :----------- | :---------------- |
+| **Speed**    | Slow              |
+| **AI**       | Hulk              |
+| **Factions** | [Farmer][ffarmer] |
+
+#### **Weapons**
+
+| Gears                   | Powerup |
+| :---------------------- | :------ |
+| ![Chainsaw]             |         |
+| ![Axe] ![StrengthBoost] | [Gib]   |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
 ### Ass Kicker
 
 <img src='./docs/Images/AssKicker.png' />
@@ -1143,6 +1327,11 @@ Clear all player settings.
 
 [biker]: #biker
 [bodyguard]: #bodyguard
+[gangster]: #gangster
+[gangster hulk]: #gangster-hulk
+[kingpin]: #kingpin
+[bobby]: #bobby
+[jo]: #jo
 
 <!-- Factions -->
 
@@ -1154,6 +1343,7 @@ Clear all player settings.
 [fclown]: ./docs/FACTIONS.md#clown
 [fengineer]: ./docs/FACTIONS.md#engineer
 [ffarmer]: ./docs/FACTIONS.md#farmer
+[fgangster]: ./docs/FACTIONS.md#gangster
 [fhunter]: ./docs/FACTIONS.md#hunter
 [fmetrocop]: ./docs/FACTIONS.md#metro-cop
 [fpunk]: ./docs/FACTIONS.md#punk
@@ -1166,9 +1356,11 @@ Clear all player settings.
 <!-- Melee Powerups -->
 
 [breaking]: ./docs/POWERUPS_MELEE.md#breaking
+[gib]: ./docs/POWERUPS_MELEE.md#gib
 
 <!-- Ranged Powerups -->
 
+[bow]: ./docs/POWERUPS_RANGED.md#bow
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [homing]: ./docs/POWERUPS_RANGED.md#homing
 [blast]: ./docs/POWERUPS_RANGED.md#blast
@@ -1179,8 +1371,11 @@ Clear all player settings.
 [bat]: ./docs/Images/Weapons/Bat.png
 [baton]: ./docs/Images/Weapons/Baton.png
 [bazooka]: ./docs/Images/Weapons/Bazooka.png
+[bowwpn]: ./docs/Images/Weapons/Bow.png
+[bottle]: ./docs/Images/Weapons/Bottle.png
 [carbine]: ./docs/Images/Weapons/Carbine.png
 [chain]: ./docs/Images/Weapons/Chain.png
+[chainsaw]: ./docs/Images/Weapons/Chainsaw.png
 [darkshotgun]: ./docs/Images/Weapons/DarkShotgun.png
 [flamethrower]: ./docs/Images/Weapons/Flamethrower.png
 [flaregun]: ./docs/Images/Weapons/FlareGun.png
@@ -1201,5 +1396,7 @@ Clear all player settings.
 [sawedoff]: ./docs/Images/Weapons/SawedOff.png
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
+[strengthboost]: ./docs/Images/Weapons/StrengthBoost.png
+[teapot]: ./docs/Images/Weapons/Teapot.png
 [tommygun]: ./docs/Images/Weapons/TommyGun.png
 [uzi]: ./docs/Images/Weapons/Uzi.png

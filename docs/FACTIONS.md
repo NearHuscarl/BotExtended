@@ -84,19 +84,41 @@ Bots with bold names are bosses.
 | -------- | ----- | ------------ |
 | [Farmer] | 1     | ![_Farmer_1] |
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Farmer] | 0.5   | ![_Farmer_1] |
+| Name         | Ratio   | Image                                  |
+| ------------ | ------- | -------------------------------------- |
+| [Farmer]     | 0.5     | ![_Farmer_1] ![_Farmer_2] ![_Farmer_3] |
+| [Gardener]   | 0.5 / 3 | ![_Gardener_1]                         |
+| [Hunter]     | 0.5 / 3 | ![_Hunter_1]                           |
+| [Lumberjack] | 0.5 / 3 | ![_Lumberjack_1]                       |
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Farmer] | 0.3   | ![_Farmer_1] |
+| Name         | Ratio   | Image            |
+| ------------ | ------- | ---------------- |
+| [Farmer]     | 0.3     | ![_Farmer_1]     |
+| [Gardener]   | 0.7 / 3 | ![_Gardener_1]   |
+| [Hunter]     | 0.7 / 3 | ![_Hunter_1]     |
+| [Lumberjack] | 0.7 / 3 | ![_Lumberjack_1] |
+
+## Gangster
+
+| Name            | Ratio | Image                                                       |
+| --------------- | ----- | ----------------------------------------------------------- |
+| [Gangster]      | 0.8   | ![_Gangster_1] ![_Gangster_2] ![_Gangster_3] ![_Gangster_4] |
+| [Gangster Hulk] | 0.2   | ![_GangsterHulk_1]                                          |
+
+| Name       | Ratio | Image                         |
+| ---------- | ----- | ----------------------------- |
+| [Gangster] | 0.7   | ![_Gangster_1] ![_Gangster_2] |
 
 ## Hunter
 
 | Name     | Ratio | Image        |
 | -------- | ----- | ------------ |
-| [Farmer] | 0.3   | ![_Farmer_1] |
+| [Hunter] | 1     | ![_Hunter_1] |
+
+| Name     | Ratio | Image                     |
+| -------- | ----- | ------------------------- |
+| [Hunter] | 0.7   | ![_Hunter_1] ![_Hunter_2] |
+| [Farmer] | 0.3   | ![_Farmer_1]              |
 
 ## Metro Cop
 
@@ -126,6 +148,10 @@ Bots with bold names are bosses.
 | ------- | ----- | ----------- |
 | [Biker] | 0.5   | ![_Biker_1] |
 
+| Name            | Ratio | Image              |
+| --------------- | ----- | ------------------ |
+| [Gangster Hulk] | 0.5   | ![_GangsterHulk_1] |
+
 | Name        | Ratio | Image         |
 | ----------- | ----- | ------------- |
 | [Bodyguard] | 0.5   | ![_Bodyguard] |
@@ -142,9 +168,10 @@ Bots with bold names are bosses.
 | ----------- | ----- | ------------- |
 | [Bodyguard] | 1     | ![_Bodyguard] |
 
-| Name          | Ratio | Image         |
-| ------------- | ----- | ------------- |
-| [Bodyguard 2] | 0.45  | ![_Bodyguard] |
+| Name            | Ratio | Image              |
+| --------------- | ----- | ------------------ |
+| [Gangster Hulk] | 0.55  | ![_GangsterHulk_1] |
+| [Bodyguard 2]   | 0.45  | ![_Bodyguard]      |
 
 ## Santa
 
@@ -266,11 +293,29 @@ Bots with bold names are bosses.
 
 [farmer]: ../README.md#Farmer
 [_farmer_1]: ./Images/Farmer_1.png
+[_farmer_2]: ./Images/Farmer_2.png
+[_farmer_3]: ./Images/Farmer_3.png
+[gardener]: ../README.md#gardener
+[_gardener_1]: ./Images/Gardener_1.png
+[_gardener_2]: ./Images/Gardener_2.png
+[lumberjack]: ../README.md#Lumberjack
+[_lumberjack_1]: ./Images/Lumberjack_1.png
+
+<!-- Gangster -->
+
+[gangster]: ../README.md#Gangster
+[gangster hulk]: ../README.md#gangster-hulk
+[_gangster_1]: ./Images/Gangster_1.png
+[_gangster_2]: ./Images/Gangster_2.png
+[_gangster_3]: ./Images/Gangster_3.png
+[_gangster_4]: ./Images/Gangster_4.png
+[_gangsterhulk_1]: ./Images/GangsterHulk_1.png
 
 <!-- Hunter -->
 
 [hunter]: ../README.md#Hunter
 [_hunter_1]: ./Images/Hunter_1.png
+[_hunter_2]: ./Images/Hunter_2.png
 
 <!-- Spy -->
 
