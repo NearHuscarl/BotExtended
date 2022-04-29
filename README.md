@@ -765,6 +765,305 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
+### MetroCop
+
+<div>
+  <img src='./docs/Images/MetroCop_1.png' />
+  <img src='./docs/Images/MetroCop_2.png' />
+  <img src='./docs/Images/MetroCop_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Below Normal                               |
+| :------------ | :----------------------------------------- |
+| **AI**        | Grunt                                      |
+| **Factions**  | [MetroCop][fmetrocop]                      |
+| **Abilities** | Spawns up to 2 LaserSweepers in each team. |
+
+#### **Weapons**
+
+| Gears                                 | Powerup |
+| :------------------------------------ | :------ |
+| ![ShockBaton] ![SMG] ![Lazer]         |         |
+| ![ShockBaton] ![DarkShotgun] ![Lazer] |         |
+| ![Assault] ![Lazer]                   |         |
+| ![DarkShotgun] ![Lazer]               |         |
+| ![SMG] ![Lazer]                       |         |
+| ![ShockBaton] ![Lazer]                |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+<!-- GIF: show laser sweeper -->
+
+### Mutant
+
+<div>
+  <img src='./docs/Images/Mutant_1.png' />
+  <img src='./docs/Images/Mutant_2.png' />
+  <img src='./docs/Images/Mutant_3.png' />
+  <img src='./docs/Images/Mutant_4.png' />
+  <img src='./docs/Images/Mutant_5.png' />
+  <img src='./docs/Images/Mutant_6.png' />
+  <img src='./docs/Images/Mutant_7.png' />
+  <img src='./docs/Images/Mutant_8.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Strong                                                                         |
+| :------------ | :----------------------------------------------------------------------------- |
+| **AI**        | Grunt                                                                          |
+| **Factions**  | [Mutant][fmutant]                                                              |
+| **Abilities** | Split into 2 twins on dealth once. Each twin has 50% health, deals 50% damage. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value                |
+| :---------------------- | :------------------- |
+| **Impact Damage Taken** | Extremely Vulnerable |
+| **Size**                | Big                  |
+
+</details>
+
+<!-- GIF: split when on dealth -->
+
+### Nazi Hulk
+
+<div>
+  <img src='./docs/Images/NaziHulk.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Strong        |
+| :----------- | :------------ |
+| **Speed**    | Slow          |
+| **AI**       | Hulk          |
+| **Factions** | [Nazi][fnazi] |
+
+#### **Weapons**
+
+| Gears             | Powerup    |
+| :---------------- | :--------- |
+| ![fist] ![Pistol] | [Breaking] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Nazi Soldier
+
+<div>
+  <img src='./docs/Images/NaziSoldier_1.png' />
+  <img src='./docs/Images/NaziSoldier_2.png' />
+  <img src='./docs/Images/NaziSoldier_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal  |
+| :----------- | :------------ |
+| **AI**       | Grunt         |
+| **Factions** | [Nazi][fnazi] |
+
+#### **Weapons**
+
+| Gears                       | Powerup |
+| :-------------------------- | :------ |
+| ![MP50]                     |         |
+| ![MP50] ![Grenade]          |         |
+| ![Knife] ![MP50] ![Grenade] |         |
+| ![Carbine]                  |         |
+| ![Knife] ![Carbine]         |         |
+| ![Carbine] ![Grenade]       |         |
+| ![Pistol]                   |         |
+| ![Knife] ![Pistol]          |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Police
+
+<div>
+  <img src='./docs/Images/PoliceOfficer_1.png' />
+  <img src='./docs/Images/PoliceOfficer_2.png' />
+  <img src='./docs/Images/PoliceOfficer_3.png' />
+  <img src='./docs/Images/PoliceOfficer_4.png' />
+  <img src='./docs/Images/PoliceOfficer_5.png' />
+  <img src='./docs/Images/PoliceOfficer_6.png' />
+  <img src='./docs/Images/PoliceOfficer_7.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal                                   |
+| :----------- | :--------------------------------------------- |
+| **AI**       | Grunt                                          |
+| **Factions** | [Police][fpolice], [Police SWAT][fpoliceswat]. |
+
+#### **Weapons**
+
+| Gears                | Powerup |
+| :------------------- | :------ |
+| ![Baton]             |         |
+| ![Baton] ![Pistol]   | [Taser] |
+| ![Baton] ![Shotgun]  |         |
+| ![Baton] ![Revolver] | [Taser] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Police SWAT
+
+<div>
+  <img src='./docs/Images/SWAT_1.png' />
+  <img src='./docs/Images/SWAT_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal                                   |
+| :----------- | :--------------------------------------------- |
+| **AI**       | Grunt                                          |
+| **Factions** | [Police][fpolice], [Police SWAT][fpoliceswat]. |
+
+#### **Weapons**
+
+| Gears                                | Powerup   |
+| :----------------------------------- | :-------- |
+| ![Knife] ![Pistol45] ![C4]           | [Termite] |
+| ![Knife] ![MachinePistol] ![Grenade] | [Termite] |
+| ![Knife] ![Assault]                  | [Termite] |
+| ![Knife] ![SMG]                      | [Termite] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Lab Assistant
+
+<div>
+  <img src='./docs/Images/LabAssistant_1.png' />
+  <img src='./docs/Images/LabAssistant_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal            |
+| :----------- | :---------------------- |
+| **AI**       | Grunt                   |
+| **Factions** | [Scientist][fscientist] |
+
+#### **Weapons**
+
+| Gears                      | Powerup            |
+| :------------------------- | :----------------- |
+| ![Pistol]                  | [Precise Bouncing] |
+| ![Pistol] ![StrengthBoost] | [Precise Bouncing] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Scientist
+
+<div>
+  <img src='./docs/Images/Scientist_1.png' />
+  <img src='./docs/Images/Scientist_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal            |
+| :----------- | :---------------------- |
+| **AI**       | Grunt                   |
+| **Factions** | [Scientist][fscientist] |
+
+#### **Weapons**
+
+| Gears       | Powerup            |
+| :---------- | :----------------- |
+| ![Revolver] | [Precise Bouncing] |
+| ![Pistol]   | [Precise Bouncing] |
+| ![Pistol45] | [Precise Bouncing] |
+| ![LeadPipe] |                    |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
 ### Ass Kicker
 
 <img src='./docs/Images/AssKicker.png' />
@@ -1345,9 +1644,14 @@ Clear all player settings.
 [ffarmer]: ./docs/FACTIONS.md#farmer
 [fgangster]: ./docs/FACTIONS.md#gangster
 [fhunter]: ./docs/FACTIONS.md#hunter
-[fmetrocop]: ./docs/FACTIONS.md#metro-cop
+[fmetrocop]: ./docs/FACTIONS.md#metrocop
+[fmutant]: ./docs/FACTIONS.md#mutant
+[fnazi]: ./docs/FACTIONS.md#nazi
+[fpolice]: ./docs/FACTIONS.md#Police
+[fpoliceswat]: ./docs/FACTIONS.md#police-swat
 [fpunk]: ./docs/FACTIONS.md#punk
 [fstripper]: ./docs/FACTIONS.md#stripper
+[fscientist]: ./docs/FACTIONS.md#scientist
 [fthug]: ./docs/FACTIONS.md#thug
 [fkingpin]: ./docs/FACTIONS.md#kingpin
 [frobot]: ./docs/FACTIONS.md#robot
@@ -1360,19 +1664,24 @@ Clear all player settings.
 
 <!-- Ranged Powerups -->
 
+[blast]: ./docs/POWERUPS_RANGED.md#blast
 [bow]: ./docs/POWERUPS_RANGED.md#bow
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [homing]: ./docs/POWERUPS_RANGED.md#homing
-[blast]: ./docs/POWERUPS_RANGED.md#blast
+[precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
+[taser]: ./docs/POWERUPS_RANGED.md#taser-gun
+[termite]: ./docs/POWERUPS_RANGED.md#termite
 
 <!-- weapons -->
 
+[assault]: ./docs/Images/Weapons/Assault.png
 [axe]: ./docs/Images/Weapons/Axe.png
 [bat]: ./docs/Images/Weapons/Bat.png
 [baton]: ./docs/Images/Weapons/Baton.png
 [bazooka]: ./docs/Images/Weapons/Bazooka.png
-[bowwpn]: ./docs/Images/Weapons/Bow.png
 [bottle]: ./docs/Images/Weapons/Bottle.png
+[bowwpn]: ./docs/Images/Weapons/Bow.png
+[c4]: ./docs/Images/Weapons/C4.png
 [carbine]: ./docs/Images/Weapons/Carbine.png
 [chain]: ./docs/Images/Weapons/Chain.png
 [chainsaw]: ./docs/Images/Weapons/Chainsaw.png
@@ -1380,6 +1689,7 @@ Clear all player settings.
 [flamethrower]: ./docs/Images/Weapons/Flamethrower.png
 [flaregun]: ./docs/Images/Weapons/FlareGun.png
 [fist]: ./docs/Images/Weapons/Fist.png
+[grenade]: ./docs/Images/Weapons/Grenade.png
 [hammer]: ./docs/Images/Weapons/Hammer.png
 [katana]: ./docs/Images/Weapons/Katana.png
 [knife]: ./docs/Images/Weapons/Knife.png
@@ -1396,6 +1706,7 @@ Clear all player settings.
 [sawedoff]: ./docs/Images/Weapons/SawedOff.png
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
+[smg]: ./docs/Images/Weapons/SMG.png
 [strengthboost]: ./docs/Images/Weapons/StrengthBoost.png
 [teapot]: ./docs/Images/Weapons/Teapot.png
 [tommygun]: ./docs/Images/Weapons/TommyGun.png

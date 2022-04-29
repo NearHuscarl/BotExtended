@@ -120,15 +120,60 @@ Bots with bold names are bosses.
 | [Hunter] | 0.7   | ![_Hunter_1] ![_Hunter_2] |
 | [Farmer] | 0.3   | ![_Farmer_1]              |
 
-## Metro Cop
+## MetroCop
 
-| Name    | Ratio | Image                   |
-| ------- | ----- | ----------------------- |
-| [Agent] | 0.3   | ![_Agent_1] ![_Agent_2] |
+| Name       | Ratio | Image          |
+| ---------- | ----- | -------------- |
+| [MetroCop] | 1     | ![_MetroCop_1] |
 
-| Name    | Ratio | Image                   |
-| ------- | ----- | ----------------------- |
-| [Agent] | 0.5   | ![_Agent_1] ![_Agent_2] |
+| Name       | Ratio | Image                         |
+| ---------- | ----- | ----------------------------- |
+| [MetroCop] | 0.7   | ![_MetroCop_1] ![_MetroCop_2] |
+| [Agent]    | 0.3   | ![_Agent_1] ![_Agent_2]       |
+
+| Name       | Ratio | Image          |
+| ---------- | ----- | -------------- |
+| [MetroCop] | 0.5   | ![_MetroCop_1] |
+| [Agent]    | 0.5   | ![_Agent_1]    |
+
+## Mutant
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Mutant] | 1     | ![_Mutant_1] |
+
+## Nazi
+
+| Name           | Ratio | Image             |
+| -------------- | ----- | ----------------- |
+| [Nazi Soldier] | 1     | ![_NaziSoldier_1] |
+
+| Name           | Ratio | Image             |
+| -------------- | ----- | ----------------- |
+| [Nazi Soldier] | 0.6   | ![_NaziSoldier_1] |
+| [Nazi Hulk]    | 0.4   | ![_NaziHulk]      |
+
+## Police
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Police] | 1     | ![_Police_1] |
+
+| Name          | Ratio | Image                     |
+| ------------- | ----- | ------------------------- |
+| [Police]      | 0.7   | ![_Police_1] ![_Police_2] |
+| [Police SWAT] | 0.3   | ![_SWAT_1]                |
+
+## Police SWAT
+
+| Name          | Ratio | Image      |
+| ------------- | ----- | ---------- |
+| [Police SWAT] | 1     | ![_SWAT_1] |
+
+| Name          | Ratio | Image                                       |
+| ------------- | ----- | ------------------------------------------- |
+| [Police SWAT] | 0.8   | ![_SWAT_1] ![_SWAT_1] ![_SWAT_2] ![_SWAT_2] |
+| [Police]      | 0.2   | ![_Police_1]                                |
 
 ## Punk
 
@@ -141,6 +186,18 @@ Bots with bold names are bosses.
 | Name     | Ratio | Image        |
 | -------- | ----- | ------------ |
 | [Cyborg] | 1     | ![_Cyborg_1] |
+
+## Scientist
+
+| Name            | Ratio | Image              |
+| --------------- | ----- | ------------------ |
+| [Lab Assistant] | 0.5   | ![_labassistant_1] |
+| [Scientist]     | 0.5   | ![_scientist_1]    |
+
+| Name            | Ratio | Image                                           |
+| --------------- | ----- | ----------------------------------------------- |
+| [Lab Assistant] | 0.25  | ![_labassistant_1]                              |
+| [Scientist]     | 0.75  | ![_scientist_1] ![_scientist_2] ![_scientist_1] |
 
 ## Stripper
 
@@ -316,6 +373,42 @@ Bots with bold names are bosses.
 [hunter]: ../README.md#Hunter
 [_hunter_1]: ./Images/Hunter_1.png
 [_hunter_2]: ./Images/Hunter_2.png
+
+<!-- MetroCop -->
+
+[metrocop]: ../README.md#MetroCop
+[_metrocop_1]: ./Images/MetroCop_1.png
+[_metrocop_2]: ./Images/MetroCop_2.png
+
+<!-- Mutant -->
+
+[mutant]: ../README.md#Mutant
+[_mutant_1]: ./Images/Mutant_1.png
+[_mutant_2]: ./Images/Mutant_2.png
+
+<!-- Nazi -->
+
+[nazi hulk]: ../README.md#nazi-hulk
+[_nazihulk]: ./Images/NaziHulk.png
+[nazi soldier]: ../README.md#nazi-soldier
+[_nazisoldier_1]: ./Images/NaziSoldier_1.png
+
+<!-- Police -->
+
+[police]: ../README.md#Police
+[_police_1]: ./Images/PoliceOfficer_1.png
+[_police_2]: ./Images/PoliceOfficer_2.png
+[police swat]: ../README.md#Police-SWAT
+[_swat_1]: ./Images/SWAT_1.png
+[_swat_2]: ./Images/SWAT_2.png
+
+<!-- Scientist -->
+
+[lab assistant]: ../README.md#lab-assistant
+[_labassistant_1]: ./Images/LabAssistant_1.png
+[scientist]: ../README.md#scientist
+[_scientist_1]: ./Images/Scientist_1.png
+[_scientist_2]: ./Images/Scientist_2.png
 
 <!-- Spy -->
 
