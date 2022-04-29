@@ -105,9 +105,10 @@ Bots with bold names are bosses.
 | [Gangster]      | 0.8   | ![_Gangster_1] ![_Gangster_2] ![_Gangster_3] ![_Gangster_4] |
 | [Gangster Hulk] | 0.2   | ![_GangsterHulk_1]                                          |
 
-| Name       | Ratio | Image                         |
-| ---------- | ----- | ----------------------------- |
-| [Gangster] | 0.7   | ![_Gangster_1] ![_Gangster_2] |
+| Name        | Ratio | Image                         |
+| ----------- | ----- | ----------------------------- |
+| [Gangster]  | 0.7   | ![_Gangster_1] ![_Gangster_2] |
+| [Thug Hulk] | 0.3   | ![_ThugHulk_1]                |
 
 ## Hunter
 
@@ -199,25 +200,88 @@ Bots with bold names are bosses.
 | [Lab Assistant] | 0.25  | ![_labassistant_1]                              |
 | [Scientist]     | 0.75  | ![_scientist_1] ![_scientist_2] ![_scientist_1] |
 
+## Sniper
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Sniper] | 1     | ![_Sniper_1] |
+
+## Soldier
+
+| Name      | Ratio | Image         |
+| --------- | ----- | ------------- |
+| [Soldier] | 1     | ![_Soldier_1] |
+
+| Name      | Ratio | Image                       |
+| --------- | ----- | --------------------------- |
+| [Soldier] | 0.7   | ![_Soldier_1] ![_Soldier_2] |
+| [Sniper]  | 0.3   | ![_Sniper_1]                |
+
+## Spacer
+
+| Name     | Ratio | Image        |
+| -------- | ----- | ------------ |
+| [Spacer] | 1     | ![_Spacer_1] |
+
+| Name           | Ratio | Image             |
+| -------------- | ----- | ----------------- |
+| [Spacer]       | 0.7   | ![_Spacer_1]      |
+| [Space Sniper] | 0.3   | ![_SpaceSniper_1] |
+
+| Name           | Ratio | Image                                                            |
+| -------------- | ----- | ---------------------------------------------------------------- |
+| [Spacer]       | 0.9   | ![_Spacer_1] ![_Spacer_2] ![_Spacer_3] ![_Spacer_4] ![_Spacer_5] |
+| [Space Sniper] | 0.1   | ![_SpaceSniper_1]                                                |
+
+## Space Sniper
+
+| Name           | Ratio | Image             |
+| -------------- | ----- | ----------------- |
+| [Space Sniper] | 1     | ![_SpaceSniper_1] |
+
 ## Stripper
 
-| Name    | Ratio | Image       |
-| ------- | ----- | ----------- |
-| [Biker] | 0.5   | ![_Biker_1] |
+| Name       | Ratio | Image          |
+| ---------- | ----- | -------------- |
+| [Stripper] | 0.5   | ![_Stripper_1] |
+| [Biker]    | 0.5   | ![_Biker_1]    |
 
 | Name            | Ratio | Image              |
 | --------------- | ----- | ------------------ |
+| [Stripper]      | 0.5   | ![_Stripper_1]     |
 | [Gangster Hulk] | 0.5   | ![_GangsterHulk_1] |
 
-| Name        | Ratio | Image         |
-| ----------- | ----- | ------------- |
-| [Bodyguard] | 0.5   | ![_Bodyguard] |
+| Name        | Ratio | Image          |
+| ----------- | ----- | -------------- |
+| [Stripper]  | 0.5   | ![_Stripper_1] |
+| [Bodyguard] | 0.5   | ![_Bodyguard]  |
+
+| Name        | Ratio | Image          |
+| ----------- | ----- | -------------- |
+| [Stripper]  | 0.5   | ![_Stripper_1] |
+| [Thug Hulk] | 0.5   | ![_ThugHulk_1] |
+
+## Survivor
+
+| Name       | Ratio | Image          |
+| ---------- | ----- | -------------- |
+| [Survivor] | 1     | ![_Survivor_1] |
 
 ## Thug
 
+| Name   | Ratio | Image      |
+| ------ | ----- | ---------- |
+| [Thug] | 1     | ![_Thug_1] |
+
 | Name         | Ratio | Image       |
 | ------------ | ----- | ----------- |
+| [Thug]       | 0.5   | ![_Thug_1]  |
 | [Biker Hulk] | 0.5   | ![_Biker_1] |
+
+| Name        | Ratio | Image          |
+| ----------- | ----- | -------------- |
+| [Thug]      | 0.6   | ![_Thug_1]     |
+| [Thug Hulk] | 0.4   | ![_ThugHulk_1] |
 
 ## Kingpin
 
@@ -409,6 +473,52 @@ Bots with bold names are bosses.
 [scientist]: ../README.md#scientist
 [_scientist_1]: ./Images/Scientist_1.png
 [_scientist_2]: ./Images/Scientist_2.png
+
+<!-- Sniper -->
+
+[sniper]: ../README.md#Sniper
+[_sniper_1]: ./Images/Sniper_1.png
+[_sniper_2]: ./Images/Sniper_2.png
+
+<!-- Soldier -->
+
+[soldier]: ../README.md#Soldier
+[_soldier_1]: ./Images/Soldier_1.png
+[_soldier_2]: ./Images/Soldier_2.png
+
+<!-- Spacer -->
+
+[spacer]: ../README.md#Spacer
+[_spacer_1]: ./Images/Spacer_1.png
+[_spacer_2]: ./Images/Spacer_2.png
+[_spacer_3]: ./Images/Spacer_3.png
+[_spacer_4]: ./Images/Spacer_4.png
+[_spacer_5]: ./Images/Spacer_5.png
+
+<!-- Space Sniper -->
+
+[space sniper]: ../README.md#space-sniper
+[_spacesniper_1]: ./Images/SpaceSniper_1.png
+[_spacesniper_2]: ./Images/SpaceSniper_2.png
+
+<!-- Stripper -->
+
+[stripper]: ../README.md#Stripper
+[_stripper_1]: ./Images/Stripper_1.png
+
+<!-- Survivor -->
+
+[survivor]: ../README.md#Survivor
+[_survivor_1]: ./Images/Survivor_1.png
+[_survivor_2]: ./Images/Survivor_2.png
+
+<!-- Thug -->
+
+[thug]: ../README.md#Thug
+[_thug_1]: ./Images/Thug_1.png
+[_thug_2]: ./Images/Thug_2.png
+[thug hulk]: ../README.md#thug-hulk
+[_thughulk_1]: ./Images/ThugHulk_1.png
 
 <!-- Spy -->
 

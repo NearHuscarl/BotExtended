@@ -1064,6 +1064,334 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
+### Survivor
+
+<div>
+  <img src='./docs/Images/Survivor_1.png' />
+  <img src='./docs/Images/Survivor_2.png' />
+  <img src='./docs/Images/Survivor_3.png' />
+  <img src='./docs/Images/Survivor_4.png' />
+  <img src='./docs/Images/Survivor_5.png' />
+  <img src='./docs/Images/Survivor_6.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Weak                                                           |
+| :------------ | :------------------------------------------------------------- |
+| **AI**        | Normal                                                         |
+| **Weapons**   | ![SMG] ![Knife] ![Machete] ![SawedOff] ![Revolver] ![LeadPipe] |
+| **Factions**  | [Survivor][fsurvivor]                                          |
+| **Abilities** | Turns into zombie on dealth due to infection.                  |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Sniper
+
+<div>
+  <img src='./docs/Images/Sniper_1.png' />
+  <img src='./docs/Images/Sniper_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**       | Weak                                    |
+| :--------------- | :-------------------------------------- |
+| **Speed**        | Slow                                    |
+| **AI**           | Sniper                                  |
+| **Search items** | Primary                                 |
+| **Factions**     | [Soldier][fsoldier], [Sniper][fsniper]. |
+
+#### **Weapons**
+
+| Gears                       | Powerup |
+| :-------------------------- | :------ |
+| ![Knife] ![Sniper]          |         |
+| ![SilencedPistol] ![sniper] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value        |
+| :------------------------------- | :----------- |
+| **Projectile Damage Dealt**      | Fairly High  |
+| **Projectile Crit Chance Dealt** | Fairly High  |
+| **Melee Damage Dealt**           | Fairly Low   |
+| **Size**                         | Below Normal |
+
+</details>
+
+### Soldier
+
+<div>
+  <img src='./docs/Images/Soldier_1.png' />
+  <img src='./docs/Images/Soldier_2.png' />
+  <img src='./docs/Images/Soldier_3.png' />
+  <img src='./docs/Images/Soldier_4.png' />
+  <img src='./docs/Images/Soldier_5.png' />
+  <img src='./docs/Images/Soldier_6.png' />
+  <img src='./docs/Images/Soldier_7.png' />
+  <img src='./docs/Images/Soldier_8.png' />
+</div>
+
+#### **Stats**
+
+| **Health**       | Below Normal        |
+| :--------------- | :------------------ |
+| **AI**           | Soldier             |
+| **Search items** | Primary             |
+| **Factions**     | [Soldier][fsoldier] |
+
+#### **Weapons**
+
+| Gears                | Powerup       |
+| :------------------- | :------------ |
+| ![Pistol]            | [Penetration] |
+| ![Shotgun] ![Pistol] | [Penetration] |
+| ![Assault] ![Pistol] | [Penetration] |
+| ![SMG] ![Pistol]     | [Penetration] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Spacer
+
+<div>
+  <img src='./docs/Images/Spacer_1.png' />
+  <img src='./docs/Images/Spacer_2.png' />
+  <img src='./docs/Images/Spacer_3.png' />
+  <img src='./docs/Images/Spacer_4.png' />
+  <img src='./docs/Images/Spacer_5.png' />
+  <img src='./docs/Images/Spacer_6.png' />
+  <img src='./docs/Images/Spacer_7.png' />
+  <img src='./docs/Images/Spacer_8.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Below Normal      |
+| :----------- | :---------------- |
+| **AI**       | Grunt             |
+| **Factions** | [Spacer][fspacer] |
+
+#### **Weapons**
+
+| Gears                     | Powerup |
+| :------------------------ | :------ |
+| ![ShockBaton]             |         |
+| ![LeadPipe]               |         |
+| ![Assault] ![Lazer]       | [Gauss] |
+| ![Pistol] ![Lazer]        | [Gauss] |
+| ![MachinePistol] ![Lazer] | [Gauss] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Space Sniper
+
+<div>
+  <img src='./docs/Images/SpaceSniper_1.png' />
+  <img src='./docs/Images/SpaceSniper_2.png' />
+  <img src='./docs/Images/SpaceSniper_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**       | Weak                                             |
+| :--------------- | :----------------------------------------------- |
+| **Speed**        | Slow                                             |
+| **AI**           | Sniper                                           |
+| **Search items** | Primary                                          |
+| **Factions**     | [Space Sniper][fspacesniper], [Spacer][fspacer]. |
+
+#### **Weapons**
+
+| Gears               | Powerup |
+| :------------------ | :------ |
+| ![Sniper]           | [Gauss] |
+| ![sniper] ![Pistol] | [Gauss] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value        |
+| :------------------------------- | :----------- |
+| **Projectile Damage Dealt**      | Normal       |
+| **Projectile Crit Chance Dealt** | Normal       |
+| **Melee Damage Dealt**           | Fairly Low   |
+| **Size**                         | Below Normal |
+
+</details>
+
+### Stripper
+
+<div>
+  <img src='./docs/Images/Stripper_1.png' />
+  <img src='./docs/Images/Stripper_2.png' />
+  <img src='./docs/Images/Stripper_3.png' />
+  <img src='./docs/Images/Stripper_4.png' />
+  <img src='./docs/Images/Stripper_5.png' />
+  <img src='./docs/Images/Stripper_6.png' />
+  <img src='./docs/Images/Stripper_7.png' />
+  <img src='./docs/Images/Stripper_8.png' />
+  <img src='./docs/Images/Stripper_9.png' />
+</div>
+
+#### **Stats**
+
+| **Health**        | Weak                                                      |
+| :---------------- | :-------------------------------------------------------- |
+| **Speed**         | Above Normal                                              |
+| **AI**            | Hard                                                      |
+| **Infinite Ammo** | True                                                      |
+| **Search items**  | Makeshift, Health                                         |
+| **Factions**      | [Stripper][fstripper]                                     |
+| **Abilities**     | Recruits one of the hulk bots to follow and protect them. |
+
+#### **Weapons**
+
+| Gears            | Powerup   |
+| :--------------- | :-------- |
+| ![MachinePistol] | [Tearing] |
+| ![Revolver]      | [Tearing] |
+| ![Pistol]        | [Tearing] |
+| ![Sawedoff]      | [Tearing] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value        |
+| :------------------------------- | :----------- |
+| **Projectile Damage Dealt**      | Fairly High  |
+| **Projectile Crit Chance Dealt** | Fairly High  |
+| **Melee Damage Dealt**           | Fairly Low   |
+| **Fire Damage Taken**            | Vulnerable   |
+| **Size**                         | Below Normal |
+
+</details>
+
+### Thug
+
+<div>
+  <img src='./docs/Images/Thug_1.png' />
+  <img src='./docs/Images/Thug_2.png' />
+  <img src='./docs/Images/Thug_3.png' />
+  <img src='./docs/Images/Thug_4.png' />
+  <img src='./docs/Images/Thug_5.png' />
+  <img src='./docs/Images/Thug_6.png' />
+  <img src='./docs/Images/Thug_7.png' />
+  <img src='./docs/Images/Thug_8.png' />
+  <img src='./docs/Images/Thug_9.png' />
+  <img src='./docs/Images/Thug_10.png' />
+  <img src='./docs/Images/Thug_11.png' />
+  <img src='./docs/Images/Thug_12.png' />
+  <img src='./docs/Images/Thug_13.png' />
+  <img src='./docs/Images/Thug_14.png' />
+  <img src='./docs/Images/Thug_15.png' />
+  <img src='./docs/Images/Thug_16.png' />
+  <img src='./docs/Images/Thug_17.png' />
+  <img src='./docs/Images/Thug_18.png' />
+</div>
+
+#### **Stats**
+
+| **Health**       | Below Normal                                                                                                                        |
+| :--------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| **AI**           | Grunt                                                                                                                               |
+| **Search items** | Primary, Secondary, Melee                                                                                                           |
+| **Weapons**      | ![Bat] ![LeadPipe] ![Hammer] ![Chain] ![MachinePistol]                                                                              |
+| **Factions**     | [Thug][fthug]                                                                                                                       |
+| **Abilities**    | <li>x3 damage to objects.</li><li>Targets and loots objects if not in danger.</li><li>Discovers new weapons in looted objects.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Thug Hulk
+
+<div>
+  <img src='./docs/Images/ThugHulk_1.png' />
+  <img src='./docs/Images/ThugHulk_2.png' />
+  <img src='./docs/Images/ThugHulk_3.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Strong                                                       |
+| :------------ | :----------------------------------------------------------- |
+| **Speed**     | Slow                                                         |
+| **AI**        | Hulk                                                         |
+| **Factions**  | [Gangster][fgangster], [Stripper][fstripper], [Thug][fthug]. |
+| **Abilities** | Same as [Thug].                                              |
+
+#### **Weapons**
+
+| Gears       | Powerup    |
+| :---------- | :--------- |
+| ![fist]     | [Breaking] |
+| ![LeadPipe] | [Breaking] |
+| ![Pipe]     | [Breaking] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
 ### Ass Kicker
 
 <img src='./docs/Images/AssKicker.png' />
@@ -1631,6 +1959,7 @@ Clear all player settings.
 [kingpin]: #kingpin
 [bobby]: #bobby
 [jo]: #jo
+[thug]: #Thug
 
 <!-- Factions -->
 
@@ -1650,8 +1979,13 @@ Clear all player settings.
 [fpolice]: ./docs/FACTIONS.md#Police
 [fpoliceswat]: ./docs/FACTIONS.md#police-swat
 [fpunk]: ./docs/FACTIONS.md#punk
-[fstripper]: ./docs/FACTIONS.md#stripper
 [fscientist]: ./docs/FACTIONS.md#scientist
+[fsniper]: ./docs/FACTIONS.md#Sniper
+[fsoldier]: ./docs/FACTIONS.md#soldier
+[fspacer]: ./docs/FACTIONS.md#spacer
+[fspacesniper]: ./docs/FACTIONS.md#space-sniper
+[fstripper]: ./docs/FACTIONS.md#stripper
+[fsurvivor]: ./docs/FACTIONS.md#survivor
 [fthug]: ./docs/FACTIONS.md#thug
 [fkingpin]: ./docs/FACTIONS.md#kingpin
 [frobot]: ./docs/FACTIONS.md#robot
@@ -1668,8 +2002,11 @@ Clear all player settings.
 [bow]: ./docs/POWERUPS_RANGED.md#bow
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [homing]: ./docs/POWERUPS_RANGED.md#homing
+[gauss]: ./docs/POWERUPS_RANGED.md#gauss-gun
+[penetration]: ./docs/POWERUPS_RANGED.md#penetration
 [precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
 [taser]: ./docs/POWERUPS_RANGED.md#taser-gun
+[tearing]: ./docs/POWERUPS_RANGED.md#tearing
 [termite]: ./docs/POWERUPS_RANGED.md#termite
 
 <!-- weapons -->
@@ -1706,7 +2043,9 @@ Clear all player settings.
 [sawedoff]: ./docs/Images/Weapons/SawedOff.png
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
+[silencedpistol]: ./docs/Images/Weapons/SilencedPistol.png
 [smg]: ./docs/Images/Weapons/SMG.png
+[sniper]: ./docs/Images/Weapons/Sniper.png
 [strengthboost]: ./docs/Images/Weapons/StrengthBoost.png
 [teapot]: ./docs/Images/Weapons/Teapot.png
 [tommygun]: ./docs/Images/Weapons/TommyGun.png
