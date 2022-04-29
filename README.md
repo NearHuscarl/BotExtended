@@ -1392,6 +1392,329 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
+### Punk
+
+<div>
+  <img src='./docs/Images/Punk_1.png' />
+  <img src='./docs/Images/Punk_2.png' />
+  <img src='./docs/Images/Punk_3.png' />
+  <img src='./docs/Images/Punk_4.png' />
+  <img src='./docs/Images/Punk_5.png' />
+  <img src='./docs/Images/Punk_6.png' />
+  <img src='./docs/Images/Punk_7.png' />
+  <img src='./docs/Images/Punk_8.png' />
+  <img src='./docs/Images/Punk_9.png' />
+  <img src='./docs/Images/Punk_10.png' />
+  <img src='./docs/Images/Punk_11.png' />
+  <img src='./docs/Images/Punk_12.png' />
+  <img src='./docs/Images/Punk_13.png' />
+  <img src='./docs/Images/Punk_14.png' />
+</div>
+
+#### **Stats**
+
+| **Health**        | Below Normal  |
+| :---------------- | :------------ |
+| **AI**            | Grunt         |
+| **Infinite Ammo** | True          |
+| **Factions**      | [Punk][fpunk] |
+
+#### **Weapons**
+
+| Gears            | Powerup     |
+| :--------------- | :---------- |
+| ![Bat] ![Pistol] | [Knockback] |
+| ![Knife] ![Uzi]  | [Knockback] |
+| ![LeadPipe]      |             |
+| ![Baseball]      |             |
+| ![Pistol45]      | [Knockback] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Below Normal |
+| **Melee Damage Dealt**      | Below Normal |
+| **Size**                    | Below Normal |
+
+</details>
+
+### Punk Hulk
+
+<div>
+  <img src='./docs/Images/PunkHulk_1.png' />
+  <img src='./docs/Images/PunkHulk_2.png' />
+  <img src='./docs/Images/PunkHulk_3.png' />
+  <img src='./docs/Images/PunkHulk_4.png' />
+  <img src='./docs/Images/PunkHulk_5.png' />
+</div>
+
+#### **Stats**
+
+| **Health**   | Strong                                |
+| :----------- | :------------------------------------ |
+| **Speed**    | Slow                                  |
+| **AI**       | Hulk                                  |
+| **Factions** | [Stripper][fstripper], [Punk][fpunk]. |
+
+#### **Weapons**
+
+| Gears       | Powerup    |
+| :---------- | :--------- |
+| ![fist]     | [Breaking] |
+| ![LeadPipe] | [Breaking] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value        |
+| :-------------------------- | :----------- |
+| **Projectile Damage Dealt** | Very Low     |
+| **Melee Damage Dealt**      | Above Normal |
+| **Melee Force**             | Strong       |
+| **Size**                    | Very Big     |
+
+</details>
+
+### Zombie
+
+A basic common zombie.
+
+<div>
+  <img src='./docs/Images/Zombie_1.png' />
+  <img src='./docs/Images/Zombie_2.png' />
+</div>
+
+#### **Stats**
+
+| **Health**    | Weak                                                                                                                                                         |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Run Speed** | Slow                                                                                                                                                         |
+| **AI**        | ZombieSlow                                                                                                                                                   |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss].                                                                             |
+| **Abilities** | <li>Infects the enemies after a successful punch.</li><li>Infected players turn into zombie on dealth. The only exception is when their body are burnt.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | Low          |
+| **Size**               | Below Normal |
+
+</details>
+
+### Zombie Agent
+
+<div>
+  <img src='./docs/Images/ZombieAgent.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![Pistol] ![SilencedPistol] ![SilencedUzi] |
+| :---------- | :----------------------------------------- |
+
+### Zombie Bruiser
+
+<div>
+  <img src='./docs/Images/ZombieBruiser.png' />
+</div>
+
+A mutated zombie.
+
+#### **Stats**
+
+| **Health**    | Above Normal                                                                     |
+| :------------ | :------------------------------------------------------------------------------- |
+| **Speed**     | Slow                                                                             |
+| **AI**        | ZombieHulk                                                                       |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss]. |
+| **Abilities** | Same as [Zombie].                                                                |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value         |
+| :--------------------- | :------------ |
+| **Melee Damage Dealt** | Above Normal  |
+| **Melee Force**        | Strong        |
+| **Size**               | Extremely Big |
+
+</details>
+
+### Zombie Child
+
+<div>
+  <img src='./docs/Images/ZombieChild_1.png' />
+  <img src='./docs/Images/ZombieChild_2.png' />
+</div>
+
+A mutated zombie.
+
+#### **Stats**
+
+| **Health**    | Extremely Weak                                                                   |
+| :------------ | :------------------------------------------------------------------------------- |
+| **Speed**     | Fast                                                                             |
+| **AI**        | ZombieFast                                                                       |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss]. |
+| **Abilities** | Same as [Zombie].                                                                |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value      |
+| :--------------------- | :--------- |
+| **Melee Damage Dealt** | Low        |
+| **Melee Force**        | Weak       |
+| **Size**               | Very Small |
+
+</details>
+
+### Zombie Fat
+
+<div>
+  <img src='./docs/Images/ZombieFat.png' />
+</div>
+
+A mutated zombie.
+
+#### **Stats**
+
+| **Health**    | Embarrassingly Weak                                                                                                    |
+| :------------ | :--------------------------------------------------------------------------------------------------------------------- |
+| **Speed**     | Barely Any                                                                                                             |
+| **AI**        | ZombieSlow                                                                                                             |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss].                                       |
+| **Abilities** | Same as [Zombie]. On its dealth, the body is exploded into pieces and infects all players inside the explosion radius. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value       |
+| :--------------------- | :---------- |
+| **Melee Damage Dealt** | Fairly High |
+| **Size**               | Chonky      |
+
+</details>
+
+### Zombie Flamer
+
+<div>
+  <img src='./docs/Images/ZombieFlamer.png' />
+</div>
+
+A mutated zombie.
+
+#### **Stats**
+
+| **Health**    | Extremely Weak                                                                   |
+| :------------ | :------------------------------------------------------------------------------- |
+| **Speed**     | Fast                                                                             |
+| **AI**        | ZombieFast                                                                       |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss]. |
+| **Abilities** | Same as [Zombie]. Is set on max fire on startup.                                 |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value           |
+| :--------------------- | :-------------- |
+| **Fire Damage Taken**  | Ultra Resistant |
+| **Melee Damage Dealt** | Very Low        |
+| **Size**               | Below Normal    |
+
+</details>
+
+### Zombie Gangster
+
+<div>
+  <img src='./docs/Images/ZombieGangster_1.png' />
+  <img src='./docs/Images/ZombieGangster_2.png' />
+  <img src='./docs/Images/ZombieGangster_3.png' />
+  <img src='./docs/Images/ZombieGangster_4.png' />
+  <img src='./docs/Images/ZombieGangster_5.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![TommyGun] ![Shotgun] ![Revolver] ![Pistol] |
+| :---------- | :------------------------------------------- |
+
+### Zombie Ninja
+
+<div>
+  <img src='./docs/Images/ZombieNinja.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![Katana] |
+| :---------- | :-------- |
+
+### Zombie Police
+
+<div>
+  <img src='./docs/Images/ZombiePolice_1.png' />
+  <img src='./docs/Images/ZombiePolice_2.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![Baton] ![Revolver] |
+| :---------- | :------------------- |
+
+### Zombie Soldier
+
+<div>
+  <img src='./docs/Images/ZombieSoldier_1.png' />
+  <img src='./docs/Images/ZombieSoldier_2.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![SMG] ![Assault] ![Shotgun] ![Grenade] ![Mine] |
+| :---------- | :---------------------------------------------- |
+
+### Zombie Thug
+
+<div>
+  <img src='./docs/Images/ZombieThug_1.png' />
+  <img src='./docs/Images/ZombieThug_2.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![Bat] ![Knife] ![Pistol] ![Molotov] |
+| :---------- | :----------------------------------- |
+
+### Zombie Worker
+
+<div>
+  <img src='./docs/Images/ZombieWorker.png' />
+</div>
+
+A common zombie which is the same as [Zombie] except for the following stats:
+
+| **Weapons** | ![Pipe] ![Hammer] ![Axe] ![Chainsaw] |
+| :---------- | :----------------------------------- |
+
 ### Ass Kicker
 
 <img src='./docs/Images/AssKicker.png' />
@@ -1960,6 +2283,7 @@ Clear all player settings.
 [bobby]: #bobby
 [jo]: #jo
 [thug]: #Thug
+[zombie]: #Zombie
 
 <!-- Factions -->
 
@@ -1987,9 +2311,12 @@ Clear all player settings.
 [fstripper]: ./docs/FACTIONS.md#stripper
 [fsurvivor]: ./docs/FACTIONS.md#survivor
 [fthug]: ./docs/FACTIONS.md#thug
+[fzombie]: ./docs/FACTIONS.md#zombie
+[fzombiemutated]: ./docs/FACTIONS.md#zombie-mutated
 [fkingpin]: ./docs/FACTIONS.md#kingpin
 [frobot]: ./docs/FACTIONS.md#robot
 [fsanta]: ./docs/FACTIONS.md#santa
+[fzombieboss]: ./docs/FACTIONS.md#zombie-boss
 
 <!-- Melee Powerups -->
 
@@ -2000,10 +2327,11 @@ Clear all player settings.
 
 [blast]: ./docs/POWERUPS_RANGED.md#blast
 [bow]: ./docs/POWERUPS_RANGED.md#bow
-[poison]: ./docs/POWERUPS_RANGED.md#poison
 [homing]: ./docs/POWERUPS_RANGED.md#homing
 [gauss]: ./docs/POWERUPS_RANGED.md#gauss-gun
+[knockback]: ./docs/POWERUPS_RANGED.md#knockback
 [penetration]: ./docs/POWERUPS_RANGED.md#penetration
+[poison]: ./docs/POWERUPS_RANGED.md#poison
 [precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
 [taser]: ./docs/POWERUPS_RANGED.md#taser-gun
 [tearing]: ./docs/POWERUPS_RANGED.md#tearing
@@ -2014,6 +2342,7 @@ Clear all player settings.
 [assault]: ./docs/Images/Weapons/Assault.png
 [axe]: ./docs/Images/Weapons/Axe.png
 [bat]: ./docs/Images/Weapons/Bat.png
+[baseball]: ./docs/Images/Weapons/Baseball.png
 [baton]: ./docs/Images/Weapons/Baton.png
 [bazooka]: ./docs/Images/Weapons/Bazooka.png
 [bottle]: ./docs/Images/Weapons/Bottle.png
@@ -2035,6 +2364,8 @@ Clear all player settings.
 [machete]: ./docs/Images/Weapons/Machete.png
 [machinepistol]: ./docs/Images/Weapons/MachinePistol.png
 [magnum]: ./docs/Images/Weapons/Magnum.png
+[mine]: ./docs/Images/Weapons/Mine.png
+[molotov]: ./docs/Images/Weapons/Molotov.png
 [mp50]: ./docs/Images/Weapons/MP50.png
 [pipe]: ./docs/Images/Weapons/Pipe.png
 [pistol]: ./docs/Images/Weapons/Pistol.png
@@ -2044,6 +2375,7 @@ Clear all player settings.
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
 [silencedpistol]: ./docs/Images/Weapons/SilencedPistol.png
+[silenceduzi]: ./docs/Images/Weapons/Silenceduzi.png
 [smg]: ./docs/Images/Weapons/SMG.png
 [sniper]: ./docs/Images/Weapons/Sniper.png
 [strengthboost]: ./docs/Images/Weapons/StrengthBoost.png

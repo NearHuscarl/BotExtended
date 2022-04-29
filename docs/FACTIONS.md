@@ -178,9 +178,24 @@ Bots with bold names are bosses.
 
 ## Punk
 
+| Name   | Ratio | Image      |
+| ------ | ----- | ---------- |
+| [Punk] | 1     | ![_Punk_1] |
+
 | Name    | Ratio | Image       |
 | ------- | ----- | ----------- |
+| [Punk]  | 0.5   | ![_Punk_1]  |
 | [Biker] | 0.5   | ![_Biker_1] |
+
+| Name        | Ratio | Image          |
+| ----------- | ----- | -------------- |
+| [Punk]      | 0.6   | ![_Punk_1]     |
+| [Punk Hulk] | 0.4   | ![_PunkHulk_1] |
+
+| Name        | Ratio | Image                 |
+| ----------- | ----- | --------------------- |
+| [Punk]      | 0.75  | ![_Punk_1] ![_Punk_2] |
+| [Punk Hulk] | 0.25  | ![_PunkHulk_1]        |
 
 ## Robot
 
@@ -259,6 +274,11 @@ Bots with bold names are bosses.
 | Name        | Ratio | Image          |
 | ----------- | ----- | -------------- |
 | [Stripper]  | 0.5   | ![_Stripper_1] |
+| [Punk Hulk] | 0.5   | ![_PunkHulk_1] |
+
+| Name        | Ratio | Image          |
+| ----------- | ----- | -------------- |
+| [Stripper]  | 0.5   | ![_Stripper_1] |
 | [Thug Hulk] | 0.5   | ![_ThugHulk_1] |
 
 ## Survivor
@@ -283,6 +303,53 @@ Bots with bold names are bosses.
 | [Thug]      | 0.6   | ![_Thug_1]     |
 | [Thug Hulk] | 0.4   | ![_ThugHulk_1] |
 
+## Zombie
+
+| Name            | Ratio | Image        |
+| --------------- | ----- | ------------ |
+| [Common Zombie] | 1     | ![_Zombie_1] |
+
+| Name             | Ratio | Image                                                        |
+| ---------------- | ----- | ------------------------------------------------------------ |
+| [Common Zombie]  | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
+| [Zombie Bruiser] | 0.2   | ![_ZombieBruiser]                                            |
+
+| Name            | Ratio | Image                                                        |
+| --------------- | ----- | ------------------------------------------------------------ |
+| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
+| [Zombie Child]  | 0.2   | ![_ZombieChild_1]                                            |
+
+| Name            | Ratio | Image                                                        |
+| --------------- | ----- | ------------------------------------------------------------ |
+| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
+| [Zombie Fat]    | 0.2   | ![_ZombieFat]                                                |
+
+| Name            | Ratio | Image                                                        |
+| --------------- | ----- | ------------------------------------------------------------ |
+| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
+| [Zombie Flamer] | 0.2   | ![_ZombieFlamer]                                             |
+
+## Zombie Mutated
+
+| Name             | Ratio | Image             |
+| ---------------- | ----- | ----------------- |
+| [Mutated Zombie] | 1     | ![_ZombieBruiser] |
+
+| Name             | Ratio | Image                                                              |
+| ---------------- | ----- | ------------------------------------------------------------------ |
+| [Common Zombie]  | 0.2   | ![_Zombie_1]                                                       |
+| [Mutated Zombie] | 0.8   | ![_ZombieBruiser] ![_ZombieChild_1] ![_ZombieFat] ![_ZombieFlamer] |
+
+| Name             | Ratio | Image             |
+| ---------------- | ----- | ----------------- |
+| [Common Zombie]  | 0.4   | ![_Zombie_1]      |
+| [Mutated Zombie] | 0.6   | ![_ZombieBruiser] |
+
+| Name             | Ratio | Image                     |
+| ---------------- | ----- | ------------------------- |
+| [Common Zombie]  | 0.7   | ![_Zombie_1] ![_Zombie_2] |
+| [Mutated Zombie] | 0.3   | ![_ZombieBruiser]         |
+
 ## Kingpin
 
 | Name        | Ratio | Image         |
@@ -299,6 +366,17 @@ Bots with bold names are bosses.
 | Name  | Ratio | Image     |
 | ----- | ----- | --------- |
 | [Elf] | 1     | ![_Elf_1] |
+
+## Zombie Boss
+
+| Name            | Ratio | Image        |
+| --------------- | ----- | ------------ |
+| [Common Zombie] | 1     | ![_Zombie_1] |
+
+| Name             | Ratio | Image                     |
+| ---------------- | ----- | ------------------------- |
+| [Common Zombie]  | 0.7   | ![_Zombie_1] ![_Zombie_2] |
+| [Mutated Zombie] | 0.3   | ![_ZombieBruiser]         |
 
 <!-- bot types -->
 
@@ -466,6 +544,14 @@ Bots with bold names are bosses.
 [_swat_1]: ./Images/SWAT_1.png
 [_swat_2]: ./Images/SWAT_2.png
 
+<!-- Punk -->
+
+[punk]: ../README.md#Punk
+[_punk_1]: ./Images/Punk_1.png
+[_punk_2]: ./Images/Punk_2.png
+[punk hulk]: ../README.md#Punk-hulk
+[_punkhulk_1]: ./Images/PunkHulk_1.png
+
 <!-- Scientist -->
 
 [lab assistant]: ../README.md#lab-assistant
@@ -519,6 +605,26 @@ Bots with bold names are bosses.
 [_thug_2]: ./Images/Thug_2.png
 [thug hulk]: ../README.md#thug-hulk
 [_thughulk_1]: ./Images/ThugHulk_1.png
+
+<!-- Zombie -->
+
+[common zombie]: ../README.md#Zombie
+[_zombie_1]: ./Images/Zombie_1.png
+[_zombie_2]: ./Images/Zombie_2.png
+[_zombieagent]: ./Images/ZombieAgent.png
+[_zombiegangster]: ./Images/ZombieGangster_1.png
+
+<!-- Zombie Mutated -->
+
+[mutated zombie]: ../README.md#Zombie-Bruiser
+[zombie bruiser]: ../README.md#Zombie-Bruiser
+[zombie child]: ../README.md#Zombie-child
+[zombie fat]: ../README.md#Zombie-fat
+[zombie flamer]: ../README.md#Zombie-flamer
+[_zombiebruiser]: ./Images/ZombieBruiser.png
+[_zombiechild_1]: ./Images/ZombieChild_1.png
+[_zombiefat]: ./Images/ZombieFat.png
+[_zombieflamer]: ./Images/ZombieFlamer.png
 
 <!-- Spy -->
 

@@ -11,7 +11,6 @@ namespace BotExtended
         {
             BotType.Zombie,
             BotType.ZombieAgent,
-            BotType.ZombieFlamer,
             BotType.ZombieGangster,
             BotType.ZombieNinja,
             BotType.ZombiePolice,
@@ -571,8 +570,7 @@ namespace BotExtended
                 {
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(BotType.Zombie, 0.4f),
-                        new SubFaction(CommonZombieTypes, 0.6f),
+                        new SubFaction(CommonZombieTypes, 1),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
@@ -581,18 +579,8 @@ namespace BotExtended
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(CommonZombieTypes, 0.6f),
-                        new SubFaction(BotType.ZombieBruiser, 0.4f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
                         new SubFaction(CommonZombieTypes, 0.8f),
                         new SubFaction(BotType.ZombieChild, 0.2f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(CommonZombieTypes, 0.6f),
-                        new SubFaction(BotType.ZombieChild, 0.4f),
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
@@ -601,18 +589,8 @@ namespace BotExtended
                     });
                     factionSet.AddFaction(new List<SubFaction>()
                     {
-                        new SubFaction(CommonZombieTypes, 0.6f),
-                        new SubFaction(BotType.ZombieFat, 0.4f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
                         new SubFaction(CommonZombieTypes, 0.8f),
                         new SubFaction(BotType.ZombieFlamer, 0.2f),
-                    });
-                    factionSet.AddFaction(new List<SubFaction>()
-                    {
-                        new SubFaction(CommonZombieTypes, 0.6f),
-                        new SubFaction(BotType.ZombieFlamer, 0.4f),
                     });
                     break;
                 }
