@@ -47,7 +47,7 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
   <img src='./docs/Images/Assassin_6.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                        |
 | :------------ | :------------------------------------------------------------------------------------------------------------------ |
@@ -76,7 +76,7 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 
 They are the same as [Assassin Melee](#Assassin-Melee) except for the following stats:
 
-#### **Stats**
+**Stats**
 
 | **AI**      | Jogger + Range Hard |
 | :---------- | :------------------ |
@@ -89,7 +89,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   <img src='./docs/Images/Agent_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**       | Below Normal                            |
 | :--------------- | :-------------------------------------- |
@@ -97,7 +97,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 | **Search items** | Secondary                               |
 | **Factions**     | [Agent][fagent], [MetroCop][fmetrocop]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                    | Powerup  |
 | :----------------------- | :------- |
@@ -134,7 +134,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   <img src='./docs/Images/Bandido_7.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**        | Below Normal                                                                     |
 | :---------------- | :------------------------------------------------------------------------------- |
@@ -143,7 +143,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 | **Factions**      | [Bandido][fbandido], [Cowboy][fcowboy].                                          |
 | **Abilities**     | Spawns an ammo stash on death that shoots 500 stray bullets in random direction. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                           | Powerup |
 | :------------------------------ | :------ |
@@ -183,7 +183,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
   <img src='./docs/Images/Biker_12.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                                                                                                            |
 | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -211,7 +211,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 
 Same profiles as [Biker].
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Strong                                  |
 | :------------ | :-------------------------------------- |
@@ -220,7 +220,7 @@ Same profiles as [Biker].
 | **Factions**  | [Biker][fbiker], [Stripper][fstripper]. |
 | **Abilities** | Same as [Biker].                        |
 
-#### **Weapons**
+**Weapons**
 
 | Gears   | Powerup    |
 | :------ | :--------- |
@@ -246,7 +246,7 @@ Same profiles as [Biker].
   <img src='./docs/Images/Bodyguard.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal                                |
 | :----------- | :------------------------------------------ |
@@ -271,7 +271,7 @@ Same profiles as [Biker].
 
 Same as [Bodyguard] except for the following stats:
 
-#### **Stats**
+**Stats**
 
 | **Weapons**  | ![tommygun]         |
 | :----------- | :------------------ |
@@ -286,7 +286,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/ClownBodyguard_4.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal                     |
 | :----------- | :------------------------------- |
@@ -313,7 +313,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/ClownBoxer.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Above Normal    |
 | :----------- | :-------------- |
@@ -340,7 +340,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/ClownCowboy.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                                                                                   |
 | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -349,7 +349,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**  | [Clown][fclown]                                                                                                                                                                |
 | **Abilities** | <li>Has 15% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 1% chance of disarming and destroying the enemy's weapon after a successful shot.</li> |
 
-#### **Weapons**
+**Weapons**
 
 | Gears       | Powerup |
 | :---------- | :------ |
@@ -376,14 +376,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/ClownGangster.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal    |
 | :----------- | :-------------- |
 | **AI**       | Grunt           |
 | **Factions** | [Clown][fclown] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears       | Powerup |
 | :---------- | :------ |
@@ -415,7 +415,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Cowboy_7.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                                                                                   |
 | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -451,7 +451,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Cyborg_6.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**          | Below Normal    |
 | :------------------ | :-------------- |
@@ -459,7 +459,7 @@ Same as [Bodyguard] except for the following stats:
 | **Zombie Immunity** | True            |
 | **Factions**        | [Robot][frobot] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears            | Powerup  |
 | :--------------- | :------- |
@@ -490,7 +490,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Elf_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal                                                            |
 | :----------- | :---------------------------------------------------------------------- |
@@ -520,7 +520,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Engineer_4.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                 |
 | :------------ | :------------------------------------------- |
@@ -528,7 +528,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**  | [Engineer][fengineer]                        |
 | **Abilities** | Builds an automatic turret every 12 seconds. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                  | Powerup |
 | :--------------------- | :------ |
@@ -561,7 +561,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Farmer_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                                                            |
 | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -602,7 +602,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Gangster_12.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                                                                                                                                                                                                                                                                                                                                                            |
 | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -634,7 +634,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/GangsterHulk_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Strong                                                             |
 | :------------ | :----------------------------------------------------------------- |
@@ -643,7 +643,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**  | [Gangster][fgangster], [Stripper][fstripper], [Kingpin][fkingpin]. |
 | **Abilities** | Same as [Gangster].                                                |
 
-#### **Weapons**
+**Weapons**
 
 | Gears   | Powerup    |
 | :------ | :--------- |
@@ -670,7 +670,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Gardener_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal       |
 | :----------- | :----------------- |
@@ -698,7 +698,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Hunter_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**        | Weak                                  |
 | :---------------- | :------------------------------------ |
@@ -709,7 +709,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**      | [Hunter][fhunter], [Farmer][ffarmer]. |
 | **Abilities**     | Prioritize hunting bears over humans. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears              | Powerup |
 | :----------------- | :------ |
@@ -736,7 +736,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Lumberjack_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Strong            |
 | :----------- | :---------------- |
@@ -744,7 +744,7 @@ Same as [Bodyguard] except for the following stats:
 | **AI**       | Hulk              |
 | **Factions** | [Farmer][ffarmer] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                   | Powerup |
 | :---------------------- | :------ |
@@ -773,7 +773,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/MetroCop_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Below Normal                               |
 | :------------ | :----------------------------------------- |
@@ -781,7 +781,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**  | [MetroCop][fmetrocop]                      |
 | **Abilities** | Spawns up to 2 LaserSweepers in each team. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                                 | Powerup |
 | :------------------------------------ | :------ |
@@ -820,7 +820,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Mutant_8.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Strong                                                                         |
 | :------------ | :----------------------------------------------------------------------------- |
@@ -848,7 +848,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/NaziHulk.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Strong        |
 | :----------- | :------------ |
@@ -856,7 +856,7 @@ Same as [Bodyguard] except for the following stats:
 | **AI**       | Hulk          |
 | **Factions** | [Nazi][fnazi] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears             | Powerup    |
 | :---------------- | :--------- |
@@ -884,14 +884,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/NaziSoldier_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal  |
 | :----------- | :------------ |
 | **AI**       | Grunt         |
 | **Factions** | [Nazi][fnazi] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                       | Powerup |
 | :-------------------------- | :------ |
@@ -929,14 +929,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/PoliceOfficer_7.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal                                   |
 | :----------- | :--------------------------------------------- |
 | **AI**       | Grunt                                          |
 | **Factions** | [Police][fpolice], [Police SWAT][fpoliceswat]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                | Powerup |
 | :------------------- | :------ |
@@ -965,14 +965,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/SWAT_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal                                   |
 | :----------- | :--------------------------------------------- |
 | **AI**       | Grunt                                          |
 | **Factions** | [Police][fpolice], [Police SWAT][fpoliceswat]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                                | Powerup   |
 | :----------------------------------- | :-------- |
@@ -1001,14 +1001,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/LabAssistant_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal            |
 | :----------- | :---------------------- |
 | **AI**       | Grunt                   |
 | **Factions** | [Scientist][fscientist] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                      | Powerup            |
 | :------------------------- | :----------------- |
@@ -1035,14 +1035,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Scientist_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal            |
 | :----------- | :---------------------- |
 | **AI**       | Grunt                   |
 | **Factions** | [Scientist][fscientist] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears       | Powerup            |
 | :---------- | :----------------- |
@@ -1075,7 +1075,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Survivor_6.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Weak                                                           |
 | :------------ | :------------------------------------------------------------- |
@@ -1104,7 +1104,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Sniper_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**       | Weak                                    |
 | :--------------- | :-------------------------------------- |
@@ -1113,7 +1113,7 @@ Same as [Bodyguard] except for the following stats:
 | **Search items** | Primary                                 |
 | **Factions**     | [Soldier][fsoldier], [Sniper][fsniper]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                       | Powerup |
 | :-------------------------- | :------ |
@@ -1147,7 +1147,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Soldier_8.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**       | Below Normal        |
 | :--------------- | :------------------ |
@@ -1155,7 +1155,7 @@ Same as [Bodyguard] except for the following stats:
 | **Search items** | Primary             |
 | **Factions**     | [Soldier][fsoldier] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                | Powerup       |
 | :------------------- | :------------ |
@@ -1190,14 +1190,14 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Spacer_8.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Below Normal      |
 | :----------- | :---------------- |
 | **AI**       | Grunt             |
 | **Factions** | [Spacer][fspacer] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears                     | Powerup |
 | :------------------------ | :------ |
@@ -1228,7 +1228,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/SpaceSniper_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**       | Weak                                             |
 | :--------------- | :----------------------------------------------- |
@@ -1237,7 +1237,7 @@ Same as [Bodyguard] except for the following stats:
 | **Search items** | Primary                                          |
 | **Factions**     | [Space Sniper][fspacesniper], [Spacer][fspacer]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears               | Powerup |
 | :------------------ | :------ |
@@ -1272,7 +1272,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Stripper_9.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**        | Weak                                                      |
 | :---------------- | :-------------------------------------------------------- |
@@ -1283,7 +1283,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**      | [Stripper][fstripper]                                     |
 | **Abilities**     | Recruits one of the hulk bots to follow and protect them. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears            | Powerup   |
 | :--------------- | :-------- |
@@ -1330,7 +1330,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Thug_18.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**       | Below Normal                                                                                                                        |
 | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
@@ -1361,7 +1361,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/ThugHulk_3.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Strong                                                       |
 | :------------ | :----------------------------------------------------------- |
@@ -1370,7 +1370,7 @@ Same as [Bodyguard] except for the following stats:
 | **Factions**  | [Gangster][fgangster], [Stripper][fstripper], [Thug][fthug]. |
 | **Abilities** | Same as [Thug].                                              |
 
-#### **Weapons**
+**Weapons**
 
 | Gears       | Powerup    |
 | :---------- | :--------- |
@@ -1411,7 +1411,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/Punk_14.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**        | Below Normal  |
 | :---------------- | :------------ |
@@ -1419,7 +1419,7 @@ Same as [Bodyguard] except for the following stats:
 | **Infinite Ammo** | True          |
 | **Factions**      | [Punk][fpunk] |
 
-#### **Weapons**
+**Weapons**
 
 | Gears            | Powerup     |
 | :--------------- | :---------- |
@@ -1452,7 +1452,7 @@ Same as [Bodyguard] except for the following stats:
   <img src='./docs/Images/PunkHulk_5.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**   | Strong                                |
 | :----------- | :------------------------------------ |
@@ -1460,7 +1460,7 @@ Same as [Bodyguard] except for the following stats:
 | **AI**       | Hulk                                  |
 | **Factions** | [Stripper][fstripper], [Punk][fpunk]. |
 
-#### **Weapons**
+**Weapons**
 
 | Gears       | Powerup    |
 | :---------- | :--------- |
@@ -1490,7 +1490,7 @@ A basic common zombie.
   <img src='./docs/Images/Zombie_2.png' />
 </div>
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Weak                                                                                                                                                         |
 | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1530,7 +1530,7 @@ A common zombie which is the same as [Zombie] except for the following stats:
 
 A mutated zombie.
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Above Normal                                                                     |
 | :------------ | :------------------------------------------------------------------------------- |
@@ -1561,7 +1561,7 @@ A mutated zombie.
 
 A mutated zombie.
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Extremely Weak                                                                   |
 | :------------ | :------------------------------------------------------------------------------- |
@@ -1591,7 +1591,7 @@ A mutated zombie.
 
 A mutated zombie.
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Embarrassingly Weak                                                                                                    |
 | :------------ | :--------------------------------------------------------------------------------------------------------------------- |
@@ -1620,7 +1620,7 @@ A mutated zombie.
 
 A mutated zombie.
 
-#### **Stats**
+**Stats**
 
 | **Health**    | Extremely Weak                                                                   |
 | :------------ | :------------------------------------------------------------------------------- |
