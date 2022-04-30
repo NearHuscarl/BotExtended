@@ -2375,7 +2375,7 @@ Clear all player settings.
 [shockbaton]: ./docs/Images/Weapons/ShockBaton.png
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
 [silencedpistol]: ./docs/Images/Weapons/SilencedPistol.png
-[silenceduzi]: ./docs/Images/Weapons/Silenceduzi.png
+[silenceduzi]: ./docs/Images/Weapons/SilencedUzi.png
 [smg]: ./docs/Images/Weapons/SMG.png
 [sniper]: ./docs/Images/Weapons/Sniper.png
 [strengthboost]: ./docs/Images/Weapons/StrengthBoost.png

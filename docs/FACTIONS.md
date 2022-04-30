@@ -1,388 +1,335 @@
 # Factions
 
-Bots with bold names are bosses.
-
 ## Assassin
 
-| Name                         | Ratio | Image          |
-| ---------------------------- | ----- | -------------- |
-| **[Ass Kicker]**             |       | ![_AssKicker]  |
-| **[Spy]**                    |       | ![_spy]        |
-| [Assassin] (Melee and Range) | 1     | ![_Assassin_1] |
+| **Group 1** | [Assassin Melee]     |
+| :---------- | :------------------- |
+|             | ![_Assassin_1]       |
+| **Ratio**   | 1                    |
+| **Group 1** | **[Assassin Range]** |
+|             | ![_Assassin_1]       |
+| **Ratio**   | 1                    |
 
 ## Agent
 
-| Name    | Ratio | Image       |
-| ------- | ----- | ----------- |
-| [Agent] | 1     | ![_Agent_1] |
+| **Group 1** | [Agent]     |
+| :---------- | :---------- |
+|             | ![_Agent_1] |
+| **Ratio**   | 1           |
 
 ## Bandido
 
-| Name      | Ratio | Image         |
-| --------- | ----- | ------------- |
-| [Bandido] | 1     | ![_Bandido_1] |
+| **Group 1** | [Bandido]     |
+| :---------- | :------------ |
+|             | ![_Bandido_1] |
+| **Ratio**   | 1             |
 
 ## Biker
 
-| Name    | Ratio | Image                   |
-| ------- | ----- | ----------------------- |
-| [Biker] | 1     | ![_Biker_1] ![_Biker_2] |
-
-| Name         | Ratio | Image                   |
-| ------------ | ----- | ----------------------- |
-| [Biker]      | 0.7   | ![_Biker_1] ![_Biker_2] |
-| [Biker Hulk] | 0.3   | ![_Biker_1]             |
+| **Group 1** | [Biker]                 |                  |
+| :---------- | :---------------------- | :--------------- |
+|             | ![_Biker_1]             |                  |
+| **Ratio**   | 1                       |                  |
+| **Group 2** | **[Biker]**             | **[Biker Hulk]** |
+|             | ![_Biker_1] ![_Biker_2] | ![_Biker_1]      |
+| **Ratio**   | 0.7                     | 0.3              |
 
 ## Clown
 
-| Name             | Ratio | Image                           |
-| ---------------- | ----- | ------------------------------- |
-| [Clown Cowboy]   | 0.5   | ![_ClownCowboy] ![_ClownCowboy] |
-| [Clown Gangster] | 0.25  | ![_ClownGangster]               |
-| [Clown Boxer]    | 0.25  | ![_ClownBoxer]                  |
-
-| Name             | Ratio | Image                                           |
-| ---------------- | ----- | ----------------------------------------------- |
-| [Clown Cowboy]   | 0.6   | ![_ClownCowboy] ![_ClownCowboy] ![_ClownCowboy] |
-| [Clown Gangster] | 0.4   | ![_ClownGangster] ![_ClownGangster]             |
-
-| Name             | Ratio | Image                         |
-| ---------------- | ----- | ----------------------------- |
-| [Clown Boxer]    | 0.7   | ![_ClownBoxer] ![_ClownBoxer] |
-| [Clown Gangster] | 0.3   | ![_ClownGangster]             |
-
-| Name              | Ratio | Image                |
-| ----------------- | ----- | -------------------- |
-| [Clown Bodyguard] | 1     | ![_ClownBodyguard_1] |
-
-| Name             | Ratio | Image             |
-| ---------------- | ----- | ----------------- |
-| [Clown Boxer]    | 0.333 | ![_ClownBoxer]    |
-| [Clown Cowboy]   | 0.333 | ![_ClownCowboy]   |
-| [Clown Gangster] | 0.333 | ![_ClownGangster] |
+| **Group 1** | [Clown Cowboy]                  | [Clown Gangster]     | [Clown Boxer]        |
+| :---------- | :------------------------------ | :------------------- | -------------------- |
+|             | ![_ClownCowboy] ![_ClownCowboy] | ![_ClownGangster]    | ![_ClownBoxer]       |
+| **Ratio**   | 0.5                             | 0.25                 | 0.25                 |
+| **Group 2** | **[Clown Cowboy]**              | **[Clown Gangster]** |
+|             | ![_ClownCowboy]                 | ![_ClownGangster]    |
+| **Ratio**   | 0.4                             | 0.6                  |
+| **Group 3** | **[Clown Boxer]**               | **[Clown Gangster]** |
+|             | ![_ClownBoxer] ![_ClownBoxer]   | ![_ClownGangster]    |
+| **Ratio**   | 0.7                             | 0.3                  |
+| **Group 4** | **[Clown Bodyguard]**           |                      |
+|             | ![_ClownBodyguard_1]            |                      |
+| **Ratio**   | 1                               |                      |
+| **Group 5** | **[Clown Boxer]**               | **[Clown Cowboy]**   | **[Clown Gangster]** |
+|             | ![_ClownBoxer]                  | ![_ClownCowboy]      | ![_ClownGangster]    |
+| **Ratio**   | 1/3                             | 1/3                  | 1/3                  |
 
 ## Cowboy
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Cowboy] | 1     | ![_Cowboy_1] |
-
-| Name      | Ratio | Image                     |
-| --------- | ----- | ------------------------- |
-| [Cowboy]  | 0.7   | ![_Cowboy_1] ![_Cowboy_2] |
-| [Bandido] | 0.3   | ![_Bandido_1]             |
+| **Group 1** | [Cowboy]                  |               |
+| :---------- | :------------------------ | :------------ |
+|             | ![_Cowboy_1]              |               |
+| **Ratio**   | 1                         |               |
+| **Group 2** | **[Cowboy]**              | **[Bandido]** |
+|             | ![_Cowboy_1] ![_Cowboy_2] | ![_Bandido_1] |
+| **Ratio**   | 0.7                       | 0.3           |
 
 ## Engineer
 
-| Name       | Ratio | Image          |
-| ---------- | ----- | -------------- |
-| [Engineer] | 1     | ![_Engineer_1] |
+| **Group 1** | [Engineer]     |
+| :---------- | :------------- |
+|             | ![_Engineer_1] |
+| **Ratio**   | 1              |
 
 ## Farmer
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Farmer] | 1     | ![_Farmer_1] |
-
-| Name         | Ratio   | Image                                  |
-| ------------ | ------- | -------------------------------------- |
-| [Farmer]     | 0.5     | ![_Farmer_1] ![_Farmer_2] ![_Farmer_3] |
-| [Gardener]   | 0.5 / 3 | ![_Gardener_1]                         |
-| [Hunter]     | 0.5 / 3 | ![_Hunter_1]                           |
-| [Lumberjack] | 0.5 / 3 | ![_Lumberjack_1]                       |
-
-| Name         | Ratio   | Image            |
-| ------------ | ------- | ---------------- |
-| [Farmer]     | 0.3     | ![_Farmer_1]     |
-| [Gardener]   | 0.7 / 3 | ![_Gardener_1]   |
-| [Hunter]     | 0.7 / 3 | ![_Hunter_1]     |
-| [Lumberjack] | 0.7 / 3 | ![_Lumberjack_1] |
+| **Group 1** | [Farmer]                               |                |              |                  |
+| :---------- | :------------------------------------- | -------------- | ------------ | ---------------- |
+|             | ![_Farmer_1]                           |                |              |                  |
+| **Ratio**   | 1                                      |                |              |                  |
+| **Group 2** | **[Farmer]**                           | **[Gardener]** | **[Hunter]** | **[Lumberjack]** |
+|             | ![_Farmer_1] ![_Farmer_2] ![_Farmer_3] | ![_Gardener_1] | ![_Hunter_1] | ![_Lumberjack_1] |
+| **Ratio**   | 0.5                                    | 0.5/3          | 0.5/3        | 0.5/3            |
+| **Group 3** | **[Farmer]**                           | **[Gardener]** | **[Hunter]** | **[Lumberjack]** |
+|             | ![_Farmer_1]                           | ![_Gardener_1] | ![_Hunter_1] | ![_Lumberjack_1] |
+| **Ratio**   | 0.3                                    | 0.7/3          | 0.7/3        | 0.7/3            |
 
 ## Gangster
 
-| Name            | Ratio | Image                                                       |
-| --------------- | ----- | ----------------------------------------------------------- |
-| [Gangster]      | 0.8   | ![_Gangster_1] ![_Gangster_2] ![_Gangster_3] ![_Gangster_4] |
-| [Gangster Hulk] | 0.2   | ![_GangsterHulk_1]                                          |
-
-| Name        | Ratio | Image                         |
-| ----------- | ----- | ----------------------------- |
-| [Gangster]  | 0.7   | ![_Gangster_1] ![_Gangster_2] |
-| [Thug Hulk] | 0.3   | ![_ThugHulk_1]                |
+| **Group 1** | [Gangster]                                                  | [Gangster Hulk]    |
+| :---------- | :---------------------------------------------------------- | :----------------- |
+|             | ![_Gangster_1] ![_Gangster_2] ![_Gangster_3] ![_Gangster_4] | ![_GangsterHulk_1] |
+| **Ratio**   | 0.8                                                         | 0.2                |
+| **Group 2** | **[Gangster]**                                              | **[Thug Hulk]**    |
+|             | ![_Gangster_1] ![_Gangster_2]                               | ![_ThugHulk_1]     |
+| **Ratio**   | 0.7                                                         | 0.3                |
 
 ## Hunter
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Hunter] | 1     | ![_Hunter_1] |
-
-| Name     | Ratio | Image                     |
-| -------- | ----- | ------------------------- |
-| [Hunter] | 0.7   | ![_Hunter_1] ![_Hunter_2] |
-| [Farmer] | 0.3   | ![_Farmer_1]              |
+| **Group 1** | [Hunter]                  |              |
+| :---------- | :------------------------ | ------------ |
+|             | ![_Hunter_1]              |              |
+| **Ratio**   | 1                         |              |
+| **Group 2** | **[Hunter]**              | **[Farmer]** |
+|             | ![_Hunter_1] ![_Hunter_2] | ![_Farmer_1] |
+| **Ratio**   | 0.7                       | 0.3          |
 
 ## MetroCop
 
-| Name       | Ratio | Image          |
-| ---------- | ----- | -------------- |
-| [MetroCop] | 1     | ![_MetroCop_1] |
-
-| Name       | Ratio | Image                         |
-| ---------- | ----- | ----------------------------- |
-| [MetroCop] | 0.7   | ![_MetroCop_1] ![_MetroCop_2] |
-| [Agent]    | 0.3   | ![_Agent_1] ![_Agent_2]       |
-
-| Name       | Ratio | Image          |
-| ---------- | ----- | -------------- |
-| [MetroCop] | 0.5   | ![_MetroCop_1] |
-| [Agent]    | 0.5   | ![_Agent_1]    |
+| **Group 1** | [MetroCop]                    |             |
+| :---------- | :---------------------------- | ----------- |
+|             | ![_MetroCop_1]                |             |
+| **Ratio**   | 1                             |             |
+| **Group 2** | **[MetroCop]**                | **[Agent]** |
+|             | ![_MetroCop_1] ![_MetroCop_2] | ![_Agent_1] |
+| **Ratio**   | 0.7                           | 0.3         |
+| **Group 3** | **[MetroCop]**                | **[Agent]** |
+|             | ![_MetroCop_1]                | ![_Agent_1] |
+| **Ratio**   | 0.5                           | 0.5         |
 
 ## Mutant
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Mutant] | 1     | ![_Mutant_1] |
+| **Group 1** | [Mutant]     |
+| :---------- | :----------- |
+|             | ![_Mutant_1] |
+| **Ratio**   | 1            |
 
 ## Nazi
 
-| Name           | Ratio | Image             |
-| -------------- | ----- | ----------------- |
-| [Nazi Soldier] | 1     | ![_NaziSoldier_1] |
-
-| Name           | Ratio | Image             |
-| -------------- | ----- | ----------------- |
-| [Nazi Soldier] | 0.6   | ![_NaziSoldier_1] |
-| [Nazi Hulk]    | 0.4   | ![_NaziHulk]      |
+| **Group 1** | [Nazi Soldier]     |                 |
+| :---------- | :----------------- | --------------- |
+|             | ![_NaziSoldier_1]  |                 |
+| **Ratio**   | 1                  |                 |
+| **Group 2** | **[Nazi Soldier]** | **[Nazi Hulk]** |
+|             | ![_NaziSoldier_1]  | ![_NaziHulk]    |
+| **Ratio**   | 0.6                | 0.4             |
 
 ## Police
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Police] | 1     | ![_Police_1] |
-
-| Name          | Ratio | Image                     |
-| ------------- | ----- | ------------------------- |
-| [Police]      | 0.7   | ![_Police_1] ![_Police_2] |
-| [Police SWAT] | 0.3   | ![_SWAT_1]                |
+| **Group 1** | [Police]                  |                   |
+| :---------- | :------------------------ | ----------------- |
+|             | ![_Police_1]              |                   |
+| **Ratio**   | 1                         |                   |
+| **Group 2** | **[Police]**              | **[Police SWAT]** |
+|             | ![_Police_1] ![_Police_2] | ![_SWAT_1]        |
+| **Ratio**   | 0.7                       | 0.3               |
 
 ## Police SWAT
 
-| Name          | Ratio | Image      |
-| ------------- | ----- | ---------- |
-| [Police SWAT] | 1     | ![_SWAT_1] |
-
-| Name          | Ratio | Image                                       |
-| ------------- | ----- | ------------------------------------------- |
-| [Police SWAT] | 0.8   | ![_SWAT_1] ![_SWAT_1] ![_SWAT_2] ![_SWAT_2] |
-| [Police]      | 0.2   | ![_Police_1]                                |
+| **Group 1** | [Police SWAT]                               |              |
+| :---------- | :------------------------------------------ | ------------ |
+|             | ![_SWAT_1]                                  |              |
+| **Ratio**   | 1                                           |              |
+| **Group 2** | **[Police SWAT]**                           | **[Police]** |
+|             | ![_SWAT_1] ![_SWAT_1] ![_SWAT_2] ![_SWAT_2] | ![_Police_1] |
+| **Ratio**   | 0.8                                         | 0.2          |
 
 ## Punk
 
-| Name   | Ratio | Image      |
-| ------ | ----- | ---------- |
-| [Punk] | 1     | ![_Punk_1] |
-
-| Name    | Ratio | Image       |
-| ------- | ----- | ----------- |
-| [Punk]  | 0.5   | ![_Punk_1]  |
-| [Biker] | 0.5   | ![_Biker_1] |
-
-| Name        | Ratio | Image          |
-| ----------- | ----- | -------------- |
-| [Punk]      | 0.6   | ![_Punk_1]     |
-| [Punk Hulk] | 0.4   | ![_PunkHulk_1] |
-
-| Name        | Ratio | Image                 |
-| ----------- | ----- | --------------------- |
-| [Punk]      | 0.75  | ![_Punk_1] ![_Punk_2] |
-| [Punk Hulk] | 0.25  | ![_PunkHulk_1]        |
+| **Group 1** | [Punk]                           |                 |
+| :---------- | :------------------------------- | --------------- |
+|             | ![_Punk_1]                       |                 |
+| **Ratio**   | 1                                |                 |
+| **Group 2** | **[Punk]**                       | **[Biker]**     |
+|             | ![_Punk_1]                       | ![_Biker_1]     |
+| **Ratio**   | 0.5                              | 0.5             |
+| **Group 3** | **[Punk]**                       | **[Punk Hulk]** |
+|             | ![_Punk_1]                       | ![_PunkHulk_1]  |
+| **Ratio**   | 0.6                              | 0.4             |
+| **Group 4** | **[Punk]**                       | **[Punk Hulk]** |
+|             | ![_Punk_1] ![_Punk_2] ![_Punk_3] | ![_PunkHulk_1]  |
+| **Ratio**   | 0.75                             | 0.25            |
 
 ## Robot
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Cyborg] | 1     | ![_Cyborg_1] |
+| **Group 1** | [Cyborg]     |
+| :---------- | :----------- |
+|             | ![_Cyborg_1] |
+| **Ratio**   | 1            |
 
 ## Scientist
 
-| Name            | Ratio | Image              |
-| --------------- | ----- | ------------------ |
-| [Lab Assistant] | 0.5   | ![_labassistant_1] |
-| [Scientist]     | 0.5   | ![_scientist_1]    |
-
-| Name            | Ratio | Image                                           |
-| --------------- | ----- | ----------------------------------------------- |
-| [Lab Assistant] | 0.25  | ![_labassistant_1]                              |
-| [Scientist]     | 0.75  | ![_scientist_1] ![_scientist_2] ![_scientist_1] |
+| **Group 1** | [Lab Assistant]     | [Scientist]                                     |
+| :---------- | :------------------ | ----------------------------------------------- |
+|             | ![_labassistant_1]  | ![_scientist_1]                                 |
+| **Ratio**   | 0.5                 | 0.5                                             |
+| **Group 2** | **[Lab Assistant]** | **[Scientist]**                                 |
+|             | ![_labassistant_1]  | ![_scientist_1] ![_scientist_2] ![_scientist_1] |
+| **Ratio**   | 0.25                | 0.75                                            |
 
 ## Sniper
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Sniper] | 1     | ![_Sniper_1] |
+| **Group 1** | [Sniper]     |
+| :---------- | :----------- |
+|             | ![_Sniper_1] |
+| **Ratio**   | 1            |
 
 ## Soldier
 
-| Name      | Ratio | Image         |
-| --------- | ----- | ------------- |
-| [Soldier] | 1     | ![_Soldier_1] |
-
-| Name      | Ratio | Image                       |
-| --------- | ----- | --------------------------- |
-| [Soldier] | 0.7   | ![_Soldier_1] ![_Soldier_2] |
-| [Sniper]  | 0.3   | ![_Sniper_1]                |
+| **Group 1** | [Soldier]                   |              |
+| :---------- | :-------------------------- | ------------ |
+|             | ![_Soldier_1]               |              |
+| **Ratio**   | 1                           |              |
+| **Group 2** | **[Soldier]**               | **[Sniper]** |
+|             | ![_Soldier_1] ![_Soldier_2] | ![_Sniper_1] |
+| **Ratio**   | 0.7                         | 0.3          |
 
 ## Spacer
 
-| Name     | Ratio | Image        |
-| -------- | ----- | ------------ |
-| [Spacer] | 1     | ![_Spacer_1] |
-
-| Name           | Ratio | Image             |
-| -------------- | ----- | ----------------- |
-| [Spacer]       | 0.7   | ![_Spacer_1]      |
-| [Space Sniper] | 0.3   | ![_SpaceSniper_1] |
-
-| Name           | Ratio | Image                                                            |
-| -------------- | ----- | ---------------------------------------------------------------- |
-| [Spacer]       | 0.9   | ![_Spacer_1] ![_Spacer_2] ![_Spacer_3] ![_Spacer_4] ![_Spacer_5] |
-| [Space Sniper] | 0.1   | ![_SpaceSniper_1]                                                |
+| **Group 1** | [Spacer]                                                         |                    |
+| :---------- | :--------------------------------------------------------------- | ------------------ |
+|             | ![_Spacer_1]                                                     |                    |
+| **Ratio**   | 1                                                                |                    |
+| **Group 2** | **[Spacer]**                                                     | **[Space Sniper]** |
+|             | ![_Spacer_1] ![_Spacer_2]                                        | ![_SpaceSniper_1]  |
+| **Ratio**   | 0.7                                                              | 0.3                |
+| **Group 3** | **[Spacer]**                                                     | **[Space Sniper]** |
+|             | ![_Spacer_1] ![_Spacer_2] ![_Spacer_3] ![_Spacer_4] ![_Spacer_5] | ![_SpaceSniper_1]  |
+| **Ratio**   | 0.9                                                              | 0.1                |
 
 ## Space Sniper
 
-| Name           | Ratio | Image             |
-| -------------- | ----- | ----------------- |
-| [Space Sniper] | 1     | ![_SpaceSniper_1] |
+| **Group 1** | [Space Sniper]    |
+| :---------- | :---------------- |
+|             | ![_SpaceSniper_1] |
+| **Ratio**   | 1                 |
 
 ## Stripper
 
-| Name       | Ratio | Image          |
-| ---------- | ----- | -------------- |
-| [Stripper] | 0.5   | ![_Stripper_1] |
-| [Biker]    | 0.5   | ![_Biker_1]    |
-
-| Name            | Ratio | Image              |
-| --------------- | ----- | ------------------ |
-| [Stripper]      | 0.5   | ![_Stripper_1]     |
-| [Gangster Hulk] | 0.5   | ![_GangsterHulk_1] |
-
-| Name        | Ratio | Image          |
-| ----------- | ----- | -------------- |
-| [Stripper]  | 0.5   | ![_Stripper_1] |
-| [Bodyguard] | 0.5   | ![_Bodyguard]  |
-
-| Name        | Ratio | Image          |
-| ----------- | ----- | -------------- |
-| [Stripper]  | 0.5   | ![_Stripper_1] |
-| [Punk Hulk] | 0.5   | ![_PunkHulk_1] |
-
-| Name        | Ratio | Image          |
-| ----------- | ----- | -------------- |
-| [Stripper]  | 0.5   | ![_Stripper_1] |
-| [Thug Hulk] | 0.5   | ![_ThugHulk_1] |
+| **Group 1** | [Stripper]     | [Biker]             |
+| :---------- | :------------- | ------------------- |
+|             | ![_Stripper_1] | ![_Biker_1]         |
+| **Ratio**   | 0.5            | 0.5                 |
+| **Group 2** | **[Stripper]** | **[Gangster Hulk]** |
+|             | ![_Stripper_1] | ![_GangsterHulk_1]  |
+| **Ratio**   | 0.5            | 0.5                 |
+| **Group 3** | **[Stripper]** | **[Bodyguard]**     |
+|             | ![_Stripper_1] | ![_Bodyguard]       |
+| **Ratio**   | 0.5            | 0.5                 |
+| **Group 4** | **[Stripper]** | **[Punk Hulk]**     |
+|             | ![_Stripper_1] | ![_PunkHulk_1]      |
+| **Ratio**   | 0.5            | 0.5                 |
+| **Group 5** | **[Stripper]** | **[Thug Hulk]**     |
+|             | ![_Stripper_1] | ![_ThugHulk_1]      |
+| **Ratio**   | 0.5            | 0.5                 |
 
 ## Survivor
 
-| Name       | Ratio | Image          |
-| ---------- | ----- | -------------- |
-| [Survivor] | 1     | ![_Survivor_1] |
+| **Group 1** | [Survivor]     |
+| :---------- | :------------- |
+|             | ![_Survivor_1] |
+| **Ratio**   | 1              |
 
 ## Thug
 
-| Name   | Ratio | Image      |
-| ------ | ----- | ---------- |
-| [Thug] | 1     | ![_Thug_1] |
-
-| Name         | Ratio | Image       |
-| ------------ | ----- | ----------- |
-| [Thug]       | 0.5   | ![_Thug_1]  |
-| [Biker Hulk] | 0.5   | ![_Biker_1] |
-
-| Name        | Ratio | Image          |
-| ----------- | ----- | -------------- |
-| [Thug]      | 0.6   | ![_Thug_1]     |
-| [Thug Hulk] | 0.4   | ![_ThugHulk_1] |
+| **Group 1** | [Thug]     |                  |
+| :---------- | :--------- | ---------------- |
+|             | ![_Thug_1] |                  |
+| **Ratio**   | 1          |                  |
+| **Group 2** | **[Thug]** | **[Biker Hulk]** |
+|             | ![_Thug_1] | ![_Biker_1]      |
+| **Ratio**   | 0.5        | 0.5              |
+| **Group 3** | **[Thug]** | **[Thug Hulk]**  |
+|             | ![_Thug_1] | ![_ThugHulk_1]   |
+| **Ratio**   | 0.6        | 0.4              |
 
 ## Zombie
 
-| Name            | Ratio | Image        |
-| --------------- | ----- | ------------ |
-| [Common Zombie] | 1     | ![_Zombie_1] |
-
-| Name             | Ratio | Image                                                        |
-| ---------------- | ----- | ------------------------------------------------------------ |
-| [Common Zombie]  | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
-| [Zombie Bruiser] | 0.2   | ![_ZombieBruiser]                                            |
-
-| Name            | Ratio | Image                                                        |
-| --------------- | ----- | ------------------------------------------------------------ |
-| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
-| [Zombie Child]  | 0.2   | ![_ZombieChild_1]                                            |
-
-| Name            | Ratio | Image                                                        |
-| --------------- | ----- | ------------------------------------------------------------ |
-| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
-| [Zombie Fat]    | 0.2   | ![_ZombieFat]                                                |
-
-| Name            | Ratio | Image                                                        |
-| --------------- | ----- | ------------------------------------------------------------ |
-| [Common Zombie] | 0.8   | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] |
-| [Zombie Flamer] | 0.2   | ![_ZombieFlamer]                                             |
+| **Group 1** | [Common Zombie]                                              |                      |
+| :---------- | :----------------------------------------------------------- | -------------------- |
+|             | ![_Zombie_1]                                                 |                      |
+| **Ratio**   | 1                                                            |                      |
+| **Group 2** | **[Common Zombie]**                                          | **[Zombie Bruiser]** |
+|             | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] | ![_ZombieBruiser]    |
+| **Ratio**   | 0.8                                                          | 0.2                  |
+| **Group 3** | **[Common Zombie]**                                          | **[Zombie Child]**   |
+|             | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] | ![_ZombieChild_1]    |
+| **Ratio**   | 0.8                                                          | 0.2                  |
+| **Group 4** | **[Common Zombie]**                                          | **[Zombie Fat]**     |
+|             | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] | ![_ZombieFat]        |
+| **Ratio**   | 0.8                                                          | 0.2                  |
+| **Group 5** | **[Common Zombie]**                                          | **[Zombie Flamer]**  |
+|             | ![_Zombie_1] ![_Zombie_2] ![_ZombieAgent] ![_ZombieGangster] | ![_ZombieFlamer]     |
+| **Ratio**   | 0.8                                                          | 0.2                  |
 
 ## Zombie Mutated
 
-| Name             | Ratio | Image             |
-| ---------------- | ----- | ----------------- |
-| [Mutated Zombie] | 1     | ![_ZombieBruiser] |
-
-| Name             | Ratio | Image                                                              |
-| ---------------- | ----- | ------------------------------------------------------------------ |
-| [Common Zombie]  | 0.2   | ![_Zombie_1]                                                       |
-| [Mutated Zombie] | 0.8   | ![_ZombieBruiser] ![_ZombieChild_1] ![_ZombieFat] ![_ZombieFlamer] |
-
-| Name             | Ratio | Image             |
-| ---------------- | ----- | ----------------- |
-| [Common Zombie]  | 0.4   | ![_Zombie_1]      |
-| [Mutated Zombie] | 0.6   | ![_ZombieBruiser] |
-
-| Name             | Ratio | Image                     |
-| ---------------- | ----- | ------------------------- |
-| [Common Zombie]  | 0.7   | ![_Zombie_1] ![_Zombie_2] |
-| [Mutated Zombie] | 0.3   | ![_ZombieBruiser]         |
+| **Group 1** | [Mutated Zombie]          |                                                                    |
+| :---------- | :------------------------ | ------------------------------------------------------------------ |
+|             | ![_ZombieBruiser]         |                                                                    |
+| **Ratio**   | 1                         |                                                                    |
+| **Group 2** | **[Common Zombie]**       | **[Mutated Zombie]**                                               |
+|             | ![_Zombie_1]              | ![_ZombieBruiser] ![_ZombieChild_1] ![_ZombieFat] ![_ZombieFlamer] |
+| **Ratio**   | 0.2                       | 0.8                                                                |
+| **Group 3** | **[Common Zombie]**       | **[Mutated Zombie]**                                               |
+|             | ![_Zombie_1]              | ![_ZombieBruiser]                                                  |
+| **Ratio**   | 0.4                       | 0.6                                                                |
+| **Group 4** | **[Common Zombie]**       | **[Mutated Zombie]**                                               |
+|             | ![_Zombie_1] ![_Zombie_2] | ![_ZombieBruiser]                                                  |
+| **Ratio**   | 0.7                       | 0.3                                                                |
 
 ## Kingpin
 
-| Name        | Ratio | Image         |
-| ----------- | ----- | ------------- |
-| [Bodyguard] | 1     | ![_Bodyguard] |
-
-| Name            | Ratio | Image              |
-| --------------- | ----- | ------------------ |
-| [Gangster Hulk] | 0.55  | ![_GangsterHulk_1] |
-| [Bodyguard 2]   | 0.45  | ![_Bodyguard]      |
+| **Group 1** | [Bodyguard]         |                   |
+| :---------- | :------------------ | ----------------- |
+|             | ![_Bodyguard]       |                   |
+| **Ratio**   | 1                   |                   |
+| **Group 2** | **[Gangster Hulk]** | **[Bodyguard 2]** |
+|             | ![_GangsterHulk_1]  | ![_Bodyguard]     |
+| **Ratio**   | 0.55                | 0.45              |
 
 ## Santa
 
-| Name  | Ratio | Image     |
-| ----- | ----- | --------- |
-| [Elf] | 1     | ![_Elf_1] |
+| **Group 1** | [Elf]     |
+| :---------- | :-------- |
+|             | ![_Elf_1] |
+| **Ratio**   | 1         |
 
 ## Zombie Boss
 
-| Name            | Ratio | Image        |
-| --------------- | ----- | ------------ |
-| [Common Zombie] | 1     | ![_Zombie_1] |
-
-| Name             | Ratio | Image                     |
-| ---------------- | ----- | ------------------------- |
-| [Common Zombie]  | 0.7   | ![_Zombie_1] ![_Zombie_2] |
-| [Mutated Zombie] | 0.3   | ![_ZombieBruiser]         |
+| **Group 1** | [Common Zombie]           |                      |
+| :---------- | :------------------------ | -------------------- |
+|             | ![_Zombie_1]              |                      |
+| **Ratio**   | 1                         |                      |
+| **Group 2** | **[Common Zombie]**       | **[Mutated Zombie]** |
+|             | ![_Zombie_1] ![_Zombie_2] | ![_ZombieBruiser]    |
+| **Ratio**   | 0.7                       | 0.3                  |
 
 <!-- bot types -->
 
 <!-- assassin -->
 
-[assassin]: ../README.md#assassin-melee
+[assassin melee]: ../README.md#assassin-melee
+[assassin range]: ../README.md#assassin-range
 [_assassin_1]: ./Images/Assassin_1.png
 [_assassin_2]: ./Images/Assassin_2.png
 [_assassin_3]: ./Images/Assassin_3.png
@@ -549,6 +496,7 @@ Bots with bold names are bosses.
 [punk]: ../README.md#Punk
 [_punk_1]: ./Images/Punk_1.png
 [_punk_2]: ./Images/Punk_2.png
+[_punk_3]: ./Images/Punk_3.png
 [punk hulk]: ../README.md#Punk-hulk
 [_punkhulk_1]: ./Images/PunkHulk_1.png
 
