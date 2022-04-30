@@ -126,11 +126,11 @@
         // Tier3: Rocket Rider 2
         Demolitionist,
         Demoman,
-        Jo,
-        Fireman,
         Firebug,
+        Fireman,
         Fritzliebe,
         Funnyman,
+        Jo,
         Hacker,
         Handler,
         Hawkeye,

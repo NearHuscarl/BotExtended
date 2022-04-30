@@ -14,9 +14,9 @@
 
 ## Agent
 
-| **Bosses**  | [Agent 79]  |
-| :---------- | :---------- |
-|             | ![_agent79] |
+| **Bosses**  | [Agent 79]  | [Hitman]   |
+| :---------- | :---------- | ---------- |
+|             | ![_agent79] | ![_Hitman] |
 | **Group 1** | **[Agent]** |
 |             | ![_Agent_1] |
 | **Ratio**   | 1           |
@@ -30,8 +30,10 @@
 
 ## Biker
 
-| **Group 1** | [Biker]                 |                  |
-| :---------- | :---------------------- | :--------------- |
+| **Bosses**  | [Jo]                    |                  |
+| :---------- | :---------------------- | ---------------- |
+|             | ![_Jo]                  |                  |
+| **Group 1** | **[Biker]**             |                  |
 |             | ![_Biker_1]             |                  |
 | **Ratio**   | 1                       |                  |
 | **Group 2** | **[Biker]**             | **[Biker Hulk]** |
@@ -40,9 +42,9 @@
 
 ## Clown
 
-| **Bosses**  | [Balloonatic]                   |                      |                      |
+| **Bosses**  | [Balloonatic]                   | [Funnyman]           |                      |
 | :---------- | :------------------------------ | -------------------- | -------------------- |
-|             | ![_Balloonatic]                 |                      |                      |
+|             | ![_Balloonatic]                 | ![_Funnyman]         |                      |
 | **Group 1** | **[Clown Cowboy]**              | **[Clown Gangster]** | **[Clown Boxer]**    |
 |             | ![_ClownCowboy] ![_ClownCowboy] | ![_ClownGangster]    | ![_ClownBoxer]       |
 | **Ratio**   | 0.5                             | 0.25                 | 0.25                 |
@@ -78,8 +80,10 @@
 
 ## Farmer
 
-| **Group 1** | [Farmer]                               |                |              |                  |
-| :---------- | :------------------------------------- | -------------- | ------------ | ---------------- |
+| **Bosses**  | [Handler]                              |                |              |                  |     |
+| :---------- | :------------------------------------- | -------------- | ------------ | ---------------- | --- |
+|             | ![_Handler]                            |                |              |                  |     |
+| **Group 1** | **[Farmer]**                           |                |              |                  |
 |             | ![_Farmer_1]                           |                |              |                  |
 | **Ratio**   | 1                                      |                |              |                  |
 | **Group 2** | **[Farmer]**                           | **[Gardener]** | **[Hunter]** | **[Lumberjack]** |
@@ -101,8 +105,10 @@
 
 ## Hunter
 
-| **Group 1** | [Hunter]                  |              |
+| **Bosses**  | [Huntsman]                |              |
 | :---------- | :------------------------ | ------------ |
+|             | ![_Huntsman]              |              |
+| **Group 1** | **[Hunter]**              |              |
 |             | ![_Hunter_1]              |              |
 | **Ratio**   | 1                         |              |
 | **Group 2** | **[Hunter]**              | **[Farmer]** |
@@ -133,8 +139,10 @@
 
 ## Nazi
 
-| **Group 1** | [Nazi Soldier]     |                 |
+| **Bosses**  | [Demoman]          | [Fritzliebe]    |
 | :---------- | :----------------- | --------------- |
+|             | ![_Demoman]        | ![_Fritzliebe]  |
+| **Group 1** | **[Nazi Soldier]** |                 |
 |             | ![_NaziSoldier_1]  |                 |
 | **Ratio**   | 1                  |                 |
 | **Group 2** | **[Nazi Soldier]** | **[Nazi Hulk]** |
@@ -143,8 +151,10 @@
 
 ## Police
 
-| **Group 1** | [Police]                  |                   |
+| **Bosses**  | [Cindy]                   |                   |
 | :---------- | :------------------------ | ----------------- |
+|             | ![_Cindy]                 |                   |
+| **Group 1** | **[Police]**              |                   |
 |             | ![_Police_1]              |                   |
 | **Ratio**   | 1                         |                   |
 | **Group 2** | **[Police]**              | **[Police SWAT]** |
@@ -163,9 +173,9 @@
 
 ## Punk
 
-| **Bosses**  | [Balista]                        |                 |
+| **Bosses**  | [Balista]                        | [Firebug]       |
 | :---------- | :------------------------------- | --------------- |
-|             | ![_balista]                      |                 |
+|             | ![_balista]                      | ![_Firebug]     |
 | **Group 1** | [Punk]                           |                 |
 |             | ![_Punk_1]                       |                 |
 | **Ratio**   | 1                                |                 |
@@ -179,6 +189,12 @@
 |             | ![_Punk_1] ![_Punk_2] ![_Punk_3] | ![_PunkHulk_1]  |
 | **Ratio**   | 0.75                             | 0.25            |
 
+## Pyromaniac
+
+| **Bosses** | [Fireman]   |     |
+| :--------- | :---------- | --- |
+|            | ![_Fireman] |     |
+
 ## Robot
 
 | **Group 1** | [Cyborg]     |
@@ -188,8 +204,10 @@
 
 ## Scientist
 
-| **Group 1** | [Lab Assistant]     | [Scientist]                                     |
+| **Bosses**  | [Boffin]            |                                                 |
 | :---------- | :------------------ | ----------------------------------------------- |
+|             | ![_Boffin]          |                                                 |
+| **Group 1** | **[Lab Assistant]** | **[Scientist]**                                 |
 |             | ![_labassistant_1]  | ![_scientist_1]                                 |
 | **Ratio**   | 0.5                 | 0.5                                             |
 | **Group 2** | **[Lab Assistant]** | **[Scientist]**                                 |
@@ -198,22 +216,24 @@
 
 ## Sniper
 
-| **Group 1** | [Sniper]     |
+| **Bosses**  | [Hawkeye]    |
 | :---------- | :----------- |
+|             | ![_Hawkeye]  |
+| **Group 1** | **[Sniper]** |
 |             | ![_Sniper_1] |
 | **Ratio**   | 1            |
 
 ## Soldier
 
-| **Bosses**  | [Bazooka Jane]              |              |
-| :---------- | :-------------------------- | ------------ |
-|             | ![_BazookaJane]             |              |
-| **Group 1** | **[Soldier]**               |              |
-|             | ![_Soldier_1]               |              |
-| **Ratio**   | 1                           |              |
-| **Group 2** | **[Soldier]**               | **[Sniper]** |
-|             | ![_Soldier_1] ![_Soldier_2] | ![_Sniper_1] |
-| **Ratio**   | 0.7                         | 0.3          |
+| **Bosses**  | [Bazooka Jane]              | [Heavy Soldier]  |
+| :---------- | :-------------------------- | ---------------- |
+|             | ![_BazookaJane]             | ![_HeavySoldier] |
+| **Group 1** | **[Soldier]**               |                  |
+|             | ![_Soldier_1]               |                  |
+| **Ratio**   | 1                           |                  |
+| **Group 2** | **[Soldier]**               | **[Sniper]**     |
+|             | ![_Soldier_1] ![_Soldier_2] | ![_Sniper_1]     |
+| **Ratio**   | 0.7                         | 0.3              |
 
 ## Spacer
 
@@ -239,8 +259,10 @@
 
 ## Stripper
 
-| **Group 1** | [Stripper]     | [Biker]             |
+| **Bosses**  | [Chairman]     |                     |
 | :---------- | :------------- | ------------------- |
+|             | ![_Chairman]   |                     |
+| **Group 1** | **[Stripper]** | **[Biker]**         |
 |             | ![_Stripper_1] | ![_Biker_1]         |
 | **Ratio**   | 0.5            | 0.5                 |
 | **Group 2** | **[Stripper]** | **[Gangster Hulk]** |
@@ -265,9 +287,9 @@
 
 ## Thug
 
-| **Bosses**  | [Beast]    |                  |
+| **Bosses**  | [Beast]    | [Bobby]          |
 | :---------- | :--------- | ---------------- |
-|             | ![_beast]  |                  |
+|             | ![_beast]  | ![_Bobby]        |
 | **Group 1** | **[Thug]** |                  |
 |             | ![_Thug_1] |                  |
 | **Ratio**   | 1          |                  |
@@ -354,6 +376,8 @@
 [_assassin_6]: ./Images/Assassin_6.png
 [ass kicker]: ../README.md#ass-kicker
 [_asskicker]: ./Images/AssKicker.png
+[hitman]: ../README.md#Hitman
+[_hitman]: ./Images/Hitman_1.png
 
 <!-- Agent -->
 
@@ -390,6 +414,8 @@
 [_biker_10]: ./Images/Biker_10.png
 [_biker_11]: ./Images/Biker_11.png
 [_biker_12]: ./Images/Biker_12.png
+[jo]: ../README.md#Jo
+[_jo]: ./Images/Jo.png
 
 <!-- Bodyguard -->
 
@@ -406,6 +432,8 @@
 [_clownbodyguard_4]: ./Images/ClownBodyguard_4.png
 [balloonatic]: ../README.md#Balloonatic
 [_balloonatic]: ./Images/Balloonatic.png
+[funnyman]: ../README.md#Funnyman
+[_funnyman]: ./Images/Funnyman.png
 
 <!-- Clown Boxer -->
 
@@ -463,6 +491,8 @@
 [_gardener_2]: ./Images/Gardener_2.png
 [lumberjack]: ../README.md#Lumberjack
 [_lumberjack_1]: ./Images/Lumberjack_1.png
+[handler]: ../README.md#Handler
+[_handler]: ./Images/Handler.png
 
 <!-- Gangster -->
 
@@ -479,6 +509,8 @@
 [hunter]: ../README.md#Hunter
 [_hunter_1]: ./Images/Hunter_1.png
 [_hunter_2]: ./Images/Hunter_2.png
+[huntsman]: ../README.md#Huntsman
+[_huntsman]: ./Images/Huntsman.png
 
 <!-- MetroCop -->
 
@@ -500,6 +532,10 @@
 [_nazihulk]: ./Images/NaziHulk.png
 [nazi soldier]: ../README.md#nazi-soldier
 [_nazisoldier_1]: ./Images/NaziSoldier_1.png
+[demoman]: ../README.md#Demoman
+[_demoman]: ./Images/Demoman.png
+[fritzliebe]: ../README.md#Fritzliebe
+[_fritzliebe]: ./Images/Fritzliebe.png
 
 <!-- Police -->
 
@@ -509,6 +545,8 @@
 [police swat]: ../README.md#Police-SWAT
 [_swat_1]: ./Images/SWAT_1.png
 [_swat_2]: ./Images/SWAT_2.png
+[cindy]: ../README.md#Cindy
+[_cindy]: ./Images/Cindy.png
 
 <!-- Punk -->
 
@@ -520,6 +558,13 @@
 [_punkhulk_1]: ./Images/PunkHulk_1.png
 [balista]: ../README.md#Balista
 [_balista]: ./Images/Balista.png
+[firebug]: ../README.md#Firebug
+[_firebug]: ./Images/Firebug.png
+
+<!-- Pyromaniac -->
+
+[fireman]: ../README.md#Fireman
+[_fireman]: ./Images/Fireman.png
 
 <!-- Scientist -->
 
@@ -528,12 +573,16 @@
 [scientist]: ../README.md#scientist
 [_scientist_1]: ./Images/Scientist_1.png
 [_scientist_2]: ./Images/Scientist_2.png
+[boffin]: ../README.md#Boffin
+[_boffin]: ./Images/Boffin.png
 
 <!-- Sniper -->
 
 [sniper]: ../README.md#Sniper
 [_sniper_1]: ./Images/Sniper_1.png
 [_sniper_2]: ./Images/Sniper_2.png
+[hawkeye]: ../README.md#Hawkeye
+[_hawkeye]: ./Images/Hawkeye.png
 
 <!-- Soldier -->
 
@@ -542,6 +591,8 @@
 [_soldier_2]: ./Images/Soldier_2.png
 [bazooka jane]: ../README.md#bazooka-jane
 [_bazookajane]: ./Images/BazookaJane.png
+[heavy soldier]: ../README.md#HeavySoldier
+[_heavysoldier]: ./Images/HeavySoldier.png
 
 <!-- Spacer -->
 
@@ -564,6 +615,8 @@
 
 [stripper]: ../README.md#Stripper
 [_stripper_1]: ./Images/Stripper_1.png
+[chairman]: ../README.md#Chairman
+[_chairman]: ./Images/Chairman.png
 
 <!-- Survivor -->
 
@@ -580,6 +633,8 @@
 [_thughulk_1]: ./Images/ThugHulk_1.png
 [beast]: ../README.md#beast
 [_beast]: ./Images/Beast.png
+[bobby]: ../README.md#Bobby
+[_bobby]: ./Images/Bobby.png
 
 <!-- Zombie -->
 
