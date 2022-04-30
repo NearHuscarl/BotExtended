@@ -25,7 +25,7 @@ namespace BotExtended
                 #region Agent79
                 case BotType.Agent79:
                 {
-                    // https://profile-editor.vercel.app?p=M38yg367Z2H7Z0ieg0qeZ13ZZ01Zl10eZ0QeZ
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQWdlbnQgNzkiLCJnZW5kZXIiOjAsInNraW4iOnsiaWQiOiJUYXR0b29zIiwiY29sb3JzIjpbIlNraW4zIiwiQ2xvdGhpbmdMaWdodEJsdWUiLG51bGxdfSwiaGVhZCI6eyJpZCI6IkZsYXRjYXAiLCJjb2xvcnMiOlsiQ2xvdGhpbmdHcmF5IixudWxsLG51bGxdfSwiY2hlc3RPdmVyIjp7ImlkIjoiR3JlbmFkZUJlbHQiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJjaGVzdFVuZGVyIjp7ImlkIjoiVFNoaXJ0IiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0dyYXkiLG51bGwsbnVsbF19LCJoYW5kcyI6eyJpZCI6Ikdsb3Zlc0JsYWNrIiwiY29sb3JzIjpbIkNsb3RoaW5nR3JheSIsbnVsbCxudWxsXX0sIndhaXN0Ijp7ImlkIjoiQmVsdCIsImNvbG9ycyI6WyJDbG90aGluZ0dyYXkiLCJDbG90aGluZ0xpZ2h0Qmx1ZSIsbnVsbF19LCJsZWdzIjp7ImlkIjoiU3RyaXBlZFBhbnRzIiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0dyYXkiLG51bGwsbnVsbF19LCJmZWV0Ijp7ImlkIjoiQm9vdHNCbGFjayIsImNvbG9ycyI6WyJDbG90aGluZ0dyYXkiLG51bGwsbnVsbF19LCJhY2Nlc3NvcnkiOnsiaWQiOiJBZ2VudFN1bmdsYXNzZXMiLCJjb2xvcnMiOltudWxsLCJDbG90aGluZ0xpZ2h0T3JhbmdlIixudWxsXX19
                     profiles.Add(new IProfile() { Name = "Agent 79", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin3", "ClothingLightBlue"), Head = new IProfileClothingItem("Flatcap", "ClothingGray"), ChestOver = new IProfileClothingItem("GrenadeBelt", ""), ChestUnder = new IProfileClothingItem("TShirt", "ClothingDarkGray"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("Belt", "ClothingGray", "ClothingLightBlue"), Legs = new IProfileClothingItem("StripedPants", "ClothingDarkGray"), Feet = new IProfileClothingItem("BootsBlack", "ClothingGray"), Accesory = new IProfileClothingItem("AgentSunglasses", "", "ClothingLightOrange"), });
                     break;
                 }
@@ -34,7 +34,7 @@ namespace BotExtended
                 #region Amos
                 case BotType.Amos:
                 {
-                    // https://profile-editor.vercel.app?p=M38xe363Z1K6Z0i7e0p7Z3j66YYY
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQW1vcyIsImdlbmRlciI6MCwic2tpbiI6eyJpZCI6IlRhdHRvb3MiLCJjb2xvcnMiOlsiU2tpbjIiLCJDbG90aGluZ0dyYXkiLG51bGxdfSwiaGVhZCI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJjaGVzdE92ZXIiOnsiaWQiOiJWZXN0IiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0N5YW4iLCJDbG90aGluZ0RhcmtDeWFuIixudWxsXX0sImNoZXN0VW5kZXIiOnsiaWQiOiJUU2hpcnQiLCJjb2xvcnMiOlsiQ2xvdGhpbmdDeWFuIixudWxsLG51bGxdfSwiaGFuZHMiOnsiaWQiOiJOb25lIiwiY29sb3JzIjpbbnVsbCxudWxsLG51bGxdfSwid2Fpc3QiOnsiaWQiOiJCZWx0IiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0dyYXkiLCJDbG90aGluZ0dyYXkiLG51bGxdfSwibGVncyI6eyJpZCI6IlBhbnRzIiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0N5YW4iLG51bGwsbnVsbF19LCJmZWV0Ijp7ImlkIjoiQm9vdHMiLCJjb2xvcnMiOlsiQ2xvdGhpbmdEYXJrR3JheSIsbnVsbCxudWxsXX0sImFjY2Vzc29yeSI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19fQ--
                     profiles.Add(new IProfile() { Name = "Amos", Gender = Gender.Male, Skin = new IProfileClothingItem("Tattoos", "Skin2", "ClothingGray"), ChestOver = new IProfileClothingItem("Vest", "ClothingDarkCyan", "ClothingDarkCyan"), ChestUnder = new IProfileClothingItem("TShirt", "ClothingCyan"), Waist = new IProfileClothingItem("Belt", "ClothingDarkGray", "ClothingGray"), Legs = new IProfileClothingItem("Pants", "ClothingDarkCyan"), Feet = new IProfileClothingItem("Boots", "ClothingDarkGray"), });
                     break;
                 }
@@ -63,7 +63,7 @@ namespace BotExtended
                 #region AssKicker
                 case BotType.AssKicker:
                 {
-                    // https://profile-editor.vercel.app?p=F1Gxj2lpZ1NpZY2n7ZYYYY
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQXNzIEtpY2tlciIsImdlbmRlciI6MSwic2tpbiI6eyJpZCI6Ik5vcm1hbF9mZW0iLCJjb2xvcnMiOlsiU2tpbjIiLCJDbG90aGluZ0xpZ2h0R3JheSIsbnVsbF19LCJoZWFkIjp7ImlkIjoiTm9uZSIsImNvbG9ycyI6W251bGwsbnVsbCxudWxsXX0sImNoZXN0T3ZlciI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJjaGVzdFVuZGVyIjp7ImlkIjoiU2hpcnRfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nTGlnaHRZZWxsb3ciLG51bGwsbnVsbF19LCJoYW5kcyI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJ3YWlzdCI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJsZWdzIjp7ImlkIjoiUGFudHNfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nTGlnaHRZZWxsb3ciLG51bGwsbnVsbF19LCJmZWV0Ijp7ImlkIjoiU2hvZXNCbGFjayIsImNvbG9ycyI6WyJDbG90aGluZ0RhcmtHcmF5IixudWxsLG51bGxdfSwiYWNjZXNzb3J5Ijp7ImlkIjoiTm9uZSIsImNvbG9ycyI6W251bGwsbnVsbCxudWxsXX19
                     profiles.Add(new IProfile() { Name = "Ass Kicker", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin2", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("Shirt_fem", "ClothingLightYellow"), Legs = new IProfileClothingItem("Pants_fem", "ClothingLightYellow"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingDarkGray"), });
                     break;
                 }
@@ -72,7 +72,7 @@ namespace BotExtended
                 #region Balloonatic
                 case BotType.Balloonatic:
                 {
-                    // https://profile-editor.vercel.app?p=M1FAj2jcp1KqZY2D971dqk0yoZY00nZ
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQmFsbG9vbmF0aWMiLCJnZW5kZXIiOjAsInNraW4iOnsiaWQiOiJOb3JtYWwiLCJjb2xvcnMiOlsiU2tpbjUiLCJDbG90aGluZ0xpZ2h0R3JheSIsbnVsbF19LCJoZWFkIjp7ImlkIjoiQWZybyIsImNvbG9ycyI6WyJDbG90aGluZ0xpZ2h0UHVycGxlIixudWxsLG51bGxdfSwiY2hlc3RPdmVyIjp7ImlkIjoiSmFja2V0IiwiY29sb3JzIjpbIkNsb3RoaW5nT3JhbmdlIiwiQ2xvdGhpbmdMaWdodEdyZWVuIixudWxsXX0sImNoZXN0VW5kZXIiOnsiaWQiOiJTaGlydFdpdGhUaWUiLCJjb2xvcnMiOlsiQ2xvdGhpbmdEYXJrUmVkIiwiQ2xvdGhpbmdMaWdodFllbGxvdyIsbnVsbF19LCJoYW5kcyI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJ3YWlzdCI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJsZWdzIjp7ImlkIjoiUGFudHMiLCJjb2xvcnMiOlsiQ2xvdGhpbmdPcmFuZ2UiLG51bGwsbnVsbF19LCJmZWV0Ijp7ImlkIjoiU25lYWtlcnMiLCJjb2xvcnMiOlsiQ2xvdGhpbmdEYXJrT3JhbmdlIiwiQ2xvdGhpbmdEYXJrR3JheSIsbnVsbF19LCJhY2Nlc3NvcnkiOnsiaWQiOiJDbG93bk1ha2V1cCIsImNvbG9ycyI6WyJDbG90aGluZ0xpZ2h0UmVkIixudWxsLG51bGxdfX0-
                     profiles.Add(new IProfile() { Name = "Balloonatic", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin5", "ClothingLightGray"), Head = new IProfileClothingItem("Afro", "ClothingLightPurple"), ChestOver = new IProfileClothingItem("Jacket", "ClothingOrange", "ClothingLightGreen"), ChestUnder = new IProfileClothingItem("ShirtWithTie", "ClothingDarkRed", "ClothingLightYellow"), Legs = new IProfileClothingItem("Pants", "ClothingOrange"), Feet = new IProfileClothingItem("Sneakers", "ClothingDarkOrange", "ClothingDarkGray"), Accesory = new IProfileClothingItem("ClownMakeup", "ClothingLightRed"), });
                     break;
                 }
@@ -102,7 +102,7 @@ namespace BotExtended
                 #region BazookaJane
                 case BotType.BazookaJane:
                 {
-                    // https://profile-editor.vercel.app?p=F1Gyj37tZ1MdZ2ddZ2neZ31ejY10eZ1adZ
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQmF6b29rYSBKYW5lIiwiZ2VuZGVyIjoxLCJza2luIjp7ImlkIjoiTm9ybWFsX2ZlbSIsImNvbG9ycyI6WyJTa2luMyIsIkNsb3RoaW5nTGlnaHRHcmF5IixudWxsXX0sImhlYWQiOnsiaWQiOiJIZWxtZXQyIiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya1llbGxvdyIsbnVsbCxudWxsXX0sImNoZXN0T3ZlciI6eyJpZCI6IlN1c3BlbmRlcnNfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nR3JheSIsIkNsb3RoaW5nTGlnaHRHcmF5IixudWxsXX0sImNoZXN0VW5kZXIiOnsiaWQiOiJUU2hpcnRfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nUmVkIixudWxsLG51bGxdfSwiaGFuZHMiOnsiaWQiOiJHbG92ZXNCbGFjayIsImNvbG9ycyI6WyJDbG90aGluZ0dyYXkiLG51bGwsbnVsbF19LCJ3YWlzdCI6eyJpZCI6IlNhdGNoZWxCZWx0X2ZlbSIsImNvbG9ycyI6WyJDbG90aGluZ0RhcmtZZWxsb3ciLG51bGwsbnVsbF19LCJsZWdzIjp7ImlkIjoiUGFudHNCbGFja19mZW0iLCJjb2xvcnMiOlsiQ2xvdGhpbmdEYXJrWWVsbG93IixudWxsLG51bGxdfSwiZmVldCI6eyJpZCI6IlNob2VzQmxhY2siLCJjb2xvcnMiOlsiQ2xvdGhpbmdHcmF5IixudWxsLG51bGxdfSwiYWNjZXNzb3J5Ijp7ImlkIjoiTm9uZSIsImNvbG9ycyI6W251bGwsbnVsbCxudWxsXX19
                     profiles.Add(new IProfile() { Name = "Bazooka Jane", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin3", "ClothingLightGray"), Head = new IProfileClothingItem("Helmet2", "ClothingDarkYellow"), ChestOver = new IProfileClothingItem("Suspenders_fem", "ClothingGray", "ClothingLightGray"), ChestUnder = new IProfileClothingItem("TShirt_fem", "ClothingRed"), Hands = new IProfileClothingItem("GlovesBlack", "ClothingGray"), Waist = new IProfileClothingItem("SatchelBelt_fem", "ClothingDarkYellow"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkYellow"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), });
                     break;
                 }
@@ -111,7 +111,7 @@ namespace BotExtended
                 #region Balista
                 case BotType.Balista:
                 {
-                    // https://profile-editor.vercel.app?p=F1Gwj2zpZ1M6Z2B2j0q1Z1ydo2XZj0O7Z004Z
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQmFsaXN0YSIsImdlbmRlciI6MSwic2tpbiI6eyJpZCI6Ik5vcm1hbF9mZW0iLCJjb2xvcnMiOlsiU2tpbjEiLCJDbG90aGluZ0xpZ2h0R3JheSIsbnVsbF19LCJoZWFkIjp7ImlkIjoiQWZybyIsImNvbG9ycyI6WyJDbG90aGluZ0RhcmtCbHVlIixudWxsLG51bGxdfSwiY2hlc3RPdmVyIjp7ImlkIjoiTWlsaXRhcnlKYWNrZXRfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya1llbGxvdyIsIkNsb3RoaW5nTGlnaHRSZWQiLG51bGxdfSwiY2hlc3RVbmRlciI6eyJpZCI6IlNsZWV2ZWxlc3NTaGlydF9mZW0iLCJjb2xvcnMiOlsiQ2xvdGhpbmdMaWdodFllbGxvdyIsbnVsbCxudWxsXX0sImhhbmRzIjp7ImlkIjoiRmluZ2VybGVzc0dsb3ZlcyIsImNvbG9ycyI6WyJDbG90aGluZ0RhcmtHcmF5IixudWxsLG51bGxdfSwid2Fpc3QiOnsiaWQiOiJTbWFsbEJlbHRfZmVtIiwiY29sb3JzIjpbIkNsb3RoaW5nQnJvd24iLCJDbG90aGluZ0xpZ2h0R3JheSIsbnVsbF19LCJsZWdzIjp7ImlkIjoiUGFudHNCbGFja19mZW0iLCJjb2xvcnMiOlsiQ2xvdGhpbmdEYXJrQ3lhbiIsbnVsbCxudWxsXX0sImZlZXQiOnsiaWQiOiJCb290c0JsYWNrIiwiY29sb3JzIjpbIkNsb3RoaW5nQmx1ZSIsbnVsbCxudWxsXX0sImFjY2Vzc29yeSI6eyJpZCI6IlN1bkdsYXNzZXMiLCJjb2xvcnMiOltudWxsLCJDbG90aGluZ0xpZ2h0R3JheSIsbnVsbF19fQ--
                     profiles.Add(new IProfile() { Name = "Balista", Gender = Gender.Female, Skin = new IProfileClothingItem("Normal_fem", "Skin1", "ClothingLightGray"), Head = new IProfileClothingItem("Afro", "ClothingDarkBlue"), ChestOver = new IProfileClothingItem("MilitaryJacket_fem", "ClothingDarkYellow", "ClothingLightRed"), ChestUnder = new IProfileClothingItem("SleevelessShirt_fem", "ClothingLightYellow"), Hands = new IProfileClothingItem("FingerlessGloves", "ClothingDarkGray"), Waist = new IProfileClothingItem("SmallBelt_fem", "ClothingBrown", "ClothingLightGray"), Legs = new IProfileClothingItem("PantsBlack_fem", "ClothingDarkCyan"), Feet = new IProfileClothingItem("BootsBlack", "ClothingBlue"), Accesory = new IProfileClothingItem("SunGlasses", "", "ClothingLightGray"), });
                     break;
                 }
@@ -120,7 +120,7 @@ namespace BotExtended
                 #region Beast
                 case BotType.Beast:
                 {
-                    // https://profile-editor.vercel.app?p=M1FwjY1K1Z2A6j0qsZ3j4411ZZ0PsZY
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiVGhlIEJlYXN0IiwiZ2VuZGVyIjowLCJza2luIjp7ImlkIjoiTm9ybWFsIiwiY29sb3JzIjpbIlNraW4xIiwiQ2xvdGhpbmdMaWdodEdyYXkiLG51bGxdfSwiaGVhZCI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJjaGVzdE92ZXIiOnsiaWQiOiJWZXN0IiwiY29sb3JzIjpbIkNsb3RoaW5nRGFya0JsdWUiLCJDbG90aGluZ0RhcmtCbHVlIixudWxsXX0sImNoZXN0VW5kZXIiOnsiaWQiOiJOb25lIiwiY29sb3JzIjpbbnVsbCxudWxsLG51bGxdfSwiaGFuZHMiOnsiaWQiOiJGaW5nZXJsZXNzR2xvdmVzQmxhY2siLCJjb2xvcnMiOlsiQ2xvdGhpbmdQdXJwbGUiLG51bGwsbnVsbF19LCJ3YWlzdCI6eyJpZCI6IlNtYWxsQmVsdCIsImNvbG9ycyI6WyJDbG90aGluZ0RhcmtDeWFuIiwiQ2xvdGhpbmdMaWdodEdyYXkiLG51bGxdfSwibGVncyI6eyJpZCI6IlBhbnRzIiwiY29sb3JzIjpbIkNsb3RoaW5nQmx1ZSIsbnVsbCxudWxsXX0sImZlZXQiOnsiaWQiOiJCb290c0JsYWNrIiwiY29sb3JzIjpbIkNsb3RoaW5nUHVycGxlIixudWxsLG51bGxdfSwiYWNjZXNzb3J5Ijp7ImlkIjoiR29hbGllTWFzayIsImNvbG9ycyI6W251bGwsbnVsbCxudWxsXX19
                     profiles.Add(new IProfile() { Name = "The Beast", Gender = Gender.Male, Skin = new IProfileClothingItem("Normal", "Skin1", "ClothingLightGray"), ChestOver = new IProfileClothingItem("Vest", "ClothingDarkBlue", "ClothingDarkBlue"), Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingPurple"), Waist = new IProfileClothingItem("SmallBelt", "ClothingDarkCyan", "ClothingLightGray"), Legs = new IProfileClothingItem("Pants", "ClothingBlue"), Feet = new IProfileClothingItem("BootsBlack", "ClothingPurple"), Accesory = new IProfileClothingItem("GoalieMask", ""), });
                     break;
                 }
@@ -129,7 +129,7 @@ namespace BotExtended
                 #region Berserker
                 case BotType.Berserker:
                 {
-                    // https://profile-editor.vercel.app?p=M3owiY1KeZY2neZY1WeZ0PoZ0geo
+                    // https://profile-editor.vercel.app?tab=profile&p=eyJuYW1lIjoiQmVyc2Vya2VyIiwiZ2VuZGVyIjowLCJza2luIjp7ImlkIjoiV2FycGFpbnQiLCJjb2xvcnMiOlsiU2tpbjEiLCJDbG90aGluZ0xpZ2h0Q3lhbiIsbnVsbF19LCJoZWFkIjp7ImlkIjoiQmFzZWJhbGxDYXAiLCJjb2xvcnMiOlsiQ2xvdGhpbmdHcmF5IiwiQ2xvdGhpbmdMaWdodFJlZCIsbnVsbF19LCJjaGVzdE92ZXIiOnsiaWQiOiJOb25lIiwiY29sb3JzIjpbbnVsbCxudWxsLG51bGxdfSwiY2hlc3RVbmRlciI6eyJpZCI6Ik5vbmUiLCJjb2xvcnMiOltudWxsLG51bGwsbnVsbF19LCJoYW5kcyI6eyJpZCI6IkZpbmdlcmxlc3NHbG92ZXNCbGFjayIsImNvbG9ycyI6WyJDbG90aGluZ0xpZ2h0UmVkIixudWxsLG51bGxdfSwid2Fpc3QiOnsiaWQiOiJOb25lIiwiY29sb3JzIjpbbnVsbCxudWxsLG51bGxdfSwibGVncyI6eyJpZCI6IlBhbnRzIiwiY29sb3JzIjpbIkNsb3RoaW5nR3JheSIsbnVsbCxudWxsXX0sImZlZXQiOnsiaWQiOiJTaG9lc0JsYWNrIiwiY29sb3JzIjpbIkNsb3RoaW5nR3JheSIsbnVsbCxudWxsXX0sImFjY2Vzc29yeSI6eyJpZCI6IlJlc3RyYWludE1hc2siLCJjb2xvcnMiOlsiQ2xvdGhpbmdHcmF5IixudWxsLG51bGxdfX0-
                     profiles.Add(new IProfile() { Name = "Berserker", Gender = Gender.Male, Skin = new IProfileClothingItem("Warpaint", "Skin1", "ClothingLightCyan"), Head = new IProfileClothingItem("BaseballCap", "ClothingGray", "ClothingLightRed"), Hands = new IProfileClothingItem("FingerlessGlovesBlack", "ClothingLightRed"), Legs = new IProfileClothingItem("Pants", "ClothingGray"), Feet = new IProfileClothingItem("ShoesBlack", "ClothingGray"), Accesory = new IProfileClothingItem("RestraintMask", "ClothingGray"), });
                     break;
                 }

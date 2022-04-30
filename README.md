@@ -94,7 +94,7 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 | **Health**       | Below Normal                            |
 | :--------------- | :-------------------------------------- |
 | **AI**           | Hard                                    |
-| **Search items** | Secondary                               |
+| **Search Items** | Secondary                               |
 | **Factions**     | [Agent][fagent], [MetroCop][fmetrocop]. |
 
 **Weapons**
@@ -705,7 +705,7 @@ Same as [Bodyguard] except for the following stats:
 | **Speed**         | Slow                                  |
 | **AI**            | Hunter                                |
 | **Infinite Ammo** | True                                  |
-| **Search items**  | Health                                |
+| **Search Items**  | Health                                |
 | **Factions**      | [Hunter][fhunter], [Farmer][ffarmer]. |
 | **Abilities**     | Prioritize hunting bears over humans. |
 
@@ -1110,7 +1110,7 @@ Same as [Bodyguard] except for the following stats:
 | :--------------- | :-------------------------------------- |
 | **Speed**        | Slow                                    |
 | **AI**           | Sniper                                  |
-| **Search items** | Primary                                 |
+| **Search Items** | Primary                                 |
 | **Factions**     | [Soldier][fsoldier], [Sniper][fsniper]. |
 
 **Weapons**
@@ -1152,7 +1152,7 @@ Same as [Bodyguard] except for the following stats:
 | **Health**       | Below Normal        |
 | :--------------- | :------------------ |
 | **AI**           | Soldier             |
-| **Search items** | Primary             |
+| **Search Items** | Primary             |
 | **Factions**     | [Soldier][fsoldier] |
 
 **Weapons**
@@ -1234,7 +1234,7 @@ Same as [Bodyguard] except for the following stats:
 | :--------------- | :----------------------------------------------- |
 | **Speed**        | Slow                                             |
 | **AI**           | Sniper                                           |
-| **Search items** | Primary                                          |
+| **Search Items** | Primary                                          |
 | **Factions**     | [Space Sniper][fspacesniper], [Spacer][fspacer]. |
 
 **Weapons**
@@ -1279,7 +1279,7 @@ Same as [Bodyguard] except for the following stats:
 | **Speed**         | Above Normal                                              |
 | **AI**            | Hard                                                      |
 | **Infinite Ammo** | True                                                      |
-| **Search items**  | Makeshift, Health                                         |
+| **Search Items**  | Makeshift, Health                                         |
 | **Factions**      | [Stripper][fstripper]                                     |
 | **Abilities**     | Recruits one of the hulk bots to follow and protect them. |
 
@@ -1335,7 +1335,7 @@ Same as [Bodyguard] except for the following stats:
 | **Health**       | Below Normal                                                                                                                        |
 | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | **AI**           | Grunt                                                                                                                               |
-| **Search items** | Primary, Secondary, Melee                                                                                                           |
+| **Search Items** | Primary, Secondary, Melee                                                                                                           |
 | **Weapons**      | ![Bat] ![LeadPipe] ![Hammer] ![Chain] ![MachinePistol]                                                                              |
 | **Factions**     | [Thug][fthug]                                                                                                                       |
 | **Abilities**    | <li>x3 damage to objects.</li><li>Targets and loots objects if not in danger.</li><li>Discovers new weapons in looted objects.</li> |
@@ -1715,9 +1715,255 @@ A common zombie which is the same as [Zombie] except for the following stats:
 | **Weapons** | ![Pipe] ![Hammer] ![Axe] ![Chainsaw] |
 | :---------- | :----------------------------------- |
 
+## Bosses
+
+They are bots that are a bit harder to beat.
+
+### Agent 79
+
+<div>
+  <img src='./docs/Images/Agent79.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong             |
+| :---------------- | :----------------- |
+| **AI**            | Expert             |
+| **Infinite Ammo** | True               |
+| **Search Items**  | Secondary, Health. |
+| **Factions**      | [Agent][fagent]    |
+
+**Weapons**
+
+| Gears                                           | Powerup  |
+| :---------------------------------------------- | :------- |
+| ![Knife] ![Bazooka] ![Pistol] ![C4] ![Slowmo10] | [Object] |
+
+### Amos
+
+<div>
+  <img src='./docs/Images/Amos.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Very Strong       |
+| :--------------- | :---------------- |
+| **Speed**        | Below Normal      |
+| **AI**           | Hard              |
+| **Search Items** | Primary           |
+| **Factions**     | [Spacer][fspacer] |
+
+**Weapons**
+
+| Gears                    | Powerup |
+| :----------------------- | :------ |
+| ![DarkShotgun] ![Pistol] | [Gauss] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value            |
+| :---------------------- | :--------------- |
+| **Melee Damage Dealt**  | High             |
+| **Impact Damage Taken** | Fairly Resistant |
+| **Melee Force**         | Above Normal     |
+| **Size**                | Big              |
+
+</details>
+
 ### Ass Kicker
 
 <img src='./docs/Images/AssKicker.png' />
+
+**Stats**
+
+| **Health**        | Strong                          |
+| :---------------- | :------------------------------ |
+| **Speed**         | Extremely Fast                  |
+| **AI**            | AssKicker                       |
+| **Infinite Ammo** | True                            |
+| **Search Items**  | Melee                           |
+| **Weapons**       | ![Baton]                        |
+| **Factions**      | [Assassin][fassassin]           |
+| **Abilities**     | Kicks the enemy into the space. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | Above Normal |
+| **Energy Recharge**    | Quick        |
+| **Melee Force**        | One Punch    |
+| **Size**               | Big          |
+
+</details>
+
+### Balista
+
+<img src='./docs/Images/Balista.png' />
+
+**Stats**
+
+| **Health**        | Very Strong                                                                                     |
+| :---------------- | :---------------------------------------------------------------------------------------------- |
+| **Speed**         | Fast                                                                                            |
+| **AI**            | Hard                                                                                            |
+| **Infinite Ammo** | True                                                                                            |
+| **Search Items**  | All                                                                                             |
+| **Factions**      | [Punk][fpunk]                                                                                   |
+| **Abilities**     | Can equip 2 primary weapons: **Assault Rifle** and **Grenade Launcher** with [Spinner] powerup. |
+
+**Weapons**
+
+| Gears                                   | Powerup   |
+| :-------------------------------------- | :-------- |
+| ![Chain] ![Assault] ![Uzi] ![GLauncher] | [Spinner] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | Fairly Low   |
+| **Melee Force**        | Above Normal |
+| **Size**               | Above Normal |
+
+</details>
+
+### Balloonatic
+
+<img src='./docs/Images/Balloonatic.png' />
+
+**Stats**
+
+| **Health**        | Very Strong                 |
+| :---------------- | :-------------------------- |
+| **AI**            | Hard                        |
+| **Infinite Ammo** | True                        |
+| **Search Items**  | Primary, Health.            |
+| **Factions**      | [Clown][fclown]             |
+| **Abilities**     | Has balloons for no reason. |
+
+**Weapons**
+
+| Gears                  | Powerup  |
+| :--------------------- | :------- |
+| ![Knife] ![SMG] ![Uzi] | [Helium] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value          |
+| :---------------------- | :------------- |
+| **Impact Damage Taken** | Very Resistant |
+| **Size**                | Very Big       |
+
+</details>
+
+### Bazooka Jane
+
+<img src='./docs/Images/BazookaJane.png' />
+
+**Stats**
+
+| **Health**       | Strong                                             |
+| :--------------- | :------------------------------------------------- |
+| **Speed**        | Slow                                               |
+| **AI**           | Hard                                               |
+| **Search Items** | Health, Streetsweeper, Melee, Powerups, Secondary. |
+| **Factions**     | [Soldier][fsoldier]                                |
+
+**Weapons**
+
+| Gears                                     | Powerup           |
+| :---------------------------------------- | :---------------- |
+| ![Knife] ![Bazooka] ![Pistol] ![Slowmo10] | [Suicide Fighter] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats    | Value        |
+| :------- | :----------- |
+| **Size** | Above Normal |
+
+</details>
+
+### Beast
+
+<img src='./docs/Images/Beast.png' />
+
+**Stats**
+
+| **Health**        | Extremely Strong                 |
+| :---------------- | :------------------------------- |
+| **AI**            | Hard                             |
+| **Infinite Ammo** | True                             |
+| **Search Items**  | Health, Streetsweeper, Powerups. |
+| **Factions**      | [Thug][fthug]                    |
+
+**Weapons**
+
+| Gears                        | Powerup      |
+| :--------------------------- | :----------- |
+| ![Machete] ![C4] ![Slowmo10] | [Earthquake] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value         |
+| :--------------------- | :------------ |
+| **Energy Consumption** | 0             |
+| **Size**               | Extremely Big |
+
+</details>
+
+### Berserker
+
+<img src='./docs/Images/Berserker.png' />
+
+**Stats**
+
+| **Health**       | Above Normal                                                                                                                                                                      |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**        | Hacker                                                                                                                                                                            |
+| **AI**           | God                                                                                                                                                                               |
+| **Search Items** | Melee                                                                                                                                                                             |
+| **Faction**      | [Mutant][fmutant]                                                                                                                                                                 |
+| **Abilities**    | <li>Has extremely high melee damage that can one-hit kill almost all life forms.</li><li>Health is reduced gradually over time.</li><li>Gains 5 HP after executing an enemy.</li> |
+
+**Weapons**
+
+| Gears  | Powerup |
+| :----- | :------ |
+| ![Axe] | [Gib]   |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | Ultra High   |
+| **Melee Force**        | Ultra Strong |
+| **Size**               | Big          |
+
+</details>
 
 ### Spy
 
@@ -2321,18 +2567,23 @@ Clear all player settings.
 <!-- Melee Powerups -->
 
 [breaking]: ./docs/POWERUPS_MELEE.md#breaking
+[earthquake]: ./docs/POWERUPS_MELEE.md#earthquake
 [gib]: ./docs/POWERUPS_MELEE.md#gib
 
 <!-- Ranged Powerups -->
 
 [blast]: ./docs/POWERUPS_RANGED.md#blast
 [bow]: ./docs/POWERUPS_RANGED.md#bow
+[helium]: ./docs/POWERUPS_RANGED.md#helium
 [homing]: ./docs/POWERUPS_RANGED.md#homing
 [gauss]: ./docs/POWERUPS_RANGED.md#gauss-gun
 [knockback]: ./docs/POWERUPS_RANGED.md#knockback
+[object]: ./docs/POWERUPS_RANGED.md#object-gun
 [penetration]: ./docs/POWERUPS_RANGED.md#penetration
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
+[spinner]: ./docs/POWERUPS_RANGED.md#spinner
+[suicide fighter]: ./docs/POWERUPS_RANGED.md#suicide-fighter
 [taser]: ./docs/POWERUPS_RANGED.md#taser-gun
 [tearing]: ./docs/POWERUPS_RANGED.md#tearing
 [termite]: ./docs/POWERUPS_RANGED.md#termite
@@ -2355,6 +2606,7 @@ Clear all player settings.
 [flamethrower]: ./docs/Images/Weapons/Flamethrower.png
 [flaregun]: ./docs/Images/Weapons/FlareGun.png
 [fist]: ./docs/Images/Weapons/Fist.png
+[glauncher]: ./docs/Images/Weapons/GLauncher.png
 [grenade]: ./docs/Images/Weapons/Grenade.png
 [hammer]: ./docs/Images/Weapons/Hammer.png
 [katana]: ./docs/Images/Weapons/Katana.png
@@ -2376,6 +2628,7 @@ Clear all player settings.
 [shotgun]: ./docs/Images/Weapons/Shotgun.png
 [silencedpistol]: ./docs/Images/Weapons/SilencedPistol.png
 [silenceduzi]: ./docs/Images/Weapons/SilencedUzi.png
+[slowmo10]: ./docs/Images/Weapons/SloMo10.png
 [smg]: ./docs/Images/Weapons/SMG.png
 [sniper]: ./docs/Images/Weapons/Sniper.png
 [strengthboost]: ./docs/Images/Weapons/StrengthBoost.png

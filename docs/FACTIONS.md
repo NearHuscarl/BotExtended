@@ -2,8 +2,10 @@
 
 ## Assassin
 
-| **Group 1** | [Assassin Melee]     |
+| **Bosses**  | [Ass Kicker]         |
 | :---------- | :------------------- |
+|             | ![_asskicker]        |
+| **Group 1** | **[Assassin Melee]** |
 |             | ![_Assassin_1]       |
 | **Ratio**   | 1                    |
 | **Group 1** | **[Assassin Range]** |
@@ -12,8 +14,10 @@
 
 ## Agent
 
-| **Group 1** | [Agent]     |
+| **Bosses**  | [Agent 79]  |
 | :---------- | :---------- |
+|             | ![_agent79] |
+| **Group 1** | **[Agent]** |
 |             | ![_Agent_1] |
 | **Ratio**   | 1           |
 
@@ -36,8 +40,10 @@
 
 ## Clown
 
-| **Group 1** | [Clown Cowboy]                  | [Clown Gangster]     | [Clown Boxer]        |
-| :---------- | :------------------------------ | :------------------- | -------------------- |
+| **Bosses**  | [Balloonatic]                   |                      |                      |
+| :---------- | :------------------------------ | -------------------- | -------------------- |
+|             | ![_Balloonatic]                 |                      |                      |
+| **Group 1** | **[Clown Cowboy]**              | **[Clown Gangster]** | **[Clown Boxer]**    |
 |             | ![_ClownCowboy] ![_ClownCowboy] | ![_ClownGangster]    | ![_ClownBoxer]       |
 | **Ratio**   | 0.5                             | 0.25                 | 0.25                 |
 | **Group 2** | **[Clown Cowboy]**              | **[Clown Gangster]** |
@@ -118,10 +124,12 @@
 
 ## Mutant
 
-| **Group 1** | [Mutant]     |
-| :---------- | :----------- |
-|             | ![_Mutant_1] |
-| **Ratio**   | 1            |
+| **Bosses**  | [Berserker]   |
+| :---------- | :------------ |
+|             | ![_Berserker] |
+| **Group 1** | **[Mutant]**  |
+|             | ![_Mutant_1]  |
+| **Ratio**   | 1             |
 
 ## Nazi
 
@@ -155,8 +163,10 @@
 
 ## Punk
 
-| **Group 1** | [Punk]                           |                 |
+| **Bosses**  | [Balista]                        |                 |
 | :---------- | :------------------------------- | --------------- |
+|             | ![_balista]                      |                 |
+| **Group 1** | [Punk]                           |                 |
 |             | ![_Punk_1]                       |                 |
 | **Ratio**   | 1                                |                 |
 | **Group 2** | **[Punk]**                       | **[Biker]**     |
@@ -195,8 +205,10 @@
 
 ## Soldier
 
-| **Group 1** | [Soldier]                   |              |
+| **Bosses**  | [Bazooka Jane]              |              |
 | :---------- | :-------------------------- | ------------ |
+|             | ![_BazookaJane]             |              |
+| **Group 1** | **[Soldier]**               |              |
 |             | ![_Soldier_1]               |              |
 | **Ratio**   | 1                           |              |
 | **Group 2** | **[Soldier]**               | **[Sniper]** |
@@ -205,8 +217,10 @@
 
 ## Spacer
 
-| **Group 1** | [Spacer]                                                         |                    |
+| **Bosses**  | [Amos]                                                           |                    |
 | :---------- | :--------------------------------------------------------------- | ------------------ |
+|             | ![_amos]                                                         |                    |
+| **Group 1** | **[Spacer]**                                                     |                    |
 |             | ![_Spacer_1]                                                     |                    |
 | **Ratio**   | 1                                                                |                    |
 | **Group 2** | **[Spacer]**                                                     | **[Space Sniper]** |
@@ -251,8 +265,10 @@
 
 ## Thug
 
-| **Group 1** | [Thug]     |                  |
+| **Bosses**  | [Beast]    |                  |
 | :---------- | :--------- | ---------------- |
+|             | ![_beast]  |                  |
+| **Group 1** | **[Thug]** |                  |
 |             | ![_Thug_1] |                  |
 | **Ratio**   | 1          |                  |
 | **Group 2** | **[Thug]** | **[Biker Hulk]** |
@@ -336,17 +352,16 @@
 [_assassin_4]: ./Images/Assassin_4.png
 [_assassin_5]: ./Images/Assassin_5.png
 [_assassin_6]: ./Images/Assassin_6.png
+[ass kicker]: ../README.md#ass-kicker
+[_asskicker]: ./Images/AssKicker.png
 
 <!-- Agent -->
 
 [agent]: ../README.md#agent
 [_agent_1]: ./Images/Agent_1.png
 [_agent_2]: ./Images/Agent_2.png
-
-<!-- AssKicker -->
-
-[ass kicker]: ../README.md#ass-kicker
-[_asskicker]: ./Images/AssKicker.png
+[agent 79]: ../README.md#agent-79
+[_agent79]: ./Images/Agent79.png
 
 <!-- bandido -->
 
@@ -389,6 +404,8 @@
 [_clownbodyguard_2]: ./Images/ClownBodyguard_2.png
 [_clownbodyguard_3]: ./Images/ClownBodyguard_3.png
 [_clownbodyguard_4]: ./Images/ClownBodyguard_4.png
+[balloonatic]: ../README.md#Balloonatic
+[_balloonatic]: ./Images/Balloonatic.png
 
 <!-- Clown Boxer -->
 
@@ -474,6 +491,8 @@
 [mutant]: ../README.md#Mutant
 [_mutant_1]: ./Images/Mutant_1.png
 [_mutant_2]: ./Images/Mutant_2.png
+[berserker]: ../README.md#berserker
+[_berserker]: ./Images/Berserker.png
 
 <!-- Nazi -->
 
@@ -499,6 +518,8 @@
 [_punk_3]: ./Images/Punk_3.png
 [punk hulk]: ../README.md#Punk-hulk
 [_punkhulk_1]: ./Images/PunkHulk_1.png
+[balista]: ../README.md#Balista
+[_balista]: ./Images/Balista.png
 
 <!-- Scientist -->
 
@@ -519,6 +540,8 @@
 [soldier]: ../README.md#Soldier
 [_soldier_1]: ./Images/Soldier_1.png
 [_soldier_2]: ./Images/Soldier_2.png
+[bazooka jane]: ../README.md#bazooka-jane
+[_bazookajane]: ./Images/BazookaJane.png
 
 <!-- Spacer -->
 
@@ -528,6 +551,8 @@
 [_spacer_3]: ./Images/Spacer_3.png
 [_spacer_4]: ./Images/Spacer_4.png
 [_spacer_5]: ./Images/Spacer_5.png
+[amos]: ../README.md#amos
+[_amos]: ./Images/Amos.png
 
 <!-- Space Sniper -->
 
@@ -553,6 +578,8 @@
 [_thug_2]: ./Images/Thug_2.png
 [thug hulk]: ../README.md#thug-hulk
 [_thughulk_1]: ./Images/ThugHulk_1.png
+[beast]: ../README.md#beast
+[_beast]: ./Images/Beast.png
 
 <!-- Zombie -->
 
