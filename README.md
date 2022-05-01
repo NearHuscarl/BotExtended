@@ -2792,9 +2792,9 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 ### MetroCop Chief
 
 <div>
-  <img src='./docs/Images/MetrocopChief_1.png' />
-  <img src='./docs/Images/MetrocopChief_2.png' />
-  <img src='./docs/Images/MetrocopChief_3.png' />
+  <img src='./docs/Images/MetroCopChief_1.png' />
+  <img src='./docs/Images/MetroCopChief_2.png' />
+  <img src='./docs/Images/MetroCopChief_3.png' />
 </div>
 
 **Stats**
