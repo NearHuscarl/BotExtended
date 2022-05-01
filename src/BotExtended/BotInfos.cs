@@ -1257,6 +1257,7 @@ namespace BotExtended
                 {
                     botInfo.AIType = BotAI.Hard;
                     botInfo.SearchItems = SearchItems.Secondary | SearchItems.Health | SearchItems.Streetsweeper | SearchItems.Powerups;
+                    botInfo.ImmuneToInfect = true; // robot cannot be infected
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.VeryStrong,
@@ -1269,7 +1270,6 @@ namespace BotExtended
                         ProjectileCritChanceTakenModifier = DamageTaken.Unbeatable,
                         SizeModifier = Size.ExtremelyBig,
                     };
-                    botInfo.ImmuneToInfect = true; // robot cannot be infected
                     botInfo.IsBoss = true;
                     break;
                 }
@@ -1363,7 +1363,6 @@ namespace BotExtended
                         RunSpeedModifier = Speed.Slow,
                         SprintSpeedModifier = Speed.Slow,
                         MeleeForceModifier = MeleeForce.AboveNormal,
-                        CanBurn = Constants.TOGGLE_ON,
                         InfiniteAmmo = Constants.TOGGLE_ON,
                         SizeModifier = Size.Big,
                     };
@@ -1397,6 +1396,7 @@ namespace BotExtended
                 case BotType.Sheriff:
                 {
                     botInfo.AIType = BotAI.Sheriff;
+                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Powerups | SearchItems.Health;
                     botInfo.Modifiers = new PlayerModifiers(true)
                     {
                         MaxHealth = Health.Strong,
@@ -1409,7 +1409,6 @@ namespace BotExtended
                         InfiniteAmmo = Constants.TOGGLE_ON,
                     };
                     botInfo.IsBoss = true;
-                    botInfo.SearchItems = SearchItems.Secondary | SearchItems.Powerups | SearchItems.Health;
                     botInfo.SpawnLine = "I wanted to break your jaw";
                     botInfo.SpawnLineChance = .1f;
                     break;

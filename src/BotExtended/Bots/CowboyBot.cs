@@ -15,9 +15,9 @@ namespace BotExtended.Bots
         {
             if (Info.IsBoss)
             {
-                DisarmChance = Game.IsEditorTest ? 1 : .35f;
-                CritDisarmChance = Game.IsEditorTest ? 1 : .65f;
-                DestroyWeaponWhenDisarmChance = .15f;
+                DisarmChance = Game.IsEditorTest ? 1 : .45f;
+                CritDisarmChance = Game.IsEditorTest ? 1 : .45f;
+                DestroyWeaponWhenDisarmChance = .35f;
                 DestroyWeaponWhenCritDisarmChance = .35f;
             }
             else

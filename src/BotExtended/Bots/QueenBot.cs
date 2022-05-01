@@ -176,13 +176,11 @@ namespace BotExtended.Bots
             }
             if (_handJobCount >= 4)
             {
-                time++;
                 CreateSimp(_targetCorpse);
                 SetState(State.Normal);
             }
         }
 
-        private int time = 0;
         private void CreateSimp(IPlayer corpse)
         {
             var dir = Player.FacingDirection;

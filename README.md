@@ -417,13 +417,13 @@ Same as [Bodyguard] except for the following stats:
 
 **Stats**
 
-| **Health**    | Below Normal                                                                                                                                                                   |
-| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Speed**     | Above Normal                                                                                                                                                                   |
-| **AI**        | Cowboy                                                                                                                                                                         |
-| **Weapons**   | ![Sawedoff] ![Shotgun] ![Revolver] ![Magnum]                                                                                                                                   |
-| **Factions**  | [Cowboy][fcowboy]                                                                                                                                                              |
-| **Abilities** | <li>Has 15% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 1% chance of disarming and destroying the enemy's weapon after a successful shot.</li> |
+| **Health**    | Below Normal                                                                                                                                                  |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Speed**     | Above Normal                                                                                                                                                  |
+| **AI**        | Cowboy                                                                                                                                                        |
+| **Weapons**   | ![Sawedoff] ![Shotgun] ![Revolver] ![Magnum]                                                                                                                  |
+| **Factions**  | [Cowboy][fcowboy]                                                                                                                                             |
+| **Abilities** | <li>Has 15% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 1% chance of destroying the enemy's weapon after it is disarmed.</li> |
 
 <details>
   <summary>
@@ -2984,9 +2984,605 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 
 </details>
 
+### President
+
+<div>
+  <img src='./docs/Images/President.png' />
+</div>
+
+The President is not very good at combat due to obesity. As a result, he tends to trip whenever
+he attempts to move a little bit too fast. Because of his large volume, he will shake the
+ground and create an earthquake on impact, injuring his agents and anyone inside the radius.
+
+**Stats**
+
+| **Health**        | Very Strong                                                                                                                                                                                                                            |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI**            | Hard                                                                                                                                                                                                                                   |
+| **Weapons**       | ![Flagpole]                                                                                                                                                                                                                            |
+| **Infinite Ammo** | True                                                                                                                                                                                                                                   |
+| **Search Items**  | Health, Powerups.                                                                                                                                                                                                                      |
+| **Faction**       | [Agent][fagent]                                                                                                                                                                                                                        |
+| **Abilities**     | <li>Guarded by all [Agents][agent] in the same team. Agents are very resistant to impact damage thanks to extensive training.</li> <li>Has a chance of tripping and falling while in mid air, creating an [earthquake] on impact.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value               |
+| :---------------------- | :------------------ |
+| **Energy Recharge**     | Slow                |
+| **Impact Damage Taken** | Extremely Resistant |
+| **Size**                | Chonky              |
+
+</details>
+
+### Pyromaniac
+
+<div>
+  <img src='./docs/Images/Pyromaniac_1.png' />
+  <img src='./docs/Images/Pyromaniac_2.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong                     |
+| :---------------- | :------------------------- |
+| **AI**            | Hard                       |
+| **Infinite Ammo** | True                       |
+| **Faction**       | [Pyromaniac][fpyromaniac]  |
+| **Abilities**     | Becomes faster if on fire. |
+
+**Weapons**
+
+| Gears                         | Powerup             |
+| :---------------------------- | :------------------ |
+| ![Flamethrower] ![MolotovWpn] |                     |
+| ![Flaregun] ![MolotovWpn]     | [Infinite Bouncing] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                 | Value          |
+| :-------------------- | :------------- |
+| **Fire Damage Taken** | Very Resistant |
+
+</details>
+
+### Queen
+
+<div>
+  <img src='./docs/Images/Queen_1.png' />
+  <img src='./docs/Images/Queen_2.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Strong                                                                                                                                         |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Run Speed**    | Above Normal                                                                                                                                   |
+| **Sprint Speed** | Fast                                                                                                                                           |
+| **AI**           | Hard                                                                                                                                           |
+| **Weapons**      | ![Pillow]                                                                                                                                      |
+| **Search Items** | Secondary, Melee, Health.                                                                                                                      |
+| **Faction**      | [Stripper][fstripper]                                                                                                                          |
+| **Abilities**    | <li>Searches for dead bodies and brings them back to life.</li> <li>Revived players have 50% HP.</li> <li>Revived enemies turn into ally.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | Low          |
+| **Melee Force**        | Above Normal |
+| **Size**               | Below Normal |
+
+</details>
+
+### Quillhogg
+
+<div>
+  <img src='./docs/Images/Quillhogg.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                  |
+| :---------------- | :--------------------------- |
+| **AI**            | Hard                         |
+| **Infinite Ammo** | True                         |
+| **Search Items**  | Secondary, Powerups, Health. |
+| **Faction**       | [Punk][fpunk]                |
+
+**Weapons**
+
+| Gears                   | Powerup   |
+| :---------------------- | :-------- |
+| ![GLauncher] ![Grenade] | [Dormant] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats           | Value        |
+| :-------------- | :----------- |
+| **Melee Force** | Above Normal |
+| **Size**        | Big          |
+
+</details>
+
+### Rambo
+
+<div>
+  <img src='./docs/Images/Rambo.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong       |
+| :---------------- | :----------- |
+| **Speed**         | Below Normal |
+| **AI**            | Expert       |
+| **Infinite Ammo** | True         |
+| **Search Items**  | Health       |
+| **Faction**       | None         |
+
+**Weapons**
+
+| Gears           | Powerup   |
+| :-------------- | :-------- |
+| ![Knife] ![M60] | [Minigun] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                      | Value          |
+| :------------------------- | :------------- |
+| **Explosion Damage Taken** | Very Resistant |
+| **Size**                   | Big            |
+
+</details>
+
+### Raze
+
+<div>
+  <img src='./docs/Images/Raze.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                 |
+| :---------------- | :-------------------------- |
+| **AI**            | Hard                        |
+| **Infinite Ammo** | True                        |
+| **Search Items**  | Primary, Secondary, Health. |
+| **Faction**       | [Police SWAT][fpoliceswat]  |
+
+**Weapons**
+
+| Gears                                   | Powerup                  |
+| :-------------------------------------- | :----------------------- |
+| ![Knife] ![GLauncher] ![Pistol45] ![C4] | [Sticky Bomb], [Termite] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                      | Value          |
+| :------------------------- | :------------- |
+| **Explosion Damage Taken** | Very Resistant |
+
+</details>
+
+### Reznor
+
+<div>
+  <img src='./docs/Images/Reznor.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                |
+| :---------------- | :------------------------- |
+| **Speed**         | Slow                       |
+| **AI**            | Hard                       |
+| **Infinite Ammo** | True                       |
+| **Search Items**  | Primary, Health, Powerups. |
+| **Faction**       | [Spacer][fspacer]          |
+
+**Weapons**
+
+| Gears                             | Powerup     |
+| :-------------------------------- | :---------- |
+| ![Bazooka] ![Pistol45] ![Lazer]   | [Blackhole] |
+| ![GLauncher] ![Pistol45] ![Lazer] | [Blackhole] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats           | Value        |
+| :-------------- | :----------- |
+| **Melee Force** | Above Normal |
+| **Size**        | Big          |
+
+</details>
+
+### Santa
+
+<div>
+  <img src='./docs/Images/Santa.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong     |
+| :---------------- | :-------------- |
+| **AI**            | Hard            |
+| **Infinite Ammo** | True            |
+| **Faction**       | [Santa][fsanta] |
+
+**Weapons**
+
+| Gears                  | Powerup   |
+| :--------------------- | :-------- |
+| ![Knife] ![M60] ![Uzi] | [Present] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                      | Value          |
+| :------------------------- | :------------- |
+| **Explosion Damage Taken** | Very Resistant |
+| **Melee Force**            | Strong         |
+| **Size**                   | Big            |
+
+</details>
+
+### Sheriff
+
+<div>
+  <img src='./docs/Images/Sheriff.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong                                                                                                                                                                                                    |
+| :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI**            | Sheriff                                                                                                                                                                                                   |
+| **Weapons**       | ![Magnum] ![Revolver] ![Shotgun]                                                                                                                                                                          |
+| **Infinite Ammo** | True                                                                                                                                                                                                      |
+| **Search Items**  | Secondary, Health, Powerups.                                                                                                                                                                              |
+| **Faction**       | [Cowboy][fcowboy]                                                                                                                                                                                         |
+| **Abilities**     | <li>Has unlimited supply of handguns.</li> <li>Has 45% chance of disarming the enemy's weapon after a successful shot.</li><li>Has 35% chance of destroying the enemy's weapon after it is disarmed.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value            |
+| :-------------------------- | :--------------- |
+| **Energy**                  | Above Normal     |
+| **Projectile Damage Taken** | Fairly Resistant |
+| **Item Drop Mode**          | Break            |
+| **Size**                    | Above Normal     |
+
+</details>
+
+### Smoker
+
+<div>
+  <img src='./docs/Images/Smoker.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                |
+| :---------------- | :------------------------- |
+| **AI**            | Hard                       |
+| **Infinite Ammo** | True                       |
+| **Search Items**  | Primary, Health, Powerups. |
+| **Faction**       | [Police SWAT][fpoliceswat] |
+
+**Weapons**
+
+| Gears                                  | Powerup            |
+| :------------------------------------- | :----------------- |
+| ![Knife] ![GLauncher] ![MachinePistol] | [Smoke], [Fatigue] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value              |
+| :-------------------------- | :----------------- |
+| **Fire Damage Taken**       | Slightly Resistant |
+| **Projectile Damage Dealt** | Below Normal       |
+
+</details>
+
 ### Spy
 
-<img src='./docs/Images/Spy.png' />
+<div>
+  <img src='./docs/Images/Spy.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Above Normal                                                                                                                         |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**         | Above Normal                                                                                                                         |
+| **AI**            | Expert                                                                                                                               |
+| **Infinite Ammo** | True                                                                                                                                 |
+| **Search Items**  | Health, Streetsweeper, Powerups.                                                                                                     |
+| **Faction**       | [Assassin][fassassin]                                                                                                                |
+| **Abilities**     | <li>Swaps clothes with dead enemies and disguises as their teammates.</li> <li>Deals x5 damage to their team while in disguise.</li> |
+
+**Weapons**
+
+| Gears                | Powerup |
+| :------------------- | :------ |
+| ![Knife] ![Revolver] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats    | Value        |
+| :------- | :----------- |
+| **Size** | Above Normal |
+
+</details>
+
+### Survivalist
+
+<div>
+  <img src='./docs/Images/Survivalist.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong                    |
+| :---------------- | :------------------------ |
+| **AI**            | Expert                    |
+| **Infinite Ammo** | True                      |
+| **Search Items**  | Melee, Makeshift, Health. |
+| **Faction**       | None                      |
+
+**Weapons**
+
+| Gears                | Powerup |
+| :------------------- | :------ |
+| ![Knife] ![Flaregun] | [Steak] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value     |
+| :-------------------------- | :-------- |
+| **Projectile Damage Dealt** | Very High |
+
+</details>
+
+### Tank
+
+<div>
+  <img src='./docs/Images/Tank.png' />
+</div>
+
+**Stats**
+
+| **Health**          | Very Strong                                                                                                     |
+| :------------------ | :-------------------------------------------------------------------------------------------------------------- |
+| **Run Speed**       | Slow                                                                                                            |
+| **Sprint Speed**    | Fast                                                                                                            |
+| **AI**              | Hard                                                                                                            |
+| **Zombie Immunity** | True                                                                                                            |
+| **Search Items**    | Secondary, Health, Streetsweeper, Powerups.                                                                     |
+| **Faction**         | [Robot][frobot]                                                                                                 |
+| **Abilities**       | <li>Equips ranged weapon with **Stun** powerup.</li> <li>Has armor that can deflect projectiles on impact.</li> |
+
+**Weapons**
+
+| Gears   | Powerup |
+| :------ | :------ |
+| ![Fist] | [Slide] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value               |
+| :------------------------------- | :------------------ |
+| **Energy**                       | Very High           |
+| **Projectile Damage Taken**      | Extremely Resistant |
+| **Projectile Crit Chance Taken** | Unbeatable          |
+| **Size**                         | Extremely Big       |
+
+</details>
+
+### Teddy Bear
+
+<div>
+  <img src='./docs/Images/TeddyBear.png' />
+</div>
+
+**Stats**
+
+| **Health**    | Ultra Strong                                                                                                                                                                                  |
+| :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**     | Below Normal                                                                                                                                                                                  |
+| **AI**        | Hulk                                                                                                                                                                                          |
+| **Faction**   | None                                                                                                                                                                                          |
+| **Abilities** | <li>Spawned with 2 cubs that follow her around.</li> <li>Enrages and targets the offender every time a cub dies. If there is no offender, she will target the closest one to the corpse.</li> |
+
+**Weapons**
+
+| Gears                  | Powerup |
+| :--------------------- | :------ |
+| ![Grenade] ![Slowmo10] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value       |
+| :--------------------- | :---------- |
+| **Energy**             | Ultra High  |
+| **Melee Damage Dealt** | High        |
+| **Melee Force**        | Very Strong |
+| **Size**               | Chonky      |
+
+</details>
+
+### Baby Bear
+
+<div>
+  <img src='./docs/Images/TeddyBear.png' />
+</div>
+
+**Stats**
+
+| **Health**    | Very Weak                                              |
+| :------------ | :----------------------------------------------------- |
+| **Speed**     | Very Fast                                              |
+| **AI**        | Babybear                                               |
+| **Faction**   | None                                                   |
+| **Abilities** | A chronic parasite that can't live without its mother. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats           | Value |
+| :-------------- | :---- |
+| **Melee Force** | Weak  |
+| **Size**        | Tiny  |
+
+</details>
+
+### Translucent
+
+<div>
+  <img src='./docs/Images/Translucent.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Very Strong                                                                                                                                    |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI**           | Hard                                                                                                                                           |
+| **Search Items** | Health                                                                                                                                         |
+| **Faction**      | [Mutant][fmutant]                                                                                                                              |
+| **Abilities**    | <li>Is fully invisible. It is exposed briefly when taking damage.</li> <li>Becomes visible for 2 seconds if it accumulates enough damage.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats    | Value        |
+| :------- | :----------- |
+| **Size** | Above Normal |
+
+</details>
+
+### Zombie Eater
+
+<div>
+  <img src='./docs/Images/ZombieEater_1.png' />
+  <img src='./docs/Images/ZombieEater_2.png' />
+</div>
+
+These are ancient zombies left from the nazi era. They have survived up until
+now after one of the zombies discovered that their fellow zombies are also
+a source of nutrition.
+
+**Stats**
+
+| **Health**    | Above Normal                                                                                                                                                        |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Speed**     | Very Fast                                                                                                                                                           |
+| **AI**        | Zombie Fighter                                                                                                                                                      |
+| **Faction**   | [Zombie Boss][fzombieboss]                                                                                                                                          |
+| **Abilities** | <li>Is [Zombie].</li> <li>Eats other zombies and players in sight.</li> <li>Gains 20 HP, becomes bigger and stronger but also slower after consuming the food.</li> |
+
+**Weapons**
+
+| Gears                           | Powerup |
+| :------------------------------ | :------ |
+| ![Knife] ![Revolver] ![Grenade] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats    | Value |
+| :------- | :---- |
+| **Size** | Small |
+
+</details>
+
+### Zombie Fighter
+
+<div>
+  <img src='./docs/Images/ZombieFighter_1.png' />
+  <img src='./docs/Images/ZombieFighter_2.png' />
+  <img src='./docs/Images/ZombieFighter_3.png' />
+  <img src='./docs/Images/ZombieFighter_4.png' />
+  <img src='./docs/Images/ZombieFighter_5.png' />
+  <img src='./docs/Images/ZombieFighter_6.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                |
+| :---------------- | :------------------------- |
+| **Speed**         | Above Normal               |
+| **AI**            | Zombie Fighter             |
+| **Infinite Ammo** | True                       |
+| **Faction**       | [Zombie Boss][fzombieboss] |
+| **Abilities**     | Same as [Zombie].          |
+
+**Weapons**
+
+| Gears               | Powerup   |
+| :------------------ | :-------- |
+| ![Fist] ![Slowmo10] | [Serious] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value        |
+| :---------------------- | :----------- |
+| **Melee Damage Dealt**  | Above Normal |
+| **Melee Stun Immunity** | True         |
+| **Size**                | Big          |
+
+</details>
 
 ## Script Commands
 
@@ -3540,6 +4136,7 @@ Clear all player settings.
 
 <!-- bot type -->
 
+[agent]: #agent
 [biker]: #biker
 [bodyguard]: #bodyguard
 [gangster]: #gangster
@@ -3595,14 +4192,19 @@ Clear all player settings.
 [ground slam]: ./docs/POWERUPS_MELEE.md#ground-slam
 [megaton]: ./docs/POWERUPS_MELEE.md#megaton
 [pushback]: ./docs/POWERUPS_MELEE.md#pushback
+[serious]: ./docs/POWERUPS_MELEE.md#serious
+[slide]: ./docs/POWERUPS_MELEE.md#slide
 [splitting]: ./docs/POWERUPS_MELEE.md#splitting
 
 <!-- Ranged Powerups -->
 
+[blackhole]: ./docs/POWERUPS_RANGED.md#blackhole
 [blast]: ./docs/POWERUPS_RANGED.md#blast
 [bow]: ./docs/POWERUPS_RANGED.md#bow
 [bouncing laser]: ./docs/POWERUPS_RANGED.md#bouncing-laser
+[dormant]: ./docs/POWERUPS_RANGED.md#dormant
 [double penetration]: ./docs/POWERUPS_RANGED.md#double-penetration
+[infinite bouncing]: ./docs/POWERUPS_RANGED.md#infinite-bouncing
 [fatigue]: ./docs/POWERUPS_RANGED.md#fatigue
 [fire]: ./docs/POWERUPS_RANGED.md#fire
 [helium]: ./docs/POWERUPS_RANGED.md#helium
@@ -3619,11 +4221,15 @@ Clear all player settings.
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
 [precision]: ./docs/POWERUPS_RANGED.md#precision
+[present]: ./docs/POWERUPS_RANGED.md#present
 [riding]: ./docs/POWERUPS_RANGED.md#riding
 [scattershot]: ./docs/POWERUPS_RANGED.md#scattershot
 [shrapnel]: ./docs/POWERUPS_RANGED.md#shrapnel
 [shrinking]: ./docs/POWERUPS_RANGED.md#shrinking
+[smoke]: ./docs/POWERUPS_RANGED.md#smoke
 [spinner]: ./docs/POWERUPS_RANGED.md#spinner
+[steak]: ./docs/POWERUPS_RANGED.md#steak
+[sticky bomb]: ./docs/POWERUPS_RANGED.md#sticky-bomb
 [stun]: ./docs/POWERUPS_RANGED.md#stun
 [suicide dove]: ./docs/POWERUPS_RANGED.md#suicide-dove
 [suicide fighter]: ./docs/POWERUPS_RANGED.md#suicide-fighter
@@ -3655,6 +4261,7 @@ Clear all player settings.
 [chair]: ./docs/Images/Weapons/Chair.png
 [cuestick]: ./docs/Images/Weapons/CueStick.png
 [darkshotgun]: ./docs/Images/Weapons/DarkShotgun.png
+[flagpole]: ./docs/Images/Weapons/Flagpole.png
 [flamethrower]: ./docs/Images/Weapons/Flamethrower.png
 [flaregun]: ./docs/Images/Weapons/FlareGun.png
 [fist]: ./docs/Images/Weapons/Fist.png
@@ -3672,6 +4279,7 @@ Clear all player settings.
 [minewpn]: ./docs/Images/Weapons/Mine.png
 [molotovwpn]: ./docs/Images/Weapons/Molotov.png
 [mp50]: ./docs/Images/Weapons/MP50.png
+[pillow]: ./docs/Images/Weapons/Pillow.png
 [pipe]: ./docs/Images/Weapons/Pipe.png
 [pistol]: ./docs/Images/Weapons/Pistol.png
 [pistol45]: ./docs/Images/Weapons/Pistol45.png

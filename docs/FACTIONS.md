@@ -2,21 +2,21 @@
 
 ## Assassin
 
-| **Bosses**  | [Ass Kicker]         |
-| :---------- | :------------------- |
-|             | ![_asskicker]        |
-| **Group 1** | **[Assassin Melee]** |
-|             | ![_Assassin_1]       |
-| **Ratio**   | 1                    |
-| **Group 1** | **[Assassin Range]** |
-|             | ![_Assassin_1]       |
-| **Ratio**   | 1                    |
+| **Bosses**  | [Ass Kicker]         | [Spy]   |
+| :---------- | :------------------- | ------- |
+|             | ![_asskicker]        | ![_Spy] |
+| **Group 1** | **[Assassin Melee]** |         |
+|             | ![_Assassin_1]       |         |
+| **Ratio**   | 1                    |         |
+| **Group 1** | **[Assassin Range]** |         |
+|             | ![_Assassin_1]       |         |
+| **Ratio**   | 1                    |         |
 
 ## Agent
 
-| **Bosses**  | [Agent 79]  | [Hitman]   |
-| :---------- | :---------- | ---------- |
-|             | ![_agent79] | ![_Hitman] |
+| **Bosses**  | [Agent 79]  | [Hitman]   | [President]   |
+| :---------- | :---------- | ---------- | ------------- |
+|             | ![_agent79] | ![_Hitman] | ![_President] |
 | **Group 1** | **[Agent]** |
 |             | ![_Agent_1] |
 | **Ratio**   | 1           |
@@ -63,8 +63,10 @@
 
 ## Cowboy
 
-| **Group 1** | [Cowboy]                  |               |
-| :---------- | :------------------------ | :------------ |
+| **Bosses**  | [Sheriff]                 |               |
+| :---------- | :------------------------ | ------------- |
+|             | ![_Sheriff]               |               |
+| **Group 1** | **[Cowboy]**              |               |
 |             | ![_Cowboy_1]              |               |
 | **Ratio**   | 1                         |               |
 | **Group 2** | **[Cowboy]**              | **[Bandido]** |
@@ -115,6 +117,18 @@
 |             | ![_Hunter_1] ![_Hunter_2] | ![_Farmer_1] |
 | **Ratio**   | 0.7                       | 0.3          |
 
+## Kingpin
+
+| **Bosses**  | [Kingpin]           |                   |
+| :---------- | :------------------ | ----------------- |
+|             | ![_Kingpin]         |                   |
+| **Group 1** | **[Bodyguard]**     |                   |
+|             | ![_Bodyguard]       |                   |
+| **Ratio**   | 1                   |                   |
+| **Group 2** | **[Gangster Hulk]** | **[Bodyguard 2]** |
+|             | ![_GangsterHulk_1]  | ![_Bodyguard]     |
+| **Ratio**   | 0.55                | 0.45              |
+
 ## MetroCop
 
 | **Bosses**  | [MetroCop Chief]              |             |
@@ -132,12 +146,12 @@
 
 ## Mutant
 
-| **Bosses**  | [Berserker]   |
-| :---------- | :------------ |
-|             | ![_Berserker] |
-| **Group 1** | **[Mutant]**  |
-|             | ![_Mutant_1]  |
-| **Ratio**   | 1             |
+| **Bosses**  | [Berserker]   | [Translucent]   |
+| :---------- | :------------ | --------------- |
+|             | ![_Berserker] | ![_Translucent] |
+| **Group 1** | **[Mutant]**  |                 |
+|             | ![_Mutant_1]  |                 |
+| **Ratio**   | 1             |                 |
 
 ## Nazi
 
@@ -165,8 +179,10 @@
 
 ## Police SWAT
 
-| **Group 1** | [Police SWAT]                               |              |
+| **Bosses**  | [Raze]                                      | [Smoker]     |
 | :---------- | :------------------------------------------ | ------------ |
+|             | ![_Raze]                                    | ![_Smoker]   |
+| **Group 1** | **[Police SWAT]**                           |              |
 |             | ![_SWAT_1]                                  |              |
 | **Ratio**   | 1                                           |              |
 | **Group 2** | **[Police SWAT]**                           | **[Police]** |
@@ -175,36 +191,49 @@
 
 ## Punk
 
-| **Bosses**  | [Balista]                        | [Firebug]       |
-| :---------- | :------------------------------- | --------------- |
-|             | ![_balista]                      | ![_Firebug]     |
-| **Group 1** | [Punk]                           |                 |
-|             | ![_Punk_1]                       |                 |
-| **Ratio**   | 1                                |                 |
-| **Group 2** | **[Punk]**                       | **[Biker]**     |
-|             | ![_Punk_1]                       | ![_Biker_1]     |
-| **Ratio**   | 0.5                              | 0.5             |
-| **Group 3** | **[Punk]**                       | **[Punk Hulk]** |
-|             | ![_Punk_1]                       | ![_PunkHulk_1]  |
-| **Ratio**   | 0.6                              | 0.4             |
-| **Group 4** | **[Punk]**                       | **[Punk Hulk]** |
-|             | ![_Punk_1] ![_Punk_2] ![_Punk_3] | ![_PunkHulk_1]  |
-| **Ratio**   | 0.75                             | 0.25            |
+| **Bosses**  | [Balista]                        | [Firebug]       | [Quillhogg]   |
+| :---------- | :------------------------------- | --------------- | ------------- |
+|             | ![_balista]                      | ![_Firebug]     | ![_Quillhogg] |
+| **Group 1** | [Punk]                           |                 |               |
+|             | ![_Punk_1]                       |                 |               |
+| **Ratio**   | 1                                |                 |               |
+| **Group 2** | **[Punk]**                       | **[Biker]**     |               |
+|             | ![_Punk_1]                       | ![_Biker_1]     |               |
+| **Ratio**   | 0.5                              | 0.5             |               |
+| **Group 3** | **[Punk]**                       | **[Punk Hulk]** |               |
+|             | ![_Punk_1]                       | ![_PunkHulk_1]  |               |
+| **Ratio**   | 0.6                              | 0.4             |               |
+| **Group 4** | **[Punk]**                       | **[Punk Hulk]** |               |
+|             | ![_Punk_1] ![_Punk_2] ![_Punk_3] | ![_PunkHulk_1]  |               |
+| **Ratio**   | 0.75                             | 0.25            |               |
 
 ## Pyromaniac
 
-| **Bosses** | [Fireman]   | [Incinerator]   |
-| :--------- | :---------- | --------------- |
-|            | ![_Fireman] | ![_Incinerator] |
+| **Bosses** | [Fireman]   | [Incinerator]   | [Pyromaniac]                      |
+| :--------- | :---------- | --------------- | --------------------------------- |
+|            | ![_Fireman] | ![_Incinerator] | ![_Pyromaniac_1] ![_Pyromaniac_2] |
+
+| **Bosses** | [Pyromaniac]                                       |
+| :--------- | :------------------------------------------------- |
+|            | ![_Pyromaniac_1] ![_Pyromaniac_2] ![_Pyromaniac_1] |
 
 ## Robot
 
-| **Bosses**  | [Ion]        |
-| :---------- | :----------- |
-|             | ![_Ion]      |
-| **Group 1** | **[Cyborg]** |
-|             | ![_Cyborg_1] |
-| **Ratio**   | 1            |
+| **Bosses**  | [Ion]        | [Tank]   |
+| :---------- | :----------- | -------- |
+|             | ![_Ion]      | ![_Tank] |
+| **Group 1** | **[Cyborg]** |          |
+|             | ![_Cyborg_1] |          |
+| **Ratio**   | 1            |          |
+
+## Santa
+
+| **Bosses**  | [Santa]   |
+| :---------- | :-------- |
+|             | ![_Santa] |
+| **Group 1** | **[Elf]** |
+|             | ![_Elf_1] |
+| **Ratio**   | 1         |
 
 ## Scientist
 
@@ -241,9 +270,9 @@
 
 ## Spacer
 
-| **Bosses**  | [Amos]                                                           |                    |
+| **Bosses**  | [Amos]                                                           | [Reznor]           |
 | :---------- | :--------------------------------------------------------------- | ------------------ |
-|             | ![_amos]                                                         |                    |
+|             | ![_amos]                                                         | ![_Reznor]         |
 | **Group 1** | **[Spacer]**                                                     |                    |
 |             | ![_Spacer_1]                                                     |                    |
 | **Ratio**   | 1                                                                |                    |
@@ -263,9 +292,9 @@
 
 ## Stripper
 
-| **Bosses**  | [Chairman]     |                     |
+| **Bosses**  | [Chairman]     | [Queen]             |
 | :---------- | :------------- | ------------------- |
-|             | ![_Chairman]   |                     |
+|             | ![_Chairman]   | ![_Queen_1]         |
 | **Group 1** | **[Stripper]** | **[Biker]**         |
 |             | ![_Stripper_1] | ![_Biker_1]         |
 | **Ratio**   | 0.5            | 0.5                 |
@@ -288,6 +317,12 @@
 | :---------- | :------------- |
 |             | ![_Survivor_1] |
 | **Ratio**   | 1              |
+
+## Teddy Bear
+
+| **Bosses** | [Teddy Bear]  | [Baby Bear]                 |
+| :--------- | :------------ | --------------------------- |
+|            | ![_TeddyBear] | ![_TeddyBear] ![_TeddyBear] |
 
 ## Thug
 
@@ -339,29 +374,12 @@
 |             | ![_Zombie_1] ![_Zombie_2] | ![_ZombieBruiser]                                                  |
 | **Ratio**   | 0.7                       | 0.3                                                                |
 
-## Kingpin
-
-| **Bosses**  | [Kingpin]           |                   |
-| :---------- | :------------------ | ----------------- |
-|             | ![_Kingpin]         |                   |
-| **Group 1** | **[Bodyguard]**     |                   |
-|             | ![_Bodyguard]       |                   |
-| **Ratio**   | 1                   |                   |
-| **Group 2** | **[Gangster Hulk]** | **[Bodyguard 2]** |
-|             | ![_GangsterHulk_1]  | ![_Bodyguard]     |
-| **Ratio**   | 0.55                | 0.45              |
-
-## Santa
-
-| **Group 1** | [Elf]     |
-| :---------- | :-------- |
-|             | ![_Elf_1] |
-| **Ratio**   | 1         |
-
 ## Zombie Boss
 
-| **Group 1** | [Common Zombie]           |                      |
+| **Bosses**  | [Zombie Eater]            | [Zombie Fighter]     |
 | :---------- | :------------------------ | -------------------- |
+|             | ![_ZombieEater]           | ![_ZombieFighter]    |
+| **Group 1** | **[Common Zombie]**       |                      |
 |             | ![_Zombie_1]              |                      |
 | **Ratio**   | 1                         |                      |
 | **Group 2** | **[Common Zombie]**       | **[Mutated Zombie]** |
@@ -384,6 +402,8 @@
 [_asskicker]: ./Images/AssKicker.png
 [hitman]: ../README.md#Hitman
 [_hitman]: ./Images/Hitman_1.png
+[spy]: ../README.md#Spy
+[_spy]: ./Images/Spy.png
 
 <!-- Agent -->
 
@@ -392,6 +412,8 @@
 [_agent_2]: ./Images/Agent_2.png
 [agent 79]: ../README.md#agent-79
 [_agent79]: ./Images/Agent79.png
+[president]: ../README.md#President
+[_president]: ./Images/President.png
 
 <!-- bandido -->
 
@@ -467,6 +489,8 @@
 [_cowboy_4]: ./Images/Cowboy_4.png
 [_cowboy_5]: ./Images/Cowboy_5.png
 [_cowboy_6]: ./Images/Cowboy_6.png
+[sheriff]: ../README.md#Sheriff
+[_sheriff]: ./Images/Sheriff.png
 
 <!-- Cyborg -->
 
@@ -479,11 +503,15 @@
 [_cyborg_6]: ./Images/Cyborg_6.png
 [ion]: ../README.md#Ion
 [_ion]: ./Images/Ion.png
+[tank]: ../README.md#Tank
+[_tank]: ./Images/Tank.png
 
-<!-- Elf -->
+<!-- Santa -->
 
 [elf]: ../README.md#Elf
 [_elf_1]: ./Images/Elf_1.png
+[santa]: ../README.md#Santa
+[_santa]: ./Images/Santa.png
 
 <!-- Engineer -->
 
@@ -542,6 +570,8 @@
 [_mutant_2]: ./Images/Mutant_2.png
 [berserker]: ../README.md#berserker
 [_berserker]: ./Images/Berserker.png
+[translucent]: ../README.md#Translucent
+[_translucent]: ./Images/Translucent.png
 
 <!-- Nazi -->
 
@@ -566,6 +596,10 @@
 [_cindy]: ./Images/Cindy.png
 [police chief]: ../README.md#police-chief
 [_policechief]: ./Images/PoliceChief.png
+[raze]: ../README.md#Raze
+[_raze]: ./Images/Raze.png
+[smoker]: ../README.md#Smoker
+[_smoker]: ./Images/Smoker.png
 
 <!-- Punk -->
 
@@ -579,9 +613,14 @@
 [_balista]: ./Images/Balista.png
 [firebug]: ../README.md#Firebug
 [_firebug]: ./Images/Firebug.png
+[quillhogg]: ../README.md#Quillhogg
+[_quillhogg]: ./Images/Quillhogg.png
 
 <!-- Pyromaniac -->
 
+[pyromaniac]: ../README.md#Pyromaniac
+[_pyromaniac_1]: ./Images/Pyromaniac_1.png
+[_pyromaniac_2]: ./Images/Pyromaniac_2.png
 [fireman]: ../README.md#Fireman
 [_fireman]: ./Images/Fireman.png
 [incinerator]: ../README.md#Incinerator
@@ -629,6 +668,8 @@
 [_spacer_5]: ./Images/Spacer_5.png
 [amos]: ../README.md#amos
 [_amos]: ./Images/Amos.png
+[reznor]: ../README.md#Reznor
+[_reznor]: ./Images/Reznor.png
 
 <!-- Space Sniper -->
 
@@ -642,12 +683,20 @@
 [_stripper_1]: ./Images/Stripper_1.png
 [chairman]: ../README.md#Chairman
 [_chairman]: ./Images/Chairman.png
+[queen]: ../README.md#Queen
+[_queen_1]: ./Images/Queen_1.png
 
 <!-- Survivor -->
 
 [survivor]: ../README.md#Survivor
 [_survivor_1]: ./Images/Survivor_1.png
 [_survivor_2]: ./Images/Survivor_2.png
+
+<!-- TeddyBear -->
+
+[teddy bear]: ../README.md#Teddy-Bear
+[baby bear]: ../README.md#Baby-bear
+[_teddybear]: ./Images/TeddyBear.png
 
 <!-- Thug -->
 
@@ -680,6 +729,10 @@
 [_zombiechild_1]: ./Images/ZombieChild_1.png
 [_zombiefat]: ./Images/ZombieFat.png
 [_zombieflamer]: ./Images/ZombieFlamer.png
+[zombie eater]: ../README.md#Zombie-Eater
+[_zombieeater]: ./Images/ZombieEater_1.png
+[zombie fighter]: ../README.md#Zombie-Fighter
+[_zombiefighter]: ./Images/ZombieFighter_1.png
 
 <!-- Spy -->
 

@@ -170,9 +170,11 @@
         SSOfficer,
         Survivalist,
         Tank,
+        
         Teddybear,
-        Translucent,
         Babybear,
+        
+        Translucent,
         ZombieEater,
         ZombieFighter,
     }
