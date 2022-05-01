@@ -140,23 +140,23 @@
 
         Incinerator,
         Ion,
-        Pyromaniac,
 
         // Tier1: The Teahouse Job, Rooftop Retribution
         // Tier3: Unearthed
         Kingpin,
         Kriegbar,
         LordPinkerton,
-        MetroCop2,
         // Tier3: Meatgrinder Begins
         Meatgrinder,
         Mecha,
+        MetroCop2,
         Monk,
         Nadja,
         Napoleon,
         Ninja,
         PoliceChief,
         President,
+        Pyromaniac,
         Queen,
         Quillhogg,
         Rambo,

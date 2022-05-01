@@ -1012,7 +1012,6 @@ namespace BotExtended
                         CurrentHealth = Health.ExtremelyStrong,
                         MaxEnergy = Stamina.ExtremelyHigh,
                         CurrentEnergy = Stamina.ExtremelyHigh,
-                        ProjectileDamageDealtModifier = DamageDealt.VeryHigh,
                         MeleeDamageDealtModifier = DamageDealt.VeryHigh,
                         MeleeForceModifier = MeleeForce.Strong,
                         RunSpeedModifier = Speed.AboveNormal,

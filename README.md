@@ -1701,8 +1701,8 @@ A common zombie which is the same as [Zombie] except for the following stats:
 
 A common zombie which is the same as [Zombie] except for the following stats:
 
-| **Weapons** | ![Bat] ![Knife] ![Pistol] ![Molotov] |
-| :---------- | :----------------------------------- |
+| **Weapons** | ![Bat] ![Knife] ![Pistol] ![MolotovWpn] |
+| :---------- | :-------------------------------------- |
 
 ### Zombie Worker
 
@@ -2242,18 +2242,19 @@ They are bots that are a bit harder to beat.
 
 **Stats**
 
-| **Health**        | Strong                    |
-| :---------------- | :------------------------ |
-| **Speed**         | Fast                      |
-| **AI**            | Assassin Melee            |
-| **Infinite Ammo** | True                      |
-| **Faction**       | [Pyromaniac][fpyromaniac] |
+| **Health**        | Strong                     |
+| :---------------- | :------------------------- |
+| **Speed**         | Fast                       |
+| **AI**            | Assassin Melee             |
+| **Infinite Ammo** | True                       |
+| **Faction**       | [Pyromaniac][fpyromaniac]  |
+| **Abilities**     | Becomes faster if on fire. |
 
 **Weapons**
 
-| Gears             | Powerup      |
-| :---------------- | :----------- |
-| ![Axe] ![Molotov] | [Fire Trail] |
+| Gears                | Powerup      |
+| :------------------- | :----------- |
+| ![Axe] ![molotovwpn] | [Fire Trail] |
 
 <details>
   <summary>
@@ -2546,6 +2547,440 @@ They are bots that are a bit harder to beat.
 | :------------------------------- | :----------- |
 | **Projectile Crit Chance Dealt** | High         |
 | **Size**                         | Above Normal |
+
+</details>
+
+### Incinerator
+
+<div>
+  <img src='./docs/Images/Incinerator.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Extremely Strong                                                                                                                      |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| **AI**            | Hard                                                                                                                                  |
+| **Infinite Ammo** | True                                                                                                                                  |
+| **Search Items**  | Health, Powerups.                                                                                                                     |
+| **Faction**       | [Pyromaniac][fpyromaniac]                                                                                                             |
+| **Abilities**     | <li>Becomes faster if on fire.</li> <li>Becomes stronger if on max fire.</li> <li>Flamethrower explodes into flames upon dealth.</li> |
+
+**Weapons**
+
+| Gears                             | Powerup   |
+| :-------------------------------- | :-------- |
+| ![Axe] ![GLauncher] ![molotovwpn] | [Molotov] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                 | Value               |
+| :-------------------- | :------------------ |
+| **Fire Damage Taken** | Extremely Resistant |
+
+</details>
+
+### Ion
+
+<div>
+  <img src='./docs/Images/Ion.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong                           |
+| :---------------- | :------------------------------- |
+| **Run Speed**     | Very Slow                        |
+| **Sprint Speed**  | Slow                             |
+| **AI**            | Cowboy                           |
+| **Infinite Ammo** | True                             |
+| **Search Items**  | Health, Streetsweeper, Powerups. |
+| **Faction**       | [Robot][frobot]                  |
+
+**Weapons**
+
+| Gears     | Powerup          |
+| :-------- | :--------------- |
+| ![Sniper] | [Bouncing Laser] |
+| ![Magnum] | [Bouncing Laser] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                            | Value      |
+| :------------------------------- | :--------- |
+| **Projectile Crit Chance Taken** | Unbeatable |
+| **Size**                         | Big        |
+
+</details>
+
+### Kingpin
+
+<div>
+  <img src='./docs/Images/Kingpin.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Strong                                                                                                        |
+| :--------------- | :------------------------------------------------------------------------------------------------------------ |
+| **AI**           | Kingpin                                                                                                       |
+| **Search Items** | Secondary, Health, Streetsweeper.                                                                             |
+| **Faction**      | [Kingpin][fkingpin]                                                                                           |
+| **Abilities**    | <li>Grabs and chokes the enemy, dealing continuous damage.</li> <li>Pushes objects away while sprinting.</li> |
+
+**Weapons**
+
+| Gears   | Powerup       |
+| :------ | :------------ |
+| ![Fist] | [Ground Slam] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value  |
+| :--------------------- | :----- |
+| **Energy Consumption** | 0.1    |
+| **Melee Force**        | Strong |
+| **Size**               | Big    |
+
+</details>
+
+### Kriegbar
+
+<div>
+  <img src='./docs/Images/Kriegbar.png' />
+</div>
+
+Kriegbar is a primitive and curious creature. After watching countless of other superfighters gunning
+and camping successfully. He decided that he likes the idea of killing people from afar. Unfortunately,
+his hands are too big to hold the trigger, so he has to improvise a bit by using people as ammunition.
+
+**Stats**
+
+| **Health**    | Ultra Strong                                    |
+| :------------ | :---------------------------------------------- |
+| **Speed**     | Above Normal                                    |
+| **AI**        | Raging Hulk                                     |
+| **Weapons**   | ![Slowmo10]                                     |
+| **Faction**   | [Scientist][fscientist]                         |
+| **Abilities** | Throws players and corpses into nearby enemies. |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                 | Value           |
+| :-------------------- | :-------------- |
+| **Energy**            | Ultra High      |
+| **Fire Damage Taken** | Very Vulnerable |
+| **Melee Force**       | Very Strong     |
+| **Size**              | Chonky          |
+
+</details>
+
+### Lord Pinkerton
+
+<div>
+  <img src='./docs/Images/LordPinkerton.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Very Strong     |
+| :--------------- | :-------------- |
+| **AI**           | Hard            |
+| **Search Items** | All             |
+| **Faction**      | [Biker][fbiker] |
+
+**Weapons**
+
+| Gears                                            | Powerup  |
+| :----------------------------------------------- | :------- |
+| ![Bazooka] ![SilencedUzi] ![C4] ![StrengthBoost] | [Riding] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                   | Value          |
+| :---------------------- | :------------- |
+| **Impact Damage Taken** | Very Resistant |
+| **Melee Force**         | Above Normal   |
+| **Size**                | Big            |
+
+</details>
+
+### Meatgrinder
+
+<div>
+  <img src='./docs/Images/Meatgrinder.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Extremely Strong |
+| :---------------- | :--------------- |
+| **Run Speed**     | Above Normal     |
+| **Sprint Speed**  | Fast             |
+| **AI**            | Meatgrinder      |
+| **Infinite Ammo** | True             |
+| **Faction**       | None             |
+
+**Weapons**
+
+| Gears                                 | Powerup |
+| :------------------------------------ | :------ |
+| ![Chainsaw] ![MolotovWpn] ![Slowmo10] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value          |
+| :--------------------- | :------------- |
+| **Energy**             | Extremely High |
+| **Melee Damage Dealt** | Very High      |
+| **Melee Force**        | Strong         |
+| **Size**               | Big            |
+
+</details>
+
+### Mecha
+
+<div>
+  <img src='./docs/Images/Mecha.png' />
+</div>
+
+**Stats**
+
+| **Health**          | Extremely Strong                                                                                                                                                                 |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**           | Below Normal                                                                                                                                                                     |
+| **AI**              | Hulk                                                                                                                                                                             |
+| **Zombie Immunity** | True                                                                                                                                                                             |
+| **Faction**         | None                                                                                                                                                                             |
+| **Abilities**       | <li>Charges through a group of enemies and tosses them to the sky.</li> <li>Has a chance of exploding on dealth, otherwise launches 3 grenades to create collateral damage.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value               |
+| :-------------------------- | :------------------ |
+| **Explosion Damage Taken**  | Extremely Resistant |
+| **Projectile Damage Taken** | Very Resistant      |
+| **Impact Damage Taken**     | Unbeatable          |
+| **Melee Stun Immunity**     | True                |
+| **Can Burn**                | False               |
+| **Melee Force**             | Ultra Strong        |
+| **Size**                    | Extremely Big       |
+
+</details>
+
+### MetroCop Chief
+
+<div>
+  <img src='./docs/Images/MetrocopChief_1.png' />
+  <img src='./docs/Images/MetrocopChief_2.png' />
+  <img src='./docs/Images/MetrocopChief_3.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Strong                           |
+| :---------------- | :------------------------------- |
+| **Speed**         | Above Normal                     |
+| **AI**            | Expert                           |
+| **Infinite Ammo** | True                             |
+| **Search Items**  | Powerups, Health, Streetsweeper. |
+| **Faction**       | [MetroCop][fmetrocop]            |
+
+**Weapons**
+
+| Gears                                 | Powerup     |
+| :------------------------------------ | :---------- |
+| ![ShockBaton] ![DarkShotgun] ![Lazer] | [Grapeshot] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats           | Value        |
+| :-------------- | :----------- |
+| **Melee Force** | Above Normal |
+| **Size**        | Below Normal |
+
+</details>
+
+### Monk
+
+<div>
+  <img src='./docs/Images/Monk.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Very Strong                                                                                                                             |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**        | Fast                                                                                                                                    |
+| **AI**           | Melee Hard                                                                                                                              |
+| **Weapons**      | ![CueStick]                                                                                                                             |
+| **Search Items** | Melee, Makeshift, Health, Powerups.                                                                                                     |
+| **Faction**      | None                                                                                                                                    |
+| **Abilities**    | <li>Spawns up to 6 clones to hide the real self</li> <li>Clones are just the illusions, they have 10 HP and don't deal any damage.</li> |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value        |
+| :--------------------- | :----------- |
+| **Melee Damage Dealt** | High         |
+| **Size**               | Below Normal |
+
+</details>
+
+### Nadja
+
+<div>
+  <img src='./docs/Images/Nadja.png' />
+</div>
+
+**Stats**
+
+| **Health**       | Very Strong                                                                                 |
+| :--------------- | :------------------------------------------------------------------------------------------ |
+| **Speed**        | Above Normal                                                                                |
+| **AI**           | Expert                                                                                      |
+| **Search Items** | Secondary, Health.                                                                          |
+| **Faction**      | [Soldier][fsoldier]                                                                         |
+| **Abilities**    | Places a trap every 9 seconds. Available traps: [Fire Trap], [Shotgun Trap] and [Tripwire]. |
+
+**Weapons**
+
+| Gears                                     | Powerup |
+| :---------------------------------------- | :------ |
+| ![Knife] ![Pistol] ![Slowmo10] ![MineWpn] |         |
+
+### Napoleon
+
+<div>
+  <img src='./docs/Images/Napoleon.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong |
+| :---------------- | :---------- |
+| **Speed**         | Very Fast   |
+| **AI**            | Soldier     |
+| **Infinite Ammo** | True        |
+| **Search Items**  | Primary     |
+| **Faction**       | None        |
+
+**Weapons**
+
+| Gears                                               | Powerup               |
+| :-------------------------------------------------- | :-------------------- |
+| ![GLauncher] ![Uzi] ![Baton] ![Grenade] ![Slowmo10] | [Shrapnel], [Minigun] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                       | Value               |
+| :-------------------------- | :------------------ |
+| **Energy Consumption**      | 0                   |
+| **Projectile Damage Taken** | Extremely Resistant |
+| **Size**                    | Tiny                |
+
+</details>
+
+### Ninja
+
+<div>
+  <img src='./docs/Images/Ninja_1.png' />
+  <img src='./docs/Images/Ninja_2.png' />
+  <img src='./docs/Images/Ninja_3.png' />
+  <img src='./docs/Images/Ninja_4.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                                                                                                                                                      |
+| :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Speed**         | Ultra Fast                                                                                                                                                       |
+| **AI**            | Ninja                                                                                                                                                            |
+| **Infinite Ammo** | True                                                                                                                                                             |
+| **Search Items**  | Melee                                                                                                                                                            |
+| **Faction**       | None                                                                                                                                                             |
+| **Abilities**     | <li>Uses smoke bomb to escape and hide in one of the dynamic objects if its health is below 10%. Can only activate once.</li> <li>Gains 15 HP while hiding.</li> |
+
+**Weapons**
+
+| Gears                 | Powerup |
+| :-------------------- | :------ |
+| ![Katana] ![Slowmo10] |         |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats                  | Value       |
+| :--------------------- | :---------- |
+| **Melee Damage Dealt** | Fairly High |
+| **Energy Recharge**    | Quick       |
+| **Size**               | Small       |
+
+</details>
+
+### Police Chief
+
+<div>
+  <img src='./docs/Images/PoliceChief.png' />
+</div>
+
+**Stats**
+
+| **Health**        | Very Strong                                        |
+| :---------------- | :------------------------------------------------- |
+| **AI**            | Hard                                               |
+| **Infinite Ammo** | True                                               |
+| **Search Items**  | Secondary, Health, Powerups.                       |
+| **Faction**       | [Police][fpolice]                                  |
+| **Abilities**     | Equips rifles and handguns with [Fatigue] powerup. |
+
+**Weapons**
+
+| Gears                         | Powerup   |
+| :---------------------------- | :-------- |
+| ![BATON] ![Shotgun] ![Pistol] | [Fatigue] |
+| ![ShockBaton] ![Shotgun]      | [Fatigue] |
+
+<details>
+  <summary>
+    <strong>Other Stats</strong>
+  </summary>
+
+| Stats               | Value |
+| :------------------ | :---- |
+| **Energy Recharge** | Quick |
 
 </details>
 
@@ -3127,6 +3562,7 @@ Clear all player settings.
 [ffarmer]: ./docs/FACTIONS.md#farmer
 [fgangster]: ./docs/FACTIONS.md#gangster
 [fhunter]: ./docs/FACTIONS.md#hunter
+[fkingpin]: ./docs/FACTIONS.md#kingpin
 [fmetrocop]: ./docs/FACTIONS.md#metrocop
 [fmutant]: ./docs/FACTIONS.md#mutant
 [fnazi]: ./docs/FACTIONS.md#nazi
@@ -3156,6 +3592,7 @@ Clear all player settings.
 [fire trail]: ./docs/POWERUPS_MELEE.md#fire-trail
 [hurling]: ./docs/POWERUPS_MELEE.md#hurling
 [gib]: ./docs/POWERUPS_MELEE.md#gib
+[ground slam]: ./docs/POWERUPS_MELEE.md#ground-slam
 [megaton]: ./docs/POWERUPS_MELEE.md#megaton
 [pushback]: ./docs/POWERUPS_MELEE.md#pushback
 [splitting]: ./docs/POWERUPS_MELEE.md#splitting
@@ -3164,20 +3601,27 @@ Clear all player settings.
 
 [blast]: ./docs/POWERUPS_RANGED.md#blast
 [bow]: ./docs/POWERUPS_RANGED.md#bow
+[bouncing laser]: ./docs/POWERUPS_RANGED.md#bouncing-laser
 [double penetration]: ./docs/POWERUPS_RANGED.md#double-penetration
+[fatigue]: ./docs/POWERUPS_RANGED.md#fatigue
 [fire]: ./docs/POWERUPS_RANGED.md#fire
 [helium]: ./docs/POWERUPS_RANGED.md#helium
 [homing]: ./docs/POWERUPS_RANGED.md#homing
 [gauss]: ./docs/POWERUPS_RANGED.md#gauss-gun
+[grapeshot]: ./docs/POWERUPS_RANGED.md#grapeshot
 [knockback]: ./docs/POWERUPS_RANGED.md#knockback
 [lightning]: ./docs/POWERUPS_RANGED.md#lightning
 [mine]: ./docs/POWERUPS_RANGED.md#mine
+[minigun]: ./docs/POWERUPS_RANGED.md#minigun
+[molotov]: ./docs/POWERUPS_RANGED.md#molotov
 [object]: ./docs/POWERUPS_RANGED.md#object-gun
 [penetration]: ./docs/POWERUPS_RANGED.md#penetration
 [poison]: ./docs/POWERUPS_RANGED.md#poison
 [precise bouncing]: ./docs/POWERUPS_RANGED.md#precise-bouncing
 [precision]: ./docs/POWERUPS_RANGED.md#precision
+[riding]: ./docs/POWERUPS_RANGED.md#riding
 [scattershot]: ./docs/POWERUPS_RANGED.md#scattershot
+[shrapnel]: ./docs/POWERUPS_RANGED.md#shrapnel
 [shrinking]: ./docs/POWERUPS_RANGED.md#shrinking
 [spinner]: ./docs/POWERUPS_RANGED.md#spinner
 [stun]: ./docs/POWERUPS_RANGED.md#stun
@@ -3187,6 +3631,12 @@ Clear all player settings.
 [tearing]: ./docs/POWERUPS_RANGED.md#tearing
 [termite]: ./docs/POWERUPS_RANGED.md#termite
 [trigger]: ./docs/POWERUPS_RANGED.md#trigger
+
+<!-- custom weapons -->
+
+[fire trap]: ./docs/CUSTOM_WEAPONS.md#fire-trap
+[shotgun trap]: ./docs/CUSTOM_WEAPONS.md#shotgun-trap
+[tripwire]: ./docs/CUSTOM_WEAPONS.md#tripwire
 
 <!-- weapons -->
 
@@ -3203,6 +3653,7 @@ Clear all player settings.
 [chain]: ./docs/Images/Weapons/Chain.png
 [chainsaw]: ./docs/Images/Weapons/Chainsaw.png
 [chair]: ./docs/Images/Weapons/Chair.png
+[cuestick]: ./docs/Images/Weapons/CueStick.png
 [darkshotgun]: ./docs/Images/Weapons/DarkShotgun.png
 [flamethrower]: ./docs/Images/Weapons/Flamethrower.png
 [flaregun]: ./docs/Images/Weapons/FlareGun.png
@@ -3219,7 +3670,7 @@ Clear all player settings.
 [machinepistol]: ./docs/Images/Weapons/MachinePistol.png
 [magnum]: ./docs/Images/Weapons/Magnum.png
 [minewpn]: ./docs/Images/Weapons/Mine.png
-[molotov]: ./docs/Images/Weapons/Molotov.png
+[molotovwpn]: ./docs/Images/Weapons/Molotov.png
 [mp50]: ./docs/Images/Weapons/MP50.png
 [pipe]: ./docs/Images/Weapons/Pipe.png
 [pistol]: ./docs/Images/Weapons/Pistol.png

@@ -54,8 +54,7 @@ namespace BotExtended.Bots
             var check1 = Player.IsOnGround && !Traps.Any(x => Vector2.Distance(x.Position, Position) < 10);
             if (!check1) return false;
             var groundObj = ScriptHelper.GetGroundObject(Player);
-            var check2 = groundObj != null && groundObj.GetCollisionFilter().CategoryBits == CategoryBits.StaticGround;
-            return check2;
+            return groundObj != null && ScriptHelper.IsStaticGround(groundObj);
         }
 
         public override void OnPlayerKeyInput(VirtualKeyInfo[] keyInfos)

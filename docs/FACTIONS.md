@@ -30,15 +30,15 @@
 
 ## Biker
 
-| **Bosses**  | [Jo]                    |                  |
-| :---------- | :---------------------- | ---------------- |
-|             | ![_Jo]                  |                  |
-| **Group 1** | **[Biker]**             |                  |
-|             | ![_Biker_1]             |                  |
-| **Ratio**   | 1                       |                  |
-| **Group 2** | **[Biker]**             | **[Biker Hulk]** |
-|             | ![_Biker_1] ![_Biker_2] | ![_Biker_1]      |
-| **Ratio**   | 0.7                     | 0.3              |
+| **Bosses**  | [Jo]                    | [Lord Pinkerton]  |
+| :---------- | :---------------------- | ----------------- |
+|             | ![_Jo]                  | ![_LordPinkerton] |
+| **Group 1** | **[Biker]**             |                   |
+|             | ![_Biker_1]             |                   |
+| **Ratio**   | 1                       |                   |
+| **Group 2** | **[Biker]**             | **[Biker Hulk]**  |
+|             | ![_Biker_1] ![_Biker_2] | ![_Biker_1]       |
+| **Ratio**   | 0.7                     | 0.3               |
 
 ## Clown
 
@@ -117,8 +117,10 @@
 
 ## MetroCop
 
-| **Group 1** | [MetroCop]                    |             |
+| **Bosses**  | [MetroCop Chief]              |             |
 | :---------- | :---------------------------- | ----------- |
+|             | ![_MetroCopChief_1]           |             |
+| **Group 1** | **[MetroCop]**                |             |
 |             | ![_MetroCop_1]                |             |
 | **Ratio**   | 1                             |             |
 | **Group 2** | **[MetroCop]**                | **[Agent]** |
@@ -151,9 +153,9 @@
 
 ## Police
 
-| **Bosses**  | [Cindy]                   |                   |
+| **Bosses**  | [Cindy]                   | [Police Chief]    |
 | :---------- | :------------------------ | ----------------- |
-|             | ![_Cindy]                 |                   |
+|             | ![_Cindy]                 | ![_policeChief]   |
 | **Group 1** | **[Police]**              |                   |
 |             | ![_Police_1]              |                   |
 | **Ratio**   | 1                         |                   |
@@ -191,22 +193,24 @@
 
 ## Pyromaniac
 
-| **Bosses** | [Fireman]   |     |
-| :--------- | :---------- | --- |
-|            | ![_Fireman] |     |
+| **Bosses** | [Fireman]   | [Incinerator]   |
+| :--------- | :---------- | --------------- |
+|            | ![_Fireman] | ![_Incinerator] |
 
 ## Robot
 
-| **Group 1** | [Cyborg]     |
+| **Bosses**  | [Ion]        |
 | :---------- | :----------- |
+|             | ![_Ion]      |
+| **Group 1** | **[Cyborg]** |
 |             | ![_Cyborg_1] |
 | **Ratio**   | 1            |
 
 ## Scientist
 
-| **Bosses**  | [Boffin]            |                                                 |
+| **Bosses**  | [Boffin]            | [Kriegbar]                                      |
 | :---------- | :------------------ | ----------------------------------------------- |
-|             | ![_Boffin]          |                                                 |
+|             | ![_Boffin]          | ![_Kriegbar]                                    |
 | **Group 1** | **[Lab Assistant]** | **[Scientist]**                                 |
 |             | ![_labassistant_1]  | ![_scientist_1]                                 |
 | **Ratio**   | 0.5                 | 0.5                                             |
@@ -225,15 +229,15 @@
 
 ## Soldier
 
-| **Bosses**  | [Bazooka Jane]              | [Heavy Soldier]  |
-| :---------- | :-------------------------- | ---------------- |
-|             | ![_BazookaJane]             | ![_HeavySoldier] |
-| **Group 1** | **[Soldier]**               |                  |
-|             | ![_Soldier_1]               |                  |
-| **Ratio**   | 1                           |                  |
-| **Group 2** | **[Soldier]**               | **[Sniper]**     |
-|             | ![_Soldier_1] ![_Soldier_2] | ![_Sniper_1]     |
-| **Ratio**   | 0.7                         | 0.3              |
+| **Bosses**  | [Bazooka Jane]              | [Heavy Soldier]  | [Nadja]   |
+| :---------- | :-------------------------- | ---------------- | --------- |
+|             | ![_BazookaJane]             | ![_HeavySoldier] | ![_Nadja] |
+| **Group 1** | **[Soldier]**               |                  |           |
+|             | ![_Soldier_1]               |                  |           |
+| **Ratio**   | 1                           |                  |           |
+| **Group 2** | **[Soldier]**               | **[Sniper]**     |           |
+|             | ![_Soldier_1] ![_Soldier_2] | ![_Sniper_1]     |           |
+| **Ratio**   | 0.7                         | 0.3              |           |
 
 ## Spacer
 
@@ -337,8 +341,10 @@
 
 ## Kingpin
 
-| **Group 1** | [Bodyguard]         |                   |
+| **Bosses**  | [Kingpin]           |                   |
 | :---------- | :------------------ | ----------------- |
+|             | ![_Kingpin]         |                   |
+| **Group 1** | **[Bodyguard]**     |                   |
 |             | ![_Bodyguard]       |                   |
 | **Ratio**   | 1                   |                   |
 | **Group 2** | **[Gangster Hulk]** | **[Bodyguard 2]** |
@@ -416,6 +422,8 @@
 [_biker_12]: ./Images/Biker_12.png
 [jo]: ../README.md#Jo
 [_jo]: ./Images/Jo.png
+[lord pinkerton]: ../README.md#lord-pinkerton
+[_lordpinkerton]: ./Images/LordPinkerton.png
 
 <!-- Bodyguard -->
 
@@ -469,6 +477,8 @@
 [_cyborg_4]: ./Images/Cyborg_4.png
 [_cyborg_5]: ./Images/Cyborg_5.png
 [_cyborg_6]: ./Images/Cyborg_6.png
+[ion]: ../README.md#Ion
+[_ion]: ./Images/Ion.png
 
 <!-- Elf -->
 
@@ -512,11 +522,18 @@
 [huntsman]: ../README.md#Huntsman
 [_huntsman]: ./Images/Huntsman.png
 
+<!-- Kingpin -->
+
+[kingpin]: ../README.md#Kingpin
+[_kingpin]: ./Images/Kingpin.png
+
 <!-- MetroCop -->
 
 [metrocop]: ../README.md#MetroCop
 [_metrocop_1]: ./Images/MetroCop_1.png
 [_metrocop_2]: ./Images/MetroCop_2.png
+[metrocop chief]: ../README.md#metrocop-chief
+[_metrocopchief_1]: ./Images/MetroCopChief_1.png
 
 <!-- Mutant -->
 
@@ -547,6 +564,8 @@
 [_swat_2]: ./Images/SWAT_2.png
 [cindy]: ../README.md#Cindy
 [_cindy]: ./Images/Cindy.png
+[police chief]: ../README.md#police-chief
+[_policechief]: ./Images/PoliceChief.png
 
 <!-- Punk -->
 
@@ -565,6 +584,8 @@
 
 [fireman]: ../README.md#Fireman
 [_fireman]: ./Images/Fireman.png
+[incinerator]: ../README.md#Incinerator
+[_incinerator]: ./Images/Incinerator.png
 
 <!-- Scientist -->
 
@@ -575,6 +596,8 @@
 [_scientist_2]: ./Images/Scientist_2.png
 [boffin]: ../README.md#Boffin
 [_boffin]: ./Images/Boffin.png
+[kriegbar]: ../README.md#Kriegbar
+[_kriegbar]: ./Images/Kriegbar.png
 
 <!-- Sniper -->
 
@@ -593,6 +616,8 @@
 [_bazookajane]: ./Images/BazookaJane.png
 [heavy soldier]: ../README.md#HeavySoldier
 [_heavysoldier]: ./Images/HeavySoldier.png
+[nadja]: ../README.md#Nadja
+[_nadja]: ./Images/Nadja.png
 
 <!-- Spacer -->
 
