@@ -135,7 +135,7 @@ namespace BotExtended
             ScriptHelper.PrintMessage("/<botextended|be> [findfaction|ff] <query>: Find all bot factions that match query");
             ScriptHelper.PrintMessage("/<botextended|be> [settings|s]: Display current script settings");
             ScriptHelper.PrintMessage("/<botextended|be> [create|c] <BotType> [Team|_] [Count]: Create new bot");
-            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <0-10>: Set maximum bot count");
+            ScriptHelper.PrintMessage("/<botextended|be> [botcount|bc] <1-30>: Set maximum bot count");
             ScriptHelper.PrintMessage("/<botextended|be> [faction|f] [Team] [-e] <names|indexes|all>: Choose a list of faction by either name or index to randomly spawn on startup");
             ScriptHelper.PrintMessage("/<botextended|be> [factionrotation|fr] <1-10>: Set faction rotation interval for every n rounds");
             ScriptHelper.PrintMessage("/<botextended|be> [nextfaction|nf]: Change the faction in the currrent faction rotation to the next faction");

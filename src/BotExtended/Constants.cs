@@ -7,7 +7,7 @@ namespace BotExtended
     public static class Constants
     {
         internal const int BOT_COUNT_MIN = 1;
-        internal const int BOT_COUNT_MAX = 10;
+        internal const int BOT_COUNT_MAX = 30;
         internal const float CORPSE_MAX_HEALTH = 150;
 
         internal const float MAX_WALK_SPEED = 2.5f;

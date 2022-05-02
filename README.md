@@ -11,7 +11,7 @@ under development.
 - **Large variety of bots**: With [**100+ new bots**](#bots), including [**50+ bosses**](#bosses), you don't have to fight hard and expert bots all the time anymore.
 - **New bot factions:** Bots are usually spawned in a group called faction. There are currently [**30+ factions**](./docs/FACTIONS.md) - Thug, Police, Soldier, Assassin, Zombie...
 - **Bosses with special abilities:** Many bosses have special abilities and unique weapons to ramp up the challenge if you are getting bored of winning the vanilla bots.
-- **Special weapons and powerups**: There are [**40+ gun powerups**](./docs/POWERUPS_RANGED.md) and [**10+ melee powerups**](./docs/POWERUPS_MELEE.md) for you to choose from to inflict maximum destruction to the enemies.
+- **Special weapons and powerups**: There are [**40+ gun powerups**](./docs/POWERUPS_RANGED.md) and [**10+ melee powerups**](./docs/POWERUPS_MELEE.md) for you to choose from to inflict maximum destruction on the enemies.
   <!-- - **Custom weapons:** LaserSweeper, Traps, Chickens. -->
   <!-- - **Reaction with dialogue:** Bots can have dialogues depend on the context and evironment around it -->
 
@@ -1494,12 +1494,12 @@ A basic common zombie.
 
 **Stats**
 
-| **Health**    | Weak                                                                                                                                                         |
-| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Run Speed** | Slow                                                                                                                                                         |
-| **AI**        | ZombieSlow                                                                                                                                                   |
-| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss].                                                                             |
-| **Abilities** | <li>Infects the enemies after a successful punch.</li><li>Infected players turn into zombie on dealth. The only exception is when their body are burnt.</li> |
+| **Health**    | Weak                                                                                                                                                          |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Run Speed** | Slow                                                                                                                                                          |
+| **AI**        | ZombieSlow                                                                                                                                                    |
+| **Factions**  | [Zombie][fzombie], [Zombie Mutated][fzombiemutated], [Zombie Boss][fzombieboss].                                                                              |
+| **Abilities** | <li>Infects the enemies after a successful punch.</li><li>Infected players turn into zombies on dealth. The only exception is when their body are burnt.</li> |
 
 <details>
   <summary>
@@ -3991,11 +3991,27 @@ Spawn 2 cowboy at team independent
 
 ### `botcount`
 
-Usage: `/<botextended|be> [botcount|bc] <1-10>`
+Usage: `/<botextended|be> [botcount|bc] <1-30>`
 
-Set the maximum bot count for a round. Be aware the number of bots will be capped based on 2 factors. The number of available `SpawnPlayer`s in the map and the `botcount` itself. So when you set `botcount` to 8 it will only spawn all 8 bots if the map is big enough to have all of the `SpawnPlayer`s needed.
+Set the total bot count in all bot teams combine. Be aware the actual number of bots is capped based on this formula:
 
-How it works: On startup of every round, the script will search for the number of `SpawnPlayer` tiles in the map, and subtract the number of players and regular bots that have already spawned. That number then is capped again if it exceeds the `botcount` limit.
+<code>
+<pre>
+RealBotCount = Min(SpawnerCount - Players, <strong>BotCount</strong>)
+</pre>
+</code>
+
+If you spawn the bots in 3 teams:
+
+```
+/be f t1 all
+/be f t2 all
+/be f t3 all
+```
+
+And the `RealBotCount` value is 5 then the bot counts from team 1 to 3 are `2`, `2`, `1` respectively.
+
+The number of bots therefore depends on the map size (bigger maps have more spawners), the number of players from the lobby and the number of bot teams.
 
 ```
 /be bc 2

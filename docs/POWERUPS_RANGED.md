@@ -135,7 +135,7 @@ Has 100% crit chance. As a result, it always knocks the players back and deals e
 
 ## Mine
 
-- Launches mine, explode once stepped on.
+- Launches mine, explode once being stepped on.
 - Has 50% dud chance.
 
 <img width='500' src='https://media.giphy.com/media/TCBUEkyjntzXFAS4OQ/giphy.gif' />
@@ -192,7 +192,7 @@ Has pinpoint accuracy, especially useful when equipped with the laser.
 
 - Shoots present. Present spawns a random weapon when destroyed.
 - Has 3% chance of spawning a grenade, molotov or mine.
-- Has 1% chance of spawning a [Bad Santa][santa], which has an M60 with present powerup himself.
+- Has 1% chance of spawning a [Bad Santa], which has an M60 with present powerup himself.
 
 <img width='500' src='https://media.giphy.com/media/MwPvm9sXlYQStbGAnT/giphy.gif' />
 
