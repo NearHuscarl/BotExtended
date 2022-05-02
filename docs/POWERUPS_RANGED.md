@@ -192,7 +192,7 @@ Has pinpoint accuracy, especially useful when equipped with the laser.
 
 - Shoots present. Present spawns a random weapon when destroyed.
 - Has 3% chance of spawning a grenade, molotov or mine.
-- Has 1% chance of spawning a [Bad Santa](#), which has an M60 with present powerup himself.
+- Has 1% chance of spawning a [Bad Santa][santa], which has an M60 with present powerup himself.
 
 <img width='500' src='https://media.giphy.com/media/MwPvm9sXlYQStbGAnT/giphy.gif' />
 
@@ -251,9 +251,9 @@ Shoots a projectile that hovers in mid air and spawns 20 small projectiles in 36
 
 | Zombie Type                             | Spawn Chance  | Health |
 | --------------------------------------- | ------------- | ------ |
-| [Zombie Fighter]() or [Zombie Eater]()  | 2%            | 50     |
-| [Mutated Zombie]()                      | 8%            | 20     |
-| [Common Zombie]()                       | 90%           | 10     |
+| [Zombie Fighter] or [Zombie Eater]      | 2%            | 50     |
+| [Mutated Zombie]                        | 8%            | 20     |
+| [Common Zombie]                         | 90%           | 10     |
 
 <img width='500' src='https://media.giphy.com/media/IQObRvqwOkXunLtXSf/giphy.gif' />
 
@@ -314,3 +314,9 @@ Shoots a suicide melee fighter that explodes on death. They have 35 health.
 - Shoots slow projectiles. They start accelerating once the enemy is in the trajectory.
 
 <img width='500' src='https://media.giphy.com/media/bJPhUvrBkmEM92357B/giphy.gif' />
+
+[bad santa]: ../README.md#Santa
+[zombie fighter]: ../README.md#zombie-fighter
+[zombie eater]: ../README.md#zombie-eater
+[common zombie]: ../README.md#Zombie
+[mutated zombie]: ../README.md#Zombie-Bruiser

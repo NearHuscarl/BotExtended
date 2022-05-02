@@ -3,15 +3,17 @@
 <!-- Shrink 25x15
 Expand 50x30 -->
 
-This script adds a wide variety of bots to spice up combat experience. It is currently
-under development and maybe full of bugs :bug:
+This script adds a wide variety of bots and weapons to spice up combat experience. It is currently
+under development.
 
-<!-- ## Features
-- **Large variety of bots**: 60+ new bots for you to fight. No more having to fight hard and expert bots all the time.
-- **Bot faction:** Bots will be spawned in many different factions: Thug, Police, Soldier, Assassin, Zombie... to keep you engaging every round.
-- **Bosses with special abilities:** Multiple bosses that have special abilities and unique starting weapons to ramp up challenge if you are getting bored of winning expert bots in vanilla.
-- **Reaction with dialogue:** Bots can have dialogues depend on the context and evironment around it
-- **Special weapons**: Some bots have special weapons that can not be found otherwise. Kill it and get the big reward or die trying! -->
+## Features
+
+- **Large variety of bots**: With [**100+ new bots**](#bots), including [**50+ bosses**](#bosses), you don't have to fight hard and expert bots all the time anymore.
+- **New bot factions:** Bots are usually spawned in a group called faction. There are currently [**30+ factions**](./docs/FACTIONS.md) - Thug, Police, Soldier, Assassin, Zombie...
+- **Bosses with special abilities:** Many bosses have special abilities and unique weapons to ramp up the challenge if you are getting bored of winning the vanilla bots.
+- **Special weapons and powerups**: There are [**40+ gun powerups**](./docs/POWERUPS_RANGED.md) and [**10+ melee powerups**](./docs/POWERUPS_MELEE.md) for you to choose from to inflict maximum destruction to the enemies.
+  <!-- - **Custom weapons:** LaserSweeper, Traps, Chickens. -->
+  <!-- - **Reaction with dialogue:** Bots can have dialogues depend on the context and evironment around it -->
 
 ## Getting Started
 
