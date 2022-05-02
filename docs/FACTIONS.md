@@ -696,7 +696,7 @@
 
 [teddy bear]: ../README.md#Teddy-Bear
 [baby bear]: ../README.md#Baby-bear
-[_teddybear]: ./Images/TeddyBear.png
+[_teddybear]: ./Images/Teddybear.png
 
 <!-- Thug -->
 

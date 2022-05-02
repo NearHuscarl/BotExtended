@@ -3424,7 +3424,7 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 ### Teddy Bear
 
 <div>
-  <img src='./docs/Images/TeddyBear.png' />
+  <img src='./docs/Images/Teddybear.png' />
 </div>
 
 **Stats**
@@ -3459,7 +3459,7 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 ### Baby Bear
 
 <div>
-  <img src='./docs/Images/TeddyBear.png' />
+  <img src='./docs/Images/Teddybear.png' />
 </div>
 
 **Stats**
