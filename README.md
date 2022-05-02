@@ -3995,11 +3995,9 @@ Usage: `/<botextended|be> [botcount|bc] <1-30>`
 
 Set the total bot count in all bot teams combine. Be aware the actual number of bots is capped based on this formula:
 
-<code>
 <pre>
-RealBotCount = Min(SpawnerCount - Players, <strong>BotCount</strong>)
+<code>RealBotCount = Min(SpawnerCount - Players, <strong>BotCount</strong>)</code>
 </pre>
-</code>
 
 If you spawn the bots in 3 teams:
 
