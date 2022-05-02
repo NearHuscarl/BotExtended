@@ -304,12 +304,9 @@ namespace BotExtended
                     var playerSettings = PlayerSettings.Parse(ps);
                     var accountID = playerSettings.AccountID;
                     var name = activeUsers.ContainsKey(accountID) ? activeUsers[accountID].Name : accountID;
+                    var weaponValues = string.Join(",", playerSettings.Weapons.Select(w => w[0] + "[" + w[1] + "]"));
 
-                    ScriptHelper.PrintMessage(name + ": " + playerSettings.BotType);
-                    foreach (var w in playerSettings.Weapons)
-                    {
-                        ScriptHelper.PrintMessage(" - " + w[0] + " " + w[1]);
-                    }
+                    ScriptHelper.PrintMessage(string.Format("{0} [{1}]: {2}", name, playerSettings.BotType, weaponValues));
                 }
             }
 
@@ -320,24 +317,10 @@ namespace BotExtended
             {
                 var factions = settings.BotFactions[team];
                 var currentFaction = settings.CurrentFaction[team];
+                var isAllFactions = factions.Count == SharpHelper.EnumToArray<BotFaction>().Count() - 1 /* minus BotFaction.None */;
+                var factionsValue = isAllFactions ? "ALL" : string.Join(",", factions);
 
-                ScriptHelper.PrintMessage(" -" + team, BeColors.WARNING_COLOR);
-                ScriptHelper.PrintMessage("  -Factions: ", BeColors.WARNING_COLOR);
-
-                if (factions.Count == SharpHelper.EnumToArray<BotFaction>().Count() - 1 /* minus BotFaction.None */)
-                {
-                    ScriptHelper.PrintMessage("  ALL");
-                }
-                else
-                {
-                    foreach (var botFaction in factions)
-                    {
-                        var index = (int)botFaction;
-                        ScriptHelper.PrintMessage("  " + index + ": " + botFaction);
-                    }
-                }
-
-                ScriptHelper.PrintMessage("  -Current faction: " + currentFaction, BeColors.WARNING_COLOR);
+                ScriptHelper.PrintMessage(string.Format(" - {0}[{1}]: {2}", team, currentFaction, factionsValue));
             }
 
             var rotationInterval = settings.FactionRotationEnabled ? settings.FactionRotationInterval.ToString() : "Disabled";

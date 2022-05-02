@@ -39,10 +39,9 @@ namespace BotExtended
         public static BotFaction RandomFaction(List<BotFaction> botFactions, int botCount)
         {
             List<BotFaction> filteredBotFactions = null;
-            if (botCount < 3) // Too few for a faction, spawn boss instead
+            if (botCount <= 2) // Too few for a faction, spawn boss instead
             {
                 filteredBotFactions = botFactions
-                    .Select(g => g)
                     .Where(g => (int)g >= Constants.BOSS_FACTION_START_INDEX).ToList();
                 if (!filteredBotFactions.Any())
                     filteredBotFactions = botFactions;

@@ -12,19 +12,25 @@ namespace BotExtended
 {
     public static class BotManager
     {
-        private static Dictionary<PlayerTeam, BotFaction> CurrentBotFaction = new Dictionary<PlayerTeam, BotFaction>();
+        private static Dictionary<PlayerTeam, BotFaction> CurrentBotFaction = new Dictionary<PlayerTeam, BotFaction>
+        {
+            { PlayerTeam.Team1, BotFaction.None },
+            { PlayerTeam.Team2, BotFaction.None },
+            { PlayerTeam.Team3, BotFaction.None },
+            { PlayerTeam.Team4, BotFaction.None },
+        };
         public static int CurrentFactionSetIndex { get; private set; }
         public static Faction CurrentFaction { get; private set; }
         public const PlayerTeam BotTeam = PlayerTeam.Team4;
 
         // Player corpses waiting to be transformed into zombies
         private static Dictionary<int, InfectedCorpse> _infectedCorpses = new Dictionary<int, InfectedCorpse>();
-        private static List<PlayerSpawner> m_playerSpawners;
+        private static List<PlayerSpawner> _playerSpawners;
         private static Dictionary<int, Bot> _bots = new Dictionary<int, Bot>();
 
         public static void Initialize()
         {
-            m_playerSpawners = BotHelper.GetEmptyPlayerSpawners();
+            _playerSpawners = BotHelper.GetEmptyPlayerSpawners();
 
             Events.PlayerWeaponAddedActionCallback.Start(OnPlayerPickedupWeapon);
             Events.PlayerWeaponRemovedActionCallback.Start(OnPlayerDroppedWeapon);
@@ -37,11 +43,11 @@ namespace BotExtended
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
             var settings = Settings.Get();
-            if (settings.RoundsUntilFactionRotation == 1 || settings.CurrentFaction[BotTeam] == BotFaction.None)
+            if (settings.RoundsUntilFactionRotation == 1)
             {
                 foreach (var team in SharpHelper.EnumToList<PlayerTeam>())
                 {
-                    if (team == PlayerTeam.Independent)
+                    if (!settings.HasFaction(team))
                         continue;
 
                     List<BotFaction> botFactions;
@@ -55,9 +61,8 @@ namespace BotExtended
 
                     // TODO: disregard spawning only boss or not when count < 3 if team != BotTeam
                     var faction = BotHelper.RandomFaction(botFactions, settings.BotCount);
-
-                    if (team == BotTeam)
-                        ScriptHelper.PrintMessage("Change faction to " + faction);
+                    
+                    ScriptHelper.PrintMessage(team + ": Change faction to " + faction);
                     CurrentBotFaction[team] = faction;
                 }
             }
@@ -76,8 +81,11 @@ namespace BotExtended
                 BotHelper.Storage.SetItem(BotHelper.StorageKey("ROUNDS_UNTIL_FACTION_ROTATION"), roundTillNextFactionRotation);
             }
 
-            var botSpawnCount = Math.Min(settings.BotCount, m_playerSpawners.Count);
+            var botSpawnCount = Math.Min(settings.BotCount, _playerSpawners.Count);
+            var teamsWithFaction = settings.TeamsWithFactions().Count;
+            var botCounts = SharpHelper.DivideEvenly(botSpawnCount, teamsWithFaction).ToList();
 
+            var index = 0;
             foreach (var item in CurrentBotFaction)
             {
                 var team = item.Key;
@@ -86,14 +94,8 @@ namespace BotExtended
                 if (faction == BotFaction.None)
                     continue;
 
-                if (team == BotTeam)
-                {
-                    SpawnRandomFaction(faction, botSpawnCount, team);
-                }
-                else
-                {
-                    SpawnRandomFaction(faction, 0, team);
-                }
+                SpawnRandomFaction(faction, botCounts[index], team);
+                index++;
             }
 
             var activeUsers = ScriptHelper.GetActiveUsersByAccountID();
@@ -129,9 +131,7 @@ namespace BotExtended
             CurrentFaction = factionSet.Factions[rndFactionIndex];
             CurrentFactionSetIndex = rndFactionIndex;
 
-            var bots = botCount == 0
-                ? CurrentFaction.Spawn(team)
-                : CurrentFaction.Spawn(botCount, team);
+            var bots = CurrentFaction.Spawn(botCount, team);
 
             ScriptHelper.Timeout(() =>
             {
@@ -323,20 +323,14 @@ namespace BotExtended
 
             if (ignoreFullSpawner)
             {
-                emptySpawners = m_playerSpawners;
+                emptySpawners = _playerSpawners;
             }
             else
             {
-                emptySpawners = m_playerSpawners
-                    .Select(Q => Q)
-                    .Where(Q => Q.HasSpawned == false)
-                    .ToList();
+                emptySpawners = _playerSpawners.Where(Q => Q.HasSpawned == false).ToList();
             }
 
-            if (!emptySpawners.Any())
-            {
-                return null;
-            }
+            if (emptySpawners.Count == 0) return null;
 
             var rndSpawner = RandomHelper.GetItem(emptySpawners);
             var player = Game.CreatePlayer(rndSpawner.Position);
@@ -418,9 +412,7 @@ namespace BotExtended
                 }
             }
 
-            var bosses = string.Join(".", CurrentFaction.Bosses);
-            var factionWinStatsKey = BotHelper.StorageKey(CurrentBotFaction[BotTeam], CurrentFactionSetIndex)
-                + "_" + bosses.ToUpper() + "_WIN_STATS";
+            var factionWinStatsKey = BotHelper.StorageKey(CurrentBotFaction[BotTeam], CurrentFactionSetIndex) +  "_WIN_STATS";
             int[] factionOldWinStats;
             int winCount, totalMatch;
 

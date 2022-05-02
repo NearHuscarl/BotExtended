@@ -33,6 +33,24 @@ namespace BotExtended
             PlayerSettings = playerSettings;
         }
 
+        public bool HasFaction(PlayerTeam team)
+        {
+            return team != PlayerTeam.Independent && BotFactions[team].Where(f => f != BotFaction.None).Any();
+        }
+
+        public List<PlayerTeam> TeamsWithFactions()
+        {
+            var teams = new List<PlayerTeam>();
+            foreach (var team in SharpHelper.EnumToList<PlayerTeam>())
+            {
+                if (team == PlayerTeam.Independent)
+                    continue;
+                if (HasFaction(team))
+                    teams.Add(team);
+            }
+            return teams;
+        }
+
         public static Settings Get()
         {
             int botCount;
@@ -61,7 +79,6 @@ namespace BotExtended
                 BotHelper.Storage.SetItem(roundsUntilRotationKey, factionRotationInterval);
             }
 
-            var teams = SharpHelper.EnumToList<PlayerTeam>();
             var botFactions = new Dictionary<PlayerTeam, List<BotFaction>>();
             var currentFaction = new Dictionary<PlayerTeam, BotFaction>();
 
@@ -77,7 +94,7 @@ namespace BotExtended
                 currentFaction.Add((PlayerTeam)i+1, SharpHelper.StringToEnum<BotFaction>(currentFactionStr[i]));
             }
 
-            foreach (var team in teams)
+            foreach (var team in SharpHelper.EnumToList<PlayerTeam>())
             {
                 if (team == PlayerTeam.Independent)
                     continue;

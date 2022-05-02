@@ -67,6 +67,18 @@ namespace BotExtended.Library
             return typeof(T).Namespace;
         }
 
+        // I love Jon Skeet https://stackoverflow.com/a/577451/9449426
+        public static IEnumerable<int> DivideEvenly(int numerator, int denominator)
+        {
+            var rem = 0;
+            var div = Math.DivRem(numerator, denominator, out rem);
+
+            for (var i = 0; i < denominator; i++)
+            {
+                yield return i < rem ? div + 1 : div;
+            }
+        }
+
         public static bool IsIntersectRectangle(Vector2 start, Vector2 end, Vector2[] corners)
         {
             if (corners.Length != 4)
