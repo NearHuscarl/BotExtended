@@ -76,11 +76,6 @@ namespace RandomBotProfiles
             foreach (var arg in arguments)
             {
                 var parts = arg.Split('-');
-
-                Game.WriteToConsole(parts.Length);
-                foreach (var p in parts)
-                    Game.WriteToConsole(p);
-
                 var count = int.Parse(parts[1]);
 
                 for (var i = 0; i < count; i++)

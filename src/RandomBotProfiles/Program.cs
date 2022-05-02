@@ -34,52 +34,23 @@ namespace RandomBotProfiles
             Events.PlayerDeathCallback.Start(OnPlayerDealth);
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
-            var spawners = ScriptHelper.GetPlayerSpawners(emptyOnly: true);
+            var spawners = RandomHelper.Shuffle(ScriptHelper.GetPlayerSpawners(emptyOnly: true));
             if (spawners.Count > 0)
             {
                 var isRandom = ScriptHelper.GetIsRandom();
+                var index = 0;
                 ScriptHelper.GetBotsDataFromStorage().ForEach(botData =>
                 {
-                    var bot = Game.CreatePlayer(RandomHelper.GetRandomItem(spawners).GetWorldPosition());
+                    if (index > spawners.Count - 1) return;
+
+                    var bot = Game.CreatePlayer(spawners[index].GetWorldPosition());
                     bot.SetProfile(isRandom ? RandomHelper.RandomizeProfile() : botData.Profile);
                     bot.SetBotName(isRandom ? RandomHelper.RandomizeName() : botData.Name);
                     bot.SetTeam(botData.Team);
                     bot.SetBotBehaviorSet(BotBehaviorSet.GetBotBehaviorPredefinedSet(botData.AI));
                     bot.SetBotBehaviorActive(true);
+                    index++;
                 });
-            }
-        }
-
-        private static List<PlayerTeam> GetAliveTeams()
-        {
-            var teamCount = new Dictionary<PlayerTeam, int>
-            {
-                { PlayerTeam.Team1, 0 },
-                { PlayerTeam.Team2, 0 },
-                { PlayerTeam.Team3, 0 },
-                { PlayerTeam.Team4, 0 },
-                { PlayerTeam.Independent, 0 },
-            };
-            foreach (var p in Game.GetPlayers())
-            {
-                if (!p.IsDead)
-                {
-                    teamCount[p.GetTeam()]++;
-                }
-            }
-
-            return teamCount.Where(t => t.Value > 0).Select(t => t.Key).ToList();
-        }
-
-        private static int GetTeamNumber(PlayerTeam team)
-        {
-            switch (team)
-            {
-                case PlayerTeam.Team1: return 1;
-                case PlayerTeam.Team2: return 2;
-                case PlayerTeam.Team3: return 3;
-                case PlayerTeam.Team4: return 4;
-                default: return 0;
             }
         }
 
@@ -109,13 +80,13 @@ namespace RandomBotProfiles
 
                 if (alivePlayers.Count > 0 || aliveBots.Count > 0)
                 {
-                    if (alivePlayers.Count == 0 && aliveBots.Count > 0)
+                    if (alivePlayers.Count == 0 && aliveBots.Count > 1)
                     {
                         Game.SetGameOver(WIN_STATUS_NO_HUMAN);
                         return;
                     }
 
-                    var teamsLeft = GetAliveTeams();
+                    var teamsLeft = ScriptHelper.GetAliveTeams();
                     if (teamsLeft.Count == 1)
                     {
                         var teamLeft = teamsLeft[0];
@@ -123,7 +94,7 @@ namespace RandomBotProfiles
                         if (teamLeft == PlayerTeam.Independent)
                             Game.SetGameOver(string.Format(WIN_STATUS_PLAYER_WIN, lastPlayerSurvive.Name));
                         else
-                            Game.SetGameOver(string.Format(WIN_STATUS_TEAM, GetTeamNumber(teamLeft)));
+                            Game.SetGameOver(string.Format(WIN_STATUS_TEAM, ScriptHelper.GetTeamNumber(teamLeft)));
                     }
                 }
                 else

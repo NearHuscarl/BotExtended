@@ -19,6 +19,20 @@ namespace RandomBotProfiles
             var rndIndex = Rnd.Next(list.Count);
             return list[rndIndex];
         }
+        public static IList<T> Shuffle<T>(IList<T> list)  
+        {
+            var n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Rnd.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+            return list;
+        }
+
         public static bool Boolean()
         {
             return Rnd.NextDouble() >= 0.5;

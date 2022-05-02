@@ -52,6 +52,39 @@ namespace RandomBotProfiles
             storage.SetItem("RBP_IS_RANDOM", value);
         }
 
+        public static List<PlayerTeam> GetAliveTeams()
+        {
+            var teamCount = new Dictionary<PlayerTeam, int>
+            {
+                { PlayerTeam.Team1, 0 },
+                { PlayerTeam.Team2, 0 },
+                { PlayerTeam.Team3, 0 },
+                { PlayerTeam.Team4, 0 },
+                { PlayerTeam.Independent, 0 },
+            };
+            foreach (var p in Game.GetPlayers())
+            {
+                if (!p.IsDead)
+                {
+                    teamCount[p.GetTeam()]++;
+                }
+            }
+
+            return teamCount.Where(t => t.Value > 0).Select(t => t.Key).ToList();
+        }
+
+        public static int GetTeamNumber(PlayerTeam team)
+        {
+            switch (team)
+            {
+                case PlayerTeam.Team1: return 1;
+                case PlayerTeam.Team2: return 2;
+                case PlayerTeam.Team3: return 3;
+                case PlayerTeam.Team4: return 4;
+                default: return 0;
+            }
+        }
+
         // layer text is in Equipment.cs#GetText()
         public static string[] GetProfileItems(int layer, Gender gender)
         {
