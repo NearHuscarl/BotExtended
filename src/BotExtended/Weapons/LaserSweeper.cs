@@ -102,7 +102,7 @@ namespace BotExtended.Weapons
                 }).Where(r => r.HitObject != null);
 
                 var result = results.FirstOrDefault();
-                if (result.IsPlayer && Vector2.Distance(result.HitObject.GetWorldPosition(), Position) > 25) return true;
+                if (result.IsPlayer && Position.Y - result.HitObject.GetWorldPosition().Y > 30) return true;
             }
 
             return false;
@@ -155,6 +155,7 @@ namespace BotExtended.Weapons
             if (groundResult.HitObject == null)
             {
                 _laser.SetEndPosition(nextAngle, 1500);
+                _laserSplash.SetWorldPosition(ScriptHelper.GetFarAwayPosition());
                 return;
             }
             var distance = Vector2.Distance(_laser.StartPosition, groundResult.Position);

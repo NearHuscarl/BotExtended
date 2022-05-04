@@ -30,7 +30,7 @@ Traps the player with a rope and sets them on fire.
 - Deals continuous damage to any objects in the trajectory.
 - Has a chance of setting objects on fire.
 
-<img width='500' src='https://media.giphy.com/media/ITSuhEl7SzaSYRBUR8/giphy.gif' />
+<img width='500' src='https://media.giphy.com/media/KetUNpPpLE8ihm1rvX/giphy.gif' />
 
 ### Shotgun Trap
 
@@ -48,9 +48,9 @@ Trips the player and drops a grenade next to them.
 
 ### Turret
 
-- Searches and fires enemies.
+- Searches and fires the enemies.
 - Has 300 rounds.
-- Has 3 types of damage:
+- Has 4 types of damage:
   - Sensor damage: shoots everyone including allies.
   - Controller damage: rotates randomly.
   - Rotor damage: stops rotating.
