@@ -94,6 +94,7 @@ namespace RandomBots
             Game.ShowChatMessage("/<RandomBots|rbp> [ClearBot|cb]: Remove all bots from the game (applied in the next round)", MESSAGE_COLOR);
             Game.ShowChatMessage("/<RandomBots|rbp> [Random|r]: Toggle randomizing bot profiles in every match", MESSAGE_COLOR);
             Game.ShowChatMessage("/<RandomBots|rbp> [AllowOnlyBot|aob]: Toggle allowing only bots", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [Settings|s]: Show current settings", MESSAGE_COLOR);
         }
 
         private static void SetBots(IEnumerable<string> arguments)
