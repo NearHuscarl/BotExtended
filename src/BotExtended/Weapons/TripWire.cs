@@ -30,7 +30,7 @@ namespace BotExtended.Weapons
 
             if (_hasGrenade)
             {
-                var grenade = (IObjectGrenadeThrown)Game.CreateObject("WpnGrenadesThrown", player.GetWorldPosition());
+                var grenade = (IObjectGrenadeThrown)Game.CreateObject("WpnGrenadesThrown", player.GetWorldPosition() + Vector2.UnitX * player.FacingDirection);
                 grenade.SetExplosionTimer(900);
                 _hasGrenade = false;
             }

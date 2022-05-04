@@ -9,12 +9,12 @@ namespace BotExtended.Bots
 {
     class EngineerBot_Controller : Controller<EngineerBot>
     {
-        public bool IsBuilding { get { return m_state == EngineerState.Building; } }
+        public bool IsBuilding { get { return _state == EngineerState.Building; } }
 
         private Vector2[] ScanLine(float angle)
         {
             var start = Actor.Position + Vector2.UnitY * 9; // same height as turret's tip
-            var end = start + ScriptHelper.GetDirection(angle) * 200;
+            var end = start + ScriptHelper.GetDirection(angle) * 160;
             return new Vector2[] { start, end };
         }
 
@@ -38,7 +38,7 @@ namespace BotExtended.Bots
             PreBuilding,
             Building,
         }
-        private EngineerState m_state = EngineerState.Normal;
+        private EngineerState _state = EngineerState.Normal;
 
         private enum AvailableTurretDirection
         {
@@ -61,13 +61,13 @@ namespace BotExtended.Bots
 
         public override void OnUpdate(float elapsed)
         {
-            Actor.LogDebug(m_state, Actor.BuildProgress);
+            Actor.LogDebug(_state, Actor.BuildProgress);
 
-            switch (m_state)
+            switch (_state)
             {
                 case EngineerState.Normal:
                     if (Actor.HasEnoughEnergy && Actor.HasEquipment)
-                        m_state = EngineerState.Analyzing;
+                        _state = EngineerState.Analyzing;
                     break;
                 case EngineerState.Analyzing:
                     if (ScriptHelper.IsElapsed(m_analyzePlaceCooldown, 300))
@@ -119,7 +119,7 @@ namespace BotExtended.Bots
         }
         private bool IsInactive
         {
-            get { return (Player.IsIdle || Player.IsWalking) && !Player.IsInMidAir && !IsAttacked; }
+            get { return (Player.IsIdle || Player.IsWalking) && Player.IsOnGround && !Actor.IsHurtRecently; }
         }
         private bool CanBuildTurretNow { get { return Actor.HasEquipment && IsInactive; } }
         private bool ShouldBuildTurretHere()
@@ -135,8 +135,11 @@ namespace BotExtended.Bots
             for (var i = 0; i < ScanLines.Count; i++)
             {
                 var scanLine = ScanLines[i];
+                var results = RayCastHelper.ImpassableObjects(scanLine[0], scanLine[1]).ToList();
+                
                 Game.DrawLine(scanLine[0], scanLine[1], Color.Yellow);
-                if (RayCastHelper.ImpassableObjects(scanLine[0], scanLine[1]).Count() == 0)
+
+                if (results.Count == 0)
                 {
                     m_availableDirection = i == 0 ? AvailableTurretDirection.Right : AvailableTurretDirection.Left;
                     if (m_availableDirection == prioritizedDirection)
@@ -202,7 +205,7 @@ namespace BotExtended.Bots
             bs.GuardRange = 1f;
             bs.ChaseRange = 1f;
             Player.SetBotBehaviorSet(bs);
-            m_state = EngineerState.GoingToPlaceholder;
+            _state = EngineerState.GoingToPlaceholder;
         }
 
         private void CheckArriveTargetPlaceholder()
@@ -216,14 +219,14 @@ namespace BotExtended.Bots
                 {
                     if (!IsInactive)
                     {
-                        m_state = EngineerState.Analyzing;
+                        _state = EngineerState.Analyzing;
                     }
                     else
                     {
                         if (!ShouldBuildTurretHere())
                         {
                             Player.SetGuardTarget(null);
-                            m_state = EngineerState.Normal;
+                            _state = EngineerState.Normal;
                         }
                     }
                 }
@@ -246,7 +249,7 @@ namespace BotExtended.Bots
             Player.AddCommand(new PlayerCommand(PlayerCommandType.Walk, direction == TurretDirection.Left ?
                 PlayerCommandFaceDirection.Left : PlayerCommandFaceDirection.Right, 10));
 
-            m_state = EngineerState.PreBuilding;
+            _state = EngineerState.PreBuilding;
         }
 
         private float m_prepareTimer = 0f;
@@ -266,7 +269,7 @@ namespace BotExtended.Bots
 
                     if (m_targetPlaceholder == null)
                     {
-                        m_state = EngineerState.Building;
+                        _state = EngineerState.Building;
                         m_prepareTimer = 0f;
                         Actor.CreateNewTurret();
                     }
@@ -276,7 +279,7 @@ namespace BotExtended.Bots
                         Player.AddCommand(new PlayerCommand(PlayerCommandType.AttackOnce));
                         ScriptHelper.Timeout(() =>
                         {
-                            m_state = EngineerState.Building;
+                            _state = EngineerState.Building;
                             m_prepareTimer = 0f;
                         }, HitTime);
                     }
@@ -291,7 +294,7 @@ namespace BotExtended.Bots
 
             Player.AddCommand(new PlayerCommand(PlayerCommandType.StopCrouch));
             Player.SetInputEnabled(true);
-            m_state = EngineerState.Normal;
+            _state = EngineerState.Normal;
         }
 
         private float m_hitTimer = 0f;

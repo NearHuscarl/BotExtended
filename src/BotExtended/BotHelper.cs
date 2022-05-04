@@ -54,23 +54,21 @@ namespace BotExtended
             return rndBotFaction;
         }
 
-        public static List<PlayerSpawner> GetEmptyPlayerSpawners()
+        public static List<PlayerSpawner> GetPlayerSpawners()
         {
             var spawners = Game.GetObjectsByName("SpawnPlayer");
             var emptySpawners = new List<PlayerSpawner>();
-            var players = Game.GetPlayers();
+            var players = Game.GetPlayers().Where(p => !p.IsDead).ToList();
 
             foreach (var spawner in spawners)
             {
-                var spawnerHasPlayer = players.Any(x => x.GetAABB().Intersects(spawner.GetAABB()));
-                if (!spawnerHasPlayer)
+                var hasPlayer = players.Any(x => x.GetAABB().Intersects(spawner.GetAABB()));
+
+                emptySpawners.Add(new PlayerSpawner
                 {
-                    emptySpawners.Add(new PlayerSpawner
-                    {
-                        Position = spawner.GetWorldPosition(),
-                        HasSpawned = false,
-                    });
-                }
+                    Position = spawner.GetWorldPosition(),
+                    HasSpawned = hasPlayer,
+                });
             }
 
             return emptySpawners;

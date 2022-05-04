@@ -34,7 +34,7 @@ namespace BotExtended.Bots
         }
 
         private bool m_notifyCooldownOver = false;
-        private float m_createNewTurretCooldown = 0f;
+        private float _createNewTurretCooldown = 0f;
         protected override void OnUpdate(float elapsed)
         {
             base.OnUpdate(elapsed);
@@ -44,9 +44,9 @@ namespace BotExtended.Bots
             if (m_controller != null)
                 m_controller.OnUpdate(elapsed);
 
-            if (m_createNewTurretCooldown < CreateNewCooldownTime)
+            if (_createNewTurretCooldown < CreateNewCooldownTime)
             {
-                m_createNewTurretCooldown += elapsed;
+                _createNewTurretCooldown += elapsed;
             }
             else if (!m_notifyCooldownOver)
             {
@@ -111,7 +111,7 @@ namespace BotExtended.Bots
 
         public bool HasEnoughEnergy
         {
-            get { return m_createNewTurretCooldown >= CreateNewCooldownTime; }
+            get { return _createNewTurretCooldown >= CreateNewCooldownTime; }
         }
 
         public bool HasEquipment { get { return BuildItems.Contains(Player.CurrentMeleeWeapon.WeaponItem); } }
@@ -147,47 +147,29 @@ namespace BotExtended.Bots
             StopOccupying();
         }
 
-        private bool IsNearEdge()
-        {
-            var start = Position;
-            var scanLines = new List<Vector2[]>();
-            var deg70 = 1.22173f;
-
-            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 });
-            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 + Vector2.UnitX * (float)(5 / Math.Cos(deg70)) });
-            scanLines.Add(new Vector2[] { start, start - Vector2.UnitY * 5 - Vector2.UnitX * (float)(5 / Math.Cos(deg70)) });
-
-            var rayCastInput = new RayCastInput()
-            {
-                MaskBits = CategoryBits.StaticGround,
-                FilterOnMaskBits = true,
-            };
-
-            var hitCount = 0;
-            foreach (var l in scanLines)
-            {
-                var results = Game.RayCast(l[0], l[1], rayCastInput);
-                Game.DrawLine(l[0], l[1]);
-
-                foreach (var result in results)
-                {
-                    if (result.HitObject.GetBodyType() == BodyType.Static
-                        && ScriptHelper.IsIndestructible(result.HitObject)
-                        && !RayCastHelper.ObjectsBulletCanDestroy.Contains(result.HitObject.Name))
-                    {
-                        hitCount++;break;
-                    }
-                }
-            }
-            return hitCount < 3;
-        }
-
         public bool CanBuildTurretHere()
         {
-            if (IsNearEdge())
-                return false;
+            var boundingBox = Player.GetAABB();
+            var bottom = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
+            var bottomPositions = new List<Vector2>();
+            
+            bottomPositions.Add(bottom);
+            bottomPositions.Add(bottom - Vector2.UnitX * 10);
+            bottomPositions.Add(bottom + Vector2.UnitX * 10);
 
-            return true;
+            var hitCount = 0;
+            foreach (var pos in bottomPositions)
+            {
+                var groundObj = ScriptHelper.GetGroundObject(pos);
+                if (groundObj != null) hitCount++;
+
+                if (Game.IsEditorTest)
+                {
+                    Game.DrawCircle(pos, 1, groundObj == null ? Color.Red : Color.Green);
+                }
+            }
+
+            return hitCount == 3;
         }
 
         public bool CreateNewTurret()
@@ -202,7 +184,7 @@ namespace BotExtended.Bots
 
                 var direction = Player.FacingDirection == -1 ? TurretDirection.Left : TurretDirection.Right;
                 m_placeholder = WeaponManager.CreateTurretPlaceholder(Player, direction);
-                m_createNewTurretCooldown = 0f;
+                _createNewTurretCooldown = 0f;
                 m_notifyCooldownOver = false;
                 return true;
             }

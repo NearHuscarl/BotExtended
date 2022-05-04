@@ -32,6 +32,10 @@ python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Su
 
 - See the full list of all ranged powerups [here](./docs/POWERUPS_RANGED.md).
 
+## Custom Weapons
+
+- See the full list of all custom weapons [here](./docs/CUSTOM_WEAPONS.md).
+
 ## Factions
 
 - See the full list of all factions [here](./docs/FACTIONS.md).
@@ -524,11 +528,11 @@ Same as [Bodyguard] except for the following stats:
 
 **Stats**
 
-| **Health**    | Below Normal                                 |
-| :------------ | :------------------------------------------- |
-| **AI**        | Grunt                                        |
-| **Factions**  | [Engineer][fengineer]                        |
-| **Abilities** | Builds an automatic turret every 12 seconds. |
+| **Health**    | Below Normal                                   |
+| :------------ | :--------------------------------------------- |
+| **AI**        | Grunt                                          |
+| **Factions**  | [Engineer][fengineer]                          |
+| **Abilities** | Builds an automatic [turret] every 12 seconds. |
 
 **Weapons**
 
@@ -565,12 +569,12 @@ Same as [Bodyguard] except for the following stats:
 
 **Stats**
 
-| **Health**    | Below Normal                                                                                                                                            |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **AI**        | Grunt                                                                                                                                                   |
-| **Weapons**   | ![SawedOff] ![Shotgun]                                                                                                                                  |
-| **Factions**  | [Farmer][ffarmer], [Hunter][fhunter].                                                                                                                   |
-| **Abilities** | Spawns 6 chickens, each has 1 HP and 2 ATK, the chickens guard and attack any enemy nearby. Has 25% chance of making the enemy fall after pecking them. |
+| **Health**    | Below Normal                                       |
+| :------------ | :------------------------------------------------- |
+| **AI**        | Grunt                                              |
+| **Weapons**   | ![SawedOff] ![Shotgun]                             |
+| **Factions**  | [Farmer][ffarmer], [Hunter][fhunter].              |
+| **Abilities** | Spawns 6 [chickens][chicken] to defense the owner. |
 
 <details>
   <summary>
@@ -606,12 +610,12 @@ Same as [Bodyguard] except for the following stats:
 
 **Stats**
 
-| **Health**    | Below Normal                                                                                                                                                                                                                                                                                                                                                            |
-| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **AI**        | Grunt                                                                                                                                                                                                                                                                                                                                                                   |
-| **Weapons**   | ![Bat] ![Bottle] ![Uzi] ![Pistol] ![Revolver] ![Shotgun] ![Sawedoff] ![MP50]                                                                                                                                                                                                                                                                                            |
-| **Factions**  | [Gangster][fgangster]                                                                                                                                                                                                                                                                                                                                                   |
-| **Abilities** | <li>Gathers at one spot and setups a camp in each team.</li><li>Camp spawns a new [Gangster] or [Gangster Hulk] every 12 seconds.</li><li>Has 3% chance of spawning a boss ([Kingpin], [Bobby] or [Jo]) intead.</li><li>Gangsters with less than 30 HP flee back to the tent to heal.</li><li>Go out and attack other teams once the tent has 7 members and above.</li> |
+| **Health**    | Below Normal                                                                 |
+| :------------ | :--------------------------------------------------------------------------- |
+| **AI**        | Grunt                                                                        |
+| **Weapons**   | ![Bat] ![Bottle] ![Uzi] ![Pistol] ![Revolver] ![Shotgun] ![Sawedoff] ![MP50] |
+| **Factions**  | [Gangster][fgangster]                                                        |
+| **Abilities** | Gathers in one spot and setups a [Camp] in each team.                        |
 
 <details>
   <summary>
@@ -777,11 +781,11 @@ Same as [Bodyguard] except for the following stats:
 
 **Stats**
 
-| **Health**    | Below Normal                               |
-| :------------ | :----------------------------------------- |
-| **AI**        | Grunt                                      |
-| **Factions**  | [MetroCop][fmetrocop]                      |
-| **Abilities** | Spawns up to 2 LaserSweepers in each team. |
+| **Health**    | Below Normal                                               |
+| :------------ | :--------------------------------------------------------- |
+| **AI**        | Grunt                                                      |
+| **Factions**  | [MetroCop][fmetrocop]                                      |
+| **Abilities** | Spawns up to 2 [LaserSweepers][lasersweeper] in each team. |
 
 **Weapons**
 
@@ -4281,9 +4285,13 @@ Clear all player settings.
 
 <!-- custom weapons -->
 
+[camp]: ./docs/CUSTOM_WEAPONS.md#camp
+[chicken]: ./docs/CUSTOM_WEAPONS.md#chicken
 [fire trap]: ./docs/CUSTOM_WEAPONS.md#fire-trap
+[lasersweeper]: ./docs/CUSTOM_WEAPONS.md#lasersweeper
 [shotgun trap]: ./docs/CUSTOM_WEAPONS.md#shotgun-trap
 [tripwire]: ./docs/CUSTOM_WEAPONS.md#tripwire
+[turret]: ./docs/CUSTOM_WEAPONS.md#turret
 
 <!-- weapons -->
 

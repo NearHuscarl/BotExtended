@@ -408,6 +408,33 @@ namespace BotExtended.Library
             }
         }
 
+        // TODO: use this function in other places
+        public static IPlayer GetClosestPlayer(Vector2 position, Func<IPlayer, bool> filter)
+        {
+            float minDistance;
+            return GetClosestPlayer(position, filter, out minDistance);
+        }
+        public static IPlayer GetClosestPlayer(Vector2 position, Func<IPlayer, bool> filter, out float minDistance)
+        {
+            var player = (IPlayer)null;
+            minDistance = float.MaxValue;
+
+            foreach (var p in Game.GetPlayers())
+            {
+                if (!filter(p)) continue;
+                var distanceSqrToPlayer = Vector2.DistanceSquared(p.GetWorldPosition(), position);
+                if (player == null || distanceSqrToPlayer < minDistance)
+                {
+                    player = p;
+                    minDistance = distanceSqrToPlayer;
+                }
+            }
+
+            minDistance = (float)Math.Sqrt(minDistance);
+
+            return player;
+        }
+
         public static Comparison<IPlayer> WithGetClosestPlayer(Vector2 position)
         {
             return (p1, p2) =>
@@ -419,8 +446,6 @@ namespace BotExtended.Library
                 return 1;
             };
         }
-
-        public static bool IsIndestructible(IObject o) { return o.GetMaxHealth() == 1; }
 
         public static Dictionary<string, IUser> GetActiveUsersByAccountID()
         {
@@ -551,10 +576,9 @@ namespace BotExtended.Library
                 || cf.CategoryBits == CategoryBits.StaticGround;
         }
 
-        public static IObject GetGroundObject(IObject aboveObject, ushort categoryBits = CategoryBits.StaticGround)
+        public static IObject GetGroundObject(Vector2 bottomPosition, ushort categoryBits = CategoryBits.StaticGround)
         {
-            var boundingBox = aboveObject.GetAABB();
-            var start = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
+            var start = bottomPosition;
             var end = start + new Vector2(0, -1);
             var results = Game.RayCast(start, end, new RayCastInput()
             {
@@ -564,8 +588,14 @@ namespace BotExtended.Library
                 IncludeOverlap = true,
             }).Where(r => r.HitObject != null);
 
-            if (results.Any()) return results.First().HitObject;
-            return null;
+            return results.FirstOrDefault().HitObject;
+        }
+
+        public static IObject GetGroundObject(IObject aboveObject, ushort categoryBits = CategoryBits.StaticGround)
+        {
+            var boundingBox = aboveObject.GetAABB();
+            var start = new Vector2(boundingBox.Center.X, boundingBox.Bottom);
+            return GetGroundObject(start, categoryBits);
         }
 
         public static void Unscrew(IObject o)

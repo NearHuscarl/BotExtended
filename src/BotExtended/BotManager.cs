@@ -30,7 +30,7 @@ namespace BotExtended
 
         public static void Initialize()
         {
-            _playerSpawners = BotHelper.GetEmptyPlayerSpawners();
+            _playerSpawners = BotHelper.GetPlayerSpawners();
 
             Events.PlayerWeaponAddedActionCallback.Start(OnPlayerPickedupWeapon);
             Events.PlayerWeaponRemovedActionCallback.Start(OnPlayerDroppedWeapon);
@@ -319,23 +319,19 @@ namespace BotExtended
 
         private static IPlayer SpawnPlayer(bool ignoreFullSpawner = false)
         {
-            List<PlayerSpawner> emptySpawners = null;
+            var validSpawners = _playerSpawners.Where(s => !s.HasSpawned).ToList();
 
-            if (ignoreFullSpawner)
+            if (validSpawners.Count == 0 && ignoreFullSpawner)
             {
-                emptySpawners = _playerSpawners;
-            }
-            else
-            {
-                emptySpawners = _playerSpawners.Where(Q => Q.HasSpawned == false).ToList();
+                validSpawners = _playerSpawners;
             }
 
-            if (emptySpawners.Count == 0) return null;
+            if (validSpawners.Count == 0) return null;
 
-            var rndSpawner = RandomHelper.GetItem(emptySpawners);
-            var player = Game.CreatePlayer(rndSpawner.Position);
+            var spawner = RandomHelper.GetItem(validSpawners);
+            var player = Game.CreatePlayer(spawner.Position);
 
-            rndSpawner.HasSpawned = true;
+            spawner.HasSpawned = true;
 
             return player;
         }

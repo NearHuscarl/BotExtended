@@ -17,6 +17,7 @@ namespace BotExtended.Weapons
     {
         None = 0,
         SensorDamaged = 1, // Shoot everyone
+        // TODO: Uncontrolled = no rotation + keep firing
         ControllerDamaged = 2, // Rotate randomly (if rotor is not damaged)
         RotorDamaged = 4, // Cant rotate
         BarrelDamaged = 8, // Cant shoot
@@ -347,9 +348,7 @@ namespace BotExtended.Weapons
             foreach (var result in results)
             {
                 var o = result.HitObject;
-                if (o.GetBodyType() == BodyType.Static
-                    && ScriptHelper.IsIndestructible(o)
-                    && !RayCastHelper.ObjectsBulletCanDestroy.Contains(o.Name))
+                if (o.GetBodyType() == BodyType.Static && !o.Destructable)
                 {
                     return o;
                 }

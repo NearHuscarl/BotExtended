@@ -13,6 +13,8 @@ namespace BotExtended.Weapons
 {
     public class Camp : Weapon
     {
+        private static string[] FleeLines = new string[]
+        { "I am hurt", "Need some help here!", "I'm coming for you again", "Is not funny", "That's close!", "I don't feel right", "NO...!", "Ouch!", "I'm dizzy!" };
         public GangsterBot Bot { get; private set; }
         public List<Bot> Members { get; set; }
         public List<Bot> AttackMembers { get; set; }
@@ -41,7 +43,7 @@ namespace BotExtended.Weapons
             Components = new List<IObject>() { body, roof };
             Instance = body;
             _isElapsedHeal = ScriptHelper.WithIsElapsed(555);
-            _isElapsedCheckMember = ScriptHelper.WithIsElapsed(3019);
+            _isElapsedCheckMember = ScriptHelper.WithIsElapsed(2019);
         }
 
         private float _spawnGangsterTime = 0;
@@ -103,26 +105,38 @@ namespace BotExtended.Weapons
                         && !Members.Any(x => x.Player.UniqueID == gangster.Player.UniqueID))
                         AddMember(gangster);
                 }
-                // retreat if injured
-                foreach (var member in AttackMembers.ToList())
-                {
-                    if (member.Player.GetHealth() < 30)
-                    {
-                        member.Player.SetGuardTarget(Instance);
-                        AttackMembers.Remove(member);
-                    }
-                }
                 foreach (var member in Members.ToList())
                 {
                     if (member.Player.IsDead) RemoveMember(member);
                 }
+                // flee if injured
+                foreach (var member in AttackMembers.ToList())
+                {
+                    if (member.Player.GetHealth() < 30)
+                    {
+                        if (RandomHelper.Percentage(Game.IsEditorTest ? 1 : .5f))
+                            member.SayLine(RandomHelper.GetItem(FleeLines));
+
+                        GuardCamp(member);
+                        AttackMembers.Remove(member);
+                    }
+                }
             }
+        }
+
+        public void GuardCamp(Bot member)
+        {
+            var bs = member.Player.GetBotBehaviorSet();
+            bs.GuardRange = 25;
+            bs.ChaseRange = 28;
+            member.Player.SetBotBehaviorSet(bs);
+            member.Player.SetGuardTarget(Instance);
         }
 
         public void AddMember(Bot member)
         {
             Members.Add(member);
-            member.Player.SetGuardTarget(Instance);
+            GuardCamp(member);
         }
 
         public void RemoveMember(Bot member)

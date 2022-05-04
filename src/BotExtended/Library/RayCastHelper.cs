@@ -10,20 +10,6 @@ namespace BotExtended.Library
 {
     static class RayCastHelper
     {
-        // List of objects that bullet cannot pass initially, but can be broken down
-        public static readonly HashSet<string> ObjectsBulletCanDestroy = new HashSet<string>()
-        {
-            "ReinforcedGlass00A",
-            "AtlasStatue00",
-            "BulletproofGlass00Weak",
-            "StoneWeak00A",
-            "StoneWeak00B",
-            "StoneWeak00C",
-            "Concrete01Weak",
-            "Wood06Weak",
-            "StreetsweeperCrate"
-        };
-
         // List of objects that bullet cant pass (edge cases)
         // https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3952&p=23291#p23291
         public static readonly HashSet<string> ObjectsBulletCantPass = new HashSet<string>()
@@ -37,21 +23,21 @@ namespace BotExtended.Library
                     // Filter objects bullet can passthrough like ladder
                     // Not an optimal solution: https://www.mythologicinteractiveforums.com/viewtopic.php?f=31&t=3952&p=23291#p23291
                     || (result.HitObject.GetCollisionFilter().BlockExplosions
-                    && !ObjectsBulletCanDestroy.Contains(result.HitObject.Name));
+                    && !result.HitObject.Destructable);
         }
 
         public static IEnumerable<RayCastResult> ImpassableObjects(Vector2 start, Vector2 end)
         {
             var rayCastInput = new RayCastInput()
             {
-                MaskBits = CategoryBits.StaticGround + CategoryBits.DynamicPlatform + CategoryBits.DynamicG1,
+                MaskBits = CategoryBits.StaticGround,
                 FilterOnMaskBits = true,
             };
-            var results = Game.RayCast(start, end, rayCastInput);
+            var results = Game.RayCast(start, end, rayCastInput).Where(r => r.HitObject != null);
 
             foreach (var result in results)
             {
-                if (BlockProjectile(result))
+                if (ScriptHelper.IsHardStaticGround(result.HitObject))
                     yield return result;
             }
         }

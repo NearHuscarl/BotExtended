@@ -154,7 +154,7 @@ namespace BotExtended.Bots
                 if (obj.UniqueID == Player.UniqueID || chargedObjects.Contains(obj.UniqueID) || ScriptHelper.IsPlayer(obj))
                     continue;
 
-                if (ScriptHelper.IsDynamicObject(obj) || RayCastHelper.ObjectsBulletCanDestroy.Contains(obj.Name))
+                if (ScriptHelper.IsDynamicObject(obj) || obj.Destructable)
                 {
                     if (ScriptHelper.IntersectCircle(obj.GetWorldPosition(), Position, ChargeHitRange))
                     {

@@ -40,6 +40,7 @@ namespace BotExtended.Weapons
             _isElapsedCheckFireLaser = ScriptHelper.WithIsElapsed(1500);
             _isElapsedUpdateFiring = ScriptHelper.WithIsElapsed(16);
             _isElapsedSound = ScriptHelper.WithIsElapsed(250);
+            _isElapsedUpdatePosition = ScriptHelper.WithIsElapsed(800, 2000);
         }
 
         private float _fireLaserTime;
@@ -50,10 +51,12 @@ namespace BotExtended.Weapons
             switch (_state)
             {
                 case State.Normal:
+                    UpdatePosition();
                     if (ScriptHelper.IsElapsed(_fireLaserTime, 4100))
                         _state = State.CheckingFire;
                     break;
                 case State.CheckingFire:
+                    UpdatePosition();
                     if (_isElapsedCheckFireLaser() && CanFire())
                         FireLaser();
                     break;
@@ -64,6 +67,22 @@ namespace BotExtended.Weapons
             }
         }
 
+        private Func<bool> _isElapsedUpdatePosition;
+        private void UpdatePosition()
+        {
+            if (!_isElapsedUpdatePosition()) return;
+
+            // try to stay away and above the players before shooting laser
+            float minDistance;
+            var player = ScriptHelper.GetClosestPlayer(Position, p => !p.IsDead, out minDistance);
+
+            if (minDistance < 40)
+            {
+                var moveDir = Vector2.Normalize(Position - player.GetWorldPosition());
+                Sweeper.SetLinearVelocity(moveDir * RandomHelper.Between(3, 8));
+            }
+        }
+
         private Vector2 EyePosition { get { return new Vector2(Position.X + Sweeper.GetFaceDirection(), Position.Y); } }
         private Area ScanArea { get { return ScriptHelper.Area(EyePosition, EyePosition + new Vector2(180 * Sweeper.GetFaceDirection(), -120)); } }
 
@@ -71,29 +90,22 @@ namespace BotExtended.Weapons
         {
             if (Sweeper.GetLinearVelocity().Length() > 5) return false;
 
-            var enemiesInRange = Game.GetObjectsByArea<IPlayer>(ScanArea).Any(x => !x.IsDead && !ScriptHelper.SameTeam(x, Owner));
-            if (!enemiesInRange) return false;
-
-            var endPositions = new Vector2[]
+            var enemiesInRange = Game.GetObjectsByArea<IPlayer>(ScanArea).Where(x => !x.IsDead && !ScriptHelper.SameTeam(x, Owner)).Take(3);
+            foreach (var player in enemiesInRange)
             {
-                EyePosition + new Vector2(Sweeper.GetFaceDirection() * ScanArea.Width, 0),
-                EyePosition + new Vector2(0, -ScanArea.Height / 3),
-            };
-            foreach (var end in endPositions)
-            {
-                var results = Game.RayCast(EyePosition, end, new RayCastInput()
+                var results = Game.RayCast(EyePosition, player.GetWorldPosition(), new RayCastInput()
                 {
                     FilterOnMaskBits = true,
-                    MaskBits = CategoryBits.StaticGround,
+                    MaskBits = CategoryBits.StaticGround + CategoryBits.Player,
                     AbsorbProjectile = RayCastFilterMode.True,
-                    BlockExplosions = RayCastFilterMode.True,
-                    ClosestHitOnly = true,
                     IncludeOverlap = true,
                 }).Where(r => r.HitObject != null);
-                if (results.Any()) return false;
+
+                var result = results.FirstOrDefault();
+                if (result.IsPlayer && Vector2.Distance(result.HitObject.GetWorldPosition(), Position) > 25) return true;
             }
 
-            return true;
+            return false;
         }
 
         private void FireLaser()
