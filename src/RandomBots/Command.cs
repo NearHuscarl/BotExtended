@@ -15,7 +15,7 @@ namespace RandomBots
 
         public static void OnUserMessage(UserMessageCallbackArgs args)
         {
-            if (!args.User.IsHost || !args.IsCommand || (args.Command != "RandomBots" && args.Command != "RB"))
+            if (!args.User.IsHost || !args.IsCommand || (args.Command != "RANDOMBOTS" && args.Command != "RB"))
             {
                 return;
             }
