@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static RandomBotProfiles.Helpers;
+using static RandomBots.Helpers;
 
-namespace RandomBotProfiles
+namespace RandomBots
 {
     public static class ScriptHelper
     {
@@ -21,35 +21,6 @@ namespace RandomBotProfiles
 
             var players = Game.GetPlayers();
             return Game.GetObjectsByName("SpawnPlayer").Where(o => !players.Any(x => x.GetAABB().Intersects(o.GetAABB()))).ToList();
-        }
-
-        public static List<BotData> GetBotsDataFromStorage()
-        {
-            var storage = Game.GetSharedStorage("RANDOMBOTPROFILES");
-            var botsValue = storage.GetItem("RBP_BOTS") as string[];
-
-            if (botsValue != null)
-            {
-                return botsValue.Select(str => BotData.FromString(str)).ToList();
-            }
-            return new List<BotData>();
-        }
-        public static void SaveBotsData(IEnumerable<BotData> botsData)
-        {
-            var storage = Game.GetSharedStorage("RANDOMBOTPROFILES");
-            storage.SetItem("RBP_BOTS", botsData.Select(b => b.ToString()).ToArray());
-        }
-
-        public static bool GetIsRandom()
-        {
-            var storage = Game.GetSharedStorage("RANDOMBOTPROFILES");
-            var value = storage.GetItem("RBP_IS_RANDOM");
-            return bool.Parse(value == null ? "false" : value.ToString());
-        }
-        public static void SaveIsRandom(bool value)
-        {
-            var storage = Game.GetSharedStorage("RANDOMBOTPROFILES");
-            storage.SetItem("RBP_IS_RANDOM", value);
         }
 
         public static List<PlayerTeam> GetAliveTeams()

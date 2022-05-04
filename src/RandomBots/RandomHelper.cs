@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static RandomBotProfiles.Helpers;
+using static RandomBots.Helpers;
 
-namespace RandomBotProfiles
+namespace RandomBots
 {
     public static class RandomHelper
     {

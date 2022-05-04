@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RandomBotProfiles
+namespace RandomBots
 {
     public partial class Program : GameScriptInterface
     {
@@ -24,6 +24,7 @@ namespace RandomBotProfiles
 
         // GameWorld.cs#UpdateGameOver()
         private static readonly uint GAME_OVER_DELAY = 3000;
+        private static bool _allowOnlyBots = false;
 
         public void OnStartup() { Initialize(); }
 
@@ -34,12 +35,14 @@ namespace RandomBotProfiles
             Events.PlayerDeathCallback.Start(OnPlayerDealth);
             Events.UserMessageCallback.Start(Command.OnUserMessage);
 
+            _allowOnlyBots = Storage.GetAllowOnlyBots();
+
             var spawners = RandomHelper.Shuffle(ScriptHelper.GetPlayerSpawners(emptyOnly: true));
             if (spawners.Count > 0)
             {
-                var isRandom = ScriptHelper.GetIsRandom();
+                var isRandom = Storage.GetIsRandom();
                 var index = 0;
-                ScriptHelper.GetBotsDataFromStorage().ForEach(botData =>
+                Storage.GetBotsData().ForEach(botData =>
                 {
                     if (index > spawners.Count - 1) return;
 
@@ -80,7 +83,7 @@ namespace RandomBotProfiles
 
                 if (alivePlayers.Count > 0 || aliveBots.Count > 0)
                 {
-                    if (alivePlayers.Count == 0 && aliveBots.Count > 1)
+                    if (alivePlayers.Count == 0 && aliveBots.Count > 1 && !_allowOnlyBots)
                     {
                         Game.SetGameOver(WIN_STATUS_NO_HUMAN);
                         return;

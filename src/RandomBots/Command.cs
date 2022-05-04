@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static RandomBotProfiles.Helpers;
+using static RandomBots.Helpers;
 
-namespace RandomBotProfiles
+namespace RandomBots
 {
     public static class Command
     {
@@ -15,7 +15,7 @@ namespace RandomBotProfiles
 
         public static void OnUserMessage(UserMessageCallbackArgs args)
         {
-            if (!args.User.IsHost || !args.IsCommand || (args.Command != "RANDOMBOTPROFILES" && args.Command != "RBP"))
+            if (!args.User.IsHost || !args.IsCommand || (args.Command != "RandomBots" && args.Command != "RB"))
             {
                 return;
             }
@@ -33,6 +33,11 @@ namespace RandomBotProfiles
                     PrintHelp();
                     break;
 
+                case "settings":
+                case "s":
+                    PrintSettings(arguments);
+                    break;
+
                 case "setbots":
                 case "sb":
                     SetBots(arguments);
@@ -43,36 +48,60 @@ namespace RandomBotProfiles
                     ClearBots(arguments);
                     break;
 
-                case "togglerandom":
-                case "tr":
+                case "random":
+                case "r":
                     ToggleRandom(arguments);
+                    break;
+
+                case "allowOnlyBots":
+                case "aob":
+                    ToggleAllowOnlyBot(arguments);
                     break;
             }
         }
 
+        private static void PrintSettings(IEnumerable<string> arguments)
+        {
+            var isRandom = Storage.GetIsRandom();
+            var allowOnlyBots = Storage.GetAllowOnlyBots();
+
+            Game.ShowChatMessage("--RandomBots Settings--", ERROR_COLOR);
+            Game.ShowChatMessage("isRandom: " + isRandom, MESSAGE_COLOR);
+            Game.ShowChatMessage("allowOnlyBots: " + allowOnlyBots, MESSAGE_COLOR);
+        }
+
+        private static void ToggleAllowOnlyBot(IEnumerable<string> arguments)
+        {
+            var value = Storage.GetAllowOnlyBots();
+            var newValue = !value;
+            Storage.SaveAllowOnlyBots(newValue);
+            Game.ShowChatMessage("Set AllowOnlyBots to " + newValue, MESSAGE_COLOR);
+        }
+
         private static void ToggleRandom(IEnumerable<string> arguments)
         {
-            var isRandom = ScriptHelper.GetIsRandom();
+            var isRandom = Storage.GetIsRandom();
             var newValue = !isRandom;
-            ScriptHelper.SaveIsRandom(newValue);
+            Storage.SaveIsRandom(newValue);
             Game.ShowChatMessage("Set isRandom to " + newValue, MESSAGE_COLOR);
         }
 
         private static void PrintHelp()
         {
-            Game.ShowChatMessage("--RandomBotProfiles help--", ERROR_COLOR);
-            Game.ShowChatMessage("/<RandomBotProfiles|rbp> [help|h|?]: Print this help", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBotProfiles|rbp> [SetBots|sb] <Team> <AI-COUNT>: Set bots to play with e.g. /rbp sb 1 expert-2 medium-1", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBotProfiles|rbp> [ClearBot|cb]: Remove all bots from the game (applied in the next round)", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBotProfiles|rbp> [ToggleRandom|tr]: Toggle randomizing bot profiles in every match", MESSAGE_COLOR);
+            Game.ShowChatMessage("--RandomBots Help--", ERROR_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [Help|h|?]: Print this help", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [SetBots|sb] <Team> <AI-COUNT>: Set bots to play with e.g. /rbp sb 1 expert-2 medium-1", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [ClearBot|cb]: Remove all bots from the game (applied in the next round)", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [Random|r]: Toggle randomizing bot profiles in every match", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rbp> [AllowOnlyBot|aob]: Toggle allowing only bots", MESSAGE_COLOR);
         }
 
         private static void SetBots(IEnumerable<string> arguments)
         {
             var team = arguments.First();
             arguments = arguments.Skip(1);
-            
-            var botsData = new List<BotData>();
+
+            var botsData = Storage.GetBotsData();
             foreach (var arg in arguments)
             {
                 var parts = arg.Split('-');
@@ -102,12 +131,12 @@ namespace RandomBotProfiles
                 p.SetBotBehaviorActive(true);
             }
 
-            ScriptHelper.SaveBotsData(botsData);
+            Storage.SaveBotsData(botsData);
         }
 
         private static void ClearBots(IEnumerable<string> arguments)
         {
-            ScriptHelper.SaveBotsData(new List<BotData>());
+            Storage.SaveBotsData(new List<BotData>());
             Game.ShowChatMessage("Bots are cleared in the next match.", MESSAGE_COLOR);
         }
     }

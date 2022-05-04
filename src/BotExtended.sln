@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
@@ -11,7 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectName", "EffectName\Ef
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animations", "Animations\Animations.csproj", "{232DCDBB-1FF3-4A67-B10C-B6D1AA3E9316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomBotProfiles", "RandomBotProfiles\RandomBotProfiles.csproj", "{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomBots", "RandomBots\RandomBots.csproj", "{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}"
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

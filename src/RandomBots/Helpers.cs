@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RandomBotProfiles
+namespace RandomBots
 {
     public static class Helpers
     {
