@@ -26,19 +26,21 @@ under development.
 python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
 ```
 
-## Powerups
+## Melee Powerups
 
-- See the full list of all melee powerups [here](./docs/POWERUPS_MELEE.md).
+[Docs](./docs/POWERUPS_MELEE.md) | [Demo](https://www.youtube.com/watch?v=T2NpStBZopU&list=PLNgAmHQnqv_m_OphnuEWAXsZjp1mvrEul)
 
-- See the full list of all ranged powerups [here](./docs/POWERUPS_RANGED.md).
+## Ranged Powerups
+
+[Docs](./docs/POWERUPS_RANGED.md) | [Demo](https://www.youtube.com/watch?v=T2NpStBZopU&list=PLNgAmHQnqv_m_OphnuEWAXsZjp1mvrEul)
 
 ## Custom Weapons
 
-- See the full list of all custom weapons [here](./docs/CUSTOM_WEAPONS.md).
+[Docs](./docs/CUSTOM_WEAPONS.md) | [Demo](https://www.youtube.com/watch?v=8id_mqD-9EI&list=PLNgAmHQnqv_neDehA2uAENMws0WBDx18k)
 
 ## Factions
 
-- See the full list of all factions [here](./docs/FACTIONS.md).
+See the full list of all factions [here](./docs/FACTIONS.md).
 
 ## Bots
 

@@ -48,7 +48,7 @@ Trips the player and drops a grenade next to them.
 
 ### Turret
 
-- Searches and fires the enemies.
+- Searches and fires at the enemies.
 - Has 300 rounds.
 - Has 4 types of damage:
   - Sensor damage: shoots everyone including allies.
