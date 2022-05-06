@@ -314,7 +314,7 @@ namespace BotExtended
                         Kick = (ushort)4,
                         Jump = (ushort)1,
                         Wait = (ushort)0,
-                        Grab = (ushort)16,
+                        Grab = (ushort)24,
                     });
                     break;
                 }

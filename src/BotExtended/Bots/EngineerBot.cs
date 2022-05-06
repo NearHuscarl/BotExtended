@@ -17,7 +17,7 @@ namespace BotExtended.Bots
             WeaponItem.HAMMER,
         };
 
-        public static readonly float CreateNewCooldownTime = Game.IsEditorTest ? 3000 : 12000;
+        public static readonly float CreateNewCooldownTime = Game.IsEditorTest ? 5000 : 12000;
 
         private EngineerBot_Controller m_controller;
         private TurretPlaceholder m_placeholder;

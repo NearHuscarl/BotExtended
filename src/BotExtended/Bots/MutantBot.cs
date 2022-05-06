@@ -39,6 +39,7 @@ namespace BotExtended.Bots
             twin2.Player.SetProfile(profiles[1]);
 
             Game.PlayEffect(EffectName.Smack, Position);
+            Game.PlayEffect(EffectName.Gib, Position);
             Player.Remove();
         }
 

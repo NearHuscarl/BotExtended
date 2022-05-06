@@ -83,19 +83,23 @@ namespace BotExtended
 
             var botSpawnCount = Math.Min(settings.BotCount, _playerSpawners.Count);
             var teamsWithFaction = settings.TeamsWithFactions().Count;
-            var botCounts = SharpHelper.DivideEvenly(botSpawnCount, teamsWithFaction).ToList();
 
-            var index = 0;
-            foreach (var item in CurrentBotFaction)
+            if (teamsWithFaction > 0)
             {
-                var team = item.Key;
-                var faction = item.Value;
+                var botCounts = SharpHelper.DivideEvenly(botSpawnCount, teamsWithFaction).ToList();
+                var index = 0;
+                
+                foreach (var item in CurrentBotFaction)
+                {
+                    var team = item.Key;
+                    var faction = item.Value;
 
-                if (faction == BotFaction.None)
-                    continue;
+                    if (faction == BotFaction.None)
+                        continue;
 
-                SpawnRandomFaction(faction, botCounts[index], team);
-                index++;
+                    SpawnRandomFaction(faction, botCounts[index], team);
+                    index++;
+                }
             }
 
             var activeUsers = ScriptHelper.GetActiveUsersByAccountID();

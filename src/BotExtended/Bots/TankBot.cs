@@ -44,7 +44,7 @@ namespace BotExtended.Bots
 
         private void DeflectBullet(IProjectile projectile, Vector2 normal)
         {
-            var reflectDir = Vector2.Reflect(projectile.Direction, normal) + RandomHelper.Direction(-25, 25);
+            var reflectDir = Vector2.Reflect(projectile.Direction, normal) + RandomHelper.Direction(-25, 25, useRadians: true);
             var direction = projectile.Direction.X > 0 ? 1 : -1;
             var position = projectile.Position - direction * Vector2.UnitX * 5;
 

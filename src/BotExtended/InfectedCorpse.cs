@@ -8,7 +8,7 @@ namespace BotExtended
 {
     class InfectedCorpse
     {
-        public static int TimeToTurnIntoZombie = 5000;
+        public readonly int TimeToTurnIntoZombie;
         public int UniqueID { get; private set; }
         public BotType Type { get; set; }
         public BotFaction Faction { get; set; }
@@ -28,6 +28,7 @@ namespace BotExtended
             IsZombie = false;
             CanTurnIntoZombie = true;
             DeathTime = Game.TotalElapsedGameTime;
+            TimeToTurnIntoZombie = RandomHelper.BetweenInt(4000, 5000);
         }
 
         private bool TurnIntoZombie()

@@ -472,6 +472,6 @@ namespace BotExtended
     {
         public const float Infinite = 0f;
         public const float InSight = 80f;
-        public const float Nearby = 10f;
+        public const float Nearby = 20f;
     }
 }

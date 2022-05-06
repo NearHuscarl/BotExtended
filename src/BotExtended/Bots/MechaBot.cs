@@ -108,7 +108,7 @@ namespace BotExtended.Bots
             m_lastChargeEnergy = m_superchargeEnergy;
         }
 
-        public readonly float EnergyToCharge = Game.IsEditorTest ? 3000f : 9000f;
+        public readonly float EnergyToCharge = Game.IsEditorTest ? 6000f : 9000f;
         public bool IsSuperCharging { get { return m_state == MechaState.Supercharging || m_state == MechaState.PreparingSupercharge; } }
         private float m_superchargeEnergy = 0f;
         private float m_chargeTimer = 0f;

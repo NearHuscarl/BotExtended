@@ -13,9 +13,7 @@ namespace BotExtended.Bots
         {
             public IPlayer Target;
             public IObject TargetIndicator;
-            public IObjectWeldJoint WeldJoint;
         }
-        public AssassinBot(BotArgs args) : base(args) { _team = args.Player.GetTeam(); }
 
         private static Dictionary<PlayerTeam, AssassinInfo> AssassinInfos = new Dictionary<PlayerTeam, AssassinInfo>
         {
@@ -24,6 +22,19 @@ namespace BotExtended.Bots
             { PlayerTeam.Team3, new AssassinInfo() },
             { PlayerTeam.Team4, new AssassinInfo() },
         };
+        static AssassinBot()
+        {
+            Events.UpdateCallback.Start(_ =>
+            {
+                foreach (var assInfo in AssassinInfos.Values)
+                {
+                    if (assInfo.TargetIndicator == null || assInfo.Target == null) continue;
+                    assInfo.TargetIndicator.SetWorldPosition(assInfo.Target.GetWorldPosition() + Vector2.UnitY * 35);
+                }
+            });
+        }
+        
+        public AssassinBot(BotArgs args) : base(args) { _team = args.Player.GetTeam(); }
 
         private PlayerTeam _team;
 
@@ -31,6 +42,8 @@ namespace BotExtended.Bots
         {
             base.OnSpawn();
             FindTarget(_team);
+            if (_team != PlayerTeam.Independent)
+                Player.SetForcedBotTarget(AssassinInfos[_team].Target);
         }
 
         private static void FindTarget(PlayerTeam team)
@@ -48,30 +61,20 @@ namespace BotExtended.Bots
             var assassin = RandomHelper.GetItem(teammates);
             assassin.SayLine("Target: " + assInfo.Target.Name);
 
-            var targetPos = assInfo.Target.GetWorldPosition();
-            targetPos.Y += 35;
-
             if (assInfo.TargetIndicator == null)
             {
                 assInfo.TargetIndicator = Game.CreateObject("Target00");
             }
-            else
-            {
-                assInfo.WeldJoint.Remove();
-            }
-            assInfo.TargetIndicator.SetWorldPosition(targetPos);
-            assInfo.TargetIndicator.SetBodyType(BodyType.Dynamic);
             assInfo.TargetIndicator.SetColor1("Neon" + ScriptHelper.GetTeamColorText(team));
-            assInfo.WeldJoint = ScriptHelper.Weld(assInfo.Target, assInfo.TargetIndicator);
 
             var cb = (Events.PlayerDeathCallback)null;
             cb = Events.PlayerDeathCallback.Start((player) =>
             {
-                if (GetTeammates(team).All(x => x.Player.IsDead))
+                var enemiesAlive = Game.GetPlayers().Any(p => !p.IsDead && !ScriptHelper.SameTeam(p, team));
+                if (!enemiesAlive || GetTeammates(team).All(x => x.Player.IsDead))
                 {
-                    if (assInfo.WeldJoint != null)
+                    if (assInfo.TargetIndicator != null || !assInfo.TargetIndicator.IsRemoved)
                     {
-                        assInfo.WeldJoint.Remove();
                         assInfo.TargetIndicator.Remove();
                     }
                     cb.Stop();
