@@ -10,7 +10,7 @@ under development.
 
 - **Large variety of bots**: With [**100+ new bots**](#bots), including [**50+ bosses**](#bosses), you don't have to fight hard and expert bots all the time anymore.
 - **New bot factions:** Bots are usually spawned in a group called faction. There are currently [**30+ factions**](./docs/FACTIONS.md) - Thug, Police, Soldier, Assassin, Zombie...
-- **Bosses with special abilities:** Many bosses have special abilities and unique weapons to ramp up the challenge if you are getting bored of winning the vanilla bots.
+- **Bosses with special abilities:** Many bosses have **[special abilities]** and **[unique weapons][custom weapons]** to ramp up the challenge if you are getting bored of winning the vanilla bots.
 - **Special weapons and powerups**: There are [**40+ gun powerups**](./docs/POWERUPS_RANGED.md) and [**10+ melee powerups**](./docs/POWERUPS_MELEE.md) for you to choose from to inflict maximum destruction on the enemies.
   <!-- - **Custom weapons:** LaserSweeper, Traps, Chickens. -->
   <!-- - **Reaction with dialogue:** Bots can have dialogues depend on the context and evironment around it -->
@@ -78,7 +78,9 @@ See the full list of all factions [here](./docs/FACTIONS.md).
 
 </details>
 
-<!-- GIF: show assassin gang rape -->
+<div>
+  <img src='https://media.giphy.com/media/upqjNAgyt6b6g3urvT/giphy.gif' width=500>
+</div>
 
 ### Assassin Range
 
@@ -172,7 +174,9 @@ They are the same as [Assassin Melee](#Assassin-Melee) except for the following 
 
 </details>
 
-<!-- GIF: show ammo stash and stray bullets -->
+<div>
+  <img src='https://media.giphy.com/media/WIMxBCxrS9ogrzzY4s/giphy.gif' width=500>
+</div>
 
 ### Biker
 
@@ -446,7 +450,9 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
-<!-- GIF: show cowboy disarming -->
+<div>
+  <img src='https://media.giphy.com/media/jTa70r0w527vQSCTEC/giphy.gif' width=500>
+</div>
 
 ### Cyborg
 
@@ -559,7 +565,9 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
-<!-- GIF: show automatic turret -->
+<div>
+  <img src='https://media.giphy.com/media/WaJMogoO5cfzMqxGEA/giphy.gif' width=500>
+</div>
 
 ### Farmer
 
@@ -848,7 +856,9 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
-<!-- GIF: split when on dealth -->
+<div>
+  <img src='https://media.giphy.com/media/nhP5pq84vjatNYGyGr/giphy.gif' width=500>
+</div>
 
 ### Nazi Hulk
 
@@ -1104,6 +1114,10 @@ Same as [Bodyguard] except for the following stats:
 | **Size**                    | Below Normal |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/c6n8FAOfEc5G6KAA5f/giphy.gif' width=500>
+</div>
 
 ### Sniper
 
@@ -1361,6 +1375,10 @@ Same as [Bodyguard] except for the following stats:
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/cmuFFVuukzffGiAMW0/giphy.gif' width=500>
+</div>
+
 ### Thug Hulk
 
 <div>
@@ -1519,6 +1537,10 @@ A basic common zombie.
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/bKYeC588EKqNSfMh3F/giphy.gif' width=500>
+</div>
+
 ### Zombie Agent
 
 <div>
@@ -1620,6 +1642,10 @@ A mutated zombie.
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/ok9ez0R96pOOrP5zQo/giphy.gif' width=500>
+</div>
+
 ### Zombie Flamer
 
 <div>
@@ -1649,6 +1675,10 @@ A mutated zombie.
 | **Size**               | Below Normal    |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/zessK3iU6edXYBJ1Yg/giphy.gif' width=500>
+</div>
 
 ### Zombie Gangster
 
@@ -1813,6 +1843,10 @@ They are bots that are a bit harder to beat.
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/QOYKCPHEoO5akgFAct/giphy.gif' width=500>
+</div>
+
 ### Balista
 
 <img src='./docs/Images/Balista.png' />
@@ -1972,6 +2006,10 @@ They are bots that are a bit harder to beat.
 | **Size**               | Big          |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/eI55bQ6yMf4EyIaScn/giphy.gif' width=500>
+</div>
 
 ### Big Mutant
 
@@ -2524,6 +2562,10 @@ They are bots that are a bit harder to beat.
 | ![DarkShotgun]    |             |
 | ![SilencedPistol] | [Precision] |
 
+<div>
+  <img src='https://media.giphy.com/media/gJTISqTMMW3casX5Kv/giphy.gif' width=500>
+</div>
+
 ### Huntsman
 
 <div>
@@ -2590,6 +2632,10 @@ They are bots that are a bit harder to beat.
 | **Fire Damage Taken** | Extremely Resistant |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/KMjDoEXXyMDxzfYQNX/giphy.gif' width=500>
+</div>
 
 ### Ion
 
@@ -2661,6 +2707,10 @@ They are bots that are a bit harder to beat.
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/etIqMBsz11siHKZ8Sv/giphy.gif' width=500>
+</div>
+
 ### Kriegbar
 
 <div>
@@ -2694,6 +2744,10 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 | **Size**              | Chonky          |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/0eiUwjTEqGGm2olG7Y/giphy.gif' width=500>
+</div>
 
 ### Lord Pinkerton
 
@@ -2797,6 +2851,10 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/x17E4MsrusxB4uhbsJ/giphy.gif' width=500>
+</div>
+
 ### MetroCop Chief
 
 <div>
@@ -2862,6 +2920,10 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/rgemMTCoa5vA0GNsJM/giphy.gif' width=500>
+</div>
+
 ### Nadja
 
 <div>
@@ -2883,6 +2945,10 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 | Gears                                     | Powerup |
 | :---------------------------------------- | :------ |
 | ![Knife] ![Pistol] ![Slowmo10] ![MineWpn] |         |
+
+<div>
+  <img src='https://media.giphy.com/media/ZaxbUZkpoftjWLO3JS/giphy.gif' width=500>
+</div>
 
 ### Napoleon
 
@@ -2958,6 +3024,10 @@ his hands are too big to hold the trigger, so he has to improvise a bit by using
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/ytkSv2mCYcfQPqmtqo/giphy.gif' width=500>
+</div>
+
 ### Police Chief
 
 <div>
@@ -3025,6 +3095,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 | **Size**                | Chonky              |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/9lfuafejcVBluFvJ88/giphy.gif' width=500>
+</div>
 
 ### Pyromaniac
 
@@ -3290,6 +3364,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/bGztxOthd4ZxM4SczD/giphy.gif' width=500>
+</div>
+
 ### Smoker
 
 <div>
@@ -3356,6 +3434,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 | **Size** | Above Normal |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/gjf7W2q5aLn3yJUuPB/giphy.gif' width=500>
+</div>
 
 ### Survivalist
 
@@ -3427,6 +3509,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/v7nHxwsl1RjkkRyPkB/giphy.gif' width=500>
+</div>
+
 ### Teddy Bear
 
 <div>
@@ -3461,6 +3547,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 | **Size**               | Chonky      |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/nNEyo4XfdGhH81dIuD/giphy.gif' width=500>
+</div>
 
 ### Baby Bear
 
@@ -3515,6 +3605,10 @@ ground and create an earthquake on impact, injuring his agents and anyone inside
 
 </details>
 
+<div>
+  <img src='https://media.giphy.com/media/Hjb0kRrbdMwh4kPKBe/giphy.gif' width=500>
+</div>
+
 ### Zombie Eater
 
 <div>
@@ -3551,6 +3645,10 @@ a source of nutrition.
 | **Size** | Small |
 
 </details>
+
+<div>
+  <img src='https://media.giphy.com/media/J2SnmsrD3LLMswR1t5/giphy.gif' width=500>
+</div>
 
 ### Zombie Fighter
 
@@ -4180,6 +4278,11 @@ Clear all player settings.
 - Open [this](./src) solution in _Visual Studio_.
 - In BotExtended project, Click Reference > Add Reference > Browse > Select `...\Steam\steamapps\common\Superfighters Deluxe\SFD.GameScriptInterface.dll`
 - Start coding and press `F8` to save change.
+
+<!-- demos -->
+
+[special abilities]: https://www.youtube.com/watch?v=BuafVqIVGp0&list=PLNgAmHQnqv_mDr3G3yN4ahVNeBA-578UD
+[custom weapons]: https://www.youtube.com/watch?v=8id_mqD-9EI&list=PLNgAmHQnqv_neDehA2uAENMws0WBDx18k
 
 <!-- bot type -->
 
