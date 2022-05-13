@@ -32,28 +32,23 @@ namespace RandomBots
                 case "help":
                     PrintHelp();
                     break;
-
                 case "settings":
                 case "s":
                     PrintSettings(arguments);
                     break;
-
                 case "setbots":
                 case "sb":
                     SetBots(arguments);
                     break;
-
-                case "clearbot":
+                case "clearbots":
                 case "cb":
                     ClearBots(arguments);
                     break;
-
                 case "random":
                 case "r":
                     ToggleRandom(arguments);
                     break;
-
-                case "allowOnlyBots":
+                case "allowonlybots":
                 case "aob":
                     ToggleAllowOnlyBot(arguments);
                     break;
@@ -89,12 +84,12 @@ namespace RandomBots
         private static void PrintHelp()
         {
             Game.ShowChatMessage("--RandomBots Help--", ERROR_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [Help|h|?]: Print this help", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [SetBots|sb] <Team> <AI-COUNT>: Set bots to play with e.g. /rb sb 1 expert-2 medium-1", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [ClearBot|cb]: Remove all bots from the game (applied in the next round)", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [Random|r]: Toggle randomizing bot profiles in every match", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [AllowOnlyBot|aob]: Toggle allowing only bots", MESSAGE_COLOR);
-            Game.ShowChatMessage("/<RandomBots|rb> [Settings|s]: Show current settings", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [Help|h|?]: Print this panel.", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [Settings|s]: Show script settings.", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [SetBots|sb] <Team> <AI-COUNT>: Set script bots to play with, e.g. /rb sb 0 expert-4.", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [ClearBots|cb]: Remove script bots.", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [Random|r]: Toggle randomized bot profiles every match on or off.", MESSAGE_COLOR);
+            Game.ShowChatMessage("/<RandomBots|rb> [AllowOnlyBot|aob]: Toggle bot-exclusive gameover on or off.", MESSAGE_COLOR);
         }
 
         private static void SetBots(IEnumerable<string> arguments)
