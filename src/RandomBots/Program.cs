@@ -95,7 +95,10 @@ namespace RandomBots
                         var teamLeft = teamsLeft[0];
 
                         if (teamLeft == PlayerTeam.Independent)
-                            Game.SetGameOver(string.Format(WIN_STATUS_PLAYER_WIN, lastPlayerSurvive.Name));
+                        {
+                            if (alivePlayers.Count + aliveBots.Count == 1)
+                                Game.SetGameOver(string.Format(WIN_STATUS_PLAYER_WIN, lastPlayerSurvive.Name));
+                        }
                         else
                             Game.SetGameOver(string.Format(WIN_STATUS_TEAM, ScriptHelper.GetTeamNumber(teamLeft)));
                     }
