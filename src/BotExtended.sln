@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animations", "Animations\An
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomBots", "RandomBots\RandomBots.csproj", "{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengePlus", "ChallengePlus\ChallengePlus.csproj", "{EEE5B423-55E5-46F3-BA9D-4AC8B291B1C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +41,8 @@ Global
 		{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AF4FE50-CB3B-4555-B5C5-6A043E2053ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEE5B423-55E5-46F3-BA9D-4AC8B291B1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE5B423-55E5-46F3-BA9D-4AC8B291B1C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
