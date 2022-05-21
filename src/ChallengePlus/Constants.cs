@@ -9,14 +9,17 @@ namespace ChallengePlus
 
         internal const float MAX_WALK_SPEED = 2.5f;
         internal const float MAX_SPRINT_SPEED = 3.5f;
+        internal const string SCRIPT_NAME = "ChallengePlus";
 
         internal const string STORAGE_KEY_PREFIX = "CP_";
+        internal const string CURRENT_VERSION = "0.0.0";
 
         // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank
         internal const float ExplosionRadius = 38.5f;
 
         // default settings value
         internal const int DEFAULT_CHALLENGE_ROTATION_INTERVAL = 3;
+        internal static readonly string[] DEFAULT_ENABLED_CHALLENGES = new string[] { "All" };
 
         // boolean value (1|0) for fields like InfiniteAmmo, CanBurn, MeleeStunImmunity...
         internal const int TOGGLE_ON = 1;

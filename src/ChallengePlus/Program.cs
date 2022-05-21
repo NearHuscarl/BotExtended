@@ -22,6 +22,7 @@ namespace ChallengePlus
                 }
             }
 
+            Storage.Initialize();
             ChallengeManager.Initialize();
         }
 

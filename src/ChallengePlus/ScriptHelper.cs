@@ -52,13 +52,50 @@ namespace ChallengePlus
             return player;
         }
 
+        public static bool TryParseEnum<T>(string str, out T result) where T : struct, IConvertible
+        {
+            result = default(T);
+
+            if (!typeof(T).IsEnum)
+            {
+                return false;
+            }
+
+            int index = -1;
+            if (int.TryParse(str, out index))
+            {
+                if (Enum.IsDefined(typeof(T), index))
+                {
+                    // https://stackoverflow.com/questions/10387095/cast-int-to-generic-enum-in-c-sharp
+                    result = (T)(object)index;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (!Enum.TryParse(str, ignoreCase: true, result: out result))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public static T StringToEnum<T>(string str)
+        {
+            return (T)Enum.Parse(typeof(T), str);
+        }
+        // a bit faster than ToString(). https://stackoverflow.com/a/17034624/9449426
+        public static string EnumToString<T>(T enumVal)
+        {
+            return Enum.GetName(typeof(T), enumVal);
+        }
         public static T[] EnumToArray<T>()
         {
             return (T[])Enum.GetValues(typeof(T));
-        }
-        public static List<T> EnumToList<T>()
-        {
-            return EnumToArray<T>().ToList();
         }
     }
 }
