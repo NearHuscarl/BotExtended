@@ -17,7 +17,7 @@ namespace BotExtended
         internal const int BOT_SPAWN_COUNT_MAX = 15;
 
         internal const int BOSS_FACTION_START_INDEX = 200;
-        internal const string CURRENT_VERSION = "5.16.1";
+        internal const string CURRENT_VERSION = "6.0.0";
         internal const string STORAGE_KEY_PREFIX = "BE_";
 
         // normal explosion radius: bazooka rockets, grenades, mines, explosive barrels, propane tank
