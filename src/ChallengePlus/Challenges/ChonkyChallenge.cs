@@ -7,6 +7,13 @@ namespace ChallengePlus.Challenges
 {
     public class ChonkyChallenge : Challenge
     {
+        public ChonkyChallenge(ChallengeName name) : base(name) { }
+
+        public override string Description
+        {
+            get { return "All players are huge, extremely slow, have high melee damage and very strong melee forces."; }
+        }
+
         public override void OnSpawn(IPlayer[] players)
         {
             base.OnSpawn(players);

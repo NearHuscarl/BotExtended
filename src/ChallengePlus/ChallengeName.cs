@@ -7,7 +7,9 @@ namespace ChallengePlus
     public enum ChallengeName
     {
         None,
-        Tiny,
         Chonky,
+        Kickass,
+        Minesweeper,
+        Tiny,
     }
 }

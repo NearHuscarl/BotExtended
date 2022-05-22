@@ -7,6 +7,13 @@ namespace ChallengePlus.Challenges
 {
     public class TinyChallenge : Challenge
     {
+        public TinyChallenge(ChallengeName name) : base(name) { }
+
+        public override string Description
+        {
+            get { return "All players are tiny, very fast, have low melee damage and weak melee forces."; }
+        }
+
         public override void OnSpawn(IPlayer[] players)
         {
             base.OnSpawn(players);

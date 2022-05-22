@@ -61,7 +61,7 @@ namespace ChallengePlus
                     break;
 
                 default:
-                    ScriptHelper.PrintMessage("Invalid command: " + command, BeColors.ERROR_COLOR);
+                    ScriptHelper.PrintMessage("Invalid command: " + command, ScriptColors.ERROR_COLOR);
                     break;
             }
         }
@@ -70,11 +70,11 @@ namespace ChallengePlus
         {
             var command = NAME.ToLowerInvariant();
 
-            ScriptHelper.PrintMessage(string.Format("--{0} help--", NAME), BeColors.ERROR_COLOR);
+            ScriptHelper.PrintMessage(string.Format("--{0} help--", NAME), ScriptColors.ERROR_COLOR);
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [help|h|?]: Print this help", command));
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [version|v]: Print the current version", command));
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [listchallenges|lc]: List all challenges", command));
-            ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [settings|s]: Display current script settings", command));
+            ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [settings|s]: Display the current script's settings", command));
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [enabledchallenges|ec] [-e] <names|indexes|all>: Set enabled challenges to play with", command));
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [rotationinterval|ri] <1-10>: Set challenge rotation interval for every n rounds", command));
             ScriptHelper.PrintMessage(string.Format("/<{0}|cp> [nextchallenge|nc]: Reset the rotation interval and skip to the next challenge", command));
@@ -82,7 +82,7 @@ namespace ChallengePlus
 
         private static void PrintVersion()
         {
-            ScriptHelper.PrintMessage(string.Format("--{0} version--", NAME), BeColors.ERROR_COLOR);
+            ScriptHelper.PrintMessage(string.Format("--{0} version--", NAME), ScriptColors.ERROR_COLOR);
             ScriptHelper.PrintMessage("v" + Constants.CURRENT_VERSION);
         }
 
@@ -98,17 +98,17 @@ namespace ChallengePlus
 
         private static void PrintChallenges()
         {
-            ScriptHelper.PrintMessage(string.Format("--{0} list challenges--", NAME), BeColors.ERROR_COLOR);
+            ScriptHelper.PrintMessage(string.Format("--{0} list challenges--", NAME), ScriptColors.ERROR_COLOR);
 
             foreach (var challenge in GetChallenges())
             {
-                ScriptHelper.PrintMessage(challenge, BeColors.WARNING_COLOR);
+                ScriptHelper.PrintMessage(challenge, ScriptColors.WARNING_COLOR);
             }
         }
 
         private static void ShowCurrentSettings()
         {
-            ScriptHelper.PrintMessage(string.Format("--{0} settings--", NAME), BeColors.ERROR_COLOR);
+            ScriptHelper.PrintMessage(string.Format("--{0} settings--", NAME), ScriptColors.ERROR_COLOR);
 
             var settings = Settings.Get();
 
@@ -123,8 +123,8 @@ namespace ChallengePlus
             var rotationInterval = settings.RotationEnabled ? settings.RotationInterval.ToString() : "Disabled";
             var roundsUntilRotation = settings.RotationEnabled ? settings.RoundsUntilRotation.ToString() : "N/a";
 
-            ScriptHelper.PrintMessage("-Challenge rotation interval: " + rotationInterval, BeColors.WARNING_COLOR);
-            ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, BeColors.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Challenge rotation interval: " + rotationInterval, ScriptColors.WARNING_COLOR);
+            ScriptHelper.PrintMessage("-Rounds until rotation: " + roundsUntilRotation, ScriptColors.WARNING_COLOR);
         }
 
         private static void SetEnabledChallenges(IEnumerable<string> arguments)
@@ -136,8 +136,8 @@ namespace ChallengePlus
 
             if (arguments.Count() == 0)
             {
-                ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), BeColors.ERROR_COLOR);
-                ScriptHelper.PrintMessage("Invalid command: Argument is empty", BeColors.WARNING_COLOR);
+                ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), ScriptColors.ERROR_COLOR);
+                ScriptHelper.PrintMessage("Invalid command: Argument is empty", ScriptColors.WARNING_COLOR);
                 return;
             }
 
@@ -159,8 +159,8 @@ namespace ChallengePlus
                 {
                     if (arg == "none")
                     {
-                        ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), BeColors.ERROR_COLOR);
-                        ScriptHelper.PrintMessage("Invalid argument: Cannot mix None with other options", BeColors.WARNING_COLOR);
+                        ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), ScriptColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: Cannot mix None with other options", ScriptColors.WARNING_COLOR);
                         return;
                     }
 
@@ -170,8 +170,8 @@ namespace ChallengePlus
                     }
                     else
                     {
-                        ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), BeColors.ERROR_COLOR);
-                        ScriptHelper.PrintMessage("Invalid argument: " + arg, BeColors.WARNING_COLOR);
+                        ScriptHelper.PrintMessage(string.Format("--{0} SetEnabledChallenges--", NAME), ScriptColors.ERROR_COLOR);
+                        ScriptHelper.PrintMessage("Invalid argument: " + arg, ScriptColors.WARNING_COLOR);
                         return;
                     }
                 }
@@ -200,7 +200,7 @@ namespace ChallengePlus
                 ScriptHelper.PrintMessage(string.Format("[{0}] Update successfully--", NAME));
             }
             else
-                ScriptHelper.PrintMessage(string.Format("[{0}] Invalid query: {1}", NAME, firstArg), BeColors.WARNING_COLOR);
+                ScriptHelper.PrintMessage(string.Format("[{0}] Invalid query: {1}", NAME, firstArg), ScriptColors.WARNING_COLOR);
         }
 
         private static void SkipCurrentChallenge()

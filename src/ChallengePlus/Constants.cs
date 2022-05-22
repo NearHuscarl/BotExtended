@@ -111,7 +111,7 @@ namespace ChallengePlus
         }
     }
 
-    public struct BeColors
+    public struct ScriptColors
     {
         public static readonly Color Team1 = new Color(64, 64, 128);
         public static readonly Color Team2 = new Color(128, 40, 40);

@@ -20,7 +20,8 @@ namespace ChallengePlus
             Events.UserMessageCallback.Start(Command.OnUserMessage);
             Events.UpdateCallback.Start(_challenge.Update);
             Events.PlayerDeathCallback.Start(_challenge.OnPlayerDealth);
-            
+            Events.ObjectTerminatedCallback.Start(_challenge.OnObjectTerminated);
+
             _challenge.OnSpawn(Game.GetPlayers());
         }
 

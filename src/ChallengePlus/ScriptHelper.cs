@@ -11,7 +11,7 @@ namespace ChallengePlus
     {
         public static void PrintMessage(string message, Color? color = null)
         {
-            Game.ShowChatMessage(message, color ?? BeColors.MESSAGE_COLOR);
+            Game.ShowChatMessage(message, color ?? ScriptColors.MESSAGE_COLOR);
         }
 
         public class PlayerSpawner
@@ -43,13 +43,52 @@ namespace ChallengePlus
         public static IPlayer SpawnBot(BotBehaviorSet botBehaviorSet)
         {
             if (_spawners.Count == 0) return null;
-            var spawner = RandomHelper.GetItem(_spawners);
+            var spawner = RandomHelper.GetItem(_spawners.Where(s => !s.HasSpawned).ToList());
 
             var player = Game.CreatePlayer(spawner.Position);
             player.SetBotBehaviorSet(botBehaviorSet);
             player.SetBotBehaviorActive(true);
+            spawner.HasSpawned = true;
 
             return player;
+        }
+
+        public static void Timeout(Action callback, uint interval)
+        {
+            Events.UpdateCallback.Start(e => callback.Invoke(), interval, 1);
+        }
+
+        public static bool IsElapsed(float timeStarted, float timeToElapse)
+        {
+            return Game.TotalElapsedGameTime - timeStarted >= timeToElapse;
+        }
+        public static Func<float, bool> WithIsElapsed()
+        {
+            var timeStarted = 0f;
+            return (interval) =>
+            {
+                if (IsElapsed(timeStarted, interval))
+                {
+                    timeStarted = Game.TotalElapsedGameTime;
+                    return true;
+                }
+                return false;
+            };
+        }
+        public static Func<float, float, bool> WithIsElapsed2()
+        {
+            var timeStarted = 0f;
+            var interval = 0f;
+            return (minTime, maxTime) =>
+            {
+                if (IsElapsed(timeStarted, interval))
+                {
+                    timeStarted = Game.TotalElapsedGameTime;
+                    interval = RandomHelper.Between(minTime, maxTime);
+                    return true;
+                }
+                return false;
+            };
         }
 
         public static bool TryParseEnum<T>(string str, out T result) where T : struct, IConvertible

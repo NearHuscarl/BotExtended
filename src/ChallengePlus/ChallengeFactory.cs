@@ -11,10 +11,14 @@ namespace ChallengePlus
         {
             switch (name)
             {
-                case ChallengeName.Tiny:
-                    return new TinyChallenge();
                 case ChallengeName.Chonky:
-                    return new ChonkyChallenge();
+                    return new ChonkyChallenge(name);
+                case ChallengeName.Kickass:
+                    return new KickassChallenge(name);
+                case ChallengeName.Minesweeper:
+                    return new MinesweeperChallenge(name);
+                case ChallengeName.Tiny:
+                    return new TinyChallenge(name);
                 default:
                     throw new ArgumentException("Challenge name " + name + " is not implemented");
             }

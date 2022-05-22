@@ -1,0 +1,55 @@
+﻿using SFDGameScriptInterface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ChallengePlus
+{
+    static class MathExtension
+    {
+        public const float TwoPI = MathHelper.TwoPI;
+        public const float PI = MathHelper.PI;
+        public const float PIOver2 = MathHelper.PIOver2;
+        public const float PIOver4 = MathHelper.PIOver4;
+        public const float PIOver8 = MathHelper.PIOver8;
+
+        public const float PI_3Over2 = TwoPI - PIOver2;
+
+        public const float OneDeg = MathHelper.PI / 180;
+
+        public static float ToRadians(float angleDegree)
+        {
+            return (float)(angleDegree * Math.PI) / 180;
+        }
+        public static float ToDegree(float radians)
+        {
+            return radians * 180 / (float)Math.PI;
+        }
+        public static float NormalizeAngle(float radian)
+        {
+            var result = radian % MathHelper.TwoPI;
+            return result < 0 ? result + MathHelper.TwoPI : result;
+        }
+
+        public static float Diff(float a, float b)
+        {
+            return Math.Abs(Math.Abs(a) - Math.Abs(b));
+        }
+
+        public static bool InRange(float value, float min, float max)
+        {
+            return min <= value && value <= max;
+        }
+
+        // https://stackoverflow.com/a/28123501/9449426
+        public static float AngleBetween(Vector2 vector1, Vector2 vector2)
+        {
+            double sin = vector1.X * vector2.Y - vector2.X * vector1.Y;
+            double cos = vector1.X * vector2.X + vector1.Y * vector2.Y;
+
+            return (float)Math.Atan2(sin, cos);
+        }
+    }
+}
