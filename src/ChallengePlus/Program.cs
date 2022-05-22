@@ -1,4 +1,5 @@
 using SFDGameScriptInterface;
+using System;
 
 namespace ChallengePlus
 {
@@ -10,6 +11,19 @@ namespace ChallengePlus
         public Program() : base(null) { }
 
         public void OnStartup()
+        {
+            // invoke the static contructor to create the null instance IPlayer
+            var _ = Player.None;
+        }
+
+        public void AfterStartup()
+        {
+            // Initialize in AfterStartup instead of in OnStartup because we need to wait until the null IPlayer instance is removed from the world.
+            // otherwise, IPlayer.IsRemoved is not updated yet after calling Remove() and Game.GetPlayers() still returns the null IPlayer
+            Initialize();
+        }
+
+        private static void Initialize()
         {
             if (Game.IsEditorTest)
             {
@@ -23,6 +37,7 @@ namespace ChallengePlus
             }
 
             Storage.Initialize();
+            PlayerManager.Initialize();
             ChallengeManager.Initialize();
         }
 

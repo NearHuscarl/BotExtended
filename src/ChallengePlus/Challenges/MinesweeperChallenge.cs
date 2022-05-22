@@ -19,9 +19,9 @@ namespace ChallengePlus.Challenges
         private readonly Func<float, bool> _isElapsedSpawnMine = ScriptHelper.WithIsElapsed();
         private static readonly List<IObject> Mines = new List<IObject>();
 
-        public override void Update(float e)
+        public override void OnUpdate(float e)
         {
-            base.Update(e);
+            base.OnUpdate(e);
 
             if (Game.IsEditorTest) Game.DrawText(Mines.Count + "", Vector2.Zero);
             if (_isElapsedSpawnMine(2000)) SpawnMineRandomly();

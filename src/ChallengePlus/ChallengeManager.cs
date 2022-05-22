@@ -9,7 +9,7 @@ namespace ChallengePlus
 {
     public static class ChallengeManager
     {
-        private static Challenge _challenge;
+        private static IChallenge _challenge;
 
         public static void Initialize()
         {
@@ -18,8 +18,9 @@ namespace ChallengePlus
             _challenge = ChallengeFactory.Create(name);
 
             Events.UserMessageCallback.Start(Command.OnUserMessage);
-            Events.UpdateCallback.Start(_challenge.Update);
-            Events.PlayerDeathCallback.Start(_challenge.OnPlayerDealth);
+            Events.UpdateCallback.Start(_challenge.OnUpdate);
+            Events.ProjectileCreatedCallback.Start(_challenge.OnProjectileCreated);
+            Events.ProjectileHitCallback.Start(_challenge.OnProjectileHit);
             Events.ObjectTerminatedCallback.Start(_challenge.OnObjectTerminated);
 
             _challenge.OnSpawn(Game.GetPlayers());
@@ -54,6 +55,31 @@ namespace ChallengePlus
             }
 
             return currentChallenge;
+        }
+
+        internal static void OnPlayerCreated(Player p)
+        {
+            _challenge.OnPlayerCreated(p);
+        }
+
+        internal static void OnPlayerKeyInput(Player player, VirtualKeyInfo[] keyInfos)
+        {
+            _challenge.OnPlayerKeyInput(player, keyInfos);
+        }
+
+        internal static void OnUpdate(float e, Player p)
+        {
+            _challenge.OnUpdate(e, p);
+        }
+
+        internal static void OnPlayerDamage(Player p, PlayerDamageArgs args, Player attacker)
+        {
+            _challenge.OnPlayerDamage(p, args, attacker);
+        }
+
+        internal static void OnPlayerDealth(Player p, PlayerDeathArgs args)
+        {
+            _challenge.OnPlayerDealth(p, args);
         }
     }
 }
