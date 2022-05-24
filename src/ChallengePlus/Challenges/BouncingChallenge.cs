@@ -16,11 +16,10 @@ namespace ChallengePlus.Challenges
             get { return "All guns have bouncing powerup."; }
         }
 
-        public override void OnProjectileCreated(IProjectile[] projectiles)
+        public override void OnProjectileCreated(IProjectile projectile)
         {
-            base.OnProjectileCreated(projectiles);
-
-            foreach (var p in projectiles) p.PowerupBounceActive = true;
+            base.OnProjectileCreated(projectile);
+            projectile.PowerupBounceActive = true;
         }
     }
 }

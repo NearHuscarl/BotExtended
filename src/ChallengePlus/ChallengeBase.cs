@@ -38,15 +38,10 @@ namespace ChallengePlus
             return default(PlayerData);
         }
 
-        public override void OnUpdate(float e, Player player) { }
-
         public override void OnPlayerDealth(Player player, PlayerDeathArgs args)
         {
-            PData.Remove(player.UniqueID);
+            if (args.Removed)
+                PData.Remove(player.UniqueID);
         }
-
-        public override void OnObjectTerminated(IObject[] objs) { }
-
-        public override void OnPlayerKeyInput(Player player, VirtualKeyInfo[] keyInfos) { }
     }
 }

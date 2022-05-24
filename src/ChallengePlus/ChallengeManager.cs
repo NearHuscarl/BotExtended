@@ -19,9 +19,12 @@ namespace ChallengePlus
 
             Events.UserMessageCallback.Start(Command.OnUserMessage);
             Events.UpdateCallback.Start(_challenge.OnUpdate);
-            Events.ProjectileCreatedCallback.Start(_challenge.OnProjectileCreated);
+            Events.PlayerWeaponAddedActionCallback.Start(OnPlayerWeaponAdded);
+            Events.ProjectileCreatedCallback.Start(OnProjectileCreated);
             Events.ProjectileHitCallback.Start(_challenge.OnProjectileHit);
-            Events.ObjectTerminatedCallback.Start(_challenge.OnObjectTerminated);
+            Events.ObjectCreatedCallback.Start(OnObjectCreated);
+            Events.ObjectDamageCallback.Start(OnObjectDamage);
+            Events.ObjectTerminatedCallback.Start(OnObjectTerminated);
 
             _challenge.OnSpawn(Game.GetPlayers());
         }
@@ -71,6 +74,16 @@ namespace ChallengePlus
         {
             _challenge.OnUpdate(e, p);
         }
+        
+        private static void OnPlayerWeaponAdded(IPlayer player, PlayerWeaponAddedArg args)
+        {
+            _challenge.OnPlayerWeaponAdded(PlayerManager.GetPlayer(player), args);
+        }
+
+        private static void OnProjectileCreated(IProjectile[] projectiles)
+        {
+            foreach (var p in projectiles) _challenge.OnProjectileCreated(p);
+        }
 
         internal static void OnPlayerDamage(Player p, PlayerDamageArgs args, Player attacker)
         {
@@ -80,6 +93,21 @@ namespace ChallengePlus
         internal static void OnPlayerDealth(Player p, PlayerDeathArgs args)
         {
             _challenge.OnPlayerDealth(p, args);
+        }
+
+        private static void OnObjectCreated(IObject[] objs)
+        {
+            foreach (var o in objs) _challenge.OnObjectCreated(o);
+        }
+
+        private static void OnObjectDamage(IObject o, ObjectDamageArgs args)
+        {
+            _challenge.OnObjectDamage(o, args);
+        }
+
+        private static void OnObjectTerminated(IObject[] objs)
+        {
+            foreach (var o in objs) _challenge.OnObjectTerminated(o);
         }
     }
 }

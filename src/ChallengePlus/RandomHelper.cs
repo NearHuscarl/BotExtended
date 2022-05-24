@@ -40,6 +40,22 @@ namespace ChallengePlus
             var rndIndex = Rnd.Next(list.Length);
             return list[rndIndex];
         }
+        public static List<T> Shuffle<T>(List<T> list)
+        {
+            var result = new List<T>(list);
+            var n = result.Count;
+            
+            while (n > 1)
+            {
+                n--;
+                var k = Rnd.Next(n + 1);
+                T value = result[k];
+                result[k] = result[n];
+                result[n] = value;
+            }
+
+            return result;
+        }
 
         public static T GetEnumValue<T>() where T : struct, IConvertible
         {

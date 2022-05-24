@@ -16,11 +16,10 @@ namespace ChallengePlus.Challenges
             get { return "All projectiles have min velocity."; }
         }
 
-        public override void OnProjectileCreated(IProjectile[] projectiles)
+        public override void OnProjectileCreated(IProjectile projectile)
         {
-            base.OnProjectileCreated(projectiles);
-
-            foreach (var p in projectiles) p.Velocity /= 100;
+            base.OnProjectileCreated(projectile);
+            projectile.Velocity /= 100;
         }
     }
 }

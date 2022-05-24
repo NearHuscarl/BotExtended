@@ -40,15 +40,12 @@ namespace ChallengePlus.Challenges
             Mines.Add(mine);
         }
 
-        public override void OnObjectTerminated(IObject[] objs)
+        public override void OnObjectTerminated(IObject o)
         {
-            base.OnObjectTerminated(objs);
-            
-            foreach (var o in objs)
-            {
-                if (o.Name == "WpnMineThrown")
-                    Mines.Remove(o);
-            }
+            base.OnObjectTerminated(o);
+
+            if (o.Name == "WpnMineThrown")
+                Mines.Remove(o);
         }
 
         private static bool IsGroundPathNode(IObjectPathNode n) { return n.GetPathNodeType() == PathNodeType.Ground || n.GetPathNodeType() == PathNodeType.Platform; }

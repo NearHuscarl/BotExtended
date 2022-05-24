@@ -56,7 +56,7 @@ namespace ChallengePlus.Challenges
         {
             base.OnUpdate(e, player);
 
-            if (!player.IsBot) return;
+            if (!player.IsBot || player.IsDead) return;
 
             var pData = GetPlayerData(player.UniqueID);
             if (pData == null) return;

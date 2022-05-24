@@ -16,12 +16,10 @@ namespace ChallengePlus.Challenges
             get { return "All projectiles have max velocity."; }
         }
 
-        public override void OnProjectileCreated(IProjectile[] projectiles)
+        public override void OnProjectileCreated(IProjectile projectile)
         {
-            base.OnProjectileCreated(projectiles);
-
-            //foreach (var p in projectiles) p.Velocity /= 100;
-            foreach (var p in projectiles) p.Velocity *= 10;
+            base.OnProjectileCreated(projectile);
+            projectile.Velocity *= 10;
         }
 
         public override void OnUpdate(float e, IProjectile projectile)

@@ -29,7 +29,7 @@ namespace ChallengePlus
             {
                 for (var i = 0; i < 5; i++)
                 {
-                    var bot = ScriptHelper.SpawnBot(BotBehaviorSet.GetBotBehaviorPredefinedSet(PredefinedAIType.BotB));
+                    var bot = ScriptHelper.SpawnBot(PredefinedAIType.BotB);
                     if (bot == null) continue;
                     if (i < 3) bot.SetTeam(PlayerTeam.Team2);
                     else bot.SetTeam(PlayerTeam.Team3);

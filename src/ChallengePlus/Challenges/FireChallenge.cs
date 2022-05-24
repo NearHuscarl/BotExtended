@@ -16,15 +16,12 @@ namespace ChallengePlus.Challenges
             get { return "All guns have fire powerup."; }
         }
 
-        public override void OnProjectileCreated(IProjectile[] projectiles)
+        public override void OnProjectileCreated(IProjectile projectile)
         {
-            base.OnProjectileCreated(projectiles);
+            base.OnProjectileCreated(projectile);
 
-            foreach (var p in projectiles)
-            {
-                p.PowerupFireActive = true;
-                p.DamageDealtModifier = 0.01f;
-            }
+            projectile.PowerupFireActive = true;
+            projectile.DamageDealtModifier = 0.01f;
         }
     }
 }

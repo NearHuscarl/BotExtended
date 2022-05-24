@@ -16,11 +16,10 @@ namespace ChallengePlus.Challenges
             get { return "All projectiles deal critical damage 100% of the time."; }
         }
 
-        public override void OnProjectileCreated(IProjectile[] projectiles)
+        public override void OnProjectileCreated(IProjectile projectile)
         {
-            base.OnProjectileCreated(projectiles);
-
-            foreach (var p in projectiles) p.CritChanceDealtModifier = 100f;
+            base.OnProjectileCreated(projectile);
+            projectile.CritChanceDealtModifier = 100f;
         }
     }
 }

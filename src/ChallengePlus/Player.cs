@@ -12,6 +12,7 @@ namespace ChallengePlus
         public static readonly string NoneCustomID = "BeNonePlayer";
 
         public IPlayer Instance { get; private set; }
+        public bool IsDead { get { return Instance.IsDead; } }
         public bool IsBot { get { return Instance.IsBot; } }
         public int UniqueID { get { return Instance.UniqueID; } }
         public int Direction { get { return Instance.FacingDirection; } }
@@ -27,6 +28,12 @@ namespace ChallengePlus
             get { return Instance.GetLinearVelocity(); }
             set { Instance.SetLinearVelocity(value); }
         }
+        public IProfile Profile
+        {
+            get { return Instance.GetProfile(); }
+            set { Instance.SetProfile(value); }
+        }
+
 
         public void DealDamage(float damage) { Instance.DealDamage(damage); }
         public void DealDamage(float damage, int sourceID) { Instance.DealDamage(damage, sourceID); }

@@ -39,15 +39,27 @@ namespace ChallengePlus
             return emptySpawners;
         }
 
+        public static Vector2 GetDirection(float radianAngle)
+        {
+            return new Vector2()
+            {
+                X = (float)Math.Cos(radianAngle),
+                Y = (float)Math.Sin(radianAngle),
+            };
+        }
+
         private static List<PlayerSpawner> _spawners = GetPlayerSpawners();
-        public static IPlayer SpawnBot(BotBehaviorSet botBehaviorSet)
+        public static IPlayer SpawnBot(PredefinedAIType ai)
         {
             if (_spawners.Count == 0) return null;
             var spawner = RandomHelper.GetItem(_spawners.Where(s => !s.HasSpawned).ToList());
 
             var player = Game.CreatePlayer(spawner.Position);
-            player.SetBotBehaviorSet(botBehaviorSet);
-            player.SetBotBehaviorActive(true);
+            player.SetBotBehavior(new BotBehavior
+            {
+                PredefinedAI = ai,
+                Active = true,
+            });
             spawner.HasSpawned = true;
 
             return player;
@@ -89,6 +101,65 @@ namespace ChallengePlus
                 }
                 return false;
             };
+        }
+
+        // Never use is keyword to check if IObject is IPlayer. it's slow
+        public static bool IsPlayer(IObject obj)
+        {
+            if (obj == null) return false;
+            return obj.GetCollisionFilter().CategoryBits == CategoryBits.Player;
+        }
+        // A faster cast player (dont use as/is)
+        public static IPlayer AsPlayer(IObject obj)
+        {
+            if (obj == null) return null;
+            return Game.GetPlayer(obj.UniqueID);
+        }
+
+        public static bool IsDynamicObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic;
+        }
+
+        public static bool IsStaticGround(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.StaticGround; }
+        public static bool IsHardStaticGround(IObject o) { return IsStaticGround(o) && !IsPlatform(o); }
+        // Open tiles.sfdx and search for 'plat' to see all other properties
+        public static bool IsPlatform(IObject o)
+        {
+            var cf = o.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.StaticGround && !cf.AbsorbProjectile && !cf.BlockExplosions;
+        }
+        public static bool IsDynamicG1(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG1; }
+        public static bool IsDynamicG2(IObject o) { return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG2; }
+
+        public static bool IsInteractiveObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic
+                || cf.CategoryBits == CategoryBits.Player;
+        }
+
+        public static bool IsActiveObject(IObject obj)
+        {
+            var cf = obj.GetCollisionFilter();
+            return cf.CategoryBits == CategoryBits.DynamicG1
+                || cf.CategoryBits == CategoryBits.DynamicG2
+                || cf.CategoryBits == CategoryBits.Dynamic
+                || cf.CategoryBits == CategoryBits.Player
+                || cf.CategoryBits == CategoryBits.DynamicPlatform
+                || cf.CategoryBits == CategoryBits.StaticGround;
+        }
+
+        public static Vector2 GetFarAwayPosition()
+        {
+            var randX = RandomHelper.Between(0, 200);
+            var randy = RandomHelper.Between(0, 200);
+            return Game.GetCameraMaxArea().TopLeft + new Vector2(-10 - randX, 10 + randy);
         }
 
         public static bool TryParseEnum<T>(string str, out T result) where T : struct, IConvertible
