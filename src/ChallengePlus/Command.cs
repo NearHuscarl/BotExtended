@@ -6,13 +6,25 @@ using static ChallengePlus.SFD;
 
 namespace ChallengePlus
 {
+    public enum CommandPermission { Public, Admin }
+
     public static class Command
     {
         private static readonly string NAME = Constants.SCRIPT_NAME;
 
+        public static void Execute(Action command, CommandPermission permission, UserMessageCallbackArgs args)
+        {
+            if (permission == CommandPermission.Admin && !args.User.IsHost)
+            {
+                ScriptHelper.PrintMessage(string.Format("/whisper {0} [{1}] Only host can run this command.", args.User.GameSlotIndex, NAME), ScriptColors.WARNING_COLOR);
+                return;
+            }
+            command();
+        }
+
         public static void OnUserMessage(UserMessageCallbackArgs args)
         {
-            if (!args.User.IsHost || !args.IsCommand || (args.Command != NAME.ToUpperInvariant() && args.Command != "CP"))
+            if (!args.IsCommand || (args.Command != NAME.ToUpperInvariant() && args.Command != "CP"))
             {
                 return;
             }
@@ -27,37 +39,37 @@ namespace ChallengePlus
                 case "?":
                 case "h":
                 case "help":
-                    PrintHelp();
+                    Execute(PrintHelp, CommandPermission.Public, args);
                     break;
 
                 case "v":
                 case "version":
-                    PrintVersion();
+                    Execute(PrintVersion, CommandPermission.Public, args);
                     break;
 
                 case "s":
                 case "settings":
-                    ShowCurrentSettings();
+                    Execute(ShowCurrentSettings, CommandPermission.Public, args);
                     break;
 
                 case "lc":
                 case "listchallenges":
-                    PrintChallenges();
+                    Execute(PrintChallenges, CommandPermission.Public, args);
                     break;
 
                 case "ec":
                 case "enabledchallenges":
-                    SetEnabledChallenges(arguments);
+                    Execute(() => SetEnabledChallenges(arguments), CommandPermission.Admin, args);
                     break;
 
                 case "ri":
                 case "rotationinterval":
-                    SetChallengeRotationInterval(arguments);
+                    Execute(() => SetChallengeRotationInterval(arguments), CommandPermission.Admin, args);
                     break;
 
                 case "nc":
                 case "nextchallenge":
-                    SkipCurrentChallenge();
+                    Execute(SkipCurrentChallenge, CommandPermission.Admin, args);
                     break;
 
                 default:
@@ -197,7 +209,7 @@ namespace ChallengePlus
                 value = (int)MathHelper.Clamp(value, 0, 10);
                 Storage.SetItem("ROTATION_INTERVAL", value);
                 Storage.SetItem("ROUNDS_UNTIL_ROTATION", value);
-                ScriptHelper.PrintMessage(string.Format("[{0}] Update successfully--", NAME));
+                ScriptHelper.PrintMessage(string.Format("[{0}] Update successfully", NAME));
             }
             else
                 ScriptHelper.PrintMessage(string.Format("[{0}] Invalid query: {1}", NAME, firstArg), ScriptColors.WARNING_COLOR);

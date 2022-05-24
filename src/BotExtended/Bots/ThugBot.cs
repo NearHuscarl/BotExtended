@@ -78,7 +78,7 @@ namespace BotExtended.Bots
 
         private static bool IsLootable(IObject o)
         {
-            return o.GetCollisionFilter().CategoryBits == CategoryBits.DynamicG1 && o.Destructable && o.Name != "BarrelExplosive";
+            return ScriptHelper.IsDynamicG1(o) && o.Destructable && o.Name != "BarrelExplosive";
         }
     }
 }
