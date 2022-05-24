@@ -37,8 +37,8 @@ namespace ChallengePlus
             var roundsUntilRotationResult = Storage.GetInt("ROUNDS_UNTIL_ROTATION");
             if (!roundsUntilRotationResult.Success)
             {
-                roundsUntilRotationResult.Data = rotationIntervalResult.Data;
-                Storage.SetItem("ROUNDS_UNTIL_ROTATION", rotationIntervalResult.Data);
+                roundsUntilRotationResult.Data = 1;
+                Storage.SetItem("ROUNDS_UNTIL_ROTATION", roundsUntilRotationResult.Data);
             }
 
             var currentChallengeResult = Storage.GetString("CURRENT_CHALLENGE");

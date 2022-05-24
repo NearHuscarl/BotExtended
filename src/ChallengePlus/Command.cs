@@ -191,7 +191,7 @@ namespace ChallengePlus
 
             if (excludeFlag)
             {
-                challenges = allChallenges.Where((f) => !challenges.Contains(f)).ToList();
+                challenges = allChallenges.Where((f) => !challenges.Contains(f) && f.ToLowerInvariant() != "none").ToList();
             }
 
             Storage.SetItem("ENABLED_CHALLENGES", challenges.Distinct().ToArray());

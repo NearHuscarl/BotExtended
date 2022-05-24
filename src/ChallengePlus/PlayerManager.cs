@@ -12,6 +12,9 @@ namespace ChallengePlus
 
         public static void Initialize()
         {
+            var settings = Settings.Get();
+            if (settings.CurrentChallenge == ChallengeName.None) return;
+
             Events.UpdateCallback.Start(OnUpdate);
             Events.PlayerDamageCallback.Start(OnPlayerDamage);
             Events.PlayerDeathCallback.Start(OnPlayerDeath);
