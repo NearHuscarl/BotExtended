@@ -36,6 +36,8 @@ namespace ChallengePlus.Challenges
         {
             base.OnUpdate(e, player);
 
+            if (player.IsDead) return;
+
             var pData = GetPlayerData(player.UniqueID);
             if (pData == null) return;
 
@@ -45,7 +47,7 @@ namespace ChallengePlus.Challenges
                 .FirstOrDefault(p => !p.IsDead && p.UniqueID != player.UniqueID && CanBeSwitched(p) && p.Hitbox.Intersects(player.Hitbox));
             if (swappedPlayer == null) return;
 
-            if (ScriptHelper.IsElapsed(pData.LastSwapTime, SwitchCooldown))
+            if (CanBeSwitched(player))
             {
                 var p1 = player;
                 var p2 = swappedPlayer;
