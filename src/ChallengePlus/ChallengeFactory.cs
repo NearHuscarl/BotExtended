@@ -7,6 +7,12 @@ namespace ChallengePlus
 {
     public static class ChallengeFactory
     {
+        public static HashSet<ChallengeName> ExperimentalChallenges = new HashSet<ChallengeName>
+        {
+            ChallengeName.Moonwalk,
+            ChallengeName.Impostor,
+        };
+
         public static IChallenge Create(ChallengeName name)
         {
             switch (name)

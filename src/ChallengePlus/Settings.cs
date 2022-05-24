@@ -59,7 +59,7 @@ namespace ChallengePlus
             var enabledChallenges = new List<ChallengeName>();
             if (enabledChallengesResult.Data.Count() == 1 && enabledChallengesResult.Data.Single() == "All")
             {
-                enabledChallenges = ScriptHelper.EnumToArray<ChallengeName>().Where((x) => x != ChallengeName.None).ToList();
+                enabledChallenges = ChallengeManager.GetChallengeNames();
             }
             else
             {

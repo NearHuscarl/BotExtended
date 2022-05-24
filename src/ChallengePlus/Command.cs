@@ -100,7 +100,7 @@ namespace ChallengePlus
 
         private static IEnumerable<string> GetChallenges()
         {
-            var challenges = ScriptHelper.EnumToArray<ChallengeName>();
+            var challenges = ChallengeManager.GetChallengeNames();
 
             foreach (var challenge in challenges)
             {
@@ -126,7 +126,7 @@ namespace ChallengePlus
 
             var challengeNames = settings.EnabledChallenges;
             var currentChallenge = settings.CurrentChallenge;
-            var isAllChallenges = challengeNames.Count == ScriptHelper.EnumToArray<ChallengeName>().Count() - 1 /* minus ChallengeName.None */;
+            var isAllChallenges = challengeNames.Count == ChallengeManager.GetChallengeNames().Count;
             var challengesValue = isAllChallenges ? "All" : string.Join(",", challengeNames);
 
             ScriptHelper.PrintMessage(string.Format("-Current Challenge: {0}", currentChallenge));
@@ -141,7 +141,7 @@ namespace ChallengePlus
 
         private static void SetEnabledChallenges(IEnumerable<string> arguments)
         {
-            var allChallenges = ScriptHelper.EnumToArray<ChallengeName>() .Select((f) => ScriptHelper.EnumToString(f)).ToList();
+            var allChallenges = ChallengeManager.GetChallengeNames().Select(ScriptHelper.EnumToString).ToList();
             var challenges = new List<string>();
             var excludeFlag = false;
             ChallengeName challenge;
@@ -191,7 +191,7 @@ namespace ChallengePlus
 
             if (excludeFlag)
             {
-                challenges = allChallenges.Where((f) => !challenges.Contains(f) && f.ToLowerInvariant() != "none").ToList();
+                challenges = allChallenges.Where((f) => !challenges.Contains(f)).ToList();
             }
 
             Storage.SetItem("ENABLED_CHALLENGES", challenges.Distinct().ToArray());

@@ -11,6 +11,17 @@ namespace ChallengePlus
     {
         private static IChallenge _challenge;
 
+        public static List<ChallengeName> GetChallengeNames()
+        {
+            if (Game.IsEditorTest)
+            {
+                return ScriptHelper.EnumToArray<ChallengeName>().Where(c => c != ChallengeName.None).ToList();
+            }
+
+            return ScriptHelper.EnumToArray<ChallengeName>()
+                .Where(c => c != ChallengeName.None && !ChallengeFactory.ExperimentalChallenges.Contains(c)).ToList();
+        }
+
         public static void Initialize()
         {
             var name = GetCurrentChallenge();
