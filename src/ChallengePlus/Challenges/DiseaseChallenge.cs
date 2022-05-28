@@ -30,7 +30,7 @@ namespace ChallengePlus.Challenges
         {
             base.OnPlayerDamage(player, args, attacker);
 
-            if (attacker == null) return;
+            if (attacker == null || player.IsDead) return;
             attacker.Instance.SetHealth(attacker.Instance.GetHealth() + 5);
         }
     }

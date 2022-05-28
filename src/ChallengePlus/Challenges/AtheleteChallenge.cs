@@ -68,7 +68,7 @@ namespace ChallengePlus.Challenges
             }
 
             var p = player.Instance;
-            var isIdle = (p.IsIdle || p.IsManualAiming) && player.Velocity.Length() < 1;
+            var isIdle = (p.IsIdle || p.IsManualAiming || p.IsMeleeAttacking || p.IsKicking || p.IsBlocking) && player.Velocity.Length() < 1;
             if (!pData.IsIdle && isIdle)
             {
                 pData.LastIdleTime = Game.TotalElapsedGameTime;

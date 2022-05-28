@@ -39,6 +39,12 @@ namespace ChallengePlus
             return emptySpawners;
         }
 
+        public static Vector2 GetDirection(Vector2 velocity)
+        {
+            velocity.Normalize();
+            return velocity;
+        }
+
         public static Vector2 GetDirection(float radianAngle)
         {
             return new Vector2()
@@ -63,6 +69,25 @@ namespace ChallengePlus
             spawner.HasSpawned = true;
 
             return player;
+        }
+
+        public static Events.UpdateCallback RunIn(Action callback, int ms, Action onTimeout = null, uint interval = 0)
+        {
+            var timeStarted = Game.TotalElapsedGameTime;
+            var cb = (Events.UpdateCallback)null;
+
+            cb = Events.UpdateCallback.Start(e =>
+            {
+                if (IsElapsed(timeStarted, ms))
+                {
+                    if (onTimeout != null) onTimeout();
+                    cb.Stop();
+                }
+                else
+                    callback.Invoke();
+            }, interval);
+
+            return cb;
         }
 
         public static void Timeout(Action callback, uint interval)

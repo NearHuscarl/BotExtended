@@ -1,6 +1,7 @@
 ﻿using SFDGameScriptInterface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using static ChallengePlus.SFD;
 
@@ -27,7 +28,7 @@ namespace ChallengePlus
             if (Players.TryGetValue(uniqueID, out player)) return player;
             return Player.None;
         }
-        public static IEnumerable<Player> GetPlayers() { return Players.Values; }
+        public static IEnumerable<Player> GetPlayers() { return Players.Values.ToList(); }
         public static Player GetPlayer(IObject player) { return GetPlayer(player.UniqueID); }
 
         public static void OnUpdate(float e)

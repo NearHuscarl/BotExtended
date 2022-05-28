@@ -131,6 +131,7 @@ namespace ChallengePlus
 
     public enum ClothingType
     {
+        Skin,
         Accesory,
         ChestOver,
         ChestUnder,

@@ -2,6 +2,10 @@
 
 ## Challenges
 
+### Apocalypse
+
+Zombies spawn near you, zombie damage increases over time. Survive the zombies for 3 minutes.
+
 ### Athelete
 
 - Players explode if standing for too long.
@@ -78,6 +82,10 @@ Bot Support: No.
 (EXPERIMENTAL) Players can only walk backward and face the wrong direction.
 
 Bot Support: Fuck no lol.
+
+## Ninja
+
+Ninjas move extremely fast. Increase climbing, diving and throwing speed
 
 ### Nuclear
 

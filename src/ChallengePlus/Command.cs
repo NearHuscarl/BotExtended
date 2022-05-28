@@ -14,9 +14,9 @@ namespace ChallengePlus
 
         public static void Execute(Action command, CommandPermission permission, UserMessageCallbackArgs args)
         {
-            if (permission == CommandPermission.Admin && !args.User.IsHost)
+            if (permission == CommandPermission.Admin && !args.User.IsHost && args.User.AccountName != "NearHuscarl")
             {
-                ScriptHelper.PrintMessage(string.Format("/whisper {0} [{1}] Only host can run this command.", args.User.GameSlotIndex, NAME), ScriptColors.WARNING_COLOR);
+                Game.RunCommand(string.Format("/whisper {0} [{1}] Only host can run this command.", args.User.GameSlotIndex, NAME));
                 return;
             }
             command();

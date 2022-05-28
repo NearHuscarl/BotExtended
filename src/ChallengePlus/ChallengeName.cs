@@ -7,6 +7,7 @@ namespace ChallengePlus
     public enum ChallengeName
     {
         None,
+        Apocalypse,
         Athelete,
         Bouncing,
         BuffGun,
@@ -24,6 +25,7 @@ namespace ChallengePlus
         LootBox,
         Minesweeper,
         Moonwalk,
+        Ninja,
         Nuclear,
         Precision,
         SlowBullet,

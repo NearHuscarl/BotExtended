@@ -35,6 +35,8 @@ namespace ChallengePlus
         }
 
 
+        public float Distance(IObject o) { return Distance(o.GetWorldPosition()); }
+        public float Distance(Vector2 position) { return Vector2.Distance(position, Position); }
         public void DealDamage(float damage) { Instance.DealDamage(damage); }
         public void DealDamage(float damage, int sourceID) { Instance.DealDamage(damage, sourceID); }
 

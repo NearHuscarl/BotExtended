@@ -17,6 +17,8 @@ namespace ChallengePlus
         {
             switch (name)
             {
+                case ChallengeName.Apocalypse:
+                    return new ApocalypseChallenge(name);
                 case ChallengeName.Athelete:
                     return new AtheleteChallenge(name);
                 case ChallengeName.Bouncing:
@@ -51,6 +53,8 @@ namespace ChallengePlus
                     return new MinesweeperChallenge(name);
                 case ChallengeName.Moonwalk:
                     return new MoonwalkChallenge(name);
+                case ChallengeName.Ninja:
+                    return new NinjaChallenge(name);
                 case ChallengeName.Nuclear:
                     return new NuclearChallenge(name);
                 case ChallengeName.Precision:
