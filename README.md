@@ -23,7 +23,7 @@ under development.
 - Run `setup_script.py`
 
 ```bash
-python scripts/setup_script.py 'C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe'
+python scripts/setup_script.py "C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe"
 ```
 
 ## Melee Powerups
