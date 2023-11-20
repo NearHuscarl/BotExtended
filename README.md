@@ -17,12 +17,15 @@ under development.
 
 ## Getting Started
 
-- Download [this file](src/BotExtended/BotExtended.txt).
-- Move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
 - Install Python 3 if you don't have it on your computer.
-- Run `setup_script.py`
+- Clone this repository.
+- Copy [this file](src/BotExtended/BotExtended.txt) and move it to `%USERPROFILE%\Documents\Superfighters Deluxe\Scripts\`
+- Open your terminal, go to the root directory and run the following command:
 
 ```bash
+cd scripts/xnbcli
+npm install
+cd ../..
 python scripts/setup_script.py "C:\Program Files (x86)\Steam\steamapps\common\Superfighters Deluxe"
 ```
 
